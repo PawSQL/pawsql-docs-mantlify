@@ -1,0 +1,12 @@
+# Pilot mapping data (design §9). Phase-3 gate consumes these.
+# Feature for canonical optimizer rule: Use UNION ALL Instead of UNION.
+id: OPT-USE-UNION-ALL
+name: Use UNION ALL Instead of UNION
+type: optimizer
+product: pawsql-optimizer
+status: released
+documentation:
+  reference:
+    required: true
+    paths:
+      - docs/reference/optimizer-rules/opt-use-union-all.md

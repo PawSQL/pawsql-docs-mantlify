@@ -8,27 +8,34 @@ PawSQL 官方文档站点的 **Mintlify 内容仓库**（新站点，独立于�
 ## 仓库布局
 
 ```text
-docs.json             Mintlify 站点配置（导航 / 语言 / 版本 / API Reference）
-docs/                 站点内容（含 zh/ 语言镜像）
-blog/                 Blog
-openapi/              OpenAPI 单一事实来源（本地文件，§11）
-metadata/             PawSQL 产品知识层（Feature / Rule / Database / Config / Mapping / Policy）
-schemas/              JSON Schema（由 tools 中 pydantic 模型导出）
-static/               Mintlify 静态资源
-tools/                Python 生成器与校验器（后续可抽为 pawsql-doc-agent）
+docs/                  Mintlify 内容根（含 docs.json）
+  docs.json            Mintlify 站点配置：多语言（en 默认 / zh）、导航 / OpenAPI
+  index.mdx            首页（/）
+  getting-started|products|user-guide|databases|reference|contributing|faq|tutorials|release-notes
+  zh/                  中文语言镜像（/zh/...）
+  blog/                Blog（blog/index 等）
+  openapi/             OpenAPI 单一事实来源（本地文件，§11）
+metadata/              PawSQL 产品知识层（Feature / Rule / Database / Config / Mapping / Policy）
+schemas/               JSON Schema（由 tools 中 pydantic 模型导出）
+tools/                 Python 生成器与校验器（后续可抽为 pawsql-doc-agent）
 ```
+
+站点为双语：`docs.json` 的 `navigation.languages` 声明 **en（默认）** 与 **zh** 两个版本；英文默认树在内容根，中文在 `docs/zh/`（路由 `/zh/…`）。
 
 ## 本地预览
 
 ```bash
+cd docs
 npx mintlify dev          # 打开 http://localhost:3000
 ```
 
-> Mintlify 连接 / 发布到新站点需要 Mintlify 账号与仓库授权，另行配置。
+> Mintlify 连接 / 发布到新站点需要 Mintlify 账号与仓库授权，另行配置（内容根目录设为 `docs/`）。
 
 ## 元数据驱动的内容生成
 
 Rule / Database / Config 的结构化 Reference **由 Metadata 自动生成**，不要手改 `docs/reference/**` 下生成文件（改元数据后重建）。
+
+Rule Metadata 支持双语：`zh:` 块存在时，`build-references` 同时生成默认树英文页与 `docs/zh/reference/...` 中文页（双输出）。
 
 ```bash
 cd tools
@@ -54,3 +61,7 @@ uv run pytest -q                                  # 单元测试
 改元数据/内容 → 运行 `build-references` 并连同生成的 Reference 一起提交。
 发布前 `gate` 必须 PASS（各分项 required coverage = 100%）。
 GitHub Actions `.github/workflows/validate.yml` 会在 push/PR 时校验上述一致性与测试。
+
+## 内容迁移（Obsidian vault → 本站）
+
+把 `pawsql-docs-new`（Obsidian 内容库）按《技术设计说明书》转换为本站内容的方法论、目录映射、格式/去重/双语规则与质量闸门，见 **[MIGRATION-PLAYBOOK.md](MIGRATION-PLAYBOOK.md)**。试点（规则 ×10 + PawSQL Cloud 手册中文镜像）已按该手册完成并验证。

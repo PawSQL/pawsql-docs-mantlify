@@ -28,13 +28,21 @@ SOURCE_GLOB = "rules/{kind}/*.yaml"
 SEVERITY_ZH = {"error": "错误", "warning": "警告", "info": "提示"}
 
 
+def _databases(rule: RuleMetadata, zh: bool) -> str:
+    if rule.database:
+        return fmt_list(rule.database)
+    # An empty list means the rule applies to every supported database
+    # (source docs use "ALL").
+    return "所有支持数据库" if zh else "All supported databases"
+
+
 def _facts(rule: RuleMetadata) -> List[List[str]]:
     rows = [
         ["Rule ID", rule.id],
         ["Name", rule.name],
         ["Category", rule.category],
         ["Severity", rule.severity.value],
-        ["Databases", fmt_list(rule.database)],
+        ["Databases", _databases(rule, zh=False)],
     ]
     if rule.introducedVersion:
         rows.append(["Version Introduced", rule.introducedVersion])
@@ -52,7 +60,7 @@ def _facts_zh(rule: RuleMetadata) -> List[List[str]]:
         ["规则名称", zh.name if zh and zh.name else rule.name],
         ["类别", rule.category],
         ["预警级别", SEVERITY_ZH.get(rule.severity.value, rule.severity.value)],
-        ["适用数据库", fmt_list(rule.database)],
+        ["适用数据库", _databases(rule, zh=True)],
     ]
     if rule.introducedVersion:
         rows.append(["引入版本", rule.introducedVersion])

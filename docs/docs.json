@@ -1,0 +1,154 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "palm",
+  "name": "PawSQL",
+  "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#26BD6C",
+    "dark": "#0D9373"
+  },
+  "icons": {
+    "library": "lucide"
+  },
+  "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Home",
+          "icon": "house",
+          "href": "/"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "language": "en",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "getting-started/overview",
+              "getting-started/quickstart"
+            ]
+          },
+          {
+            "group": "Products",
+            "pages": [
+              "products/optimizer",
+              "products/advisor"
+            ]
+          },
+          {
+            "group": "User Guide",
+            "pages": [
+              "user-guide/sql-audit/index",
+              "user-guide/optimization/or-union"
+            ]
+          },
+          {
+            "group": "Databases & Compatibility",
+            "pages": [
+              "databases/postgresql/index",
+              "databases/mysql/index",
+              "reference/compatibility/index"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/api/overview",
+              "reference/audit-rules/sql-index-023",
+              "reference/audit-rules/aud-select-star",
+              "reference/audit-rules/aud-dml-where",
+              "reference/audit-rules/aud-pk-naming",
+              "reference/audit-rules/aud-char-column-length",
+              "reference/audit-rules/aud-insert-must-include-pk",
+              "reference/audit-rules/aud-order-by-forbidden-in-dml",
+              "reference/audit-rules/aud-expression-in-order-by",
+              "reference/audit-rules/aud-expression-in-group-by",
+              "reference/optimizer-rules/opt-or-union",
+              "reference/optimizer-rules/opt-use-union-all",
+              "reference/optimizer-rules/opt-npe-rewrite",
+              "reference/optimizer-rules/opt-exists-to-join",
+              "reference/optimizer-rules/opt-count-to-exists",
+              "reference/configuration/explain-timeout"
+            ]
+          },
+          {
+            "group": "API Reference",
+            "openapi": "openapi/pawsql-openapi.yaml"
+          },
+          {
+            "group": "FAQ & Tutorials",
+            "pages": [
+              "tutorials/index",
+              "faq/index",
+              "release-notes/index",
+              "release-notes/8.5.0"
+            ]
+          },
+          {
+            "group": "Blog",
+            "pages": [
+              "blog/index",
+              "blog/engineering/or-to-union"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "zh",
+        "groups": [
+          {
+            "group": "快速开始",
+            "pages": [
+              "zh/getting-started/overview"
+            ]
+          },
+          {
+            "group": "云产品手册",
+            "pages": [
+              "zh/user-guide/cloud/index",
+              "zh/user-guide/cloud/quickstart",
+              "zh/user-guide/cloud/results"
+            ]
+          },
+          {
+            "group": "审核规则",
+            "pages": [
+              "zh/reference/audit-rules/aud-pk-naming",
+              "zh/reference/audit-rules/aud-char-column-length",
+              "zh/reference/audit-rules/aud-insert-must-include-pk",
+              "zh/reference/audit-rules/aud-order-by-forbidden-in-dml",
+              "zh/reference/audit-rules/aud-expression-in-order-by",
+              "zh/reference/audit-rules/aud-expression-in-group-by"
+            ]
+          },
+          {
+            "group": "优化规则",
+            "pages": [
+              "zh/reference/optimizer-rules/opt-use-union-all",
+              "zh/reference/optimizer-rules/opt-npe-rewrite",
+              "zh/reference/optimizer-rules/opt-exists-to-join",
+              "zh/reference/optimizer-rules/opt-count-to-exists"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "PawSQL Cloud",
+      "href": "https://app.pawsql.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/PawSQL"
+    }
+  }
+}

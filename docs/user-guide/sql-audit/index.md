@@ -16,8 +16,8 @@ PawSQL audits SQL and DDL before they reach production. Every finding points bac
 
 Browse the generated rule references:
 
-- [Audit rules](docs/reference/audit-rules/sql-index-023) - index, select, DML, object and more
-- [Optimizer rules](docs/reference/optimizer-rules/opt-or-union) - rewrite algorithms used by the optimizer
+- [Audit rules](reference/audit-rules/sql-index-023) - index, select, DML, object and more
+- [Optimizer rules](reference/optimizer-rules/opt-or-union) - rewrite algorithms used by the optimizer
 
 Each reference page is **generated from metadata** (`metadata/rules/*.yaml`). To change a rule's text, change the YAML and re-run the generator - never edit the generated page by hand.
 

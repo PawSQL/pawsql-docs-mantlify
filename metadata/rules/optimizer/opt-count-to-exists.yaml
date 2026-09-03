@@ -1,0 +1,38 @@
+# Canonical source: vault 20-engine/rules/规则文档/COUNT标量子查询重写.md
+# TODO(产品核对): 与规则注册表核对 Rule ID、引入版本；audit/optimizer 归属与 category 规范化。
+id: opt-count-to-exists
+name: COUNT Scalar Subquery Rewrite
+category: rewrite
+severity: info
+description: >-
+  A COUNT scalar subquery used as a presence test, such as
+  (SELECT COUNT(*) FROM ...) > 0, can be rewritten into an EXISTS subquery.
+  COUNT(*) > 0 must aggregate over every matching row before producing an
+  answer, while EXISTS can short-circuit as soon as the first matching row is
+  found, avoiding an unnecessary full count and lowering I/O and CPU cost.
+howToFix: >-
+  No manual action required: PawSQL recognizes this pattern and rewrites the
+  correlated COUNT(*) > 0 subquery into EXISTS so the optimizer can pick a more
+  efficient, semantically equivalent strategy.
+badExample: |
+  -- COUNT scalar subquery aggregates every matching row first
+  SELECT * FROM customer
+  WHERE (SELECT COUNT(*) FROM orders WHERE c_custkey = o_custkey) > 0;
+goodExample: |
+  -- rewritten as EXISTS: short-circuits on the first match
+  SELECT * FROM customer
+  WHERE EXISTS (SELECT 1 FROM orders WHERE c_custkey = o_custkey);
+zh:
+  name: COUNT 标量子查询重写
+  description: >-
+    对于使用 COUNT 标量子查询来判断记录是否存在的场景（如 (SELECT COUNT(*) FROM ...) > 0），可以重写为 EXISTS 子查询。COUNT(*) > 0 需要扫描所有匹配行完成聚集运算后才能得出结果，而 EXISTS 在找到第一条匹配记录后即可短路停止扫描，避免不必要的全量计数，从而显著降低 I/O 和计算开销。
+  howToFix: >-
+    无需人工处理：PawSQL 自动识别此类 SQL 模式，将 COUNT(*) > 0 的相关子查询改写为 EXISTS，让数据库优化器可以在语义等价的前提下选择更高效的执行策略。
+  badExample: |
+    -- 不推荐：COUNT 标量子查询需要完成全量聚集运算
+    SELECT * FROM customer
+    WHERE (SELECT COUNT(*) FROM orders WHERE c_custkey = o_custkey) > 0;
+  goodExample: |
+    -- 推荐：重写为 EXISTS，找到第一条匹配记录即可短路
+    SELECT * FROM customer
+    WHERE EXISTS (SELECT 1 FROM orders WHERE c_custkey = o_custkey);

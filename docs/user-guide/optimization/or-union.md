@@ -38,4 +38,4 @@ WHERE customer_id = 42 AND status <> 'open';
 
 No manual action is needed — PawSQL applies this automatically where safe.
 
-> Status: draft content for the new documentation site. See the [optimizer rule reference](docs/reference/optimizer-rules/opt-or-union) for the canonical rule page.
+> Status: draft content for the new documentation site. See the [optimizer rule reference](reference/optimizer-rules/opt-or-union) for the canonical rule page.
