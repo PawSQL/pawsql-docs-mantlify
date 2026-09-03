@@ -1,0 +1,75 @@
+{
+  "additionalProperties": false,
+  "description": "Supported database versions and capability matrix (design 8.3).",
+  "properties": {
+    "database": {
+      "description": "Database slug, e.g. postgresql.",
+      "title": "Database",
+      "type": "string"
+    },
+    "title": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Display name, e.g. PostgreSQL.",
+      "title": "Title"
+    },
+    "supportedVersions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Supportedversions",
+      "type": "array"
+    },
+    "features": {
+      "additionalProperties": {
+        "type": "boolean"
+      },
+      "description": "Capability flags, e.g. {optimizer: true, audit: true, planVisualizer: false}.",
+      "title": "Features",
+      "type": "object"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "keyFeatures": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Keyfeatures",
+      "type": "array"
+    },
+    "notes": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Notes"
+    }
+  },
+  "required": [
+    "database"
+  ],
+  "title": "DatabaseMetadata",
+  "type": "object"
+}

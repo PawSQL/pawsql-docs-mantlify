@@ -1,0 +1,162 @@
+{
+  "$defs": {
+    "DocStatus": {
+      "enum": [
+        "draft",
+        "review",
+        "approved",
+        "scheduled",
+        "published",
+        "archived"
+      ],
+      "title": "DocStatus",
+      "type": "string"
+    },
+    "DocType": {
+      "enum": [
+        "product",
+        "user-guide",
+        "tutorial",
+        "reference",
+        "faq",
+        "troubleshooting",
+        "release-note",
+        "blog"
+      ],
+      "title": "DocType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "description": "Document page front matter (design 7.1).\n\nExtra keys are allowed so Mintlify-specific page options and\nout-of-band annotations do not fail validation.",
+  "properties": {
+    "id": {
+      "description": "Stable unique id of the page (URL-safe slug).",
+      "title": "Id",
+      "type": "string"
+    },
+    "title": {
+      "description": "Page title.",
+      "title": "Title",
+      "type": "string"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "One-line summary; also used for AI retrieval quality.",
+      "title": "Description"
+    },
+    "type": {
+      "$ref": "#/$defs/DocType",
+      "description": "Document type (design 7.2)."
+    },
+    "product": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Product id this page belongs to.",
+      "title": "Product"
+    },
+    "versionIntroduced": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Versionintroduced"
+    },
+    "status": {
+      "$ref": "#/$defs/DocStatus",
+      "default": "draft"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    },
+    "owners": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Owners"
+    },
+    "lastReviewed": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lastreviewed"
+    },
+    "reviewCycle": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Review interval in days.",
+      "title": "Reviewcycle"
+    },
+    "relatedFeatures": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Feature ids (Feature Manifest) this page documents.",
+      "title": "Relatedfeatures"
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "type"
+  ],
+  "title": "FrontMatter",
+  "type": "object"
+}

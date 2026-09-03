@@ -1,0 +1,36 @@
+# SAMPLE — example metadata (design section 8.2), verify category/severity against product.
+id: SQL-INDEX-023
+name: Redundant Index Detection
+category: index
+severity: warning
+database:
+  - mysql
+  - postgresql
+introducedVersion: 8.4.0
+implementationClass: RedundantIndexRule
+
+description: >-
+  Detects an index whose leading columns are already covered by another index,
+  making the shorter one redundant for reads and a pure cost for writes.
+
+whyItMatters: >-
+  Every redundant index still consumes disk and must be maintained on writes,
+  slowing down DML without helping any query. Removing it reduces write cost
+  and storage without losing read performance.
+
+howToFix: >-
+  Drop the index that is a strict prefix of another index. Keep the longer
+  index if it serves the workload; when unsure, verify with the query plan
+  before dropping.
+
+badExample: |
+  CREATE INDEX idx_a   ON t (a);
+  CREATE INDEX idx_ab  ON t (a, b);
+
+goodExample: |
+  -- idx_a is redundant because idx_ab already covers (a)
+  CREATE INDEX idx_ab ON t (a, b);
+
+relatedRules:
+  - SQL-INDEX-UNUSED
+  - SQL-INDEX-DUPLICATE

@@ -1,0 +1,166 @@
+{
+  "$defs": {
+    "AllowedRange": {
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min"
+        },
+        "max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max"
+        }
+      },
+      "title": "AllowedRange",
+      "type": "object"
+    },
+    "ConfigType": {
+      "enum": [
+        "integer",
+        "float",
+        "boolean",
+        "string"
+      ],
+      "title": "ConfigType",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One configuration item (design 14). Used to generate configuration reference pages.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "description": "Full config name, e.g. explain.timeout.",
+      "title": "Name",
+      "type": "string"
+    },
+    "configType": {
+      "$ref": "#/$defs/ConfigType",
+      "default": "string"
+    },
+    "default": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Default"
+    },
+    "unit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Unit"
+    },
+    "scope": {
+      "default": "optimizer",
+      "description": "Scope, e.g. optimizer / cloud.",
+      "title": "Scope",
+      "type": "string"
+    },
+    "versionIntroduced": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Versionintroduced"
+    },
+    "versionDeprecated": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Versiondeprecated"
+    },
+    "allowedRange": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AllowedRange"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "example": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Example"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ],
+  "title": "ConfigMetadata",
+  "type": "object"
+}

@@ -1,0 +1,20 @@
+---
+id: blog-or-to-union
+title: How PawSQL Rewrites OR Predicates
+description: A technical look at the OR-to-UNION rewrite inside the optimizer.
+type: blog
+category: engineering
+status: draft
+authors: [pawsql]
+tags: [SQL Optimization, rewrite]
+relatedFeatures: [OPT-OR-UNION]
+date: 2026-09-15
+---
+
+# How PawSQL Rewrites OR Predicates
+
+When a `WHERE` clause combines OR-ed predicates that touch different columns, a single-table plan cannot use an index per branch efficiently. PawSQL's rewrite splits the branches so each can use its own best index.
+
+See the [optimizer rule reference](docs/reference/optimizer-rules/opt-or-union) for the canonical description and the formal example.
+
+> Draft post - not yet scheduled for publication.

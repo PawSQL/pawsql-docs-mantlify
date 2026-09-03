@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "DocRequirement": {
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "paths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Paths",
+          "type": "array"
+        }
+      },
+      "title": "DocRequirement",
+      "type": "object"
+    },
+    "DocumentationRequirements": {
+      "additionalProperties": false,
+      "properties": {
+        "reference": {
+          "$ref": "#/$defs/DocRequirement"
+        },
+        "userGuide": {
+          "$ref": "#/$defs/DocRequirement"
+        },
+        "releaseNote": {
+          "$ref": "#/$defs/DocRequirement"
+        },
+        "blog": {
+          "$ref": "#/$defs/DocRequirement"
+        }
+      },
+      "title": "DocumentationRequirements",
+      "type": "object"
+    },
+    "FeatureStatus": {
+      "enum": [
+        "planned",
+        "beta",
+        "released",
+        "deprecated"
+      ],
+      "title": "FeatureStatus",
+      "type": "string"
+    },
+    "ProductKind": {
+      "enum": [
+        "optimizer",
+        "cloud",
+        "advisor",
+        "patroller",
+        "plan-visualizer",
+        "vscode",
+        "jetbrains",
+        "mcp",
+        "community",
+        "enterprise"
+      ],
+      "title": "ProductKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "One product feature and the docs it requires (design 8.1).",
+  "properties": {
+    "id": {
+      "description": "Stable feature id, e.g. OPT-OR-UNION.",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "type": {
+      "$ref": "#/$defs/ProductKind"
+    },
+    "product": {
+      "description": "Product id the feature ships in, e.g. pawsql-optimizer.",
+      "title": "Product",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/FeatureStatus",
+      "default": "released"
+    },
+    "introducedVersion": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Introducedversion"
+    },
+    "databases": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Databases",
+      "type": "array"
+    },
+    "sourcePaths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Sourcepaths",
+      "type": "array"
+    },
+    "documentation": {
+      "$ref": "#/$defs/DocumentationRequirements"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "type",
+    "product"
+  ],
+  "title": "FeatureManifest",
+  "type": "object"
+}

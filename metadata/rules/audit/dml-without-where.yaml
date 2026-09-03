@@ -1,0 +1,33 @@
+# SAMPLE — example metadata, verify against the product rule catalog.
+id: AUD-DML-WHERE
+name: UPDATE/DELETE without WHERE
+category: dml
+severity: error
+database:
+  - mysql
+  - postgresql
+  - oracle
+introducedVersion: 8.0.0
+
+description: >-
+  Flags UPDATE or DELETE statements that carry no WHERE clause, which would
+  affect every row in the target table.
+
+whyItMatters: >-
+  A missing WHERE on a DML statement is a frequent source of data-loss
+  incidents. Flagging it before execution adds a safety gate for high-risk
+  changes.
+
+howToFix: >-
+  Add the intended predicate, or explicitly confirm a full-table operation
+  when it is truly required (for example a controlled bulk reset).
+
+badExample: |
+  UPDATE orders SET status = 'closed';
+
+goodExample: |
+  UPDATE orders SET status = 'closed'
+  WHERE status = 'open';
+
+relatedRules:
+  - AUD-DML-LIMIT

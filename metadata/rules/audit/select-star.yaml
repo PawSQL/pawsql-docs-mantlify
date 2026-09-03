@@ -1,0 +1,33 @@
+# SAMPLE — example metadata, verify against the product rule catalog.
+id: AUD-SELECT-STAR
+name: SELECT * Detection
+category: select
+severity: warning
+database:
+  - mysql
+  - postgresql
+  - oracle
+introducedVersion: 8.0.0
+
+description: >-
+  Flags explicit SELECT * against wide tables. Reading unneeded columns forces
+  table or index lookups that a covering index could avoid.
+
+whyItMatters: >-
+  Explicit column lists make intent explicit, keep the result stable across
+  schema changes, and allow the optimizer to use covering indexes.
+
+howToFix: >-
+  List only the columns actually needed. If the full row is genuinely
+  required, document why the audit rule should be suppressed for that query.
+
+badExample: |
+  SELECT * FROM orders WHERE customer_id = 42;
+
+goodExample: |
+  SELECT id, status, total
+  FROM orders
+  WHERE customer_id = 42;
+
+relatedRules:
+  - AUD-EXPLICIT-COLUMNS

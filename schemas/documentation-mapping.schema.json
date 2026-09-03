@@ -1,0 +1,61 @@
+{
+  "$defs": {
+    "MappingDocument": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/RelationKind"
+        },
+        "required": {
+          "default": false,
+          "title": "Required",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "relation"
+      ],
+      "title": "MappingDocument",
+      "type": "object"
+    },
+    "RelationKind": {
+      "enum": [
+        "reference",
+        "user-guide",
+        "release-note",
+        "blog",
+        "database-guide",
+        "compatibility",
+        "tutorial",
+        "migration-guide"
+      ],
+      "title": "RelationKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Maps a feature / rule / capability to the docs that must cover it (design 9).\n\nThe Gate (Phase 3) will consume these; in Phase 0-2 the file is only data.",
+  "properties": {
+    "feature": {
+      "title": "Feature",
+      "type": "string"
+    },
+    "documents": {
+      "items": {
+        "$ref": "#/$defs/MappingDocument"
+      },
+      "title": "Documents",
+      "type": "array"
+    }
+  },
+  "required": [
+    "feature"
+  ],
+  "title": "DocumentationMapping",
+  "type": "object"
+}

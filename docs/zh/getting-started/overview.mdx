@@ -1,0 +1,27 @@
+---
+id: zh-getting-started-overview
+title: 产品概览
+description: PawSQL - SQL 审核、语义重写与代价优化的索引推荐。
+type: user-guide
+product: pawsql-optimizer
+status: draft
+tags: [overview, getting-started, zh]
+relatedFeatures: [OPT-OR-UNION]
+---
+
+# 产品概览
+
+PawSQL 让 SQL 性能优化自动化且可验证。两大核心能力：
+
+1. **语义级 SQL 重写**——修复优化器不会触碰的逻辑结构，不改变查询结果。
+2. **基于代价的索引推荐**——从 SQL 结构出发主动设计最优索引，而非从存量索引中挑选。
+
+两者叠加生效：重写改变查询结构后，索引推荐基于新结构重新计算。
+
+## 能力范围
+
+- **SQL 审核 / 审查**：按审核规则（对象、DDL、DML、索引、性能）在 SQL 上线前发现问题。
+- **优化**：PawSQL Optimizer 驱动的重写与索引推荐。
+- **兼容性**：支持 MySQL、PostgreSQL、Oracle 等数据库，版本能力见[兼容性矩阵](docs/reference/compatibility)。
+
+> 状态：新站点草稿，功能细节正在与产品核对。

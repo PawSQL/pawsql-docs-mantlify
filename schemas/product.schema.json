@@ -1,0 +1,62 @@
+{
+  "$defs": {
+    "ProductKind": {
+      "enum": [
+        "optimizer",
+        "cloud",
+        "advisor",
+        "patroller",
+        "plan-visualizer",
+        "vscode",
+        "jetbrains",
+        "mcp",
+        "community",
+        "enterprise"
+      ],
+      "title": "ProductKind",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Product registry entry under metadata/products (referenced by FeatureManifest.product).",
+  "properties": {
+    "id": {
+      "description": "Product id, e.g. pawsql-optimizer. Referenced by feature manifests.",
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/ProductKind"
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    },
+    "tags": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Tags",
+      "type": "array"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "kind"
+  ],
+  "title": "ProductMetadata",
+  "type": "object"
+}

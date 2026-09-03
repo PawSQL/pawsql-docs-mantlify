@@ -1,0 +1,20 @@
+# SAMPLE — documentation mapping data model (design section 9).
+# Phase 3 (Documentation Gate) will consume these; in Phase 0-2 this file is data only.
+feature: AUDIT-REDUNDANT-INDEX
+
+documents:
+  - path: docs/reference/audit-rules/sql-index-023.md
+    relation: reference
+    required: true
+
+  - path: docs/user-guide/sql-audit/index.md
+    relation: user-guide
+    required: true
+
+  - path: docs/release-notes/8.5.0.md
+    relation: release-note
+    required: true
+
+  - path: blog/engineering/redundant-index.md
+    relation: blog
+    required: false

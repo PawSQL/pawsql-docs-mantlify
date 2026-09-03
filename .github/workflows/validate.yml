@@ -1,0 +1,38 @@
+name: docs-platform-validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install tools package
+        working-directory: tools
+        run: python -m pip install -e ".[dev]"
+
+      - name: Validate metadata
+        working-directory: tools
+        run: python -m pawsql_doc --root .. validate-metadata
+
+      - name: Validate front matter
+        working-directory: tools
+        run: python -m pawsql_doc --root .. validate-frontmatter
+
+      - name: Regenerate references
+        working-directory: tools
+        run: python -m pawsql_doc --root .. build-references
+
+      - name: References are committed (no diff after regeneration)
+        run: git diff --exit-code -- docs/reference docs/databases
+
+      - name: Run unit tests
+        working-directory: tools
+        run: python -m pytest

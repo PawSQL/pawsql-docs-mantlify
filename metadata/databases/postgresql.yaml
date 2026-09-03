@@ -1,0 +1,25 @@
+# SAMPLE — example metadata (design section 8.3), verify versions against the product.
+database: postgresql
+title: PostgreSQL
+supportedVersions:
+  - "14"
+  - "15"
+  - "16"
+  - "17"
+  - "18"
+features:
+  optimizer: true
+  audit: true
+  planVisualizer: false
+
+description: >-
+  PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads,
+  including the newest supported release line.
+
+keyFeatures:
+  - Cost-based index recommendation
+  - Semantic query rewrite (e.g. OR-to-UNION, subquery to join)
+  - SQL audit rule review
+
+notes: >-
+  Version list is sample data pending confirmation from the product team.

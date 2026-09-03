@@ -1,0 +1,25 @@
+# SAMPLE — example metadata (design section 8.1, feature for an audit rule), verify against product.
+id: AUDIT-REDUNDANT-INDEX
+name: Redundant Index Detection
+type: advisor
+product: pawsql-advisor
+status: released
+introducedVersion: 8.4.0
+
+databases:
+  - mysql
+  - postgresql
+
+documentation:
+  reference:
+    required: true
+    paths:
+      - docs/reference/audit-rules/sql-index-023.md
+  userGuide:
+    required: true
+    paths:
+      - docs/user-guide/sql-audit/index.md
+  releaseNote:
+    required: true
+  blog:
+    required: false

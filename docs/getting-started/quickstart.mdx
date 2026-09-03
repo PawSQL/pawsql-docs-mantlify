@@ -1,0 +1,24 @@
+---
+id: getting-started-quickstart
+title: Quickstart
+description: Run your first SQL optimization with PawSQL in a few minutes.
+type: tutorial
+product: pawsql-optimizer
+status: draft
+tags: [quickstart, tutorial]
+---
+
+# Quickstart
+
+1. Connect a database or paste the schema DDL into a PawSQL workspace (available in the web platform, DBeaver, JetBrains and VS Code plugins, and the MCP server).
+2. Submit a slow SQL query for analysis.
+3. Read the optimization report:
+   - **Violations** grouped by severity from the SQL audit rules.
+   - **Recommended indexes** as ready-to-run DDL, with the estimated cost improvement.
+   - **Suggested rewrites** that change the query structure.
+
+## Verifying an index recommendation
+
+Apply the recommended index, re-run the query, and compare execution plans before and after. PawSQL can run this What-If validation when a live database connection is available.
+
+> Status: draft content for the new documentation site.

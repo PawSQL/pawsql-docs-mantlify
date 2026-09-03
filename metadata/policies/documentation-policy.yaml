@@ -1,0 +1,25 @@
+# SAMPLE — documentation policy data model (design section 19).
+# Phase 3 (Documentation Gate) will enforce these; in Phase 0-2 this file is data only.
+policies:
+  new_api:
+    reference: required
+    user_guide: conditional
+    release_note: required
+    blog: optional
+
+  new_audit_rule:
+    rule_reference: required
+    user_guide: required
+    release_note: required
+    blog: optional
+
+  database_support:
+    database_guide: required
+    compatibility: required
+    release_note: required
+
+  breaking_api_change:
+    reference: required
+    migration_guide: required
+    release_note: required
+    blog: recommended

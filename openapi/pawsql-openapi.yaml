@@ -1,0 +1,68 @@
+openapi: 3.0.3
+info:
+  title: PawSQL API
+  version: 0.1.0
+  description: |
+    PawSQL service API. Placeholder spec pending the product's OpenAPI
+    generator output. Keep this file local so API changes flow through the
+    same Git review and drift pipeline as the documentation.
+servers:
+  - url: https://engine.pawsql.com
+paths:
+  /v1/workspaces:
+    get:
+      summary: List workspaces
+      operationId: listWorkspaces
+      responses:
+        "200":
+          description: A list of workspaces
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Workspace"
+  /v1/optimize:
+    post:
+      summary: Optimize a SQL statement
+      operationId: optimizeSql
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OptimizeRequest"
+      responses:
+        "200":
+          description: Optimization report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptimizeResponse"
+components:
+  schemas:
+    Workspace:
+      type: object
+      properties:
+        id:
+          type: string
+        databaseType:
+          type: string
+    OptimizeRequest:
+      type: object
+      required:
+        - sql
+      properties:
+        sql:
+          type: string
+        databaseType:
+          type: string
+    OptimizeResponse:
+      type: object
+      properties:
+        report:
+          type: string
+        findings:
+          type: array
+          items:
+            type: string

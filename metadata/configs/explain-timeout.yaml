@@ -1,0 +1,20 @@
+# SAMPLE — example metadata (design section 14), verify against the product.
+id: OPT-EXPLAIN-TIMEOUT
+name: explain.timeout
+configType: integer
+default: 30
+unit: second
+scope: optimizer
+versionIntroduced: 8.2.0
+versionDeprecated: null
+allowedRange:
+  min: 1
+  max: 300
+
+description: >-
+  Time budget the optimizer uses when executing EXPLAIN to gather real
+  execution statistics before recommending an index.
+
+example: |
+  -- pawsql.conf
+  explain.timeout = 60

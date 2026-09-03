@@ -1,0 +1,28 @@
+[project]
+name = "pawsql-doc"
+version = "0.1.0"
+description = "PawSQL Documentation Platform - content model validators and structured reference generators (Phase 0-2)"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.6,<3",
+    "PyYAML>=6.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+pawsql-doc = "pawsql_doc.cli:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

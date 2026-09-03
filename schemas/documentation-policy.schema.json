@@ -1,0 +1,30 @@
+{
+  "$defs": {
+    "RequirementLevel": {
+      "enum": [
+        "required",
+        "conditional",
+        "recommended",
+        "optional"
+      ],
+      "title": "RequirementLevel",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Per-change-kind documentation requirements (design 19). Consumed by the Gate in Phase 3.",
+  "properties": {
+    "policies": {
+      "additionalProperties": {
+        "additionalProperties": {
+          "$ref": "#/$defs/RequirementLevel"
+        },
+        "type": "object"
+      },
+      "title": "Policies",
+      "type": "object"
+    }
+  },
+  "title": "DocumentationPolicy",
+  "type": "object"
+}

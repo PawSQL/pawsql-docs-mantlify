@@ -1,0 +1,8 @@
+# SAMPLE — example metadata, to be verified against the product catalog.
+id: pawsql-cloud
+name: PawSQL Cloud
+kind: cloud
+description: >-
+  Hosted PawSQL service: SQL audit, optimization reports and team workflow in
+  the cloud, exposing the REST API documented under the API Reference tab.
+tags: [cloud, api, saas]
