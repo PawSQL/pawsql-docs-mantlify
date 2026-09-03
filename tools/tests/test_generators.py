@@ -59,3 +59,55 @@ def test_compatibility_matrix_lists_database(repo):
     text = (repo / "docs/reference/compatibility/index.md").read_text(encoding="utf-8")
     assert "postgresql" in text
     assert "16" in text
+
+
+def test_bilingual_rule_writes_dual_pages(repo):
+    import yaml
+
+    (repo / "metadata/rules/audit/aud-biling.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "id": "AUD-BILING",
+                "name": "Audit Bilingual",
+                "category": "select",
+                "severity": "info",
+                "database": ["mysql"],
+                "description": "English description.",
+                "zh": {
+                    "name": "双语规则",
+                    "description": "中文说明。",
+                    "badExample": "-- 反例\nSELECT * FROM t;",
+                    "goodExample": "SELECT id FROM t;",
+                },
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    bundle, issues = load_metadata(repo)
+    assert issues == []
+    written = build_references(repo, bundle)
+
+    en = repo / "docs/reference/audit-rules/aud-biling.md"
+    zh = repo / "docs/zh/reference/audit-rules/aud-biling.md"
+    assert en.is_file()
+    assert zh.is_file()
+    assert zh in written
+
+    en_text = en.read_text(encoding="utf-8")
+    assert "English description" in en_text
+    assert "双语规则" not in en_text
+
+    zh_text = zh.read_text(encoding="utf-8")
+    assert "zh-audit-rule-aud-biling" in zh_text
+    assert "双语规则" in zh_text
+    assert "中文说明" in zh_text
+    assert "反例" in zh_text
+    assert "正例" in zh_text
+
+
+def test_english_only_rule_writes_no_zh_page(repo):
+    bundle, _ = load_metadata(repo)
+    build_references(repo, bundle)
+    assert (repo / "docs/reference/audit-rules/aud-one.md").is_file()
+    assert not (repo / "docs/zh/reference/audit-rules/aud-one.md").exists()

@@ -39,6 +39,19 @@ class TestRuleMetadata:
         with pytest.raises(ValidationError):
             RuleMetadata(id="X", name="x", category="select", severity="loud")
 
+    def test_zh_mirror_parsed(self):
+        r = RuleMetadata(
+            id="AUD-ZH", name="Rule", category="select",
+            zh={"name": "规则", "description": "中文说明"},
+        )
+        assert r.zh.name == "规则"
+        assert r.zh.description == "中文说明"
+        assert r.zh.whyItMatters is None
+
+    def test_zh_unknown_key_rejected(self):
+        with pytest.raises(ValidationError):
+            RuleMetadata(id="X", name="x", category="select", zh={"name": "n", "bogus": 1})
+
 
 class TestDatabaseMetadata:
     def test_valid(self):

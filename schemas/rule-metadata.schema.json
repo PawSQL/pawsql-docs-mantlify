@@ -1,5 +1,85 @@
 {
   "$defs": {
+    "RuleZh": {
+      "additionalProperties": false,
+      "description": "Chinese mirror fields for bilingual rule reference pages (design 7/12).\n\nWhen present on a RuleMetadata the generator also emits a Chinese\nreference page under ``docs/zh/reference/...``. Fields fall back to the\nEnglish root fields where a Chinese value is not given.",
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "whyItMatters": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Whyitmatters"
+        },
+        "howToFix": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Howtofix"
+        },
+        "badExample": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Badexample"
+        },
+        "goodExample": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Goodexample"
+        }
+      },
+      "title": "RuleZh",
+      "type": "object"
+    },
     "Severity": {
       "enum": [
         "error",
@@ -146,6 +226,18 @@
       },
       "title": "Tags",
       "type": "array"
+    },
+    "zh": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/RuleZh"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Optional Chinese mirror; when present the generator also emits a zh reference page."
     }
   },
   "required": [

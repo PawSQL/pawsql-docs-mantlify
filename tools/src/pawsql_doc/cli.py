@@ -73,11 +73,12 @@ def _cmd_build_references(root: Path, _args: argparse.Namespace) -> int:
 def _cmd_generate_rule(root: Path, args: argparse.Namespace) -> int:
     counts = _abort_if_broken(root)
     bundle, issues = load_metadata(root)
-    path = generate_single_rule(root, bundle, args.rule)
-    if path is None:
+    paths = generate_single_rule(root, bundle, args.rule)
+    if not paths:
         print(f"FAIL  rule '{args.rule}' not found", file=sys.stderr)
         return 1
-    print(f"  wrote {path.relative_to(root).as_posix()}")
+    for path in paths:
+        print(f"  wrote {path.relative_to(root).as_posix()}")
     return 0
 
 

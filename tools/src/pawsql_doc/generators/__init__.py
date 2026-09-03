@@ -19,7 +19,7 @@ def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
 
     for kind, rules in sorted(bundle.rules.items()):
         for rule in sorted(rules, key=lambda r: r.id):
-            written.append(generate_rule_reference(root, kind, rule))
+            written.extend(generate_rule_reference(root, kind, rule))
 
     for db in sorted(bundle.databases, key=lambda d: d.database):
         written.append(generate_database_guide(root, db))
@@ -39,7 +39,7 @@ def _find_rule(bundle: MetadataBundle, kind: str, rule_id: str) -> Optional[obje
     return None
 
 
-def generate_single_rule(root: Path, bundle: MetadataBundle, rule_id: str) -> Optional[Path]:
+def generate_single_rule(root: Path, bundle: MetadataBundle, rule_id: str) -> Optional[List[Path]]:
     for kind in ("audit", "optimizer"):
         rule = _find_rule(bundle, kind, rule_id)
         if rule is not None:
