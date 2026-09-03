@@ -133,6 +133,22 @@ class Severity(str, Enum):
     INFO = "info"
 
 
+class RuleZh(_StrictModel):
+    """Chinese mirror fields for bilingual rule reference pages (design 7/12).
+
+    When present on a RuleMetadata the generator also emits a Chinese
+    reference page under ``docs/zh/reference/...``. Fields fall back to the
+    English root fields where a Chinese value is not given.
+    """
+
+    name: Optional[str] = None
+    description: Optional[str] = None
+    whyItMatters: Optional[str] = None
+    howToFix: Optional[str] = None
+    badExample: Optional[str] = None
+    goodExample: Optional[str] = None
+
+
 class RuleMetadata(_StrictModel):
     """One audit or optimizer rule (design 8.2). Used to generate rule reference pages."""
 
@@ -151,6 +167,10 @@ class RuleMetadata(_StrictModel):
     howToFix: Optional[str] = None
     relatedRules: List[str] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
+    zh: Optional[RuleZh] = Field(
+        default=None,
+        description="Optional Chinese mirror; when present the generator also emits a zh reference page.",
+    )
 
 
 # ---------------------------------------------------------------------------

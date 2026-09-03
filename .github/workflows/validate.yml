@@ -33,6 +33,10 @@ jobs:
       - name: References are committed (no diff after regeneration)
         run: git diff --exit-code -- docs/reference docs/databases
 
+      - name: Drift and release gate
+        working-directory: tools
+        run: python -m pawsql_doc --root .. drift && python -m pawsql_doc --root .. gate
+
       - name: Run unit tests
         working-directory: tools
         run: python -m pytest

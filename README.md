@@ -43,10 +43,14 @@ uv run python -m pawsql_doc generate-config --config explain.timeout
 ```bash
 uv run python -m pawsql_doc validate-metadata     # metadata/** 与 docs 引用一致性
 uv run python -m pawsql_doc validate-frontmatter  # docs/**/*.md(x) front matter
+uv run python -m pawsql_doc drift                 # 必选文档缺失检测（有缺失则 exit 1）
+uv run python -m pawsql_doc coverage              # 分项文档覆盖率
+uv run python -m pawsql_doc gate                  # Release Gate：必需覆盖率 <100% 时 exit 1
 uv run pytest -q                                  # 单元测试
 ```
 
 ## 提交约定
 
 改元数据/内容 → 运行 `build-references` 并连同生成的 Reference 一起提交。
+发布前 `gate` 必须 PASS（各分项 required coverage = 100%）。
 GitHub Actions `.github/workflows/validate.yml` 会在 push/PR 时校验上述一致性与测试。

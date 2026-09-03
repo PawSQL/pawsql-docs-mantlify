@@ -42,7 +42,8 @@
           {
             "group": "User Guide",
             "pages": [
-              "docs/user-guide/sql-audit/index"
+              "docs/user-guide/sql-audit/index",
+              "docs/user-guide/optimization/or-union"
             ]
           },
           {
@@ -69,7 +70,8 @@
             "pages": [
               "docs/tutorials/index",
               "docs/faq/index",
-              "docs/release-notes/index"
+              "docs/release-notes/index",
+              "docs/release-notes/8.5.0"
             ]
           },
           {
