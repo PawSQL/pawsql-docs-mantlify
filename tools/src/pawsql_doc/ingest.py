@@ -190,7 +190,14 @@ def render_skeleton(
     if doc.severity:
         data["severity"] = doc.severity
     if doc.review_objects:
-        data["tags"] = [f"review:{o.strip('`')}" for o in doc.review_objects]
+        parts: List[str] = []
+        for item in doc.review_objects:
+            for part in re.split(r"[、,，]", item):
+                part = part.strip().strip("`")
+                if part:
+                    parts.append(f"review:{part}")
+        if parts:
+            data["tags"] = parts
     zh = build_zh_content(doc)
     if doc.bad_sql or doc.good_sql:
         zh["badExample"] = doc.bad_sql

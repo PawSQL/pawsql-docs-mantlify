@@ -1,0 +1,17 @@
+# Canonical source: vault 20-engine/rules/规则文档/自增序列耗尽预警.md
+# TODO(产品核对): aud-cacheexhausted4identitycolumn → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-cacheexhausted4identitycolumn
+category: ddl
+severity: warning
+tags:
+- review:TABLE`（巡检）
+content:
+  zh:
+    name: 自增序列耗尽预警
+    description: |-
+      当自增列的当前值接近其数据类型的最大值时，序列即将耗尽，后续的 INSERT 操作将失败并抛出主键冲突或溢出错误。这在高频写入的核心业务表中尤其致命，可能导致服务中断。
+      建议通过监控预警及时发现序列耗尽风险，并根据使用率提前规划扩容方案（如升级数据类型，从 INT 扩展至 BIGINT）。默认预警阈值为最大值的 80%，可通过配置调整。
+  en:
+    name: CacheExhausted4IdentityColumn

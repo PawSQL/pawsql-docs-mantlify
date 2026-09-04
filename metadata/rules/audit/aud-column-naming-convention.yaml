@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/列名命名规范.md
+# TODO(产品核对): aud-column-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-column-naming-convention
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 列名命名规范
+    description: |-
+      列名命名规范要求数据库对象名称遵循统一规范，便于团队协作和代码维护。通常要求列名使用小写字母和下划线（snake_case），以保持一致性、可读性和跨平台兼容性。
+      不规范的列名（如使用大写字母、特殊字符、关键字或中文字符）会增加沟通成本，降低代码可读性，在跨团队协作和跨平台迁移时尤其容易引发问题。
+    badExample: |-
+      -- ❌ 不推荐：列名使用大写、中文或包含特殊字符
+      CREATE TABLE t_user (
+          "UserID"    INT,
+          "用户姓名"  VARCHAR(50)
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用小写字母和下划线
+      CREATE TABLE t_user (
+          user_id   INT,
+          user_name VARCHAR(50)
+      );
+  en:
+    name: Column Naming Convention

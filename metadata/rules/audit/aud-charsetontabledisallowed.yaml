@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/表定义时禁止使用字符集.md
+# TODO(产品核对): aud-charsetontabledisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-charsetontabledisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表定义时禁止使用字符集
+    description: |-
+      禁止在表定义时单独指定字符集，以避免表级字符集与数据库级字符集不一致导致的数据问题。当表字符集与数据库字符集不同时，跨表操作可能触发隐式字符集转换，影响查询性能并可能导致乱码。
+      字符集应在数据库级别（或列级别）统一管理，表应继承数据库的默认字符集，避免在表级覆盖设置。
+    badExample: |-
+      -- ❌ 不推荐：表定义时指定了字符集，可能与数据库不一致
+      CREATE TABLE t (id INT) DEFAULT CHARSET = utf8;
+    goodExample: |-
+      -- ✅ 推荐：表继承数据库默认字符集，不在表级单独指定
+      CREATE TABLE t (id INT);
+  en:
+    name: CharsetOnTableDisallowed

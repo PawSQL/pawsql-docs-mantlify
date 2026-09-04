@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/约束名已存在.md
+# TODO(产品核对): aud-constraint-with-this-name-already-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-constraint-with-this-name-already-exists
+category: ddl
+severity: error
+tags:
+- review:ALTER TABLE ADD CONSTRAINT
+content:
+  zh:
+    name: 约束名已存在
+    description: |-
+      此规则确保在添加新约束时，约束名称在数据库中（或表内）是唯一的，避免与现有约束冲突。重复的约束名称会导致 SQL 执行失败，可能中断部署脚本或数据迁移流程。
+      如果 SQL 语句添加了 `IF NOT EXISTS` 子句，则不会触发此规则告警。规范的约束命名和唯一性检查是数据库变更管理的基本要求。
+    badExample: |-
+      -- ❌ 不推荐：添加约束时名称与已存在的约束冲突
+      ALTER TABLE orders ADD CONSTRAINT pk_orders PRIMARY KEY (order_id);
+    goodExample: |-
+      -- ✅ 推荐：添加 IF NOT EXISTS 或使用唯一约束名称
+      ALTER TABLE orders ADD CONSTRAINT pk_orders_new PRIMARY KEY (order_id);
+  en:
+    name: Constraint with this Name Already Exists

@@ -74,3 +74,14 @@ def test_render_skeleton_shape():
 def test_all_database_means_empty():
     doc = parse_rule_doc(SAMPLE)
     assert doc.database_raw == []
+
+
+def test_review_tags_split_on_separators():
+    from pawsql_doc.ingest import RuleDoc
+
+    doc = RuleDoc(zh_name="x", review_objects=["`CREATE INDEX`、`ALTER TABLE ADD INDEX`", "`SELECT`"])
+    text = render_skeleton("aud-x", "ddl", doc, "audit", "src")
+    assert "review:CREATE INDEX" in text
+    assert "review:ALTER TABLE ADD INDEX" in text
+    assert "review:SELECT" in text
+    assert "`、" not in text

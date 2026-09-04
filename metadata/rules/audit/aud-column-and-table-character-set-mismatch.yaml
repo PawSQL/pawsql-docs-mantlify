@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/列的字符集和表不一致.md
+# TODO(产品核对): aud-column-and-table-character-set-mismatch → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-column-and-table-character-set-mismatch
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 列的字符集和表不一致
+    description: |-
+      当列级别的字符集与表级别的字符集不一致时，可能导致隐式字符集转换、数据截断或乱码问题。在多语言环境下，字符集不一致还可能引发索引失效（MySQL 中字符集不一致的字段进行 JOIN 时无法使用索引）和查询结果不符合预期等隐蔽性故障。
+      建议在表级别统一指定字符集，各列继承表的字符集配置，避免个别列使用不同的字符集。保持一致的字符集策略是数据库设计的基本规范。
+    badExample: |-
+      -- ❌ 不推荐：列级别字符集与表级别不一致
+      CREATE TABLE t_user (
+          name VARCHAR(50) CHARSET latin1
+      ) DEFAULT CHARSET utf8mb4;
+    goodExample: |-
+      -- ✅ 推荐：列继承表的字符集，保持一致
+      CREATE TABLE t_user (
+          name VARCHAR(50)
+      ) DEFAULT CHARSET utf8mb4;
+  en:
+    name: Column and Table Character Set Mismatch

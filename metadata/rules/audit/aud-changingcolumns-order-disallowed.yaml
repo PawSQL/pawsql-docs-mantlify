@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止修改列的顺序.md
+# TODO(产品核对): aud-changingcolumns-order-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-changingcolumns-order-disallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE
+content:
+  zh:
+    name: 禁止修改列的顺序
+    description: |-
+      禁止修改表中列的顺序。虽然 `ALTER TABLE ... MODIFY COLUMN ... AFTER` 等语法允许调整列的位置，但这会触发表的重建操作，且可能影响依赖于列顺序的应用程序逻辑（如使用 `SELECT *` 或按位置索引访问列的代码）。在大型表上执行列顺序调整，锁持有时间长、回滚代价大。
+      数据库表的列顺序应在初始设计时确定，后续如需调整，应通过创建新表的迁移方案实现，而非直接修改现有表结构。
+    badExample: |-
+      -- ❌ 不推荐：调整列顺序，触发表重建，影响依赖程序
+      ALTER TABLE t MODIFY COLUMN col2 INT AFTER col5;
+    goodExample: |-
+      -- ✅ 推荐：在新表中定义列顺序，通过迁移方案切换
+      -- CREATE TABLE t_new (col1 INT, col2 INT, col3 INT, ...);
+      -- 数据迁移 + 应用切换
+  en:
+    name: ChangingColumn's Order Disallowed

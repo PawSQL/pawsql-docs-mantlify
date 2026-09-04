@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止通过COMPRESSED打开字段压缩功能.md
+# TODO(产品核对): aud-compressedattributedisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-compressedattributedisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE
+content:
+  zh:
+    name: 禁止通过COMPRESSED打开字段压缩功能
+    description: |-
+      在 `utf8` 及 `utf8mb4` 字符集下，通过 `COMPRESSED` 属性打开字段压缩功能容易出现乱码问题。此外，压缩和解压缩操作会消耗额外的 CPU 资源，在高并发场景下可能成为性能瓶颈。
+      数据压缩应在存储层或应用层解决（如 InnoDB 页压缩、操作系统级压缩），而非在列级别逐个字段开启。应避免在表定义中使用此功能。
+    badExample: |-
+      -- ❌ 不推荐：使用 COMPRESSED 属性
+      CREATE TABLE t1 (
+          id INT,
+          long_text TEXT COMPRESSED
+      );
+    goodExample: |-
+      -- ✅ 推荐：不使用列级压缩，依赖存储引擎或应用层压缩方案
+      CREATE TABLE t1 (
+          id INT,
+          long_text TEXT
+      );
+  en:
+    name: CompressedAttributeDisallowed
