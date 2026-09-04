@@ -10,11 +10,9 @@ tags:
 localeOf: en-optimizer-rules-index
 ---
 
-> 生成文件：由已生成的规则页汇总，勿手改；新增规则后重跑索引工具。
+> 生成文件：由已生成的规则页汇总，勿手改；`build-references` 会自动重建。
 
 # 优化算法
-
-## 优化算法
 
 共 5 条规则。
 

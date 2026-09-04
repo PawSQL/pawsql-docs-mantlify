@@ -133,3 +133,23 @@ def test_english_only_rule_writes_no_zh_page(repo):
     # without a zh page the default-language mirror pair is not claimed
     en_text = (repo / "docs/en/reference/audit-rules/aud-enonly.md").read_text(encoding="utf-8")
     assert "localeOf" not in en_text
+
+
+def test_build_references_writes_rule_indexes(repo):
+    bundle, _ = load_metadata(repo)
+    build_references(repo, bundle)
+
+    zh_audit = repo / "docs/reference/audit-rules/index.md"
+    en_audit = repo / "docs/en/reference/audit-rules/index.md"
+    zh_opt = repo / "docs/reference/optimizer-rules/index.md"
+    assert zh_audit.is_file() and en_audit.is_file() and zh_opt.is_file()
+
+    text = zh_audit.read_text(encoding="utf-8")
+    assert "审核规范" in text
+    assert "aud-one" in text  # lists the fixture audit rule
+    assert "localeOf: en-audit-rules-index" in text
+
+    en_text = en_audit.read_text(encoding="utf-8")
+    assert "Audit Rule Reference" in en_text
+    assert "localeOf: audit-rules-index" in en_text
+

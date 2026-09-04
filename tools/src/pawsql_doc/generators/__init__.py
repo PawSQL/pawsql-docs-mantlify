@@ -10,6 +10,7 @@ from pawsql_doc.generators.database_generator import (
     generate_database_guide,
 )
 from pawsql_doc.generators.rule_generator import generate_rule_reference
+from pawsql_doc.generators.rule_index import build_rule_indexes
 from pawsql_doc.loaders import MetadataBundle
 
 
@@ -28,6 +29,8 @@ def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
 
     for cfg in sorted(bundle.configs, key=lambda c: c.name):
         written.append(generate_config_reference(root, cfg))
+
+    written.extend(build_rule_indexes(root))
 
     return written
 

@@ -10,11 +10,9 @@ tags:
 localeOf: audit-rules-index
 ---
 
-> Generated: aggregated from the rule pages. Do not edit by hand; re-run the index helper after rule additions.
+> Generated: aggregated from the rule pages; rebuilt by `build-references`. Do not edit by hand.
 
 # Audit Rule Reference
-
-## Overview
 
 54 rules.
 
