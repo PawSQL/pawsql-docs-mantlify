@@ -65,3 +65,14 @@ GitHub Actions `.github/workflows/validate.yml` 会在 push/PR 时校验上述�
 ## 内容迁移（Obsidian vault → 本站）
 
 把 `pawsql-docs-new`（Obsidian 内容库）按《技术设计说明书》转换为本站内容的方法论、目录映射、格式/去重/双语规则与质量闸门，见 **[MIGRATION-PLAYBOOK.md](MIGRATION-PLAYBOOK.md)**。试点（规则 ×10 + PawSQL Cloud 手册中文镜像）已按该手册完成并验证。
+
+## 内容模型定稿
+
+内容模型/SEO-LLM 改动的权威清单见 **[CONTENT-MODEL-CHANGES.md](CONTENT-MODEL-CHANGES.md)**（v0.2）：A1 语言 id、A2 `content:{zh,en}`、A3 `category` 受控词表、B1 `description` 治理、B2 `localeOf` 镜像、B3 导航=发布（`validate-nav`）、C1 门禁路径——均已做；P1 项（B4/B5、C2/C3、D1/D2）见文件。写作约定详见 `docs/contributing/{frontmatter,style-guide,terminology}.md`。
+
+## 发布前（Go-live）清单
+
+1. 内容评审：可发布页 `status` → `approved`/`published`（`draft`/`review` 仅留本地/分支）。
+2. `uv run python -m pawsql_doc validate-nav` 全绿——导航只收 `published/approved` 页（B3）。
+3. `uv run python -m pawsql_doc drift && uv run python -m pawsql_doc gate` 全绿；`build-references` 重建后 `git diff --exit-code` 干净。
+4. 建 GitHub 远程并 push → Mintlify 连接（内容根 `docs/`）→ 发布后用线上 URL 验收（默认中文 `/` 与 `/en` 均可达、语言切换正常）。
