@@ -28,7 +28,8 @@ def _display_name(db: DatabaseMetadata) -> str:
 
 
 def generate_database_guide(root: Path, db: DatabaseMetadata) -> Path:
-    out_path = root / "docs" / "databases" / db.database / "index.md"
+    # English-only page -> secondary /en tree (docs/en/...)
+    out_path = root / "docs" / "en" / "databases" / db.database / "index.md"
     parts = [
         generated_note(f"databases/{db.database}.yaml"),
         "## Supported Versions\n",
@@ -67,7 +68,8 @@ def generate_database_guide(root: Path, db: DatabaseMetadata) -> Path:
 
 
 def generate_compatibility_index(root: Path, databases: List[DatabaseMetadata]) -> Path:
-    out_path = root / "docs" / "reference" / "compatibility" / "index.md"
+    # English-only page -> secondary /en tree (docs/en/...)
+    out_path = root / "docs" / "en" / "reference" / "compatibility" / "index.md"
     keys = _feature_keys(databases)
 
     header = "| Database | Versions | " + " | ".join(keys) + " |"

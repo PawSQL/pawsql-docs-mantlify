@@ -14,11 +14,11 @@ documentation:
   reference:
     required: true
     paths:
-      - docs/reference/audit-rules/sql-index-023.md
+      - docs/en/reference/audit-rules/sql-index-023.md
   userGuide:
     required: true
     paths:
-      - docs/user-guide/sql-audit/index.md
+      - docs/en/user-guide/sql-audit/index.md
   releaseNote:
     required: true
   blog:

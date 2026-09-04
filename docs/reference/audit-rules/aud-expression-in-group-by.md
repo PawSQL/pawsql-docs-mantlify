@@ -1,44 +1,44 @@
 ---
-id: audit-rule-aud-expression-in-group-by
-title: Expression in GROUP BY Causes Index Invalidation
+id: zh-audit-rule-aud-expression-in-group-by
+title: GROUP 字段中有表达式导致索引失效
 type: reference
 status: draft
 tags:
 - audit-rule
+- zh
 - index
-description: Databases can use index ordering to avoid sorting the GROUP BY columns.
-  When a GROUP BY key is an expression or a function (for example LEFT(column, 5)
-  or YEAR(date_column)), the database can no longe
+description: 数据库可以利用索引的有序性来避免 GROUP BY 子句中列的排序，从而提升 SQL 性能。然而，当 GROUP BY 字段是一个表达式或函数（如
+  LEFT(column, 5)、YEAR(date_column)）时，数据库无法直接使用该列上的索引来完成分组排序，只能执行额外的排序或哈希分组操作，导致性能下降。
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
+> **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
 
-| Field | Value |
+| 字段 | 值 |
 |---|---|
-| Rule ID | aud-expression-in-group-by |
-| Name | Expression in GROUP BY Causes Index Invalidation |
-| Category | index |
-| Severity | info |
-| Databases | All supported databases |
+| 规则 ID | aud-expression-in-group-by |
+| 规则名称 | GROUP 字段中有表达式导致索引失效 |
+| 类别 | index |
+| 预警级别 | 提示 |
+| 适用数据库 | 所有支持数据库 |
 
-## Description
+## 说明
 
-Databases can use index ordering to avoid sorting the GROUP BY columns. When a GROUP BY key is an expression or a function (for example LEFT(column, 5) or YEAR(date_column)), the database can no longer use the column index for the grouping pass and falls back to an extra sort or a hash aggregate, degrading performance.
+数据库可以利用索引的有序性来避免 GROUP BY 子句中列的排序，从而提升 SQL 性能。然而，当 GROUP BY 字段是一个表达式或函数（如 LEFT(column, 5)、YEAR(date_column)）时，数据库无法直接使用该列上的索引来完成分组排序，只能执行额外的排序或哈希分组操作，导致性能下降。
 
-## How to Fix
+## 如何修复
 
-Group by the bare column (or a precomputed/derived column) rather than an expression so the index can serve the grouping. If grouping by an expression is required by the business logic, consider a functional index or a stored, derived column.
+尽量按原始列或物化后的派生列进行分组，避免直接对表达式分组以利用索引。若业务上必须按表达式分组，可考虑函数索引或新增存储派生列。
 
-## Bad Example
+## 反例
 
 ```sql
--- GROUP BY on an expression defeats the c_phone index
+-- 不推荐：GROUP BY 使用表达式，导致 c_phone 列索引失效
 SELECT LEFT(c_phone, 5), COUNT(1) FROM orders GROUP BY LEFT(c_phone, 5);
 ```
 
-## Good Example
+## 正例
 
 ```sql
--- group by a plain/derived column so the index applies
+-- 推荐：避免在 GROUP BY 中使用函数或表达式（根据业务场景优化）
 SELECT c_phone_prefix, COUNT(1) FROM orders GROUP BY c_phone_prefix;
 ```

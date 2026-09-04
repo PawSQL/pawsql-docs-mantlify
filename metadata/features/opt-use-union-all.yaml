@@ -9,4 +9,4 @@ documentation:
   reference:
     required: true
     paths:
-      - docs/reference/optimizer-rules/opt-use-union-all.md
+      - docs/en/reference/optimizer-rules/opt-use-union-all.md

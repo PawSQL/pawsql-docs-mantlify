@@ -1,46 +1,47 @@
 ---
-id: optimizer-rule-opt-count-to-exists
-title: COUNT Scalar Subquery Rewrite
+id: zh-optimizer-rule-opt-count-to-exists
+title: COUNT 标量子查询重写
 type: reference
 status: draft
 tags:
 - optimizer-rule
+- zh
 - rewrite
-description: 'A COUNT scalar subquery used as a presence test, such as (SELECT COUNT(*)
-  FROM ...) > 0, can be rewritten into an EXISTS subquery. COUNT(*) > 0 must aggregate
-  over every matching row before producing '
+description: 对于使用 COUNT 标量子查询来判断记录是否存在的场景（如 (SELECT COUNT(*) FROM ...) > 0），可以重写为
+  EXISTS 子查询。COUNT(*) > 0 需要扫描所有匹配行完成聚集运算后才能得出结果，而 EXISTS 在找到第一条匹配记录后即可短路停止扫描，避免不必要的全量计数，从而显著降低
+  I/O 和计算开销。
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
+> **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
 
-| Field | Value |
+| 字段 | 值 |
 |---|---|
-| Rule ID | opt-count-to-exists |
-| Name | COUNT Scalar Subquery Rewrite |
-| Category | rewrite |
-| Severity | info |
-| Databases | All supported databases |
+| 规则 ID | opt-count-to-exists |
+| 规则名称 | COUNT 标量子查询重写 |
+| 类别 | rewrite |
+| 预警级别 | 提示 |
+| 适用数据库 | 所有支持数据库 |
 
-## Description
+## 说明
 
-A COUNT scalar subquery used as a presence test, such as (SELECT COUNT(*) FROM ...) > 0, can be rewritten into an EXISTS subquery. COUNT(*) > 0 must aggregate over every matching row before producing an answer, while EXISTS can short-circuit as soon as the first matching row is found, avoiding an unnecessary full count and lowering I/O and CPU cost.
+对于使用 COUNT 标量子查询来判断记录是否存在的场景（如 (SELECT COUNT(*) FROM ...) > 0），可以重写为 EXISTS 子查询。COUNT(*) > 0 需要扫描所有匹配行完成聚集运算后才能得出结果，而 EXISTS 在找到第一条匹配记录后即可短路停止扫描，避免不必要的全量计数，从而显著降低 I/O 和计算开销。
 
-## How to Fix
+## 如何修复
 
-No manual action required: PawSQL recognizes this pattern and rewrites the correlated COUNT(*) > 0 subquery into EXISTS so the optimizer can pick a more efficient, semantically equivalent strategy.
+无需人工处理：PawSQL 自动识别此类 SQL 模式，将 COUNT(*) > 0 的相关子查询改写为 EXISTS，让数据库优化器可以在语义等价的前提下选择更高效的执行策略。
 
-## Bad Example
+## 反例
 
 ```sql
--- COUNT scalar subquery aggregates every matching row first
+-- 不推荐：COUNT 标量子查询需要完成全量聚集运算
 SELECT * FROM customer
 WHERE (SELECT COUNT(*) FROM orders WHERE c_custkey = o_custkey) > 0;
 ```
 
-## Good Example
+## 正例
 
 ```sql
--- rewritten as EXISTS: short-circuits on the first match
+-- 推荐：重写为 EXISTS，找到第一条匹配记录即可短路
 SELECT * FROM customer
 WHERE EXISTS (SELECT 1 FROM orders WHERE c_custkey = o_custkey);
 ```

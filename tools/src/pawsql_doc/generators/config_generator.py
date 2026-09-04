@@ -43,7 +43,8 @@ def _table(rows: list[list[str]]) -> str:
 
 
 def generate_config_reference(root: Path, cfg: ConfigMetadata) -> Path:
-    out_path = root / "docs" / "reference" / "configuration" / f"{slug(cfg.name)}.md"
+    # English-only page -> secondary /en tree (docs/en/...)
+    out_path = root / "docs" / "en" / "reference" / "configuration" / f"{slug(cfg.name)}.md"
     parts = [
         generated_note("configs/*.yaml"),
         _table(_facts(cfg)),

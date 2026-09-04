@@ -9,18 +9,16 @@ PawSQL 官方文档站点的 **Mintlify 内容仓库**（新站点，独立于�
 
 ```text
 docs/                  Mintlify 内容根（含 docs.json）
-  docs.json            Mintlify 站点配置：多语言（en 默认 / zh）、导航 / OpenAPI
-  index.mdx            首页（/）
-  getting-started|products|user-guide|databases|reference|contributing|faq|tutorials|release-notes
-  zh/                  中文语言镜像（/zh/...）
-  blog/                Blog（blog/index 等）
-  openapi/             OpenAPI 单一事实来源（本地文件，§11）
+  docs.json            Mintlify 站点配置：多语言（默认中文 / en 副语言）、导航 / OpenAPI
+  index.mdx            中文首页（/）
+  getting-started|user-guide|reference|openapi    中文默认内容（路由 /…）
+  en/                  英文副语言树（/en/…：getting-started|products|user-guide|databases|reference|faq|tutorials|release-notes|blog）
 metadata/              PawSQL 产品知识层（Feature / Rule / Database / Config / Mapping / Policy）
 schemas/               JSON Schema（由 tools 中 pydantic 模型导出）
 tools/                 Python 生成器与校验器（后续可抽为 pawsql-doc-agent）
 ```
 
-站点为双语：`docs.json` 的 `navigation.languages` 声明 **en（默认）** 与 **zh** 两个版本；英文默认树在内容根，中文在 `docs/zh/`（路由 `/zh/…`）。
+站点以**中文为默认语言**：`docs.json` 的 `navigation.languages` 中 **zh** 为默认（内容根 `/`，中文优先），**en** 为副语言（`docs/en/`，路由 `/en/…`）。
 
 ## 本地预览
 
@@ -33,9 +31,9 @@ npx mintlify dev          # 打开 http://localhost:3000
 
 ## 元数据驱动的内容生成
 
-Rule / Database / Config 的结构化 Reference **由 Metadata 自动生成**，不要手改 `docs/reference/**` 下生成文件（改元数据后重建）。
+Rule / Database / Config 的结构化 Reference **由 Metadata 自动生成**，不要手改 `docs/reference/**`（中文默认树）与 `docs/en/reference/**`（英文）下生成文件（改元数据后重建）。
 
-Rule Metadata 支持双语：`zh:` 块存在时，`build-references` 同时生成默认树英文页与 `docs/zh/reference/...` 中文页（双输出）。
+Rule Metadata 支持双语：`zh:` 块存在时，`build-references` 在默认树生成中文页 `docs/reference/...`，并在副语言树生成英文页 `docs/en/reference/...`（双输出）。
 
 ```bash
 cd tools

@@ -18,11 +18,11 @@ documentation:
   reference:
     required: true
     paths:
-      - docs/reference/optimizer-rules/opt-or-union.md
+      - docs/en/reference/optimizer-rules/opt-or-union.md
   userGuide:
     required: true
     paths:
-      - docs/user-guide/optimization/or-union.md
+      - docs/en/user-guide/optimization/or-union.md
   releaseNote:
     required: true
   blog:

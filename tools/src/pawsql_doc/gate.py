@@ -37,19 +37,22 @@ def _exists(root: Path, path: str) -> bool:
 
 
 def rule_reference_path(rule: RuleMetadata, kind: str) -> str:
+    # English rule reference lives in the secondary /en tree.
     folder = "optimizer-rules" if kind == "optimizer" else "audit-rules"
-    return f"docs/reference/{folder}/{slug(rule.id)}.md"
+    return f"docs/en/reference/{folder}/{slug(rule.id)}.md"
 
 
 def database_reference_path(db: DatabaseMetadata) -> str:
-    return f"docs/databases/{db.database}/index.md"
+    # English database guide lives in the secondary /en tree.
+    return f"docs/en/databases/{db.database}/index.md"
 
 
-COMPATIBILITY_PATH = "docs/reference/compatibility/index.md"
+COMPATIBILITY_PATH = "docs/en/reference/compatibility/index.md"
 
 
 def config_reference_path(cfg: ConfigMetadata) -> str:
-    return f"docs/reference/configuration/{slug(cfg.name)}.md"
+    # English configuration reference lives in the secondary /en tree.
+    return f"docs/en/reference/configuration/{slug(cfg.name)}.md"
 
 
 # ---------------------------------------------------------------------------

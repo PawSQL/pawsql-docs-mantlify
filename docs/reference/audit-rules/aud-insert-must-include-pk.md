@@ -1,44 +1,44 @@
 ---
-id: audit-rule-aud-insert-must-include-pk
-title: INSERT Must Include Primary Key Column
+id: zh-audit-rule-aud-insert-must-include-pk
+title: INSERT 语句必须包含主键字段
 type: reference
 status: draft
 tags:
 - audit-rule
+- zh
 - dml
-description: For tables without an auto-increment primary key, INSERT statements should
-  supply the primary-key value explicitly. Even when the primary-key column has a
-  default value, omitting it can produce duplic
+description: 对于没有自增主键的表，插入数据时应当显式指定主键的值。即使主键字段定义了默认值，省略主键字段也可能导致默认值重复或不符合业务预期。在生产环境中，缺失主键值的
+  INSERT 语句可能导致主键冲突或数据不一致问题。
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
+> **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
 
-| Field | Value |
+| 字段 | 值 |
 |---|---|
-| Rule ID | aud-insert-must-include-pk |
-| Name | INSERT Must Include Primary Key Column |
-| Category | dml |
-| Severity | warning |
-| Databases | All supported databases |
+| 规则 ID | aud-insert-must-include-pk |
+| 规则名称 | INSERT 语句必须包含主键字段 |
+| 类别 | dml |
+| 预警级别 | 警告 |
+| 适用数据库 | 所有支持数据库 |
 
-## Description
+## 说明
 
-For tables without an auto-increment primary key, INSERT statements should supply the primary-key value explicitly. Even when the primary-key column has a default value, omitting it can produce duplicates or values that do not match business expectations; in production, such statements risk primary-key conflicts and data inconsistency.
+对于没有自增主键的表，插入数据时应当显式指定主键的值。即使主键字段定义了默认值，省略主键字段也可能导致默认值重复或不符合业务预期。在生产环境中，缺失主键值的 INSERT 语句可能导致主键冲突或数据不一致问题。
 
-## How to Fix
+## 如何修复
 
-Add the primary-key column to the INSERT column list and provide an explicit value.
+在 INSERT 列清单中显式包含主键字段并提供明确的值。
 
-## Bad Example
+## 反例
 
 ```sql
--- t has a non-auto-increment primary key, but INSERT omits it
+-- 不推荐：表有非自增主键，但 INSERT 未包含主键字段
 INSERT INTO user (name) VALUES ('张三');
 ```
 
-## Good Example
+## 正例
 
 ```sql
--- supply the primary-key value explicitly
+-- 推荐：显式指定主键字段的值
 INSERT INTO user (id, name) VALUES (1, '张三');
 ```

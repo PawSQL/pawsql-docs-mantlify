@@ -3,15 +3,15 @@
 feature: AUDIT-REDUNDANT-INDEX
 
 documents:
-  - path: docs/reference/audit-rules/sql-index-023.md
+  - path: docs/en/reference/audit-rules/sql-index-023.md
     relation: reference
     required: true
 
-  - path: docs/user-guide/sql-audit/index.md
+  - path: docs/en/user-guide/sql-audit/index.md
     relation: user-guide
     required: true
 
-  - path: docs/release-notes/8.5.0.md
+  - path: docs/en/release-notes/8.5.0.md
     relation: release-note
     required: true
 

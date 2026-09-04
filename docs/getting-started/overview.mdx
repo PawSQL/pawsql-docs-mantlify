@@ -1,31 +1,27 @@
 ---
-id: getting-started-overview
-title: Overview
-description: What PawSQL does - SQL review, query rewrite and index recommendation.
+id: zh-getting-started-overview
+title: 产品概览
+description: PawSQL - SQL 审核、语义重写与代价优化的索引推荐。
 type: user-guide
 product: pawsql-optimizer
 status: draft
-tags: [overview, getting-started]
+tags: [overview, getting-started, zh]
 relatedFeatures: [OPT-OR-UNION]
 ---
 
-# Overview
+# 产品概览
 
-PawSQL makes SQL performance optimization automatic and verifiable. Its two core capabilities are:
+PawSQL 让 SQL 性能优化自动化且可验证。两大核心能力：
 
-1. **Semantic query rewrite** - fixing logical structure the optimizer will not touch, without changing query results.
-2. **Cost-based index recommendation** - designing the optimal index from the query structure, not just picking from existing indexes.
+1. **语义级 SQL 重写**——修复优化器不会触碰的逻辑结构，不改变查询结果。
+2. **基于代价的索引推荐**——从 SQL 结构出发主动设计最优索引，而非从存量索引中挑选。
 
-The two compose: a rewrite changes the query structure, and index recommendation then runs on the rewritten form.
+两者叠加生效：重写改变查询结构后，索引推荐基于新结构重新计算。
 
-## Capability areas
+## 能力范围
 
-- **SQL review / audit** - applies audit rules (objects, DDL, DML, indexes, performance) to flag risky or low-quality SQL before it reaches production.
-- **Optimization** - rewrites and index recommendations driven by the PawSQL Optimizer engine.
-- **Compatibility** - supports MySQL, PostgreSQL, Oracle and other databases and versions tracked in the [compatibility matrix](reference/compatibility/index).
+- **SQL 审核 / 审查**：按审核规则（对象、DDL、DML、索引、性能）在 SQL 上线前发现问题。
+- **优化**：PawSQL Optimizer 驱动的重写与索引推荐。
+- **兼容性**：支持 MySQL、PostgreSQL、Oracle 等数据库，版本能力见[兼容性矩阵](en/reference/compatibility/index)。
 
-## Who uses it
-
-Database administrators, developers and CI pipelines that want SQL quality gates and concrete, explainable optimization suggestions.
-
-> Status: draft content for the new documentation site. Feature specifics are being re-verified against the product.
+> 状态：新站点草稿，功能细节正在与产品核对。

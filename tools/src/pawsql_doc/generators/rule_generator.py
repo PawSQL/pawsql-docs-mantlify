@@ -140,15 +140,17 @@ def _rule_folder(kind: str) -> str:
 def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[Path]:
     """Write the rule's reference page(s). Returns every path written.
 
-    English page under ``docs/reference/{audit,optimizer}-rules`` is always
-    written; when ``rule.zh`` is present a Chinese mirror is also written
-    under ``docs/zh/reference/{audit,optimizer}-rules``.
+    zh-default site: the Chinese page lives at the content root
+    (``docs/reference/{audit,optimizer}-rules``, served at ``/``) whenever
+    ``rule.zh`` is present; the English page always lives under the secondary
+    language tree ``docs/en/reference/{audit,optimizer}-rules`` (served at
+    ``/en``).
     """
     folder = _rule_folder(kind)
     written: List[Path] = []
 
-    out_dir = root / "docs" / "reference" / folder
-    out_path = out_dir / f"{slug(rule.id)}.md"
+    en_out_dir = root / "docs" / "en" / "reference" / folder
+    en_path = en_out_dir / f"{slug(rule.id)}.md"
     en_frontmatter = {
         "id": f"{kind}-rule-{slug(rule.id)}",
         "title": rule.name,
@@ -158,11 +160,11 @@ def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[P
     }
     if rule.description:
         en_frontmatter["description"] = rule.description.splitlines()[0][:200]
-    write_page(out_path, render_page(en_frontmatter, "\n".join(_page_parts(rule, kind, zh=False))))
-    written.append(out_path)
+    write_page(en_path, render_page(en_frontmatter, "\n".join(_page_parts(rule, kind, zh=False))))
+    written.append(en_path)
 
     if rule.zh is not None:
-        zh_out_dir = root / "docs" / "zh" / "reference" / folder
+        zh_out_dir = root / "docs" / "reference" / folder
         zh_path = zh_out_dir / f"{slug(rule.id)}.md"
         zh_frontmatter = {
             "id": f"zh-{kind}-rule-{slug(rule.id)}",

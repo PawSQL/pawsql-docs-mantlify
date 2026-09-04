@@ -1,51 +1,51 @@
 ---
-id: audit-rule-aud-char-column-length
-title: Char Column Length Exceeds Threshold
+id: zh-audit-rule-aud-char-column-length
+title: CHAR 字段长度超过阈值
 type: reference
 status: draft
 tags:
 - audit-rule
+- zh
 - ddl
-description: When a CHAR column is declared longer than the configured threshold (64
-  by default) it should be reconsidered as VARCHAR. CHAR is stored at fixed length
-  and consumes the declared width even when the a
+description: 当 CHAR 类型字段的长度超过一定阈值时，应考虑修改为 VARCHAR 类型。CHAR 类型采用定长存储，即使实际数据较短也会占用固定长度的存储空间；对于长度波动较大的数据，过长的
+  CHAR 字段会导致行与索引膨胀、增加 I/O 与内存占用、降低缓存效率。将长度超过阈值的 CHAR 字段改为 VARCHAR 类型可以实现动态存储，节省空间并提升查询性能。
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
+> **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
 
-| Field | Value |
+| 字段 | 值 |
 |---|---|
-| Rule ID | aud-char-column-length |
-| Name | Char Column Length Exceeds Threshold |
-| Category | ddl |
-| Severity | info |
-| Databases | All supported databases |
+| 规则 ID | aud-char-column-length |
+| 规则名称 | CHAR 字段长度超过阈值 |
+| 类别 | ddl |
+| 预警级别 | 提示 |
+| 适用数据库 | 所有支持数据库 |
 
-## Description
+## 说明
 
-When a CHAR column is declared longer than the configured threshold (64 by default) it should be reconsidered as VARCHAR. CHAR is stored at fixed length and consumes the declared width even when the actual data is short; for data with variable width, oversized CHAR columns bloat rows and indexes, increase I/O and memory usage, and reduce cache efficiency.
+当 CHAR 类型字段的长度超过一定阈值时，应考虑修改为 VARCHAR 类型。CHAR 类型采用定长存储，即使实际数据较短也会占用固定长度的存储空间；对于长度波动较大的数据，过长的 CHAR 字段会导致行与索引膨胀、增加 I/O 与内存占用、降低缓存效率。将长度超过阈值的 CHAR 字段改为 VARCHAR 类型可以实现动态存储，节省空间并提升查询性能。
 
-## Why It Matters
+## 为什么重要
 
 Fixed-width CHAR is only a good fit for values that are nearly always the same width. Switching over-long CHAR columns to VARCHAR enables dynamic storage, saves space, and improves query performance.
 
-## How to Fix
+## 如何修复
 
-Change CHAR columns whose declared length exceeds the threshold (default 64) to VARCHAR. This rule is configurable.
+将声明长度超过阈值（默认 64）的 CHAR 字段修改为 VARCHAR 类型。该规则可配置。
 
-## Bad Example
+## 反例
 
 ```sql
--- CHAR(10000) reserves 10000 chars even for short values
+-- 不推荐：CHAR 字段长度过大（>64），应改为 VARCHAR
 CREATE TABLE t (
     content CHAR(10000)
 );
 ```
 
-## Good Example
+## 正例
 
 ```sql
--- use VARCHAR for variable-width data
+-- 推荐：将超长 CHAR 字段改为 VARCHAR 类型
 CREATE TABLE t (
     content VARCHAR(10000)
 );

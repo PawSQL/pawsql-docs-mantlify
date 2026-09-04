@@ -10,11 +10,11 @@ def test_build_references_writes_pages(repo):
     written = build_references(repo, bundle)
 
     assert any(p.name == "aud-one.md" and "audit-rules" in p.parts for p in written)
-    assert (repo / "docs/reference/audit-rules/aud-one.md").is_file()
-    assert (repo / "docs/reference/optimizer-rules/opt-rewrite.md").is_file()
-    assert (repo / "docs/reference/compatibility/index.md").is_file()
-    assert (repo / "docs/databases/postgresql/index.md").is_file()
-    assert (repo / "docs/reference/configuration/explain-timeout.md").is_file()
+    assert (repo / "docs/en/reference/audit-rules/aud-one.md").is_file()
+    assert (repo / "docs/en/reference/optimizer-rules/opt-rewrite.md").is_file()
+    assert (repo / "docs/en/reference/compatibility/index.md").is_file()
+    assert (repo / "docs/en/databases/postgresql/index.md").is_file()
+    assert (repo / "docs/en/reference/configuration/explain-timeout.md").is_file()
 
 
 def test_build_references_is_deterministic(repo):
@@ -25,7 +25,6 @@ def test_build_references_is_deterministic(repo):
         for p in sorted((repo / "docs").rglob("*"))
         if p.is_file()
     }
-    # regenerate after touching only unrelated content in docs/databases extra file
     build_references(repo, bundle)
     second = {
         p.relative_to(repo).as_posix(): p.read_text(encoding="utf-8")
@@ -38,7 +37,7 @@ def test_build_references_is_deterministic(repo):
 def test_rule_page_contains_sections(repo):
     bundle, _ = load_metadata(repo)
     build_references(repo, bundle)
-    text = (repo / "docs/reference/audit-rules/aud-one.md").read_text(encoding="utf-8")
+    text = (repo / "docs/en/reference/audit-rules/aud-one.md").read_text(encoding="utf-8")
     assert text.startswith("---")
     assert "AUD-ONE" in text
     assert "Generated file" in text
@@ -48,7 +47,7 @@ def test_rule_page_contains_sections(repo):
 def test_config_page_contains_parameter_and_scope(repo):
     bundle, _ = load_metadata(repo)
     build_references(repo, bundle)
-    text = (repo / "docs/reference/configuration/explain-timeout.md").read_text(encoding="utf-8")
+    text = (repo / "docs/en/reference/configuration/explain-timeout.md").read_text(encoding="utf-8")
     assert "explain.timeout" in text
     assert "optimizer" in text
 
@@ -56,7 +55,7 @@ def test_config_page_contains_parameter_and_scope(repo):
 def test_compatibility_matrix_lists_database(repo):
     bundle, _ = load_metadata(repo)
     build_references(repo, bundle)
-    text = (repo / "docs/reference/compatibility/index.md").read_text(encoding="utf-8")
+    text = (repo / "docs/en/reference/compatibility/index.md").read_text(encoding="utf-8")
     assert "postgresql" in text
     assert "16" in text
 
@@ -88,11 +87,12 @@ def test_bilingual_rule_writes_dual_pages(repo):
     assert issues == []
     written = build_references(repo, bundle)
 
-    en = repo / "docs/reference/audit-rules/aud-biling.md"
-    zh = repo / "docs/zh/reference/audit-rules/aud-biling.md"
+    # zh-default site: Chinese page at content root, English in /en secondary tree
+    en = repo / "docs/en/reference/audit-rules/aud-biling.md"
+    zh = repo / "docs/reference/audit-rules/aud-biling.md"
     assert en.is_file()
     assert zh.is_file()
-    assert zh in written
+    assert zh in written and en in written
 
     en_text = en.read_text(encoding="utf-8")
     assert "English description" in en_text
@@ -109,5 +109,6 @@ def test_bilingual_rule_writes_dual_pages(repo):
 def test_english_only_rule_writes_no_zh_page(repo):
     bundle, _ = load_metadata(repo)
     build_references(repo, bundle)
-    assert (repo / "docs/reference/audit-rules/aud-one.md").is_file()
-    assert not (repo / "docs/zh/reference/audit-rules/aud-one.md").exists()
+    assert (repo / "docs/en/reference/audit-rules/aud-one.md").is_file()
+    # EN-only rule has no Chinese page at the zh-default content root
+    assert not (repo / "docs/reference/audit-rules/aud-one.md").exists()
