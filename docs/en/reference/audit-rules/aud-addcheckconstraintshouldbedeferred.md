@@ -6,6 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
+description: Adding a CHECK to a populated table should use NO VALID to skip full-table
+  validation; validate legacy rows offline in batches.
 localeOf: audit-rule-aud-addcheckconstraintshouldbedeferred
 ---
 
@@ -21,19 +23,20 @@ localeOf: audit-rule-aud-addcheckconstraintshouldbedeferred
 
 ## Description
 
-当通过 `ALTER TABLE` 为已有数据的表添加 CHECK 约束时，如果未指定 `NO VALID`（或等效的非验证选项），数据库会立即对表中所有现有数据进行全量校验。对于大表而言，这将触发长时间的全表扫描和锁持有，严重阻塞并发写入，甚至导致变更超时或失败。指定 `NO VALID` 可以跳过对历史数据的验证，仅对后续新写入数据强制执行约束，从而在保证新数据质量的同时避免对现有系统的性能冲击。
-验证历史数据的合规性应在变更窗口之外、通过分批校验脚本逐步完成，并在确认所有数据满足约束后再考虑将约束切换为全量生效。
+When you add a CHECK constraint to a table that already holds data via `ALTER TABLE` without specifying `NO VALID` (or an equivalent non-validating option), the database immediately validates every existing row. On large tables this triggers a long full-table scan and lock hold that blocks concurrent writes and can even make the change time out or fail. Specifying `NO VALID` skips validation of historical rows and only enforces the constraint on newly written data, protecting new-data quality without the performance hit on the existing system.
+
+Validation of legacy rows should be done outside the change window, step by step through batched validation scripts, and the constraint should only be switched to fully enforced once all data is confirmed to satisfy it.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：未指定 NO VALID，立即校验全表数据
+-- bad: no NO VALID; the database validates the whole table immediately
 ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (amount > 0);
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：添加约束时指定 NO VALID，仅对新数据生效
+-- good: NO VALID only enforces the constraint on new data
 ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (amount > 0) NO VALID;
 ```

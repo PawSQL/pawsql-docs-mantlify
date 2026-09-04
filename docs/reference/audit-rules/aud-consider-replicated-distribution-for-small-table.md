@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在分布式数据库环境中，表的数据分布方式（分片表或复制表）对查询性能有显著影响。当分布表（Sharding Table）的数据量较小时，若继续采用分片存储，在与其他表进行关联查询时（尤其是非等值关联），可能因跨节点数据交换而导致性能下降。相反，将这些小表设计为复制表（Replicated
-  Table），即将完整数据复制到每个节点，可以避免跨节点数据交换，从而提升查询性能。
+description: 分布式小表（10 万行以下、读多写少）建议设计为复制表，关联避免跨节点数据交换。
 localeOf: en-audit-rule-aud-consider-replicated-distribution-for-small-table
 ---
 

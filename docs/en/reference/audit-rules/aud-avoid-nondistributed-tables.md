@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在分布式数据库中，非分布表（如 `DISTRIBUTED BY LOCAL`）的数据仅存储在单个节点上，容易成为性能瓶颈和单点故障。当多个查询同时访问该表时，所有请求都会集中到一个节点，无法充分利用分布式架构的并行计算能力。
+description: 'Avoid local/non-distributed tables in distributed databases: they become
+  single-node bottlenecks and force redistribution on joins; use HASH distribution.'
 localeOf: audit-rule-aud-avoid-nondistributed-tables
 ---
 
@@ -22,13 +23,14 @@ localeOf: audit-rule-aud-avoid-nondistributed-tables
 
 ## Description
 
-在分布式数据库中，非分布表（如 `DISTRIBUTED BY LOCAL`）的数据仅存储在单个节点上，容易成为性能瓶颈和单点故障。当多个查询同时访问该表时，所有请求都会集中到一个节点，无法充分利用分布式架构的并行计算能力。
-此外，非分布表与分布表进行关联操作时，通常需要将分布表的数据重分布到非分布表所在的节点，产生大量的网络传输开销。建议所有业务表均使用合理的分布策略，充分利用分布式数据库的水平扩展优势。
+In a distributed database, a non-distributed (local) table such as `DISTRIBUTED BY LOCAL` stores its data on a single node, making it a performance bottleneck and a single point of failure. When many queries access the table at once, all requests concentrate on one node and the parallel capabilities of the distributed architecture go unused.
+
+Besides that, joining a non-distributed table with distributed tables usually requires redistributing the distributed table's data onto the local table's node, producing heavy network traffic. Prefer a sound distribution strategy for every business table so the distributed database's horizontal-scaling advantage is fully used.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：在分布式环境中创建本地表/非分布表
+-- bad: creating a local/non-distributed table in a distributed environment
 CREATE TABLE large_table (
     id   BIGINT,
     data TEXT
@@ -38,7 +40,7 @@ CREATE TABLE large_table (
 ## Good Example
 
 ```sql
--- ✅ 推荐：使用 HASH 分布，数据均匀分散到各节点
+-- good: HASH distribution spreads data evenly across nodes
 CREATE TABLE large_table (
     id   BIGINT,
     data TEXT

@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 此规则确保在添加新约束时，约束名称在数据库中（或表内）是唯一的，避免与现有约束冲突。重复的约束名称会导致 SQL 执行失败，可能中断部署脚本或数据迁移流程。
+description: Constraint names must be unique per database/table; a duplicate name
+  fails the SQL and can break deployment or migration scripts.
 localeOf: audit-rule-aud-constraint-with-this-name-already-exists
 ---
 
@@ -22,19 +23,20 @@ localeOf: audit-rule-aud-constraint-with-this-name-already-exists
 
 ## Description
 
-此规则确保在添加新约束时，约束名称在数据库中（或表内）是唯一的，避免与现有约束冲突。重复的约束名称会导致 SQL 执行失败，可能中断部署脚本或数据迁移流程。
-如果 SQL 语句添加了 `IF NOT EXISTS` 子句，则不会触发此规则告警。规范的约束命名和唯一性检查是数据库变更管理的基本要求。
+This rule ensures constraint names are unique within the database (or table) when constraints are added, so they do not collide with existing ones. Duplicate constraint names make the SQL fail and can interrupt deployment scripts or data-migration flows.
+
+When the statement adds an `IF NOT EXISTS` clause, this rule does not fire. Consistent constraint naming and uniqueness checks are a basic requirement of schema-change management.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：添加约束时名称与已存在的约束冲突
+-- bad: the constraint name collides with an existing one
 ALTER TABLE orders ADD CONSTRAINT pk_orders PRIMARY KEY (order_id);
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：添加 IF NOT EXISTS 或使用唯一约束名称
+-- good: use IF NOT EXISTS or a unique constraint name
 ALTER TABLE orders ADD CONSTRAINT pk_orders_new PRIMARY KEY (order_id);
 ```

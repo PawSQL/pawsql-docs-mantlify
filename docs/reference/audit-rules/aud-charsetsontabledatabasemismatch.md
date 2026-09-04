@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 要求表的字符集必须与数据库的字符集保持一致，以避免字符集不一致导致的数据问题。当表的字符集与数据库字符集不同时，跨表查询或数据迁移可能触发隐式字符集转换，增加
-  CPU 开销、影响索引使用效率，严重时还可能导致乱码和数据丢失。
+description: 表字符集须与数据库一致，避免隐式转换、乱码或数据丢失；让表继承数据库默认字符集。
 localeOf: en-audit-rule-aud-charsetsontabledatabasemismatch
 ---
 

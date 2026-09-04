@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在创建约束（如唯一约束、外键约束、CHECK 约束）之前，应先创建相关的索引。约束的执行依赖于底层索引来进行数据校验，如果事先没有相关索引，数据库在验证约束时将不得不进行全表扫描，严重影响
-  DDL 操作的执行效率，甚至在大表上导致长时间的锁等待。
+description: 加唯一/外键/CHECK 约束前先建对应索引，约束校验可复用索引、避免全表扫描。
 localeOf: en-audit-rule-aud-create-index-before-constraint
 ---
 

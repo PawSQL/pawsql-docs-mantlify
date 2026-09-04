@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在 `utf8` 及 `utf8mb4` 字符集下，通过 `COMPRESSED` 属性打开字段压缩功能容易出现乱码问题。此外，压缩和解压缩操作会消耗额外的
-  CPU 资源，在高并发场景下可能成为性能瓶颈。
+description: 禁止用 COMPRESSED 做列级压缩（utf8/utf8mb4 易乱码、增 CPU 开销）；压缩放到存储/引擎层。
 localeOf: en-audit-rule-aud-compressedattributedisallowed
 ---
 

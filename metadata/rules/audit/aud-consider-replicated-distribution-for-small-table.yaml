@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/小于阈值的分布表建议设计为复制表.md
 # TODO(产品核对): aud-consider-replicated-distribution-for-small-table → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-consider-replicated-distribution-for-small-table
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 建议：将t1设计为复制表，消除跨节点数据传输
       -- (t1改为：CREATE TABLE t1 (...) DISTRIBUTED BY REPLICATION;)
+    summary: 分布式小表（10 万行以下、读多写少）建议设计为复制表，关联避免跨节点数据交换。
   en:
     name: Consider Replicated Distribution for Small Tables
+    description: |-
+      In a distributed database, a table's distribution method (sharded vs. replicated) strongly affects query performance. When a sharding table is small but stays sharded, joining it with other tables - especially with a non-equi-join - can degrade performance because of cross-node data exchange. Making such small tables replicated tables instead (a full copy on every node) removes cross-node data exchange and improves query performance.
+
+      This rule inspects multi-table join scenarios, analyzes join conditions and row counts, and automatically identifies small tables that would be better as replicated tables. Prefer the replicated strategy for tables below 100,000 rows that are read-heavy and write-light.
+    summary: Small distributed tables (below ~100k rows, read-heavy) are often better as replicated tables so joins avoid cross-node data exchange.
+    badExample: |-
+      -- bad: a small sharded table; a non-equi join causes cross-node data transfer
+      SELECT * FROM t1, t2 WHERE t1.amount > t2.threshold;
+    goodExample: |-
+      -- good: make t1 a replicated table to remove cross-node data transfer
+      -- (t1 becomes: CREATE TABLE t1 (...) DISTRIBUTED BY REPLICATION;)

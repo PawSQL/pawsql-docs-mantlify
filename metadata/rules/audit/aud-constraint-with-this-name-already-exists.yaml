@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/约束名已存在.md
 # TODO(产品核对): aud-constraint-with-this-name-already-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-constraint-with-this-name-already-exists
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：添加 IF NOT EXISTS 或使用唯一约束名称
       ALTER TABLE orders ADD CONSTRAINT pk_orders_new PRIMARY KEY (order_id);
+    summary: 约束名须唯一，重名会使 DDL 失败并中断部署/迁移；可用 IF NOT EXISTS 或唯一命名。
   en:
     name: Constraint with this Name Already Exists
+    description: |-
+      This rule ensures constraint names are unique within the database (or table) when constraints are added, so they do not collide with existing ones. Duplicate constraint names make the SQL fail and can interrupt deployment scripts or data-migration flows.
+
+      When the statement adds an `IF NOT EXISTS` clause, this rule does not fire. Consistent constraint naming and uniqueness checks are a basic requirement of schema-change management.
+    summary: Constraint names must be unique per database/table; a duplicate name fails the SQL and can break deployment or migration scripts.
+    badExample: |-
+      -- bad: the constraint name collides with an existing one
+      ALTER TABLE orders ADD CONSTRAINT pk_orders PRIMARY KEY (order_id);
+    goodExample: |-
+      -- good: use IF NOT EXISTS or a unique constraint name
+      ALTER TABLE orders ADD CONSTRAINT pk_orders_new PRIMARY KEY (order_id);

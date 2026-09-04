@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止为列单独指定字符集。当列的字符集与表或数据库的默认字符集不一致时，`JOIN` 操作中需要进行隐式字符集转换，这会导致索引失效并引发全表扫描——此类性能问题隐蔽且影响范围大。此外，字符集不一致还可能造成数据比较结果不符合预期，产生难以排查的业务逻辑错误。
+description: Per-column character sets cause implicit conversion on JOIN (index invalidation,
+  full scans) and comparison bugs; set the charset uniformly at table level.
 localeOf: audit-rule-aud-charsetoncolumndisallowed
 ---
 
@@ -22,13 +23,14 @@ localeOf: audit-rule-aud-charsetoncolumndisallowed
 
 ## Description
 
-禁止为列单独指定字符集。当列的字符集与表或数据库的默认字符集不一致时，`JOIN` 操作中需要进行隐式字符集转换，这会导致索引失效并引发全表扫描——此类性能问题隐蔽且影响范围大。此外，字符集不一致还可能造成数据比较结果不符合预期，产生难以排查的业务逻辑错误。
-推荐在表级别统一指定字符集，让所有列继承一致的字符集设置，避免列级别的特殊化配置。
+Setting a character set on a single column is disallowed. When a column's character set differs from the table's or database's default, JOINs need an implicit character-set conversion that invalidates indexes and causes full table scans - a subtle, wide-reaching performance problem. Inconsistent character sets can also make data comparisons behave unexpectedly and produce business-logic bugs that are hard to trace.
+
+Set the character set uniformly at the table level so all columns inherit one consistent setting, avoiding column-level special cases.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：列级别单独指定字符集，可能导致 JOIN 索引失效
+-- bad: a column-level character set can break the index on JOINs
 CREATE TABLE t (
     id INT,
     name VARCHAR(100) CHARACTER SET latin1
@@ -38,7 +40,7 @@ CREATE TABLE t (
 ## Good Example
 
 ```sql
--- ✅ 推荐：在表级别统一指定字符集
+-- good: set the character set uniformly at the table level
 CREATE TABLE t (
     id INT,
     name VARCHAR(100)

@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 建议在创建索引时使用在线模式（如MySQL的`ALGORITHM=INPLACE, LOCK=NONE`、PostgreSQL的`CONCURRENTLY`等），因为在线模式可显著降低建索引过程中的锁持有时间与业务阻塞风险，减少对读写流量的影响，并提升变更窗口的可控性。
+description: Create indexes online (MySQL ALGORITHM=INPLACE LOCK=NONE, PostgreSQL
+  CONCURRENTLY) to avoid long locks and DML blocking on large tables.
 localeOf: audit-rule-aud-create-index-using-online-mode
 ---
 
@@ -22,22 +23,23 @@ localeOf: audit-rule-aud-create-index-using-online-mode
 
 ## Description
 
-建议在创建索引时使用在线模式（如MySQL的`ALGORITHM=INPLACE, LOCK=NONE`、PostgreSQL的`CONCURRENTLY`等），因为在线模式可显著降低建索引过程中的锁持有时间与业务阻塞风险，减少对读写流量的影响，并提升变更窗口的可控性。
-传统的非在线建索引方式会在操作期间对目标表施加排他锁，阻塞所有DML操作。对于大表而言，建索引可能持续数分钟甚至数小时，导致长时间的业务中断。使用在线模式可以避免此类问题，但需结合并发负载与日志/回滚段容量评估资源开销。
+Create indexes in online mode (for example `ALGORITHM=INPLACE, LOCK=NONE` on MySQL or `CONCURRENTLY` on PostgreSQL) because online mode sharply reduces lock-hold time and the risk of blocking business during index creation, limits impact on read/write traffic, and makes change windows more controllable.
+
+The traditional offline approach takes an exclusive lock on the target table for the whole operation and blocks all DML. On large tables index creation can last minutes or hours, causing a long business outage. Online mode avoids that, but assess the resource cost against concurrent load and log/rollback-segment capacity.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：传统建索引方式，可能在执行期间锁表，阻塞DML操作
+-- bad: traditional index creation may lock the table and block DML while running
 CREATE INDEX idx_name ON large_table(name);
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：使用在线DDL模式，不阻塞并发的读写操作
+-- good: online DDL does not block concurrent reads and writes
 ALTER TABLE large_table ADD INDEX idx_name(name), ALGORITHM=INPLACE, LOCK=NONE;
 
--- ✅ 推荐（PostgreSQL）：使用CONCURRENTLY模式
+-- good (PostgreSQL): use the CONCURRENTLY mode
 CREATE INDEX CONCURRENTLY idx_name ON large_table(name);
 ```

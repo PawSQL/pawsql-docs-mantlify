@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/列的字符集和表不一致.md
 # TODO(产品核对): aud-column-and-table-character-set-mismatch → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-column-and-table-character-set-mismatch
 category: ddl
@@ -24,5 +25,21 @@ content:
       CREATE TABLE t_user (
           name VARCHAR(50)
       ) DEFAULT CHARSET utf8mb4;
+    summary: 列字符集应与表一致，避免隐式转换/乱码/JOIN 索引失效；列继承表字符集。
   en:
     name: Column and Table Character Set Mismatch
+    description: |-
+      When a column-level character set differs from the table-level one, it can cause implicit conversion, data truncation, or mojibake. In multi-language environments, mismatched character sets can also invalidate indexes (in MySQL, JOINing fields with different character sets cannot use an index) and produce query results that do not meet expectations - subtle failures.
+
+      Set the character set uniformly at the table level and let columns inherit it, avoiding isolated columns with a different charset. A consistent charset strategy is a basic database-design norm.
+    summary: Column and table character sets must match to avoid conversion, truncation, mojibake, and JOIN index invalidation; columns should inherit the table charset.
+    badExample: |-
+      -- bad: column-level charset differs from the table's
+      CREATE TABLE t_user (
+          name VARCHAR(50) CHARSET latin1
+      ) DEFAULT CHARSET utf8mb4;
+    goodExample: |-
+      -- good: the column inherits the table's charset
+      CREATE TABLE t_user (
+          name VARCHAR(50)
+      ) DEFAULT CHARSET utf8mb4;

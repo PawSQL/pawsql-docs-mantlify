@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 此规则确保在添加新约束时，约束名称在数据库中（或表内）是唯一的，避免与现有约束冲突。重复的约束名称会导致 SQL 执行失败，可能中断部署脚本或数据迁移流程。
+description: 约束名须唯一，重名会使 DDL 失败并中断部署/迁移；可用 IF NOT EXISTS 或唯一命名。
 localeOf: en-audit-rule-aud-constraint-with-this-name-already-exists
 ---
 

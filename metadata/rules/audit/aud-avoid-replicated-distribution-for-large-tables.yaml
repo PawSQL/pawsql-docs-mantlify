@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/大表不建议使用复制(Replicated)分布.md
 # TODO(产品核对): aud-avoid-replicated-distribution-for-large-tables → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-avoid-replicated-distribution-for-large-tables
 category: ddl
@@ -25,5 +26,23 @@ content:
           id BIGINT,
           data TEXT
       ) DISTRIBUTED BY HASH(id);
+    summary: 大表（默认超 10 万行）不宜用复制分布（存储与写放大）；应改用 HASH 等分片分布。
   en:
     name: Avoid Replicated Distribution for Large Tables
+    description: |-
+      In a distributed database, replicated distribution copies the full table to every node in the cluster. For small tables this removes cross-node data exchange and improves JOIN performance; but for large tables it multiplies storage cost (storage size = data size x node count) and every write must be replicated to all nodes, losing the advantage of distributed parallel computing.
+
+      This rule requires that once a table's row count exceeds the threshold (100,000 rows by default), REPLICATED distribution must not be used; use HASH or another sharding strategy so data is spread evenly and the architecture's scaling capability is fully used.
+    summary: Replicated distribution copies a table to every node; above the size threshold (default 100k rows) use HASH/sharded distribution instead.
+    badExample: |-
+      -- bad: replicated distribution on a large table is costly and loses distributed benefits
+      CREATE TABLE large_table (
+          id BIGINT,
+          data TEXT
+      ) DISTRIBUTED BY REPLICATION;
+    goodExample: |-
+      -- good: HASH distribution spreads a large table evenly across nodes
+      CREATE TABLE large_table (
+          id BIGINT,
+          data TEXT
+      ) DISTRIBUTED BY HASH(id);

@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 列名命名规范要求数据库对象名称遵循统一规范，便于团队协作和代码维护。通常要求列名使用小写字母和下划线（snake_case），以保持一致性、可读性和跨平台兼容性。
+description: Column names should be lowercase snake_case; uppercase, special, keyword,
+  or Chinese names hurt readability and cross-platform migration.
 localeOf: audit-rule-aud-column-naming-convention
 ---
 
@@ -22,13 +23,14 @@ localeOf: audit-rule-aud-column-naming-convention
 
 ## Description
 
-列名命名规范要求数据库对象名称遵循统一规范，便于团队协作和代码维护。通常要求列名使用小写字母和下划线（snake_case），以保持一致性、可读性和跨平台兼容性。
-不规范的列名（如使用大写字母、特殊字符、关键字或中文字符）会增加沟通成本，降低代码可读性，在跨团队协作和跨平台迁移时尤其容易引发问题。
+The column naming convention requires database object names to follow a uniform rule for team collaboration and code maintainability. Column names should typically use lowercase letters and underscores (snake_case) to keep consistency, readability, and cross-platform compatibility.
+
+Non-conforming names (uppercase letters, special characters, keywords, or Chinese characters) raise communication cost and reduce code readability, and cause trouble especially during cross-team work and cross-platform migration.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：列名使用大写、中文或包含特殊字符
+-- bad: uppercase, Chinese, or special characters in column names
 CREATE TABLE t_user (
     "UserID"    INT,
     "用户姓名"  VARCHAR(50)
@@ -38,7 +40,7 @@ CREATE TABLE t_user (
 ## Good Example
 
 ```sql
--- ✅ 推荐：使用小写字母和下划线
+-- good: lowercase letters and underscores
 CREATE TABLE t_user (
     user_id   INT,
     user_name VARCHAR(50)

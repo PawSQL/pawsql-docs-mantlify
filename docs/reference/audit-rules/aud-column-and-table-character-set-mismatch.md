@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 当列级别的字符集与表级别的字符集不一致时，可能导致隐式字符集转换、数据截断或乱码问题。在多语言环境下，字符集不一致还可能引发索引失效（MySQL
-  中字符集不一致的字段进行 JOIN 时无法使用索引）和查询结果不符合预期等隐蔽性故障。
+description: 列字符集应与表一致，避免隐式转换/乱码/JOIN 索引失效；列继承表字符集。
 localeOf: en-audit-rule-aud-column-and-table-character-set-mismatch
 ---
 

@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 要求在创建表时必须为表添加注释（COMMENT），详细的表注释可以帮助开发者和维护者快速理解表的用途、字段含义和业务逻辑，提高代码可读性和团队协作效率。在生产环境中，缺少注释的表在交接和维护时会显著增加沟通成本。
+description: 建表时应写表注释（业务用途/数据来源/生命周期），适用于 MySQL 等支持表注释的库。
 localeOf: en-audit-rule-aud-commentsontablerequired
 ---
 

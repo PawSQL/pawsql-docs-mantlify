@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/禁止修改列的顺序.md
 # TODO(产品核对): aud-changingcolumns-order-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-changingcolumns-order-disallowed
 category: ddl
@@ -20,5 +21,18 @@ content:
       -- ✅ 推荐：在新表中定义列顺序，通过迁移方案切换
       -- CREATE TABLE t_new (col1 INT, col2 INT, col3 INT, ...);
       -- 数据迁移 + 应用切换
+    summary: 禁止调整表内列顺序（触发表重建、破坏按位置依赖）；顺序在设计时定，需要则新建表迁移。
   en:
     name: ChangingColumn's Order Disallowed
+    description: |-
+      Reordering the columns of a table is disallowed. Although syntax such as `ALTER TABLE ... MODIFY COLUMN ... AFTER` lets you move a column, it triggers a table rebuild and can break application logic that depends on column order (for example `SELECT *` or code accessing columns by position). On large tables, reordering columns holds locks for a long time and rollback is expensive.
+
+      Column order should be fixed at initial design time. If it must change later, do it through a migration that creates a new table rather than altering the existing structure in place.
+    summary: Reordering table columns triggers a rebuild and can break position-dependent code; fix order at design time and migrate via a new table if needed.
+    badExample: |-
+      -- bad: reordering columns rebuilds the table and affects dependent programs
+      ALTER TABLE t MODIFY COLUMN col2 INT AFTER col5;
+    goodExample: |-
+      -- good: define column order in a new table and switch via migration
+      -- CREATE TABLE t_new (col1 INT, col2 INT, col3 INT, ...);
+      -- data migration + application switch

@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 当自增列的当前值接近其数据类型的最大值时，序列即将耗尽，后续的 INSERT 操作将失败并抛出主键冲突或溢出错误。这在高频写入的核心业务表中尤其致命，可能导致服务中断。
+description: 自增列接近类型最大值（默认阈值 80%）时预警，提前规划扩容（如 INT→BIGINT），避免 INSERT 失败。
 localeOf: en-audit-rule-aud-cacheexhausted4identitycolumn
 ---
 

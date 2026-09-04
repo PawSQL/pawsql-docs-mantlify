@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止直接新增带默认值的列，因为这类变更可能触发表重写或长时间锁表、对大表产生严重 I/O 与复制延迟风险，且会在无感知下改变写入语义。对于已有数据的表，数据库需要对每一行回填默认值，这不仅耗时还可能阻塞其他操作。
+description: Do not add columns with a DEFAULT to populated tables (rebuild/lock/backfill
+  risk); add a nullable column, backfill, then set the DEFAULT in stages.
 localeOf: audit-rule-aud-addingcolumnswithdefaultdisallowed
 ---
 
@@ -22,13 +23,14 @@ localeOf: audit-rule-aud-addingcolumnswithdefaultdisallowed
 
 ## Description
 
-禁止直接新增带默认值的列，因为这类变更可能触发表重写或长时间锁表、对大表产生严重 I/O 与复制延迟风险，且会在无感知下改变写入语义。对于已有数据的表，数据库需要对每一行回填默认值，这不仅耗时还可能阻塞其他操作。
-正确做法是先加可空列、应用层显式写值并完成数据回填后，再分阶段加默认值与非空约束。此规则是数据库变更管理的重要安全规范。
+Adding a column with a DEFAULT to an existing table is disallowed: the change can trigger a table rebuild or a long lock, causes severe I/O and replication delay on large tables, and silently changes write semantics. On tables that already hold data the database must backfill every row with the default, which is slow and can block other operations.
+
+The right way is to add a nullable column first, write values explicitly from the application, complete the backfill, and only then add the DEFAULT and a NOT NULL constraint in stages. This rule is an important safety norm for schema-change management.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：新增列时直接指定默认值，可能触发表重写
+-- bad: adding columns with an immediate DEFAULT may trigger a table rebuild
 ALTER TABLE orders ADD COLUMN status VARCHAR(20) DEFAULT 'pending';
 ALTER TABLE orders ADD COLUMN amount DECIMAL(10,2) NOT NULL DEFAULT 0.00;
 ```
@@ -36,8 +38,8 @@ ALTER TABLE orders ADD COLUMN amount DECIMAL(10,2) NOT NULL DEFAULT 0.00;
 ## Good Example
 
 ```sql
--- ✅ 推荐：先加可空列，回填数据后再加默认值
+-- good: add a nullable column first, backfill, then set the DEFAULT
 ALTER TABLE orders ADD COLUMN status VARCHAR(20);
--- 应用层回填数据...
+-- backfill in the application...
 ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending';
 ```

@@ -6,6 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
+description: 给已有数据的表加 CHECK 约束时应指定 NO VALID 跳过全表校验，历史数据分批离线验证。
 localeOf: en-audit-rule-aud-addcheckconstraintshouldbedeferred
 ---
 

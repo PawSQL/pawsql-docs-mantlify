@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止为列单独指定字符集。当列的字符集与表或数据库的默认字符集不一致时，`JOIN` 操作中需要进行隐式字符集转换，这会导致索引失效并引发全表扫描——此类性能问题隐蔽且影响范围大。此外，字符集不一致还可能造成数据比较结果不符合预期，产生难以排查的业务逻辑错误。
+description: 禁止列级单独指定字符集（JOIN 隐式转换致索引失效/全表扫描）；字符集在表级统一。
 localeOf: en-audit-rule-aud-charsetoncolumndisallowed
 ---
 

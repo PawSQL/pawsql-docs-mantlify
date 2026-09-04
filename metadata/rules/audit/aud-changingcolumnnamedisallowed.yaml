@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/禁止修改字段名.md
 # TODO(产品核对): aud-changingcolumnnamedisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-changingcolumnnamedisallowed
 category: ddl
@@ -22,5 +23,20 @@ content:
       -- 2. 双写 + 历史数据回填
       -- 3. 切换所有消费方使用 new_name
       -- 4. ALTER TABLE t DROP COLUMN old_name;
+    summary: 禁止直接改字段名（破坏上下游依赖）；需要时用灰度：加新列→双写→切换→下线旧列。
   en:
     name: ChangingColumnNameDisallowed
+    description: |-
+      Renaming a column (`RENAME COLUMN` / `CHANGE COLUMN`) is disallowed. A rename affects every application, report, ETL script, and view that depends on the column and can interrupt production instantly. In architectures that cannot deploy without downtime, such a change must coordinate many upstream and downstream systems inside a maintenance window, which is very risky.
+
+      If a rename is truly required, a DBA should intervene by hand only after fully assessing dependencies, using a staged rollout (e.g. add the new column, dual-write, switch, then drop the old column) rather than executing a bare `RENAME`.
+    summary: 'Do not rename a column directly (breaks every dependent app/report/ETL/view); when required use a staged rollout: new column, dual-write, switch, drop old.'
+    badExample: |-
+      -- bad: renaming a column directly breaks upstream/downstream dependencies
+      ALTER TABLE t CHANGE old_name new_name VARCHAR(50);
+    goodExample: |-
+      -- good: staged rollout
+      -- 1. ALTER TABLE t ADD COLUMN new_name VARCHAR(50);
+      -- 2. dual-write + backfill of historical data
+      -- 3. switch every consumer to new_name
+      -- 4. ALTER TABLE t DROP COLUMN old_name;

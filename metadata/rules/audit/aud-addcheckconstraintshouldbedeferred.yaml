@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/添加CHECK约束时需添加NO VALID.md
 # TODO(产品核对): aud-addcheckconstraintshouldbedeferred → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-addcheckconstraintshouldbedeferred
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：添加约束时指定 NO VALID，仅对新数据生效
       ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (amount > 0) NO VALID;
+    summary: 给已有数据的表加 CHECK 约束时应指定 NO VALID 跳过全表校验，历史数据分批离线验证。
   en:
     name: AddCheckConstraintShouldBeDeferred
+    description: |-
+      When you add a CHECK constraint to a table that already holds data via `ALTER TABLE` without specifying `NO VALID` (or an equivalent non-validating option), the database immediately validates every existing row. On large tables this triggers a long full-table scan and lock hold that blocks concurrent writes and can even make the change time out or fail. Specifying `NO VALID` skips validation of historical rows and only enforces the constraint on newly written data, protecting new-data quality without the performance hit on the existing system.
+
+      Validation of legacy rows should be done outside the change window, step by step through batched validation scripts, and the constraint should only be switched to fully enforced once all data is confirmed to satisfy it.
+    summary: Adding a CHECK to a populated table should use NO VALID to skip full-table validation; validate legacy rows offline in batches.
+    badExample: |-
+      -- bad: no NO VALID; the database validates the whole table immediately
+      ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (amount > 0);
+    goodExample: |-
+      -- good: NO VALID only enforces the constraint on new data
+      ALTER TABLE orders ADD CONSTRAINT chk_amount CHECK (amount > 0) NO VALID;

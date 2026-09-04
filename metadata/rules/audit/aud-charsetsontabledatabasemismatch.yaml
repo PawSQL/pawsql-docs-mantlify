@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/表的字符集和数据库不一致.md
 # TODO(产品核对): aud-charsetsontabledatabasemismatch → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-charsetsontabledatabasemismatch
 category: ddl
@@ -20,5 +21,18 @@ content:
     goodExample: |-
       -- ✅ 推荐：表继承数据库默认字符集，保持一致
       CREATE TABLE t (id INT);
+    summary: 表字符集须与数据库一致，避免隐式转换、乱码或数据丢失；让表继承数据库默认字符集。
   en:
     name: CharsetsOnTable&DatabaseMismatch
+    description: |-
+      This rule requires a table's character set to match the database's, to avoid the data problems caused by inconsistency. When they differ, cross-table queries or data migrations may trigger an implicit character-set conversion, increasing CPU cost, hurting index efficiency, and in severe cases causing mojibake or data loss.
+
+      Prefer not to specify a charset when creating a table so it inherits the database default automatically. If you must specify one, make sure it exactly matches the database.
+    summary: Table and database character sets must match to avoid implicit conversion, mojibake, or data loss; tables should inherit the database default charset.
+    badExample: |-
+      -- bad: table charset differs from the database's
+      -- assume the database charset is utf8mb4
+      CREATE TABLE t (id INT) DEFAULT CHARSET = latin1;
+    goodExample: |-
+      -- good: inherit the database default charset so they stay consistent
+      CREATE TABLE t (id INT);

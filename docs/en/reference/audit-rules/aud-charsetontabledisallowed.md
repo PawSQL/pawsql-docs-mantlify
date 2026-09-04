@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止在表定义时单独指定字符集，以避免表级字符集与数据库级字符集不一致导致的数据问题。当表字符集与数据库字符集不同时，跨表操作可能触发隐式字符集转换，影响查询性能并可能导致乱码。
+description: Do not override the character set at table level; tables should inherit
+  the database default to avoid cross-table implicit conversion.
 localeOf: audit-rule-aud-charsetontabledisallowed
 ---
 
@@ -22,19 +23,20 @@ localeOf: audit-rule-aud-charsetontabledisallowed
 
 ## Description
 
-禁止在表定义时单独指定字符集，以避免表级字符集与数据库级字符集不一致导致的数据问题。当表字符集与数据库字符集不同时，跨表操作可能触发隐式字符集转换，影响查询性能并可能导致乱码。
-字符集应在数据库级别（或列级别）统一管理，表应继承数据库的默认字符集，避免在表级覆盖设置。
+Setting a character set at table definition time is disallowed, to avoid the data problems caused when a table-level charset differs from the database charset. When they differ, cross-table operations may need an implicit character-set conversion, hurting query performance and possibly producing mojibake.
+
+Character sets should be managed at the database (or column) level; tables should inherit the database default rather than override it at the table level.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：表定义时指定了字符集，可能与数据库不一致
+-- bad: table-level charset may differ from the database's
 CREATE TABLE t (id INT) DEFAULT CHARSET = utf8;
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：表继承数据库默认字符集，不在表级单独指定
+-- good: inherit the database default charset, do not set it per table
 CREATE TABLE t (id INT);
 ```

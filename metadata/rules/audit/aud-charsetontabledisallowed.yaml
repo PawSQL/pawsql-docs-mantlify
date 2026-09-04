@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/表定义时禁止使用字符集.md
 # TODO(产品核对): aud-charsetontabledisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-charsetontabledisallowed
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：表继承数据库默认字符集，不在表级单独指定
       CREATE TABLE t (id INT);
+    summary: 表定义时禁止单独指定字符集；表应继承数据库默认字符集，避免跨表隐式转换。
   en:
     name: CharsetOnTableDisallowed
+    description: |-
+      Setting a character set at table definition time is disallowed, to avoid the data problems caused when a table-level charset differs from the database charset. When they differ, cross-table operations may need an implicit character-set conversion, hurting query performance and possibly producing mojibake.
+
+      Character sets should be managed at the database (or column) level; tables should inherit the database default rather than override it at the table level.
+    summary: Do not override the character set at table level; tables should inherit the database default to avoid cross-table implicit conversion.
+    badExample: |-
+      -- bad: table-level charset may differ from the database's
+      CREATE TABLE t (id INT) DEFAULT CHARSET = utf8;
+    goodExample: |-
+      -- good: inherit the database default charset, do not set it per table
+      CREATE TABLE t (id INT);

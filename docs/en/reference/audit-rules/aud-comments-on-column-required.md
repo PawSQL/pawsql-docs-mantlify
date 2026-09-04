@@ -6,8 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 表中的每一列都必须有注释（`COMMENT`），以便于后续的维护和团队协作。列注释提供了对字段含义、用途、取值范围等信息的说明，帮助开发人员和
-  DBA 快速理解表结构和业务逻辑。
+description: Every column needs a COMMENT so its meaning, purpose, and value domain
+  stay clear to developers and DBAs across changes and handover.
 localeOf: audit-rule-aud-comments-on-column-required
 ---
 
@@ -23,13 +23,14 @@ localeOf: audit-rule-aud-comments-on-column-required
 
 ## Description
 
-表中的每一列都必须有注释（`COMMENT`），以便于后续的维护和团队协作。列注释提供了对字段含义、用途、取值范围等信息的说明，帮助开发人员和 DBA 快速理解表结构和业务逻辑。
-缺少注释的列在数据库结构变更、故障排查、新人交接等场景下会增加沟通成本和理解难度。养成良好的注释习惯是数据库设计的基本素养。
+Every column in a table must have a comment (`COMMENT`) to ease later maintenance and team collaboration. A column comment explains the field's meaning, purpose, value domain, and so on, helping developers and DBAs understand the schema and business logic quickly.
+
+Columns without comments raise communication cost and comprehension difficulty during schema changes, troubleshooting, and handover. Good commenting habits are basic database-design literacy.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：列缺少注释，字段含义不明确
+-- bad: the column has no comment; the field's meaning is unclear
 CREATE TABLE t_user (
     name VARCHAR(50)
 );
@@ -38,7 +39,7 @@ CREATE TABLE t_user (
 ## Good Example
 
 ```sql
--- ✅ 推荐：每列都添加清晰的注释
+-- good: a clear comment on every column
 CREATE TABLE t_user (
     name VARCHAR(50) COMMENT '用户姓名'
 );

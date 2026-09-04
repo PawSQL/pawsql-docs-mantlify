@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在分布式数据库中，复制分布（Replicated Distribution）会将表的完整数据拷贝到集群的每一个节点上。对于小表而言，这种策略可以消除跨节点数据交换，提升JOIN性能；但对于大表，采用复制分布会显著增加存储开销（存储量
-  = 原始数据大小 x 节点数），且写入操作需要同步到所有节点，丧失分布式并行计算的优势。
+description: 大表（默认超 10 万行）不宜用复制分布（存储与写放大）；应改用 HASH 等分片分布。
 localeOf: en-audit-rule-aud-avoid-replicated-distribution-for-large-tables
 ---
 

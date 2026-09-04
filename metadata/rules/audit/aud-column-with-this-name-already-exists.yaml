@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/字段名已存在.md
 # TODO(产品核对): aud-column-with-this-name-already-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-column-with-this-name-already-exists
 category: ddl
@@ -20,5 +21,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：先确认列不存在再添加，或使用IF NOT EXISTS
       ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);
+    summary: ADD/RENAME COLUMN 的列名不能与表内已有列冲突；可用 IF NOT EXISTS 或先确认唯一。
   en:
     name: Column with this Name Already Exists
+    description: |-
+      When altering table structure (adding or renaming a column), a new column name can collide with an existing column and make the DDL fail or produce unexpected results. This rule ensures column names stay unique within a table when columns are added or the structure is changed.
+
+      It checks `ALTER TABLE ADD COLUMN` and `ALTER TABLE RENAME COLUMN` so the target column name does not duplicate an existing one, and flags statements that lack an `IF NOT EXISTS` guard.
+    summary: Adding or renaming a column to a name that already exists fails the DDL; guard with IF NOT EXISTS or confirm the name is unique first.
+    badExample: |-
+      -- bad: the new column name collides with an existing column; the DDL fails
+      ALTER TABLE users ADD COLUMN email VARCHAR(255);
+    goodExample: |-
+      -- good: confirm the column is absent first, or use IF NOT EXISTS
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);

@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/列必须有注释.md
 # TODO(产品核对): aud-comments-on-column-required → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-comments-on-column-required
 category: ddl
@@ -24,5 +25,21 @@ content:
       CREATE TABLE t_user (
           name VARCHAR(50) COMMENT '用户姓名'
       );
+    summary: 每列都应有注释（字段含义/用途/取值范围），降低变更、排查与交接成本。
   en:
     name: Comments on Column Required
+    description: |-
+      Every column in a table must have a comment (`COMMENT`) to ease later maintenance and team collaboration. A column comment explains the field's meaning, purpose, value domain, and so on, helping developers and DBAs understand the schema and business logic quickly.
+
+      Columns without comments raise communication cost and comprehension difficulty during schema changes, troubleshooting, and handover. Good commenting habits are basic database-design literacy.
+    summary: Every column needs a COMMENT so its meaning, purpose, and value domain stay clear to developers and DBAs across changes and handover.
+    badExample: |-
+      -- bad: the column has no comment; the field's meaning is unclear
+      CREATE TABLE t_user (
+          name VARCHAR(50)
+      );
+    goodExample: |-
+      -- good: a clear comment on every column
+      CREATE TABLE t_user (
+          name VARCHAR(50) COMMENT '用户姓名'
+      );

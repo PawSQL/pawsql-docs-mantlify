@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止修改表中列的顺序。虽然 `ALTER TABLE ... MODIFY COLUMN ... AFTER` 等语法允许调整列的位置，但这会触发表的重建操作，且可能影响依赖于列顺序的应用程序逻辑（如使用
-  `SELECT *` 或按位置索引访问列的代码）。在大型表上执行列顺序调整，锁持有时间长、回滚代价大。
+description: 禁止调整表内列顺序（触发表重建、破坏按位置依赖）；顺序在设计时定，需要则新建表迁移。
 localeOf: en-audit-rule-aud-changingcolumns-order-disallowed
 ---
 

@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/禁止通过COMPRESSED打开字段压缩功能.md
 # TODO(产品核对): aud-compressedattributedisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-compressedattributedisallowed
 category: ddl
@@ -26,5 +27,23 @@ content:
           id INT,
           long_text TEXT
       );
+    summary: 禁止用 COMPRESSED 做列级压缩（utf8/utf8mb4 易乱码、增 CPU 开销）；压缩放到存储/引擎层。
   en:
     name: CompressedAttributeDisallowed
+    description: |-
+      Turning on column-level compression through the `COMPRESSED` attribute is prone to mojibake under the `utf8` and `utf8mb4` character sets. Compression and decompression also consume extra CPU, which can become a bottleneck under high concurrency.
+
+      Data compression should be handled at the storage or application layer (for example InnoDB page compression, or OS-level compression), not enabled column by column. Avoid this feature in table definitions.
+    summary: Do not enable column-level COMPRESSED (mojibake risk on utf8/utf8mb4, extra CPU); compress at the storage/engine or application layer instead.
+    badExample: |-
+      -- bad: using the COMPRESSED attribute
+      CREATE TABLE t1 (
+          id INT,
+          long_text TEXT COMPRESSED
+      );
+    goodExample: |-
+      -- good: no column-level compression; rely on storage-engine or application-layer compression
+      CREATE TABLE t1 (
+          id INT,
+          long_text TEXT
+      );

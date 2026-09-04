@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/列名命名规范.md
 # TODO(产品核对): aud-column-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-column-naming-convention
 category: ddl
@@ -26,5 +27,23 @@ content:
           user_id   INT,
           user_name VARCHAR(50)
       );
+    summary: 列名应统一小写下划线 snake_case；大写/特殊字符/关键字/中文命名增加维护与迁移成本。
   en:
     name: Column Naming Convention
+    description: |-
+      The column naming convention requires database object names to follow a uniform rule for team collaboration and code maintainability. Column names should typically use lowercase letters and underscores (snake_case) to keep consistency, readability, and cross-platform compatibility.
+
+      Non-conforming names (uppercase letters, special characters, keywords, or Chinese characters) raise communication cost and reduce code readability, and cause trouble especially during cross-team work and cross-platform migration.
+    summary: Column names should be lowercase snake_case; uppercase, special, keyword, or Chinese names hurt readability and cross-platform migration.
+    badExample: |-
+      -- bad: uppercase, Chinese, or special characters in column names
+      CREATE TABLE t_user (
+          "UserID"    INT,
+          "用户姓名"  VARCHAR(50)
+      );
+    goodExample: |-
+      -- good: lowercase letters and underscores
+      CREATE TABLE t_user (
+          user_id   INT,
+          user_name VARCHAR(50)
+      );

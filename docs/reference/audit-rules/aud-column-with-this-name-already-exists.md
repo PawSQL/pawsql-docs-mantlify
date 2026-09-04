@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在修改表结构（如添加新列或重命名列）时，新增的列名可能与表中已有列名冲突，导致DDL语句执行失败或产生不可预期的结果。此规则确保在添加新列或修改表结构时，列名在表内是唯一的，从而避免列名冲突。
+description: ADD/RENAME COLUMN 的列名不能与表内已有列冲突；可用 IF NOT EXISTS 或先确认唯一。
 localeOf: en-audit-rule-aud-column-with-this-name-already-exists
 ---
 

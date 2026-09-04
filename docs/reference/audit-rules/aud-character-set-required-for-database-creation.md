@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在创建数据库时必须显式指定字符集，以确保数据的一致性和兼容性。如果未指定字符集，数据库会使用默认配置，而默认配置可能因环境、版本或安装方式不同而有所差异，导致跨环境部署时出现乱码或排序不一致等问题。
+description: 创建库必须显式指定字符集，避免默认配置随环境变化导致乱码与排序不一致。
 localeOf: en-audit-rule-aud-character-set-required-for-database-creation
 ---
 

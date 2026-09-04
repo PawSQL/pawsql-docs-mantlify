@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/自增列命名规范.md
 # TODO(产品核对): aud-autoincrement-column-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-autoincrement-column-naming-convention
 category: ddl
@@ -20,5 +21,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：遵循 id 命名规范
       CREATE TABLE orders (id INT AUTO_INCREMENT PRIMARY KEY);
+    summary: 自增列命名应遵循统一模式（默认 `id`，正则 `^id$`）；不合规仅提示，不阻断 DDL。
   en:
     name: Auto-increment column naming convention
+    description: |-
+      This rule defines the naming convention for auto-increment columns: they should follow a clear naming pattern, usually `id`, so teams can recognize auto-increment columns at a glance. Consistent auto-increment column naming noticeably improves ORM integration, automated code generation, and database maintenance.
+
+      The default pattern is `id` (regex `^id$`) and can be changed through configuration. Auto-increment columns that do not follow the pattern raise a notice during review but do not block the DDL.
+    summary: Auto-increment columns should follow one naming pattern (default `id`); inconsistent names raise a notice but do not block DDL.
+    badExample: |-
+      -- bad: auto-increment column name does not follow the convention
+      CREATE TABLE orders (order_auto_id INT AUTO_INCREMENT PRIMARY KEY);
+    goodExample: |-
+      -- good: follows the id naming convention
+      CREATE TABLE orders (id INT AUTO_INCREMENT PRIMARY KEY);

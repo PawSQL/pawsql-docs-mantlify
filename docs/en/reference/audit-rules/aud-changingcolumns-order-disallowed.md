@@ -6,8 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止修改表中列的顺序。虽然 `ALTER TABLE ... MODIFY COLUMN ... AFTER` 等语法允许调整列的位置，但这会触发表的重建操作，且可能影响依赖于列顺序的应用程序逻辑（如使用
-  `SELECT *` 或按位置索引访问列的代码）。在大型表上执行列顺序调整，锁持有时间长、回滚代价大。
+description: Reordering table columns triggers a rebuild and can break position-dependent
+  code; fix order at design time and migrate via a new table if needed.
 localeOf: audit-rule-aud-changingcolumns-order-disallowed
 ---
 
@@ -23,20 +23,21 @@ localeOf: audit-rule-aud-changingcolumns-order-disallowed
 
 ## Description
 
-禁止修改表中列的顺序。虽然 `ALTER TABLE ... MODIFY COLUMN ... AFTER` 等语法允许调整列的位置，但这会触发表的重建操作，且可能影响依赖于列顺序的应用程序逻辑（如使用 `SELECT *` 或按位置索引访问列的代码）。在大型表上执行列顺序调整，锁持有时间长、回滚代价大。
-数据库表的列顺序应在初始设计时确定，后续如需调整，应通过创建新表的迁移方案实现，而非直接修改现有表结构。
+Reordering the columns of a table is disallowed. Although syntax such as `ALTER TABLE ... MODIFY COLUMN ... AFTER` lets you move a column, it triggers a table rebuild and can break application logic that depends on column order (for example `SELECT *` or code accessing columns by position). On large tables, reordering columns holds locks for a long time and rollback is expensive.
+
+Column order should be fixed at initial design time. If it must change later, do it through a migration that creates a new table rather than altering the existing structure in place.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：调整列顺序，触发表重建，影响依赖程序
+-- bad: reordering columns rebuilds the table and affects dependent programs
 ALTER TABLE t MODIFY COLUMN col2 INT AFTER col5;
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：在新表中定义列顺序，通过迁移方案切换
+-- good: define column order in a new table and switch via migration
 -- CREATE TABLE t_new (col1 INT, col2 INT, col3 INT, ...);
--- 数据迁移 + 应用切换
+-- data migration + application switch
 ```

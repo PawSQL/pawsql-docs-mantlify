@@ -6,8 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在 `utf8` 及 `utf8mb4` 字符集下，通过 `COMPRESSED` 属性打开字段压缩功能容易出现乱码问题。此外，压缩和解压缩操作会消耗额外的
-  CPU 资源，在高并发场景下可能成为性能瓶颈。
+description: Do not enable column-level COMPRESSED (mojibake risk on utf8/utf8mb4,
+  extra CPU); compress at the storage/engine or application layer instead.
 localeOf: audit-rule-aud-compressedattributedisallowed
 ---
 
@@ -23,13 +23,14 @@ localeOf: audit-rule-aud-compressedattributedisallowed
 
 ## Description
 
-在 `utf8` 及 `utf8mb4` 字符集下，通过 `COMPRESSED` 属性打开字段压缩功能容易出现乱码问题。此外，压缩和解压缩操作会消耗额外的 CPU 资源，在高并发场景下可能成为性能瓶颈。
-数据压缩应在存储层或应用层解决（如 InnoDB 页压缩、操作系统级压缩），而非在列级别逐个字段开启。应避免在表定义中使用此功能。
+Turning on column-level compression through the `COMPRESSED` attribute is prone to mojibake under the `utf8` and `utf8mb4` character sets. Compression and decompression also consume extra CPU, which can become a bottleneck under high concurrency.
+
+Data compression should be handled at the storage or application layer (for example InnoDB page compression, or OS-level compression), not enabled column by column. Avoid this feature in table definitions.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：使用 COMPRESSED 属性
+-- bad: using the COMPRESSED attribute
 CREATE TABLE t1 (
     id INT,
     long_text TEXT COMPRESSED
@@ -39,7 +40,7 @@ CREATE TABLE t1 (
 ## Good Example
 
 ```sql
--- ✅ 推荐：不使用列级压缩，依赖存储引擎或应用层压缩方案
+-- good: no column-level compression; rely on storage-engine or application-layer compression
 CREATE TABLE t1 (
     id INT,
     long_text TEXT

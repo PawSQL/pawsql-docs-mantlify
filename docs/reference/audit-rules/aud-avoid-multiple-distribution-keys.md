@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 使用多个字段作为分布键会限制表的水平扩展能力，影响分片（Sharding）的灵活性和路由效率。多列分布键会导致哈希计算复杂度增加，同时在表关联（JOIN）时需要所有分布键字段都匹配才能本地化执行，增加了优化器生成高效执行计划的难度。
+description: 多列分布键限制水平扩展、增加哈希与本地化关联难度；建议用单一高频关联字段作分布键。
 localeOf: en-audit-rule-aud-avoid-multiple-distribution-keys
 ---
 

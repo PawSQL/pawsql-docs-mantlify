@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/避免表关联字段不是分布键.md
 # TODO(产品核对): aud-avoid-joining-on-nondistribution-key-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-avoid-joining-on-nondistribution-key-columns
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：关联字段使用分布键，关联可在本地节点完成
       SELECT * FROM t1 JOIN t2 ON t1.shard_key = t2.shard_key;
+    summary: 分布式库中 JOIN 关联字段非分布键会触发跨节点数据重分布、网络开销大；应让高频关联字段与分布键对齐。
   en:
     name: Avoid Joining on Non-Distribution Key Columns
+    description: |-
+      In distributed databases, when the join columns of a JOIN are not the distribution key (Shard Key), the join may need to move data between nodes (data redistribution): one table's data is broadcast or redistributed onto the nodes holding the other table before the join can complete. That cross-node data transfer creates significant network overhead and becomes a query performance bottleneck.
+
+      In real business environments it may be impractical for every join column to be a distribution key, so you must balance table distribution strategy against query performance. Prefer aligning the join columns of high-frequency JOINs with the distribution key so the join completes on local nodes and makes full use of the distributed database's parallel processing.
+    summary: Joining on a non-distribution key in a distributed database forces cross-node data redistribution and network cost; align high-frequency join keys with the distribution key.
+    badExample: |-
+      -- bad: join column is not the distribution key; may trigger cross-node redistribution
+      SELECT * FROM t1 JOIN t2 ON t1.non_shard_key = t2.col;
+    goodExample: |-
+      -- good: join on the distribution key; the join can complete on local nodes
+      SELECT * FROM t1 JOIN t2 ON t1.shard_key = t2.shard_key;

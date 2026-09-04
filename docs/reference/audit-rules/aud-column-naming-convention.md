@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 列名命名规范要求数据库对象名称遵循统一规范，便于团队协作和代码维护。通常要求列名使用小写字母和下划线（snake_case），以保持一致性、可读性和跨平台兼容性。
+description: 列名应统一小写下划线 snake_case；大写/特殊字符/关键字/中文命名增加维护与迁移成本。
 localeOf: en-audit-rule-aud-column-naming-convention
 ---
 

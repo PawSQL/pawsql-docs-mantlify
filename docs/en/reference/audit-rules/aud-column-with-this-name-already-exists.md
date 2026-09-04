@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在修改表结构（如添加新列或重命名列）时，新增的列名可能与表中已有列名冲突，导致DDL语句执行失败或产生不可预期的结果。此规则确保在添加新列或修改表结构时，列名在表内是唯一的，从而避免列名冲突。
+description: Adding or renaming a column to a name that already exists fails the DDL;
+  guard with IF NOT EXISTS or confirm the name is unique first.
 localeOf: audit-rule-aud-column-with-this-name-already-exists
 ---
 
@@ -22,19 +23,20 @@ localeOf: audit-rule-aud-column-with-this-name-already-exists
 
 ## Description
 
-在修改表结构（如添加新列或重命名列）时，新增的列名可能与表中已有列名冲突，导致DDL语句执行失败或产生不可预期的结果。此规则确保在添加新列或修改表结构时，列名在表内是唯一的，从而避免列名冲突。
-该规则检查`ALTER TABLE ADD COLUMN`和`ALTER TABLE RENAME COLUMN`操作，确保目标列名不与表中现有列名重复，且SQL语句中未添加`IF NOT EXISTS`保护。
+When altering table structure (adding or renaming a column), a new column name can collide with an existing column and make the DDL fail or produce unexpected results. This rule ensures column names stay unique within a table when columns are added or the structure is changed.
+
+It checks `ALTER TABLE ADD COLUMN` and `ALTER TABLE RENAME COLUMN` so the target column name does not duplicate an existing one, and flags statements that lack an `IF NOT EXISTS` guard.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：新增列名与已有列冲突，DDL执行失败
+-- bad: the new column name collides with an existing column; the DDL fails
 ALTER TABLE users ADD COLUMN email VARCHAR(255);
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：先确认列不存在再添加，或使用IF NOT EXISTS
+-- good: confirm the column is absent first, or use IF NOT EXISTS
 ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(255);
 ```

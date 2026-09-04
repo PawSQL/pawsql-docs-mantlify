@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 此规则定义了自增列的命名规范，要求自增列有一个明确的命名模式，通常为 `id`，以便于团队快速识别自增列。统一的自增列命名在 ORM 框架集成、自动化代码生成和数据库维护中能显著提升效率。
+description: 自增列命名应遵循统一模式（默认 `id`，正则 `^id$`）；不合规仅提示，不阻断 DDL。
 localeOf: en-audit-rule-aud-autoincrement-column-naming-convention
 ---
 

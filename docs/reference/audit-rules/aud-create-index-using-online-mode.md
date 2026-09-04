@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 建议在创建索引时使用在线模式（如MySQL的`ALGORITHM=INPLACE, LOCK=NONE`、PostgreSQL的`CONCURRENTLY`等），因为在线模式可显著降低建索引过程中的锁持有时间与业务阻塞风险，减少对读写流量的影响，并提升变更窗口的可控性。
+description: 建索引优先在线模式（MySQL INPLACE/LOCK=NONE、PostgreSQL CONCURRENTLY），避免大表长锁阻塞 DML。
 localeOf: en-audit-rule-aud-create-index-using-online-mode
 ---
 

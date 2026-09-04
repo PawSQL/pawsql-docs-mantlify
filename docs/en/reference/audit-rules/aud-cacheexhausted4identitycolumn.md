@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 当自增列的当前值接近其数据类型的最大值时，序列即将耗尽，后续的 INSERT 操作将失败并抛出主键冲突或溢出错误。这在高频写入的核心业务表中尤其致命，可能导致服务中断。
+description: Warn when an auto-increment/identity column nears its type maximum (default
+  80%); plan capacity (e.g. INT to BIGINT) before inserts fail.
 localeOf: audit-rule-aud-cacheexhausted4identitycolumn
 ---
 
@@ -22,5 +23,6 @@ localeOf: audit-rule-aud-cacheexhausted4identitycolumn
 
 ## Description
 
-当自增列的当前值接近其数据类型的最大值时，序列即将耗尽，后续的 INSERT 操作将失败并抛出主键冲突或溢出错误。这在高频写入的核心业务表中尤其致命，可能导致服务中断。
-建议通过监控预警及时发现序列耗尽风险，并根据使用率提前规划扩容方案（如升级数据类型，从 INT 扩展至 BIGINT）。默认预警阈值为最大值的 80%，可通过配置调整。
+When an auto-increment column's current value approaches its data type's maximum, the sequence is about to be exhausted and later INSERT operations will fail with primary-key conflicts or overflow errors. This is especially damaging on high-write core business tables and can interrupt service.
+
+Monitor and alert early so the risk of exhaustion is found in time, and plan capacity in advance based on usage (for example upgrading the type from INT to BIGINT). The default alert threshold is 80% of the maximum value and is configurable.

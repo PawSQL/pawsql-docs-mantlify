@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在分布式数据库中，如果 JOIN 操作的关联字段不是分布键（Shard Key），关联操作可能需要在多个节点之间移动数据（数据重分布 /
-  Data Redistribution），即将一张表的数据广播或重分布到另一张表所在的节点上才能完成关联计算。这种跨节点的数据传输会产生大量的网络开销，成为查询性能的瓶颈。
+description: 分布式库中 JOIN 关联字段非分布键会触发跨节点数据重分布、网络开销大；应让高频关联字段与分布键对齐。
 localeOf: en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns
 ---
 

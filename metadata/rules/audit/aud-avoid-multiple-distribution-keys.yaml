@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/分布键不建议使用多个字段.md
 # TODO(产品核对): aud-avoid-multiple-distribution-keys → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-avoid-multiple-distribution-keys
 category: ddl
@@ -27,5 +28,25 @@ content:
           product   VARCHAR(50),
           amount    DECIMAL(10, 2)
       ) DISTRIBUTED BY HASH (region);
+    summary: 多列分布键限制水平扩展、增加哈希与本地化关联难度；建议用单一高频关联字段作分布键。
   en:
     name: Avoid Multiple Distribution Keys
+    description: |-
+      Using multiple columns as the distribution key restricts the table's horizontal scalability and hurts sharding flexibility and routing efficiency. A multi-column distribution key raises hash-computation complexity, and table joins only localize when every distribution-key column matches, making it harder for the optimizer to build efficient plans.
+
+      Multi-column distribution keys also increase the cost of moving data between nodes, because redistribution must be computed over all distribution-key columns. Prefer a single-column distribution key, ideally the column most frequently used as a join key in queries.
+    summary: Multiple-column distribution keys limit horizontal scaling, raise hashing cost, and block local joins unless every key matches; prefer a single, frequently-joined column.
+    badExample: |-
+      -- bad: multiple columns as the distribution key
+      CREATE TABLE t_sales (
+          region    VARCHAR(50),
+          product   VARCHAR(50),
+          amount    DECIMAL(10, 2)
+      ) DISTRIBUTED BY HASH (region, product);
+    goodExample: |-
+      -- good: a single column as the distribution key
+      CREATE TABLE t_sales (
+          region    VARCHAR(50),
+          product   VARCHAR(50),
+          amount    DECIMAL(10, 2)
+      ) DISTRIBUTED BY HASH (region);

@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止直接修改列的数据类型。修改列的数据类型通常触发表重写与长时间锁表——数据库需要将全表数据按新类型转换后重新写入磁盘。在高并发生产环境中，这会导致索引失效、执行计划突变，并可能因隐式类型转换导致数据截断或语义改变，带来难以恢复的数据损毁风险。
+description: 禁止直接改列类型（全表重写/锁表/截断风险）；用灰度迁移：新列→双写→分批回填→切换→下线。
 localeOf: en-audit-rule-aud-changingcolumntypedisallowed
 ---
 

@@ -6,7 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 此规则定义了自增列的命名规范，要求自增列有一个明确的命名模式，通常为 `id`，以便于团队快速识别自增列。统一的自增列命名在 ORM 框架集成、自动化代码生成和数据库维护中能显著提升效率。
+description: Auto-increment columns should follow one naming pattern (default `id`);
+  inconsistent names raise a notice but do not block DDL.
 localeOf: audit-rule-aud-autoincrement-column-naming-convention
 ---
 
@@ -22,19 +23,20 @@ localeOf: audit-rule-aud-autoincrement-column-naming-convention
 
 ## Description
 
-此规则定义了自增列的命名规范，要求自增列有一个明确的命名模式，通常为 `id`，以便于团队快速识别自增列。统一的自增列命名在 ORM 框架集成、自动化代码生成和数据库维护中能显著提升效率。
-默认命名模式为 `id`（或正则 `^id$`），可通过配置调整为其他模式。不符合命名规范的自增列会在审核时触发提示，但不会阻止 DDL 执行。
+This rule defines the naming convention for auto-increment columns: they should follow a clear naming pattern, usually `id`, so teams can recognize auto-increment columns at a glance. Consistent auto-increment column naming noticeably improves ORM integration, automated code generation, and database maintenance.
+
+The default pattern is `id` (regex `^id$`) and can be changed through configuration. Auto-increment columns that do not follow the pattern raise a notice during review but do not block the DDL.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：自增列命名不符合规范
+-- bad: auto-increment column name does not follow the convention
 CREATE TABLE orders (order_auto_id INT AUTO_INCREMENT PRIMARY KEY);
 ```
 
 ## Good Example
 
 ```sql
--- ✅ 推荐：遵循 id 命名规范
+-- good: follows the id naming convention
 CREATE TABLE orders (id INT AUTO_INCREMENT PRIMARY KEY);
 ```

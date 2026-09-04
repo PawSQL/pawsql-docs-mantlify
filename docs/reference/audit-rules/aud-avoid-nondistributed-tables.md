@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 在分布式数据库中，非分布表（如 `DISTRIBUTED BY LOCAL`）的数据仅存储在单个节点上，容易成为性能瓶颈和单点故障。当多个查询同时访问该表时，所有请求都会集中到一个节点，无法充分利用分布式架构的并行计算能力。
+description: 分布式数据库应避免非分布表（单点瓶颈、关联需重分布）；业务表用 HASH 分布。
 localeOf: en-audit-rule-aud-avoid-nondistributed-tables
 ---
 

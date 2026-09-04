@@ -6,8 +6,8 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 当列级别的字符集与表级别的字符集不一致时，可能导致隐式字符集转换、数据截断或乱码问题。在多语言环境下，字符集不一致还可能引发索引失效（MySQL
-  中字符集不一致的字段进行 JOIN 时无法使用索引）和查询结果不符合预期等隐蔽性故障。
+description: Column and table character sets must match to avoid conversion, truncation,
+  mojibake, and JOIN index invalidation; columns should inherit the table charset.
 localeOf: audit-rule-aud-column-and-table-character-set-mismatch
 ---
 
@@ -23,13 +23,14 @@ localeOf: audit-rule-aud-column-and-table-character-set-mismatch
 
 ## Description
 
-当列级别的字符集与表级别的字符集不一致时，可能导致隐式字符集转换、数据截断或乱码问题。在多语言环境下，字符集不一致还可能引发索引失效（MySQL 中字符集不一致的字段进行 JOIN 时无法使用索引）和查询结果不符合预期等隐蔽性故障。
-建议在表级别统一指定字符集，各列继承表的字符集配置，避免个别列使用不同的字符集。保持一致的字符集策略是数据库设计的基本规范。
+When a column-level character set differs from the table-level one, it can cause implicit conversion, data truncation, or mojibake. In multi-language environments, mismatched character sets can also invalidate indexes (in MySQL, JOINing fields with different character sets cannot use an index) and produce query results that do not meet expectations - subtle failures.
+
+Set the character set uniformly at the table level and let columns inherit it, avoiding isolated columns with a different charset. A consistent charset strategy is a basic database-design norm.
 
 ## Bad Example
 
 ```sql
--- ❌ 不推荐：列级别字符集与表级别不一致
+-- bad: column-level charset differs from the table's
 CREATE TABLE t_user (
     name VARCHAR(50) CHARSET latin1
 ) DEFAULT CHARSET utf8mb4;
@@ -38,7 +39,7 @@ CREATE TABLE t_user (
 ## Good Example
 
 ```sql
--- ✅ 推荐：列继承表的字符集，保持一致
+-- good: the column inherits the table's charset
 CREATE TABLE t_user (
     name VARCHAR(50)
 ) DEFAULT CHARSET utf8mb4;

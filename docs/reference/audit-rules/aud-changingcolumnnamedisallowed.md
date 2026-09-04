@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止修改字段名（`RENAME COLUMN` / `CHANGE COLUMN`）。重命名字段会对所有依赖该字段的应用程序、报表、ETL
-  脚本和视图造成影响，导致线上业务瞬间中断。在不支持不停机发布的架构中，这种修改需要在维护窗口内协调大量上下游系统，风险极高。
+description: 禁止直接改字段名（破坏上下游依赖）；需要时用灰度：加新列→双写→切换→下线旧列。
 localeOf: en-audit-rule-aud-changingcolumnnamedisallowed
 ---
 

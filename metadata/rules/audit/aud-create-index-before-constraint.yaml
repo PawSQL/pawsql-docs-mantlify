@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/创建约束前提前创建相关的索引.md
 # TODO(产品核对): aud-create-index-before-constraint → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-create-index-before-constraint
 category: ddl
@@ -20,5 +21,18 @@ content:
       -- ✅ 推荐：先创建索引，再添加约束，复用已有索引
       CREATE UNIQUE INDEX uk_order_no ON t_order (order_no);
       ALTER TABLE t_order ADD CONSTRAINT uk_order_no UNIQUE USING INDEX uk_order_no;
+    summary: 加唯一/外键/CHECK 约束前先建对应索引，约束校验可复用索引、避免全表扫描。
   en:
     name: Create Index Before Constraint
+    description: |-
+      Before adding a constraint (unique, foreign key, or CHECK), create the backing index first. Constraint enforcement relies on an underlying index to validate data; without one the database must scan the whole table to validate the constraint, which badly hurts DDL performance and can cause long lock waits on large tables.
+
+      Creating the index manually up front lets the database reuse it for constraint validation instead of full-table scanning, keeps DDL changes smooth, and gives finer control over index naming and structure.
+    summary: Create the backing index before adding a constraint (unique/FK/CHECK) so validation reuses it instead of full-table scanning under lock.
+    badExample: |-
+      -- bad: adding a unique constraint without its index causes a full-table-scan validation
+      ALTER TABLE t_order ADD CONSTRAINT uk_order_no UNIQUE (order_no);
+    goodExample: |-
+      -- good: create the index first, then add the constraint reusing it
+      CREATE UNIQUE INDEX uk_order_no ON t_order (order_no);
+      ALTER TABLE t_order ADD CONSTRAINT uk_order_no UNIQUE USING INDEX uk_order_no;

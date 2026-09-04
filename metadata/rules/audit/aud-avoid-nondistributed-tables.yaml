@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/分布式数据库不建议创建非分布表.md
 # TODO(产品核对): aud-avoid-nondistributed-tables → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-avoid-nondistributed-tables
 category: ddl
@@ -25,5 +26,23 @@ content:
           id   BIGINT,
           data TEXT
       ) DISTRIBUTED BY HASH (id);
+    summary: 分布式数据库应避免非分布表（单点瓶颈、关联需重分布）；业务表用 HASH 分布。
   en:
     name: Avoid Non-Distributed Tables
+    description: |-
+      In a distributed database, a non-distributed (local) table such as `DISTRIBUTED BY LOCAL` stores its data on a single node, making it a performance bottleneck and a single point of failure. When many queries access the table at once, all requests concentrate on one node and the parallel capabilities of the distributed architecture go unused.
+
+      Besides that, joining a non-distributed table with distributed tables usually requires redistributing the distributed table's data onto the local table's node, producing heavy network traffic. Prefer a sound distribution strategy for every business table so the distributed database's horizontal-scaling advantage is fully used.
+    summary: 'Avoid local/non-distributed tables in distributed databases: they become single-node bottlenecks and force redistribution on joins; use HASH distribution.'
+    badExample: |-
+      -- bad: creating a local/non-distributed table in a distributed environment
+      CREATE TABLE large_table (
+          id   BIGINT,
+          data TEXT
+      ) DISTRIBUTED BY LOCAL;
+    goodExample: |-
+      -- good: HASH distribution spreads data evenly across nodes
+      CREATE TABLE large_table (
+          id   BIGINT,
+          data TEXT
+      ) DISTRIBUTED BY HASH (id);

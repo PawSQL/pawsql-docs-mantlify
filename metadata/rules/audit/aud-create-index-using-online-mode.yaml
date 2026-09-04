@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/建议使用在线模式创建索引.md
 # TODO(产品核对): aud-create-index-using-online-mode → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-create-index-using-online-mode
 category: ddl
@@ -23,5 +24,20 @@ content:
 
       -- ✅ 推荐（PostgreSQL）：使用CONCURRENTLY模式
       CREATE INDEX CONCURRENTLY idx_name ON large_table(name);
+    summary: 建索引优先在线模式（MySQL INPLACE/LOCK=NONE、PostgreSQL CONCURRENTLY），避免大表长锁阻塞 DML。
   en:
     name: Create Index Using Online Mode
+    description: |-
+      Create indexes in online mode (for example `ALGORITHM=INPLACE, LOCK=NONE` on MySQL or `CONCURRENTLY` on PostgreSQL) because online mode sharply reduces lock-hold time and the risk of blocking business during index creation, limits impact on read/write traffic, and makes change windows more controllable.
+
+      The traditional offline approach takes an exclusive lock on the target table for the whole operation and blocks all DML. On large tables index creation can last minutes or hours, causing a long business outage. Online mode avoids that, but assess the resource cost against concurrent load and log/rollback-segment capacity.
+    summary: Create indexes online (MySQL ALGORITHM=INPLACE LOCK=NONE, PostgreSQL CONCURRENTLY) to avoid long locks and DML blocking on large tables.
+    badExample: |-
+      -- bad: traditional index creation may lock the table and block DML while running
+      CREATE INDEX idx_name ON large_table(name);
+    goodExample: |-
+      -- good: online DDL does not block concurrent reads and writes
+      ALTER TABLE large_table ADD INDEX idx_name(name), ALGORITHM=INPLACE, LOCK=NONE;
+
+      -- good (PostgreSQL): use the CONCURRENTLY mode
+      CREATE INDEX CONCURRENTLY idx_name ON large_table(name);

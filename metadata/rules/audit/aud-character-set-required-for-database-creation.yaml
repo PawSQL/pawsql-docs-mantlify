@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/创建库必须指定数据库字符集.md
 # TODO(产品核对): aud-character-set-required-for-database-creation → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-character-set-required-for-database-creation
 category: ddl
@@ -19,5 +20,17 @@ content:
     goodExample: |-
       -- ✅ 推荐：创建数据库时显式指定字符集
       CREATE DATABASE mydb DEFAULT CHARACTER SET utf8mb4;
+    summary: 创建库必须显式指定字符集，避免默认配置随环境变化导致乱码与排序不一致。
   en:
     name: Character Set Required for Database Creation
+    description: |-
+      When creating a database you must set the character set explicitly to keep data consistent and compatible. If no character set is given, the database uses its default configuration, which can vary with environment, version, or installation, leading to mojibake or inconsistent collation across environments.
+
+      Setting the character set explicitly (for example `utf8mb4`) avoids character-encoding problems at storage time and matters most for multi-language workloads.
+    summary: CREATE DATABASE must set the character set explicitly so defaults do not vary by environment and cause mojibake across deployments.
+    badExample: |-
+      -- bad: creating a database without a character set
+      CREATE DATABASE mydb;
+    goodExample: |-
+      -- good: creating a database with an explicit character set
+      CREATE DATABASE mydb DEFAULT CHARACTER SET utf8mb4;

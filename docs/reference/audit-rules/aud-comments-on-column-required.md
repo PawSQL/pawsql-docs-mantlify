@@ -6,8 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 表中的每一列都必须有注释（`COMMENT`），以便于后续的维护和团队协作。列注释提供了对字段含义、用途、取值范围等信息的说明，帮助开发人员和
-  DBA 快速理解表结构和业务逻辑。
+description: 每列都应有注释（字段含义/用途/取值范围），降低变更、排查与交接成本。
 localeOf: en-audit-rule-aud-comments-on-column-required
 ---
 

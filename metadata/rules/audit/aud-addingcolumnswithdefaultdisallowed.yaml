@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/禁止新增有默认值的列.md
 # TODO(产品核对): aud-addingcolumnswithdefaultdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-addingcolumnswithdefaultdisallowed
 category: ddl
@@ -22,5 +23,20 @@ content:
       ALTER TABLE orders ADD COLUMN status VARCHAR(20);
       -- 应用层回填数据...
       ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending';
+    summary: 禁止向已有数据的表直接新增带默认值的列（触发表重写/锁表/回填）；应分阶段：加可空列→回填→再设默认值。
   en:
     name: AddingColumnsWithDefaultDisallowed
+    description: |-
+      Adding a column with a DEFAULT to an existing table is disallowed: the change can trigger a table rebuild or a long lock, causes severe I/O and replication delay on large tables, and silently changes write semantics. On tables that already hold data the database must backfill every row with the default, which is slow and can block other operations.
+
+      The right way is to add a nullable column first, write values explicitly from the application, complete the backfill, and only then add the DEFAULT and a NOT NULL constraint in stages. This rule is an important safety norm for schema-change management.
+    summary: Do not add columns with a DEFAULT to populated tables (rebuild/lock/backfill risk); add a nullable column, backfill, then set the DEFAULT in stages.
+    badExample: |-
+      -- bad: adding columns with an immediate DEFAULT may trigger a table rebuild
+      ALTER TABLE orders ADD COLUMN status VARCHAR(20) DEFAULT 'pending';
+      ALTER TABLE orders ADD COLUMN amount DECIMAL(10,2) NOT NULL DEFAULT 0.00;
+    goodExample: |-
+      -- good: add a nullable column first, backfill, then set the DEFAULT
+      ALTER TABLE orders ADD COLUMN status VARCHAR(20);
+      -- backfill in the application...
+      ALTER TABLE orders ALTER COLUMN status SET DEFAULT 'pending';

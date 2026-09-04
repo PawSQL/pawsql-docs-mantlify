@@ -1,6 +1,7 @@
 # Canonical source: vault 20-engine/rules/规则文档/禁止指定列的字符集.md
 # TODO(产品核对): aud-charsetoncolumndisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
-# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
 
 id: aud-charsetoncolumndisallowed
 category: ddl
@@ -26,5 +27,23 @@ content:
           id INT,
           name VARCHAR(100)
       ) DEFAULT CHARSET=utf8mb4;
+    summary: 禁止列级单独指定字符集（JOIN 隐式转换致索引失效/全表扫描）；字符集在表级统一。
   en:
     name: CharsetOnColumnDisallowed
+    description: |-
+      Setting a character set on a single column is disallowed. When a column's character set differs from the table's or database's default, JOINs need an implicit character-set conversion that invalidates indexes and causes full table scans - a subtle, wide-reaching performance problem. Inconsistent character sets can also make data comparisons behave unexpectedly and produce business-logic bugs that are hard to trace.
+
+      Set the character set uniformly at the table level so all columns inherit one consistent setting, avoiding column-level special cases.
+    summary: Per-column character sets cause implicit conversion on JOIN (index invalidation, full scans) and comparison bugs; set the charset uniformly at table level.
+    badExample: |-
+      -- bad: a column-level character set can break the index on JOINs
+      CREATE TABLE t (
+          id INT,
+          name VARCHAR(100) CHARACTER SET latin1
+      );
+    goodExample: |-
+      -- good: set the character set uniformly at the table level
+      CREATE TABLE t (
+          id INT,
+          name VARCHAR(100)
+      ) DEFAULT CHARSET=utf8mb4;

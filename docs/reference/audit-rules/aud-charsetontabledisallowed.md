@@ -6,7 +6,7 @@ status: draft
 tags:
 - audit-rule
 - ddl
-description: 禁止在表定义时单独指定字符集，以避免表级字符集与数据库级字符集不一致导致的数据问题。当表字符集与数据库字符集不同时，跨表操作可能触发隐式字符集转换，影响查询性能并可能导致乱码。
+description: 表定义时禁止单独指定字符集；表应继承数据库默认字符集，避免跨表隐式转换。
 localeOf: en-audit-rule-aud-charsetontabledisallowed
 ---
 
