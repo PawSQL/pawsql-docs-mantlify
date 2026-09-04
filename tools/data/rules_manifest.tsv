@@ -1,262 +1,262 @@
 src	en	fam	cat	sev	db	rid	conf
-ALL修饰的子查询重写	All Qualifier Subquery Rewrite	optimizer	rewrite	error		opt-all-qualifier-subquery-rewrite	high
-CHAR字段长度超过阈值	Char Column Length Exceeds Threshold	audit	ddl	info		aud-char-column-length-exceeds-threshold	high
-COUNT标量子查询重写	COUNT Scalar Subquery Rewrite	optimizer	rewrite	info		opt-count-scalar-subquery-rewrite	high
-CTAS 命名规范	CTAS Naming Convention	audit	ddl	info		aud-ctas-naming-convention	high
-DELETE_UPDATE禁止使用连接	DELETE/UPDATE Forbidden with Table Join	audit	dml	warning		aud-deleteupdate-forbidden-with-table-join	high
-EXISTS查询转换为表连接	EXISTS Subquery to Table Join Rewrite	optimizer	rewrite	info		opt-exists-subquery-to-table-join-rewrite	high
-GROUPBY字段来自不同表	GROUP BY Columns from Multiple Tables	audit	index	info		aud-group-by-columns-from-multiple-tables	low
-GROUP字段中有表达式导致索引失效	Expression in GROUP BY Causes Index Invalidation	audit	index	info		aud-expression-in-group-by-causes-index-invalidation	high
-HAVING条件下推	HAVING Clause Pushdown to WHERE	optimizer	rewrite	info		opt-having-clause-pushdown-to-where	high
-HIVE中COUNT(DISTINCT...) 导致数据倾斜优化	COUNT(DISTINCT) Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-countdistinct-skew-optimization-in-hive	high
-HIVE中DISTINCT导致的数据倾斜优化	DISTINCT Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-distinct-skew-optimization-in-hive	high
-HIVE中使用非分桶字段进行表关联	Non-Bucket Column Table Join in Hive	audit	dml	info	Hive	aud-nonbucket-column-table-join-in-hive	low
-HIVE中全局排序导致的数据倾斜优化	Global Sorting Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-global-sorting-skew-optimization-in-hive	high
+对象前需添加属主	Add Schema Qualifier Before Object References	audit	dml	info		aud-add-schema-qualifier-before-object-references	high
+添加CHECK约束时需添加NO VALID	AddCheckConstraintShouldBeDeferred	audit	ddl	warning		aud-addcheckconstraintshouldbedeferred	high
+禁止新增有默认值的列	AddingColumnsWithDefaultDisallowed	audit	ddl	warning		aud-addingcolumnswithdefaultdisallowed	high
+自增列命名规范	Auto-increment column naming convention	audit	ddl	info		aud-autoincrement-column-naming-convention	high
+分布式数据库应避免出现ANTIJOIN操作	Avoid ANTI JOIN Operations in Distributed Databases	audit	dml	warning	分布式数据库	aud-avoid-anti-join-operations-in-distributed-databa	high
+避免COUNT DISTINCT多个可空列	Avoid COUNT DISTINCT on Multiple Nullable Columns	audit	dml	info		aud-avoid-count-distinct-on-multiple-nullable-column	high
+避免使用CROSS JOIN	Avoid CROSS JOIN	audit	dml	warning		aud-avoid-cross-join	high
+分布式数据库应避免跨分片的DML操作	Avoid Cross-Shard DML Operations in Distributed Databases	audit	dml	warning	分布式数据库	aud-avoid-crossshard-dml-operations-in-distributed-d	high
+避免表引用使用重复的别名	Avoid Duplicate Table Aliases	audit	dml	warning		aud-avoid-duplicate-table-aliases	high
+避免有派生表的查询语句使用for update	Avoid FOR UPDATE with Derived Tables	audit	dml	warning	MySQL	aud-avoid-for-update-with-derived-tables	high
+避免GROUP BY选择列的序号	Avoid GROUP BY Column Ordinal Position	audit	dml	info		aud-avoid-group-by-column-ordinal-position	high
+避免对长字段进行分组	Avoid GROUP BY on Long Columns	audit	dml	warning		aud-avoid-group-by-on-long-columns	high
+避免表关联字段不是分布键	Avoid Joining on Non-Distribution Key Columns	audit	ddl	warning	分布式数据库（包括但不限于：openGauss、PostgreSQL-XL、TDSQL、OceanBase、TiDB、DWS 等）	aud-avoid-joining-on-nondistribution-key-columns	high
+避免常量字符串开头或结尾包含空格	Avoid Leading or Trailing Spaces in String Literals	audit	dml	warning		aud-avoid-leading-or-trailing-spaces-in-string-liter	high
+避免%开头的LIKE查询	Avoid LIKE Pattern Starting with Wildcard	audit	index	warning		aud-avoid-like-pattern-starting-with-wildcard	high
+避免使用没有通配符的 LIKE 查询	Avoid LIKE Without Wildcards	audit	dml	warning		aud-avoid-like-without-wildcards	high
+避免在SELECT语句中使用LIMIT而没有ORDER BY	Avoid LIMIT Without ORDER BY in SELECT	audit	dml	warning		aud-avoid-limit-without-order-by-in-select	high
+避免在UPDELETE语句中使用LIMIT而没有ORDER	Avoid LIMIT Without ORDER BY in UPDATE/DELETE	audit	dml	warning		aud-avoid-limit-without-order-by-in-updatedelete	high
+分布键不建议使用多个字段	Avoid Multiple Distribution Keys	audit	ddl	warning	分布式数据库	aud-avoid-multiple-distribution-keys	high
+避免使用NATURAL JOIN	Avoid NATURAL JOIN	audit	dml	warning		aud-avoid-natural-join	high
+避免对条件字段使用负向查询	Avoid Negative Queries on Filter Columns	audit	index	warning		aud-avoid-negative-queries-on-filter-columns	high
+分布式数据库不建议创建非分布表	Avoid Non-Distributed Tables	audit	ddl	warning	分布式数据库	aud-avoid-nondistributed-tables	high
+避免不同字段的OR条件	Avoid OR Conditions on Different Columns	audit	index	warning		aud-avoid-or-conditions-on-different-columns	high
+避免ORDER BY选择列的序号	Avoid ORDER BY Column Ordinal Position	audit	dml	info		aud-avoid-order-by-column-ordinal-position	high
+避免ORDERBY字段来自不同表	Avoid ORDER BY Columns from Different Tables	audit	index	info		aud-avoid-order-by-columns-from-different-tables	high
+避免对长字段进行排序	Avoid ORDER BY on Long Columns	audit	dml	warning		aud-avoid-order-by-on-long-columns	high
+避免使用随机函数排序	Avoid ORDER BY Random Function	audit	dml	warning		aud-avoid-order-by-random-function	high
+大表不建议使用复制(Replicated)分布	Avoid Replicated Distribution for Large Tables	audit	ddl	warning	分布式数据库（Greenplum、PostgreSQL-XL、TDSQL、DWS 等）	aud-avoid-replicated-distribution-for-large-tables	high
+避免使用标量子查询	Avoid Scalar Subqueries	audit	dml	info		aud-avoid-scalar-subqueries	high
+避免在查询中使用SELECT _	Avoid SELECT *	audit	dml	info		aud-avoid-select	high
+避免在SELECT语句添加FOR UPDATE	Avoid SELECT with FOR UPDATE	audit	dml	warning		aud-avoid-select-with-for-update	high
+避免limit子句的查询语句使用for update	Avoid SELECT with LIMIT and FOR UPDATE	audit	dml	warning	MySQL	aud-avoid-select-with-limit-and-for-update	high
+避免无条件且无分组的SELECT语句	Avoid SELECT Without WHERE and GROUP BY	audit	dml	info		aud-avoid-select-without-where-and-group-by	high
+避免查询排序时指定COLLATION	Avoid Specifying COLLATION in ORDER BY	audit	index	warning		aud-avoid-specifying-collation-in-order-by	high
+避免使用STRAIGHT JOIN	Avoid STRAIGHT JOIN	audit	dml	warning	MySQL	aud-avoid-straight-join	high
+避免无条件的UPDELETE语句	Avoid Unconditional UPDATE/DELETE Statements	audit	dml	warning		aud-avoid-unconditional-updatedelete-statements	high
+避免使用不必要的内置函数	Avoid Unnecessary Built-in Functions	audit	dml	info		aud-avoid-unnecessary-builtin-functions	high
+避免不必要的去重操作	Avoid Unnecessary DISTINCT Operations	audit	dml	info		aud-avoid-unnecessary-distinct-operations	high
+避免不必要的更新操作	Avoid Unnecessary UPDATE Operations	audit	dml	info		aud-avoid-unnecessary-update-operations	high
+避免更新主键的值	Avoid Updating Primary Key Values	audit	dml	warning		aud-avoid-updating-primary-key-values	high
+避免更新唯一约束的值	Avoid Updating Unique Constraint Values	audit	dml	warning		aud-avoid-updating-unique-constraint-values	high
+索引中避免使用可空列	AvoidUsingNullableColumnsInIndex	audit	index	warning		aud-avoidusingnullablecolumnsinindex	high
 HIVE中关联字段分桶数应保持整数倍	Bucket Count Integer Multiple for Join in Hive	audit	dml	info	Hive	aud-bucket-count-integer-multiple-for-join-in-hive	high
-HIVE中分组字段分布不均匀导致数据倾斜优化	Group By Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-group-by-skew-optimization-in-hive	high
-Hive中过滤谓词下推到表关联之前计算	Predicate Pushdown Before Join in Hive	optimizer	rewrite	info	Hive	opt-predicate-pushdown-before-join-in-hive	high
+自增序列耗尽预警	CacheExhausted4IdentityColumn	audit	ddl	warning		aud-cacheexhausted4identitycolumn	high
+禁止修改字段名	ChangingColumnNameDisallowed	audit	ddl	warning		aud-changingcolumnnamedisallowed	high
+禁止修改列的顺序	ChangingColumn's Order Disallowed	audit	ddl	warning		aud-changingcolumns-order-disallowed	high
+禁止修改列的数据类型	ChangingColumnTypeDisallowed	audit	ddl	warning		aud-changingcolumntypedisallowed	high
+CHAR字段长度超过阈值	Char Column Length Exceeds Threshold	audit	ddl	info		aud-char-column-length-exceeds-threshold	high
+创建库必须指定数据库字符集	Character Set Required for Database Creation	audit	ddl	warning		aud-character-set-required-for-database-creation	high
+禁止指定列的字符集	CharsetOnColumnDisallowed	audit	ddl	warning		aud-charsetoncolumndisallowed	high
+表定义时禁止使用字符集	CharsetOnTableDisallowed	audit	ddl	warning		aud-charsetontabledisallowed	high
+表的字符集和数据库不一致	CharsetsOnTable&DatabaseMismatch	audit	ddl	warning		aud-charsetsontabledatabasemismatch	high
+禁止索引创建时指定collation	Collation4IndexDisallowed	audit	index	warning		aud-collation4indexdisallowed	high
+列的字符集和表不一致	Column and Table Character Set Mismatch	audit	ddl	warning		aud-column-and-table-character-set-mismatch	high
+列名命名规范	Column Naming Convention	audit	ddl	info		aud-column-naming-convention	high
+字段名已存在	Column with this Name Already Exists	audit	ddl	error		aud-column-with-this-name-already-exists	high
+使用不存在的列	Column with this Name Does Not Exist	audit	unknown	error		aud-column-with-this-name-does-not-exist	high
+列必须有注释	Comments on Column Required	audit	ddl	warning		aud-comments-on-column-required	high
+表必须有注释	CommentsOnTableRequired	audit	ddl	warning	MySQL	aud-commentsontablerequired	high
+禁止通过COMPRESSED打开字段压缩功能	CompressedAttributeDisallowed	audit	ddl	warning		aud-compressedattributedisallowed	high
+小于阈值的分布表建议设计为复制表	Consider Replicated Distribution for Small Tables	audit	ddl	info	分布式数据库（Greenplum、PostgreSQL-XL、TiDB、DWS 等）	aud-consider-replicated-distribution-for-small-table	high
+约束名已存在	Constraint with this Name Already Exists	audit	ddl	error		aud-constraint-with-this-name-already-exists	high
+创建约束前提前创建相关的索引	Create Index Before Constraint	audit	ddl	warning		aud-create-index-before-constraint	high
+建议使用在线模式创建索引	Create Index Using Online Mode	audit	ddl	warning		aud-create-index-using-online-mode	high
+禁止使用CHECK约束	CreateCheckConstraintDisallowed	audit	ddl	warning		aud-createcheckconstraintdisallowed	high
+CTAS 命名规范	CTAS Naming Convention	audit	ddl	info		aud-ctas-naming-convention	high
+数据库命名规范	Database Naming Convention	audit	ddl	info		aud-database-naming-convention	high
+主键列的数据类型限制	DataTypeLimitOfPrimaryKey	audit	ddl	warning		aud-datatypelimitofprimarykey	high
+禁止使用的数据类型	DataTypesDisallowed	audit	ddl	warning		aud-datatypesdisallowed	high
+禁止修改降低字段精度	DecreasingPrecisionDisallowed	audit	ddl	warning		aud-decreasingprecisiondisallowed	high
+数据库需指定默认排序规则（Collate）	Default Collation Required for Database	audit	ddl	warning		aud-default-collation-required-for-database	high
+非空列需指定带默认值	Default Value Required for NOT NULL Columns	audit	ddl	warning		aud-default-value-required-for-not-null-columns	high
+时间列未设置默认值或默认值为空	Default Value Required for Time Columns	audit	ddl	warning		aud-default-value-required-for-time-columns	high
+时间戳列需指定默认值	Default Value Required for Timestamp Columns	audit	ddl	warning		aud-default-value-required-for-timestamp-columns	high
+DELETE_UPDATE禁止使用连接	DELETE/UPDATE Forbidden with Table Join	audit	dml	warning		aud-deleteupdate-forbidden-with-table-join	high
+主外键的数据类型不一致	DiffDataTypesOfRIColumns	audit	ddl	warning		aud-diffdatatypesofricolumns	high
+分布键的数据类型限制	Distribution Key Data Type Restriction	audit	ddl	warning	分布式数据库	aud-distribution-key-data-type-restriction	high
+分布键的长度不得超过阈值	Distribution Key Length Must Not Exceed Threshold	audit	ddl	warning	分布式数据库	aud-distribution-key-length-must-not-exceed-threshol	high
+分片表的分布键应设置非空约束	Distribution Key Must Have NOT NULL Constraint	audit	ddl	info	分布式数据库	aud-distribution-key-must-have-not-null-constraint	high
+分布键的需使用指定的排序规则	Distribution Key Must Use Specified Collation	audit	ddl	warning	分布式数据库	aud-distribution-key-must-use-specified-collation	high
+对分片表的INSERT_REPLACE时字段必须包含分布键	Distribution Key Required in INSERT/REPLACE for Sharded Tables	audit	dml	error	分布式数据库（TDSQL、MySQL Sharding 等）	aud-distribution-key-required-in-insertreplace-for-s	high
+数据操作语句影响的行数不得超过阈值	DML Affected Rows Must Not Exceed Threshold	audit	dml	error		aud-dml-affected-rows-must-not-exceed-threshold	high
+只能删除指定命名规范的列	Drop Columns Only with Specified Naming Convention	audit	ddl	warning		aud-drop-columns-only-with-specified-naming-conventi	high
+只能删除指定命名规范的表和视图	Drop Tables/Views Only with Specified Naming Convention	audit	ddl	warning		aud-drop-tablesviews-only-with-specified-naming-conv	high
+禁止删除字段	DroppingColumnsDisallowed	audit	ddl	warning		aud-droppingcolumnsdisallowed	high
+禁止删除索引中的列	DroppingColumnsUsedInIndexDisallowed	audit	ddl	warning		aud-droppingcolumnsusedinindexdisallowed	high
+禁止删除索引	DroppingIndexDisallowed	audit	ddl	warning		aud-droppingindexdisallowed	high
+禁止删除表_视图	DropTable/ViewDisallowed	audit	ddl	warning		aud-droptableviewdisallowed	high
+索引中不应该有重复列	DuplicateColumnsInIndex	audit	index	warning		aud-duplicatecolumnsinindex	high
+禁止对象名称与关键字重名	DuplicatedObjectNamesWithKeywords	audit	ddl	warning		aud-duplicatedobjectnameswithkeywords	high
+禁止使用ENUM数据类型	EnumDataTypeDisallowed	audit	ddl	warning		aud-enumdatatypedisallowed	high
+必须显式的指定分布键	Explicit Distribution Key Required	audit	ddl	warning	**分布式数据库**（包括但不限于：openGauss、PostgreSQL-XL、TDSQL、OceanBase、TiDB、DWS 等）	aud-explicit-distribution-key-required	high
+GROUP字段中有表达式导致索引失效	Expression in GROUP BY Causes Index Invalidation	audit	index	info		aud-expression-in-group-by-causes-index-invalidation	high
+ORDER字段中有表达式导致索引失效	Expression in ORDER BY Causes Index Invalidation	audit	index	info		aud-expression-in-order-by-causes-index-invalidation	high
+过滤条件中必须使用主键或索引列	Filter Condition Must Use Primary Key or Index Column	audit	dml	info		aud-filter-condition-must-use-primary-key-or-index-c	high
+提前过滤不合法的值避免多余计算	Filter Invalid Values Early to Avoid Unnecessary Computation	audit	dml	info	Hive	aud-filter-invalid-values-early-to-avoid-unnecessary	high
+外键命名规范	Foreign Key Naming Convention	audit	index	info		aud-foreign-key-naming-convention	high
+禁止创建外键	ForeignKeyDisallowed	audit	ddl	warning		aud-foreignkeydisallowed	high
+经常更新的表应使用本地表	FrequentlyUpdatedTablesShouldUseLocalTables	audit	dml	info		aud-frequentlyupdatedtablesshoulduselocaltables	high
+禁止使用全文索引	FulltextIndexDisallowed	audit	index	warning		aud-fulltextindexdisallowed	high
+禁止使用函数索引	FunctionalIndexDisallowed	audit	index	warning		aud-functionalindexdisallowed	high
+禁止在分布式表上创建全局索引	GlobalIndexOnDistributedTableDisallowed	audit	index	warning		aud-globalindexondistributedtabledisallowed	high
+禁止在分区表上创建全局索引	GlobalIndexOnPartitionedTableDisallowed	audit	index	warning	openGauss, DWS	aud-globalindexonpartitionedtabledisallowed	high
+GROUPBY字段来自不同表	GROUP BY Columns from Multiple Tables	audit	index	info		aud-group-by-columns-from-multiple-tables	low
+分组字段不包含分布键	GROUP BY Fields Must Include Distribution Key	audit	dml	warning	分布式数据库	aud-group-by-fields-must-include-distribution-key	high
+禁止对非整形常量进行GROUP BY	GroupByConstExprDisallowed	audit	dml	warning		aud-groupbyconstexprdisallowed	high
+脏页率超过阈值，建议进行回收	High dirty page ratio	audit	ddl	warning		aud-high-dirty-page-ratio	high
 Hive内部表需使用orc_parquet存储格式	Hive Internal Tables Must Use ORC/Parquet Format	audit	ddl	error	Hive	aud-hive-internal-tables-must-use-orcparquet-format	high
 Hive表需使用指定的压缩格式	Hive Table Compression Format Required	audit	ddl	error	Hive	aud-hive-table-compression-format-required	high
+删除表_视图_索引时需指定IfExists	IF EXISTS Required for Dropping Objects	audit	ddl	warning		aud-if-exists-required-for-dropping-objects	high
+创建表_视图_索引时需指定ifNotExists	IF NOT EXISTS Required for Creating Objects	audit	ddl	warning		aud-if-not-exists-required-for-creating-objects	high
+隐式类型转换导致索引失效	Implicit Type Conversion Causes Index Invalidation	audit	index	warning		aud-implicit-type-conversion-causes-index-invalidati	high
+主键禁止使用自增	IncColumn4PrimaryKeyDisallowed	audit	ddl	warning	分布式数据库	aud-inccolumn4primarykeydisallowed	high
+主键应使用自增列	IncColumn4PrimaryKeyRequired	audit	ddl	warning		aud-inccolumn4primarykeyrequired	high
+建议索引字段对区分度大于阈值	Index Column Selectivity Should Exceed Threshold	audit	index	info		aud-index-column-selectivity-should-exceed-threshold	high
+索引失效或不可见	Index Invalid or Invisible	audit	index	warning		aud-index-invalid-or-invisible	high
+索引命名规范	Index naming convention	audit	index	info		aud-index-naming-convention	high
+索引名已存在	Index with this Name Already Exists	audit	ddl	error		aud-index-with-this-name-already-exists	high
+索引名不存在	Index with this Name Does't Exists	audit	ddl	error		aud-index-with-this-name-doest-exists	high
+索引必须要有名字	IndexNameRequired	audit	index	info		aud-indexnamerequired	high
+自增列的初始值应从0_1开始	InitValue4IdentityColumn	audit	ddl	warning		aud-initvalue4identitycolumn	high
+必须使用INNODB存储引擎	InnoDB Storage Engine Required	audit	ddl	warning	MySQL、PolarDB（InnoDB引擎）、TDSQL（InnoDB引擎）	aud-innodb-storage-engine-required	high
+INSERT语句必须包含主键字段	INSERT Must Include Primary Key Column	audit	dml	warning		aud-insert-must-include-primary-key-column	high
+INSERT语句中值的数量超过阈值	INSERT Value Count Exceeds Threshold	audit	dml	info		aud-insert-value-count-exceeds-threshold	high
 INSERT...VALUES列和值数量一致	INSERT VALUES Column and Value Count Match	audit	dml	error		aud-insert-values-column-and-value-count-match	high
 INSERT...VALUES应该指定列名	INSERT VALUES Must Specify Column Names	audit	dml	error		aud-insert-values-must-specify-column-names	high
-INSERT语句中值的数量超过阈值	INSERT Value Count Exceeds Threshold	audit	dml	info		aud-insert-value-count-exceeds-threshold	high
-INSERT语句必须包含主键字段	INSERT Must Include Primary Key Column	audit	dml	warning		aud-insert-must-include-primary-key-column	high
-INSERT语句禁止使用SYSDATE函数	SYSDATE Function Forbidden in INSERT	audit	dml	warning	MySQL	aud-sysdate-function-forbidden-in-insert	high
+连接字段类型不匹配导致索引失效	Join Column Type Mismatch Causes Index Invalidation	audit	index	warning		aud-join-column-type-mismatch-causes-index-invalidat	high
+表关联字段数据类型长度不一致	JoinColumnDataTypeMismatch	audit	dml	info		aud-joincolumndatatypemismatch	high
+禁止为列表中的列设置非空默认值	LargeObjectDefaultNonNullDisallowed	audit	ddl	warning		aud-largeobjectdefaultnonnulldisallowed	high
+行数超过阈值的单表建议设计为分片表	LargeTableShouldBeSharded	audit	ddl	info		aud-largetableshouldbesharded	high
+索引的字段长度不应超过阈值	LongLengthColumns4IndexDisallowed	audit	index	warning		aud-longlengthcolumns4indexdisallowed	high
+禁止设置MAXVALUE默认分区	MaxValueDefaultPartitionDisallowed	audit	ddl	info		aud-maxvaluedefaultpartitiondisallowed	high
+表连接缺少连接条件	MissingJoinCondition	audit	dml	info		aud-missingjoincondition	low
+排序字段方向不同导致索引失效	Mixed Sort Directions Cause Index Inefficiency	audit	index	info		aud-mixed-sort-directions-cause-index-inefficiency	high
+禁止为列新增默认值	ModifyingColumnAddDefaultDisallowed	audit	ddl	warning		aud-modifyingcolumnadddefaultdisallowed	high
+禁止为列新增非空约束	ModifyingColumnAddNotNullDisallowed	audit	ddl	warning		aud-modifyingcolumnaddnotnulldisallowed	high
+禁止为列修改默认值	ModifyingColumnChangeDefaultDisallowed	audit	ddl	warning		aud-modifyingcolumnchangedefaultdisallowed	high
+禁止修改分布键字段类型	ModifyingDistributionKeyTypeDisallowed	audit	ddl	warning		aud-modifyingdistributionkeytypedisallowed	high
+禁止修改分区键的值	ModifyingPartitionKeyValueDisallowed	audit	dml	warning		aud-modifyingpartitionkeyvaluedisallowed	high
+禁止修改分片键的值	ModifyingShardKeyValueDisallowed	audit	dml	warning		aud-modifyingshardkeyvaluedisallowed	high
+禁止修改表的默认字符集	ModifyTableCharSetDisallowed	audit	ddl	warning		aud-modifytablecharsetdisallowed	high
+分区键上的过滤条件禁止使用to_date_to_timestamp函数	No TO_DATE/TO_TIMESTAMP on Partition Key in Filter Conditions	audit	dml	error	TDSQL, 分布式数据库	aud-no-todatetotimestamp-on-partition-key-in-filter-	high
+HIVE中使用非分桶字段进行表关联	Non-Bucket Column Table Join in Hive	audit	dml	info	Hive	aud-nonbucket-column-table-join-in-hive	low
+非列表中的列应设置非空默认值	Non-Null Default Value Required for Non-Excluded Columns	audit	ddl	warning		aud-nonnull-default-value-required-for-nonexcluded-c	high
+禁止为列表中的列设置非空约束	NonNullConstraint4ColumnsInListDisallowed	audit	ddl	warning		aud-nonnullconstraint4columnsinlistdisallowed	high
 IN可空子查询可能导致结果集不符合预期	Nullable IN Subquery May Produce Unexpected Results	audit	dml	error		aud-nullable-in-subquery-may-produce-unexpected-resu	low
-IN子查询中没有LIMIT的排序消除	Order Elimination in Subquery Without LIMIT	optimizer	rewrite	info		opt-order-elimination-in-subquery-without-limit	high
+禁止使用=NULL判断空值	NullValueComparisonDisallowed	audit	dml	warning		aud-nullvaluecomparisondisallowed	high
+单表的索引个数超过阈值	Number of Indexes Exceeds Threshold	audit	index	warning		aud-number-of-indexes-exceeds-threshold	high
+查询中表连接的个数超过阈值	Number of Joined Tables Exceeds Threshold	audit	dml	warning		aud-number-of-joined-tables-exceeds-threshold	high
+索引中的字段数目超过阈值	NumberOfColumnsInIndexExceedThreshold	audit	index	warning		aud-numberofcolumnsinindexexceedthreshold	high
+禁止表关联数目超过阈值（严重）	NumberOfJoinedTablesExceedCriticalThreshold	audit	dml	error		aud-numberofjoinedtablesexceedcriticalthreshold	high
+表的列数不建议超过阈值	NumOfColumnsExceedThreshold	audit	ddl	warning		aud-numofcolumnsexceedthreshold	high
+主键的列数目不得超过阈值	NumOfPKColumnsExceed	audit	ddl	warning		aud-numofpkcolumnsexceed	high
+对象名称长度不得超过阈值	Object Name Length Must Not Exceed Threshold	audit	ddl	warning		aud-object-name-length-must-not-exceed-threshold	high
+对象命名规范	Object Naming Convention	audit	ddl	info		aud-object-naming-convention	high
+每个表只能有一个自增列	OneIdentityColumnAllowed	audit	ddl	warning		aud-oneidentitycolumnallowed	high
+复制表与分片表外关联的查询优化	Optimize Outer Join Between Replicated and Sharded Tables	audit	dml	info	分布式数据库（Greenplum、PostgreSQL-XL、TiDB、TDSQL 等）	aud-optimize-outer-join-between-replicated-and-shard	high
+UPDATE_DELETE禁止使用ORDER子句	ORDER BY Forbidden in UPDATE/DELETE	audit	dml	warning		aud-order-by-forbidden-in-updatedelete	high
+禁止对非整形常量进行ORDER BY	OrderByConstExprDisallowed	audit	dml	warning		aud-orderbyconstexprdisallowed	high
+外连接优化	Outer Join to Inner Join Conversion	audit	dml	info		aud-outer-join-to-inner-join-conversion	high
+分区字段上有运算导致无法进行分区裁剪	Partition Column Operation Prevents Partition Pruning	audit	dml	warning	Hive, Spark SQL	aud-partition-column-operation-prevents-partition-pr	low
+分区键的长度不得超过阈值	Partition Key Length Must Not Exceed Threshold	audit	ddl	warning		aud-partition-key-length-must-not-exceed-threshold	high
+访问分区表没有使用分区字段过滤	Partition Table Queried Without Partition Key Filter	audit	dml	info		aud-partition-table-queried-without-partition-key-fi	high
+禁止使用分区表	PartitionedTableDisallowed	audit	ddl	info	MySQL	aud-partitionedtabledisallowed	high
+分布方式建议使用hash分布	Prefer Hash Distribution	audit	ddl	warning	分布式数据库	aud-prefer-hash-distribution	high
+主键命名规范	Primary Key Naming Convention	audit	index	info		aud-primary-key-naming-convention	high
+表必须建主键	PrimaryKeyRequired	audit	ddl	error		aud-primarykeyrequired	high
+禁止创建重复索引_冗余索引	RedundantIndexDisallowed	audit	index	warning		aud-redundantindexdisallowed	high
+索引列上的运算导致索引失效	RuleFuncWithColumnInPredicate	audit	index	info		aud-rulefuncwithcolumninpredicate	high
+同表同字段比较	Same Table Same Column Comparison	audit	dml	warning		aud-same-table-same-column-comparison	low
+模式命名规范	Schema Naming Convention	audit	ddl	info		aud-schema-naming-convention	high
+SELECT 语句必须带LIMIT	SELECT Statement Must Have LIMIT	audit	dml	info		aud-select-statement-must-have-limit	high
+禁止使用SET数据类型	SetDataTypeDisallowed	audit	ddl	warning		aud-setdatatypedisallowed	high
+分片表不支持UPDATE更新的值为子查询	Sharded Table UPDATE Does Not Support Subquery Values	audit	dml	error	TDSQL, 分布式数据库	aud-sharded-table-update-does-not-support-subquery-v	high
+禁止修改降低字段长度	ShortenDataTypeLengthDisallowed	audit	ddl	warning		aud-shortendatatypelengthdisallowed	high
+自增列不得使用有符号整数	SignedInteger4IdentityColumnDisallowed	audit	ddl	warning		aud-signedinteger4identitycolumndisallowed	high
+创建库或模式时必须使用指定字符集	Specific Character Set Required for Database Creation	audit	ddl	warning		aud-specific-character-set-required-for-database-cre	high
+创建库或模式时使用规定的排序规则	Specific Collation Required for Database Creation	audit	ddl	error		aud-specific-collation-required-for-database-creatio	high
+表上应使用指定的字符集	SpecificCharSet4TableRequired	audit	ddl	warning	MySQL, PostgreSQL	aud-specificcharset4tablerequired	high
+表上应使用指定的排序规则	SpecificCollation4TableRequired	audit	ddl	warning	MySQL	aud-specificcollation4tablerequired	high
+表必须包含的列名及数据类型	SpecificColumnsRequired	audit	ddl	warning		aud-specificcolumnsrequired	high
+定义约束时需指定DISABLE和NONVALIDATE	Specify DISABLE and NONVALIDATE for Hive Constraints	audit	ddl	warning	Hive	aud-specify-disable-and-nonvalidate-for-hive-constra	high
+SQL长度超过阈值	SQL Length Exceeds Threshold	audit	dml	info		aud-sql-length-exceeds-threshold	high
+禁止使用常见 SQL 注入函数	SQLInjectionFuncsDisallowed	audit	dml	warning		aud-sqlinjectionfuncsdisallowed	high
+禁止使用存储过程	Stored Procedure Disallowed	audit	ddl	warning		aud-stored-procedure-disallowed	high
+子查询的嵌套层次超过阈值	Subquery Nesting Depth Exceeds Threshold	audit	dml	warning		aud-subquery-nesting-depth-exceeds-threshold	high
+INSERT语句禁止使用SYSDATE函数	SYSDATE Function Forbidden in INSERT	audit	dml	warning	MySQL	aud-sysdate-function-forbidden-in-insert	high
+表名命名规范	Table naming convention	audit	ddl	info		aud-table-naming-convention	high
+表_视图名已存在	Table/View with this Name Already Exists	audit	ddl	error		aud-tableview-with-this-name-already-exists	high
+表_视图名不存在	Table/View with this Name Does't Exists	audit	ddl	error		aud-tableview-with-this-name-doest-exists	high
+索引中的字段不可以为TEXT和LOB类型	Text&LobColumnsInIndexDisallowed	audit	index	warning		aud-textlobcolumnsinindexdisallowed	low
+不允许使用时间戳类型	Timestamp Data Type Disallowed	audit	ddl	warning		aud-timestamp-data-type-disallowed	high
+索引长度不得超过阈值	TotalIndexLengthExceedThreshold	audit	index	info		aud-totalindexlengthexceedthreshold	high
+禁止使用触发器	TriggerDisallowed	audit	ddl	warning		aud-triggerdisallowed	high
+唯一性索引命名规范	Unique Key Naming Convention	audit	index	info		aud-unique-key-naming-convention	high
+UPDATE_DELETE操作使用 LIMIT 子句	UPDATE/DELETE With LIMIT Warning	audit	dml	warning		aud-updatedelete-with-limit-warning	low
+表需定义更新时间戳列	UpdateTimeStampColumnsRequired	audit	ddl	warning		aud-updatetimestampcolumnsrequired	high
+禁止更新索引中的列	UpdatingColumnsUsedInIndexDisallowed	audit	ddl	warning		aud-updatingcolumnsusedinindexdisallowed	high
+TDSQL中使用ALTER设置自增列的起始值	Use ALTER TABLE to Set Auto Increment Start in TDSQL	audit	ddl	info	TDSQL	aud-use-alter-table-to-set-auto-increment-start-in-t	high
+大的Hive表应该使用分桶策略	Use Bucketing Strategy for Large Hive Tables	audit	ddl	warning	Hive	aud-use-bucketing-strategy-for-large-hive-tables	high
+批量删除建议使用分区表删除分区	Use DROP PARTITION Instead of Batch DELETE	audit	dml	info		aud-use-drop-partition-instead-of-batch-delete	high
+使用日期时间字段删除建议改为分区表删除分区	Use DROP PARTITION Instead of DELETE for Date-Based Cleanup	audit	dml	warning		aud-use-drop-partition-instead-of-delete-for-datebas	high
+分布键应使用区分度大的字段	Use High Cardinality Distribution Keys	audit	ddl	warning	分布式数据库	aud-use-high-cardinality-distribution-keys	high
+建议使用'__'代替'!='	Use '<>' Instead of '!='	audit	dml	warning		aud-use-instead-of	high
+整型建议采用 INT(10) 或 BIGINT(20)	Use INT(10) or BIGINT(20) for Integer Columns	audit	ddl	info	MySQL、PolarDB、TDSQL 等基于MySQL的数据库	aud-use-int10-or-bigint20-for-integer-columns	high
+大的Hive应该使用分区表	Use Partitioned Tables for Large Hive Tables	audit	ddl	warning	Hive	aud-use-partitioned-tables-for-large-hive-tables	high
+大表建议使用分区表	Use Partitioned Tables for Large Tables	audit	ddl	info		aud-use-partitioned-tables-for-large-tables	high
+长度大于阈值的字段建立索引时使用前缀	Use Prefix Index for Long VARCHAR Columns	audit	index	warning		aud-use-prefix-index-for-long-varchar-columns	high
+应使用主键作为分布键	Use Primary Key as Distribution Key	audit	ddl	warning	分布式数据库（Greenplum、PostgreSQL-XL、openGauss、TDSQL、DWS 等）	aud-use-primary-key-as-distribution-key	high
+应使用指定的数据分布方式	Use Specified Data Distribution Method	audit	ddl	warning	分布式数据库（TDSQL 等）	aud-use-specified-data-distribution-method	high
+在一个查询块中引用多表应使用别名	Use Table Aliases in Multi-Table Queries	audit	dml	info		aud-use-table-aliases-in-multitable-queries	high
+应通过唯一性索引来进行数据更新操作	Use Unique Index for Data Update Operations	audit	dml	info		aud-use-unique-index-for-data-update-operations	high
+对于入参建议使用变量绑定	Use Variable Binding for Parameters	audit	dml	warning		aud-use-variable-binding-for-parameters	high
+精确浮点数建议使用Decimal或Number	UseDecimalForNumericColumns	audit	ddl	warning		aud-usedecimalfornumericcolumns	high
+禁止使用自定义函数	UserDefinedFunction(UDF) Disallowed	audit	ddl	error		aud-userdefinedfunctionudf-disallowed	high
+禁止创建自定义函数	UserDefinedFunction(UDF) Disallowed	audit	ddl	error		aud-userdefinedfunctionudf-disallowed	high
+禁止创建自定义类型	UserDefinedType(UDT) Disallowed	audit	ddl	warning		aud-userdefinedtypeudt-disallowed	high
+禁止使用SYSDATE作为默认值	UseSysdateAsDefaultDisallowed	audit	ddl	warning		aud-usesysdateasdefaultdisallowed	high
+VARCHAR字段长度超过阈值	VARCHAR Column Length Exceeds Threshold	audit	ddl	warning		aud-varchar-column-length-exceeds-threshold	high
+禁止使用视图	ViewDisallowed	audit	ddl	warning	MySQL	aud-viewdisallowed	high
+视图展开	ViewExpansion	audit	dml	info		aud-viewexpansion	high
+ALL修饰的子查询重写	All Qualifier Subquery Rewrite	optimizer	rewrite	error		opt-all-qualifier-subquery-rewrite	high
+修饰子查询重写优化	ANY/SOME/ALL Subquery Rewrite Optimization	optimizer	rewrite	info		opt-anysomeall-subquery-rewrite-optimization	high
+COUNT标量子查询重写	COUNT Scalar Subquery Rewrite	optimizer	rewrite	info		opt-count-scalar-subquery-rewrite	high
+HIVE中COUNT(DISTINCT...) 导致数据倾斜优化	COUNT(DISTINCT) Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-countdistinct-skew-optimization-in-hive	high
+无分组的聚集函数导致的数据倾斜优化	Data Skew Optimization for Aggregate Without GROUP BY	optimizer	rewrite	warning	Hive	opt-data-skew-optimization-for-aggregate-without-gro	high
+关联字段不均匀导致数据倾斜优化	Data Skew Optimization for Uneven Join Keys	optimizer	rewrite	warning	Hive, Spark SQL	opt-data-skew-optimization-for-uneven-join-keys	high
+条件标量子查询解关联	Decorate Correlated Scalar Subqueries	optimizer	rewrite	info		opt-decorate-correlated-scalar-subqueries	high
+深分页优化	Deep Pagination Optimization	optimizer	rewrite	warning		opt-deep-pagination-optimization	high
+派生表转换为Lateral表关联	Derived Table to LATERAL Join Conversion	optimizer	rewrite	info		opt-derived-table-to-lateral-join-conversion	high
+HIVE中DISTINCT导致的数据倾斜优化	DISTINCT Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-distinct-skew-optimization-in-hive	high
+子查询中的DISTINCT消除	Eliminate Unnecessary DISTINCT in Subqueries	optimizer	rewrite	info		opt-eliminate-unnecessary-distinct-in-subqueries	high
+EXISTS查询转换为表连接	EXISTS Subquery to Table Join Rewrite	optimizer	rewrite	info		opt-exists-subquery-to-table-join-rewrite	high
+过滤谓词下推	Filter Predicate Pushdown	optimizer	rewrite	info		opt-filter-predicate-pushdown	high
+HIVE中全局排序导致的数据倾斜优化	Global Sorting Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-global-sorting-skew-optimization-in-hive	high
+HIVE中分组字段分布不均匀导致数据倾斜优化	Group By Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-group-by-skew-optimization-in-hive	high
+为分组显式添加空排序(_MYSQL 5.7)	GROUP BY with ORDER BY NULL Optimization	optimizer	rewrite	info	MySQL	opt-group-by-with-order-by-null-optimization	high
+HAVING条件下推	HAVING Clause Pushdown to WHERE	optimizer	rewrite	info		opt-having-clause-pushdown-to-where	high
 IN子查询优化	IN Subquery Rewrite Optimization	optimizer	rewrite	info		opt-in-subquery-rewrite-optimization	high
+表连接消除	JoinElimination	optimizer	rewrite	info		opt-joinelimination	high
 LIMIT下推至UNION分支	LIMIT Pushdown to UNION Branches	optimizer	rewrite	info		opt-limit-pushdown-to-union-branches	high
 MAX_MIN子查询重写	MAX/MIN Subquery Rewrite	optimizer	rewrite	info		opt-maxmin-subquery-rewrite	high
 NPE重写	NPE Rewrite (Null Pointer Exception Prevention)	optimizer	rewrite	warning		opt-npe-rewrite-null-pointer-exception-prevention	high
-ORDER子句重排序优化	ORDER Clause Reorder Optimization	optimizer	index	info		opt-order-clause-reorder-optimization	high
-ORDER字段中有表达式导致索引失效	Expression in ORDER BY Causes Index Invalidation	audit	index	info		aud-expression-in-order-by-causes-index-invalidation	high
 OR条件的SELECT重写	OR Condition SELECT Rewrite	optimizer	rewrite	info		opt-or-condition-select-rewrite	high
 OR条件的UPDELETE重写	OR Condition UPDATE/DELETE Rewrite	optimizer	rewrite	info		opt-or-condition-updatedelete-rewrite	high
+ORDER子句重排序优化	ORDER Clause Reorder Optimization	optimizer	index	info		opt-order-clause-reorder-optimization	high
+IN子查询中没有LIMIT的排序消除	Order Elimination in Subquery Without LIMIT	optimizer	rewrite	info		opt-order-elimination-in-subquery-without-limit	high
+Hive中过滤谓词下推到表关联之前计算	Predicate Pushdown Before Join in Hive	optimizer	rewrite	info	Hive	opt-predicate-pushdown-before-join-in-hive	high
+投影下推(PROJECTION PUSHDOWN)	Projection Pushdown	optimizer	rewrite	info		opt-projection-pushdown	high
+查询折叠(QUERY FOLDING)	Query Folding	optimizer	rewrite	info		opt-query-folding	high
+无条件的DELETE建议重写为Truncate	Rewrite Unconditional DELETE to TRUNCATE	optimizer	rewrite	info		opt-rewrite-unconditional-delete-to-truncate	high
 SATTC重写优化	SATTC Rewrite Optimization	optimizer	rewrite	info		opt-sattc-rewrite-optimization	high
-SELECT 语句必须带LIMIT	SELECT Statement Must Have LIMIT	audit	dml	info		aud-select-statement-must-have-limit	high
-SQL长度超过阈值	SQL Length Exceeds Threshold	audit	dml	info		aud-sql-length-exceeds-threshold	high
-TDSQL中使用ALTER设置自增列的起始值	Use ALTER TABLE to Set Auto Increment Start in TDSQL	audit	ddl	info	TDSQL	aud-use-alter-table-to-set-auto-increment-start-in-t	high
+选择列标量子查询解关联	Scalar Subquery Unnesting in Select List	optimizer	rewrite	info		opt-scalar-subquery-unnesting-in-select-list	high
 UNION ALL统计查询优化	UNION ALL Count Query Optimization	optimizer	rewrite	info		opt-union-all-count-query-optimization	high
-UNION导致的数据倾斜优化	UNION Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-union-skew-optimization-in-hive	high
-UPDATE_DELETE操作使用 LIMIT 子句	UPDATE/DELETE With LIMIT Warning	audit	dml	warning		aud-updatedelete-with-limit-warning	low
-UPDATE_DELETE禁止使用ORDER子句	ORDER BY Forbidden in UPDATE/DELETE	audit	dml	warning		aud-order-by-forbidden-in-updatedelete	high
 Union常量重写优化	Union Constant Rewrite Optimization	optimizer	rewrite	error		opt-union-constant-rewrite-optimization	high
-VARCHAR字段长度超过阈值	VARCHAR Column Length Exceeds Threshold	audit	ddl	warning		aud-varchar-column-length-exceeds-threshold	high
-不允许使用时间戳类型	Timestamp Data Type Disallowed	audit	ddl	warning		aud-timestamp-data-type-disallowed	high
-为分组显式添加空排序(_MYSQL 5.7)	GROUP BY with ORDER BY NULL Optimization	optimizer	rewrite	info	MySQL	opt-group-by-with-order-by-null-optimization	high
-主外键的数据类型不一致	DiffDataTypesOfRIColumns	audit	ddl	warning		aud-diffdatatypesofricolumns	high
-主键列的数据类型限制	DataTypeLimitOfPrimaryKey	audit	ddl	warning		aud-datatypelimitofprimarykey	high
-主键命名规范	Primary Key Naming Convention	audit	index	info		aud-primary-key-naming-convention	high
-主键应使用自增列	IncColumn4PrimaryKeyRequired	audit	ddl	warning		aud-inccolumn4primarykeyrequired	high
-主键的列数目不得超过阈值	NumOfPKColumnsExceed	audit	ddl	warning		aud-numofpkcolumnsexceed	high
-主键禁止使用自增	IncColumn4PrimaryKeyDisallowed	audit	ddl	warning	分布式数据库	aud-inccolumn4primarykeydisallowed	high
+UNION导致的数据倾斜优化	UNION Skew Optimization in Hive	optimizer	rewrite	warning	Hive	opt-union-skew-optimization-in-hive	high
 使用 = 替代 IN（单值）	Use Equals Instead of IN with Single Value	optimizer	rewrite	info		opt-use-equals-instead-of-in-with-single-value	high
+分布式数据库中使用IN替代OR	Use IN Instead of OR in Distributed Databases	optimizer	rewrite	info	分布式数据库	opt-use-in-instead-of-or-in-distributed-databases	high
 使用INSERT…UPDATE替代REPLACE语句	Use INSERT ON DUPLICATE KEY UPDATE Instead of REPLACE	optimizer	rewrite	warning		opt-use-insert-on-duplicate-key-update-instead-of-re	high
 使用UNION ALL代替UNION	Use UNION ALL Instead of UNION	optimizer	rewrite	info		opt-use-union-all-instead-of-union	high
-使用不存在的列	Column with this Name Does Not Exist	audit	audit	error		aud-column-with-this-name-does-not-exist	high
-使用日期时间字段删除建议改为分区表删除分区	Use DROP PARTITION Instead of DELETE for Date-Based Cleanup	audit	dml	warning		aud-use-drop-partition-instead-of-delete-for-datebas	high
-修饰子查询重写优化	ANY/SOME/ALL Subquery Rewrite Optimization	optimizer	rewrite	info		opt-anysomeall-subquery-rewrite-optimization	high
-关联字段不均匀导致数据倾斜优化	Data Skew Optimization for Uneven Join Keys	audit	dml	warning	Hive, Spark SQL	aud-data-skew-optimization-for-uneven-join-keys	low
-分区字段上有运算导致无法进行分区裁剪	Partition Column Operation Prevents Partition Pruning	audit	dml	warning	Hive, Spark SQL	aud-partition-column-operation-prevents-partition-pr	low
-分区键上的过滤条件禁止使用to_date_to_timestamp函数	No TO_DATE/TO_TIMESTAMP on Partition Key in Filter Conditions	audit	dml	error	TDSQL, 分布式数据库	aud-no-todatetotimestamp-on-partition-key-in-filter-	high
-分区键的长度不得超过阈值	Partition Key Length Must Not Exceed Threshold	audit	ddl	warning		aud-partition-key-length-must-not-exceed-threshold	high
-分布式数据库不建议创建非分布表	Avoid Non-Distributed Tables	audit	ddl	warning	分布式数据库	aud-avoid-nondistributed-tables	high
-分布式数据库中使用IN替代OR	Use IN Instead of OR in Distributed Databases	audit	dml	info	分布式数据库	aud-use-in-instead-of-or-in-distributed-databases	low
-分布式数据库应避免出现ANTIJOIN操作	Avoid ANTI JOIN Operations in Distributed Databases	audit	dml	warning	分布式数据库	aud-avoid-anti-join-operations-in-distributed-databa	high
-分布式数据库应避免跨分片的DML操作	Avoid Cross-Shard DML Operations in Distributed Databases	audit	dml	warning	分布式数据库	aud-avoid-crossshard-dml-operations-in-distributed-d	high
-分布方式建议使用hash分布	Prefer Hash Distribution	audit	ddl	warning	分布式数据库	aud-prefer-hash-distribution	high
-分布键不建议使用多个字段	Avoid Multiple Distribution Keys	audit	ddl	warning	分布式数据库	aud-avoid-multiple-distribution-keys	high
-分布键应使用区分度大的字段	Use High Cardinality Distribution Keys	audit	ddl	warning	分布式数据库	aud-use-high-cardinality-distribution-keys	high
-分布键的数据类型限制	Distribution Key Data Type Restriction	audit	ddl	warning	分布式数据库	aud-distribution-key-data-type-restriction	high
-分布键的长度不得超过阈值	Distribution Key Length Must Not Exceed Threshold	audit	ddl	warning	分布式数据库	aud-distribution-key-length-must-not-exceed-threshol	high
-分布键的需使用指定的排序规则	Distribution Key Must Use Specified Collation	audit	ddl	warning	分布式数据库	aud-distribution-key-must-use-specified-collation	high
-分片表不支持UPDATE更新的值为子查询	Sharded Table UPDATE Does Not Support Subquery Values	audit	dml	error	TDSQL, 分布式数据库	aud-sharded-table-update-does-not-support-subquery-v	high
-分片表的分布键应设置非空约束	Distribution Key Must Have NOT NULL Constraint	audit	ddl	info	分布式数据库	aud-distribution-key-must-have-not-null-constraint	high
-分组字段不包含分布键	GROUP BY Fields Must Include Distribution Key	audit	dml	warning	分布式数据库	aud-group-by-fields-must-include-distribution-key	high
-列名命名规范	Column Naming Convention	audit	ddl	info		aud-column-naming-convention	high
-列必须有注释	Comments on Column Required	audit	ddl	warning		aud-comments-on-column-required	high
-列的字符集和表不一致	Column and Table Character Set Mismatch	audit	ddl	warning		aud-column-and-table-character-set-mismatch	high
-创建库必须指定数据库字符集	Character Set Required for Database Creation	audit	ddl	warning		aud-character-set-required-for-database-creation	high
-创建库或模式时使用规定的排序规则	Specific Collation Required for Database Creation	audit	ddl	error		aud-specific-collation-required-for-database-creatio	high
-创建库或模式时必须使用指定字符集	Specific Character Set Required for Database Creation	audit	ddl	warning		aud-specific-character-set-required-for-database-cre	high
-创建约束前提前创建相关的索引	Create Index Before Constraint	audit	ddl	warning		aud-create-index-before-constraint	high
-创建表_视图_索引时需指定ifNotExists	IF NOT EXISTS Required for Creating Objects	audit	ddl	warning		aud-if-not-exists-required-for-creating-objects	high
-删除表_视图_索引时需指定IfExists	IF EXISTS Required for Dropping Objects	audit	audit	warning		aud-if-exists-required-for-dropping-objects	high
-单表的索引个数超过阈值	Number of Indexes Exceeds Threshold	audit	index	warning		aud-number-of-indexes-exceeds-threshold	high
-只能删除指定命名规范的列	Drop Columns Only with Specified Naming Convention	audit	audit	warning		aud-drop-columns-only-with-specified-naming-conventi	high
-只能删除指定命名规范的表和视图	Drop Tables/Views Only with Specified Naming Convention	audit	audit	warning		aud-drop-tablesviews-only-with-specified-naming-conv	high
-同表同字段比较	Same Table Same Column Comparison	audit	dml	warning		aud-same-table-same-column-comparison	low
-唯一性索引命名规范	Unique Key Naming Convention	audit	index	info		aud-unique-key-naming-convention	high
-在一个查询块中引用多表应使用别名	Use Table Aliases in Multi-Table Queries	audit	dml	info		aud-use-table-aliases-in-multitable-queries	high
-复制表与分片表外关联的查询优化	Optimize Outer Join Between Replicated and Sharded Tables	audit	dml	info	分布式数据库（Greenplum、PostgreSQL-XL、TiDB、TDSQL 等）	aud-optimize-outer-join-between-replicated-and-shard	high
-外连接优化	Outer Join to Inner Join Conversion	audit	dml	info		aud-outer-join-to-inner-join-conversion	high
-外键命名规范	Foreign Key Naming Convention	audit	index	info		aud-foreign-key-naming-convention	high
-大的Hive应该使用分区表	Use Partitioned Tables for Large Hive Tables	audit	ddl	warning	Hive	aud-use-partitioned-tables-for-large-hive-tables	high
-大的Hive表应该使用分桶策略	Use Bucketing Strategy for Large Hive Tables	audit	ddl	warning	Hive	aud-use-bucketing-strategy-for-large-hive-tables	high
-大表不建议使用复制(Replicated)分布	Avoid Replicated Distribution for Large Tables	audit	ddl	warning	分布式数据库（Greenplum、PostgreSQL-XL、TDSQL、DWS 等）	aud-avoid-replicated-distribution-for-large-tables	high
-大表建议使用分区表	Use Partitioned Tables for Large Tables	audit	ddl	info		aud-use-partitioned-tables-for-large-tables	high
-子查询中的DISTINCT消除	Eliminate Unnecessary DISTINCT in Subqueries	optimizer	rewrite	info		opt-eliminate-unnecessary-distinct-in-subqueries	high
-子查询的嵌套层次超过阈值	Subquery Nesting Depth Exceeds Threshold	audit	dml	warning		aud-subquery-nesting-depth-exceeds-threshold	high
-字段名已存在	Column with this Name Already Exists	audit	audit	error		aud-column-with-this-name-already-exists	high
-定义约束时需指定DISABLE和NONVALIDATE	Specify DISABLE and NONVALIDATE for Hive Constraints	audit	ddl	warning	Hive	aud-specify-disable-and-nonvalidate-for-hive-constra	high
-对于入参建议使用变量绑定	Use Variable Binding for Parameters	audit	dml	warning		aud-use-variable-binding-for-parameters	high
-对分片表的INSERT_REPLACE时字段必须包含分布键	Distribution Key Required in INSERT/REPLACE for Sharded Tables	audit	dml	error	分布式数据库（TDSQL、MySQL Sharding 等）	aud-distribution-key-required-in-insertreplace-for-s	high
-对象前需添加属主	Add Schema Qualifier Before Object References	audit	dml	info		aud-add-schema-qualifier-before-object-references	high
-对象名称长度不得超过阈值	Object Name Length Must Not Exceed Threshold	audit	ddl	warning		aud-object-name-length-must-not-exceed-threshold	high
-对象命名规范	Object Naming Convention	audit	ddl	info		aud-object-naming-convention	high
-小于阈值的分布表建议设计为复制表	Consider Replicated Distribution for Small Tables	audit	ddl	info	分布式数据库（Greenplum、PostgreSQL-XL、TiDB、DWS 等）	aud-consider-replicated-distribution-for-small-table	high
-应使用主键作为分布键	Use Primary Key as Distribution Key	audit	ddl	warning	分布式数据库（Greenplum、PostgreSQL-XL、openGauss、TDSQL、DWS 等）	aud-use-primary-key-as-distribution-key	high
-应使用指定的数据分布方式	Use Specified Data Distribution Method	audit	ddl	warning	分布式数据库（TDSQL 等）	aud-use-specified-data-distribution-method	high
-应通过唯一性索引来进行数据更新操作	Use Unique Index for Data Update Operations	audit	dml	info		aud-use-unique-index-for-data-update-operations	high
-建议使用'__'代替'!='	Use '<>' Instead of '!='	audit	dml	warning		aud-use-instead-of	high
-建议使用在线模式创建索引	Create Index Using Online Mode	audit	audit	warning		aud-create-index-using-online-mode	high
-建议索引字段对区分度大于阈值	Index Column Selectivity Should Exceed Threshold	audit	index	info		aud-index-column-selectivity-should-exceed-threshold	high
-必须使用INNODB存储引擎	InnoDB Storage Engine Required	audit	ddl	warning	MySQL、PolarDB（InnoDB引擎）、TDSQL（InnoDB引擎）	aud-innodb-storage-engine-required	high
-必须显式的指定分布键	Explicit Distribution Key Required	audit	ddl	warning	**分布式数据库**（包括但不限于：openGauss、PostgreSQL-XL、TDSQL、OceanBase、TiDB、DWS 等）	aud-explicit-distribution-key-required	high
-批量删除建议使用分区表删除分区	Use DROP PARTITION Instead of Batch DELETE	audit	dml	info		aud-use-drop-partition-instead-of-batch-delete	high
-投影下推(PROJECTION PUSHDOWN)	Projection Pushdown	optimizer	rewrite	info		opt-projection-pushdown	high
-排序字段方向不同导致索引失效	Mixed Sort Directions Cause Index Inefficiency	audit	index	info		aud-mixed-sort-directions-cause-index-inefficiency	high
-提前过滤不合法的值避免多余计算	Filter Invalid Values Early to Avoid Unnecessary Computation	audit	dml	info	Hive	aud-filter-invalid-values-early-to-avoid-unnecessary	high
-数据库命名规范	Database Naming Convention	audit	ddl	info		aud-database-naming-convention	high
-数据库需指定默认排序规则（Collate）	Default Collation Required for Database	audit	ddl	warning		aud-default-collation-required-for-database	high
-数据操作语句影响的行数不得超过阈值	DML Affected Rows Must Not Exceed Threshold	audit	dml	error		aud-dml-affected-rows-must-not-exceed-threshold	high
-整型建议采用 INT(10) 或 BIGINT(20)	Use INT(10) or BIGINT(20) for Integer Columns	audit	ddl	info	MySQL、PolarDB、TDSQL 等基于MySQL的数据库	aud-use-int10-or-bigint20-for-integer-columns	high
-无分组的聚集函数导致的数据倾斜优化	Data Skew Optimization for Aggregate Without GROUP BY	optimizer	rewrite	warning	Hive	opt-data-skew-optimization-for-aggregate-without-gro	high
-无条件的DELETE建议重写为Truncate	Rewrite Unconditional DELETE to TRUNCATE	audit	dml	info		aud-rewrite-unconditional-delete-to-truncate	low
-时间列未设置默认值或默认值为空	Default Value Required for Time Columns	audit	ddl	warning		aud-default-value-required-for-time-columns	high
-时间戳列需指定默认值	Default Value Required for Timestamp Columns	audit	ddl	warning		aud-default-value-required-for-timestamp-columns	high
-条件标量子查询解关联	Decorate Correlated Scalar Subqueries	optimizer	rewrite	info		opt-decorate-correlated-scalar-subqueries	high
-查询中表连接的个数超过阈值	Number of Joined Tables Exceeds Threshold	audit	dml	warning		aud-number-of-joined-tables-exceeds-threshold	high
-查询折叠(QUERY FOLDING)	Query Folding	optimizer	rewrite	info		opt-query-folding	high
-模式命名规范	Schema Naming Convention	audit	ddl	info		aud-schema-naming-convention	high
-每个表只能有一个自增列	OneIdentityColumnAllowed	audit	ddl	warning		aud-oneidentitycolumnallowed	high
-派生表转换为Lateral表关联	Derived Table to LATERAL Join Conversion	optimizer	rewrite	info		opt-derived-table-to-lateral-join-conversion	high
-深分页优化	Deep Pagination Optimization	optimizer	rewrite	warning		opt-deep-pagination-optimization	high
-添加CHECK约束时需添加NO VALID	AddCheckConstraintShouldBeDeferred	audit	ddl	warning		aud-addcheckconstraintshouldbedeferred	high
-禁止为列修改默认值	ModifyingColumnChangeDefaultDisallowed	audit	audit	warning		aud-modifyingcolumnchangedefaultdisallowed	high
-禁止为列新增非空约束	ModifyingColumnAddNotNullDisallowed	audit	audit	warning		aud-modifyingcolumnaddnotnulldisallowed	high
-禁止为列新增默认值	ModifyingColumnAddDefaultDisallowed	audit	audit	warning		aud-modifyingcolumnadddefaultdisallowed	high
-禁止为列表中的列设置非空约束	NonNullConstraint4ColumnsInListDisallowed	audit	audit	warning		aud-nonnullconstraint4columnsinlistdisallowed	high
-禁止为列表中的列设置非空默认值	LargeObjectDefaultNonNullDisallowed	audit	ddl	warning		aud-largeobjectdefaultnonnulldisallowed	high
-禁止使用=NULL判断空值	NullValueComparisonDisallowed	audit	dml	warning		aud-nullvaluecomparisondisallowed	high
-禁止使用CHECK约束	CreateCheckConstraintDisallowed	audit	ddl	warning		aud-createcheckconstraintdisallowed	high
-禁止使用ENUM数据类型	EnumDataTypeDisallowed	audit	ddl	warning		aud-enumdatatypedisallowed	high
-禁止使用SET数据类型	SetDataTypeDisallowed	audit	ddl	warning		aud-setdatatypedisallowed	high
-禁止使用SYSDATE作为默认值	UseSysdateAsDefaultDisallowed	audit	ddl	warning		aud-usesysdateasdefaultdisallowed	high
-禁止使用全文索引	FulltextIndexDisallowed	audit	index	warning		aud-fulltextindexdisallowed	high
-禁止使用函数索引	FunctionalIndexDisallowed	audit	index	warning		aud-functionalindexdisallowed	high
-禁止使用分区表	PartitionedTableDisallowed	audit	ddl	info	MySQL	aud-partitionedtabledisallowed	high
-禁止使用存储过程	Stored Procedure Disallowed	audit	ddl	warning		aud-stored-procedure-disallowed	high
-禁止使用常见 SQL 注入函数	SQLInjectionFuncsDisallowed	audit	dml	warning		aud-sqlinjectionfuncsdisallowed	high
-禁止使用的数据类型	DataTypesDisallowed	audit	ddl	warning		aud-datatypesdisallowed	high
-禁止使用自定义函数	UserDefinedFunction(UDF) Disallowed	audit	ddl	error		aud-userdefinedfunctionudf-disallowed	high
-禁止使用视图	ViewDisallowed	audit	ddl	warning	MySQL	aud-viewdisallowed	high
-禁止使用触发器	TriggerDisallowed	audit	ddl	warning		aud-triggerdisallowed	high
-禁止修改分区键的值	ModifyingPartitionKeyValueDisallowed	audit	dml	warning		aud-modifyingpartitionkeyvaluedisallowed	high
-禁止修改分布键字段类型	ModifyingDistributionKeyTypeDisallowed	audit	ddl	warning		aud-modifyingdistributionkeytypedisallowed	high
-禁止修改分片键的值	ModifyingShardKeyValueDisallowed	audit	dml	warning		aud-modifyingshardkeyvaluedisallowed	high
-禁止修改列的数据类型	ChangingColumnTypeDisallowed	audit	audit	warning		aud-changingcolumntypedisallowed	high
-禁止修改列的顺序	ChangingColumn's Order Disallowed	audit	audit	warning		aud-changingcolumns-order-disallowed	high
-禁止修改字段名	ChangingColumnNameDisallowed	audit	audit	warning		aud-changingcolumnnamedisallowed	high
-禁止修改表的默认字符集	ModifyTableCharSetDisallowed	audit	audit	warning		aud-modifytablecharsetdisallowed	high
-禁止修改降低字段精度	DecreasingPrecisionDisallowed	audit	audit	warning		aud-decreasingprecisiondisallowed	high
-禁止修改降低字段长度	ShortenDataTypeLengthDisallowed	audit	audit	warning		aud-shortendatatypelengthdisallowed	high
-禁止创建外键	ForeignKeyDisallowed	audit	ddl	warning		aud-foreignkeydisallowed	high
-禁止创建自定义函数	UserDefinedFunction(UDF) Disallowed	audit	ddl	error		aud-userdefinedfunctionudf-disallowed	high
-禁止创建自定义类型	UserDefinedType(UDT) Disallowed	audit	ddl	warning		aud-userdefinedtypeudt-disallowed	high
-禁止创建重复索引_冗余索引	RedundantIndexDisallowed	audit	index	warning		aud-redundantindexdisallowed	high
-禁止删除字段	DroppingColumnsDisallowed	audit	audit	warning		aud-droppingcolumnsdisallowed	high
-禁止删除索引	DroppingIndexDisallowed	audit	audit	warning		aud-droppingindexdisallowed	high
-禁止删除索引中的列	DroppingColumnsUsedInIndexDisallowed	audit	audit	warning		aud-droppingcolumnsusedinindexdisallowed	high
-禁止删除表_视图	DropTable/ViewDisallowed	audit	audit	warning		aud-droptableviewdisallowed	high
-禁止在分区表上创建全局索引	GlobalIndexOnPartitionedTableDisallowed	audit	index	warning	openGauss, DWS	aud-globalindexonpartitionedtabledisallowed	high
-禁止在分布式表上创建全局索引	GlobalIndexOnDistributedTableDisallowed	audit	index	warning		aud-globalindexondistributedtabledisallowed	high
-禁止对象名称与关键字重名	DuplicatedObjectNamesWithKeywords	audit	ddl	warning		aud-duplicatedobjectnameswithkeywords	high
-禁止对非整形常量进行GROUP BY	GroupByConstExprDisallowed	audit	dml	warning		aud-groupbyconstexprdisallowed	high
-禁止对非整形常量进行ORDER BY	OrderByConstExprDisallowed	audit	dml	warning		aud-orderbyconstexprdisallowed	high
-禁止指定列的字符集	CharsetOnColumnDisallowed	audit	ddl	warning		aud-charsetoncolumndisallowed	high
-禁止新增有默认值的列	AddingColumnsWithDefaultDisallowed	audit	audit	warning		aud-addingcolumnswithdefaultdisallowed	high
-禁止更新索引中的列	UpdatingColumnsUsedInIndexDisallowed	audit	audit	warning		aud-updatingcolumnsusedinindexdisallowed	high
-禁止索引创建时指定collation	Collation4IndexDisallowed	audit	index	warning		aud-collation4indexdisallowed	high
-禁止表关联数目超过阈值（严重）	NumberOfJoinedTablesExceedCriticalThreshold	audit	dml	error		aud-numberofjoinedtablesexceedcriticalthreshold	high
-禁止设置MAXVALUE默认分区	MaxValueDefaultPartitionDisallowed	audit	ddl	info		aud-maxvaluedefaultpartitiondisallowed	high
-禁止通过COMPRESSED打开字段压缩功能	CompressedAttributeDisallowed	audit	ddl	warning		aud-compressedattributedisallowed	high
 窗口分区字段分布不均匀导致数据倾斜	WinFuncSkewedOptimization	optimizer	rewrite	warning	Hive	opt-winfuncskewedoptimization	high
-精确浮点数建议使用Decimal或Number	UseDecimalForNumericColumns	audit	ddl	warning		aud-usedecimalfornumericcolumns	high
-索引中不应该有重复列	DuplicateColumnsInIndex	audit	index	warning		aud-duplicatecolumnsinindex	high
-索引中的字段不可以为TEXT和LOB类型	Text&LobColumnsInIndexDisallowed	audit	index	warning		aud-textlobcolumnsinindexdisallowed	low
-索引中的字段数目超过阈值	NumberOfColumnsInIndexExceedThreshold	audit	index	warning		aud-numberofcolumnsinindexexceedthreshold	high
-索引中避免使用可空列	AvoidUsingNullableColumnsInIndex	audit	index	warning		aud-avoidusingnullablecolumnsinindex	high
-索引列上的运算导致索引失效	RuleFuncWithColumnInPredicate	audit	index	info		aud-rulefuncwithcolumninpredicate	high
-索引名不存在	Index with this Name Does't Exists	audit	audit	error		aud-index-with-this-name-doest-exists	high
-索引名已存在	Index with this Name Already Exists	audit	audit	error		aud-index-with-this-name-already-exists	high
-索引命名规范	Index naming convention	audit	index	info		aud-index-naming-convention	high
-索引失效或不可见	Index Invalid or Invisible	audit	index	warning		aud-index-invalid-or-invisible	high
-索引必须要有名字	IndexNameRequired	audit	index	info		aud-indexnamerequired	high
-索引的字段长度不应超过阈值	LongLengthColumns4IndexDisallowed	audit	index	warning		aud-longlengthcolumns4indexdisallowed	high
-索引长度不得超过阈值	TotalIndexLengthExceedThreshold	audit	index	info		aud-totalindexlengthexceedthreshold	high
-约束名已存在	Constraint with this Name Already Exists	audit	audit	error		aud-constraint-with-this-name-already-exists	high
-经常更新的表应使用本地表	FrequentlyUpdatedTablesShouldUseLocalTables	audit	dml	info		aud-frequentlyupdatedtablesshoulduselocaltables	high
-脏页率超过阈值，建议进行回收	High dirty page ratio	audit	ddl	warning		aud-high-dirty-page-ratio	high
-自增列不得使用有符号整数	SignedInteger4IdentityColumnDisallowed	audit	ddl	warning		aud-signedinteger4identitycolumndisallowed	high
-自增列命名规范	Auto-increment column naming convention	audit	ddl	info		aud-autoincrement-column-naming-convention	high
-自增列的初始值应从0_1开始	InitValue4IdentityColumn	audit	ddl	warning		aud-initvalue4identitycolumn	high
-自增序列耗尽预警	CacheExhausted4IdentityColumn	audit	ddl	warning		aud-cacheexhausted4identitycolumn	high
-行数超过阈值的单表建议设计为分片表	LargeTableShouldBeSharded	audit	ddl	info		aud-largetableshouldbesharded	high
-表_视图名不存在	Table/View with this Name Does't Exists	audit	audit	error		aud-tableview-with-this-name-doest-exists	high
-表_视图名已存在	Table/View with this Name Already Exists	audit	audit	error		aud-tableview-with-this-name-already-exists	high
-表上应使用指定的字符集	SpecificCharSet4TableRequired	audit	ddl	warning	MySQL, PostgreSQL	aud-specificcharset4tablerequired	high
-表上应使用指定的排序规则	SpecificCollation4TableRequired	audit	ddl	warning	MySQL	aud-specificcollation4tablerequired	high
-表关联字段数据类型长度不一致	JoinColumnDataTypeMismatch	audit	dml	info		aud-joincolumndatatypemismatch	high
-表名命名规范	Table naming convention	audit	ddl	info		aud-table-naming-convention	high
-表定义时禁止使用字符集	CharsetOnTableDisallowed	audit	ddl	warning		aud-charsetontabledisallowed	high
-表必须包含的列名及数据类型	SpecificColumnsRequired	audit	ddl	warning		aud-specificcolumnsrequired	high
-表必须建主键	PrimaryKeyRequired	audit	ddl	error		aud-primarykeyrequired	high
-表必须有注释	CommentsOnTableRequired	audit	ddl	warning	MySQL	aud-commentsontablerequired	high
-表的列数不建议超过阈值	NumOfColumnsExceedThreshold	audit	ddl	warning		aud-numofcolumnsexceedthreshold	high
-表的字符集和数据库不一致	CharsetsOnTable&DatabaseMismatch	audit	ddl	warning		aud-charsetsontabledatabasemismatch	high
-表连接消除	JoinElimination	optimizer	rewrite	info		opt-joinelimination	high
-表连接缺少连接条件	MissingJoinCondition	audit	dml	info		aud-missingjoincondition	low
-表需定义更新时间戳列	UpdateTimeStampColumnsRequired	audit	ddl	warning		aud-updatetimestampcolumnsrequired	high
-视图展开	ViewExpansion	audit	dml	info		aud-viewexpansion	high
-访问分区表没有使用分区字段过滤	Partition Table Queried Without Partition Key Filter	audit	dml	info		aud-partition-table-queried-without-partition-key-fi	high
-过滤条件中必须使用主键或索引列	Filter Condition Must Use Primary Key or Index Column	audit	dml	info		aud-filter-condition-must-use-primary-key-or-index-c	high
-过滤谓词下推	Filter Predicate Pushdown	optimizer	rewrite	info		opt-filter-predicate-pushdown	high
-连接字段类型不匹配导致索引失效	Join Column Type Mismatch Causes Index Invalidation	audit	index	warning		aud-join-column-type-mismatch-causes-index-invalidat	high
-选择列标量子查询解关联	Scalar Subquery Unnesting in Select List	optimizer	rewrite	info		opt-scalar-subquery-unnesting-in-select-list	high
-避免%开头的LIKE查询	Avoid LIKE Pattern Starting with Wildcard	audit	index	warning		aud-avoid-like-pattern-starting-with-wildcard	high
-避免COUNT DISTINCT多个可空列	Avoid COUNT DISTINCT on Multiple Nullable Columns	audit	dml	info		aud-avoid-count-distinct-on-multiple-nullable-column	high
-避免GROUP BY选择列的序号	Avoid GROUP BY Column Ordinal Position	audit	dml	info		aud-avoid-group-by-column-ordinal-position	high
-避免ORDER BY选择列的序号	Avoid ORDER BY Column Ordinal Position	audit	dml	info		aud-avoid-order-by-column-ordinal-position	high
-避免ORDERBY字段来自不同表	Avoid ORDER BY Columns from Different Tables	audit	index	info		aud-avoid-order-by-columns-from-different-tables	high
-避免limit子句的查询语句使用for update	Avoid SELECT with LIMIT and FOR UPDATE	audit	dml	warning	MySQL	aud-avoid-select-with-limit-and-for-update	high
-避免不同字段的OR条件	Avoid OR Conditions on Different Columns	audit	index	warning		aud-avoid-or-conditions-on-different-columns	high
-避免不必要的去重操作	Avoid Unnecessary DISTINCT Operations	audit	dml	info		aud-avoid-unnecessary-distinct-operations	high
-避免不必要的更新操作	Avoid Unnecessary UPDATE Operations	audit	dml	info		aud-avoid-unnecessary-update-operations	high
-避免使用CROSS JOIN	Avoid CROSS JOIN	audit	dml	warning		aud-avoid-cross-join	high
-避免使用NATURAL JOIN	Avoid NATURAL JOIN	audit	dml	warning		aud-avoid-natural-join	high
-避免使用STRAIGHT JOIN	Avoid STRAIGHT JOIN	audit	dml	warning	MySQL	aud-avoid-straight-join	high
-避免使用不必要的内置函数	Avoid Unnecessary Built-in Functions	audit	dml	info		aud-avoid-unnecessary-builtin-functions	high
-避免使用标量子查询	Avoid Scalar Subqueries	audit	dml	info		aud-avoid-scalar-subqueries	high
-避免使用没有通配符的 LIKE 查询	Avoid LIKE Without Wildcards	audit	dml	warning		aud-avoid-like-without-wildcards	high
-避免使用随机函数排序	Avoid ORDER BY Random Function	audit	dml	warning		aud-avoid-order-by-random-function	high
-避免在SELECT语句中使用LIMIT而没有ORDER BY	Avoid LIMIT Without ORDER BY in SELECT	audit	dml	warning		aud-avoid-limit-without-order-by-in-select	high
-避免在SELECT语句添加FOR UPDATE	Avoid SELECT with FOR UPDATE	audit	dml	warning		aud-avoid-select-with-for-update	high
-避免在UPDELETE语句中使用LIMIT而没有ORDER	Avoid LIMIT Without ORDER BY in UPDATE/DELETE	audit	dml	warning		aud-avoid-limit-without-order-by-in-updatedelete	high
-避免在查询中使用SELECT _	Avoid SELECT *	audit	dml	info		aud-avoid-select	high
-避免对条件字段使用负向查询	Avoid Negative Queries on Filter Columns	audit	index	warning		aud-avoid-negative-queries-on-filter-columns	high
-避免对长字段进行分组	Avoid GROUP BY on Long Columns	audit	dml	warning		aud-avoid-group-by-on-long-columns	high
-避免对长字段进行排序	Avoid ORDER BY on Long Columns	audit	dml	warning		aud-avoid-order-by-on-long-columns	high
-避免常量字符串开头或结尾包含空格	Avoid Leading or Trailing Spaces in String Literals	audit	dml	warning		aud-avoid-leading-or-trailing-spaces-in-string-liter	high
-避免无条件且无分组的SELECT语句	Avoid SELECT Without WHERE and GROUP BY	audit	dml	info		aud-avoid-select-without-where-and-group-by	high
-避免无条件的UPDELETE语句	Avoid Unconditional UPDATE/DELETE Statements	audit	dml	warning		aud-avoid-unconditional-updatedelete-statements	high
-避免更新主键的值	Avoid Updating Primary Key Values	audit	dml	warning		aud-avoid-updating-primary-key-values	high
-避免更新唯一约束的值	Avoid Updating Unique Constraint Values	audit	dml	warning		aud-avoid-updating-unique-constraint-values	high
-避免有派生表的查询语句使用for update	Avoid FOR UPDATE with Derived Tables	audit	dml	warning	MySQL	aud-avoid-for-update-with-derived-tables	high
-避免查询排序时指定COLLATION	Avoid Specifying COLLATION in ORDER BY	audit	index	warning		aud-avoid-specifying-collation-in-order-by	high
-避免表关联字段不是分布键	Avoid Joining on Non-Distribution Key Columns	audit	ddl	warning	分布式数据库（包括但不限于：openGauss、PostgreSQL-XL、TDSQL、OceanBase、TiDB、DWS 等）	aud-avoid-joining-on-nondistribution-key-columns	high
-避免表引用使用重复的别名	Avoid Duplicate Table Aliases	audit	dml	warning		aud-avoid-duplicate-table-aliases	high
-长度大于阈值的字段建立索引时使用前缀	Use Prefix Index for Long VARCHAR Columns	audit	index	warning		aud-use-prefix-index-for-long-varchar-columns	high
-隐式类型转换导致索引失效	Implicit Type Conversion Causes Index Invalidation	audit	index	warning		aud-implicit-type-conversion-causes-index-invalidati	high
-非列表中的列应设置非空默认值	Non-Null Default Value Required for Non-Excluded Columns	audit	ddl	warning		aud-nonnull-default-value-required-for-nonexcluded-c	high
-非空列需指定带默认值	Default Value Required for NOT NULL Columns	audit	ddl	warning		aud-default-value-required-for-not-null-columns	high

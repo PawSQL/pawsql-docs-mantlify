@@ -577,7 +577,18 @@
 | 索引中的字段不可以为TEXT和LOB类型 | audit? / index | 列类型限制 |
 | 表连接缺少连接条件 | audit? / dml | CROSS JOIN 检查 |
 
-**规则建议**：凡文件名含“优化/重写/消除/转换/解关联/下推”且语义为自动改写者 → `optimizer`；纯检查/拦截/规范 → `audit`。上表 4 条（关联字段不均匀…优化、分布式…IN替代OR、无条件的DELETE…重写为Truncate）建议复核是否归 optimizer。
+**规则建议**：凡文件名含“优化/重写/消除/转换/解关联/下推”且语义为自动改写者 → `optimizer`；纯检查/拦截/规范 → `audit`。上表 3 条（关联字段不均匀导致数据倾斜优化、分布式数据库中使用IN替代OR、无条件的DELETE建议重写为Truncate）建议归 `optimizer`。
+
+## D.2 裁定（工作基线，2026-09-04，待产品终审）
+
+> 按 D.1 建议形成的可执行工作基线，已落到 `tools/data/rules_manifest.tsv`（261 行，audit 221 / optimizer 40；category 无词表外值）。PLACEMENT §D 保留初判，差异以本表 + manifest 为准；最终仍待产品在 yaml 头 / 导航回填终审（锁 1/2）。
+
+| 裁定 | 数量 | 条目 |
+|---|---|---|
+| 词表外 `audit` → `ddl` | 26 | 对象结构/变更/存在性检查（D.1「待确认 A」清单，除下列 1 条） |
+| 词表外 `audit` → `unknown` | 1 | `使用不存在的列`（查询/引用正确性，非对象定义域） |
+| low 维持 `audit` | 8 | GROUPBY字段来自不同表、HIVE中使用非分桶字段进行表关联、IN可空子查询可能导致结果集不符合预期、UPDATE_DELETE操作使用 LIMIT 子句、分区字段上有运算导致无法进行分区裁剪、同表同字段比较、索引中的字段不可以为TEXT和LOB类型、表连接缺少连接条件 |
+| low 改归 `optimizer`/`rewrite` | 3 | `关联字段不均匀导致数据倾斜优化` → `opt-data-skew-optimization-for-uneven-join-keys`、`分布式数据库中使用IN替代OR` → `opt-use-in-instead-of-or-in-distributed-databases`、`无条件的DELETE建议重写为Truncate` → `opt-rewrite-unconditional-delete-to-truncate`（rid 前缀同步改 `opt-`） |
 
 ## E. 分批建议
 
