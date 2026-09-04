@@ -1,0 +1,25 @@
+---
+id: en-features-index
+title: Core Features
+description: PawSQL capabilities - audit review, rewrite optimization, index recommendation, performance verification, plan visualization.
+type: product
+status: draft
+tags: [features, product]
+localeOf: features-index
+---
+
+# Core Features
+
+PawSQL's core capabilities help you write better, faster SQL:
+
+| Capability | In one line | Learn more |
+|---|---|---|
+| Audit review | Check SQL/DDL for compliance and risk before it ships | [Audit rules](en/reference/audit-rules/index) |
+| Rewrite optimization | Semantically-equivalent rewrites (EXISTS→JOIN, OR→UNION, predicate pushdown…) | [Optimizer rules](en/reference/optimizer-rules/index) |
+| Index recommendation | Design the optimal index from the query structure, with What-If validation | PawSQL Optimizer |
+| Performance verification | Verify recommended plans against real cost/execution | PawSQL Optimizer |
+| Plan visualization | Render execution plans for readable bottleneck analysis | PawSQL Plan Visualizer |
+
+Each capability is reachable from three surfaces: the web/desktop platform, IDE plugins (DBeaver / JetBrains / VS Code), and CI/CD pipelines.
+
+> Draft placeholder: detailed capability pages will be added as content lands; links point to pages that already exist.

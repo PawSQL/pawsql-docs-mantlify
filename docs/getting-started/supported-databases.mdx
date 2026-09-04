@@ -1,0 +1,25 @@
+---
+id: getting-started-supported-databases
+title: 支持的数据库
+description: PawSQL 支持优化的数据库与版本范围。
+type: reference
+product: pawsql-optimizer
+status: draft
+tags: [databases, compatibility, getting-started]
+localeOf: en-getting-started-supported-databases
+---
+
+# 支持的数据库
+
+PawSQL 面向以下数据库族提供优化与审核能力：
+
+- **MySQL**（5.7 / 8.0 系列）
+- **PostgreSQL**（14 / 15 / 16 / 17 / 18）
+- **Oracle**
+- **SQL Server**
+- **openGauss / GaussDB**
+- 更多数据库与详细版本/能力矩阵见[英文兼容性矩阵](en/reference/compatibility/index)
+
+具体到"某一数据库、某版本、某能力（优化/审核/执行计划可视化）是否支持"，以 `metadata/databases/*.yaml` 为单一事实来源；该表由元数据生成、不可手改。
+
+> 状态：草稿，版本与能力清单待与产品团队核对后定稿。

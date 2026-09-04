@@ -34,7 +34,8 @@
               {
                 "group": "快速开始",
                 "pages": [
-                  "getting-started/overview"
+                  "getting-started/overview",
+                  "getting-started/supported-databases"
                 ]
               },
               {
@@ -46,79 +47,56 @@
                 ]
               },
               {
-                "group": "审核规则",
+                "group": "核心功能",
                 "pages": [
-                  "reference/audit-rules/aud-add-schema-qualifier-before-object-references",
-                  "reference/audit-rules/aud-addcheckconstraintshouldbedeferred",
-                  "reference/audit-rules/aud-addingcolumnswithdefaultdisallowed",
-                  "reference/audit-rules/aud-autoincrement-column-naming-convention",
-                  "reference/audit-rules/aud-avoid-anti-join-operations-in-distributed-databa",
-                  "reference/audit-rules/aud-avoid-count-distinct-on-multiple-nullable-column",
-                  "reference/audit-rules/aud-avoid-cross-join",
-                  "reference/audit-rules/aud-avoid-crossshard-dml-operations-in-distributed-d",
-                  "reference/audit-rules/aud-avoid-duplicate-table-aliases",
-                  "reference/audit-rules/aud-avoid-for-update-with-derived-tables",
-                  "reference/audit-rules/aud-avoid-group-by-column-ordinal-position",
-                  "reference/audit-rules/aud-avoid-group-by-on-long-columns",
-                  "reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns",
-                  "reference/audit-rules/aud-avoid-leading-or-trailing-spaces-in-string-liter",
-                  "reference/audit-rules/aud-avoid-like-without-wildcards",
-                  "reference/audit-rules/aud-avoid-limit-without-order-by-in-select",
-                  "reference/audit-rules/aud-avoid-limit-without-order-by-in-updatedelete",
-                  "reference/audit-rules/aud-avoid-multiple-distribution-keys",
-                  "reference/audit-rules/aud-avoid-natural-join",
-                  "reference/audit-rules/aud-avoid-nondistributed-tables",
-                  "reference/audit-rules/aud-avoid-order-by-column-ordinal-position",
-                  "reference/audit-rules/aud-avoid-order-by-on-long-columns",
-                  "reference/audit-rules/aud-avoid-order-by-random-function",
-                  "reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables",
-                  "reference/audit-rules/aud-avoid-scalar-subqueries",
-                  "reference/audit-rules/aud-avoid-select-with-for-update",
-                  "reference/audit-rules/aud-avoid-select-with-limit-and-for-update",
-                  "reference/audit-rules/aud-cacheexhausted4identitycolumn",
-                  "reference/audit-rules/aud-changingcolumnnamedisallowed",
-                  "reference/audit-rules/aud-changingcolumns-order-disallowed",
-                  "reference/audit-rules/aud-changingcolumntypedisallowed",
-                  "reference/audit-rules/aud-char-column-length",
-                  "reference/audit-rules/aud-character-set-required-for-database-creation",
-                  "reference/audit-rules/aud-charsetoncolumndisallowed",
-                  "reference/audit-rules/aud-charsetontabledisallowed",
-                  "reference/audit-rules/aud-charsetsontabledatabasemismatch",
-                  "reference/audit-rules/aud-column-and-table-character-set-mismatch",
-                  "reference/audit-rules/aud-column-naming-convention",
-                  "reference/audit-rules/aud-column-with-this-name-already-exists",
-                  "reference/audit-rules/aud-comments-on-column-required",
-                  "reference/audit-rules/aud-commentsontablerequired",
-                  "reference/audit-rules/aud-compressedattributedisallowed",
-                  "reference/audit-rules/aud-consider-replicated-distribution-for-small-table",
-                  "reference/audit-rules/aud-constraint-with-this-name-already-exists",
-                  "reference/audit-rules/aud-create-index-before-constraint",
-                  "reference/audit-rules/aud-create-index-using-online-mode",
-                  "reference/audit-rules/aud-dml-where",
-                  "reference/audit-rules/aud-expression-in-group-by",
-                  "reference/audit-rules/aud-expression-in-order-by",
-                  "reference/audit-rules/aud-insert-must-include-pk",
-                  "reference/audit-rules/aud-order-by-forbidden-in-dml",
-                  "reference/audit-rules/aud-pk-naming",
-                  "reference/audit-rules/aud-select-star",
-                  "reference/audit-rules/sql-index-023"
+                  "features/index"
                 ]
               },
               {
-                "group": "优化规则",
+                "group": "规则参考",
                 "pages": [
-                  "reference/optimizer-rules/opt-count-to-exists",
-                  "reference/optimizer-rules/opt-exists-to-join",
-                  "reference/optimizer-rules/opt-npe-rewrite",
-                  "reference/optimizer-rules/opt-or-union",
-                  "reference/optimizer-rules/opt-use-union-all"
+                  "reference/audit-rules/index",
+                  "reference/optimizer-rules/index"
                 ]
               }
             ]
           },
           {
-            "tab": "API 文档",
+            "tab": "用户场景",
+            "groups": [
+              {
+                "group": "场景",
+                "pages": [
+                  "use-cases/index"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API",
             "openapi": "openapi/pawsql-openapi.yaml"
+          },
+          {
+            "tab": "博客",
+            "groups": [
+              {
+                "group": "文章",
+                "pages": [
+                  "blog/index"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "变更日志",
+            "groups": [
+              {
+                "group": "版本",
+                "pages": [
+                  "changelog/index"
+                ]
+              }
+            ]
           }
         ]
       },
@@ -132,7 +110,8 @@
                 "group": "Getting Started",
                 "pages": [
                   "en/getting-started/overview",
-                  "en/getting-started/quickstart"
+                  "en/getting-started/quickstart",
+                  "en/getting-started/supported-databases"
                 ]
               },
               {
@@ -158,78 +137,41 @@
                 ]
               },
               {
+                "group": "Features",
+                "pages": [
+                  "en/features/index"
+                ]
+              },
+              {
                 "group": "Reference",
                 "pages": [
                   "en/reference/api/overview",
-                  "en/reference/audit-rules/sql-index-023",
-                  "en/reference/audit-rules/aud-select-star",
-                  "en/reference/audit-rules/aud-dml-where",
-                  "en/reference/audit-rules/aud-pk-naming",
-                  "en/reference/audit-rules/aud-char-column-length",
-                  "en/reference/audit-rules/aud-insert-must-include-pk",
-                  "en/reference/audit-rules/aud-order-by-forbidden-in-dml",
-                  "en/reference/audit-rules/aud-expression-in-order-by",
-                  "en/reference/audit-rules/aud-expression-in-group-by",
-                  "en/reference/optimizer-rules/opt-or-union",
-                  "en/reference/optimizer-rules/opt-use-union-all",
-                  "en/reference/optimizer-rules/opt-npe-rewrite",
-                  "en/reference/optimizer-rules/opt-exists-to-join",
-                  "en/reference/optimizer-rules/opt-count-to-exists",
-                  "en/reference/configuration/explain-timeout",
-                  "en/reference/audit-rules/aud-addcheckconstraintshouldbedeferred",
-                  "en/reference/audit-rules/aud-addingcolumnswithdefaultdisallowed",
-                  "en/reference/audit-rules/aud-autoincrement-column-naming-convention",
-                  "en/reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns",
-                  "en/reference/audit-rules/aud-avoid-multiple-distribution-keys",
-                  "en/reference/audit-rules/aud-avoid-nondistributed-tables",
-                  "en/reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables",
-                  "en/reference/audit-rules/aud-cacheexhausted4identitycolumn",
-                  "en/reference/audit-rules/aud-changingcolumnnamedisallowed",
-                  "en/reference/audit-rules/aud-changingcolumns-order-disallowed",
-                  "en/reference/audit-rules/aud-changingcolumntypedisallowed",
-                  "en/reference/audit-rules/aud-character-set-required-for-database-creation",
-                  "en/reference/audit-rules/aud-charsetoncolumndisallowed",
-                  "en/reference/audit-rules/aud-charsetontabledisallowed",
-                  "en/reference/audit-rules/aud-charsetsontabledatabasemismatch",
-                  "en/reference/audit-rules/aud-column-and-table-character-set-mismatch",
-                  "en/reference/audit-rules/aud-column-naming-convention",
-                  "en/reference/audit-rules/aud-column-with-this-name-already-exists",
-                  "en/reference/audit-rules/aud-comments-on-column-required",
-                  "en/reference/audit-rules/aud-commentsontablerequired",
-                  "en/reference/audit-rules/aud-compressedattributedisallowed",
-                  "en/reference/audit-rules/aud-consider-replicated-distribution-for-small-table",
-                  "en/reference/audit-rules/aud-constraint-with-this-name-already-exists",
-                  "en/reference/audit-rules/aud-create-index-before-constraint",
-                  "en/reference/audit-rules/aud-create-index-using-online-mode",
-                  "en/reference/audit-rules/aud-add-schema-qualifier-before-object-references",
-                  "en/reference/audit-rules/aud-avoid-anti-join-operations-in-distributed-databa",
-                  "en/reference/audit-rules/aud-avoid-count-distinct-on-multiple-nullable-column",
-                  "en/reference/audit-rules/aud-avoid-cross-join",
-                  "en/reference/audit-rules/aud-avoid-crossshard-dml-operations-in-distributed-d",
-                  "en/reference/audit-rules/aud-avoid-duplicate-table-aliases",
-                  "en/reference/audit-rules/aud-avoid-for-update-with-derived-tables",
-                  "en/reference/audit-rules/aud-avoid-group-by-column-ordinal-position",
-                  "en/reference/audit-rules/aud-avoid-group-by-on-long-columns",
-                  "en/reference/audit-rules/aud-avoid-leading-or-trailing-spaces-in-string-liter",
-                  "en/reference/audit-rules/aud-avoid-like-without-wildcards",
-                  "en/reference/audit-rules/aud-avoid-limit-without-order-by-in-select",
-                  "en/reference/audit-rules/aud-avoid-limit-without-order-by-in-updatedelete",
-                  "en/reference/audit-rules/aud-avoid-natural-join",
-                  "en/reference/audit-rules/aud-avoid-order-by-column-ordinal-position",
-                  "en/reference/audit-rules/aud-avoid-order-by-on-long-columns",
-                  "en/reference/audit-rules/aud-avoid-order-by-random-function",
-                  "en/reference/audit-rules/aud-avoid-scalar-subqueries",
-                  "en/reference/audit-rules/aud-avoid-select-with-for-update",
-                  "en/reference/audit-rules/aud-avoid-select-with-limit-and-for-update"
+                  "en/reference/configuration/explain-timeout"
+                ]
+              },
+              {
+                "group": "Rule References",
+                "pages": [
+                  "en/reference/audit-rules/index",
+                  "en/reference/optimizer-rules/index"
                 ]
               },
               {
                 "group": "FAQ & Tutorials",
                 "pages": [
                   "en/faq/index",
-                  "en/tutorials/index",
-                  "en/release-notes/index",
-                  "en/release-notes/8.5.0"
+                  "en/tutorials/index"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Use Cases",
+            "groups": [
+              {
+                "group": "Scenarios",
+                "pages": [
+                  "en/use-cases/index"
                 ]
               }
             ]
@@ -246,6 +188,18 @@
                 "pages": [
                   "en/blog/index",
                   "en/blog/engineering/or-to-union"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "ChangeLog",
+            "groups": [
+              {
+                "group": "Releases",
+                "pages": [
+                  "en/release-notes/index",
+                  "en/release-notes/8.5.0"
                 ]
               }
             ]
