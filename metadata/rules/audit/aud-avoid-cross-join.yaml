@@ -1,0 +1,44 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免使用CROSS JOIN.md
+# TODO(产品核对): aud-avoid-cross-join → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-cross-join
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免使用CROSS JOIN
+    description: |-
+      CROSS JOIN 会将左表的每一行与右表的每一行进行笛卡尔乘积，生成 `左表行数 x 右表行数` 条记录。理论上它等价于条件为 `1=1` 的内连接。虽然 CROSS JOIN 在特定场景下（如生成测试数据、行列转换）有合理的用途，但在绝大多数情况下，它会产生大量无实际意义的记录，导致查询效率极低，同时对系统资源造成巨大压力。
+      PawSQL 对使用 CROSS JOIN 的语句进行风险提示，以避免其引发的性能问题。如果确实需要使用笛卡尔积，建议添加明确的注释说明业务意图。
+    badExample: |-
+      -- ❌ 不推荐：CROSS JOIN 产生笛卡尔积，数据量暴增
+      SELECT *
+      FROM lineitem
+      CROSS JOIN orders;
+    goodExample: |-
+      -- ✅ 推荐：使用明确的 JOIN 条件进行关联
+      SELECT *
+      FROM lineitem l
+      JOIN orders o ON l.order_id = o.order_id;
+    summary: 避免 CROSS JOIN 产生的笛卡尔积（性能陷阱）；应改用带 ON 条件的关联，确需笛卡尔积时加注释说明。
+  en:
+    name: Avoid CROSS JOIN
+    description: |-
+      CROSS JOIN pairs every row of the left table with every row of the right table, producing `left rows x right rows` records - equivalent in theory to an inner join on `1=1`. Although CROSS JOIN has legitimate uses in specific scenarios (generating test data, pivoting rows to columns), in most cases it produces huge numbers of meaningless rows, making the query extremely inefficient and putting heavy pressure on system resources.
+
+      PawSQL raises a risk notice on statements that use CROSS JOIN to steer clear of these performance problems. If a Cartesian product is really needed, add an explicit comment explaining the business intent.
+    summary: CROSS JOIN produces a Cartesian product and is almost always a performance trap; use an explicit join condition, or document the intent.
+    badExample: |-
+      -- bad: CROSS JOIN produces a Cartesian product and explodes the row count
+      SELECT *
+      FROM lineitem
+      CROSS JOIN orders;
+    goodExample: |-
+      -- good: join with an explicit condition
+      SELECT *
+      FROM lineitem l
+      JOIN orders o ON l.order_id = o.order_id;

@@ -1,0 +1,44 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免使用没有通配符的 LIKE 查询.md
+# TODO(产品核对): aud-avoid-like-without-wildcards → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-like-without-wildcards
+category: dml
+severity: warning
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 避免使用没有通配符的 LIKE 查询
+    description: |-
+      不包含通配符（`%` 或 `_`）的 LIKE 查询在逻辑上与等值查询（`=`）完全相同，但语义上会带来歧义——阅读者无法判断开发者是有意使用 LIKE 进行模式匹配还是误用了 LIKE 替代等值比较。更关键的是，这种写法通常是开发者的疏忽导致的，可能不符合其期望的业务逻辑实现（例如原本想写 `LIKE '%keyword%'` 却漏掉了通配符）。
+      建议将没有通配符的 LIKE 查询统一替换为等值查询（`=`），使 SQL 语义更加精确和清晰。开发者应特别关注此类预警，确认是否为自己的真实意图。
+    badExample: |-
+      -- ❌ 不推荐：LIKE 没有通配符，语义上等价于等值查询，可能是疏忽
+      SELECT * FROM t WHERE name LIKE 'test';
+    goodExample: |-
+      -- ✅ 推荐：使用等值查询替代
+      SELECT * FROM t WHERE name = 'test';
+
+      -- 如果确实需要模糊匹配，应明确添加通配符
+      SELECT * FROM t WHERE name LIKE '%test%';
+    summary: 无通配符的 LIKE 等价于等值查询，多为漏写通配符；应改 = 或明确补 %/_。
+  en:
+    name: Avoid LIKE Without Wildcards
+    description: |-
+      A LIKE without wildcards (`%` or `_`) is logically identical to an equality comparison (`=`), but reads ambiguously - readers cannot tell whether the developer deliberately wanted pattern matching or accidentally used LIKE where they meant equality. More importantly, this is usually a slip: the developer may have intended `LIKE '%keyword%'` and forgotten the wildcards.
+
+      Replace wildcard-less LIKE with an equality comparison (`=`) so the semantics are precise and clear. Pay attention to this notice and confirm it reflects your real intent.
+    summary: LIKE without wildcards equals an equality and usually signals a forgotten wildcard; use '=' or add the wildcards deliberately.
+    badExample: |-
+      -- bad: LIKE without wildcards is equivalent to equality and may be a slip
+      SELECT * FROM t WHERE name LIKE 'test';
+    goodExample: |-
+      -- good: use equality instead
+      SELECT * FROM t WHERE name = 'test';
+
+      -- for real fuzzy matching, add the wildcards explicitly
+      SELECT * FROM t WHERE name LIKE '%test%';

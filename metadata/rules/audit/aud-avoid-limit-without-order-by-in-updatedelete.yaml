@@ -1,0 +1,40 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免在UPDELETE语句中使用LIMIT而没有ORDER .md
+# TODO(产品核对): aud-avoid-limit-without-order-by-in-updatedelete → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-limit-without-order-by-in-updatedelete
+category: dml
+severity: warning
+tags:
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 避免在UPDELETE语句中使用LIMIT而没有ORDER
+    description: |-
+      在 `UPDATE` 或 `DELETE` 语句中使用 `LIMIT` 而没有 `ORDER BY` 子句，会导致每次执行时受影响的行不确定。数据库在没有排序指令的情况下，处理行的顺序是不保证的，这意味着每次执行 `UPDATE/DELETE ... LIMIT N` 可能更新或删除不同的 N 行记录。
+      这种行为在数据清理、分批处理等场景中尤其危险——开发者可能期望按某种顺序分批处理数据，但实际每次处理的行却是随机的。正确的做法是始终配合 `ORDER BY` 使用 `LIMIT`，确保操作的可预测性和数据安全性。
+      > 注意：PostgreSQL/OpenGauss 不支持在 `UPDATE` 或 `DELETE` 语句中使用 `ORDER BY` 子句，在这些数据库中应使用 `WHERE` 子查询的方式来精确定位目标行。
+    badExample: |-
+      -- ❌ 不推荐：LIMIT 但没有 ORDER BY，每次删除的行不确定
+      DELETE FROM t WHERE status = 0 LIMIT 10;
+    goodExample: |-
+      -- ✅ 推荐：配合 ORDER BY，确保分批处理稳定可预测
+      DELETE FROM t WHERE status = 0 ORDER BY created_at LIMIT 10;
+    summary: UPDATE/DELETE 用 LIMIT 无 ORDER BY 影响行不确定；应配 ORDER BY（PG/openGauss 用 WHERE 子查询定位）。
+  en:
+    name: Avoid LIMIT Without ORDER BY in UPDATE/DELETE
+    description: |-
+      Using `LIMIT` in an `UPDATE` or `DELETE` without `ORDER BY` makes the affected rows nondeterministic on every run. With no ordering instruction, databases do not guarantee the order in which rows are processed, so `UPDATE/DELETE ... LIMIT N` can touch a different N rows each time.
+
+      This is especially dangerous for data cleanup and batched processing - developers expect rows to be handled in some order, but the actual rows are effectively random. Always pair `LIMIT` with `ORDER BY` so operations are predictable and data stays safe.
+
+      > Note: PostgreSQL/openGauss do not support `ORDER BY` inside UPDATE or DELETE; in those databases, locate the target rows with a `WHERE` subquery instead.
+    summary: UPDATE/DELETE ... LIMIT without ORDER BY touches nondeterministic rows; pair LIMIT with ORDER BY (or a WHERE subquery on PostgreSQL/openGauss).
+    badExample: |-
+      -- bad: LIMIT without ORDER BY; which rows get deleted is nondeterministic
+      DELETE FROM t WHERE status = 0 LIMIT 10;
+    goodExample: |-
+      -- good: with ORDER BY, batched processing is stable and predictable
+      DELETE FROM t WHERE status = 0 ORDER BY created_at LIMIT 10;

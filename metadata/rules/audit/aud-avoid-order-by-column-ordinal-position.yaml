@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免ORDER BY选择列的序号.md
+# TODO(产品核对): aud-avoid-order-by-column-ordinal-position → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-order-by-column-ordinal-position
+category: dml
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免ORDER BY选择列的序号
+    description: |-
+      在进行 SQL 开发时，可以使用 SELECT 列表中列的序号（如 `ORDER BY 1, 2`）来代替具体的列名或表达式。这种写法虽然给开发人员带来了一定的书写便利，但会严重降低代码的可读性和可维护性——当 SELECT 列表中的列顺序发生变化时，ORDER BY 的语义会随之改变，而这种改变对代码审阅者来说极难察觉，容易引入隐蔽的 bug。
+      建议始终在 ORDER BY 中使用明确的列名或表达式，使 SQL 意图清晰可见，也便于后续的代码维护和重构。
+    badExample: |-
+      -- ❌ 不推荐：使用列序号进行 ORDER BY，可读性差
+      SELECT id, name FROM t ORDER BY 2;
+    goodExample: |-
+      -- ✅ 推荐：使用明确的列名进行 ORDER BY
+      SELECT id, name FROM t ORDER BY name;
+    summary: 避免 ORDER BY 用列序号（SELECT 顺序变化会悄然改变语义）；直接用列名或表达式。
+  en:
+    name: Avoid ORDER BY Column Ordinal Position
+    description: |-
+      You can sort by a column's ordinal position in the SELECT list (for example `ORDER BY 1, 2`) instead of naming the column or expression. That saves a little typing but badly hurts readability and maintainability - when the order of columns in the SELECT list changes, the semantics of ORDER BY silently change in a way reviewers can easily miss, inviting subtle bugs.
+
+      Always use explicit column names or expressions in ORDER BY so the intent is visible and later maintenance and refactoring stay safe.
+    summary: ORDER BY 1,2 (column ordinals) silently changes meaning when the SELECT list changes; always name the columns or expressions.
+    badExample: |-
+      -- bad: ORDER BY by column ordinal is hard to read
+      SELECT id, name FROM t ORDER BY 2;
+    goodExample: |-
+      -- good: ORDER BY with explicit column names
+      SELECT id, name FROM t ORDER BY name;

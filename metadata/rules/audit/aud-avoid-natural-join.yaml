@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免使用NATURAL JOIN.md
+# TODO(产品核对): aud-avoid-natural-join → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-natural-join
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免使用NATURAL JOIN
+    description: |-
+      NATURAL JOIN 是一种特殊的等值连接，它可以与内连接、外连接及全连接配合使用。它会自动搜索两张表中所有相同列名和类型的列，并以这些列为条件进行等值连接。虽然 NATURAL JOIN 可以简化语句书写，但其隐式连接条件严重降低了代码的可读性：阅读者无法直观看出两张表基于哪些列关联，也不利于理解表之间的关系。
+      更危险的是，当表结构发生变化（如新增或删除同名列）时，NATURAL JOIN 的连接条件会悄然改变，可能产生错误的查询结果而不会触发任何错误提示。PawSQL 对使用 NATURAL JOIN 的语句进行风险提示，以避免其引发的正确性问题。
+    badExample: |-
+      -- ❌ 不推荐：NATURAL JOIN 隐式匹配同名列，可读性差且易出错
+      SELECT * FROM orders NATURAL JOIN customers;
+    goodExample: |-
+      -- ✅ 推荐：使用显式的 JOIN ... ON 语法，连接条件一目了然
+      SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id;
+    summary: 避免 NATURAL JOIN（隐式连接条件可读性差、表结构变化会悄然改变语义）；用显式 JOIN ... ON。
+  en:
+    name: Avoid NATURAL JOIN
+    description: |-
+      NATURAL JOIN is a special equi-join usable with inner, outer, and full joins. It automatically matches every pair of same-named, same-typed columns across the two tables and joins on them. NATURAL JOIN shortens the statement, but its implicit join conditions badly hurt readability: readers cannot see which columns the tables are joined on and cannot easily reason about the relationship.
+
+      More dangerously, when the schema changes (a same-named column is added or removed), NATURAL JOIN's join conditions silently change and can produce wrong results without any error. PawSQL raises a risk notice on NATURAL JOIN statements to avoid these correctness problems.
+    summary: NATURAL JOIN's implicit join conditions hurt readability and silently change when the schema changes; use explicit JOIN ... ON.
+    badExample: |-
+      -- bad: NATURAL JOIN implicitly matches same-named columns; hard to read and error-prone
+      SELECT * FROM orders NATURAL JOIN customers;
+    goodExample: |-
+      -- good: explicit JOIN ... ON makes the join condition obvious
+      SELECT * FROM orders o JOIN customers c ON o.customer_id = c.id;

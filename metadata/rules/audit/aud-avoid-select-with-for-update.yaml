@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免在SELECT语句添加FOR UPDATE.md
+# TODO(产品核对): aud-avoid-select-with-for-update → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-select-with-for-update
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免在SELECT语句添加FOR UPDATE
+    description: |-
+      `SELECT ... FOR UPDATE` 会对查询命中的行加排他锁，在事务提交或回滚之前阻止其他事务对这些行进行修改或加锁读取。这种行级锁定在并发场景下可能导致锁等待、阻塞甚至死锁，严重影响数据库的并发处理能力和整体性能。
+      因此 `FOR UPDATE` 应谨慎使用，仅在确实需要悲观锁保证数据一致性的场景下使用，并尽可能缩小锁定范围（如通过精确的主键查询来限制锁定行数）。对于不需要加锁的查询，绝不应随意添加 `FOR UPDATE`。PawSQL 会检查此类写法并进行提醒。
+    badExample: |-
+      -- ❌ 不推荐：无必要地使用 FOR UPDATE，导致锁竞争
+      SELECT * FROM user WHERE status = 'active' FOR UPDATE;
+    goodExample: |-
+      -- ✅ 推荐：仅在需要悲观锁时使用，且通过主键精确锁定
+      SELECT * FROM user WHERE id = 100 FOR UPDATE;
+    summary: 避免随意 SELECT ... FOR UPDATE（行锁致等待/阻塞/死锁）；仅确需悲观锁时使用，并尽量缩小锁定范围。
+  en:
+    name: Avoid SELECT with FOR UPDATE
+    description: |-
+      `SELECT ... FOR UPDATE` takes exclusive locks on the rows the query matches and, until the transaction commits or rolls back, blocks other transactions from modifying or lock-reading those rows. Under concurrency this row-level locking can cause lock waits, blocking, and even deadlocks, hurting the database's concurrency and overall performance.
+
+      Use `FOR UPDATE` sparingly - only where pessimistic locking is genuinely needed to guarantee consistency - and keep the lock scope as small as possible (for example, lock only a few rows via an exact primary-key lookup). Never add `FOR UPDATE` to queries that need no locking. PawSQL checks for and reminds about this pattern.
+    summary: SELECT ... FOR UPDATE adds row locks that cause waits, blocking, and deadlocks under concurrency; use it only when pessimistic locking is truly needed, on the fewest rows.
+    badExample: |-
+      -- bad: unnecessary FOR UPDATE causes lock contention
+      SELECT * FROM user WHERE status = 'active' FOR UPDATE;
+    goodExample: |-
+      -- good: only where pessimistic locking is needed, and lock precisely by primary key
+      SELECT * FROM user WHERE id = 100 FOR UPDATE;

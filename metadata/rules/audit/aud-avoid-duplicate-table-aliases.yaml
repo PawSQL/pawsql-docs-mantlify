@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免表引用使用重复的别名.md
+# TODO(产品核对): aud-avoid-duplicate-table-aliases → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-duplicate-table-aliases
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免表引用使用重复的别名
+    description: |-
+      查询语句中存在别名相同的表引用或子查询，或者表的别名与数据库中其他表名相同，会导致代码可读性急剧恶化——阅读者很难分辨每个列引用究竟来自哪张表，也不利于后续的代码维护和问题排查。
+      在同一个查询块中，每个表引用应始终使用唯一且语义明确的别名。这不仅是一种良好的编码习惯，也是保障 SQL 在复杂业务场景下可维护性的基本要求。
+    badExample: |-
+      -- ❌ 不推荐：表别名重复，无法区分列来源
+      SELECT * FROM t a, t a;
+    goodExample: |-
+      -- ✅ 推荐：使用唯一且语义明确的别名
+      SELECT * FROM t t1, t t2 WHERE t1.id = t2.parent_id;
+    summary: 避免表引用别名重复或与库表名冲突（可读性差）；每个表引用用唯一且有语义的别名。
+  en:
+    name: Avoid Duplicate Table Aliases
+    description: |-
+      When a query reuses the same alias for two table references or subqueries, or an alias equals another table's name in the database, readability collapses - readers cannot tell which table each column reference comes from, and later maintenance and troubleshooting suffer.
+
+      Within a single query block, every table reference should carry a unique, semantically meaningful alias. This is both good practice and a basic requirement for keeping SQL maintainable in complex business scenarios.
+    summary: Duplicate table aliases (or aliases colliding with real table names) destroy readability; every table reference needs a unique, meaningful alias.
+    badExample: |-
+      -- bad: duplicate table aliases make column provenance impossible to tell
+      SELECT * FROM t a, t a;
+    goodExample: |-
+      -- good: use unique, meaningful aliases
+      SELECT * FROM t t1, t t2 WHERE t1.id = t2.parent_id;

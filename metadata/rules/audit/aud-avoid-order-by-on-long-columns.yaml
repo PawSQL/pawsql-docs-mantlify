@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免对长字段进行排序.md
+# TODO(产品核对): aud-avoid-order-by-on-long-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-order-by-on-long-columns
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免对长字段进行排序
+    description: |-
+      排序是一个 O(n log n) 时间复杂度的操作，如果需要排序的行数较多，单字段的长度会显著影响排序效率——字段越长，每次比较的代价越高，排序所需的临时空间也越大。此规则通过比较排序字段的长度是否超过用户设定的阈值来判断风险。
+      默认阈值为 128 字符。如果排序字段的类型为 CHAR/VARCHAR 且长度超过阈值，或类型为 CLOB/TEXT 等大对象类型，则会触发预警。建议对长字段使用前缀排序或哈希排序来替代全字段排序。
+    badExample: |-
+      -- ❌ 不推荐：对超过阈值的 VARCHAR 字段进行排序，效率低下
+      SELECT * FROM articles ORDER BY content;
+    goodExample: |-
+      -- ✅ 推荐：使用前缀排序或哈希排序
+      SELECT * FROM articles ORDER BY LEFT(content, 64);
+    summary: 避免对超长字段直接排序（比较代价与临时空间大）；用前缀（LEFT）或哈希排序替代。
+  en:
+    name: Avoid ORDER BY on Long Columns
+    description: |-
+      Sorting is an O(n log n) operation; when many rows must be sorted, the length of a single column significantly affects efficiency - longer values make every comparison costlier and need more temporary space. This rule compares each sort column's length against a user-set threshold to assess risk.
+
+      The default threshold is 128 characters. It warns when a CHAR/VARCHAR sort column exceeds the threshold or is a large-object type such as CLOB/TEXT. Prefer sorting by a prefix or a hash instead of the full column.
+    summary: Sorting by over-long columns (CHAR/VARCHAR above 128 or CLOB/TEXT) is costly; sort by a prefix or hash instead.
+    badExample: |-
+      -- bad: sorting by a VARCHAR above the threshold is inefficient
+      SELECT * FROM articles ORDER BY content;
+    goodExample: |-
+      -- good: sort by a prefix or a hash
+      SELECT * FROM articles ORDER BY LEFT(content, 64);

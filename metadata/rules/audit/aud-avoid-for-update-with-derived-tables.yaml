@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免有派生表的查询语句使用for update.md
+# TODO(产品核对): aud-avoid-for-update-with-derived-tables → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(复核): en 正文为 zh（vault 源）的忠实翻译，发布前建议母语/产品复核；Rule ID/category/severity 仍待注册表定稿。
+
+
+id: aud-avoid-for-update-with-derived-tables
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免有派生表的查询语句使用for update
+    description: |-
+      `SELECT ... FROM (子查询) ... FOR UPDATE` 这类语句存在严重的锁失效风险。在 MySQL 中，当 FROM 子句包含派生表（子查询）时，数据库会先将子查询物化为临时表，而 `FOR UPDATE` 的锁可能被加在这个内部临时表上，而非真正的基表数据行。这意味着锁实际上并未保护你期望保护的基表数据，无法满足业务的数据一致性需求。
+      正确的做法是直接对基表进行 `SELECT ... FOR UPDATE`。如果需要通过子查询筛选后再加锁，应通过 `EXPLAIN` 确认执行计划，确保没有产生 `DERIVED` 临时表，或使用 JOIN 替代子查询。
+    badExample: |-
+      -- ❌ 不推荐：派生表上的 FOR UPDATE，锁可能加在临时表上而非基表
+      SELECT * FROM (SELECT * FROM t WHERE id_seq = ?) a FOR UPDATE;
+    goodExample: |-
+      -- ✅ 推荐：直接对基表加锁
+      SELECT * FROM t WHERE id_seq = ? FOR UPDATE;
+    summary: 派生表上的 SELECT ... FOR UPDATE 锁可能落在内部临时表而非基表；应直接对基表加锁。
+  en:
+    name: Avoid FOR UPDATE with Derived Tables
+    description: |-
+      `SELECT ... FROM (subquery) ... FOR UPDATE` has a serious lock-miss risk. In MySQL, when the FROM clause contains a derived table (subquery), the database first materializes the subquery into a temporary table, and the `FOR UPDATE` locks may be taken on that internal temporary table rather than on the real base-table rows. The lock then does not actually protect the base rows you intended, so the business's data-consistency requirement is not met.
+
+      The right approach is to run `SELECT ... FOR UPDATE` directly on the base table. If you must filter through a subquery before locking, confirm with `EXPLAIN` that no `DERIVED` temporary table is produced, or replace the subquery with a JOIN.
+    summary: SELECT ... FOR UPDATE over a derived table can lock the internal temporary table instead of the base rows; lock the base table directly.
+    badExample: |-
+      -- bad: FOR UPDATE over a derived table may lock the temporary table, not the base rows
+      SELECT * FROM (SELECT * FROM t WHERE id_seq = ?) a FOR UPDATE;
+    goodExample: |-
+      -- good: lock the base table directly
+      SELECT * FROM t WHERE id_seq = ? FOR UPDATE;
