@@ -11,6 +11,9 @@
   "icons": {
     "library": "lucide"
   },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
   "navigation": {
     "global": {
       "anchors": [
