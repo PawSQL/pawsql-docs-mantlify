@@ -48,21 +48,50 @@
               {
                 "group": "审核规则",
                 "pages": [
-                  "reference/audit-rules/aud-pk-naming",
+                  "reference/audit-rules/aud-addcheckconstraintshouldbedeferred",
+                  "reference/audit-rules/aud-addingcolumnswithdefaultdisallowed",
+                  "reference/audit-rules/aud-autoincrement-column-naming-convention",
+                  "reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns",
+                  "reference/audit-rules/aud-avoid-multiple-distribution-keys",
+                  "reference/audit-rules/aud-avoid-nondistributed-tables",
+                  "reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables",
+                  "reference/audit-rules/aud-cacheexhausted4identitycolumn",
+                  "reference/audit-rules/aud-changingcolumnnamedisallowed",
+                  "reference/audit-rules/aud-changingcolumns-order-disallowed",
+                  "reference/audit-rules/aud-changingcolumntypedisallowed",
                   "reference/audit-rules/aud-char-column-length",
+                  "reference/audit-rules/aud-character-set-required-for-database-creation",
+                  "reference/audit-rules/aud-charsetoncolumndisallowed",
+                  "reference/audit-rules/aud-charsetontabledisallowed",
+                  "reference/audit-rules/aud-charsetsontabledatabasemismatch",
+                  "reference/audit-rules/aud-column-and-table-character-set-mismatch",
+                  "reference/audit-rules/aud-column-naming-convention",
+                  "reference/audit-rules/aud-column-with-this-name-already-exists",
+                  "reference/audit-rules/aud-comments-on-column-required",
+                  "reference/audit-rules/aud-commentsontablerequired",
+                  "reference/audit-rules/aud-compressedattributedisallowed",
+                  "reference/audit-rules/aud-consider-replicated-distribution-for-small-table",
+                  "reference/audit-rules/aud-constraint-with-this-name-already-exists",
+                  "reference/audit-rules/aud-create-index-before-constraint",
+                  "reference/audit-rules/aud-create-index-using-online-mode",
+                  "reference/audit-rules/aud-dml-where",
+                  "reference/audit-rules/aud-expression-in-group-by",
+                  "reference/audit-rules/aud-expression-in-order-by",
                   "reference/audit-rules/aud-insert-must-include-pk",
                   "reference/audit-rules/aud-order-by-forbidden-in-dml",
-                  "reference/audit-rules/aud-expression-in-order-by",
-                  "reference/audit-rules/aud-expression-in-group-by"
+                  "reference/audit-rules/aud-pk-naming",
+                  "reference/audit-rules/aud-select-star",
+                  "reference/audit-rules/sql-index-023"
                 ]
               },
               {
                 "group": "优化规则",
                 "pages": [
-                  "reference/optimizer-rules/opt-use-union-all",
-                  "reference/optimizer-rules/opt-npe-rewrite",
+                  "reference/optimizer-rules/opt-count-to-exists",
                   "reference/optimizer-rules/opt-exists-to-join",
-                  "reference/optimizer-rules/opt-count-to-exists"
+                  "reference/optimizer-rules/opt-npe-rewrite",
+                  "reference/optimizer-rules/opt-or-union",
+                  "reference/optimizer-rules/opt-use-union-all"
                 ]
               }
             ]
@@ -126,7 +155,32 @@
                   "en/reference/optimizer-rules/opt-npe-rewrite",
                   "en/reference/optimizer-rules/opt-exists-to-join",
                   "en/reference/optimizer-rules/opt-count-to-exists",
-                  "en/reference/configuration/explain-timeout"
+                  "en/reference/configuration/explain-timeout",
+                  "en/reference/audit-rules/aud-addcheckconstraintshouldbedeferred",
+                  "en/reference/audit-rules/aud-addingcolumnswithdefaultdisallowed",
+                  "en/reference/audit-rules/aud-autoincrement-column-naming-convention",
+                  "en/reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns",
+                  "en/reference/audit-rules/aud-avoid-multiple-distribution-keys",
+                  "en/reference/audit-rules/aud-avoid-nondistributed-tables",
+                  "en/reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables",
+                  "en/reference/audit-rules/aud-cacheexhausted4identitycolumn",
+                  "en/reference/audit-rules/aud-changingcolumnnamedisallowed",
+                  "en/reference/audit-rules/aud-changingcolumns-order-disallowed",
+                  "en/reference/audit-rules/aud-changingcolumntypedisallowed",
+                  "en/reference/audit-rules/aud-character-set-required-for-database-creation",
+                  "en/reference/audit-rules/aud-charsetoncolumndisallowed",
+                  "en/reference/audit-rules/aud-charsetontabledisallowed",
+                  "en/reference/audit-rules/aud-charsetsontabledatabasemismatch",
+                  "en/reference/audit-rules/aud-column-and-table-character-set-mismatch",
+                  "en/reference/audit-rules/aud-column-naming-convention",
+                  "en/reference/audit-rules/aud-column-with-this-name-already-exists",
+                  "en/reference/audit-rules/aud-comments-on-column-required",
+                  "en/reference/audit-rules/aud-commentsontablerequired",
+                  "en/reference/audit-rules/aud-compressedattributedisallowed",
+                  "en/reference/audit-rules/aud-consider-replicated-distribution-for-small-table",
+                  "en/reference/audit-rules/aud-constraint-with-this-name-already-exists",
+                  "en/reference/audit-rules/aud-create-index-before-constraint",
+                  "en/reference/audit-rules/aud-create-index-using-online-mode"
                 ]
               },
               {
