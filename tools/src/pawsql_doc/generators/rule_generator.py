@@ -1,15 +1,20 @@
 """Generate a rule reference page from RuleMetadata (design 12, task 007).
 
-When the rule metadata carries a ``zh`` block the generator also emits a
-Chinese mirror page under ``docs/zh/reference/...`` (bilingual dual output).
+zh-default site: the Chinese page lives at the content root
+(``docs/reference/{audit,optimizer}-rules``, served at ``/``) when
+``content.zh`` is present; the English mirror lives under the secondary
+language tree ``docs/en/reference/{audit,optimizer}-rules`` (served at ``/en``)
+when ``content.en`` is present. A rule whose zh content is missing produces no
+default-language page and is reported by the drift/gate check as not yet
+documented in the default language.
 """
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 from pawsql_doc.generators.base import code_block, fmt_list, generated_note, render_page, slug, write_page
-from pawsql_doc.models import RuleMetadata
+from pawsql_doc.models import RuleCategory, RuleContent, RuleMetadata
 
 SECTION_ORDER = [
     ("description", "Description"),
@@ -27,6 +32,66 @@ SOURCE_GLOB = "rules/{kind}/*.yaml"
 
 SEVERITY_ZH = {"error": "错误", "warning": "警告", "info": "提示"}
 
+CATEGORY_ZH = {
+    "ddl": "对象与结构定义",
+    "dml": "数据操作",
+    "index": "索引",
+    "rewrite": "重写",
+    "join": "连接",
+    "subquery": "子查询",
+    "null": "NULL 与空值",
+    "union": "UNION 与集合",
+    "predicate": "谓词与过滤",
+    "constant": "常量",
+    "unknown": "待归类（产品核对中）",
+}
+
+CATEGORY_EN = {
+    "ddl": "DDL / object design",
+    "dml": "DML / data modification",
+    "index": "Index",
+    "rewrite": "Rewrite",
+    "join": "Join",
+    "subquery": "Subquery",
+    "null": "NULL handling",
+    "union": "UNION / set operations",
+    "predicate": "Predicate / filtering",
+    "constant": "Constant",
+    "unknown": "Unknown (pending product mapping)",
+}
+
+
+def _content(rule: RuleMetadata, lang: str) -> Optional[RuleContent]:
+    return getattr(rule.content, lang)
+
+
+def _name(rule: RuleMetadata, lang: str) -> str:
+    own = _content(rule, lang)
+    other = _content(rule, "zh" if lang == "en" else "en")
+    value = (own.name if own else None) or (other.name if other else None) or rule.id
+    return value
+
+
+def _value(rule: RuleMetadata, lang: str, attr: str) -> str:
+    own = _content(rule, lang)
+    other = _content(rule, "zh" if lang == "en" else "en")
+    value = (getattr(own, attr) if own else None) or (getattr(other, attr) if other else None)
+    return value or ""
+
+
+def _seo(rule: RuleMetadata, lang: str) -> str:
+    """Human-written one-line description for front matter (B1).
+
+    Prefers the dedicated ``summary``; falls back to the first line of the
+    longer prose description only when it stays a one-liner. Never truncates.
+    """
+    own = _content(rule, lang)
+    summary = getattr(own, "summary", None) if own else None
+    if summary:
+        return summary.splitlines()[0]
+    first_line = _value(rule, lang, "description").splitlines()[0] if _value(rule, lang, "description") else ""
+    return first_line if len(first_line) <= 200 else ""
+
 
 def _databases(rule: RuleMetadata, zh: bool) -> str:
     if rule.database:
@@ -36,11 +101,35 @@ def _databases(rule: RuleMetadata, zh: bool) -> str:
     return "所有支持数据库" if zh else "All supported databases"
 
 
-def _facts(rule: RuleMetadata) -> List[List[str]]:
+def _category_display(category: RuleCategory, zh: bool) -> str:
+    table = CATEGORY_ZH if zh else CATEGORY_EN
+    token = category.value
+    display = table.get(token, token)
+    if zh:
+        return f"{token}（{display}）"
+    return f"{token} — {display}"
+
+
+def _facts(rule: RuleMetadata, zh: bool) -> List[List[str]]:
+    if zh:
+        rows = [
+            ["规则 ID", rule.id],
+            ["规则名称", _name(rule, "zh")],
+            ["类别", _category_display(rule.category, zh=True)],
+            ["预警级别", SEVERITY_ZH.get(rule.severity.value, rule.severity.value)],
+            ["适用数据库", _databases(rule, zh=True)],
+        ]
+        if rule.introducedVersion:
+            rows.append(["引入版本", rule.introducedVersion])
+        if rule.deprecatedVersion:
+            rows.append(["弃用版本", rule.deprecatedVersion])
+        if rule.implementationClass:
+            rows.append(["实现", f"`{rule.implementationClass}`"])
+        return rows
     rows = [
         ["Rule ID", rule.id],
-        ["Name", rule.name],
-        ["Category", rule.category],
+        ["Name", _name(rule, "en")],
+        ["Category", _category_display(rule.category, zh=False)],
         ["Severity", rule.severity.value],
         ["Databases", _databases(rule, zh=False)],
     ]
@@ -50,24 +139,6 @@ def _facts(rule: RuleMetadata) -> List[List[str]]:
         rows.append(["Version Deprecated", rule.deprecatedVersion])
     if rule.implementationClass:
         rows.append(["Implementation", f"`{rule.implementationClass}`"])
-    return rows
-
-
-def _facts_zh(rule: RuleMetadata) -> List[List[str]]:
-    zh = rule.zh
-    rows = [
-        ["规则 ID", rule.id],
-        ["规则名称", zh.name if zh and zh.name else rule.name],
-        ["类别", rule.category],
-        ["预警级别", SEVERITY_ZH.get(rule.severity.value, rule.severity.value)],
-        ["适用数据库", _databases(rule, zh=True)],
-    ]
-    if rule.introducedVersion:
-        rows.append(["引入版本", rule.introducedVersion])
-    if rule.deprecatedVersion:
-        rows.append(["弃用版本", rule.deprecatedVersion])
-    if rule.implementationClass:
-        rows.append(["实现", f"`{rule.implementationClass}`"])
     return rows
 
 
@@ -89,46 +160,27 @@ def _generated_note(source_glob: str, zh: bool) -> str:
     return generated_note(source_glob)
 
 
-def _zh_value(rule: RuleMetadata, attr: str) -> str:
-    zh = rule.zh
-    zh_value = getattr(zh, attr) if zh else None
-    return zh_value if zh_value else (getattr(rule, attr) or "")
-
-
-def _page_parts(rule: RuleMetadata, kind: str, zh: bool) -> List[str]:
+def _page_parts(rule: RuleMetadata, kind: str, lang: str) -> List[str]:
+    zh = lang == "zh"
     source_glob = SOURCE_GLOB.format(kind=kind)
-    if zh:
-        parts = [_generated_note(source_glob, zh=True), _table(_facts_zh(rule), zh=True), ""]
-        for attr, heading in ZH_SECTION_ORDER:
-            value = _zh_value(rule, attr)
-            if value:
-                parts.append(f"## {heading}\n")
-                parts.append(f"{value}\n")
-        bad = _zh_value(rule, "badExample")
-        if bad:
-            parts.append("## 反例\n")
-            parts.append(code_block("sql", bad))
-        good = _zh_value(rule, "goodExample")
-        if good:
-            parts.append("## 正例\n")
-            parts.append(code_block("sql", good))
-        return parts
-
-    parts = [_generated_note(source_glob, zh=False), _table(_facts(rule), zh=False), ""]
-    for attr, heading in SECTION_ORDER:
-        value = getattr(rule, attr)
+    parts = [_generated_note(source_glob, zh=zh), _table(_facts(rule, zh), zh=zh), ""]
+    order = ZH_SECTION_ORDER if zh else SECTION_ORDER
+    for attr, heading in order:
+        value = _value(rule, lang, attr)
         if value:
             parts.append(f"## {heading}\n")
             parts.append(f"{value}\n")
-    if rule.badExample:
-        parts.append("## Bad Example\n")
-        parts.append(code_block("sql", rule.badExample))
-    if rule.goodExample:
-        parts.append("## Good Example\n")
-        parts.append(code_block("sql", rule.goodExample))
+    bad = _value(rule, lang, "badExample")
+    if bad:
+        parts.append("## 反例\n" if zh else "## Bad Example\n")
+        parts.append(code_block("sql", bad))
+    good = _value(rule, lang, "goodExample")
+    if good:
+        parts.append("## 正例\n" if zh else "## Good Example\n")
+        parts.append(code_block("sql", good))
     if rule.relatedRules:
         links = ", ".join(f"`{rid}`" for rid in rule.relatedRules)
-        parts.append("## Related Rules\n")
+        parts.append("## 关联规则\n" if zh else "## Related Rules\n")
         parts.append(f"{links}\n")
     return parts
 
@@ -137,46 +189,56 @@ def _rule_folder(kind: str) -> str:
     return "optimizer-rules" if kind == "optimizer" else "audit-rules"
 
 
-def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[Path]:
-    """Write the rule's reference page(s). Returns every path written.
+def _page_id(kind: str, rule: RuleMetadata, lang: str) -> str:
+    stem = slug(rule.id)
+    base = f"{kind}-rule-{stem}"
+    # Default language (zh) page id is neutral; the mirror carries an en- prefix.
+    return f"en-{base}" if lang == "en" else base
 
-    zh-default site: the Chinese page lives at the content root
-    (``docs/reference/{audit,optimizer}-rules``, served at ``/``) whenever
-    ``rule.zh`` is present; the English page always lives under the secondary
-    language tree ``docs/en/reference/{audit,optimizer}-rules`` (served at
-    ``/en``).
-    """
+
+def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[Path]:
+    """Write the rule's reference page(s). Returns every path written."""
     folder = _rule_folder(kind)
     written: List[Path] = []
+    has_zh = _content(rule, "zh") is not None
+    has_en = _content(rule, "en") is not None
+    zh_id = _page_id(kind, rule, "zh")
+    en_id = _page_id(kind, rule, "en")
 
-    en_out_dir = root / "docs" / "en" / "reference" / folder
-    en_path = en_out_dir / f"{slug(rule.id)}.md"
-    en_frontmatter = {
-        "id": f"{kind}-rule-{slug(rule.id)}",
-        "title": rule.name,
-        "type": "reference",
-        "status": "draft",
-        "tags": [f"{kind}-rule", rule.category, *rule.database],
-    }
-    if rule.description:
-        en_frontmatter["description"] = rule.description.splitlines()[0][:200]
-    write_page(en_path, render_page(en_frontmatter, "\n".join(_page_parts(rule, kind, zh=False))))
-    written.append(en_path)
+    if has_en:
+        en_out_dir = root / "docs" / "en" / "reference" / folder
+        en_path = en_out_dir / f"{slug(rule.id)}.md"
+        en_frontmatter = {
+            "id": en_id,
+            "title": _name(rule, "en"),
+            "type": "reference",
+            "status": "draft",
+            "tags": [f"{kind}-rule", rule.category.value, *rule.database],
+        }
+        en_desc = _seo(rule, "en")
+        if en_desc:
+            en_frontmatter["description"] = en_desc
+        if has_zh:
+            en_frontmatter["localeOf"] = zh_id
+        write_page(en_path, render_page(en_frontmatter, "\n".join(_page_parts(rule, kind, "en"))))
+        written.append(en_path)
 
-    if rule.zh is not None:
+    if has_zh:
         zh_out_dir = root / "docs" / "reference" / folder
         zh_path = zh_out_dir / f"{slug(rule.id)}.md"
         zh_frontmatter = {
-            "id": f"zh-{kind}-rule-{slug(rule.id)}",
-            "title": rule.zh.name or rule.name,
+            "id": zh_id,
+            "title": _name(rule, "zh"),
             "type": "reference",
             "status": "draft",
-            "tags": [f"{kind}-rule", "zh", rule.category, *rule.database],
+            "tags": [f"{kind}-rule", rule.category.value, *rule.database],
         }
-        zh_desc = rule.zh.description or rule.description
+        zh_desc = _seo(rule, "zh")
         if zh_desc:
-            zh_frontmatter["description"] = zh_desc.splitlines()[0][:200]
-        write_page(zh_path, render_page(zh_frontmatter, "\n".join(_page_parts(rule, kind, zh=True))))
+            zh_frontmatter["description"] = zh_desc
+        if has_en:
+            zh_frontmatter["localeOf"] = en_id
+        write_page(zh_path, render_page(zh_frontmatter, "\n".join(_page_parts(rule, kind, "zh"))))
         written.append(zh_path)
 
     return written

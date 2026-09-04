@@ -1,41 +1,39 @@
 # Canonical source: vault 20-engine/rules/规则文档/使用UNION ALL代替UNION.md
 # TODO(产品核对): 与规则注册表核对 Rule ID、引入版本；audit/optimizer 归属与 category 规范化。
+
+
+
 id: opt-use-union-all
-name: Use UNION ALL Instead of UNION
 category: rewrite
 severity: info
-description: >-
-  UNION deduplicates the two result sets, which databases implement through a
-  sort or a hash. When the business logic guarantees there are no duplicates
-  between the branches, or when duplicates are acceptable, UNION ALL should be
-  used instead: it simply concatenates the two result sets with no extra
-  processing, so it is far cheaper, especially on large data volumes.
-howToFix: >-
-  Replace UNION with UNION ALL when the branches cannot produce duplicates (or
-  when duplicates are allowed), so the database skips the deduplication pass.
-badExample: |
-  -- UNION triggers a deduplication pass that consumes extra CPU/memory
-  SELECT name FROM t_user_2023
-  UNION
-  SELECT name FROM t_user_2024;
-goodExample: |
-  -- no deduplication needed: UNION ALL is sufficient and cheaper
-  SELECT name FROM t_user_2023
-  UNION ALL
-  SELECT name FROM t_user_2024;
-zh:
-  name: 使用 UNION ALL 代替 UNION
-  description: >-
-    使用 UNION 获取两个结果集的并集时，数据库会对结果集进行去重操作。去重通常通过排序或哈希的方式实现，这两种方式都需要消耗大量的 CPU 和内存资源。如果业务逻辑上可以保证两个结果集没有重复数据，或者允许结果集中存在重复行，应当使用 UNION ALL 来代替 UNION，可以获得显著的性能提升。
-  howToFix: >-
-    当两个分支不可能产生重复行、或允许出现重复行时，将 UNION 改写为 UNION ALL，让数据库省去去重步骤。
-  badExample: |
-    -- 不推荐：UNION 触发去重操作，消耗额外资源
-    SELECT name FROM t_user_2023
-    UNION
-    SELECT name FROM t_user_2024;
-  goodExample: |
-    -- 推荐：无需去重时使用 UNION ALL 提升性能
-    SELECT name FROM t_user_2023
-    UNION ALL
-    SELECT name FROM t_user_2024;
+content:
+  en:
+    name: Use UNION ALL Instead of UNION
+    description: 'UNION deduplicates the two result sets, which databases implement through a sort or a hash. When the business logic guarantees there are no duplicates between the branches, or when duplicates are acceptable, UNION ALL should be used instead: it simply concatenates the two result sets with no extra processing, so it is far cheaper, especially on large data volumes.'
+    howToFix: Replace UNION with UNION ALL when the branches cannot produce duplicates (or when duplicates are allowed), so the database skips the deduplication pass.
+    badExample: |
+      -- UNION triggers a deduplication pass that consumes extra CPU/memory
+      SELECT name FROM t_user_2023
+      UNION
+      SELECT name FROM t_user_2024;
+    goodExample: |
+      -- no deduplication needed: UNION ALL is sufficient and cheaper
+      SELECT name FROM t_user_2023
+      UNION ALL
+      SELECT name FROM t_user_2024;
+    summary: Replaces UNION with UNION ALL when no deduplication is needed, skipping the sort/hash pass for a large speedup on big result sets.
+  zh:
+    name: 使用 UNION ALL 代替 UNION
+    description: 使用 UNION 获取两个结果集的并集时，数据库会对结果集进行去重操作。去重通常通过排序或哈希的方式实现，这两种方式都需要消耗大量的 CPU 和内存资源。如果业务逻辑上可以保证两个结果集没有重复数据，或者允许结果集中存在重复行，应当使用 UNION ALL 来代替 UNION，可以获得显著的性能提升。
+    howToFix: 当两个分支不可能产生重复行、或允许出现重复行时，将 UNION 改写为 UNION ALL，让数据库省去去重步骤。
+    badExample: |
+      -- 不推荐：UNION 触发去重操作，消耗额外资源
+      SELECT name FROM t_user_2023
+      UNION
+      SELECT name FROM t_user_2024;
+    goodExample: |
+      -- 推荐：无需去重时使用 UNION ALL 提升性能
+      SELECT name FROM t_user_2023
+      UNION ALL
+      SELECT name FROM t_user_2024;
+    summary: 当无需去重时用 UNION ALL 替代 UNION，省去排序/哈希去重过程，大数据量下性能提升显著。

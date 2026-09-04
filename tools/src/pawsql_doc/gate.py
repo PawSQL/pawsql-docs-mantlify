@@ -37,13 +37,15 @@ def _exists(root: Path, path: str) -> bool:
 
 
 def rule_reference_path(rule: RuleMetadata, kind: str) -> str:
-    # English rule reference lives in the secondary /en tree.
+    # Default-language (zh) rule reference lives at the content root.
+    # The /en mirror is validated separately via localeOf pairing.
     folder = "optimizer-rules" if kind == "optimizer" else "audit-rules"
-    return f"docs/en/reference/{folder}/{slug(rule.id)}.md"
+    return f"docs/reference/{folder}/{slug(rule.id)}.md"
 
 
 def database_reference_path(db: DatabaseMetadata) -> str:
-    # English database guide lives in the secondary /en tree.
+    # Database guides are English-only until P0.6 adds a zh generator,
+    # so they still live in the secondary /en tree.
     return f"docs/en/databases/{db.database}/index.md"
 
 
@@ -51,7 +53,7 @@ COMPATIBILITY_PATH = "docs/en/reference/compatibility/index.md"
 
 
 def config_reference_path(cfg: ConfigMetadata) -> str:
-    # English configuration reference lives in the secondary /en tree.
+    # Configuration references are English-only until P0.6.
     return f"docs/en/reference/configuration/{slug(cfg.name)}.md"
 
 

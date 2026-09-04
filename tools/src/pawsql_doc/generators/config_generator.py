@@ -65,7 +65,7 @@ def generate_config_reference(root: Path, cfg: ConfigMetadata) -> Path:
         "tags": [f"config:{cfg.scope}", cfg.configType.value],
     }
     if cfg.description:
-        frontmatter["description"] = cfg.description.splitlines()[0][:200]
+        frontmatter["description"] = cfg.description.splitlines()[0]
 
     write_page(out_path, render_page(frontmatter, "\n".join(parts)))
     return out_path

@@ -10,7 +10,7 @@ from datetime import date
 from enum import Enum
 from typing import Any, Dict, List, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class _StrictModel(BaseModel):
@@ -68,6 +68,14 @@ class FrontMatter(BaseModel):
     )
     relatedFeatures: Optional[List[str]] = Field(
         default=None, description="Feature ids (Feature Manifest) this page documents."
+    )
+    localeOf: Optional[str] = Field(
+        default=None,
+        description="Mirror pairing: id of the counterpart page in the other language.",
+    )
+    category: Optional[str] = Field(
+        default=None,
+        description="Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
     )
 
 
@@ -133,15 +141,38 @@ class Severity(str, Enum):
     INFO = "info"
 
 
-class RuleZh(_StrictModel):
-    """Chinese mirror fields for bilingual rule reference pages (design 7/12).
+class RuleCategory(str, Enum):
+    """Controlled vocabulary for rule categories (decided 2026-09-04, A3).
 
-    When present on a RuleMetadata the generator also emits a Chinese
-    reference page under ``docs/zh/reference/...``. Fields fall back to the
-    English root fields where a Chinese value is not given.
+    ``unknown`` is a temporary placeholder for rules awaiting product mapping;
+    such rules must not be considered published.
+    """
+
+    DDL = "ddl"
+    DML = "dml"
+    INDEX = "index"
+    REWRITE = "rewrite"
+    JOIN = "join"
+    SUBQUERY = "subquery"
+    NULL = "null"
+    UNION = "union"
+    PREDICATE = "predicate"
+    CONSTANT = "constant"
+    UNKNOWN = "unknown"
+
+
+class RuleContent(_StrictModel):
+    """Language-specific rule prose (title + sections + examples).
+
+    Neutral facts (id/category/severity/database/versions) stay on the
+    RuleMetadata root; everything that reads as "language" lives here.
     """
 
     name: Optional[str] = None
+    summary: Optional[str] = Field(
+        default=None,
+        description="Human one-liner for page front-matter description (SEO, <= ~155 chars).",
+    )
     description: Optional[str] = None
     whyItMatters: Optional[str] = None
     howToFix: Optional[str] = None
@@ -149,28 +180,62 @@ class RuleZh(_StrictModel):
     goodExample: Optional[str] = None
 
 
+class RuleContentBundle(_StrictModel):
+    """The two language slots of a rule's content (zh default + en mirror)."""
+
+    zh: Optional[RuleContent] = None
+    en: Optional[RuleContent] = None
+
+
 class RuleMetadata(_StrictModel):
-    """One audit or optimizer rule (design 8.2). Used to generate rule reference pages."""
+    """One audit or optimizer rule (design 8.2). Used to generate rule reference pages.
+
+    Root fields are language-neutral facts. Prose lives under ``content`` with
+    per-language slots; the zh-default site generates the zh page at the content
+    root from ``content.zh`` and the en mirror under ``docs/en`` from
+    ``content.en``. Legacy files that kept English prose on the root plus an
+    optional ``zh`` block are migrated on read (see model_validator below).
+    """
 
     id: str
-    name: str
-    category: str = Field(description="Rule category, e.g. index / select / join / ddl.")
+    category: RuleCategory = RuleCategory.UNKNOWN
     severity: Severity = Severity.WARNING
     database: List[str] = Field(default_factory=list)
     introducedVersion: Optional[str] = None
     deprecatedVersion: Optional[str] = None
     implementationClass: Optional[str] = None
-    description: Optional[str] = None
-    badExample: Optional[str] = None
-    goodExample: Optional[str] = None
-    whyItMatters: Optional[str] = None
-    howToFix: Optional[str] = None
     relatedRules: List[str] = Field(default_factory=list)
     tags: List[str] = Field(default_factory=list)
-    zh: Optional[RuleZh] = Field(
-        default=None,
-        description="Optional Chinese mirror; when present the generator also emits a zh reference page.",
+    content: RuleContentBundle = Field(
+        default_factory=RuleContentBundle,
+        description="Per-language prose: content.en (mirror) and content.zh (default).",
     )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _migrate_legacy_layout(cls, data):
+        """Accept legacy yaml that kept English on the root + a ``zh`` block.
+
+        Maps root name/description/... -> content.en and the ``zh`` block ->
+        content.zh, so older rule metadata continues to validate unchanged.
+        """
+        if not isinstance(data, dict):
+            return data
+        if data.get("content") is not None:
+            return data
+        content: Dict[str, dict] = {}
+        en: Dict[str, Any] = {}
+        for key in ("name", "description", "whyItMatters", "howToFix", "badExample", "goodExample"):
+            if data.get(key) is not None:
+                en[key] = data[key]
+        if en:
+            content["en"] = en
+        zh_block = data.get("zh")
+        if isinstance(zh_block, dict):
+            content["zh"] = {k: v for k, v in zh_block.items() if v is not None}
+        migrated = {k: v for k, v in data.items() if k not in en and k != "zh"}
+        migrated["content"] = content
+        return migrated
 
 
 # ---------------------------------------------------------------------------

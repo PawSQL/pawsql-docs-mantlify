@@ -1,15 +1,13 @@
 ---
-id: zh-optimizer-rule-opt-count-to-exists
+id: optimizer-rule-opt-count-to-exists
 title: COUNT 标量子查询重写
 type: reference
 status: draft
 tags:
 - optimizer-rule
-- zh
 - rewrite
-description: 对于使用 COUNT 标量子查询来判断记录是否存在的场景（如 (SELECT COUNT(*) FROM ...) > 0），可以重写为
-  EXISTS 子查询。COUNT(*) > 0 需要扫描所有匹配行完成聚集运算后才能得出结果，而 EXISTS 在找到第一条匹配记录后即可短路停止扫描，避免不必要的全量计数，从而显著降低
-  I/O 和计算开销。
+description: 将 (SELECT COUNT(*) ...)>0 的存在性判断重写为 EXISTS，命中首行即短路，避免全量计数。
+localeOf: en-optimizer-rule-opt-count-to-exists
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +16,7 @@ description: 对于使用 COUNT 标量子查询来判断记录是否存在的场
 |---|---|
 | 规则 ID | opt-count-to-exists |
 | 规则名称 | COUNT 标量子查询重写 |
-| 类别 | rewrite |
+| 类别 | rewrite（重写） |
 | 预警级别 | 提示 |
 | 适用数据库 | 所有支持数据库 |
 

@@ -1,14 +1,14 @@
 ---
-id: audit-rule-aud-expression-in-order-by
+id: en-audit-rule-aud-expression-in-order-by
 title: Expression in ORDER BY Causes Index Invalidation
 type: reference
 status: draft
 tags:
 - audit-rule
 - index
-description: Databases can use the ordering of an index to avoid sorting the ORDER
-  BY column, which speeds up queries. When the ORDER BY key is an expression or a
-  function call (for example ORDER BY YEAR(date_colu
+description: ORDER BY on an expression or function (YEAR, LENGTH) makes the underlying
+  column index unusable for sorting and adds a filesort; order by the bare column.
+localeOf: audit-rule-aud-expression-in-order-by
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: Databases can use the ordering of an index to avoid sorting the ORD
 |---|---|
 | Rule ID | aud-expression-in-order-by |
 | Name | Expression in ORDER BY Causes Index Invalidation |
-| Category | index |
+| Category | index — Index |
 | Severity | info |
 | Databases | All supported databases |
 

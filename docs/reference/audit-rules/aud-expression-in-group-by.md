@@ -1,14 +1,13 @@
 ---
-id: zh-audit-rule-aud-expression-in-group-by
+id: audit-rule-aud-expression-in-group-by
 title: GROUP 字段中有表达式导致索引失效
 type: reference
 status: draft
 tags:
 - audit-rule
-- zh
 - index
-description: 数据库可以利用索引的有序性来避免 GROUP BY 子句中列的排序，从而提升 SQL 性能。然而，当 GROUP BY 字段是一个表达式或函数（如
-  LEFT(column, 5)、YEAR(date_column)）时，数据库无法直接使用该列上的索引来完成分组排序，只能执行额外的排序或哈希分组操作，导致性能下降。
+description: GROUP BY 使用表达式或函数（如 LEFT、YEAR）会令列索引失效，退化为额外排序或哈希分组；应直接按列分组。
+localeOf: en-audit-rule-aud-expression-in-group-by
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -17,7 +16,7 @@ description: 数据库可以利用索引的有序性来避免 GROUP BY 子句中
 |---|---|
 | 规则 ID | aud-expression-in-group-by |
 | 规则名称 | GROUP 字段中有表达式导致索引失效 |
-| 类别 | index |
+| 类别 | index（索引） |
 | 预警级别 | 提示 |
 | 适用数据库 | 所有支持数据库 |
 

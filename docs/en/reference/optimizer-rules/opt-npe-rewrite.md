@@ -1,14 +1,14 @@
 ---
-id: optimizer-rule-opt-npe-rewrite
+id: en-optimizer-rule-opt-npe-rewrite
 title: NPE Rewrite (Null Pointer Exception Prevention)
 type: reference
 status: draft
 tags:
 - optimizer-rule
 - rewrite
-description: 'A Null Pointer Exception (NPE) risk appears in SQL when an aggregate
-  column is entirely NULL: functions such as SUM or AVG return NULL instead of a numeric
-  zero. If the application (Java, Python, ...)'
+description: Wraps aggregates that can return NULL on all-NULL input (e.g. SUM) in
+  a null-handling function so the result is always numeric and apps avoid NPE.
+localeOf: optimizer-rule-opt-npe-rewrite
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: 'A Null Pointer Exception (NPE) risk appears in SQL when an aggrega
 |---|---|
 | Rule ID | opt-npe-rewrite |
 | Name | NPE Rewrite (Null Pointer Exception Prevention) |
-| Category | rewrite |
+| Category | rewrite — Rewrite |
 | Severity | warning |
 | Databases | All supported databases |
 

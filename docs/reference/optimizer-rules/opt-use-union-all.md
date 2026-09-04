@@ -1,14 +1,13 @@
 ---
-id: zh-optimizer-rule-opt-use-union-all
+id: optimizer-rule-opt-use-union-all
 title: 使用 UNION ALL 代替 UNION
 type: reference
 status: draft
 tags:
 - optimizer-rule
-- zh
 - rewrite
-description: 使用 UNION 获取两个结果集的并集时，数据库会对结果集进行去重操作。去重通常通过排序或哈希的方式实现，这两种方式都需要消耗大量的 CPU
-  和内存资源。如果业务逻辑上可以保证两个结果集没有重复数据，或者允许结果集中存在重复行，应当使用 UNION ALL 来代替 UNION，可以获得显著的性能提升。
+description: 当无需去重时用 UNION ALL 替代 UNION，省去排序/哈希去重过程，大数据量下性能提升显著。
+localeOf: en-optimizer-rule-opt-use-union-all
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -17,7 +16,7 @@ description: 使用 UNION 获取两个结果集的并集时，数据库会对结
 |---|---|
 | 规则 ID | opt-use-union-all |
 | 规则名称 | 使用 UNION ALL 代替 UNION |
-| 类别 | rewrite |
+| 类别 | rewrite（重写） |
 | 预警级别 | 提示 |
 | 适用数据库 | 所有支持数据库 |
 

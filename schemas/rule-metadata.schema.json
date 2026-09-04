@@ -1,8 +1,26 @@
 {
   "$defs": {
-    "RuleZh": {
+    "RuleCategory": {
+      "description": "Controlled vocabulary for rule categories (decided 2026-09-04, A3).\n\n``unknown`` is a temporary placeholder for rules awaiting product mapping;\nsuch rules must not be considered published.",
+      "enum": [
+        "ddl",
+        "dml",
+        "index",
+        "rewrite",
+        "join",
+        "subquery",
+        "null",
+        "union",
+        "predicate",
+        "constant",
+        "unknown"
+      ],
+      "title": "RuleCategory",
+      "type": "string"
+    },
+    "RuleContent": {
       "additionalProperties": false,
-      "description": "Chinese mirror fields for bilingual rule reference pages (design 7/12).\n\nWhen present on a RuleMetadata the generator also emits a Chinese\nreference page under ``docs/zh/reference/...``. Fields fall back to the\nEnglish root fields where a Chinese value is not given.",
+      "description": "Language-specific rule prose (title + sections + examples).\n\nNeutral facts (id/category/severity/database/versions) stay on the\nRuleMetadata root; everything that reads as \"language\" lives here.",
       "properties": {
         "name": {
           "anyOf": [
@@ -15,6 +33,19 @@
           ],
           "default": null,
           "title": "Name"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Human one-liner for page front-matter description (SEO, <= ~155 chars).",
+          "title": "Summary"
         },
         "description": {
           "anyOf": [
@@ -77,7 +108,37 @@
           "title": "Goodexample"
         }
       },
-      "title": "RuleZh",
+      "title": "RuleContent",
+      "type": "object"
+    },
+    "RuleContentBundle": {
+      "additionalProperties": false,
+      "description": "The two language slots of a rule's content (zh default + en mirror).",
+      "properties": {
+        "zh": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RuleContent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "en": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RuleContent"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "RuleContentBundle",
       "type": "object"
     },
     "Severity": {
@@ -91,20 +152,15 @@
     }
   },
   "additionalProperties": false,
-  "description": "One audit or optimizer rule (design 8.2). Used to generate rule reference pages.",
+  "description": "One audit or optimizer rule (design 8.2). Used to generate rule reference pages.\n\nRoot fields are language-neutral facts. Prose lives under ``content`` with\nper-language slots; the zh-default site generates the zh page at the content\nroot from ``content.zh`` and the en mirror under ``docs/en`` from\n``content.en``. Legacy files that kept English prose on the root plus an\noptional ``zh`` block are migrated on read (see model_validator below).",
   "properties": {
     "id": {
       "title": "Id",
       "type": "string"
     },
-    "name": {
-      "title": "Name",
-      "type": "string"
-    },
     "category": {
-      "description": "Rule category, e.g. index / select / join / ddl.",
-      "title": "Category",
-      "type": "string"
+      "$ref": "#/$defs/RuleCategory",
+      "default": "unknown"
     },
     "severity": {
       "$ref": "#/$defs/Severity",
@@ -153,66 +209,6 @@
       "default": null,
       "title": "Implementationclass"
     },
-    "description": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Description"
-    },
-    "badExample": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Badexample"
-    },
-    "goodExample": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Goodexample"
-    },
-    "whyItMatters": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Whyitmatters"
-    },
-    "howToFix": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "title": "Howtofix"
-    },
     "relatedRules": {
       "items": {
         "type": "string"
@@ -227,23 +223,13 @@
       "title": "Tags",
       "type": "array"
     },
-    "zh": {
-      "anyOf": [
-        {
-          "$ref": "#/$defs/RuleZh"
-        },
-        {
-          "type": "null"
-        }
-      ],
-      "default": null,
-      "description": "Optional Chinese mirror; when present the generator also emits a zh reference page."
+    "content": {
+      "$ref": "#/$defs/RuleContentBundle",
+      "description": "Per-language prose: content.en (mirror) and content.zh (default)."
     }
   },
   "required": [
-    "id",
-    "name",
-    "category"
+    "id"
   ],
   "title": "RuleMetadata",
   "type": "object"

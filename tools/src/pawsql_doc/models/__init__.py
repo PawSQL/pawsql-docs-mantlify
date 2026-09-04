@@ -19,8 +19,10 @@ from pawsql_doc.models.core import (
     ProductMetadata,
     RelationKind,
     RequirementLevel,
+    RuleCategory,
+    RuleContent,
+    RuleContentBundle,
     RuleMetadata,
-    RuleZh,
     Severity,
 )
 
@@ -42,7 +44,9 @@ __all__ = [
     "ProductKind",
     "RelationKind",
     "RequirementLevel",
+    "RuleCategory",
+    "RuleContent",
+    "RuleContentBundle",
     "RuleMetadata",
-    "RuleZh",
     "Severity",
 ]

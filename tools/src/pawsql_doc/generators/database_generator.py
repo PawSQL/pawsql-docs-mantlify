@@ -61,7 +61,7 @@ def generate_database_guide(root: Path, db: DatabaseMetadata) -> Path:
         "tags": ["database", db.database],
     }
     if db.description:
-        frontmatter["description"] = db.description.splitlines()[0][:200]
+        frontmatter["description"] = db.description.splitlines()[0]
 
     write_page(out_path, render_page(frontmatter, "\n".join(parts)))
     return out_path

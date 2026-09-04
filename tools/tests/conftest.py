@@ -27,11 +27,13 @@ def repo(tmp_path: Path) -> Path:
         "product": "pawsql-optimizer", "introducedVersion": "8.5.0",
     })
     _write_yaml(root / "metadata/rules/audit/aud-one.yaml", {
-        "id": "AUD-ONE", "name": "Audit One", "category": "select",
+        "id": "AUD-ONE", "name": "Audit One", "category": "index",
         "severity": "warning", "database": ["mysql", "postgresql"],
+        "zh": {"name": "审核规则一", "description": "一条审核规则的说明。"},
     })
     _write_yaml(root / "metadata/rules/optimizer/rewrite.yaml", {
         "id": "OPT-REWRITE", "name": "Rewrite One", "category": "rewrite",
+        "zh": {"name": "重写规则一", "description": "一条重写规则的说明。"},
     })
     _write_yaml(root / "metadata/databases/pg.yaml", {
         "database": "postgresql", "supportedVersions": ["16"],

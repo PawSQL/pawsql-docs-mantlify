@@ -1,14 +1,13 @@
 ---
-id: zh-audit-rule-aud-insert-must-include-pk
+id: audit-rule-aud-insert-must-include-pk
 title: INSERT 语句必须包含主键字段
 type: reference
 status: draft
 tags:
 - audit-rule
-- zh
 - dml
-description: 对于没有自增主键的表，插入数据时应当显式指定主键的值。即使主键字段定义了默认值，省略主键字段也可能导致默认值重复或不符合业务预期。在生产环境中，缺失主键值的
-  INSERT 语句可能导致主键冲突或数据不一致问题。
+description: 对无自增主键的表，INSERT 必须显式包含主键列并提供明确的值，避免主键冲突与数据不一致。
+localeOf: en-audit-rule-aud-insert-must-include-pk
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -17,7 +16,7 @@ description: 对于没有自增主键的表，插入数据时应当显式指定�
 |---|---|
 | 规则 ID | aud-insert-must-include-pk |
 | 规则名称 | INSERT 语句必须包含主键字段 |
-| 类别 | dml |
+| 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
 | 适用数据库 | 所有支持数据库 |
 

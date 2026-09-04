@@ -1,15 +1,13 @@
 ---
-id: zh-optimizer-rule-opt-npe-rewrite
+id: optimizer-rule-opt-npe-rewrite
 title: NPE 重写（空指针异常预防）
 type: reference
 status: draft
 tags:
 - optimizer-rule
-- zh
 - rewrite
-description: SQL 中的 NPE（Null Pointer Exception）问题是指当聚合列全为 NULL 时，SUM、AVG 等聚合函数会返回
-  NULL 而非数字零。如果后续应用程序（如 Java、Python）直接将 SQL 返回的 NULL 值用于数值运算，就可能触发空指针异常。PawSQL 自动检测此类场景，将聚合函数包装在空值处理函数中（如
-  IFNULL(SUM(col), 0)），确保聚合结果
+description: 当聚合输入全为 NULL 时 SUM/AVG 返回 NULL 可能引发程序 NPE；自动用空值处理函数包装聚合，保证返回数值。
+localeOf: en-optimizer-rule-opt-npe-rewrite
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +16,7 @@ description: SQL 中的 NPE（Null Pointer Exception）问题是指当聚合列�
 |---|---|
 | 规则 ID | opt-npe-rewrite |
 | 规则名称 | NPE 重写（空指针异常预防） |
-| 类别 | rewrite |
+| 类别 | rewrite（重写） |
 | 预警级别 | 警告 |
 | 适用数据库 | 所有支持数据库 |
 

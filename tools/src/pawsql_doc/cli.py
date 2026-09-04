@@ -21,7 +21,7 @@ from pawsql_doc.generators import (
 )
 from pawsql_doc.loaders import _print_issues, load_metadata
 from pawsql_doc.paths import resolve_root
-from pawsql_doc.validate import validate_frontmatter, validate_metadata
+from pawsql_doc.validate import validate_frontmatter, validate_metadata, validate_nav
 
 
 def _abort_if_broken(root: Path) -> List:
@@ -51,6 +51,16 @@ def _cmd_validate_frontmatter(root: Path, _args: argparse.Namespace) -> int:
         print(f"FAIL  front matter: {len(issues)} issue(s)")
         return 1
     print("PASS  front matter")
+    return 0
+
+
+def _cmd_validate_nav(root: Path, _args: argparse.Namespace) -> int:
+    issues = validate_nav(root)
+    _print_issues(issues)
+    if issues:
+        print(f"FAIL  nav: {len(issues)} nav-referenced page(s) are not published/approved")
+        return 1
+    print("PASS  nav: every referenced page is published/approved")
     return 0
 
 
@@ -147,6 +157,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("validate-metadata", help="Validate metadata/ tree and cross-references")
     sub.add_parser("validate-frontmatter", help="Validate front matter of docs/ and blog/ pages")
+    sub.add_parser("validate-nav", help="Check docs.json nav references only published/approved pages")
     sub.add_parser("export-schemas", help="Export pydantic models to schemas/*.json")
 
     sub.add_parser("drift", help="Report required docs missing between metadata and content (exit 1 on gaps)")
@@ -173,6 +184,7 @@ def main(argv: List[str] | None = None) -> int:
     handler = {
         "validate-metadata": _cmd_validate_metadata,
         "validate-frontmatter": _cmd_validate_frontmatter,
+        "validate-nav": _cmd_validate_nav,
         "export-schemas": _cmd_export_schemas,
         "build-references": _cmd_build_references,
         "generate-rule": _cmd_generate_rule,

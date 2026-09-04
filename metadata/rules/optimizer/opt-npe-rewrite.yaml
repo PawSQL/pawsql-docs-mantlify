@@ -1,41 +1,38 @@
 # Canonical source: vault 20-engine/rules/规则文档/NPE重写.md
 # 注：规则注册表中已有公开实现名 RuleNPERewrite（audit-dml/DML Rules 等），
 # TODO(产品核对): 确认最终 Rule ID 与 audit/optimizer 归属后替换本 id。
+
+
+
 id: opt-npe-rewrite
-name: NPE Rewrite (Null Pointer Exception Prevention)
 category: rewrite
 severity: warning
-description: >-
-  A Null Pointer Exception (NPE) risk appears in SQL when an aggregate column is
-  entirely NULL: functions such as SUM or AVG return NULL instead of a numeric
-  zero. If the application (Java, Python, ...) feeds that NULL straight into
-  arithmetic, it can raise an NPE. PawSQL detects this pattern and wraps the
-  aggregate in a null-handling function so the result is always numeric.
-howToFix: >-
-  Wrap the aggregate in the database's null-handling function so the result is
-  0 instead of NULL when the input is all NULL: NVL() on Oracle, ISNULL() on SQL
-  Server, IFNULL() or COALESCE() on MySQL; COALESCE() is the portable choice.
-badExample: |
-  -- when t.b is all NULL, SUM returns NULL and may trigger an NPE in the app
-  SELECT SUM(t.b) FROM (VALUES ROW(1, NULL)) AS t(a, b);
-goodExample: |
-  -- guarantee 0 instead of NULL
-  SELECT IFNULL(SUM(t.b), 0) FROM (VALUES ROW(1, NULL)) AS t(a, b);
-  -- Oracle: SELECT NVL(SUM(t.b), 0) FROM ...;
-  -- SQL Server: SELECT ISNULL(SUM(t.b), 0) FROM ...;
-  -- portable: SELECT COALESCE(SUM(t.b), 0) FROM ...;
-zh:
-  name: NPE 重写（空指针异常预防）
-  description: >-
-    SQL 中的 NPE（Null Pointer Exception）问题是指当聚合列全为 NULL 时，SUM、AVG 等聚合函数会返回 NULL 而非数字零。如果后续应用程序（如 Java、Python）直接将 SQL 返回的 NULL 值用于数值运算，就可能触发空指针异常。PawSQL 自动检测此类场景，将聚合函数包装在空值处理函数中（如 IFNULL(SUM(col), 0)），确保聚合结果始终返回数值型结果，避免应用程序端的 NPE 问题。
-  howToFix: >-
-    把聚合函数包进数据库的空值处理函数，使全 NULL 时返回 0 而非 NULL：Oracle 使用 NVL()，SQL Server 使用 ISNULL()，MySQL 使用 IFNULL() 或 COALESCE()；COALESCE() 在各数据库通用。
-  badExample: |
-    -- 不推荐：聚合列全为 NULL 时，SUM 返回 NULL，可能导致程序 NPE
-    SELECT SUM(t.b) FROM (VALUES ROW(1, NULL)) AS t(a, b);
-  goodExample: |
-    -- 推荐：使用空值处理函数，确保返回 0 而非 NULL
-    SELECT IFNULL(SUM(t.b), 0) FROM (VALUES ROW(1, NULL)) AS t(a, b);
-    -- Oracle 写法：SELECT NVL(SUM(t.b), 0) FROM ...;
-    -- SQL Server 写法：SELECT ISNULL(SUM(t.b), 0) FROM ...;
-    -- 通用写法（所有数据库适用）：SELECT COALESCE(SUM(t.b), 0) FROM ...;
+content:
+  en:
+    name: NPE Rewrite (Null Pointer Exception Prevention)
+    description: 'A Null Pointer Exception (NPE) risk appears in SQL when an aggregate column is entirely NULL: functions such as SUM or AVG return NULL instead of a numeric zero. If the application (Java, Python, ...) feeds that NULL straight into arithmetic, it can raise an NPE. PawSQL detects this pattern and wraps the aggregate in a null-handling function so the result is always numeric.'
+    howToFix: 'Wrap the aggregate in the database''s null-handling function so the result is 0 instead of NULL when the input is all NULL: NVL() on Oracle, ISNULL() on SQL Server, IFNULL() or COALESCE() on MySQL; COALESCE() is the portable choice.'
+    badExample: |
+      -- when t.b is all NULL, SUM returns NULL and may trigger an NPE in the app
+      SELECT SUM(t.b) FROM (VALUES ROW(1, NULL)) AS t(a, b);
+    goodExample: |
+      -- guarantee 0 instead of NULL
+      SELECT IFNULL(SUM(t.b), 0) FROM (VALUES ROW(1, NULL)) AS t(a, b);
+      -- Oracle: SELECT NVL(SUM(t.b), 0) FROM ...;
+      -- SQL Server: SELECT ISNULL(SUM(t.b), 0) FROM ...;
+      -- portable: SELECT COALESCE(SUM(t.b), 0) FROM ...;
+    summary: Wraps aggregates that can return NULL on all-NULL input (e.g. SUM) in a null-handling function so the result is always numeric and apps avoid NPE.
+  zh:
+    name: NPE 重写（空指针异常预防）
+    description: SQL 中的 NPE（Null Pointer Exception）问题是指当聚合列全为 NULL 时，SUM、AVG 等聚合函数会返回 NULL 而非数字零。如果后续应用程序（如 Java、Python）直接将 SQL 返回的 NULL 值用于数值运算，就可能触发空指针异常。PawSQL 自动检测此类场景，将聚合函数包装在空值处理函数中（如 IFNULL(SUM(col), 0)），确保聚合结果始终返回数值型结果，避免应用程序端的 NPE 问题。
+    howToFix: 把聚合函数包进数据库的空值处理函数，使全 NULL 时返回 0 而非 NULL：Oracle 使用 NVL()，SQL Server 使用 ISNULL()，MySQL 使用 IFNULL() 或 COALESCE()；COALESCE() 在各数据库通用。
+    badExample: |
+      -- 不推荐：聚合列全为 NULL 时，SUM 返回 NULL，可能导致程序 NPE
+      SELECT SUM(t.b) FROM (VALUES ROW(1, NULL)) AS t(a, b);
+    goodExample: |
+      -- 推荐：使用空值处理函数，确保返回 0 而非 NULL
+      SELECT IFNULL(SUM(t.b), 0) FROM (VALUES ROW(1, NULL)) AS t(a, b);
+      -- Oracle 写法：SELECT NVL(SUM(t.b), 0) FROM ...;
+      -- SQL Server 写法：SELECT ISNULL(SUM(t.b), 0) FROM ...;
+      -- 通用写法（所有数据库适用）：SELECT COALESCE(SUM(t.b), 0) FROM ...;
+    summary: 当聚合输入全为 NULL 时 SUM/AVG 返回 NULL 可能引发程序 NPE；自动用空值处理函数包装聚合，保证返回数值。

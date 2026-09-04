@@ -1,14 +1,14 @@
 ---
-id: optimizer-rule-opt-count-to-exists
+id: en-optimizer-rule-opt-count-to-exists
 title: COUNT Scalar Subquery Rewrite
 type: reference
 status: draft
 tags:
 - optimizer-rule
 - rewrite
-description: 'A COUNT scalar subquery used as a presence test, such as (SELECT COUNT(*)
-  FROM ...) > 0, can be rewritten into an EXISTS subquery. COUNT(*) > 0 must aggregate
-  over every matching row before producing '
+description: Rewrites (SELECT COUNT(*) ...) > 0 presence tests into EXISTS, which
+  short-circuits on the first match instead of aggregating every row.
+localeOf: optimizer-rule-opt-count-to-exists
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: 'A COUNT scalar subquery used as a presence test, such as (SELECT C
 |---|---|
 | Rule ID | opt-count-to-exists |
 | Name | COUNT Scalar Subquery Rewrite |
-| Category | rewrite |
+| Category | rewrite — Rewrite |
 | Severity | info |
 | Databases | All supported databases |
 

@@ -1,15 +1,13 @@
 ---
-id: zh-audit-rule-aud-order-by-forbidden-in-dml
+id: audit-rule-aud-order-by-forbidden-in-dml
 title: UPDATE/DELETE 禁止使用 ORDER 子句
 type: reference
 status: draft
 tags:
 - audit-rule
-- zh
 - dml
-description: 在 UPDATE 或 DELETE 语句中使用 ORDER BY 子句通常没有实际意义。DML 操作的目标是变更数据，而非返回有序结果集。ORDER
-  BY 在 DML 中不仅增加了不必要的排序开销，还可能导致执行计划变差。在 PostgreSQL 等数据库中，DELETE ... ORDER BY 甚至是语法错误（除非配合
-  LIMIT），直接使用将导致执行失败。
+description: UPDATE/DELETE 中 ORDER BY 无意义且增加开销，某些数据库甚至是语法错误；应移除或将排序放进子查询。
+localeOf: en-audit-rule-aud-order-by-forbidden-in-dml
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +16,7 @@ description: 在 UPDATE 或 DELETE 语句中使用 ORDER BY 子句通常没有�
 |---|---|
 | 规则 ID | aud-order-by-forbidden-in-dml |
 | 规则名称 | UPDATE/DELETE 禁止使用 ORDER 子句 |
-| 类别 | dml |
+| 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
 | 适用数据库 | 所有支持数据库 |
 

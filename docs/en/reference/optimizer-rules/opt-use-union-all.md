@@ -1,14 +1,14 @@
 ---
-id: optimizer-rule-opt-use-union-all
+id: en-optimizer-rule-opt-use-union-all
 title: Use UNION ALL Instead of UNION
 type: reference
 status: draft
 tags:
 - optimizer-rule
 - rewrite
-description: UNION deduplicates the two result sets, which databases implement through
-  a sort or a hash. When the business logic guarantees there are no duplicates between
-  the branches, or when duplicates are acce
+description: Replaces UNION with UNION ALL when no deduplication is needed, skipping
+  the sort/hash pass for a large speedup on big result sets.
+localeOf: optimizer-rule-opt-use-union-all
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: UNION deduplicates the two result sets, which databases implement t
 |---|---|
 | Rule ID | opt-use-union-all |
 | Name | Use UNION ALL Instead of UNION |
-| Category | rewrite |
+| Category | rewrite — Rewrite |
 | Severity | info |
 | Databases | All supported databases |
 

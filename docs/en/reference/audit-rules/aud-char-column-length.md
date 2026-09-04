@@ -1,14 +1,14 @@
 ---
-id: audit-rule-aud-char-column-length
+id: en-audit-rule-aud-char-column-length
 title: Char Column Length Exceeds Threshold
 type: reference
 status: draft
 tags:
 - audit-rule
 - ddl
-description: When a CHAR column is declared longer than the configured threshold (64
-  by default) it should be reconsidered as VARCHAR. CHAR is stored at fixed length
-  and consumes the declared width even when the a
+description: Flag CHAR columns longer than the configurable threshold (default 64);
+  oversized fixed-width CHAR bloat rows, indexes, and I/O. Recommend VARCHAR instead.
+localeOf: audit-rule-aud-char-column-length
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: When a CHAR column is declared longer than the configured threshold
 |---|---|
 | Rule ID | aud-char-column-length |
 | Name | Char Column Length Exceeds Threshold |
-| Category | ddl |
+| Category | ddl — DDL / object design |
 | Severity | info |
 | Databases | All supported databases |
 

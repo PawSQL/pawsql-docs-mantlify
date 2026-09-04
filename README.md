@@ -33,7 +33,7 @@ npx mintlify dev          # 打开 http://localhost:3000
 
 Rule / Database / Config 的结构化 Reference **由 Metadata 自动生成**，不要手改 `docs/reference/**`（中文默认树）与 `docs/en/reference/**`（英文）下生成文件（改元数据后重建）。
 
-Rule Metadata 支持双语：`zh:` 块存在时，`build-references` 在默认树生成中文页 `docs/reference/...`，并在副语言树生成英文页 `docs/en/reference/...`（双输出）。
+Rule Metadata 支持双语：根字段为中性事实（id/category/severity/database/版本），语言正文收敛于 `content: { en:{}, zh:{} }`（每语言可带 `summary` 作 front-matter description）。`build-references` 依 `content.zh` 在默认树生成中文页 `docs/reference/...`，依 `content.en` 在副语言树生成英文页 `docs/en/reference/...`（双输出，两页互写 `localeOf`）。旧式“英文根 + `zh:` 块”yaml 仍兼容（读入时自动映射）。
 
 ```bash
 cd tools
@@ -47,7 +47,8 @@ uv run python -m pawsql_doc generate-config --config explain.timeout
 
 ```bash
 uv run python -m pawsql_doc validate-metadata     # metadata/** 与 docs 引用一致性
-uv run python -m pawsql_doc validate-frontmatter  # docs/**/*.md(x) front matter
+uv run python -m pawsql_doc validate-frontmatter  # docs/**/*.md(x) front matter（description 治理 + localeOf 配对）
+uv run python -m pawsql_doc validate-nav          # docs.json 引用页须 published/approved（导航=发布）
 uv run python -m pawsql_doc drift                 # 必选文档缺失检测（有缺失则 exit 1）
 uv run python -m pawsql_doc coverage              # 分项文档覆盖率
 uv run python -m pawsql_doc gate                  # Release Gate：必需覆盖率 <100% 时 exit 1

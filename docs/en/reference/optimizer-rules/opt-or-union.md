@@ -1,5 +1,5 @@
 ---
-id: optimizer-rule-opt-or-union
+id: en-optimizer-rule-opt-or-union
 title: OR to UNION Optimization
 type: reference
 status: draft
@@ -9,8 +9,9 @@ tags:
 - mysql
 - postgresql
 - oracle
-description: Rewrites queries whose WHERE clause combines OR-ed predicates so the
-  planner can consider separate access paths per branch, instead of one fused plan.
+description: Rewrites OR-ed predicates over different columns into UNION / UNION ALL
+  branches so each branch can use its own index instead of one fused plan.
+localeOf: optimizer-rule-opt-or-union
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -19,7 +20,7 @@ description: Rewrites queries whose WHERE clause combines OR-ed predicates so th
 |---|---|
 | Rule ID | OPT-OR-UNION |
 | Name | OR to UNION Optimization |
-| Category | rewrite |
+| Category | rewrite — Rewrite |
 | Severity | info |
 | Databases | mysql, postgresql, oracle |
 | Version Introduced | 8.5.0 |
@@ -40,15 +41,21 @@ No manual action: PawSQL applies the rewrite automatically when it is safe. The 
 ## Bad Example
 
 ```sql
-SELECT * FROM t
-WHERE a = 1 OR b = 2;
+-- bad: OR over different columns may force a full table scan
+SELECT * FROM lineitem
+WHERE l_shipdate = DATE '2010-12-01' OR l_partkey < 100;
 ```
 
 ## Good Example
 
 ```sql
--- after rewrite (UNION ALL applies when branches cannot overlap)
-SELECT * FROM t WHERE a = 1
+-- good: rewritten as UNION so each branch uses its own index
+SELECT * FROM lineitem WHERE l_shipdate = DATE '2010-12-01'
+UNION
+SELECT * FROM lineitem WHERE l_partkey < 100;
+
+-- good: when OR branches are disjoint, UNION ALL is cheaper
+SELECT * FROM lineitem WHERE l_shipdate = DATE '2010-12-01'
 UNION ALL
-SELECT * FROM t WHERE b = 2 AND a <> 1;
+SELECT * FROM lineitem WHERE l_partkey < 100 AND l_shipdate <> DATE '2010-12-01';
 ```

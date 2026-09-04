@@ -35,6 +35,17 @@ tags: [content-model, style]
 4. 无证据信息标记 `unknown`。
 5. 修改已有文档前读取完整上下文；优先最小 Patch。
 
+## SEO 与 LLM 友好写作
+
+站点同时服务 人 / 搜索引擎 / LLM-RAG，页面须“自描述、可引用、可治理”：
+
+1. **`title` / `description` 是检索素材**：`title` ≤ ~60 字符、含核心关键词；`description` 一句话（≤ ~155 字符）、含关键词、点明页面意图。`published` 页必填、人工书写，禁止用“默认/占位”文字（校验器拒绝空值与机器截断）。
+2. **一个页面一个意图（single intent）**：每页只回答一个明确问题，H1 与 `description` 对齐；同主题多版本/变体（`-polish`、`_en` 残留、重复编号）是 SEO/RAG 大敌，一律去重为“一份成文 + 中英镜像”。
+3. **`status` 是可信度信号**：`draft`/`review` 不进导航、不发布；`published` 页的事实应可回溯到 Evidence（Metadata/源码/产品行为）。AI 检索据此判断“此内容是否可引用”。
+4. **镜像配对可校验**：中英两页用 `localeOf` 互指（见 frontmatter），缺失或自指会导致 `hreflang`/canonical 缺失，搜索引擎视为孤立页。
+5. **代码块语言标注**：每个代码块显式标注 `sql`/`bash`/`yaml`/`json`，利于代码检索与结构化抽取。
+6. **单一事实源**：规则/配置/数据库的正文只存于 `metadata/**`（生成页不手改）；正文中不重复同一事实的多个版本。
+
 ## 格式
 
 - 代码块标注语言：`sql`、`bash`、`yaml`、`json`。

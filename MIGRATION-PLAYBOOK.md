@@ -23,14 +23,14 @@
 
 | 源（vault 相对路径） | 内容类型 | 目标（v2） |
 |---|---|---|
-| `10-product/about/`（关于/FAQ/用户场景） | Product/About + FAQ | 默认树 `docs/products/<product>/` 英文版；中文版 `docs/zh/products/`；FAQ→`docs/faq/` 或 `docs/zh/faq/`。视频脚本、Github 主页草稿不迁 |
-| `10-product/getting-started/` | Getting Started | `docs/getting-started/` 或 `docs/zh/getting-started/`（与 Mapper 文件教程重复，见 §9） |
+| `10-product/about/`（关于/FAQ/用户场景） | Product/About + FAQ | 默认树 `docs/products/<product>/` 中文版；英文镜像 `docs/en/products/`；FAQ→`docs/faq/`（zh 默认）或 `docs/en/faq/`。视频脚本、Github 主页草稿不迁 |
+| `10-product/getting-started/` | Getting Started | `docs/getting-started/`（zh 默认）或 `docs/en/getting-started/`（与 Mapper 文件教程重复，见 §9） |
 | `20-engine/api/`（V1/V2/V3、pawsql-api、审核平台 API） | API Reference | `openapi/pawsql-openapi.yaml`（若有 OpenAPI 源）或 `docs/reference/api/`。多版本先定稿（见 §9） |
-| `20-engine/install/`（Engine、Linux、docker） | 安装手册 | 默认树 `docs/user-guide/installation/`；中文版 `docs/zh/user-guide/installation/` |
-| `20-engine/rules/`（`Rules.md`、`audit-ddl`、`audit-dml`、`rewrite`、**`规则文档/` 261 篇**） | 规则 Reference | `metadata/rules/{audit,optimizer}/*.yaml`（双语）→ 生成 `docs/reference/{audit,optimizer}-rules/` + `docs/zh/reference/{audit,optimizer}-rules/`。**规范源 = `规则文档/`**；其余套用于 ID/字段核对 |
+| `20-engine/install/`（Engine、Linux、docker） | 安装手册 | 默认树 `docs/user-guide/installation/`（zh）；英文镜像 `docs/en/user-guide/installation/` |
+| `20-engine/rules/`（`Rules.md`、`audit-ddl`、`audit-dml`、`rewrite`、**`规则文档/` 261 篇**） | 规则 Reference | `metadata/rules/{audit,optimizer}/*.yaml`（双语）→ 生成 `docs/reference/{audit,optimizer}-rules/`（zh 默认）+ `docs/en/reference/{audit,optimizer}-rules/`（en 镜像）。**规范源 = `规则文档/`**；其余套用于 ID/字段核对 |
 | `20-engine/indexrec/`、`internals/`、`internals/case-studies/` | 技术 Blog / 案例分析 / 支持矩阵 | Blog（engineering）`blog/engineering/`；支持情况矩阵可入 `docs/databases/`。内部笔记（`20240118.md`）不迁 |
-| `30-cloud/guides|install/` | Cloud 使用手册 / 企业安装 | 英文版 `docs/products/cloud` + `docs/user-guide/`；中文版 `docs/zh/user-guide/cloud/`（本试点已落） |
-| `40-audit/manuals/`（Advisor/审核平台/巡检） | 产品手册 | `docs/products/advisor|audit|patroller` + 中文镜像；与 50-integration 的 Advisor(IntelliJ) 语义对齐后命名 |
+| `30-cloud/guides|install/` | Cloud 使用手册 / 企业安装 | 默认树 `docs/products/cloud`（zh）+ `docs/user-guide/`；英文镜像 `docs/en/user-guide/cloud/`（本试点已落中文默认树） |
+| `40-audit/manuals/`（Advisor/审核平台/巡检） | 产品手册 | `docs/products/advisor|audit|patroller`（zh 默认）+ en 镜像 `docs/en/products/`；与 50-integration 的 Advisor(IntelliJ) 语义对齐后命名 |
 | `40-audit/standards/`（审核规则体系、质量标准、开发规范） | 方法论/参考 | `docs/reference/audit-rules/` 概念页或 `docs/contributing/` 规范（产品确认后） |
 | `40-audit/design/`、`reviews/` | 内部设计 / 评测 | 不迁（内部）；`reviews/` 精选可作 Blog |
 | `50-integration/{plugins,mcp,api,devops}` | 插件/MCP/API/CI 集成 | `docs/products/vscode|jetbrains|mcp` + `docs/reference/api` + `docs/user-guide/` 集成教程；截图随图管线（§5） |
@@ -46,10 +46,10 @@
 
 - 每页必填 `id`（稳定、URL 安全）、`title`、`type`。
 - `type` 取值：`product` · `user-guide` · `tutorial` · `reference` · `faq` · `troubleshooting` · `release-note` · `blog`。
-- `status`：`draft → review → approved → scheduled → published → archived`。**凡未经产品核对的内容一律 `draft`**，正文顶部加注状态说明。
-- 人工页写 `description`（一句话、含检索关键词）以提升 AI 检索质量；`tags` 数组；引用产品用 `product`（值为 `metadata/products/*.yaml` 的 `id`）。
-- 中英镜像约定：中文页 `id` 以 `zh-` 开头；英中文页面互为翻译对，导航分列默认树与"中文（镜像）"组。
-- 生成页：由生成器写 front matter（`{kind}-rule-<slug>` / `zh-{kind}-rule-<slug>`），**不要手改**。
+- `status`：`draft → review → approved → scheduled → published → archived`。**凡未经产品核对的内容一律 `draft`**，正文顶部加注状态说明；`published/approved` 才允许入导航。
+- 人工页写 `description`（一句话、含检索关键词，`published` 页必填、≤ ~155 字符）以提升 SEO/LLM 检索质量；`tags` 数组；引用产品用 `product`（值为 `metadata/products/*.yaml` 的 `id`）。
+- 中英镜像约定：中文为默认语言（默认树 `docs/**`，路由 `/…`）；英文为镜像副语言（`docs/en/**`，路由 `/en/…`）。默认语言页 `id` 中性、镜像页 `id` 用 `en-` 前缀并以 `localeOf` 互指（见 `frontmatter.md`）；导航分列默认树与英文镜像组。
+- 生成页：由生成器写 front matter（zh 默认页 + en 镜像页），**不要手改**。zh 默认页 id 中性、en 镜像页 id `en-` 前缀、两页互写 `localeOf`（见 `CONTENT-MODEL-CHANGES.md` A1/A2）。
 
 ## 4. 格式转换规则清单（确定性）
 
@@ -60,7 +60,7 @@
 3. **代码块补语言**：为裸代码块补 `sql` / `bash` / `json` / `yaml` 等标签。
 4. **行内 HTML 替换**：`<b>…</b>` → `**…**`；`__提示__` → `**提示**`；`&gt;` 恢复为 `>`（blockquote/比较符语义按上下文还原）。
 5. **标题编号规整**：去掉或统一“数字.”编号风格，避免同层重复编号。
-6. **断链与内部链接**：正文引用改为 Mintlify 页面路径（如 `docs/zh/user-guide/cloud/quickstart`）；无效的 `.md` 引用、`app.pawsql.com/docs/rule/RuleXxx` 类链接保留为原样或转对应 reference 页（产品核对）。
+6. **断链与内部链接**：正文引用改为 Mintlify 页面路径（如 `docs/user-guide/cloud/quickstart` 中文默认 / `docs/en/user-guide/cloud/quickstart` 英文镜像）；无效的 `.md` 引用、`app.pawsql.com/docs/rule/RuleXxx` 类链接保留为原样或转对应 reference 页（产品核对）。
 7. **文件名 sanitize**：去除尾随空格、emoji、`（严重）`、`-polish`、`_en`、`_en.md`、版本后缀等 → 转成目标 slug 文件名；同内容多份只保留一份（§9）。
 8. **术语/大小写**：按 `docs/contributing/terminology.md`（PawSQL、产品名、数据库名）；同一概念全文统一。
 9. **不确定事实不打磨**：性能/收益百分比、benchmark、支持范围等无源数字 → 不写或加 `unknown` 标记并 `draft`。
@@ -84,10 +84,10 @@
 
 ## 7. 语言落地策略
 
-- **默认树 `docs/**` 用英文**（面向全球站点默认语言）；**中文内容进 `docs/zh/` 镜像**。
-- **Reference（规则页）采用“双语元数据 + 双输出”**：`metadata/rules/**/*.yaml` 根字段为英文，`zh:` 块为中文正文；`build-references` 同时生成英文页与 `docs/zh/reference/…` 中文页。规则不配英文时只出英文页亦可（无 `zh` 块）。
-- **人工页**：中文版进 `docs/zh/`；英文版在默认树补齐。源语言为英文的文档直接进默认树。
-- **变体归并**（避免重复）：同一主题保留“最新一份 + 英文版/中文版”两态；`-polish` 为公众号润色稿 → 不并入站点或作为 Blog 备稿；`_en`/原中文成对 → 拆为镜像对；不迁移邮件模板 `${username}` 等占位内容（属 release 草稿，见 §9）。
+- **默认树 `docs/**` 用中文**（站点默认语言，路由 `/…`）；**英文镜像进 `docs/en/`**（副语言，路由 `/en/…`）。
+- **Reference（规则页）采用“双语元数据 + 双输出”**：`metadata/rules/**/*.yaml` 根字段为中性事实（id/category/severity/database/版本），语言正文收敛于 `content: { en:{}, zh:{} }`，每语言可带 `summary`（front-matter description 一行）；`build-references` 依 `content.zh` 生成中文默认页 `docs/reference/…`、依 `content.en` 生成英文镜像页 `docs/en/reference/…`。规则缺 zh 时只出英文镜像页、默认语言缺页被 gate 拦截，故批量须先补 zh。
+- **人工页**：中文版进默认树 `docs/**`；英文版进 `docs/en/**`。源语言为英文的文档先入 `docs/en/`，中文补齐后入默认树。
+- **变体归并**（避免重复）：同一主题保留“最新一份 + 中英镜像”两态；`-polish` 为公众号润色稿 → 不并入站点或作为 Blog 备稿；`_en`/原中文成对 → 拆为镜像对；不迁移邮件模板 `${username}` 等占位内容（属 release 草稿，见 §9）。
 
 ## 8. 规则文档 → Rule Metadata 映射
 
@@ -95,15 +95,16 @@
 
 | 源字段 | 目标（RuleMetadata） | 说明 |
 |---|---|---|
-| 标题（H1，中文） | `zh.name`；英文 `name` | 英文名取“英文名”字段 |
-| `英文名` | `name` | 英文正文用；无则按标题意译并 `draft` |
-| `类别`（层级，如 `数据操作>性能>排序分组`） | `category`（短词） | 一级映射：对象设计→`ddl`、数据操作→`dml`、索引失效→`index`…无法短化的记 `unknown` 待产品确认 |
-| `审查对象`（SELECT/UPDATE/…） | 入 `description`/`tags` | 表明适用语句类型 |
+| 标题（H1，中文） | `content.zh.name`；英文名 | `content.en.name` 取“英文名”字段 |
+| `英文名` | `content.en.name` | 英文正文用；无则按标题意译并 `draft` |
+| `类别`（层级，如 `数据操作>性能>排序分组`） | `category`（受控枚举短词） | 一级映射：对象设计→`ddl`、数据操作→`dml`、索引失效→`index`…无法短化的记 `unknown` 待产品确认 |
+| `审查对象`（SELECT/UPDATE/…） | 入 `content.*.description`/`tags` | 表明适用语句类型 |
 | `默认预警级别` | `severity` | 提示(Notice)→`info`、警告(Warning)→`warning`、错误/严重→`error` |
 | `数据库类型` | `database` | `ALL` → **留空 `[]`**（生成页显示"所有支持数据库/All supported databases"）；具体列表照抄小写 slug |
-| `默认阈值`/`可配置` | 正文（description/howToFix）+ yaml 注释 | 如 CHAR 阈值 64、命名正则 `^pk_{table}_{columns}$` |
-| `触发条件` | `whyItMatters`/`howToFix`（归纳） | 逐条如实转述，不扩写 |
-| `SQL样例`（❌ 不推荐 / ✅ 推荐） | `badExample` / `goodExample`（英文）与 `zh.badExample/goodExample`（中文，注释原样） | 注释随语言翻译；SQL 本体保持 |
+| `默认阈值`/`可配置` | 正文（`content.*.description/howToFix`）+ yaml 注释 | 如 CHAR 阈值 64、命名正则 `^pk_{table}_{columns}$` |
+| `触发条件` | `content.*.whyItMatters/howToFix`（归纳） | 逐条如实转述，不扩写 |
+| `SQL样例`（❌ 不推荐 / ✅ 推荐） | `content.en.badExample/goodExample` 与 `content.zh.badExample/goodExample`（注释随语言翻译；SQL 本体保持） | 双语 SQL 一致、仅注释语言不同 |
+| （可选）SEO 一句话 | `content.*.summary` | ≤ ~155 字符，生成页 front-matter `description` 用它；不写则回退正文首行（≤200 字符），杜绝机器截断 |
 | Rule ID | `id` | **优先复用产品注册表已有规则码**（如 `RuleNPERewrite`，来自 `Rules.md`/`DML Rules.md`/`app.pawsql.com/docs/rule/RuleXxx`）；无则铸 slug（audit `aud-…`、optimizer `opt-…`），文件头注释 `TODO(产品核对)` |
 | 引入/弃用版本、实现类 | `introducedVersion`/`deprecatedVersion`/`implementationClass` | 源没有就不填，避免虚构版本 |
 
@@ -132,7 +133,7 @@ cd tools
 uv run python -m pawsql_doc --root .. validate-metadata      # metadata/** 一致性
 uv run python -m pawsql_doc --root .. validate-frontmatter   # docs|blog 全部 FM 合法
 uv run python -m pawsql_doc --root .. build-references       # 重建 Reference（双输出）
-git diff --exit-code -- docs/reference docs/zh/reference docs/databases   # 生成页已提交、无漂移
+git diff --exit-code -- docs/reference docs/en/reference docs/en/databases   # 生成页已提交、无漂移
 uv run python -m pawsql_doc --root .. drift && uv run python -m pawsql_doc --root .. gate  # 覆盖率=100%
 uv run python -m pytest                                       # 单元测试
 ```
@@ -167,9 +168,9 @@ Windows 下如 `uv run` 不便，可用 `tools/.venv/Scripts/python.exe -m pawsq
 
 ## 附录 A：试点（2026-09）产物
 
-- **tools 双语生成**：`RuleMetadata.zh`（`models/core.py`）、`rule_generator.py` 双输出、schema 导出、pytest 双语用例、CI diff 加入 `docs/zh/reference`。
-- **规则切片 ×10**（audit 6 + optimizer 4）：`metadata/rules/{audit,optimizer}/*.yaml`（双语）→ `docs/reference/{audit,optimizer}-rules/` 英文页 + `docs/zh/reference/{audit,optimizer}-rules/` 中文页；`metadata/features|mappings` 2 组演示数据。
-- **产品手册切片**：`30-cloud/guides/PawSQL Cloud使用手册.md` → `docs/zh/user-guide/cloud/{index,quickstart,results}.md`（去样板、断图 TODO、`draft`）；docs.json “中文（镜像）”“规则参考（中文）”两组。
+- **tools 双语生成**：`RuleMetadata.content:{zh,en}` 与 `RuleCategory`（`models/core.py`）、`rule_generator.py` 双输出 + `localeOf`、schema 导出、pytest 双语用例、CI diff 覆盖 `docs/reference docs/en/reference docs/en/databases`。
+- **规则切片 ×10**（audit 6 + optimizer 4）：`metadata/rules/{audit,optimizer}/*.yaml`（双语）→ `docs/reference/{audit,optimizer}-rules/` 中文默认页 + `docs/en/reference/{audit,optimizer}-rules/` 英文镜像页；`metadata/features|mappings` 2 组演示数据。
+- **产品手册切片**：`30-cloud/guides/PawSQL Cloud使用手册.md` → `docs/user-guide/cloud/{index,quickstart,results}.md`（中文默认树；去样板、断图 TODO、`draft`）；docs.json 中文默认 + en 副语言两组。
 - 全部过 §10 闸门（metadata/frontmatter/build/drift/gate/pytest 绿）。
 
 ## 附录 B：批处理进度记录

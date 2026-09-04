@@ -1,14 +1,13 @@
 ---
-id: zh-audit-rule-aud-expression-in-order-by
+id: audit-rule-aud-expression-in-order-by
 title: ORDER 字段中有表达式导致索引失效
 type: reference
 status: draft
 tags:
 - audit-rule
-- zh
 - index
-description: 数据库可以利用索引的有序性来避免 ORDER BY 子句中列的排序，从而提升 SQL 性能。然而，当 ORDER BY 字段是一个表达式或函数（如
-  ORDER BY YEAR(date_column)、ORDER BY LENGTH(name)）时，数据库无法直接使用列上的索引来完成排序，只能执行额外的文件排序操作，导致性能显著下降。
+description: ORDER BY 使用表达式或函数（如 YEAR、LENGTH）会使列索引无法用于排序、退化为文件排序；应直接按列排序。
+localeOf: en-audit-rule-aud-expression-in-order-by
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -17,7 +16,7 @@ description: 数据库可以利用索引的有序性来避免 ORDER BY 子句中
 |---|---|
 | 规则 ID | aud-expression-in-order-by |
 | 规则名称 | ORDER 字段中有表达式导致索引失效 |
-| 类别 | index |
+| 类别 | index（索引） |
 | 预警级别 | 提示 |
 | 适用数据库 | 所有支持数据库 |
 

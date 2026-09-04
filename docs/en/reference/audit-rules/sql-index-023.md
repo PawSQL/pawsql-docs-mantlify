@@ -1,5 +1,5 @@
 ---
-id: audit-rule-sql-index-023
+id: en-audit-rule-sql-index-023
 title: Redundant Index Detection
 type: reference
 status: draft
@@ -8,8 +8,9 @@ tags:
 - index
 - mysql
 - postgresql
-description: Detects an index whose leading columns are already covered by another
-  index, making the shorter one redundant for reads and a pure cost for writes.
+description: Detects duplicate or redundant indexes whose leading columns another
+  index already covers; they only add write and storage cost, so drop them.
+localeOf: audit-rule-sql-index-023
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -18,7 +19,7 @@ description: Detects an index whose leading columns are already covered by anoth
 |---|---|
 | Rule ID | SQL-INDEX-023 |
 | Name | Redundant Index Detection |
-| Category | index |
+| Category | index — Index |
 | Severity | warning |
 | Databases | mysql, postgresql |
 | Version Introduced | 8.4.0 |
@@ -39,15 +40,17 @@ Drop the index that is a strict prefix of another index. Keep the longer index i
 ## Bad Example
 
 ```sql
-CREATE INDEX idx_a   ON t (a);
-CREATE INDEX idx_ab  ON t (a, b);
+-- bad: redundant index; idx_name_dup is covered by idx_full
+CREATE INDEX idx_full ON user(name, age, email);
+CREATE INDEX idx_name_dup ON user(name);
 ```
 
 ## Good Example
 
 ```sql
--- idx_a is redundant because idx_ab already covers (a)
-CREATE INDEX idx_ab ON t (a, b);
+-- good: only create necessary, non-redundant indexes
+CREATE INDEX idx_full ON user(name, age, email);
+-- idx_full already serves equality/range lookups on name; no extra index needed
 ```
 
 ## Related Rules

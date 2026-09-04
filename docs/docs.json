@@ -27,114 +27,133 @@
     "languages": [
       {
         "language": "zh",
-        "groups": [
+        "tabs": [
           {
-            "group": "快速开始",
-            "pages": [
-              "getting-started/overview"
+            "tab": "文档",
+            "groups": [
+              {
+                "group": "快速开始",
+                "pages": [
+                  "getting-started/overview"
+                ]
+              },
+              {
+                "group": "云产品手册",
+                "pages": [
+                  "user-guide/cloud/index",
+                  "user-guide/cloud/quickstart",
+                  "user-guide/cloud/results"
+                ]
+              },
+              {
+                "group": "审核规则",
+                "pages": [
+                  "reference/audit-rules/aud-pk-naming",
+                  "reference/audit-rules/aud-char-column-length",
+                  "reference/audit-rules/aud-insert-must-include-pk",
+                  "reference/audit-rules/aud-order-by-forbidden-in-dml",
+                  "reference/audit-rules/aud-expression-in-order-by",
+                  "reference/audit-rules/aud-expression-in-group-by"
+                ]
+              },
+              {
+                "group": "优化规则",
+                "pages": [
+                  "reference/optimizer-rules/opt-use-union-all",
+                  "reference/optimizer-rules/opt-npe-rewrite",
+                  "reference/optimizer-rules/opt-exists-to-join",
+                  "reference/optimizer-rules/opt-count-to-exists"
+                ]
+              }
             ]
           },
           {
-            "group": "云产品手册",
-            "pages": [
-              "user-guide/cloud/index",
-              "user-guide/cloud/quickstart",
-              "user-guide/cloud/results"
-            ]
-          },
-          {
-            "group": "审核规则",
-            "pages": [
-              "reference/audit-rules/aud-pk-naming",
-              "reference/audit-rules/aud-char-column-length",
-              "reference/audit-rules/aud-insert-must-include-pk",
-              "reference/audit-rules/aud-order-by-forbidden-in-dml",
-              "reference/audit-rules/aud-expression-in-order-by",
-              "reference/audit-rules/aud-expression-in-group-by"
-            ]
-          },
-          {
-            "group": "优化规则",
-            "pages": [
-              "reference/optimizer-rules/opt-use-union-all",
-              "reference/optimizer-rules/opt-npe-rewrite",
-              "reference/optimizer-rules/opt-exists-to-join",
-              "reference/optimizer-rules/opt-count-to-exists"
-            ]
+            "tab": "API 文档",
+            "openapi": "openapi/pawsql-openapi.yaml"
           }
         ]
       },
       {
         "language": "en",
-        "groups": [
+        "tabs": [
           {
-            "group": "Getting Started",
-            "pages": [
-              "en/getting-started/overview",
-              "en/getting-started/quickstart"
+            "tab": "Documentation",
+            "groups": [
+              {
+                "group": "Getting Started",
+                "pages": [
+                  "en/getting-started/overview",
+                  "en/getting-started/quickstart"
+                ]
+              },
+              {
+                "group": "Products",
+                "pages": [
+                  "en/products/optimizer",
+                  "en/products/advisor"
+                ]
+              },
+              {
+                "group": "User Guide",
+                "pages": [
+                  "en/user-guide/sql-audit/index",
+                  "en/user-guide/optimization/or-union"
+                ]
+              },
+              {
+                "group": "Databases & Compatibility",
+                "pages": [
+                  "en/databases/postgresql/index",
+                  "en/databases/mysql/index",
+                  "en/reference/compatibility/index"
+                ]
+              },
+              {
+                "group": "Reference",
+                "pages": [
+                  "en/reference/api/overview",
+                  "en/reference/audit-rules/sql-index-023",
+                  "en/reference/audit-rules/aud-select-star",
+                  "en/reference/audit-rules/aud-dml-where",
+                  "en/reference/audit-rules/aud-pk-naming",
+                  "en/reference/audit-rules/aud-char-column-length",
+                  "en/reference/audit-rules/aud-insert-must-include-pk",
+                  "en/reference/audit-rules/aud-order-by-forbidden-in-dml",
+                  "en/reference/audit-rules/aud-expression-in-order-by",
+                  "en/reference/audit-rules/aud-expression-in-group-by",
+                  "en/reference/optimizer-rules/opt-or-union",
+                  "en/reference/optimizer-rules/opt-use-union-all",
+                  "en/reference/optimizer-rules/opt-npe-rewrite",
+                  "en/reference/optimizer-rules/opt-exists-to-join",
+                  "en/reference/optimizer-rules/opt-count-to-exists",
+                  "en/reference/configuration/explain-timeout"
+                ]
+              },
+              {
+                "group": "FAQ & Tutorials",
+                "pages": [
+                  "en/faq/index",
+                  "en/tutorials/index",
+                  "en/release-notes/index",
+                  "en/release-notes/8.5.0"
+                ]
+              }
             ]
           },
           {
-            "group": "Products",
-            "pages": [
-              "en/products/optimizer",
-              "en/products/advisor"
-            ]
-          },
-          {
-            "group": "User Guide",
-            "pages": [
-              "en/user-guide/sql-audit/index",
-              "en/user-guide/optimization/or-union"
-            ]
-          },
-          {
-            "group": "Databases & Compatibility",
-            "pages": [
-              "en/databases/postgresql/index",
-              "en/databases/mysql/index",
-              "en/reference/compatibility/index"
-            ]
-          },
-          {
-            "group": "Reference",
-            "pages": [
-              "en/reference/api/overview",
-              "en/reference/audit-rules/sql-index-023",
-              "en/reference/audit-rules/aud-select-star",
-              "en/reference/audit-rules/aud-dml-where",
-              "en/reference/audit-rules/aud-pk-naming",
-              "en/reference/audit-rules/aud-char-column-length",
-              "en/reference/audit-rules/aud-insert-must-include-pk",
-              "en/reference/audit-rules/aud-order-by-forbidden-in-dml",
-              "en/reference/audit-rules/aud-expression-in-order-by",
-              "en/reference/audit-rules/aud-expression-in-group-by",
-              "en/reference/optimizer-rules/opt-or-union",
-              "en/reference/optimizer-rules/opt-use-union-all",
-              "en/reference/optimizer-rules/opt-npe-rewrite",
-              "en/reference/optimizer-rules/opt-exists-to-join",
-              "en/reference/optimizer-rules/opt-count-to-exists",
-              "en/reference/configuration/explain-timeout"
-            ]
-          },
-          {
-            "group": "API Reference",
+            "tab": "API Reference",
             "openapi": "openapi/pawsql-openapi.yaml"
           },
           {
-            "group": "FAQ & Tutorials",
-            "pages": [
-              "en/faq/index",
-              "en/tutorials/index",
-              "en/release-notes/index",
-              "en/release-notes/8.5.0"
-            ]
-          },
-          {
-            "group": "Blog",
-            "pages": [
-              "en/blog/index",
-              "en/blog/engineering/or-to-union"
+            "tab": "Blog",
+            "groups": [
+              {
+                "group": "Posts",
+                "pages": [
+                  "en/blog/index",
+                  "en/blog/engineering/or-to-union"
+                ]
+              }
             ]
           }
         ]

@@ -1,14 +1,14 @@
 ---
-id: audit-rule-aud-expression-in-group-by
+id: en-audit-rule-aud-expression-in-group-by
 title: Expression in GROUP BY Causes Index Invalidation
 type: reference
 status: draft
 tags:
 - audit-rule
 - index
-description: Databases can use index ordering to avoid sorting the GROUP BY columns.
-  When a GROUP BY key is an expression or a function (for example LEFT(column, 5)
-  or YEAR(date_column)), the database can no longe
+description: GROUP BY on an expression or function (LEFT, YEAR) disables the column
+  index and forces an extra sort or hash aggregate; group by the bare column.
+localeOf: audit-rule-aud-expression-in-group-by
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: Databases can use index ordering to avoid sorting the GROUP BY colu
 |---|---|
 | Rule ID | aud-expression-in-group-by |
 | Name | Expression in GROUP BY Causes Index Invalidation |
-| Category | index |
+| Category | index — Index |
 | Severity | info |
 | Databases | All supported databases |
 

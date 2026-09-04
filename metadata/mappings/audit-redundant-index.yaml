@@ -3,7 +3,7 @@
 feature: AUDIT-REDUNDANT-INDEX
 
 documents:
-  - path: docs/en/reference/audit-rules/sql-index-023.md
+  - path: docs/reference/audit-rules/sql-index-023.md
     relation: reference
     required: true
 

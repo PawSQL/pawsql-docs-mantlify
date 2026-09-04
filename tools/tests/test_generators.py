@@ -68,7 +68,7 @@ def test_bilingual_rule_writes_dual_pages(repo):
             {
                 "id": "AUD-BILING",
                 "name": "Audit Bilingual",
-                "category": "select",
+                "category": "dml",
                 "severity": "info",
                 "database": ["mysql"],
                 "description": "English description.",
@@ -97,18 +97,39 @@ def test_bilingual_rule_writes_dual_pages(repo):
     en_text = en.read_text(encoding="utf-8")
     assert "English description" in en_text
     assert "双语规则" not in en_text
+    # mirror page id uses the en- prefix; zh default page id is neutral
+    assert "id: en-audit-rule-aud-biling" in en_text
+    assert "localeOf: audit-rule-aud-biling" in en_text
 
     zh_text = zh.read_text(encoding="utf-8")
-    assert "zh-audit-rule-aud-biling" in zh_text
+    assert "id: audit-rule-aud-biling" in zh_text
     assert "双语规则" in zh_text
     assert "中文说明" in zh_text
     assert "反例" in zh_text
     assert "正例" in zh_text
+    assert "localeOf: en-audit-rule-aud-biling" in zh_text
 
 
 def test_english_only_rule_writes_no_zh_page(repo):
-    bundle, _ = load_metadata(repo)
-    build_references(repo, bundle)
-    assert (repo / "docs/en/reference/audit-rules/aud-one.md").is_file()
+    import yaml
+
+    (repo / "metadata/rules/audit/aud-enonly.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "id": "AUD-ENONLY",
+                "category": "dml",
+                "content": {"en": {"name": "En Only", "description": "No Chinese yet."}},
+            },
+            sort_keys=False,
+        ),
+        encoding="utf-8",
+    )
+    bundle, issues = load_metadata(repo)
+    assert issues == []
+    written = build_references(repo, bundle)
     # EN-only rule has no Chinese page at the zh-default content root
-    assert not (repo / "docs/reference/audit-rules/aud-one.md").exists()
+    assert (repo / "docs/en/reference/audit-rules/aud-enonly.md").is_file()
+    assert not (repo / "docs/reference/audit-rules/aud-enonly.md").exists()
+    # without a zh page the default-language mirror pair is not claimed
+    en_text = (repo / "docs/en/reference/audit-rules/aud-enonly.md").read_text(encoding="utf-8")
+    assert "localeOf" not in en_text

@@ -1,14 +1,14 @@
 ---
-id: audit-rule-aud-insert-must-include-pk
+id: en-audit-rule-aud-insert-must-include-pk
 title: INSERT Must Include Primary Key Column
 type: reference
 status: draft
 tags:
 - audit-rule
 - dml
-description: For tables without an auto-increment primary key, INSERT statements should
-  supply the primary-key value explicitly. Even when the primary-key column has a
-  default value, omitting it can produce duplic
+description: On tables without an auto-increment primary key, INSERT must supply the
+  key explicitly to avoid duplicate or unexpected key values and data inconsistency.
+localeOf: audit-rule-aud-insert-must-include-pk
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: For tables without an auto-increment primary key, INSERT statements
 |---|---|
 | Rule ID | aud-insert-must-include-pk |
 | Name | INSERT Must Include Primary Key Column |
-| Category | dml |
+| Category | dml — DML / data modification |
 | Severity | warning |
 | Databases | All supported databases |
 

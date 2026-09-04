@@ -1,38 +1,34 @@
 # Canonical source: vault 20-engine/rules/规则文档/ORDER字段中有表达式导致索引失效.md
 # TODO(产品核对): 与规则注册表核对 Rule ID、引入版本；audit/optimizer 归属与 category 规范化。
+
+
+
 id: aud-expression-in-order-by
-name: Expression in ORDER BY Causes Index Invalidation
 category: index
 severity: info
-description: >-
-  Databases can use the ordering of an index to avoid sorting the ORDER BY
-  column, which speeds up queries. When the ORDER BY key is an expression or a
-  function call (for example ORDER BY YEAR(date_column) or ORDER BY
-  LENGTH(name)), the database can no longer use the underlying column index for
-  sorting and falls back to an extra filesort, hurting performance.
-howToFix: >-
-  Avoid functions or expressions on the sort column; order by the column itself
-  (for example ORDER BY o_orderdate) so the index ordering can be used. If an
-  expression is unavoidable, consider a functional index or a derived,
-  precomputed column.
-badExample: |
-  -- ORDER BY on a function makes the o_orderdate index unusable for sorting
-  SELECT * FROM orders ORDER BY YEAR(o_orderdate);
-  SELECT * FROM orders ORDER BY LENGTH(c_name);
-goodExample: |
-  -- order by the bare column so the index ordering applies
-  SELECT * FROM orders ORDER BY o_orderdate;
-zh:
-  name: ORDER 字段中有表达式导致索引失效
-  description: >-
-    数据库可以利用索引的有序性来避免 ORDER BY 子句中列的排序，从而提升 SQL 性能。然而，当 ORDER BY 字段是一个表达式或函数（如 ORDER BY YEAR(date_column)、ORDER BY LENGTH(name)）时，数据库无法直接使用列上的索引来完成排序，只能执行额外的文件排序操作，导致性能显著下降。
-  howToFix: >-
-    避免对排序列使用函数或表达式，直接按列本身排序（如 ORDER BY o_orderdate）以便利用索引有序性。若表达式无法避免，可考虑函数索引或物化后的派生列。
-  badExample: |
-    -- 不推荐：ORDER BY 使用表达式，导致 o_orderdate 列索引失效
-    SELECT * FROM orders ORDER BY YEAR(o_orderdate);
-    -- 不推荐：ORDER BY 使用函数，无法利用索引有序性
-    SELECT * FROM orders ORDER BY LENGTH(c_name);
-  goodExample: |
-    -- 推荐：避免在 ORDER BY 中使用函数或表达式
-    SELECT * FROM orders ORDER BY o_orderdate;
+content:
+  en:
+    name: Expression in ORDER BY Causes Index Invalidation
+    description: Databases can use the ordering of an index to avoid sorting the ORDER BY column, which speeds up queries. When the ORDER BY key is an expression or a function call (for example ORDER BY YEAR(date_column) or ORDER BY LENGTH(name)), the database can no longer use the underlying column index for sorting and falls back to an extra filesort, hurting performance.
+    howToFix: Avoid functions or expressions on the sort column; order by the column itself (for example ORDER BY o_orderdate) so the index ordering can be used. If an expression is unavoidable, consider a functional index or a derived, precomputed column.
+    badExample: |
+      -- ORDER BY on a function makes the o_orderdate index unusable for sorting
+      SELECT * FROM orders ORDER BY YEAR(o_orderdate);
+      SELECT * FROM orders ORDER BY LENGTH(c_name);
+    goodExample: |
+      -- order by the bare column so the index ordering applies
+      SELECT * FROM orders ORDER BY o_orderdate;
+    summary: ORDER BY on an expression or function (YEAR, LENGTH) makes the underlying column index unusable for sorting and adds a filesort; order by the bare column.
+  zh:
+    name: ORDER 字段中有表达式导致索引失效
+    description: 数据库可以利用索引的有序性来避免 ORDER BY 子句中列的排序，从而提升 SQL 性能。然而，当 ORDER BY 字段是一个表达式或函数（如 ORDER BY YEAR(date_column)、ORDER BY LENGTH(name)）时，数据库无法直接使用列上的索引来完成排序，只能执行额外的文件排序操作，导致性能显著下降。
+    howToFix: 避免对排序列使用函数或表达式，直接按列本身排序（如 ORDER BY o_orderdate）以便利用索引有序性。若表达式无法避免，可考虑函数索引或物化后的派生列。
+    badExample: |
+      -- 不推荐：ORDER BY 使用表达式，导致 o_orderdate 列索引失效
+      SELECT * FROM orders ORDER BY YEAR(o_orderdate);
+      -- 不推荐：ORDER BY 使用函数，无法利用索引有序性
+      SELECT * FROM orders ORDER BY LENGTH(c_name);
+    goodExample: |
+      -- 推荐：避免在 ORDER BY 中使用函数或表达式
+      SELECT * FROM orders ORDER BY o_orderdate;
+    summary: ORDER BY 使用表达式或函数（如 YEAR、LENGTH）会使列索引无法用于排序、退化为文件排序；应直接按列排序。

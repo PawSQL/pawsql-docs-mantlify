@@ -150,6 +150,32 @@
       "default": null,
       "description": "Feature ids (Feature Manifest) this page documents.",
       "title": "Relatedfeatures"
+    },
+    "localeOf": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Mirror pairing: id of the counterpart page in the other language.",
+      "title": "Localeof"
+    },
+    "category": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
+      "title": "Category"
     }
   },
   "required": [

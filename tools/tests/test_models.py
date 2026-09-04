@@ -31,26 +31,46 @@ class TestFeatureManifest:
 
 class TestRuleMetadata:
     def test_minimal_valid(self):
-        r = RuleMetadata(id="AUD-SELECT-STAR", name="SELECT *", category="select")
+        r = RuleMetadata(id="AUD-SELECT-STAR", name="SELECT *", category="dml")
         assert r.severity.value == "warning"
         assert r.database == []
+        # legacy root prose is migrated into content.en on read
+        assert r.content.en.name == "SELECT *"
 
     def test_bad_severity_rejected(self):
         with pytest.raises(ValidationError):
-            RuleMetadata(id="X", name="x", category="select", severity="loud")
+            RuleMetadata(id="X", name="x", category="dml", severity="loud")
 
-    def test_zh_mirror_parsed(self):
+    def test_legacy_zh_mirror_parsed(self):
         r = RuleMetadata(
-            id="AUD-ZH", name="Rule", category="select",
+            id="AUD-ZH", name="Rule", category="dml",
             zh={"name": "规则", "description": "中文说明"},
         )
-        assert r.zh.name == "规则"
-        assert r.zh.description == "中文说明"
-        assert r.zh.whyItMatters is None
+        assert r.content.zh.name == "规则"
+        assert r.content.zh.description == "中文说明"
+        assert r.content.zh.whyItMatters is None
+        assert r.content.en.name == "Rule"
+
+    def test_bad_category_rejected(self):
+        with pytest.raises(ValidationError):
+            RuleMetadata(id="X", name="x", category="select")
 
     def test_zh_unknown_key_rejected(self):
         with pytest.raises(ValidationError):
-            RuleMetadata(id="X", name="x", category="select", zh={"name": "n", "bogus": 1})
+            RuleMetadata(id="X", name="x", category="dml", zh={"name": "n", "bogus": 1})
+
+    def test_canonical_content_shape(self):
+        r = RuleMetadata(
+            id="AUD-NEW",
+            category="index",
+            content={
+                "en": {"name": "New Rule", "summary": "Short line.", "description": "Long text."},
+                "zh": {"name": "新规则", "description": "中文正文。"},
+            },
+        )
+        assert r.content.en.summary == "Short line."
+        assert r.content.zh.name == "新规则"
+        assert r.category.value == "index"
 
 
 class TestDatabaseMetadata:

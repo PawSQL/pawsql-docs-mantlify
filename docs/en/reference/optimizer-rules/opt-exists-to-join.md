@@ -1,14 +1,14 @@
 ---
-id: optimizer-rule-opt-exists-to-join
+id: en-optimizer-rule-opt-exists-to-join
 title: EXISTS Subquery to Table Join Rewrite
 type: reference
 status: draft
 tags:
 - optimizer-rule
 - rewrite
-description: An EXISTS subquery returns a boolean telling whether any matching row
-  exists. When the correlation is an equality, the subquery result is unique, and
-  the subquery has neither GROUP BY nor LIMIT, the E
+description: Rewrites convertible EXISTS subqueries into an equivalent inner join
+  so the optimizer can choose the driving table freely.
+localeOf: optimizer-rule-opt-exists-to-join
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -17,7 +17,7 @@ description: An EXISTS subquery returns a boolean telling whether any matching r
 |---|---|
 | Rule ID | opt-exists-to-join |
 | Name | EXISTS Subquery to Table Join Rewrite |
-| Category | rewrite |
+| Category | rewrite — Rewrite |
 | Severity | info |
 | Databases | All supported databases |
 

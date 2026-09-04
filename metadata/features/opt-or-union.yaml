@@ -18,7 +18,7 @@ documentation:
   reference:
     required: true
     paths:
-      - docs/en/reference/optimizer-rules/opt-or-union.md
+      - docs/reference/optimizer-rules/opt-or-union.md
   userGuide:
     required: true
     paths:

@@ -1,5 +1,5 @@
 ---
-id: audit-rule-aud-dml-where
+id: en-audit-rule-aud-dml-where
 title: UPDATE/DELETE without WHERE
 type: reference
 status: draft
@@ -9,8 +9,10 @@ tags:
 - mysql
 - postgresql
 - oracle
-description: Flags UPDATE or DELETE statements that carry no WHERE clause, which would
-  affect every row in the target table.
+description: UPDATE/DELETE without a WHERE clause affects the whole table and is a
+  common data-loss source; add a predicate, or use TRUNCATE deliberately to clear
+  it.
+localeOf: audit-rule-aud-dml-where
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,8 +21,8 @@ description: Flags UPDATE or DELETE statements that carry no WHERE clause, which
 |---|---|
 | Rule ID | AUD-DML-WHERE |
 | Name | UPDATE/DELETE without WHERE |
-| Category | dml |
-| Severity | error |
+| Category | dml — DML / data modification |
+| Severity | warning |
 | Databases | mysql, postgresql, oracle |
 | Version Introduced | 8.0.0 |
 
@@ -34,19 +36,23 @@ A missing WHERE on a DML statement is a frequent source of data-loss incidents. 
 
 ## How to Fix
 
-Add the intended predicate, or explicitly confirm a full-table operation when it is truly required (for example a controlled bulk reset).
+Prefer TRUNCATE when the whole table must be cleared, or add the intended predicate. When every row must change, write the always-true condition explicitly (for example WHERE 1=1) to show it is intentional.
 
 ## Bad Example
 
 ```sql
-UPDATE orders SET status = 'closed';
+-- bad: unconditional DELETE wipes the whole table
+DELETE FROM t;
 ```
 
 ## Good Example
 
 ```sql
-UPDATE orders SET status = 'closed'
-WHERE status = 'open';
+-- good: use TRUNCATE to clear a table (faster, explicit intent)
+TRUNCATE TABLE t;
+
+-- good: DELETE with a WHERE clause only removes the target rows
+DELETE FROM t WHERE created_at < '2024-01-01';
 ```
 
 ## Related Rules

@@ -1,6 +1,6 @@
 feature: OPT-USE-UNION-ALL
 
 documents:
-  - path: docs/en/reference/optimizer-rules/opt-use-union-all.md
+  - path: docs/reference/optimizer-rules/opt-use-union-all.md
     relation: reference
     required: true
