@@ -19,6 +19,7 @@ from pawsql_doc.generators import (
     generate_single_database,
     generate_single_rule,
 )
+from pawsql_doc.ingest import parse_rule_doc, render_skeleton
 from pawsql_doc.loaders import _print_issues, load_metadata
 from pawsql_doc.paths import resolve_root
 from pawsql_doc.validate import validate_frontmatter, validate_metadata, validate_nav
@@ -61,6 +62,63 @@ def _cmd_validate_nav(root: Path, _args: argparse.Namespace) -> int:
         print(f"FAIL  nav: {len(issues)} nav-referenced page(s) are not published/approved")
         return 1
     print("PASS  nav: every referenced page is published/approved")
+    return 0
+
+
+def _load_manifest(manifest: str) -> dict:
+    """Read rules_manifest.tsv -> {rid.lower(): row}."""
+    import csv
+
+    rows: dict = {}
+    with open(manifest, encoding="utf-8", newline="") as fh:
+        for row in csv.DictReader(fh, delimiter="\t"):
+            rows[str(row["rid"]).lower()] = row
+    return rows
+
+
+def _cmd_ingest_rules(root: Path, args: argparse.Namespace) -> int:
+    """P0.0.5: turn vault rule docs + the D manifest into RuleMetadata yaml skeletons.
+
+    Dry-run by default (prints to stdout); pass --out <dir> to write into
+    metadata/rules/<fam>/<rid>.yaml for human review before product sign-off.
+    """
+    manifest = _load_manifest(args.manifest)
+    vault = Path(args.vault)
+    picks = manifest if args.all else {i.lower(): manifest[i] for i in args.ids}
+    if not picks:
+        print("no rules selected: pass --id <rid> (repeatable) or --all", file=sys.stderr)
+        return 2
+    written: List[Path] = []
+    for rid, row in sorted(picks.items()):
+        src_name = row["src"]
+        path = vault / f"{src_name}.md"
+        if not path.is_file():
+            # tolerate the one file whose name carries a trailing space
+            for cand in vault.glob(f"{src_name}*.md"):
+                if cand.name.startswith(src_name):
+                    path = cand
+                    break
+        if not path.is_file():
+            print(f"skip {rid}: vault doc not found for '{src_name}'", file=sys.stderr)
+            continue
+        doc = parse_rule_doc(path.read_text(encoding="utf-8-sig"), source=f"20-engine/rules/规则文档/{path.name}")
+        category = row["cat"]
+        severity = doc.severity or row["sev"] or "warning"
+        fam = row["fam"]
+        yaml_text = render_skeleton(rid, category, doc, kind=fam, source=f"20-engine/rules/规则文档/{path.name}")
+        if args.out:
+            out_dir = Path(args.out) / fam
+            out_dir.mkdir(parents=True, exist_ok=True)
+            target = out_dir / f"{rid}.yaml"
+            target.write_text(yaml_text, encoding="utf-8")
+            written.append(target)
+            print(f"  wrote {target}")
+        else:
+            print(f"# ===== {rid} [{fam}] severity={severity} category={category} =====\n{yaml_text}")
+    if args.out:
+        print(f"PASS  wrote {len(written)} skeleton(s) to {args.out}")
+    else:
+        print(f"# ---- dry-run: {len(picks)} rule(s) rendered; pass --out to write ----")
     return 0
 
 
@@ -167,6 +225,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("build-references", help="Regenerate all metadata-driven reference pages")
     p = sub.add_parser("generate-rule", help="Generate one rule reference page")
     p.add_argument("--rule", required=True)
+    p = sub.add_parser("ingest-rules", help="P0.0.5: vault rule docs -> RuleMetadata yaml skeletons (dry-run by default)")
+    p.add_argument("--vault", required=True, help="Path to vault 20-engine/rules/规则文档 directory")
+    p.add_argument("--manifest", default=str(Path(__file__).resolve().parent.parent.parent.parent / "tools" / "data" / "rules_manifest.tsv"),
+                   help="TSV manifest (from PLACEMENT D); default tools/data/rules_manifest.tsv")
+    p.add_argument("--id", dest="ids", action="append", default=[], help="Rule id(s) to render; repeatable")
+    p.add_argument("--all", action="store_true", help="Render every manifest row")
+    p.add_argument("--out", default=None, help="Write skeletons into this metadata/rules root (default: print to stdout)")
     p = sub.add_parser("generate-db", help="Generate one database guide page")
     p.add_argument("--database", required=True)
     p = sub.add_parser("generate-config", help="Generate one configuration reference page")
@@ -175,6 +240,11 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: List[str] | None = None) -> int:
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
     args = build_parser().parse_args(argv)
     try:
         root = resolve_root(args.root)
@@ -188,6 +258,7 @@ def main(argv: List[str] | None = None) -> int:
         "export-schemas": _cmd_export_schemas,
         "build-references": _cmd_build_references,
         "generate-rule": _cmd_generate_rule,
+        "ingest-rules": _cmd_ingest_rules,
         "generate-db": _cmd_generate_database,
         "generate-config": _cmd_generate_config,
         "drift": _cmd_drift,

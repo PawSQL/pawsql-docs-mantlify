@@ -33,7 +33,7 @@ npx mintlify dev          # 打开 http://localhost:3000
 
 Rule / Database / Config 的结构化 Reference **由 Metadata 自动生成**，不要手改 `docs/reference/**`（中文默认树）与 `docs/en/reference/**`（英文）下生成文件（改元数据后重建）。
 
-Rule Metadata 支持双语：根字段为中性事实（id/category/severity/database/版本），语言正文收敛于 `content: { en:{}, zh:{} }`（每语言可带 `summary` 作 front-matter description）。`build-references` 依 `content.zh` 在默认树生成中文页 `docs/reference/...`，依 `content.en` 在副语言树生成英文页 `docs/en/reference/...`（双输出，两页互写 `localeOf`）。旧式“英文根 + `zh:` 块”yaml 仍兼容（读入时自动映射）。
+Rule Metadata 支持双语：根字段为中性事实（id/category/severity/database/版本），语言正文收敛于 `content: { en:{}, zh:{} }`（每语言可带 `summary` 作 front-matter description）。`build-references` 依 `content.zh` 在默认树生成中文页 `docs/reference/...`，依 `content.en` 在副语言树生成英文页 `docs/en/reference/...`（双输出，两页互写 `localeOf`）。旧式“英文根 + `zh:` 块”yaml 仍兼容（读入时自动映射）。P0 规则批量先用 `ingest-rules` 从 vault `规则文档/` 与 `tools/data/rules_manifest.tsv`（源自 PLACEMENT §D 初判）生成骨架，人工/产品核对后补齐英文正文再入仓。
 
 ```bash
 cd tools
@@ -41,6 +41,7 @@ uv run python -m pawsql_doc build-references        # 全量重建 Reference
 uv run python -m pawsql_doc generate-rule --rule redundant-index
 uv run python -m pawsql_doc generate-db   --database postgresql
 uv run python -m pawsql_doc generate-config --config explain.timeout
+uv run python -m pawsql_doc ingest-rules --vault <规则文档目录> --id <rid>   # P0 规则批量：读 vault 规则文档→骨架 yaml（默认 dry-run 打印）
 ```
 
 ## 校验

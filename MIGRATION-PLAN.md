@@ -90,7 +90,7 @@ git diff --exit-code -- docs/reference docs/en/reference docs/en/databases  # �
 
 ## 7. 风险与依赖
 
-- **规则量最大（251 条）**：靠子批 + 生成器分摊；若产线慢可给 tools 增加 `ingest-rules`（读 规则文档 → yaml 骨架）加速（可选 P0.0.5）。
+- **规则量最大（251 条）**：靠子批 + 生成器分摊；已实现 `tools` 的 `ingest-rules`（读 vault `规则文档/` + `tools/data/rules_manifest.tsv`（源自 PLACEMENT §D）→ 骨架 yaml；dry-run 默认、`--out` 落盘供评审），把“读文档 → 结构化骨架”自动化（P0.0.5）。
 - **翻译补齐**：zh 默认树为站点默认语言，en 镜像先入 `docs/en`；中文缺失页面列为翻译队列（AI draft + 产品复核），不做自动承诺。
 - **外部自动提交**：本仓库由外部进程自动 commit；批处理时以磁盘内容为准，避免中途误提交半成品（先建批内全部文件再跑闸门）。
 - **图片缺口**：大量截图原始文件缺失（Typora 绝对路径），以 TODO 标记推进，不阻塞正文。

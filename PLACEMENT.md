@@ -550,6 +550,35 @@
 | 非列表中的列应设置非空默认值 | Non-Null Default Value Required for Non-Excluded Columns | 对象设计 > 列定义 > 默认值 | audit | ddl | warning |  | `aud-nonnull-default-value-required-for-nonexcluded-c` | high |
 | 非空列需指定带默认值 | Default Value Required for NOT NULL Columns | 对象设计 > 列定义 > 默认值 | audit | ddl | warning |  | `aud-default-value-required-for-not-null-columns` | high |
 
+## D.1 P0.0 机器校对快照（2026-09-04，供锁 1/2 评审）
+
+> 对上表逐条做一致性核对（对照 A3 `category` 受控词表、audit/optimizer 族、真实 vault 文件名）。本快照只**报告问题并给建议**，最终以产品/人工裁定为准。
+
+**覆盖**：261/261（vault `规则文档/*.md` 全表有行；1 个文件名为尾随空格 `避免在UPDELETE语句中使用LIMIT而没有ORDER `，正文照常解析）。已落地 14 条（`metadata/rules`：audit 9 + optimizer 5）在本表中仍保留、落地时按实际 yaml 回填 id/内容。
+
+**待确认 A —— 27 条 category 用了词表外伪 token `audit`**（A3 词表无 `audit`）。建议映射（均待产品确认）：
+
+- → `ddl`（对象结构/变更/存在性检查）26 条：`删除表_视图_索引时需指定IfExists`、`只能删除指定命名规范的列`、`只能删除指定命名规范的表和视图`、`字段名已存在`、`索引名已存在`、`索引名不存在`、`约束名已存在`、`表_视图名已存在`、`表_视图名不存在`、`建议使用在线模式创建索引`、`禁止为列修改默认值`、`禁止为列新增非空约束`、`禁止为列新增默认值`、`禁止为列表中的列设置非空约束`、`禁止修改列的数据类型`、`禁止修改列的顺序`、`禁止修改字段名`、`禁止修改表的默认字符集`、`禁止修改降低字段精度`、`禁止修改降低字段长度`、`禁止删除字段`、`禁止删除索引`、`禁止删除索引中的列`、`禁止删除表_视图`、`禁止新增有默认值的列`、`禁止更新索引中的列`。
+- → `unknown`（查询/引用正确性，非对象定义域，建议产品给语义）1 条：`使用不存在的列`。
+
+**待确认 B —— 11 条 low 置信（族歧义，多数带 `audit?`）**：
+
+| 源文件 | 原判 | 疑点 |
+|---|---|---|
+| GROUPBY字段来自不同表 | audit? / index | GROUP BY 跨表列 → 索引失效 vs 正确性 |
+| HIVE中使用非分桶字段进行表关联 | audit? / dml | Hive 分桶关联校验 |
+| IN可空子查询可能导致结果集不符合预期 | audit? / dml | 正确性（NULL 语义） |
+| UPDATE_DELETE操作使用 LIMIT 子句 | audit? / dml | 提示性检查 |
+| 关联字段不均匀导致数据倾斜优化 | audit? / dml | 含“优化”，疑 optimizer |
+| 分区字段上有运算导致无法进行分区裁剪 | audit? / dml | 检查 vs 改写 |
+| 分布式数据库中使用IN替代OR | audit? / dml | 含“替代”，疑 rewrite/optimizer |
+| 同表同字段比较 | audit? / dml | 恒真/恒假检查 |
+| 无条件的DELETE建议重写为Truncate | audit? / dml | 含“重写”，疑 optimizer |
+| 索引中的字段不可以为TEXT和LOB类型 | audit? / index | 列类型限制 |
+| 表连接缺少连接条件 | audit? / dml | CROSS JOIN 检查 |
+
+**规则建议**：凡文件名含“优化/重写/消除/转换/解关联/下推”且语义为自动改写者 → `optimizer`；纯检查/拦截/规范 → `audit`。上表 4 条（关联字段不均匀…优化、分布式…IN替代OR、无条件的DELETE…重写为Truncate）建议复核是否归 optimizer。
+
 ## E. 分批建议
 
 - **P0（结构化 Reference）**：D 表全部（audit/optimizer 逐条 → metadata/rules 双语 + 生成页）；metadata/databases 兼容矩阵；configs。
