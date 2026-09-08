@@ -5,6 +5,12 @@ PawSQL 官方文档站点的 **Mintlify 内容仓库**（新站点，独立于�
 > 依据《PawSQL Documentation Platform 技术设计说明书（Mintlify 版）v1.1》。
 > 架构原则：**Mintlify 负责文档的呈现、编辑协作与发布；PawSQL 自建层负责产品知识建模（Metadata）、结构化 Reference 自动生成与质量闸门。**
 
+## 当前实施基线
+
+内容模型 v2 已实现：单一 PawSQL 产品、六类内容、双语独立审核、自动 Reference 目录与分层质量报告。以 [CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md) 为当前规范，[IMPLEMENTATION-V2.md](IMPLEMENTATION-V2.md) 记录验收与待办；旧规划中的多产品分类不再适用。
+
+当前仅用于预览，不能将生成成功或存在性门禁通过理解为允许生产发布。
+
 ## 仓库布局
 
 ```text

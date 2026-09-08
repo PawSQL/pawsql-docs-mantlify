@@ -1,18 +1,28 @@
 ---
 id: database-compatibility-index
+translationKey: database-compatibility-index
+language: en
 title: Database Compatibility Matrix
 type: reference
 status: draft
-tags:
-- database
-- compatibility
+entityRef:
+  type: compatibility
+  id: database-compatibility-index
+owners: []
+description: Support status by database version and capability, including unverified
+  claims.
+subtype: database
+layout: index
+product: pawsql
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/databases/*.yaml`) and re-run the generator.
+| Database | Versions | Capability | Status |
+|---|---|---|---|
+| mysql | 5.7, 8.0 | sql-rewrite | unknown |
+| mysql | 5.7, 8.0 | sql-audit | unknown |
+| mysql | 5.7, 8.0 | plan-visualization | unknown |
+| postgresql | 14, 15, 16, 17, 18 | sql-rewrite | unknown |
+| postgresql | 14, 15, 16, 17, 18 | sql-audit | unknown |
+| postgresql | 14, 15, 16, 17, 18 | plan-visualization | unknown |
 
-Version and capability support across the databases PawSQL can optimize and audit. Keep the authoritative data in `metadata/databases/`, not in this table.
-
-| Database | Versions | optimizer | audit | planVisualizer |
-|---|---|---|---|---|
-| MySQL | 5.7, 8.0 | Yes | Yes | No |
-| PostgreSQL | 14, 15, 16, 17, 18 | Yes | Yes | No |
+Unknown means unverified, not supported or unsupported.

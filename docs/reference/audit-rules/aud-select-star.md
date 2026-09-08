@@ -3,6 +3,10 @@ id: audit-rule-aud-select-star
 title: 避免在查询中使用 SELECT *
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: AUD-SELECT-STAR
 tags:
 - audit-rule
 - unknown
@@ -11,6 +15,11 @@ tags:
 - oracle
 description: 识别查询中的 SELECT *：无用列浪费 IO 与带宽，且阻碍覆盖索引优化；应只列出所需列。
 localeOf: en-audit-rule-aud-select-star
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-select-star
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。

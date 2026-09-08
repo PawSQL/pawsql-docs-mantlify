@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-duplicate-table-aliases
 title: 避免表引用使用重复的别名
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-duplicate-table-aliases
 tags:
 - audit-rule
 - dml
 description: 避免表引用别名重复或与库表名冲突（可读性差）；每个表引用用唯一且有语义的别名。
 localeOf: en-audit-rule-aud-avoid-duplicate-table-aliases
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-duplicate-table-aliases
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-duplicate-table-aliases
 | 规则名称 | 避免表引用使用重复的别名 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

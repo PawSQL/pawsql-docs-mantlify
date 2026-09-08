@@ -3,11 +3,20 @@ id: audit-rule-aud-create-index-before-constraint
 title: 创建约束前提前创建相关的索引
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-create-index-before-constraint
 tags:
 - audit-rule
 - ddl
 description: 加唯一/外键/CHECK 约束前先建对应索引，约束校验可复用索引、避免全表扫描。
 localeOf: en-audit-rule-aud-create-index-before-constraint
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-create-index-before-constraint
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-create-index-before-constraint
 | 规则名称 | 创建约束前提前创建相关的索引 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

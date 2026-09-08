@@ -3,12 +3,21 @@ id: audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
 title: 分布式数据库应避免出现 ANTI JOIN 操作
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-anti-join-operations-in-distributed-databa
 tags:
 - audit-rule
 - dml
 description: 分布式库应避免 NOT IN/NOT EXISTS 反连接（拉取全量到协调端、内存/网络开销巨大）；用物化/拆分或 LEFT JOIN+IS
   NULL。
 localeOf: en-audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -19,7 +28,7 @@ localeOf: en-audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
 | 规则名称 | 分布式数据库应避免出现 ANTI JOIN 操作 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

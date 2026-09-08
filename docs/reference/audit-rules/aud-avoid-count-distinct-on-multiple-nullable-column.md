@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
 title: 避免COUNT DISTINCT多个可空列
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-count-distinct-on-multiple-nullable-column
 tags:
 - audit-rule
 - dml
 description: COUNT(DISTINCT 多列) 会排除任一列为 NULL 的行，结果与单列去重不同；用 COALESCE 换默认值再计数。
 localeOf: en-audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
 | 规则名称 | 避免COUNT DISTINCT多个可空列 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

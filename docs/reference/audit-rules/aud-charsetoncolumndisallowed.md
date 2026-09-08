@@ -3,11 +3,20 @@ id: audit-rule-aud-charsetoncolumndisallowed
 title: 禁止指定列的字符集
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetoncolumndisallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止列级单独指定字符集（JOIN 隐式转换致索引失效/全表扫描）；字符集在表级统一。
 localeOf: en-audit-rule-aud-charsetoncolumndisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-charsetoncolumndisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-charsetoncolumndisallowed
 | 规则名称 | 禁止指定列的字符集 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

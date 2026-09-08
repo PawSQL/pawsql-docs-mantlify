@@ -1,5 +1,7 @@
 # PawSQL 内容迁移方法论 / 转换手册
 
+> v2 补充（2026-09-08）：迁移顺序为 inventory → migrate-content-model --dry-run → --apply → build-references → quality。产品统一为 pawsql，六类内容和子类型以 [CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md) 为准；保留正文、已有 ID 和 URL，不能照旧产品名新增目录。历史路径映射用于来源追溯，不强制移动现有页面。
+
 > 本手册依据《PawSQL Documentation Platform 技术设计说明书（Mintlify 版）v1.1》，把 Obsidian 内容库
 > （`pawsql-docs-new` vault）的原始技术内容**确定性、可复用地**转换为本仓库（`pawsql-docs-v2`，Mintlify）
 > 的目标结构，供后续分批批量执行。转换是**内容搬运 + 结构重建**，不是照抄：每个目标文件都需满足 v2 的

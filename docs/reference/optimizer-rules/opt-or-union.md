@@ -3,14 +3,23 @@ id: optimizer-rule-opt-or-union
 title: OR 条件 SELECT 重写
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: OPT-OR-UNION
 tags:
 - optimizer-rule
 - rewrite
 - mysql
 - postgresql
 - oracle
-description: 将连接不同字段的 OR 条件重写为 UNION（分支互斥用 UNION ALL），让各分支独立利用索引，避免单一计划退化为全表扫描。
+description: 拆分 OR 分支时保留 NULL 和重复行语义，再验证执行计划与性能。
 localeOf: en-optimizer-rule-opt-or-union
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-or-union
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -27,34 +36,62 @@ localeOf: en-optimizer-rule-opt-or-union
 
 ## 说明
 
-当 SELECT 查询的 WHERE 条件使用 OR 连接不同字段时，数据库优化器可能无法有效利用索引来完成查询。即使两个字段上分别存在索引，OR 条件也可能迫使优化器选择全表扫描而非索引扫描。PawSQL 自动检测此类模式，将 OR 条件拆分为 UNION 或 UNION ALL 查询（如果各 OR 分支条件是互斥的），使每个分支可以独立利用对应字段上的索引，显著提升查询性能。如果数据库支持 INDEX MERGING 优化策略，也可以作为替代方案。
+OR 拆分可以为各分支提供不同访问路径，但性能收益依赖数据库、数据分布与索引。以下示例说明语义约束，不构成对 PawSQL 引入版本、自动触发条件或所有方言支持的确认。
 
 ## 为什么重要
 
-OR 连接不同字段时，即便各字段上都有索引，数据库也可能无法同时利用，被迫退化为全表扫描；把分支拆开后，每个分支可独立走各自的索引。
+OR 查询保留输入行的重复次数；UNION 会去重，而简单的“不等于”排除条件会遗漏 NULL 行。
 
 ## 如何修复
 
-无需人工处理：PawSQL 自动将 OR 分支拆分为 UNION（分支互斥时用 UNION ALL），使各分支独立利用索引；数据库支持 INDEX MERGING 时也可作为替代。
+对确定性谓词，将第二分支限制为第一分支不为真，再使用 UNION ALL。应用前验证方言、NULL、重复行和性能；产品自动改写行为仍待核实。
 
-## 反例
+## 前置条件
+
+- 分支排除条件必须保留 NULL 三值逻辑。
+
+- 必须保留重复行；不能无条件用 UNION 去重代替 OR。
+
+## 排除条件
+
+- 包含易变函数或副作用的谓词需要独立证明，不适用下面的示例推导。
+
+## 验证案例
+
+### 普通分支拆分
+
+`postgresql` · `multiset-equal` · `pending`
 
 ```sql
--- 不推荐：OR 连接不同字段，可能导致全表扫描
-SELECT * FROM lineitem
-WHERE l_shipdate = DATE '2010-12-01' OR l_partkey < 100;
+CREATE TABLE demo(a integer, b integer);
+INSERT INTO demo VALUES (1, 0), (2, 1), (2, 0);
 ```
 
-## 正例
+```sql
+SELECT * FROM demo WHERE a = 1 OR b = 1;
+```
 
 ```sql
--- 推荐：重写为 UNION，各分支可独立利用索引
-SELECT * FROM lineitem WHERE l_shipdate = DATE '2010-12-01'
-UNION
-SELECT * FROM lineitem WHERE l_partkey < 100;
-
--- 推荐：若 OR 分支条件互斥，使用 UNION ALL 更高效
-SELECT * FROM lineitem WHERE l_shipdate = DATE '2010-12-01'
+SELECT * FROM demo WHERE a = 1
 UNION ALL
-SELECT * FROM lineitem WHERE l_partkey < 100 AND l_shipdate <> DATE '2010-12-01';
+SELECT * FROM demo WHERE b = 1 AND (a <> 1 OR a IS NULL);
+```
+
+### NULL、重复行与分支重叠
+
+`postgresql` · `multiset-equal` · `pending`
+
+```sql
+CREATE TABLE demo(a integer, b integer);
+INSERT INTO demo VALUES (NULL, 1), (1, 1), (1, 1), (2, 1), (2, NULL);
+```
+
+```sql
+SELECT * FROM demo WHERE a = 1 OR b = 1;
+```
+
+```sql
+SELECT * FROM demo WHERE a = 1
+UNION ALL
+SELECT * FROM demo WHERE b = 1 AND (a <> 1 OR a IS NULL);
 ```

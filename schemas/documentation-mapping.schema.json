@@ -4,8 +4,33 @@
       "additionalProperties": false,
       "properties": {
         "path": {
+          "default": "",
           "title": "Path",
           "type": "string"
+        },
+        "documentId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Documentid"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Language"
         },
         "relation": {
           "$ref": "#/$defs/RelationKind"
@@ -17,7 +42,6 @@
         }
       },
       "required": [
-        "path",
         "relation"
       ],
       "title": "MappingDocument",

@@ -1,39 +1,35 @@
 ---
 id: database-mysql
-title: MySQL Support
+translationKey: database-mysql
+language: en
+title: MySQL
 type: reference
 status: draft
-tags:
-- database
-- mysql
-description: PawSQL supports MySQL for index recommendation, SQL rewrite and audit-rule
-  review across the supported release lines.
+entityRef:
+  type: database
+  id: database-mysql
+owners: []
+subtype: database
+layout: detail
+product: pawsql
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/databases/mysql.yaml`) and re-run the generator.
+# MySQL
 
-## Supported Versions
-
-| Database | Versions |
-|---|---|
-| MySQL | 5.7, 8.0 |
-
-## Feature Support
-
-| Feature | Supported |
-|---|---|
-| optimizer | Yes |
-| audit | Yes |
-| planVisualizer | No |
-
-## Key Features
-
-- Cost-based index recommendation
-- Semantic query rewrite
-- SQL audit rule review
-
-## Overview
+| Database | Versions | Capability | Status |
+|---|---|---|---|
+| mysql | 5.7, 8.0 | sql-rewrite | unknown |
+| mysql | 5.7, 8.0 | sql-audit | unknown |
+| mysql | 5.7, 8.0 | plan-visualization | unknown |
 
 PawSQL supports MySQL for index recommendation, SQL rewrite and audit-rule review across the supported release lines.
 
-> Note: Version list is sample data pending confirmation from the product team.
+- Cost-based index recommendation
+
+- Semantic query rewrite
+
+- SQL audit rule review
+
+Version list is sample data pending confirmation from the product team.
+
+Unknown means compatibility has not been verified.

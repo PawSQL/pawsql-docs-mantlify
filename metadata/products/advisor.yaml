@@ -1,8 +1,0 @@
-# SAMPLE — example metadata, to be verified against the product catalog.
-id: pawsql-advisor
-name: PawSQL Advisor
-kind: advisor
-description: >-
-  SQL audit and optimization advisor delivering DDL- and DML-quality review
-  rules and actionable index recommendations.
-tags: [audit, advisor, sql-review]

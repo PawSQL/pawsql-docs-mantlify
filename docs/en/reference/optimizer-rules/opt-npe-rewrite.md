@@ -3,12 +3,21 @@ id: en-optimizer-rule-opt-npe-rewrite
 title: NPE Rewrite (Null Pointer Exception Prevention)
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-npe-rewrite
 tags:
 - optimizer-rule
 - rewrite
 description: Wraps aggregates that can return NULL on all-NULL input (e.g. SUM) in
   a null-handling function so the result is always numeric and apps avoid NPE.
 localeOf: optimizer-rule-opt-npe-rewrite
+subtype: rule
+language: en
+translationKey: optimizer-rule-opt-npe-rewrite
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: optimizer-rule-opt-npe-rewrite
 | Name | NPE Rewrite (Null Pointer Exception Prevention) |
 | Category | rewrite — Rewrite |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

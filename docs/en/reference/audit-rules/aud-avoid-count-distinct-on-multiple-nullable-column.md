@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
 title: Avoid COUNT DISTINCT on Multiple Nullable Columns
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-count-distinct-on-multiple-nullable-column
 tags:
 - audit-rule
 - dml
 description: COUNT(DISTINCT col1, col2) drops rows where any column is NULL, unlike
   single-column COUNT(DISTINCT); use COALESCE defaults to get the expected counts.
 localeOf: audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column
 | Name | Avoid COUNT DISTINCT on Multiple Nullable Columns |
 | Category | dml — DML / data modification |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

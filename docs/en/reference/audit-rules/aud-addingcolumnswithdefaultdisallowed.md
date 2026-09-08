@@ -3,12 +3,21 @@ id: en-audit-rule-aud-addingcolumnswithdefaultdisallowed
 title: AddingColumnsWithDefaultDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-addingcolumnswithdefaultdisallowed
 tags:
 - audit-rule
 - ddl
 description: Do not add columns with a DEFAULT to populated tables (rebuild/lock/backfill
   risk); add a nullable column, backfill, then set the DEFAULT in stages.
 localeOf: audit-rule-aud-addingcolumnswithdefaultdisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-addingcolumnswithdefaultdisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-addingcolumnswithdefaultdisallowed
 | Name | AddingColumnsWithDefaultDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

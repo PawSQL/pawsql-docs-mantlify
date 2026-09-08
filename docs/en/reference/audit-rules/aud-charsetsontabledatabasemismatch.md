@@ -3,12 +3,21 @@ id: en-audit-rule-aud-charsetsontabledatabasemismatch
 title: CharsetsOnTable&DatabaseMismatch
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetsontabledatabasemismatch
 tags:
 - audit-rule
 - ddl
 description: Table and database character sets must match to avoid implicit conversion,
   mojibake, or data loss; tables should inherit the database default charset.
 localeOf: audit-rule-aud-charsetsontabledatabasemismatch
+subtype: rule
+language: en
+translationKey: audit-rule-aud-charsetsontabledatabasemismatch
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-charsetsontabledatabasemismatch
 | Name | CharsetsOnTable&DatabaseMismatch |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

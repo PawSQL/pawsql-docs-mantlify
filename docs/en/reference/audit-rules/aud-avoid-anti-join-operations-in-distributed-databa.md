@@ -3,6 +3,10 @@ id: en-audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
 title: Avoid ANTI JOIN Operations in Distributed Databases
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-anti-join-operations-in-distributed-databa
 tags:
 - audit-rule
 - dml
@@ -10,6 +14,11 @@ description: Avoid NOT IN/NOT EXISTS anti-joins in distributed databases (full-d
   pull + huge memory/network); prefer materialization, split steps, or LEFT JOIN ...
   IS NULL.
 localeOf: audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -20,7 +29,7 @@ localeOf: audit-rule-aud-avoid-anti-join-operations-in-distributed-databa
 | Name | Avoid ANTI JOIN Operations in Distributed Databases |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -1,6 +1,7 @@
-feature: OPT-USE-UNION-ALL
 
+feature: OPT-USE-UNION-ALL
 documents:
-  - path: docs/reference/optimizer-rules/opt-use-union-all.md
-    relation: reference
-    required: true
+- relation: reference
+  required: true
+  documentId: optimizer-rule-opt-use-union-all
+  language: zh

@@ -3,11 +3,20 @@ id: audit-rule-aud-consider-replicated-distribution-for-small-table
 title: 小于阈值的分布表建议设计为复制表
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-consider-replicated-distribution-for-small-table
 tags:
 - audit-rule
 - ddl
 description: 分布式小表（10 万行以下、读多写少）建议设计为复制表，关联避免跨节点数据交换。
 localeOf: en-audit-rule-aud-consider-replicated-distribution-for-small-table
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-consider-replicated-distribution-for-small-table
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-consider-replicated-distribution-for-small-table
 | 规则名称 | 小于阈值的分布表建议设计为复制表 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

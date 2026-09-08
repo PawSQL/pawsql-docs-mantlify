@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
 title: Avoid Leading or Trailing Spaces in String Literals
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-leading-or-trailing-spaces-in-string-liter
 tags:
 - audit-rule
 - dml
 description: Spaces at the start or end of string literals are usually typos but change
   matches; remove them, or use TRIM() when spaces are intended.
 localeOf: audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
 | Name | Avoid Leading or Trailing Spaces in String Literals |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

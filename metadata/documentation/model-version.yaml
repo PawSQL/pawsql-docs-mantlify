@@ -1,0 +1,6 @@
+version: 2
+product: pawsql
+defaultLanguage: zh
+languages: [zh, en]
+releaseGate: pre-release
+legacyCompatibility: true

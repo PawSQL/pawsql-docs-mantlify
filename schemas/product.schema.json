@@ -1,5 +1,145 @@
 {
   "$defs": {
+    "Editorial": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "review",
+            "approved",
+            "scheduled",
+            "published",
+            "archived"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "owners": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Owners",
+          "type": "array"
+        },
+        "lastReviewed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lastreviewed"
+        },
+        "reviewCycle": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewcycle"
+        }
+      },
+      "title": "Editorial",
+      "type": "object"
+    },
+    "LocalizedText": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "keyFeatures": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Keyfeatures",
+          "type": "array"
+        },
+        "example": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Example"
+        },
+        "editorial": {
+          "$ref": "#/$defs/Editorial"
+        },
+        "translation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Translation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "LocalizedText",
+      "type": "object"
+    },
     "ProductKind": {
       "enum": [
         "optimizer",
@@ -15,6 +155,58 @@
       ],
       "title": "ProductKind",
       "type": "string"
+    },
+    "TextBundle": {
+      "additionalProperties": false,
+      "properties": {
+        "zh": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LocalizedText"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "en": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LocalizedText"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "TextBundle",
+      "type": "object"
+    },
+    "Translation": {
+      "additionalProperties": false,
+      "properties": {
+        "sourceLanguage": {
+          "enum": [
+            "zh",
+            "en"
+          ],
+          "title": "Sourcelanguage",
+          "type": "string"
+        },
+        "sourceDigest": {
+          "title": "Sourcedigest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceLanguage",
+        "sourceDigest"
+      ],
+      "title": "Translation",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -30,7 +222,15 @@
       "type": "string"
     },
     "kind": {
-      "$ref": "#/$defs/ProductKind"
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProductKind"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "description": {
       "anyOf": [
@@ -50,12 +250,14 @@
       },
       "title": "Tags",
       "type": "array"
+    },
+    "content": {
+      "$ref": "#/$defs/TextBundle"
     }
   },
   "required": [
     "id",
-    "name",
-    "kind"
+    "name"
   ],
   "title": "ProductMetadata",
   "type": "object"

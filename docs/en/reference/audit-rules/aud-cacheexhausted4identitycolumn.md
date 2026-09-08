@@ -3,12 +3,21 @@ id: en-audit-rule-aud-cacheexhausted4identitycolumn
 title: CacheExhausted4IdentityColumn
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-cacheexhausted4identitycolumn
 tags:
 - audit-rule
 - ddl
 description: Warn when an auto-increment/identity column nears its type maximum (default
   80%); plan capacity (e.g. INT to BIGINT) before inserts fail.
 localeOf: audit-rule-aud-cacheexhausted4identitycolumn
+subtype: rule
+language: en
+translationKey: audit-rule-aud-cacheexhausted4identitycolumn
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-cacheexhausted4identitycolumn
 | Name | CacheExhausted4IdentityColumn |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

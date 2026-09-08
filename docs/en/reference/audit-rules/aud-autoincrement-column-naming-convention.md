@@ -3,12 +3,21 @@ id: en-audit-rule-aud-autoincrement-column-naming-convention
 title: Auto-increment column naming convention
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-autoincrement-column-naming-convention
 tags:
 - audit-rule
 - ddl
 description: Auto-increment columns should follow one naming pattern (default `id`);
   inconsistent names raise a notice but do not block DDL.
 localeOf: audit-rule-aud-autoincrement-column-naming-convention
+subtype: rule
+language: en
+translationKey: audit-rule-aud-autoincrement-column-naming-convention
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-autoincrement-column-naming-convention
 | Name | Auto-increment column naming convention |
 | Category | ddl — DDL / object design |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -14,6 +14,11 @@
     },
     "DocType": {
       "enum": [
+        "explanation",
+        "guide",
+        "use-case",
+        "support",
+        "article",
         "product",
         "user-guide",
         "tutorial",
@@ -28,7 +33,7 @@
     }
   },
   "additionalProperties": true,
-  "description": "Document page front matter (design 7.1).\n\nExtra keys are allowed so Mintlify-specific page options and\nout-of-band annotations do not fail validation.",
+  "description": "Compatibility schema; frontmatter-v2.schema.json defines canonical documents.",
   "properties": {
     "id": {
       "description": "Stable unique id of the page (URL-safe slug).",
@@ -176,6 +181,136 @@
       "default": null,
       "description": "Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
       "title": "Category"
+    },
+    "subtype": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Subtype"
+    },
+    "layout": {
+      "default": "detail",
+      "enum": [
+        "detail",
+        "index"
+      ],
+      "title": "Layout",
+      "type": "string"
+    },
+    "language": {
+      "anyOf": [
+        {
+          "enum": [
+            "zh",
+            "en"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Language"
+    },
+    "translationKey": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Translationkey"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "capabilities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "editions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Editions",
+      "type": "array"
+    },
+    "deployments": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Deployments",
+      "type": "array"
+    },
+    "interfaces": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Interfaces",
+      "type": "array"
+    },
+    "integrations": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Integrations",
+      "type": "array"
+    },
+    "audience": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Audience",
+      "type": "array"
+    },
+    "entityRef": {
+      "anyOf": [
+        {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Entityref"
+    },
+    "relations": {
+      "items": {
+        "additionalProperties": {
+          "type": "string"
+        },
+        "type": "object"
+      },
+      "title": "Relations",
+      "type": "array"
+    },
+    "sections": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Sections",
+      "type": "object"
     }
   },
   "required": [

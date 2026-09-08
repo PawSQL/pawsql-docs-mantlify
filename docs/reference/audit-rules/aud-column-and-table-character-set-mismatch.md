@@ -3,11 +3,20 @@ id: audit-rule-aud-column-and-table-character-set-mismatch
 title: 列的字符集和表不一致
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-column-and-table-character-set-mismatch
 tags:
 - audit-rule
 - ddl
 description: 列字符集应与表一致，避免隐式转换/乱码/JOIN 索引失效；列继承表字符集。
 localeOf: en-audit-rule-aud-column-and-table-character-set-mismatch
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-column-and-table-character-set-mismatch
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-column-and-table-character-set-mismatch
 | 规则名称 | 列的字符集和表不一致 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

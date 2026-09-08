@@ -3,11 +3,20 @@ id: audit-rule-aud-column-naming-convention
 title: 列名命名规范
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-column-naming-convention
 tags:
 - audit-rule
 - ddl
 description: 列名应统一小写下划线 snake_case；大写/特殊字符/关键字/中文命名增加维护与迁移成本。
 localeOf: en-audit-rule-aud-column-naming-convention
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-column-naming-convention
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-column-naming-convention
 | 规则名称 | 列名命名规范 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -3,6 +3,10 @@ id: en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns
 title: Avoid Joining on Non-Distribution Key Columns
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-joining-on-nondistribution-key-columns
 tags:
 - audit-rule
 - ddl
@@ -10,6 +14,11 @@ description: Joining on a non-distribution key in a distributed database forces 
   data redistribution and network cost; align high-frequency join keys with the distribution
   key.
 localeOf: audit-rule-aud-avoid-joining-on-nondistribution-key-columns
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-joining-on-nondistribution-key-columns
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -20,7 +29,7 @@ localeOf: audit-rule-aud-avoid-joining-on-nondistribution-key-columns
 | Name | Avoid Joining on Non-Distribution Key Columns |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

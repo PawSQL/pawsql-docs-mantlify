@@ -4,14 +4,10 @@ from __future__ import annotations
 from pathlib import Path
 from typing import List, Optional
 
-from pawsql_doc.generators.config_generator import generate_config_reference
-from pawsql_doc.generators.database_generator import (
-    generate_compatibility_index,
-    generate_database_guide,
-)
 from pawsql_doc.generators.rule_generator import generate_rule_reference
-from pawsql_doc.generators.rule_index import build_rule_indexes
+from pawsql_doc.generators.catalog import build_rule_indexes
 from pawsql_doc.loaders import MetadataBundle
+from pawsql_doc.generators.structured import database_pages, compatibility_pages, config_pages
 
 
 def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
@@ -23,14 +19,14 @@ def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
             written.extend(generate_rule_reference(root, kind, rule))
 
     for db in sorted(bundle.databases, key=lambda d: d.database):
-        written.append(generate_database_guide(root, db))
+        written.extend(database_pages(root, db))
     if bundle.databases:
-        written.append(generate_compatibility_index(root, bundle.databases))
+        written.extend(compatibility_pages(root, bundle.databases))
 
     for cfg in sorted(bundle.configs, key=lambda c: c.name):
-        written.append(generate_config_reference(root, cfg))
+        written.extend(config_pages(root, cfg))
 
-    written.extend(build_rule_indexes(root))
+    written.extend(build_rule_indexes(root, bundle))
 
     return written
 
@@ -53,12 +49,12 @@ def generate_single_rule(root: Path, bundle: MetadataBundle, rule_id: str) -> Op
 def generate_single_database(root: Path, bundle: MetadataBundle, name: str) -> Optional[Path]:
     for db in bundle.databases:
         if db.database.lower() == name.lower():
-            return generate_database_guide(root, db)
+            return database_pages(root, db)[-1]
     return None
 
 
 def generate_single_config(root: Path, bundle: MetadataBundle, name: str) -> Optional[Path]:
     for cfg in bundle.configs:
         if cfg.name.lower() == name.lower():
-            return generate_config_reference(root, cfg)
+            return config_pages(root, cfg)[-1]
     return None

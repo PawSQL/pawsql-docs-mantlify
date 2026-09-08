@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-select-with-for-update
 title: 避免在SELECT语句添加FOR UPDATE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-select-with-for-update
 tags:
 - audit-rule
 - dml
 description: 避免随意 SELECT ... FOR UPDATE（行锁致等待/阻塞/死锁）；仅确需悲观锁时使用，并尽量缩小锁定范围。
 localeOf: en-audit-rule-aud-avoid-select-with-for-update
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-select-with-for-update
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-select-with-for-update
 | 规则名称 | 避免在SELECT语句添加FOR UPDATE |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

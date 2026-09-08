@@ -3,11 +3,20 @@ id: audit-rule-aud-insert-must-include-pk
 title: INSERT 语句必须包含主键字段
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-insert-must-include-pk
 tags:
 - audit-rule
 - dml
 description: 对无自增主键的表，INSERT 必须显式包含主键列并提供明确的值，避免主键冲突与数据不一致。
 localeOf: en-audit-rule-aud-insert-must-include-pk
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-insert-must-include-pk
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-insert-must-include-pk
 | 规则名称 | INSERT 语句必须包含主键字段 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

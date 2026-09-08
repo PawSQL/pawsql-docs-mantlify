@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-cross-join
 title: Avoid CROSS JOIN
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-cross-join
 tags:
 - audit-rule
 - dml
 description: CROSS JOIN produces a Cartesian product and is almost always a performance
   trap; use an explicit join condition, or document the intent.
 localeOf: audit-rule-aud-avoid-cross-join
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-cross-join
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-cross-join
 | Name | Avoid CROSS JOIN |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

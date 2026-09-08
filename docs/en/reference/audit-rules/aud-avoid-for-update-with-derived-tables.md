@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-for-update-with-derived-tables
 title: Avoid FOR UPDATE with Derived Tables
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-for-update-with-derived-tables
 tags:
 - audit-rule
 - dml
 description: SELECT ... FOR UPDATE over a derived table can lock the internal temporary
   table instead of the base rows; lock the base table directly.
 localeOf: audit-rule-aud-avoid-for-update-with-derived-tables
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-for-update-with-derived-tables
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-for-update-with-derived-tables
 | Name | Avoid FOR UPDATE with Derived Tables |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

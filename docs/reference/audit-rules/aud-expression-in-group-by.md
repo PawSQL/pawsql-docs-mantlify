@@ -3,11 +3,20 @@ id: audit-rule-aud-expression-in-group-by
 title: GROUP 字段中有表达式导致索引失效
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-expression-in-group-by
 tags:
 - audit-rule
 - index
 description: GROUP BY 使用表达式或函数（如 LEFT、YEAR）会令列索引失效，退化为额外排序或哈希分组；应直接按列分组。
 localeOf: en-audit-rule-aud-expression-in-group-by
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-expression-in-group-by
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-expression-in-group-by
 | 规则名称 | GROUP 字段中有表达式导致索引失效 |
 | 类别 | index（索引） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

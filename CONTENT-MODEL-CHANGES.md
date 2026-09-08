@@ -1,5 +1,7 @@
 # 内容模型 & SEO/LLM 优化改动清单（CONTENT-MODEL-CHANGES）
 
+> 历史规划：产品、类型、导航及门禁的当前规范见 [CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md)，实施记录见 [IMPLEMENTATION-V2.md](IMPLEMENTATION-V2.md)。本文未完成的事实整理事项仍作为待办，不代表已经实现。
+
 **版本/日期：** v0.2 · 2026-09-04（决策已拍板，见 §3）
 **性质：** 规划/清单（proposal）——标注待实施项与需产品决策项；不含代码实施。
 **关联：** `docs/contributing/{frontmatter,style-guide,terminology}.md`、`MIGRATION-PLAYBOOK.md`、`MIGRATION-PLAN.md`、`PLACEMENT.md`

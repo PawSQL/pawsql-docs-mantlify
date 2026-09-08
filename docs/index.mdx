@@ -1,19 +1,62 @@
 ---
 id: index
 title: PawSQL 文档
-description: PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。
-type: product
+description: 了解 PawSQL 如何通过 SQL 审核、查询重写、索引推荐与性能验证，帮助开发者和 DBA 提升 SQL 质量与数据库性能。
+type: explanation
 status: draft
+language: zh
+translationKey: index
+layout: detail
+product: pawsql
 ---
 
-# PawSQL
+PawSQL 是面向开发者、DBA 和平台团队的 SQL 质量治理与数据库性能优化工具。它将 SQL 审核、查询重写、索引推荐和性能验证连接起来，帮助你发现问题、形成优化方案，并评估方案的效果。
 
-PawSQL 自动完成数据库性能优化：SQL 审核、语义级查询重写、基于代价的索引推荐——支持 MySQL、PostgreSQL、Oracle、openGauss 等。
+无论是在开发过程中检查一条 SQL、在上线前执行审核，还是集中治理慢 SQL，都可以从对应的操作指南开始使用 PawSQL。
 
-从这里开始：
+## 从发现问题到验证优化方案
 
-- [产品概览](getting-started/overview) - PawSQL 做什么、如何试用
-- [云产品手册](user-guide/cloud/index) - PawSQL Cloud 使用指南
-- [审核规则](reference/audit-rules/aud-pk-naming) - 审核规则参考（中文）
-- [优化规则](reference/optimizer-rules/opt-use-union-all) - 优化器规则参考（中文）
-- [English](en/index)
+数据库优化器负责选择 SQL 的执行计划，但查询的表达方式、可用索引和统计信息都会影响最终选择。PawSQL 从 SQL 结构与索引设计入手，为数据库优化器提供更多可选方案。
+
+**查询重写与索引推荐是 PawSQL 的两项核心优化能力。** 重写在满足适用条件和语义等价约束的前提下调整查询结构；索引推荐根据查询的过滤、连接等访问需求设计候选索引，并结合代价评估选择方案。两者可以独立使用，也可以结合：查询结构改变后，适合它的索引方案也可能随之变化。
+
+围绕这一过程，PawSQL 提供以下能力：
+
+| 能力 | 帮助你完成什么 |
+|---|---|
+| SQL 审核 | 检查 SQL 与数据库对象设计中的规范问题和潜在风险，给出规则依据与处理建议。 |
+| 查询重写 | 识别可优化的查询结构，在适用条件下生成语义等价的 SQL。 |
+| 索引推荐 | 从查询需求出发设计候选索引，辅助评估索引方案的收益。 |
+| 性能验证 | 对比优化方案的执行计划、代价或所用验证方式提供的指标，辅助判断方案是否值得采用。 |
+| 执行计划可视化 | 展示执行计划结构，帮助理解数据访问、连接方式及优化前后的变化。 |
+
+代价评估与实际运行耗时是不同的指标。应用方案时，应结合数据分布、现有索引、写入开销和真实负载验证效果；具体能力与验证方式取决于所用组件及数据库支持情况。
+
+## 按你的工作场景使用
+
+- **开发 SQL**：在 IDE 中检查 SQL，查看审核结果与优化建议，尽早处理质量和性能问题。
+- **管理上线流程**：将 SQL 审核接入 CI/CD，按团队策略建立上线检查与问题处理流程。
+- **治理慢 SQL**：分析慢 SQL，评估重写与索引方案，并结合性能巡检持续跟踪问题。
+- **开展数据库迁移**：结合目标数据库的支持范围，检查 SQL 的兼容性、规范和性能风险。
+
+查看[用户场景](/use-cases/index)，了解这些工作如何组织成完整的治理流程。
+
+## 选择适合的使用方式
+
+PawSQL 可以通过公网环境使用，也可以根据所用版本和组件进行私有部署，或通过 IDE 插件、API 与自动化流程接入。
+
+**PawSQL Cloud 是 PawSQL 的公网部署形态。** Engine、Optimizer、Auditor、Advisor 和 Patroller 是同一产品的不同组件或交付形态。选择时，先确定要完成的任务，再查阅对应的环境要求与接入说明。
+
+不同数据库、版本和组件的支持范围可能不同，请先查看[支持的数据库](/getting-started/supported-databases)。
+
+## 开始使用
+
+| 你的目标 | 从这里开始 |
+|---|---|
+| 第一次使用 PawSQL | [在公网环境完成一次 SQL 优化](/user-guide/cloud/quickstart) |
+| 理解优化报告 | [阅读优化结果](/user-guide/cloud/results) |
+| 了解各项能力 | [核心功能](/features/index) |
+| 查询某条审核规范 | [审核规则目录](/reference/audit-rules/index) |
+| 了解查询改写的依据 | [优化算法目录](/reference/optimizer-rules/index) |
+
+[Read the documentation in English →](/en/index)

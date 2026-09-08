@@ -3,11 +3,20 @@ id: optimizer-rule-opt-count-to-exists
 title: COUNT 标量子查询重写
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-count-to-exists
 tags:
 - optimizer-rule
 - rewrite
 description: 将 (SELECT COUNT(*) ...)>0 的存在性判断重写为 EXISTS，命中首行即短路，避免全量计数。
 localeOf: en-optimizer-rule-opt-count-to-exists
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-count-to-exists
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-optimizer-rule-opt-count-to-exists
 | 规则名称 | COUNT 标量子查询重写 |
 | 类别 | rewrite（重写） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

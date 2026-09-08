@@ -3,11 +3,20 @@ id: audit-rule-aud-comments-on-column-required
 title: 列必须有注释
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-comments-on-column-required
 tags:
 - audit-rule
 - ddl
 description: 每列都应有注释（字段含义/用途/取值范围），降低变更、排查与交接成本。
 localeOf: en-audit-rule-aud-comments-on-column-required
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-comments-on-column-required
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-comments-on-column-required
 | 规则名称 | 列必须有注释 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -8,9 +8,13 @@ from __future__ import annotations
 
 from datetime import date
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Union, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pawsql_doc.models.governance import (
+    SUBTYPES, Editorial, Translation, TextBundle, Evidence, Applicability,
+    Remediation, RuleExample, Compatibility, ConfigBehavior, DocumentRef,
+)
 
 
 class _StrictModel(BaseModel):
@@ -23,6 +27,11 @@ class _StrictModel(BaseModel):
 
 
 class DocType(str, Enum):
+    EXPLANATION = "explanation"
+    GUIDE = "guide"
+    USE_CASE = "use-case"
+    SUPPORT = "support"
+    ARTICLE = "article"
     PRODUCT = "product"
     USER_GUIDE = "user-guide"
     TUTORIAL = "tutorial"
@@ -77,6 +86,33 @@ class FrontMatter(BaseModel):
         default=None,
         description="Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
     )
+    subtype: Optional[str] = None
+    layout: Literal["detail", "index"] = "detail"
+    language: Optional[Literal["zh", "en"]] = None
+    translationKey: Optional[str] = None
+    components: List[str] = Field(default_factory=list)
+    capabilities: List[str] = Field(default_factory=list)
+    editions: List[str] = Field(default_factory=list)
+    deployments: List[str] = Field(default_factory=list)
+    interfaces: List[str] = Field(default_factory=list)
+    integrations: List[str] = Field(default_factory=list)
+    audience: List[str] = Field(default_factory=list)
+    entityRef: Optional[Dict[str, str]] = None
+    relations: List[Dict[str, str]] = Field(default_factory=list)
+    sections: Dict[str, str] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def classification(self):
+        if self.layout not in {"detail", "index"}:
+            raise ValueError("layout must be detail or index")
+        if self.language not in {None, "zh", "en"}:
+            raise ValueError("language must be zh or en")
+        allowed = SUBTYPES.get(self.type.value)
+        # Legacy reference pages without subtype remain readable during migration.
+        if allowed is not None and self.subtype not in allowed:
+            if not (self.type.value == "reference" and self.subtype is None):
+                raise ValueError(f"invalid subtype {self.subtype!r} for {self.type.value}")
+        return self
 
 
 # ---------------------------------------------------------------------------
@@ -107,6 +143,7 @@ class ProductKind(str, Enum):
 class DocRequirement(_StrictModel):
     required: bool = False
     paths: List[str] = Field(default_factory=list)
+    documents: List[DocumentRef] = Field(default_factory=list)
 
 
 class DocumentationRequirements(_StrictModel):
@@ -121,13 +158,17 @@ class FeatureManifest(_StrictModel):
 
     id: str = Field(description="Stable feature id, e.g. OPT-OR-UNION.")
     name: str
-    type: ProductKind
+    type: Optional[ProductKind] = None  # legacy, not the product identity
     product: str = Field(description="Product id the feature ships in, e.g. pawsql-optimizer.")
     status: FeatureStatus = FeatureStatus.RELEASED
     introducedVersion: Optional[str] = None
     databases: List[str] = Field(default_factory=list)
     sourcePaths: List[str] = Field(default_factory=list)
     documentation: DocumentationRequirements = Field(default_factory=DocumentationRequirements)
+    components: List[str] = Field(default_factory=list)
+    capabilities: List[str] = Field(default_factory=list)
+    content: TextBundle = Field(default_factory=TextBundle)
+    evidence: List[Evidence] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -178,6 +219,8 @@ class RuleContent(_StrictModel):
     howToFix: Optional[str] = None
     badExample: Optional[str] = None
     goodExample: Optional[str] = None
+    editorial: Editorial = Field(default_factory=Editorial)
+    translation: Optional[Translation] = None
 
 
 class RuleContentBundle(_StrictModel):
@@ -198,6 +241,15 @@ class RuleMetadata(_StrictModel):
     """
 
     id: str
+    kind: Optional[Literal["audit", "optimizer"]] = None
+    product: str = "pawsql"
+    components: List[str] = Field(default_factory=list)
+    capabilities: List[str] = Field(default_factory=list)
+    featureIds: List[str] = Field(default_factory=list)
+    applicability: Applicability = Field(default_factory=Applicability)
+    remediation: Remediation = Field(default_factory=Remediation)
+    examples: List[RuleExample] = Field(default_factory=list)
+    evidence: List[Evidence] = Field(default_factory=list)
     category: RuleCategory = RuleCategory.UNKNOWN
     severity: Severity = Severity.WARNING
     database: List[str] = Field(default_factory=list)
@@ -256,6 +308,9 @@ class DatabaseMetadata(_StrictModel):
     description: Optional[str] = None
     keyFeatures: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
+    content: TextBundle = Field(default_factory=TextBundle)
+    compatibility: List[Compatibility] = Field(default_factory=list)
+    evidence: List[Evidence] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -289,6 +344,30 @@ class ConfigMetadata(_StrictModel):
     allowedRange: Optional[AllowedRange] = None
     description: Optional[str] = None
     example: Optional[str] = None
+    content: TextBundle = Field(default_factory=TextBundle)
+    behavior: ConfigBehavior = Field(default_factory=ConfigBehavior)
+    enumValues: List[Union[int, float, bool, str]] = Field(default_factory=list)
+    evidence: List[Evidence] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def valid_value(self):
+        value = self.default
+        accepted = {"integer": (int,), "float": (int, float), "boolean": (bool,), "string": (str,)}
+        if value is not None and type(value) not in accepted[self.configType.value]:
+            raise ValueError("default type must match configType")
+        if self.allowedRange:
+            lo, hi = self.allowedRange.min, self.allowedRange.max
+            if lo is not None and hi is not None and lo > hi:
+                raise ValueError("allowedRange.min exceeds max")
+            if self.configType.value not in {"integer", "float"}:
+                raise ValueError("allowedRange requires numeric configType")
+            if value is not None and ((lo is not None and value < lo) or (hi is not None and value > hi)):
+                raise ValueError("default outside allowedRange")
+        if self.enumValues and value is not None and value not in self.enumValues:
+            raise ValueError("default outside enumValues")
+        if any(type(v) not in accepted[self.configType.value] for v in self.enumValues):
+            raise ValueError("enumValues type must match configType")
+        return self
 
 
 class ProductMetadata(_StrictModel):
@@ -296,9 +375,10 @@ class ProductMetadata(_StrictModel):
 
     id: str = Field(description="Product id, e.g. pawsql-optimizer. Referenced by feature manifests.")
     name: str
-    kind: ProductKind
+    kind: Optional[ProductKind] = None  # legacy
     description: Optional[str] = None
     tags: List[str] = Field(default_factory=list)
+    content: TextBundle = Field(default_factory=TextBundle)
 
 
 # ---------------------------------------------------------------------------
@@ -318,7 +398,9 @@ class RelationKind(str, Enum):
 
 
 class MappingDocument(_StrictModel):
-    path: str
+    path: str = ""  # compatible until all callers resolve documentId
+    documentId: Optional[str] = None
+    language: Optional[str] = None
     relation: RelationKind
     required: bool = False
 

@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-select-with-limit-and-for-update
 title: 避免limit子句的查询语句使用for update
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-select-with-limit-and-for-update
 tags:
 - audit-rule
 - dml
 description: 避免 ORDER BY+LIMIT+FOR UPDATE（锁定行数远超返回、竞争严重）；分两步：先取主键再精确加锁。
 localeOf: en-audit-rule-aud-avoid-select-with-limit-and-for-update
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-select-with-limit-and-for-update
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-select-with-limit-and-for-update
 | 规则名称 | 避免limit子句的查询语句使用for update |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

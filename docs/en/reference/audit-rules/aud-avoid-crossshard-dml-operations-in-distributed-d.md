@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
 title: Avoid Cross-Shard DML Operations in Distributed Databases
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-crossshard-dml-operations-in-distributed-d
 tags:
 - audit-rule
 - dml
 description: DML whose WHERE does not pin the distribution key spans shards and needs
   slow, deadlock-prone distributed transactions; add a distribution-key equality.
 localeOf: audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
 | Name | Avoid Cross-Shard DML Operations in Distributed Databases |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

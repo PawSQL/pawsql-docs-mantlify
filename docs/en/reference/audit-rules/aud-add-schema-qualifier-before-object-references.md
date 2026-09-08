@@ -3,12 +3,21 @@ id: en-audit-rule-aud-add-schema-qualifier-before-object-references
 title: Add Schema Qualifier Before Object References
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-add-schema-qualifier-before-object-references
 tags:
 - audit-rule
 - dml
 description: Prefix every referenced object with its schema/owner (schema.object)
   to avoid ambiguity and wrong references in cross-schema or multi-tenant setups.
 localeOf: audit-rule-aud-add-schema-qualifier-before-object-references
+subtype: rule
+language: en
+translationKey: audit-rule-aud-add-schema-qualifier-before-object-references
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-add-schema-qualifier-before-object-references
 | Name | Add Schema Qualifier Before Object References |
 | Category | dml — DML / data modification |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

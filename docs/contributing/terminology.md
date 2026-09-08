@@ -3,10 +3,17 @@ id: contributing-terminology
 title: 术语表
 description: PawSQL 文档平台与产品使用的统一术语（持续维护）
 type: reference
-product: pawsql-docs
+product: pawsql
 status: draft
-owners: [docs-platform]
-tags: [content-model, terminology]
+owners:
+- docs-platform
+tags:
+- content-model
+- terminology
+subtype: glossary
+language: zh
+translationKey: contributing-terminology
+layout: detail
 ---
 
 # 术语表

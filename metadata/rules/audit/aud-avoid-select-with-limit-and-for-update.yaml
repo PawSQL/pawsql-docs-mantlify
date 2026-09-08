@@ -11,32 +11,60 @@ tags:
 content:
   zh:
     name: 避免limit子句的查询语句使用for update
-    description: |-
-      `SELECT ... ORDER BY ... LIMIT ... FOR UPDATE` 这种写法在 MySQL 中会带来严重的锁竞争问题。由于 `ORDER BY` 的存在，执行器会先扫描所有符合 WHERE 条件的记录并对其加锁，然后再进行排序并返回满足 LIMIT 数量的行。这意味着实际需要加锁的行数远大于最终返回的行数，导致大量不必要的锁阻塞，降低并发性能。
-      正确的做法是分两步完成：首先通过普通 SELECT 查询获取目标行的主键，然后再通过主键进行精确的 `SELECT ... FOR UPDATE` 加锁，使锁的范围精确控制在真正需要的行上。
-    badExample: |-
-      -- ❌ 不推荐：ORDER BY + LIMIT + FOR UPDATE，锁定范围远超实际需要
-      SELECT msg_id FROM t_msg WHERE msg_type = 'type' ORDER BY send_time LIMIT 1 FOR UPDATE;
-    goodExample: |-
-      -- ✅ 推荐：分两步操作，先获取主键，再精确加锁
+    description: '`SELECT ... ORDER BY ... LIMIT ... FOR UPDATE` 这种写法在 MySQL 中会带来严重的锁竞争问题。由于
+      `ORDER BY` 的存在，执行器会先扫描所有符合 WHERE 条件的记录并对其加锁，然后再进行排序并返回满足 LIMIT 数量的行。这意味着实际需要加锁的行数远大于最终返回的行数，导致大量不必要的锁阻塞，降低并发性能。
+
+      正确的做法是分两步完成：首先通过普通 SELECT 查询获取目标行的主键，然后再通过主键进行精确的 `SELECT ... FOR UPDATE` 加锁，使锁的范围精确控制在真正需要的行上。'
+    badExample: '-- ❌ 不推荐：ORDER BY + LIMIT + FOR UPDATE，锁定范围远超实际需要
+
+      SELECT msg_id FROM t_msg WHERE msg_type = ''type'' ORDER BY send_time LIMIT
+      1 FOR UPDATE;'
+    goodExample: '-- ✅ 推荐：分两步操作，先获取主键，再精确加锁
+
       -- 步骤1：获取主键（不加锁）
-      SELECT msg_id FROM t_msg WHERE msg_type = 'type' ORDER BY send_time LIMIT 1;
+
+      SELECT msg_id FROM t_msg WHERE msg_type = ''type'' ORDER BY send_time LIMIT
+      1;
+
       -- 步骤2：通过主键精确加锁
-      SELECT * FROM t_msg WHERE msg_id = ? FOR UPDATE;
+
+      SELECT * FROM t_msg WHERE msg_id = ? FOR UPDATE;'
     summary: 避免 ORDER BY+LIMIT+FOR UPDATE（锁定行数远超返回、竞争严重）；分两步：先取主键再精确加锁。
+    editorial:
+      status: draft
+      owners: []
   en:
     name: Avoid SELECT with LIMIT and FOR UPDATE
-    description: |-
-      `SELECT ... ORDER BY ... LIMIT ... FOR UPDATE` causes serious lock contention in MySQL. Because of the `ORDER BY`, the executor first scans and locks every row that matches the WHERE condition, then sorts and returns only LIMIT rows. In practice far more rows are locked than are returned, creating a lot of needless lock blocking and hurting concurrency.
+    description: '`SELECT ... ORDER BY ... LIMIT ... FOR UPDATE` causes serious lock
+      contention in MySQL. Because of the `ORDER BY`, the executor first scans and
+      locks every row that matches the WHERE condition, then sorts and returns only
+      LIMIT rows. In practice far more rows are locked than are returned, creating
+      a lot of needless lock blocking and hurting concurrency.
 
-      Do it in two steps instead: first read the primary keys of the target rows with an ordinary SELECT, then run a precise `SELECT ... FOR UPDATE` by those primary keys so the lock scope is exactly the rows you truly need.
-    summary: ORDER BY + LIMIT + FOR UPDATE locks far more rows than it returns; fetch the primary keys first, then lock them precisely.
-    badExample: |-
-      -- bad: ORDER BY + LIMIT + FOR UPDATE locks far more than needed
-      SELECT msg_id FROM t_msg WHERE msg_type = 'type' ORDER BY send_time LIMIT 1 FOR UPDATE;
-    goodExample: |-
-      -- good: two steps - get the primary key, then lock precisely
+
+      Do it in two steps instead: first read the primary keys of the target rows with
+      an ordinary SELECT, then run a precise `SELECT ... FOR UPDATE` by those primary
+      keys so the lock scope is exactly the rows you truly need.'
+    summary: ORDER BY + LIMIT + FOR UPDATE locks far more rows than it returns; fetch
+      the primary keys first, then lock them precisely.
+    badExample: '-- bad: ORDER BY + LIMIT + FOR UPDATE locks far more than needed
+
+      SELECT msg_id FROM t_msg WHERE msg_type = ''type'' ORDER BY send_time LIMIT
+      1 FOR UPDATE;'
+    goodExample: '-- good: two steps - get the primary key, then lock precisely
+
       -- step 1: get the primary key (no lock)
-      SELECT msg_id FROM t_msg WHERE msg_type = 'type' ORDER BY send_time LIMIT 1;
+
+      SELECT msg_id FROM t_msg WHERE msg_type = ''type'' ORDER BY send_time LIMIT
+      1;
+
       -- step 2: lock precisely by primary key
-      SELECT * FROM t_msg WHERE msg_id = ? FOR UPDATE;
+
+      SELECT * FROM t_msg WHERE msg_id = ? FOR UPDATE;'
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

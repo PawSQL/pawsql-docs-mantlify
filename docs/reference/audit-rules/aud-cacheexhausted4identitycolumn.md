@@ -3,11 +3,20 @@ id: audit-rule-aud-cacheexhausted4identitycolumn
 title: 自增序列耗尽预警
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-cacheexhausted4identitycolumn
 tags:
 - audit-rule
 - ddl
 description: 自增列接近类型最大值（默认阈值 80%）时预警，提前规划扩容（如 INT→BIGINT），避免 INSERT 失败。
 localeOf: en-audit-rule-aud-cacheexhausted4identitycolumn
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-cacheexhausted4identitycolumn
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-cacheexhausted4identitycolumn
 | 规则名称 | 自增序列耗尽预警 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

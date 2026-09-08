@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-duplicate-table-aliases
 title: Avoid Duplicate Table Aliases
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-duplicate-table-aliases
 tags:
 - audit-rule
 - dml
 description: Duplicate table aliases (or aliases colliding with real table names)
   destroy readability; every table reference needs a unique, meaningful alias.
 localeOf: audit-rule-aud-avoid-duplicate-table-aliases
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-duplicate-table-aliases
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-duplicate-table-aliases
 | Name | Avoid Duplicate Table Aliases |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

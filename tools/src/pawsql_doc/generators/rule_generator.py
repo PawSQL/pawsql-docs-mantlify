@@ -67,15 +67,13 @@ def _content(rule: RuleMetadata, lang: str) -> Optional[RuleContent]:
 
 def _name(rule: RuleMetadata, lang: str) -> str:
     own = _content(rule, lang)
-    other = _content(rule, "zh" if lang == "en" else "en")
-    value = (own.name if own else None) or (other.name if other else None) or rule.id
+    value = (own.name if own else None) or rule.id
     return value
 
 
 def _value(rule: RuleMetadata, lang: str, attr: str) -> str:
     own = _content(rule, lang)
-    other = _content(rule, "zh" if lang == "en" else "en")
-    value = (getattr(own, attr) if own else None) or (getattr(other, attr) if other else None)
+    value = getattr(own, attr) if own else None
     return value or ""
 
 
@@ -98,7 +96,7 @@ def _databases(rule: RuleMetadata, zh: bool) -> str:
         return fmt_list(rule.database)
     # An empty list means the rule applies to every supported database
     # (source docs use "ALL").
-    return "所有支持数据库" if zh else "All supported databases"
+    return "待验证（尚未声明数据库范围）" if zh else "Unverified (database scope not declared)"
 
 
 def _category_display(category: RuleCategory, zh: bool) -> str:
@@ -182,6 +180,25 @@ def _page_parts(rule: RuleMetadata, kind: str, lang: str) -> List[str]:
         links = ", ".join(f"`{rid}`" for rid in rule.relatedRules)
         parts.append("## 关联规则\n" if zh else "## Related Rules\n")
         parts.append(f"{links}\n")
+    for attr, heading in (("prerequisites", "前置条件" if zh else "Prerequisites"), ("exclusions", "排除条件" if zh else "Exclusions")):
+        conditions = getattr(rule.applicability, attr)
+        if conditions:
+            parts.append(f"## {heading}\n")
+            parts.extend(f"- {condition.content.get(lang, condition.code)}\n" for condition in conditions)
+    if rule.examples:
+        parts.append("## 验证案例\n" if zh else "## Verification examples\n")
+        for example in rule.examples:
+            parts.append(f"### {example.content.get(lang, example.id)}\n")
+            parts.append(f"`{example.dialect}` · `{example.expected.comparison}` · `{example.verification}`\n")
+            if example.setupSql:
+                parts.append(code_block("sql", example.setupSql))
+            parts.append(code_block("sql", example.beforeSql))
+            if example.afterSql:
+                parts.append(code_block("sql", example.afterSql))
+    if rule.evidence:
+        parts.append("## 事实依据\n" if zh else "## Evidence\n")
+        for evidence in rule.evidence:
+            parts.append(f"- `{evidence.id}`: `{evidence.status}` ({', '.join(evidence.supports)})\n")
     return parts
 
 
@@ -212,10 +229,14 @@ def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[P
             "id": en_id,
             "title": _name(rule, "en"),
             "type": "reference",
-            "status": "draft",
+            "status": rule.content.en.editorial.status,
+            "owners": rule.content.en.editorial.owners,
+            "entityRef": {"type": "rule", "id": rule.id},
             "tags": [f"{kind}-rule", rule.category.value, *rule.database],
         }
         en_desc = _seo(rule, "en")
+        if rule.content.en.editorial.lastReviewed:
+            en_frontmatter["lastReviewed"] = rule.content.en.editorial.lastReviewed
         if en_desc:
             en_frontmatter["description"] = en_desc
         if has_zh:
@@ -230,10 +251,14 @@ def generate_rule_reference(root: Path, kind: str, rule: RuleMetadata) -> List[P
             "id": zh_id,
             "title": _name(rule, "zh"),
             "type": "reference",
-            "status": "draft",
+            "status": rule.content.zh.editorial.status,
+            "owners": rule.content.zh.editorial.owners,
+            "entityRef": {"type": "rule", "id": rule.id},
             "tags": [f"{kind}-rule", rule.category.value, *rule.database],
         }
         zh_desc = _seo(rule, "zh")
+        if rule.content.zh.editorial.lastReviewed:
+            zh_frontmatter["lastReviewed"] = rule.content.zh.editorial.lastReviewed
         if zh_desc:
             zh_frontmatter["description"] = zh_desc
         if has_en:

@@ -3,6 +3,10 @@ id: audit-rule-aud-dml-where
 title: 避免无条件的 UPDATE/DELETE 语句
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: AUD-DML-WHERE
 tags:
 - audit-rule
 - dml
@@ -11,6 +15,11 @@ tags:
 - oracle
 description: 无条件（无 WHERE）的 UPDATE/DELETE 会作用于整张表，是数据丢失的常见根源；应加条件，确需清空时用 TRUNCATE。
 localeOf: en-audit-rule-aud-dml-where
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-dml-where
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。

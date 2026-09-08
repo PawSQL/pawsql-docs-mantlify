@@ -3,12 +3,21 @@ id: en-audit-rule-aud-column-with-this-name-already-exists
 title: Column with this Name Already Exists
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-column-with-this-name-already-exists
 tags:
 - audit-rule
 - ddl
 description: Adding or renaming a column to a name that already exists fails the DDL;
   guard with IF NOT EXISTS or confirm the name is unique first.
 localeOf: audit-rule-aud-column-with-this-name-already-exists
+subtype: rule
+language: en
+translationKey: audit-rule-aud-column-with-this-name-already-exists
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-column-with-this-name-already-exists
 | Name | Column with this Name Already Exists |
 | Category | ddl — DDL / object design |
 | Severity | error |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -3,12 +3,21 @@ id: en-audit-rule-aud-column-naming-convention
 title: Column Naming Convention
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-column-naming-convention
 tags:
 - audit-rule
 - ddl
 description: Column names should be lowercase snake_case; uppercase, special, keyword,
   or Chinese names hurt readability and cross-platform migration.
 localeOf: audit-rule-aud-column-naming-convention
+subtype: rule
+language: en
+translationKey: audit-rule-aud-column-naming-convention
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-column-naming-convention
 | Name | Column Naming Convention |
 | Category | ddl — DDL / object design |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

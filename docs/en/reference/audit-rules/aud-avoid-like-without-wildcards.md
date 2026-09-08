@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-like-without-wildcards
 title: Avoid LIKE Without Wildcards
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-like-without-wildcards
 tags:
 - audit-rule
 - dml
 description: LIKE without wildcards equals an equality and usually signals a forgotten
   wildcard; use '=' or add the wildcards deliberately.
 localeOf: audit-rule-aud-avoid-like-without-wildcards
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-like-without-wildcards
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-like-without-wildcards
 | Name | Avoid LIKE Without Wildcards |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

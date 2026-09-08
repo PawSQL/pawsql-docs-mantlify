@@ -3,12 +3,21 @@ id: en-audit-rule-aud-comments-on-column-required
 title: Comments on Column Required
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-comments-on-column-required
 tags:
 - audit-rule
 - ddl
 description: Every column needs a COMMENT so its meaning, purpose, and value domain
   stay clear to developers and DBAs across changes and handover.
 localeOf: audit-rule-aud-comments-on-column-required
+subtype: rule
+language: en
+translationKey: audit-rule-aud-comments-on-column-required
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-comments-on-column-required
 | Name | Comments on Column Required |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

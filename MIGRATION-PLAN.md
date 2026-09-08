@@ -1,5 +1,7 @@
 # PawSQL 内容迁移执行计划（MIGRATION-PLAN）
 
+> 2026-09-08：内容模型/导航基础设施迁移已执行，结果见 [IMPLEMENTATION-V2.md](IMPLEMENTATION-V2.md)。本文的内容采编批次仍需逐项审核；不能将类型迁移等同于正文迁移完成。分类依据改为 [CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md)。
+
 **版本/日期：** v1 · 2026-09-04
 **状态：** 草案，待产品评审后按批次开工
 **输入：** `PLACEMENT.md`（文件级落位，A 迁入 143 / B 排除 104 / C 去重 13 组 / D 规则 261 初判）、`MIGRATION-PLAYBOOK.md`（方法论）、`docs/docs.json`（Mintlify 多语言 zh 默认 + en）

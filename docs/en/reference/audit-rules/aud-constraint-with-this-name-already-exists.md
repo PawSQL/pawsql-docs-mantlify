@@ -3,12 +3,21 @@ id: en-audit-rule-aud-constraint-with-this-name-already-exists
 title: Constraint with this Name Already Exists
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-constraint-with-this-name-already-exists
 tags:
 - audit-rule
 - ddl
 description: Constraint names must be unique per database/table; a duplicate name
   fails the SQL and can break deployment or migration scripts.
 localeOf: audit-rule-aud-constraint-with-this-name-already-exists
+subtype: rule
+language: en
+translationKey: audit-rule-aud-constraint-with-this-name-already-exists
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-constraint-with-this-name-already-exists
 | Name | Constraint with this Name Already Exists |
 | Category | ddl — DDL / object design |
 | Severity | error |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

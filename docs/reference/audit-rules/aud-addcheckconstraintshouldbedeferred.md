@@ -3,11 +3,20 @@ id: audit-rule-aud-addcheckconstraintshouldbedeferred
 title: 添加CHECK约束时需添加NO VALID
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-addcheckconstraintshouldbedeferred
 tags:
 - audit-rule
 - ddl
 description: 给已有数据的表加 CHECK 约束时应指定 NO VALID 跳过全表校验，历史数据分批离线验证。
 localeOf: en-audit-rule-aud-addcheckconstraintshouldbedeferred
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-addcheckconstraintshouldbedeferred
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-addcheckconstraintshouldbedeferred
 | 规则名称 | 添加CHECK约束时需添加NO VALID |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

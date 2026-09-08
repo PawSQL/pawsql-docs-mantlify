@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-group-by-on-long-columns
 title: Avoid GROUP BY on Long Columns
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-group-by-on-long-columns
 tags:
 - audit-rule
 - dml
 description: Grouping by over-long columns (CHAR/VARCHAR above 128 or CLOB/TEXT) is
   slow; group by a prefix or hash instead.
 localeOf: audit-rule-aud-avoid-group-by-on-long-columns
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-group-by-on-long-columns
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-group-by-on-long-columns
 | Name | Avoid GROUP BY on Long Columns |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

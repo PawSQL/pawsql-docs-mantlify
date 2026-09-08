@@ -3,11 +3,20 @@ id: audit-rule-aud-changingcolumns-order-disallowed
 title: 禁止修改列的顺序
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumns-order-disallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止调整表内列顺序（触发表重建、破坏按位置依赖）；顺序在设计时定，需要则新建表迁移。
 localeOf: en-audit-rule-aud-changingcolumns-order-disallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-changingcolumns-order-disallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-changingcolumns-order-disallowed
 | 规则名称 | 禁止修改列的顺序 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

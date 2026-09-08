@@ -3,11 +3,20 @@ id: audit-rule-aud-changingcolumnnamedisallowed
 title: 禁止修改字段名
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumnnamedisallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止直接改字段名（破坏上下游依赖）；需要时用灰度：加新列→双写→切换→下线旧列。
 localeOf: en-audit-rule-aud-changingcolumnnamedisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-changingcolumnnamedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-changingcolumnnamedisallowed
 | 规则名称 | 禁止修改字段名 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

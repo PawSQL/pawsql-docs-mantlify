@@ -3,12 +3,21 @@ id: en-audit-rule-aud-char-column-length
 title: Char Column Length Exceeds Threshold
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-char-column-length
 tags:
 - audit-rule
 - ddl
 description: Flag CHAR columns longer than the configurable threshold (default 64);
   oversized fixed-width CHAR bloat rows, indexes, and I/O. Recommend VARCHAR instead.
 localeOf: audit-rule-aud-char-column-length
+subtype: rule
+language: en
+translationKey: audit-rule-aud-char-column-length
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-char-column-length
 | Name | Char Column Length Exceeds Threshold |
 | Category | ddl — DDL / object design |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -3,12 +3,21 @@ id: en-audit-rule-aud-changingcolumntypedisallowed
 title: ChangingColumnTypeDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumntypedisallowed
 tags:
 - audit-rule
 - ddl
 description: 'Do not change a column type in place (full rewrite/lock/truncation risk);
   use a staged migration: new column, dual-write, batched backfill, switch, drop old.'
 localeOf: audit-rule-aud-changingcolumntypedisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-changingcolumntypedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-changingcolumntypedisallowed
 | Name | ChangingColumnTypeDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

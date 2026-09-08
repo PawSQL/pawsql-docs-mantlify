@@ -1,29 +1,31 @@
 # SAMPLE — example metadata (design section 8.1), to be verified against the product.
 id: OPT-OR-UNION
 name: OR to UNION Optimization
-type: optimizer
-product: pawsql-optimizer
+product: pawsql
 status: released
 introducedVersion: 8.5.0
-
 databases:
-  - mysql
-  - postgresql
-  - oracle
-
+- mysql
+- postgresql
+- oracle
 sourcePaths:
-  - optimizer/src/.../OrToUnionRule.java
-
+- optimizer/src/.../OrToUnionRule.java
 documentation:
   reference:
     required: true
-    paths:
-      - docs/reference/optimizer-rules/opt-or-union.md
+    paths: []
+    documents:
+    - documentId: optimizer-rule-opt-or-union
+      language: zh
   userGuide:
     required: true
-    paths:
-      - docs/en/user-guide/optimization/or-union.md
+    paths: []
+    documents:
+    - documentId: user-guide-optimization-or-union
+      language: en
   releaseNote:
     required: true
   blog:
     required: false
+components:
+- optimizer

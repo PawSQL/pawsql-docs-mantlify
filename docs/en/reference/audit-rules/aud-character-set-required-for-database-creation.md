@@ -3,12 +3,21 @@ id: en-audit-rule-aud-character-set-required-for-database-creation
 title: Character Set Required for Database Creation
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-character-set-required-for-database-creation
 tags:
 - audit-rule
 - ddl
 description: CREATE DATABASE must set the character set explicitly so defaults do
   not vary by environment and cause mojibake across deployments.
 localeOf: audit-rule-aud-character-set-required-for-database-creation
+subtype: rule
+language: en
+translationKey: audit-rule-aud-character-set-required-for-database-creation
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-character-set-required-for-database-creation
 | Name | Character Set Required for Database Creation |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -1,0 +1,5 @@
+editions: [community, enterprise]
+deployments: [public-cloud, private]
+interfaces: [web, api, cli]
+integrations: [jetbrains, dbeaver, vscode, github-actions, cicd, mcp]
+audience: [developer, dba, administrator, platform-engineer]

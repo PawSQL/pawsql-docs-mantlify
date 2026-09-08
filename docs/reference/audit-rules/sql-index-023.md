@@ -3,6 +3,10 @@ id: audit-rule-sql-index-023
 title: 禁止创建重复索引/冗余索引
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: SQL-INDEX-023
 tags:
 - audit-rule
 - index
@@ -10,6 +14,11 @@ tags:
 - postgresql
 description: 检测重复/冗余索引：其前缀列已被其它索引覆盖，只会增加写入与存储成本，应删除。
 localeOf: en-audit-rule-sql-index-023
+subtype: rule
+language: zh
+translationKey: audit-rule-sql-index-023
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。

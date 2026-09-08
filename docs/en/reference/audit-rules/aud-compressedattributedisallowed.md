@@ -3,12 +3,21 @@ id: en-audit-rule-aud-compressedattributedisallowed
 title: CompressedAttributeDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-compressedattributedisallowed
 tags:
 - audit-rule
 - ddl
 description: Do not enable column-level COMPRESSED (mojibake risk on utf8/utf8mb4,
   extra CPU); compress at the storage/engine or application layer instead.
 localeOf: audit-rule-aud-compressedattributedisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-compressedattributedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-compressedattributedisallowed
 | Name | CompressedAttributeDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

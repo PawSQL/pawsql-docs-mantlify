@@ -3,12 +3,21 @@ id: en-optimizer-rule-opt-use-union-all
 title: Use UNION ALL Instead of UNION
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-use-union-all
 tags:
 - optimizer-rule
 - rewrite
 description: Replaces UNION with UNION ALL when no deduplication is needed, skipping
   the sort/hash pass for a large speedup on big result sets.
 localeOf: optimizer-rule-opt-use-union-all
+subtype: rule
+language: en
+translationKey: optimizer-rule-opt-use-union-all
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: optimizer-rule-opt-use-union-all
 | Name | Use UNION ALL Instead of UNION |
 | Category | rewrite — Rewrite |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

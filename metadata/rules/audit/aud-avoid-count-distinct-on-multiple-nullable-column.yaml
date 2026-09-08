@@ -11,40 +11,48 @@ tags:
 content:
   zh:
     name: 避免COUNT DISTINCT多个可空列
-    description: |-
-      当你使用 `COUNT(DISTINCT)` 进行多列的计算时，它的计算结果可能和你预想的不同。`COUNT(DISTINCT col)` 计算该列除 NULL 之外的不重复行数，而 `COUNT(DISTINCT col1, col2)` 则会排除掉任意一列为 NULL 的行。这种行为的差异在包含可空列时尤其容易造成统计结果与业务预期不符。
-      例如，对列 a 和列组合 (a, b) 分别统计不同值的个数，如果 b 列存在 NULL 值，则 `COUNT(DISTINCT a, b)` 的结果会小于或等于 `COUNT(DISTINCT a)`，这可能不符合开发者的预期，需要特别关注。
-    badExample: |-
-      -- ❌ 不推荐：COUNT(DISTINCT) 多列且列可空，结果可能不符合预期
-      select count(distinct t.a) a_cnt, count(distinct t.a, t.b) a_b_cnt
-      from (values
-            row(1, 2),
-            row(3, null)) as t(a, b);
-      -- 结果: a_cnt=2, a_b_cnt=1 — 列b为NULL的行被排除
-    goodExample: |-
-      -- ✅ 推荐：使用 COALESCE 将 NULL 替换为默认值后再参与去重
-      select count(distinct t.a) a_cnt, count(distinct t.a, coalesce(t.b, -1)) a_b_cnt
-      from (values
-            row(1, 2),
-            row(3, null)) as t(a, b);
+    description: '当你使用 `COUNT(DISTINCT)` 进行多列的计算时，它的计算结果可能和你预想的不同。`COUNT(DISTINCT
+      col)` 计算该列除 NULL 之外的不重复行数，而 `COUNT(DISTINCT col1, col2)` 则会排除掉任意一列为 NULL 的行。这种行为的差异在包含可空列时尤其容易造成统计结果与业务预期不符。
+
+      例如，对列 a 和列组合 (a, b) 分别统计不同值的个数，如果 b 列存在 NULL 值，则 `COUNT(DISTINCT a, b)` 的结果会小于或等于
+      `COUNT(DISTINCT a)`，这可能不符合开发者的预期，需要特别关注。'
+    badExample: "-- ❌ 不推荐：COUNT(DISTINCT) 多列且列可空，结果可能不符合预期\nselect count(distinct\
+      \ t.a) a_cnt, count(distinct t.a, t.b) a_b_cnt\nfrom (values\n      row(1, 2),\n\
+      \      row(3, null)) as t(a, b);\n-- 结果: a_cnt=2, a_b_cnt=1 — 列b为NULL的行被排除"
+    goodExample: "-- ✅ 推荐：使用 COALESCE 将 NULL 替换为默认值后再参与去重\nselect count(distinct t.a)\
+      \ a_cnt, count(distinct t.a, coalesce(t.b, -1)) a_b_cnt\nfrom (values\n    \
+      \  row(1, 2),\n      row(3, null)) as t(a, b);"
     summary: COUNT(DISTINCT 多列) 会排除任一列为 NULL 的行，结果与单列去重不同；用 COALESCE 换默认值再计数。
+    editorial:
+      status: draft
+      owners: []
   en:
     name: Avoid COUNT DISTINCT on Multiple Nullable Columns
-    description: |-
-      When you compute with `COUNT(DISTINCT)` over multiple columns, the result may not match what you expect. `COUNT(DISTINCT col)` counts the distinct non-NULL values of that column, whereas `COUNT(DISTINCT col1, col2)` drops any row where at least one column is NULL. This difference is especially likely to make statistics diverge from business expectations when nullable columns are involved.
+    description: 'When you compute with `COUNT(DISTINCT)` over multiple columns, the
+      result may not match what you expect. `COUNT(DISTINCT col)` counts the distinct
+      non-NULL values of that column, whereas `COUNT(DISTINCT col1, col2)` drops any
+      row where at least one column is NULL. This difference is especially likely
+      to make statistics diverge from business expectations when nullable columns
+      are involved.
 
-      For example, counting distinct values of column a versus the pair (a, b): if column b holds NULLs, `COUNT(DISTINCT a, b)` is less than or equal to `COUNT(DISTINCT a)`, which may not match the developer's expectation and deserves attention.
-    summary: COUNT(DISTINCT col1, col2) drops rows where any column is NULL, unlike single-column COUNT(DISTINCT); use COALESCE defaults to get the expected counts.
-    badExample: |-
-      -- bad: multi-column COUNT(DISTINCT) over nullable columns may return unexpected results
-      select count(distinct t.a) a_cnt, count(distinct t.a, t.b) a_b_cnt
-      from (values
-            row(1, 2),
-            row(3, null)) as t(a, b);
-      -- result: a_cnt=2, a_b_cnt=1 - the row with NULL in b is excluded
-    goodExample: |-
-      -- good: replace NULLs with a default via COALESCE before distinct counting
-      select count(distinct t.a) a_cnt, count(distinct t.a, coalesce(t.b, -1)) a_b_cnt
-      from (values
-            row(1, 2),
-            row(3, null)) as t(a, b);
+
+      For example, counting distinct values of column a versus the pair (a, b): if
+      column b holds NULLs, `COUNT(DISTINCT a, b)` is less than or equal to `COUNT(DISTINCT
+      a)`, which may not match the developer''s expectation and deserves attention.'
+    summary: COUNT(DISTINCT col1, col2) drops rows where any column is NULL, unlike
+      single-column COUNT(DISTINCT); use COALESCE defaults to get the expected counts.
+    badExample: "-- bad: multi-column COUNT(DISTINCT) over nullable columns may return\
+      \ unexpected results\nselect count(distinct t.a) a_cnt, count(distinct t.a,\
+      \ t.b) a_b_cnt\nfrom (values\n      row(1, 2),\n      row(3, null)) as t(a,\
+      \ b);\n-- result: a_cnt=2, a_b_cnt=1 - the row with NULL in b is excluded"
+    goodExample: "-- good: replace NULLs with a default via COALESCE before distinct\
+      \ counting\nselect count(distinct t.a) a_cnt, count(distinct t.a, coalesce(t.b,\
+      \ -1)) a_b_cnt\nfrom (values\n      row(1, 2),\n      row(3, null)) as t(a,\
+      \ b);"
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

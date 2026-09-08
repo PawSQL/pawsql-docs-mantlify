@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-limit-without-order-by-in-select
 title: 避免在SELECT语句中使用LIMIT而没有ORDER BY
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-limit-without-order-by-in-select
 tags:
 - audit-rule
 - dml
 description: SELECT 用 LIMIT 无 ORDER BY 时返回行不确定；加 ORDER BY 明确取哪前 N 行。
 localeOf: en-audit-rule-aud-avoid-limit-without-order-by-in-select
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-limit-without-order-by-in-select
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-limit-without-order-by-in-select
 | 规则名称 | 避免在SELECT语句中使用LIMIT而没有ORDER BY |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

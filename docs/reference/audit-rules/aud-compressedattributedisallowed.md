@@ -3,11 +3,20 @@ id: audit-rule-aud-compressedattributedisallowed
 title: 禁止通过COMPRESSED打开字段压缩功能
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-compressedattributedisallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止用 COMPRESSED 做列级压缩（utf8/utf8mb4 易乱码、增 CPU 开销）；压缩放到存储/引擎层。
 localeOf: en-audit-rule-aud-compressedattributedisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-compressedattributedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-compressedattributedisallowed
 | 规则名称 | 禁止通过COMPRESSED打开字段压缩功能 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -2,10 +2,19 @@
 id: user-guide-sql-audit
 title: SQL Audit
 description: How SQL audit works and where to find the rule references.
-type: user-guide
-product: pawsql-advisor
+type: guide
+product: pawsql
 status: draft
-tags: [audit, user-guide, sql-review]
+tags:
+- audit
+- user-guide
+- sql-review
+subtype: operation
+language: en
+translationKey: user-guide-sql-audit
+layout: detail
+components:
+- advisor
 ---
 
 # SQL Audit

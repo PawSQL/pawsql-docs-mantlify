@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-order-by-random-function
 title: Avoid ORDER BY Random Function
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-order-by-random-function
 tags:
 - audit-rule
 - dml
 description: ORDER BY RAND()/RANDOM() sorts every row just to keep a few; sample via
   a random key range or TABLESAMPLE instead.
 localeOf: audit-rule-aud-avoid-order-by-random-function
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-order-by-random-function
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-order-by-random-function
 | Name | Avoid ORDER BY Random Function |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

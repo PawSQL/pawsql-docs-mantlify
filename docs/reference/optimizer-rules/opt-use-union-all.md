@@ -3,11 +3,20 @@ id: optimizer-rule-opt-use-union-all
 title: 使用 UNION ALL 代替 UNION
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-use-union-all
 tags:
 - optimizer-rule
 - rewrite
 description: 当无需去重时用 UNION ALL 替代 UNION，省去排序/哈希去重过程，大数据量下性能提升显著。
 localeOf: en-optimizer-rule-opt-use-union-all
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-use-union-all
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-optimizer-rule-opt-use-union-all
 | 规则名称 | 使用 UNION ALL 代替 UNION |
 | 类别 | rewrite（重写） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

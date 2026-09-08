@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
 title: 避免常量字符串开头或结尾包含空格
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-leading-or-trailing-spaces-in-string-liter
 tags:
 - audit-rule
 - dml
 description: 字符串常量首尾空格多为误输入却影响匹配结果；应清理，确需匹配空格时用 TRIM 或注释说明。
 localeOf: en-audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter
 | 规则名称 | 避免常量字符串开头或结尾包含空格 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

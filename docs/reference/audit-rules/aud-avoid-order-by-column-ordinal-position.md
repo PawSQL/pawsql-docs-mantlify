@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-order-by-column-ordinal-position
 title: 避免ORDER BY选择列的序号
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-order-by-column-ordinal-position
 tags:
 - audit-rule
 - dml
 description: 避免 ORDER BY 用列序号（SELECT 顺序变化会悄然改变语义）；直接用列名或表达式。
 localeOf: en-audit-rule-aud-avoid-order-by-column-ordinal-position
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-order-by-column-ordinal-position
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-order-by-column-ordinal-position
 | 规则名称 | 避免ORDER BY选择列的序号 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

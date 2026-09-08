@@ -32,14 +32,18 @@
             "tab": "文档",
             "groups": [
               {
-                "group": "快速开始",
+                "group": "开始使用",
                 "pages": [
                   "getting-started/overview",
                   "getting-started/supported-databases"
                 ]
               },
               {
-                "group": "云产品手册",
+                "group": "安装与接入",
+                "pages": ["getting-started/choose-access"]
+              },
+              {
+                "group": "使用 PawSQL",
                 "pages": [
                   "user-guide/cloud/index",
                   "user-guide/cloud/quickstart",
@@ -47,17 +51,23 @@
                 ]
               },
               {
-                "group": "核心功能",
+                "group": "能力与原理",
                 "pages": [
                   "features/index"
                 ]
               },
               {
-                "group": "规则参考",
+                "group": "参考资料",
                 "pages": [
                   "reference/audit-rules/index",
-                  "reference/optimizer-rules/index"
+                  "reference/optimizer-rules/index",
+                  "reference/compatibility/index",
+                  "contributing/terminology"
                 ]
+              },
+              {
+                "group": "帮助与排障",
+                "pages": ["help/index"]
               }
             ]
           },
@@ -111,56 +121,45 @@
                 "pages": [
                   "en/getting-started/overview",
                   "en/getting-started/quickstart",
+                  "en/tutorials/index",
                   "en/getting-started/supported-databases"
                 ]
               },
               {
-                "group": "Products",
-                "pages": [
-                  "en/products/optimizer",
-                  "en/products/advisor"
-                ]
+                "group": "Installation and Access",
+                "pages": ["en/getting-started/choose-access"]
               },
               {
-                "group": "User Guide",
+                "group": "Using PawSQL",
                 "pages": [
                   "en/user-guide/sql-audit/index",
                   "en/user-guide/optimization/or-union"
                 ]
               },
               {
-                "group": "Databases & Compatibility",
+                "group": "Capabilities and Concepts",
                 "pages": [
-                  "en/databases/postgresql/index",
-                  "en/databases/mysql/index",
-                  "en/reference/compatibility/index"
-                ]
-              },
-              {
-                "group": "Features",
-                "pages": [
-                  "en/features/index"
+                  "en/features/index",
+                  "en/products/optimizer",
+                  "en/products/advisor"
                 ]
               },
               {
                 "group": "Reference",
                 "pages": [
                   "en/reference/api/overview",
-                  "en/reference/configuration/explain-timeout"
-                ]
-              },
-              {
-                "group": "Rule References",
-                "pages": [
+                  "en/reference/configuration/explain-timeout",
+                  "en/databases/postgresql/index",
+                  "en/databases/mysql/index",
+                  "en/reference/compatibility/index",
                   "en/reference/audit-rules/index",
                   "en/reference/optimizer-rules/index"
                 ]
               },
               {
-                "group": "FAQ & Tutorials",
+                "group": "Help and Troubleshooting",
                 "pages": [
-                  "en/faq/index",
-                  "en/tutorials/index"
+                  "en/faq/index"
                 ]
               }
             ]

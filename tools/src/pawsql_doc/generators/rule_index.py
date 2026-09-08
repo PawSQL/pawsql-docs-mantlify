@@ -86,15 +86,5 @@ def _build_one(root: Path, kind: str, lang: str) -> Tuple[Path, int]:
 
 def build_rule_indexes(root: Path) -> List[Path]:
     """Write every rule landing index. Returns paths written."""
-    written: List[Path] = []
-    for lang in LANGS:
-        for kind in KINDS:
-            base = root / "docs" / ("en" if lang == "en" else "") / "reference" / f"{kind}-rules"
-            if not base.is_dir():
-                continue
-            pages = [p for p in base.glob("*.md") if p.name != "index.md"]
-            if not pages:
-                continue
-            out, _ = _build_one(root, kind, lang)
-            written.append(out)
-    return written
+    from pawsql_doc.generators.catalog import build_rule_indexes as canonical
+    return canonical(root)

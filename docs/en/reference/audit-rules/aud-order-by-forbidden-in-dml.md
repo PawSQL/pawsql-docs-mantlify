@@ -3,12 +3,21 @@ id: en-audit-rule-aud-order-by-forbidden-in-dml
 title: ORDER BY Forbidden in UPDATE/DELETE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-order-by-forbidden-in-dml
 tags:
 - audit-rule
 - dml
 description: ORDER BY is meaningless in UPDATE/DELETE, adds cost, and is a syntax
   error in some databases; remove it or move the ordered selection into a subquery.
 localeOf: audit-rule-aud-order-by-forbidden-in-dml
+subtype: rule
+language: en
+translationKey: audit-rule-aud-order-by-forbidden-in-dml
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-order-by-forbidden-in-dml
 | Name | ORDER BY Forbidden in UPDATE/DELETE |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

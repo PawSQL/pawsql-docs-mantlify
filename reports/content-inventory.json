@@ -1,0 +1,2540 @@
+[
+  {
+    "path": "docs/blog/index.mdx",
+    "frontmatter": {
+      "id": "blog-index",
+      "title": "PawSQL 博客",
+      "description": "PawSQL 团队的技术、产品与工程文章。",
+      "type": "blog",
+      "status": "draft",
+      "tags": [
+        "blog"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/changelog/index.mdx",
+    "frontmatter": {
+      "id": "changelog-index",
+      "title": "变更日志",
+      "description": "PawSQL 版本发布记录（ChangeLog）。",
+      "type": "release-note",
+      "status": "draft",
+      "tags": [
+        "changelog",
+        "release-notes"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/contributing/frontmatter.md",
+    "frontmatter": {
+      "id": "contributing-frontmatter",
+      "title": "Front Matter 规范",
+      "description": "页面 Front Matter 字段定义与内容状态约定（对应设计说明书 §7）",
+      "type": "reference",
+      "product": "pawsql-docs",
+      "status": "approved",
+      "owners": [
+        "docs-platform"
+      ],
+      "tags": [
+        "content-model",
+        "frontmatter"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/contributing/style-guide.md",
+    "frontmatter": {
+      "id": "contributing-style-guide",
+      "title": "风格指南",
+      "description": "写作风格、证据要求与 AI Guardrails（设计说明书 §30-§32）",
+      "type": "reference",
+      "product": "pawsql-docs",
+      "status": "draft",
+      "owners": [
+        "docs-platform"
+      ],
+      "tags": [
+        "content-model",
+        "style"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/contributing/terminology.md",
+    "frontmatter": {
+      "id": "contributing-terminology",
+      "title": "术语表",
+      "description": "PawSQL 文档平台与产品使用的统一术语（持续维护）",
+      "type": "reference",
+      "product": "pawsql-docs",
+      "status": "draft",
+      "owners": [
+        "docs-platform"
+      ],
+      "tags": [
+        "content-model",
+        "terminology"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/blog/engineering/or-to-union.mdx",
+    "frontmatter": {
+      "id": "blog-or-to-union",
+      "title": "How PawSQL Rewrites OR Predicates",
+      "description": "A technical look at the OR-to-UNION rewrite inside the optimizer.",
+      "type": "blog",
+      "category": "engineering",
+      "status": "draft",
+      "authors": [
+        "pawsql"
+      ],
+      "tags": [
+        "SQL Optimization",
+        "rewrite"
+      ],
+      "relatedFeatures": [
+        "OPT-OR-UNION"
+      ],
+      "date": "2026-09-15"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/blog/index.mdx",
+    "frontmatter": {
+      "id": "blog-index",
+      "title": "PawSQL Blog",
+      "description": "Technical, product and engineering articles from the PawSQL team.",
+      "type": "blog",
+      "status": "draft",
+      "tags": [
+        "blog"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/databases/mysql/index.md",
+    "frontmatter": {
+      "id": "database-mysql",
+      "title": "MySQL Support",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "database",
+        "mysql"
+      ],
+      "description": "PawSQL supports MySQL for index recommendation, SQL rewrite and audit-rule review across the supported release lines."
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/databases/postgresql/index.md",
+    "frontmatter": {
+      "id": "database-postgresql",
+      "title": "PostgreSQL Support",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "database",
+        "postgresql"
+      ],
+      "description": "PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads, including the newest supported release line."
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/faq/index.mdx",
+    "frontmatter": {
+      "id": "faq-index",
+      "title": "FAQ",
+      "description": "Frequently asked questions.",
+      "type": "faq",
+      "status": "draft",
+      "tags": [
+        "faq"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/features/index.mdx",
+    "frontmatter": {
+      "id": "en-features-index",
+      "title": "Core Features",
+      "description": "PawSQL capabilities - audit review, rewrite optimization, index recommendation, performance verification, plan visualization.",
+      "type": "product",
+      "status": "draft",
+      "tags": [
+        "features",
+        "product"
+      ],
+      "localeOf": "features-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/getting-started/overview.mdx",
+    "frontmatter": {
+      "id": "getting-started-overview",
+      "title": "Overview",
+      "description": "What PawSQL does - SQL review, query rewrite and index recommendation.",
+      "type": "user-guide",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "overview",
+        "getting-started"
+      ],
+      "relatedFeatures": [
+        "OPT-OR-UNION"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/getting-started/quickstart.mdx",
+    "frontmatter": {
+      "id": "getting-started-quickstart",
+      "title": "Quickstart",
+      "description": "Run your first SQL optimization with PawSQL in a few minutes.",
+      "type": "tutorial",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "quickstart",
+        "tutorial"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/getting-started/supported-databases.mdx",
+    "frontmatter": {
+      "id": "en-getting-started-supported-databases",
+      "title": "Supported Databases",
+      "description": "Databases and versions PawSQL optimizes and audits.",
+      "type": "reference",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "databases",
+        "compatibility",
+        "getting-started"
+      ],
+      "localeOf": "getting-started-supported-databases"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/index.mdx",
+    "frontmatter": {
+      "id": "index",
+      "title": "PawSQL Documentation",
+      "description": "Automated and intelligent database performance optimization - SQL review, semantic query rewrite, and cost-based index recommendation.",
+      "type": "product",
+      "status": "draft"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/products/advisor.mdx",
+    "frontmatter": {
+      "id": "product-advisor",
+      "title": "PawSQL Advisor",
+      "description": "SQL audit and optimization advisor for review rules and index recommendations.",
+      "type": "product",
+      "product": "pawsql-advisor",
+      "status": "draft",
+      "tags": [
+        "product",
+        "advisor",
+        "audit"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/products/optimizer.mdx",
+    "frontmatter": {
+      "id": "product-optimizer",
+      "title": "PawSQL Optimizer",
+      "description": "The engine behind SQL rewrite and cost-based index recommendation.",
+      "type": "product",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "product",
+        "optimizer"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/api/overview.mdx",
+    "frontmatter": {
+      "id": "api-overview",
+      "title": "PawSQL API",
+      "description": "REST API surface of PawSQL services, driven from the local OpenAPI specification.",
+      "type": "reference",
+      "product": "pawsql-cloud",
+      "status": "draft",
+      "tags": [
+        "api",
+        "reference",
+        "openapi"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-add-schema-qualifier-before-object-references.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-add-schema-qualifier-before-object-references",
+      "title": "Add Schema Qualifier Before Object References",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Prefix every referenced object with its schema/owner (schema.object) to avoid ambiguity and wrong references in cross-schema or multi-tenant setups.",
+      "localeOf": "audit-rule-aud-add-schema-qualifier-before-object-references"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-addcheckconstraintshouldbedeferred.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-addcheckconstraintshouldbedeferred",
+      "title": "AddCheckConstraintShouldBeDeferred",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Adding a CHECK to a populated table should use NO VALID to skip full-table validation; validate legacy rows offline in batches.",
+      "localeOf": "audit-rule-aud-addcheckconstraintshouldbedeferred"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-addingcolumnswithdefaultdisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-addingcolumnswithdefaultdisallowed",
+      "title": "AddingColumnsWithDefaultDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Do not add columns with a DEFAULT to populated tables (rebuild/lock/backfill risk); add a nullable column, backfill, then set the DEFAULT in stages.",
+      "localeOf": "audit-rule-aud-addingcolumnswithdefaultdisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-autoincrement-column-naming-convention.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-autoincrement-column-naming-convention",
+      "title": "Auto-increment column naming convention",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Auto-increment columns should follow one naming pattern (default `id`); inconsistent names raise a notice but do not block DDL.",
+      "localeOf": "audit-rule-aud-autoincrement-column-naming-convention"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-anti-join-operations-in-distributed-databa.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-anti-join-operations-in-distributed-databa",
+      "title": "Avoid ANTI JOIN Operations in Distributed Databases",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Avoid NOT IN/NOT EXISTS anti-joins in distributed databases (full-data pull + huge memory/network); prefer materialization, split steps, or LEFT JOIN ... IS NULL.",
+      "localeOf": "audit-rule-aud-avoid-anti-join-operations-in-distributed-databa"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-count-distinct-on-multiple-nullable-column.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column",
+      "title": "Avoid COUNT DISTINCT on Multiple Nullable Columns",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "COUNT(DISTINCT col1, col2) drops rows where any column is NULL, unlike single-column COUNT(DISTINCT); use COALESCE defaults to get the expected counts.",
+      "localeOf": "audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-cross-join.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-cross-join",
+      "title": "Avoid CROSS JOIN",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "CROSS JOIN produces a Cartesian product and is almost always a performance trap; use an explicit join condition, or document the intent.",
+      "localeOf": "audit-rule-aud-avoid-cross-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-crossshard-dml-operations-in-distributed-d.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d",
+      "title": "Avoid Cross-Shard DML Operations in Distributed Databases",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "DML whose WHERE does not pin the distribution key spans shards and needs slow, deadlock-prone distributed transactions; add a distribution-key equality.",
+      "localeOf": "audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-duplicate-table-aliases.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-duplicate-table-aliases",
+      "title": "Avoid Duplicate Table Aliases",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Duplicate table aliases (or aliases colliding with real table names) destroy readability; every table reference needs a unique, meaningful alias.",
+      "localeOf": "audit-rule-aud-avoid-duplicate-table-aliases"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-for-update-with-derived-tables.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-for-update-with-derived-tables",
+      "title": "Avoid FOR UPDATE with Derived Tables",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "SELECT ... FOR UPDATE over a derived table can lock the internal temporary table instead of the base rows; lock the base table directly.",
+      "localeOf": "audit-rule-aud-avoid-for-update-with-derived-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-group-by-column-ordinal-position.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-group-by-column-ordinal-position",
+      "title": "Avoid GROUP BY Column Ordinal Position",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "GROUP BY 1,2 (column ordinals) silently changes meaning when the SELECT list changes; always name the columns or expressions.",
+      "localeOf": "audit-rule-aud-avoid-group-by-column-ordinal-position"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-group-by-on-long-columns.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-group-by-on-long-columns",
+      "title": "Avoid GROUP BY on Long Columns",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Grouping by over-long columns (CHAR/VARCHAR above 128 or CLOB/TEXT) is slow; group by a prefix or hash instead.",
+      "localeOf": "audit-rule-aud-avoid-group-by-on-long-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns",
+      "title": "Avoid Joining on Non-Distribution Key Columns",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Joining on a non-distribution key in a distributed database forces cross-node data redistribution and network cost; align high-frequency join keys with the distribution key.",
+      "localeOf": "audit-rule-aud-avoid-joining-on-nondistribution-key-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-leading-or-trailing-spaces-in-string-liter.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter",
+      "title": "Avoid Leading or Trailing Spaces in String Literals",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Spaces at the start or end of string literals are usually typos but change matches; remove them, or use TRIM() when spaces are intended.",
+      "localeOf": "audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-like-without-wildcards.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-like-without-wildcards",
+      "title": "Avoid LIKE Without Wildcards",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "LIKE without wildcards equals an equality and usually signals a forgotten wildcard; use '=' or add the wildcards deliberately.",
+      "localeOf": "audit-rule-aud-avoid-like-without-wildcards"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-limit-without-order-by-in-select.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-limit-without-order-by-in-select",
+      "title": "Avoid LIMIT Without ORDER BY in SELECT",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "SELECT ... LIMIT without ORDER BY returns nondeterministic rows; always add ORDER BY to define which rows are returned.",
+      "localeOf": "audit-rule-aud-avoid-limit-without-order-by-in-select"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-limit-without-order-by-in-updatedelete.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-limit-without-order-by-in-updatedelete",
+      "title": "Avoid LIMIT Without ORDER BY in UPDATE/DELETE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "UPDATE/DELETE ... LIMIT without ORDER BY touches nondeterministic rows; pair LIMIT with ORDER BY (or a WHERE subquery on PostgreSQL/openGauss).",
+      "localeOf": "audit-rule-aud-avoid-limit-without-order-by-in-updatedelete"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-multiple-distribution-keys.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-multiple-distribution-keys",
+      "title": "Avoid Multiple Distribution Keys",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Multiple-column distribution keys limit horizontal scaling, raise hashing cost, and block local joins unless every key matches; prefer a single, frequently-joined column.",
+      "localeOf": "audit-rule-aud-avoid-multiple-distribution-keys"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-natural-join.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-natural-join",
+      "title": "Avoid NATURAL JOIN",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "NATURAL JOIN's implicit join conditions hurt readability and silently change when the schema changes; use explicit JOIN ... ON.",
+      "localeOf": "audit-rule-aud-avoid-natural-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-nondistributed-tables.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-nondistributed-tables",
+      "title": "Avoid Non-Distributed Tables",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Avoid local/non-distributed tables in distributed databases: they become single-node bottlenecks and force redistribution on joins; use HASH distribution.",
+      "localeOf": "audit-rule-aud-avoid-nondistributed-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-order-by-column-ordinal-position.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-order-by-column-ordinal-position",
+      "title": "Avoid ORDER BY Column Ordinal Position",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "ORDER BY 1,2 (column ordinals) silently changes meaning when the SELECT list changes; always name the columns or expressions.",
+      "localeOf": "audit-rule-aud-avoid-order-by-column-ordinal-position"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-order-by-on-long-columns.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-order-by-on-long-columns",
+      "title": "Avoid ORDER BY on Long Columns",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Sorting by over-long columns (CHAR/VARCHAR above 128 or CLOB/TEXT) is costly; sort by a prefix or hash instead.",
+      "localeOf": "audit-rule-aud-avoid-order-by-on-long-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-order-by-random-function.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-order-by-random-function",
+      "title": "Avoid ORDER BY Random Function",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "ORDER BY RAND()/RANDOM() sorts every row just to keep a few; sample via a random key range or TABLESAMPLE instead.",
+      "localeOf": "audit-rule-aud-avoid-order-by-random-function"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-replicated-distribution-for-large-tables",
+      "title": "Avoid Replicated Distribution for Large Tables",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Replicated distribution copies a table to every node; above the size threshold (default 100k rows) use HASH/sharded distribution instead.",
+      "localeOf": "audit-rule-aud-avoid-replicated-distribution-for-large-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-scalar-subqueries.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-scalar-subqueries",
+      "title": "Avoid Scalar Subqueries",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "Scalar subqueries run once per outer row and can fail at run time; prefer a JOIN or derived table.",
+      "localeOf": "audit-rule-aud-avoid-scalar-subqueries"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-select-with-for-update.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-select-with-for-update",
+      "title": "Avoid SELECT with FOR UPDATE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "SELECT ... FOR UPDATE adds row locks that cause waits, blocking, and deadlocks under concurrency; use it only when pessimistic locking is truly needed, on the fewest rows.",
+      "localeOf": "audit-rule-aud-avoid-select-with-for-update"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-avoid-select-with-limit-and-for-update.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-avoid-select-with-limit-and-for-update",
+      "title": "Avoid SELECT with LIMIT and FOR UPDATE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "ORDER BY + LIMIT + FOR UPDATE locks far more rows than it returns; fetch the primary keys first, then lock them precisely.",
+      "localeOf": "audit-rule-aud-avoid-select-with-limit-and-for-update"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-cacheexhausted4identitycolumn.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-cacheexhausted4identitycolumn",
+      "title": "CacheExhausted4IdentityColumn",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Warn when an auto-increment/identity column nears its type maximum (default 80%); plan capacity (e.g. INT to BIGINT) before inserts fail.",
+      "localeOf": "audit-rule-aud-cacheexhausted4identitycolumn"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-changingcolumnnamedisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-changingcolumnnamedisallowed",
+      "title": "ChangingColumnNameDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Do not rename a column directly (breaks every dependent app/report/ETL/view); when required use a staged rollout: new column, dual-write, switch, drop old.",
+      "localeOf": "audit-rule-aud-changingcolumnnamedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-changingcolumns-order-disallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-changingcolumns-order-disallowed",
+      "title": "ChangingColumn's Order Disallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Reordering table columns triggers a rebuild and can break position-dependent code; fix order at design time and migrate via a new table if needed.",
+      "localeOf": "audit-rule-aud-changingcolumns-order-disallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-changingcolumntypedisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-changingcolumntypedisallowed",
+      "title": "ChangingColumnTypeDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Do not change a column type in place (full rewrite/lock/truncation risk); use a staged migration: new column, dual-write, batched backfill, switch, drop old.",
+      "localeOf": "audit-rule-aud-changingcolumntypedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-char-column-length.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-char-column-length",
+      "title": "Char Column Length Exceeds Threshold",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Flag CHAR columns longer than the configurable threshold (default 64); oversized fixed-width CHAR bloat rows, indexes, and I/O. Recommend VARCHAR instead.",
+      "localeOf": "audit-rule-aud-char-column-length"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-character-set-required-for-database-creation.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-character-set-required-for-database-creation",
+      "title": "Character Set Required for Database Creation",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "CREATE DATABASE must set the character set explicitly so defaults do not vary by environment and cause mojibake across deployments.",
+      "localeOf": "audit-rule-aud-character-set-required-for-database-creation"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-charsetoncolumndisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-charsetoncolumndisallowed",
+      "title": "CharsetOnColumnDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Per-column character sets cause implicit conversion on JOIN (index invalidation, full scans) and comparison bugs; set the charset uniformly at table level.",
+      "localeOf": "audit-rule-aud-charsetoncolumndisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-charsetontabledisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-charsetontabledisallowed",
+      "title": "CharsetOnTableDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Do not override the character set at table level; tables should inherit the database default to avoid cross-table implicit conversion.",
+      "localeOf": "audit-rule-aud-charsetontabledisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-charsetsontabledatabasemismatch.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-charsetsontabledatabasemismatch",
+      "title": "CharsetsOnTable&DatabaseMismatch",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Table and database character sets must match to avoid implicit conversion, mojibake, or data loss; tables should inherit the database default charset.",
+      "localeOf": "audit-rule-aud-charsetsontabledatabasemismatch"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-column-and-table-character-set-mismatch.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-column-and-table-character-set-mismatch",
+      "title": "Column and Table Character Set Mismatch",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Column and table character sets must match to avoid conversion, truncation, mojibake, and JOIN index invalidation; columns should inherit the table charset.",
+      "localeOf": "audit-rule-aud-column-and-table-character-set-mismatch"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-column-naming-convention.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-column-naming-convention",
+      "title": "Column Naming Convention",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Column names should be lowercase snake_case; uppercase, special, keyword, or Chinese names hurt readability and cross-platform migration.",
+      "localeOf": "audit-rule-aud-column-naming-convention"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-column-with-this-name-already-exists.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-column-with-this-name-already-exists",
+      "title": "Column with this Name Already Exists",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Adding or renaming a column to a name that already exists fails the DDL; guard with IF NOT EXISTS or confirm the name is unique first.",
+      "localeOf": "audit-rule-aud-column-with-this-name-already-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-comments-on-column-required.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-comments-on-column-required",
+      "title": "Comments on Column Required",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Every column needs a COMMENT so its meaning, purpose, and value domain stay clear to developers and DBAs across changes and handover.",
+      "localeOf": "audit-rule-aud-comments-on-column-required"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-commentsontablerequired.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-commentsontablerequired",
+      "title": "CommentsOnTableRequired",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "CREATE TABLE should carry a table COMMENT (business purpose, data source, lifecycle); applies to engines supporting table comments such as MySQL.",
+      "localeOf": "audit-rule-aud-commentsontablerequired"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-compressedattributedisallowed.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-compressedattributedisallowed",
+      "title": "CompressedAttributeDisallowed",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Do not enable column-level COMPRESSED (mojibake risk on utf8/utf8mb4, extra CPU); compress at the storage/engine or application layer instead.",
+      "localeOf": "audit-rule-aud-compressedattributedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-consider-replicated-distribution-for-small-table.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-consider-replicated-distribution-for-small-table",
+      "title": "Consider Replicated Distribution for Small Tables",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Small distributed tables (below ~100k rows, read-heavy) are often better as replicated tables so joins avoid cross-node data exchange.",
+      "localeOf": "audit-rule-aud-consider-replicated-distribution-for-small-table"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-constraint-with-this-name-already-exists.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-constraint-with-this-name-already-exists",
+      "title": "Constraint with this Name Already Exists",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Constraint names must be unique per database/table; a duplicate name fails the SQL and can break deployment or migration scripts.",
+      "localeOf": "audit-rule-aud-constraint-with-this-name-already-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-create-index-before-constraint.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-create-index-before-constraint",
+      "title": "Create Index Before Constraint",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Create the backing index before adding a constraint (unique/FK/CHECK) so validation reuses it instead of full-table scanning under lock.",
+      "localeOf": "audit-rule-aud-create-index-before-constraint"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-create-index-using-online-mode.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-create-index-using-online-mode",
+      "title": "Create Index Using Online Mode",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Create indexes online (MySQL ALGORITHM=INPLACE LOCK=NONE, PostgreSQL CONCURRENTLY) to avoid long locks and DML blocking on large tables.",
+      "localeOf": "audit-rule-aud-create-index-using-online-mode"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-dml-where.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-dml-where",
+      "title": "UPDATE/DELETE without WHERE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "UPDATE/DELETE without a WHERE clause affects the whole table and is a common data-loss source; add a predicate, or use TRUNCATE deliberately to clear it.",
+      "localeOf": "audit-rule-aud-dml-where"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-expression-in-group-by.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-expression-in-group-by",
+      "title": "Expression in GROUP BY Causes Index Invalidation",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index"
+      ],
+      "description": "GROUP BY on an expression or function (LEFT, YEAR) disables the column index and forces an extra sort or hash aggregate; group by the bare column.",
+      "localeOf": "audit-rule-aud-expression-in-group-by"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-expression-in-order-by.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-expression-in-order-by",
+      "title": "Expression in ORDER BY Causes Index Invalidation",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index"
+      ],
+      "description": "ORDER BY on an expression or function (YEAR, LENGTH) makes the underlying column index unusable for sorting and adds a filesort; order by the bare column.",
+      "localeOf": "audit-rule-aud-expression-in-order-by"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-insert-must-include-pk.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-insert-must-include-pk",
+      "title": "INSERT Must Include Primary Key Column",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "On tables without an auto-increment primary key, INSERT must supply the key explicitly to avoid duplicate or unexpected key values and data inconsistency.",
+      "localeOf": "audit-rule-aud-insert-must-include-pk"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-order-by-forbidden-in-dml.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-order-by-forbidden-in-dml",
+      "title": "ORDER BY Forbidden in UPDATE/DELETE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "ORDER BY is meaningless in UPDATE/DELETE, adds cost, and is a syntax error in some databases; remove it or move the ordered selection into a subquery.",
+      "localeOf": "audit-rule-aud-order-by-forbidden-in-dml"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-pk-naming.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-pk-naming",
+      "title": "Primary Key Naming Convention",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "Primary-key constraints should follow one naming convention (e.g. pk_<table>_<columns>) so the constraint type and table are recognizable at a glance.",
+      "localeOf": "audit-rule-aud-pk-naming"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/aud-select-star.md",
+    "frontmatter": {
+      "id": "en-audit-rule-aud-select-star",
+      "title": "SELECT * Detection",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "unknown",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "Flags SELECT * on wide tables: unneeded columns cost IO and bandwidth and block covering-index optimization; list only the columns you need.",
+      "localeOf": "audit-rule-aud-select-star"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/index.md",
+    "frontmatter": {
+      "id": "en-audit-rules-index",
+      "title": "Audit Rule Reference",
+      "description": "Catalog of PawSQL SQL audit rules (generated)",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rules",
+        "en"
+      ],
+      "localeOf": "audit-rules-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/audit-rules/sql-index-023.md",
+    "frontmatter": {
+      "id": "en-audit-rule-sql-index-023",
+      "title": "Redundant Index Detection",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index",
+        "mysql",
+        "postgresql"
+      ],
+      "description": "Detects duplicate or redundant indexes whose leading columns another index already covers; they only add write and storage cost, so drop them.",
+      "localeOf": "audit-rule-sql-index-023"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/compatibility/index.md",
+    "frontmatter": {
+      "id": "database-compatibility-index",
+      "title": "Database Compatibility Matrix",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "database",
+        "compatibility"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/configuration/explain-timeout.md",
+    "frontmatter": {
+      "id": "config-explain-timeout",
+      "title": "explain.timeout",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "config:optimizer",
+        "integer"
+      ],
+      "description": "Time budget the optimizer uses when executing EXPLAIN to gather real execution statistics before recommending an index."
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/index.md",
+    "frontmatter": {
+      "id": "en-optimizer-rules-index",
+      "title": "Optimizer Rule Reference",
+      "description": "Catalog of PawSQL optimizer rules (generated)",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rules",
+        "en"
+      ],
+      "localeOf": "optimizer-rules-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/opt-count-to-exists.md",
+    "frontmatter": {
+      "id": "en-optimizer-rule-opt-count-to-exists",
+      "title": "COUNT Scalar Subquery Rewrite",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "Rewrites (SELECT COUNT(*) ...) > 0 presence tests into EXISTS, which short-circuits on the first match instead of aggregating every row.",
+      "localeOf": "optimizer-rule-opt-count-to-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/opt-exists-to-join.md",
+    "frontmatter": {
+      "id": "en-optimizer-rule-opt-exists-to-join",
+      "title": "EXISTS Subquery to Table Join Rewrite",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "Rewrites convertible EXISTS subqueries into an equivalent inner join so the optimizer can choose the driving table freely.",
+      "localeOf": "optimizer-rule-opt-exists-to-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/opt-npe-rewrite.md",
+    "frontmatter": {
+      "id": "en-optimizer-rule-opt-npe-rewrite",
+      "title": "NPE Rewrite (Null Pointer Exception Prevention)",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "Wraps aggregates that can return NULL on all-NULL input (e.g. SUM) in a null-handling function so the result is always numeric and apps avoid NPE.",
+      "localeOf": "optimizer-rule-opt-npe-rewrite"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/opt-or-union.md",
+    "frontmatter": {
+      "id": "en-optimizer-rule-opt-or-union",
+      "title": "OR to UNION Optimization",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "Rewrites OR-ed predicates over different columns into UNION / UNION ALL branches so each branch can use its own index instead of one fused plan.",
+      "localeOf": "optimizer-rule-opt-or-union"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/reference/optimizer-rules/opt-use-union-all.md",
+    "frontmatter": {
+      "id": "en-optimizer-rule-opt-use-union-all",
+      "title": "Use UNION ALL Instead of UNION",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "Replaces UNION with UNION ALL when no deduplication is needed, skipping the sort/hash pass for a large speedup on big result sets.",
+      "localeOf": "optimizer-rule-opt-use-union-all"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/release-notes/8.5.0.md",
+    "frontmatter": {
+      "id": "release-notes-8-5-0",
+      "title": "PawSQL 8.5.0",
+      "description": "PawSQL 8.5.0 release highlights (draft).",
+      "type": "release-note",
+      "versionIntroduced": "8.5.0",
+      "status": "draft",
+      "tags": [
+        "release-notes"
+      ],
+      "relatedFeatures": [
+        "OPT-OR-UNION",
+        "AUDIT-REDUNDANT-INDEX"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/release-notes/index.mdx",
+    "frontmatter": {
+      "id": "release-notes-index",
+      "title": "Release Notes",
+      "description": "Version history of PawSQL releases.",
+      "type": "release-note",
+      "status": "draft",
+      "tags": [
+        "release-notes"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/tutorials/index.mdx",
+    "frontmatter": {
+      "id": "tutorials-index",
+      "title": "Tutorials",
+      "description": "Hands-on tutorials for PawSQL.",
+      "type": "tutorial",
+      "status": "draft",
+      "tags": [
+        "tutorial"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/use-cases/index.mdx",
+    "frontmatter": {
+      "id": "en-use-cases-index",
+      "title": "Use Cases",
+      "description": "Typical PawSQL scenarios by role (developer / CI-CD / DBA / migration / enterprise governance).",
+      "type": "tutorial",
+      "status": "draft",
+      "tags": [
+        "use-cases",
+        "tutorial"
+      ],
+      "localeOf": "use-cases-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/user-guide/optimization/or-union.md",
+    "frontmatter": {
+      "id": "user-guide-optimization-or-union",
+      "title": "OR to UNION Optimization",
+      "description": "How the OR-to-UNION rewrite works and when it helps.",
+      "type": "user-guide",
+      "product": "pawsql-optimizer",
+      "versionIntroduced": "8.5.0",
+      "status": "draft",
+      "tags": [
+        "optimization",
+        "rewrite",
+        "user-guide"
+      ],
+      "relatedFeatures": [
+        "OPT-OR-UNION"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/en/user-guide/sql-audit/index.md",
+    "frontmatter": {
+      "id": "user-guide-sql-audit",
+      "title": "SQL Audit",
+      "description": "How SQL audit works and where to find the rule references.",
+      "type": "user-guide",
+      "product": "pawsql-advisor",
+      "status": "draft",
+      "tags": [
+        "audit",
+        "user-guide",
+        "sql-review"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/features/index.mdx",
+    "frontmatter": {
+      "id": "features-index",
+      "title": "核心功能",
+      "description": "PawSQL 的核心能力：规范审核、重写优化、索引推荐、性能验证、执行计划可视化。",
+      "type": "product",
+      "status": "draft",
+      "tags": [
+        "features",
+        "product"
+      ],
+      "localeOf": "en-features-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/getting-started/overview.mdx",
+    "frontmatter": {
+      "id": "zh-getting-started-overview",
+      "title": "产品概览",
+      "description": "PawSQL 让 SQL 性能优化自动化、可验证：规范审核、语义级查询重写与基于代价的索引推荐。",
+      "type": "user-guide",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "overview",
+        "getting-started",
+        "zh"
+      ],
+      "relatedFeatures": [
+        "OPT-OR-UNION"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/getting-started/supported-databases.mdx",
+    "frontmatter": {
+      "id": "getting-started-supported-databases",
+      "title": "支持的数据库",
+      "description": "PawSQL 支持优化的数据库与版本范围。",
+      "type": "reference",
+      "product": "pawsql-optimizer",
+      "status": "draft",
+      "tags": [
+        "databases",
+        "compatibility",
+        "getting-started"
+      ],
+      "localeOf": "en-getting-started-supported-databases"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/index.mdx",
+    "frontmatter": {
+      "id": "index",
+      "title": "PawSQL 文档",
+      "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。",
+      "type": "product",
+      "status": "draft"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-add-schema-qualifier-before-object-references.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-add-schema-qualifier-before-object-references",
+      "title": "对象前需添加属主",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "SQL 引用对象前加 Schema/属主限定（schema.object），避免跨 Schema/多租户下同名对象歧义与误引用。",
+      "localeOf": "en-audit-rule-aud-add-schema-qualifier-before-object-references"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-addcheckconstraintshouldbedeferred.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-addcheckconstraintshouldbedeferred",
+      "title": "添加CHECK约束时需添加NO VALID",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "给已有数据的表加 CHECK 约束时应指定 NO VALID 跳过全表校验，历史数据分批离线验证。",
+      "localeOf": "en-audit-rule-aud-addcheckconstraintshouldbedeferred"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-addingcolumnswithdefaultdisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-addingcolumnswithdefaultdisallowed",
+      "title": "禁止新增有默认值的列",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止向已有数据的表直接新增带默认值的列（触发表重写/锁表/回填）；应分阶段：加可空列→回填→再设默认值。",
+      "localeOf": "en-audit-rule-aud-addingcolumnswithdefaultdisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-autoincrement-column-naming-convention.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-autoincrement-column-naming-convention",
+      "title": "自增列命名规范",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "自增列命名应遵循统一模式（默认 `id`，正则 `^id$`）；不合规仅提示，不阻断 DDL。",
+      "localeOf": "en-audit-rule-aud-autoincrement-column-naming-convention"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-anti-join-operations-in-distributed-databa.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-anti-join-operations-in-distributed-databa",
+      "title": "分布式数据库应避免出现 ANTI JOIN 操作",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "分布式库应避免 NOT IN/NOT EXISTS 反连接（拉取全量到协调端、内存/网络开销巨大）；用物化/拆分或 LEFT JOIN+IS NULL。",
+      "localeOf": "en-audit-rule-aud-avoid-anti-join-operations-in-distributed-databa"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-count-distinct-on-multiple-nullable-column.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column",
+      "title": "避免COUNT DISTINCT多个可空列",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "COUNT(DISTINCT 多列) 会排除任一列为 NULL 的行，结果与单列去重不同；用 COALESCE 换默认值再计数。",
+      "localeOf": "en-audit-rule-aud-avoid-count-distinct-on-multiple-nullable-column"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-cross-join.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-cross-join",
+      "title": "避免使用CROSS JOIN",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 CROSS JOIN 产生的笛卡尔积（性能陷阱）；应改用带 ON 条件的关联，确需笛卡尔积时加注释说明。",
+      "localeOf": "en-audit-rule-aud-avoid-cross-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-crossshard-dml-operations-in-distributed-d.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d",
+      "title": "分布式数据库应避免跨分片的 DML 操作",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "UPDATE/DELETE 的 WHERE 未含分布键等值会跨分片触发分布式事务（慢且易死锁）；应加分布键等值条件。",
+      "localeOf": "en-audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-duplicate-table-aliases.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-duplicate-table-aliases",
+      "title": "避免表引用使用重复的别名",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免表引用别名重复或与库表名冲突（可读性差）；每个表引用用唯一且有语义的别名。",
+      "localeOf": "en-audit-rule-aud-avoid-duplicate-table-aliases"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-for-update-with-derived-tables.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-for-update-with-derived-tables",
+      "title": "避免有派生表的查询语句使用for update",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "派生表上的 SELECT ... FOR UPDATE 锁可能落在内部临时表而非基表；应直接对基表加锁。",
+      "localeOf": "en-audit-rule-aud-avoid-for-update-with-derived-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-group-by-column-ordinal-position.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-group-by-column-ordinal-position",
+      "title": "避免GROUP BY选择列的序号",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 GROUP BY 用列序号（SELECT 顺序变化会悄然改变语义）；直接用列名或表达式。",
+      "localeOf": "en-audit-rule-aud-avoid-group-by-column-ordinal-position"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-group-by-on-long-columns.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-group-by-on-long-columns",
+      "title": "避免对长字段进行分组",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免对超长字段分组（CHAR/VARCHAR>128 或 CLOB/TEXT，排序/哈希开销大）；用前缀或哈希分组。",
+      "localeOf": "en-audit-rule-aud-avoid-group-by-on-long-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-joining-on-nondistribution-key-columns.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-joining-on-nondistribution-key-columns",
+      "title": "避免表关联字段不是分布键",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "分布式库中 JOIN 关联字段非分布键会触发跨节点数据重分布、网络开销大；应让高频关联字段与分布键对齐。",
+      "localeOf": "en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-leading-or-trailing-spaces-in-string-liter.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter",
+      "title": "避免常量字符串开头或结尾包含空格",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "字符串常量首尾空格多为误输入却影响匹配结果；应清理，确需匹配空格时用 TRIM 或注释说明。",
+      "localeOf": "en-audit-rule-aud-avoid-leading-or-trailing-spaces-in-string-liter"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-like-without-wildcards.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-like-without-wildcards",
+      "title": "避免使用没有通配符的 LIKE 查询",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "无通配符的 LIKE 等价于等值查询，多为漏写通配符；应改 = 或明确补 %/_。",
+      "localeOf": "en-audit-rule-aud-avoid-like-without-wildcards"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-limit-without-order-by-in-select.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-limit-without-order-by-in-select",
+      "title": "避免在SELECT语句中使用LIMIT而没有ORDER BY",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "SELECT 用 LIMIT 无 ORDER BY 时返回行不确定；加 ORDER BY 明确取哪前 N 行。",
+      "localeOf": "en-audit-rule-aud-avoid-limit-without-order-by-in-select"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-limit-without-order-by-in-updatedelete.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-limit-without-order-by-in-updatedelete",
+      "title": "避免在UPDELETE语句中使用LIMIT而没有ORDER",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "UPDATE/DELETE 用 LIMIT 无 ORDER BY 影响行不确定；应配 ORDER BY（PG/openGauss 用 WHERE 子查询定位）。",
+      "localeOf": "en-audit-rule-aud-avoid-limit-without-order-by-in-updatedelete"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-multiple-distribution-keys.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-multiple-distribution-keys",
+      "title": "分布键不建议使用多个字段",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "多列分布键限制水平扩展、增加哈希与本地化关联难度；建议用单一高频关联字段作分布键。",
+      "localeOf": "en-audit-rule-aud-avoid-multiple-distribution-keys"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-natural-join.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-natural-join",
+      "title": "避免使用NATURAL JOIN",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 NATURAL JOIN（隐式连接条件可读性差、表结构变化会悄然改变语义）；用显式 JOIN ... ON。",
+      "localeOf": "en-audit-rule-aud-avoid-natural-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-nondistributed-tables.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-nondistributed-tables",
+      "title": "分布式数据库不建议创建非分布表",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "分布式数据库应避免非分布表（单点瓶颈、关联需重分布）；业务表用 HASH 分布。",
+      "localeOf": "en-audit-rule-aud-avoid-nondistributed-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-order-by-column-ordinal-position.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-order-by-column-ordinal-position",
+      "title": "避免ORDER BY选择列的序号",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 ORDER BY 用列序号（SELECT 顺序变化会悄然改变语义）；直接用列名或表达式。",
+      "localeOf": "en-audit-rule-aud-avoid-order-by-column-ordinal-position"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-order-by-on-long-columns.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-order-by-on-long-columns",
+      "title": "避免对长字段进行排序",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免对超长字段直接排序（比较代价与临时空间大）；用前缀（LEFT）或哈希排序替代。",
+      "localeOf": "en-audit-rule-aud-avoid-order-by-on-long-columns"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-order-by-random-function.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-order-by-random-function",
+      "title": "避免使用随机函数排序",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 ORDER BY RAND()/RANDOM() 取随机样本（需对全行生成随机值并排序）；用随机主键范围或 TABLESAMPLE。",
+      "localeOf": "en-audit-rule-aud-avoid-order-by-random-function"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-replicated-distribution-for-large-tables.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-replicated-distribution-for-large-tables",
+      "title": "大表不建议使用复制(Replicated)分布",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "大表（默认超 10 万行）不宜用复制分布（存储与写放大）；应改用 HASH 等分片分布。",
+      "localeOf": "en-audit-rule-aud-avoid-replicated-distribution-for-large-tables"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-scalar-subqueries.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-scalar-subqueries",
+      "title": "避免使用标量子查询",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免标量子查询（外层每行执行一次、大表性能差、可能运行时多行报错）；用 JOIN/派生表替代。",
+      "localeOf": "en-audit-rule-aud-avoid-scalar-subqueries"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-select-with-for-update.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-select-with-for-update",
+      "title": "避免在SELECT语句添加FOR UPDATE",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免随意 SELECT ... FOR UPDATE（行锁致等待/阻塞/死锁）；仅确需悲观锁时使用，并尽量缩小锁定范围。",
+      "localeOf": "en-audit-rule-aud-avoid-select-with-for-update"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-avoid-select-with-limit-and-for-update.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-avoid-select-with-limit-and-for-update",
+      "title": "避免limit子句的查询语句使用for update",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "避免 ORDER BY+LIMIT+FOR UPDATE（锁定行数远超返回、竞争严重）；分两步：先取主键再精确加锁。",
+      "localeOf": "en-audit-rule-aud-avoid-select-with-limit-and-for-update"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-cacheexhausted4identitycolumn.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-cacheexhausted4identitycolumn",
+      "title": "自增序列耗尽预警",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "自增列接近类型最大值（默认阈值 80%）时预警，提前规划扩容（如 INT→BIGINT），避免 INSERT 失败。",
+      "localeOf": "en-audit-rule-aud-cacheexhausted4identitycolumn"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-changingcolumnnamedisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-changingcolumnnamedisallowed",
+      "title": "禁止修改字段名",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止直接改字段名（破坏上下游依赖）；需要时用灰度：加新列→双写→切换→下线旧列。",
+      "localeOf": "en-audit-rule-aud-changingcolumnnamedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-changingcolumns-order-disallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-changingcolumns-order-disallowed",
+      "title": "禁止修改列的顺序",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止调整表内列顺序（触发表重建、破坏按位置依赖）；顺序在设计时定，需要则新建表迁移。",
+      "localeOf": "en-audit-rule-aud-changingcolumns-order-disallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-changingcolumntypedisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-changingcolumntypedisallowed",
+      "title": "禁止修改列的数据类型",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止直接改列类型（全表重写/锁表/截断风险）；用灰度迁移：新列→双写→分批回填→切换→下线。",
+      "localeOf": "en-audit-rule-aud-changingcolumntypedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-char-column-length.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-char-column-length",
+      "title": "CHAR 字段长度超过阈值",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "检查声明长度超过阈值（默认 64）的 CHAR 字段：定长存储会让过大的 CHAR 膨胀行与索引、增加 I/O，建议改用 VARCHAR。",
+      "localeOf": "en-audit-rule-aud-char-column-length"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-character-set-required-for-database-creation.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-character-set-required-for-database-creation",
+      "title": "创建库必须指定数据库字符集",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "创建库必须显式指定字符集，避免默认配置随环境变化导致乱码与排序不一致。",
+      "localeOf": "en-audit-rule-aud-character-set-required-for-database-creation"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-charsetoncolumndisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-charsetoncolumndisallowed",
+      "title": "禁止指定列的字符集",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止列级单独指定字符集（JOIN 隐式转换致索引失效/全表扫描）；字符集在表级统一。",
+      "localeOf": "en-audit-rule-aud-charsetoncolumndisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-charsetontabledisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-charsetontabledisallowed",
+      "title": "表定义时禁止使用字符集",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "表定义时禁止单独指定字符集；表应继承数据库默认字符集，避免跨表隐式转换。",
+      "localeOf": "en-audit-rule-aud-charsetontabledisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-charsetsontabledatabasemismatch.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-charsetsontabledatabasemismatch",
+      "title": "表的字符集和数据库不一致",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "表字符集须与数据库一致，避免隐式转换、乱码或数据丢失；让表继承数据库默认字符集。",
+      "localeOf": "en-audit-rule-aud-charsetsontabledatabasemismatch"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-column-and-table-character-set-mismatch.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-column-and-table-character-set-mismatch",
+      "title": "列的字符集和表不一致",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "列字符集应与表一致，避免隐式转换/乱码/JOIN 索引失效；列继承表字符集。",
+      "localeOf": "en-audit-rule-aud-column-and-table-character-set-mismatch"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-column-naming-convention.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-column-naming-convention",
+      "title": "列名命名规范",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "列名应统一小写下划线 snake_case；大写/特殊字符/关键字/中文命名增加维护与迁移成本。",
+      "localeOf": "en-audit-rule-aud-column-naming-convention"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-column-with-this-name-already-exists.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-column-with-this-name-already-exists",
+      "title": "字段名已存在",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "ADD/RENAME COLUMN 的列名不能与表内已有列冲突；可用 IF NOT EXISTS 或先确认唯一。",
+      "localeOf": "en-audit-rule-aud-column-with-this-name-already-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-comments-on-column-required.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-comments-on-column-required",
+      "title": "列必须有注释",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "每列都应有注释（字段含义/用途/取值范围），降低变更、排查与交接成本。",
+      "localeOf": "en-audit-rule-aud-comments-on-column-required"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-commentsontablerequired.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-commentsontablerequired",
+      "title": "表必须有注释",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "建表时应写表注释（业务用途/数据来源/生命周期），适用于 MySQL 等支持表注释的库。",
+      "localeOf": "en-audit-rule-aud-commentsontablerequired"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-compressedattributedisallowed.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-compressedattributedisallowed",
+      "title": "禁止通过COMPRESSED打开字段压缩功能",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "禁止用 COMPRESSED 做列级压缩（utf8/utf8mb4 易乱码、增 CPU 开销）；压缩放到存储/引擎层。",
+      "localeOf": "en-audit-rule-aud-compressedattributedisallowed"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-consider-replicated-distribution-for-small-table.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-consider-replicated-distribution-for-small-table",
+      "title": "小于阈值的分布表建议设计为复制表",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "分布式小表（10 万行以下、读多写少）建议设计为复制表，关联避免跨节点数据交换。",
+      "localeOf": "en-audit-rule-aud-consider-replicated-distribution-for-small-table"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-constraint-with-this-name-already-exists.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-constraint-with-this-name-already-exists",
+      "title": "约束名已存在",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "约束名须唯一，重名会使 DDL 失败并中断部署/迁移；可用 IF NOT EXISTS 或唯一命名。",
+      "localeOf": "en-audit-rule-aud-constraint-with-this-name-already-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-create-index-before-constraint.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-create-index-before-constraint",
+      "title": "创建约束前提前创建相关的索引",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "加唯一/外键/CHECK 约束前先建对应索引，约束校验可复用索引、避免全表扫描。",
+      "localeOf": "en-audit-rule-aud-create-index-before-constraint"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-create-index-using-online-mode.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-create-index-using-online-mode",
+      "title": "建议使用在线模式创建索引",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "建索引优先在线模式（MySQL INPLACE/LOCK=NONE、PostgreSQL CONCURRENTLY），避免大表长锁阻塞 DML。",
+      "localeOf": "en-audit-rule-aud-create-index-using-online-mode"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-dml-where.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-dml-where",
+      "title": "避免无条件的 UPDATE/DELETE 语句",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "无条件（无 WHERE）的 UPDATE/DELETE 会作用于整张表，是数据丢失的常见根源；应加条件，确需清空时用 TRUNCATE。",
+      "localeOf": "en-audit-rule-aud-dml-where"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-expression-in-group-by.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-expression-in-group-by",
+      "title": "GROUP 字段中有表达式导致索引失效",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index"
+      ],
+      "description": "GROUP BY 使用表达式或函数（如 LEFT、YEAR）会令列索引失效，退化为额外排序或哈希分组；应直接按列分组。",
+      "localeOf": "en-audit-rule-aud-expression-in-group-by"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-expression-in-order-by.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-expression-in-order-by",
+      "title": "ORDER 字段中有表达式导致索引失效",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index"
+      ],
+      "description": "ORDER BY 使用表达式或函数（如 YEAR、LENGTH）会使列索引无法用于排序、退化为文件排序；应直接按列排序。",
+      "localeOf": "en-audit-rule-aud-expression-in-order-by"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-insert-must-include-pk.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-insert-must-include-pk",
+      "title": "INSERT 语句必须包含主键字段",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "对无自增主键的表，INSERT 必须显式包含主键列并提供明确的值，避免主键冲突与数据不一致。",
+      "localeOf": "en-audit-rule-aud-insert-must-include-pk"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-order-by-forbidden-in-dml.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-order-by-forbidden-in-dml",
+      "title": "UPDATE/DELETE 禁止使用 ORDER 子句",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "dml"
+      ],
+      "description": "UPDATE/DELETE 中 ORDER BY 无意义且增加开销，某些数据库甚至是语法错误；应移除或将排序放进子查询。",
+      "localeOf": "en-audit-rule-aud-order-by-forbidden-in-dml"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-pk-naming.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-pk-naming",
+      "title": "主键命名规范",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "ddl"
+      ],
+      "description": "主键约束命名应遵循统一规范（如 pk_表名_列名），便于快速识别约束类型与归属表，降低协作与排查成本。",
+      "localeOf": "en-audit-rule-aud-pk-naming"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/aud-select-star.md",
+    "frontmatter": {
+      "id": "audit-rule-aud-select-star",
+      "title": "避免在查询中使用 SELECT *",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "unknown",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "识别查询中的 SELECT *：无用列浪费 IO 与带宽，且阻碍覆盖索引优化；应只列出所需列。",
+      "localeOf": "en-audit-rule-aud-select-star"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/index.md",
+    "frontmatter": {
+      "id": "audit-rules-index",
+      "title": "审核规范",
+      "description": "PawSQL SQL 审核规则全量目录（由 metadata/rules/audit 生成）",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rules",
+        "zh"
+      ],
+      "localeOf": "en-audit-rules-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/audit-rules/sql-index-023.md",
+    "frontmatter": {
+      "id": "audit-rule-sql-index-023",
+      "title": "禁止创建重复索引/冗余索引",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "audit-rule",
+        "index",
+        "mysql",
+        "postgresql"
+      ],
+      "description": "检测重复/冗余索引：其前缀列已被其它索引覆盖，只会增加写入与存储成本，应删除。",
+      "localeOf": "en-audit-rule-sql-index-023"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/index.md",
+    "frontmatter": {
+      "id": "optimizer-rules-index",
+      "title": "优化算法",
+      "description": "PawSQL 优化器规则/算法全量目录（由 metadata/rules/optimizer 生成）",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rules",
+        "zh"
+      ],
+      "localeOf": "en-optimizer-rules-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/opt-count-to-exists.md",
+    "frontmatter": {
+      "id": "optimizer-rule-opt-count-to-exists",
+      "title": "COUNT 标量子查询重写",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "将 (SELECT COUNT(*) ...)>0 的存在性判断重写为 EXISTS，命中首行即短路，避免全量计数。",
+      "localeOf": "en-optimizer-rule-opt-count-to-exists"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/opt-exists-to-join.md",
+    "frontmatter": {
+      "id": "optimizer-rule-opt-exists-to-join",
+      "title": "EXISTS 查询转换为表连接",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "将可转换的 EXISTS 子查询重写为等价内连接，让优化器可自由选择驱动表。",
+      "localeOf": "en-optimizer-rule-opt-exists-to-join"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/opt-npe-rewrite.md",
+    "frontmatter": {
+      "id": "optimizer-rule-opt-npe-rewrite",
+      "title": "NPE 重写（空指针异常预防）",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "当聚合输入全为 NULL 时 SUM/AVG 返回 NULL 可能引发程序 NPE；自动用空值处理函数包装聚合，保证返回数值。",
+      "localeOf": "en-optimizer-rule-opt-npe-rewrite"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/opt-or-union.md",
+    "frontmatter": {
+      "id": "optimizer-rule-opt-or-union",
+      "title": "OR 条件 SELECT 重写",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite",
+        "mysql",
+        "postgresql",
+        "oracle"
+      ],
+      "description": "将连接不同字段的 OR 条件重写为 UNION（分支互斥用 UNION ALL），让各分支独立利用索引，避免单一计划退化为全表扫描。",
+      "localeOf": "en-optimizer-rule-opt-or-union"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/reference/optimizer-rules/opt-use-union-all.md",
+    "frontmatter": {
+      "id": "optimizer-rule-opt-use-union-all",
+      "title": "使用 UNION ALL 代替 UNION",
+      "type": "reference",
+      "status": "draft",
+      "tags": [
+        "optimizer-rule",
+        "rewrite"
+      ],
+      "description": "当无需去重时用 UNION ALL 替代 UNION，省去排序/哈希去重过程，大数据量下性能提升显著。",
+      "localeOf": "en-optimizer-rule-opt-use-union-all"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/use-cases/index.mdx",
+    "frontmatter": {
+      "id": "use-cases-index",
+      "title": "用户场景",
+      "description": "不同角色的 PawSQL 典型使用场景（开发者 / CI/CD / DBA / 迁移 / 企业治理）。",
+      "type": "tutorial",
+      "status": "draft",
+      "tags": [
+        "use-cases",
+        "tutorial"
+      ],
+      "localeOf": "en-use-cases-index"
+    },
+    "error": null
+  },
+  {
+    "path": "docs/user-guide/cloud/index.md",
+    "frontmatter": {
+      "id": "zh-user-guide-cloud-index",
+      "title": "PawSQL Cloud 使用手册",
+      "description": "PawSQL Cloud 产品概述：能力范围、核心功能与支持的数据库。",
+      "type": "user-guide",
+      "product": "pawsql-cloud",
+      "status": "draft",
+      "tags": [
+        "cloud",
+        "saas",
+        "user-guide",
+        "zh"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/user-guide/cloud/quickstart.md",
+    "frontmatter": {
+      "id": "zh-user-guide-cloud-quickstart",
+      "title": "三步完成您的 SQL 优化",
+      "description": "在 PawSQL Cloud 中创建查询优化：创建工作空间、录入待优化 SQL、配置并运行优化。",
+      "type": "user-guide",
+      "product": "pawsql-cloud",
+      "status": "draft",
+      "tags": [
+        "cloud",
+        "saas",
+        "user-guide",
+        "quickstart",
+        "zh"
+      ]
+    },
+    "error": null
+  },
+  {
+    "path": "docs/user-guide/cloud/results.md",
+    "frontmatter": {
+      "id": "zh-user-guide-cloud-results",
+      "title": "优化结果解析",
+      "description": "阅读 PawSQL Cloud 的优化详情：重写优化、规则审查、索引推荐、索引分析与性能验证，以及 SQL / 执行计划比对。",
+      "type": "user-guide",
+      "product": "pawsql-cloud",
+      "status": "draft",
+      "tags": [
+        "cloud",
+        "saas",
+        "user-guide",
+        "results",
+        "zh"
+      ]
+    },
+    "error": null
+  }
+]

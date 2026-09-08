@@ -2,11 +2,14 @@
 # Feature for canonical optimizer rule: Use UNION ALL Instead of UNION.
 id: OPT-USE-UNION-ALL
 name: Use UNION ALL Instead of UNION
-type: optimizer
-product: pawsql-optimizer
+product: pawsql
 status: released
 documentation:
   reference:
     required: true
-    paths:
-      - docs/reference/optimizer-rules/opt-use-union-all.md
+    paths: []
+    documents:
+    - documentId: optimizer-rule-opt-use-union-all
+      language: zh
+components:
+- optimizer

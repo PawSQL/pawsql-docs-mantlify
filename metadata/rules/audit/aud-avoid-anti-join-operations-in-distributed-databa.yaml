@@ -13,32 +13,61 @@ tags:
 content:
   zh:
     name: 分布式数据库应避免出现 ANTI JOIN 操作
-    description: |-
-      `NOT IN` 或 `NOT EXISTS` 反关联（ANTI JOIN）查询在分布式环境中极难优化。它们通常会导致需要将两张表的所有数据拉取到 Proxy 端或协调节点进行笛卡尔积式的全量比较，内存和网络开销极其巨大，可能引发 OOM 或查询超时。
-      在分布式数据库中应尽量避免 ANTI JOIN 操作。可以通过创建临时表将增量数据预先物化、拆分 SQL 在应用层分步实现、或使用 LEFT JOIN + IS NULL 等替代方案来降低对分布式算力的消耗。
-    badExample: |-
-      -- ❌ 不推荐：NOT IN 子查询在分布式环境中性能极差
-      DELETE FROM t1 WHERE t1.id NOT IN (SELECT t2.id FROM t2);
-    goodExample: |-
-      -- ✅ 推荐：拆分为应用层分步操作，或使用 LEFT JOIN + IS NULL
+    description: '`NOT IN` 或 `NOT EXISTS` 反关联（ANTI JOIN）查询在分布式环境中极难优化。它们通常会导致需要将两张表的所有数据拉取到
+      Proxy 端或协调节点进行笛卡尔积式的全量比较，内存和网络开销极其巨大，可能引发 OOM 或查询超时。
+
+      在分布式数据库中应尽量避免 ANTI JOIN 操作。可以通过创建临时表将增量数据预先物化、拆分 SQL 在应用层分步实现、或使用 LEFT JOIN
+      + IS NULL 等替代方案来降低对分布式算力的消耗。'
+    badExample: '-- ❌ 不推荐：NOT IN 子查询在分布式环境中性能极差
+
+      DELETE FROM t1 WHERE t1.id NOT IN (SELECT t2.id FROM t2);'
+    goodExample: '-- ✅ 推荐：拆分为应用层分步操作，或使用 LEFT JOIN + IS NULL
+
       DELETE t1
+
       FROM t1
+
       LEFT JOIN t2 ON t1.id = t2.id
-      WHERE t2.id IS NULL;
-    summary: 分布式库应避免 NOT IN/NOT EXISTS 反连接（拉取全量到协调端、内存/网络开销巨大）；用物化/拆分或 LEFT JOIN+IS NULL。
+
+      WHERE t2.id IS NULL;'
+    summary: 分布式库应避免 NOT IN/NOT EXISTS 反连接（拉取全量到协调端、内存/网络开销巨大）；用物化/拆分或 LEFT JOIN+IS
+      NULL。
+    editorial:
+      status: draft
+      owners: []
   en:
     name: Avoid ANTI JOIN Operations in Distributed Databases
-    description: |-
-      Anti-join queries written with `NOT IN` or `NOT EXISTS` are very hard to optimize in distributed environments. They usually force the full data of both tables to be pulled to the proxy or coordinator node for a Cartesian-style full comparison, with enormous memory and network cost, and can trigger OOM or query timeouts.
+    description: 'Anti-join queries written with `NOT IN` or `NOT EXISTS` are very
+      hard to optimize in distributed environments. They usually force the full data
+      of both tables to be pulled to the proxy or coordinator node for a Cartesian-style
+      full comparison, with enormous memory and network cost, and can trigger OOM
+      or query timeouts.
 
-      Avoid anti-join operations in distributed databases where possible. Reduce the load on distributed compute by materializing incremental data into a temporary table first, splitting the SQL into steps executed in the application layer, or using an alternative such as `LEFT JOIN ... IS NULL`.
-    summary: Avoid NOT IN/NOT EXISTS anti-joins in distributed databases (full-data pull + huge memory/network); prefer materialization, split steps, or LEFT JOIN ... IS NULL.
-    badExample: |-
-      -- bad: NOT IN subqueries perform very poorly in distributed environments
-      DELETE FROM t1 WHERE t1.id NOT IN (SELECT t2.id FROM t2);
-    goodExample: |-
-      -- good: split into application-layer steps, or use LEFT JOIN + IS NULL
+
+      Avoid anti-join operations in distributed databases where possible. Reduce the
+      load on distributed compute by materializing incremental data into a temporary
+      table first, splitting the SQL into steps executed in the application layer,
+      or using an alternative such as `LEFT JOIN ... IS NULL`.'
+    summary: Avoid NOT IN/NOT EXISTS anti-joins in distributed databases (full-data
+      pull + huge memory/network); prefer materialization, split steps, or LEFT JOIN
+      ... IS NULL.
+    badExample: '-- bad: NOT IN subqueries perform very poorly in distributed environments
+
+      DELETE FROM t1 WHERE t1.id NOT IN (SELECT t2.id FROM t2);'
+    goodExample: '-- good: split into application-layer steps, or use LEFT JOIN +
+      IS NULL
+
       DELETE t1
+
       FROM t1
+
       LEFT JOIN t2 ON t1.id = t2.id
-      WHERE t2.id IS NULL;
+
+      WHERE t2.id IS NULL;'
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

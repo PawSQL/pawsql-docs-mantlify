@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-scalar-subqueries
 title: 避免使用标量子查询
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-scalar-subqueries
 tags:
 - audit-rule
 - dml
 description: 避免标量子查询（外层每行执行一次、大表性能差、可能运行时多行报错）；用 JOIN/派生表替代。
 localeOf: en-audit-rule-aud-avoid-scalar-subqueries
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-scalar-subqueries
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-scalar-subqueries
 | 规则名称 | 避免使用标量子查询 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

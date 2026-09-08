@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-order-by-random-function
 title: 避免使用随机函数排序
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-order-by-random-function
 tags:
 - audit-rule
 - dml
 description: 避免 ORDER BY RAND()/RANDOM() 取随机样本（需对全行生成随机值并排序）；用随机主键范围或 TABLESAMPLE。
 localeOf: en-audit-rule-aud-avoid-order-by-random-function
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-order-by-random-function
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-order-by-random-function
 | 规则名称 | 避免使用随机函数排序 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -3,11 +3,20 @@ id: audit-rule-aud-character-set-required-for-database-creation
 title: 创建库必须指定数据库字符集
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-character-set-required-for-database-creation
 tags:
 - audit-rule
 - ddl
 description: 创建库必须显式指定字符集，避免默认配置随环境变化导致乱码与排序不一致。
 localeOf: en-audit-rule-aud-character-set-required-for-database-creation
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-character-set-required-for-database-creation
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-character-set-required-for-database-creation
 | 规则名称 | 创建库必须指定数据库字符集 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

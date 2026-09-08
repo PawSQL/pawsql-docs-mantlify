@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-like-without-wildcards
 title: 避免使用没有通配符的 LIKE 查询
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-like-without-wildcards
 tags:
 - audit-rule
 - dml
 description: 无通配符的 LIKE 等价于等值查询，多为漏写通配符；应改 = 或明确补 %/_。
 localeOf: en-audit-rule-aud-avoid-like-without-wildcards
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-like-without-wildcards
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-like-without-wildcards
 | 规则名称 | 避免使用没有通配符的 LIKE 查询 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

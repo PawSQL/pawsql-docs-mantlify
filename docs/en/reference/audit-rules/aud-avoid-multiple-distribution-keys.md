@@ -3,6 +3,10 @@ id: en-audit-rule-aud-avoid-multiple-distribution-keys
 title: Avoid Multiple Distribution Keys
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-multiple-distribution-keys
 tags:
 - audit-rule
 - ddl
@@ -10,6 +14,11 @@ description: Multiple-column distribution keys limit horizontal scaling, raise h
   cost, and block local joins unless every key matches; prefer a single, frequently-joined
   column.
 localeOf: audit-rule-aud-avoid-multiple-distribution-keys
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-multiple-distribution-keys
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -20,7 +29,7 @@ localeOf: audit-rule-aud-avoid-multiple-distribution-keys
 | Name | Avoid Multiple Distribution Keys |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

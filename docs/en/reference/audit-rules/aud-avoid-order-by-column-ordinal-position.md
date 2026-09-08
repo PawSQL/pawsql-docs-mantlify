@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-order-by-column-ordinal-position
 title: Avoid ORDER BY Column Ordinal Position
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-order-by-column-ordinal-position
 tags:
 - audit-rule
 - dml
 description: ORDER BY 1,2 (column ordinals) silently changes meaning when the SELECT
   list changes; always name the columns or expressions.
 localeOf: audit-rule-aud-avoid-order-by-column-ordinal-position
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-order-by-column-ordinal-position
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-order-by-column-ordinal-position
 | Name | Avoid ORDER BY Column Ordinal Position |
 | Category | dml — DML / data modification |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

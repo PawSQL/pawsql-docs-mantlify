@@ -1,0 +1,42 @@
+---
+id: choose-access
+translationKey: choose-access
+language: zh
+title: 选择使用方式
+description: 根据运行环境和工作流程选择 PawSQL 公网使用、私有部署或 IDE 接入路径。
+type: explanation
+layout: detail
+product: pawsql
+status: draft
+sections:
+  definition: 一个产品，多种使用方式
+  purpose: 选择路径
+  mechanism: 环境与入口分别选择
+  limitations: 开始前确认
+  nextSteps: 下一步
+---
+
+## 一个产品，多种使用方式
+
+PawSQL 是统一产品。Cloud 指公网部署形态；Engine、Optimizer、Auditor、Advisor、Patroller 是组件或交付形态，不应被当作五套无关产品。
+
+## 选择路径
+
+| 需求 | 优先查看 |
+|---|---|
+| 先了解 Web 操作流程 | [公网使用指南](/user-guide/cloud/index) |
+| 将服务部署到企业自己的环境 | 私有部署的环境、交付包和授权要求；详细安装指南待补齐 |
+| 在开发过程中使用 PawSQL | Advisor 组件及对应 IDE 插件的安装、连接和权限要求 |
+| 将 SQL 审核放入上线流程 | [用户场景](/use-cases/index)及经核实的 API/自动化接入文档 |
+
+## 环境与入口分别选择
+
+部署环境说明服务运行在哪里，Web、API、IDE 等入口说明用户如何访问能力。选择 IDE 插件并不能单独决定服务位于公网还是私有环境；具体连接方式应以该交付版本的说明为准。
+
+## 开始前确认
+
+确认数据库及版本、网络可达性、身份权限、使用范围和交付版本。支持范围见[兼容性参考](/reference/compatibility/index)；标记为 unknown 的记录尚未验证，不应当作支持承诺。
+
+## 下一步
+
+准备好使用环境后，按[快速操作指南](/user-guide/cloud/quickstart)完成第一次操作，再阅读[结果说明](/user-guide/cloud/results)。私有部署和具体插件指南将在有可验证内容后加入导航。

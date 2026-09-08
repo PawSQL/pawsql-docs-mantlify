@@ -14,31 +14,61 @@ relatedRules:
 content:
   en:
     name: UPDATE/DELETE without WHERE
-    description: Flags UPDATE or DELETE statements that carry no WHERE clause, which would affect every row in the target table.
-    whyItMatters: A missing WHERE on a DML statement is a frequent source of data-loss incidents. Flagging it before execution adds a safety gate for high-risk changes.
-    howToFix: Prefer TRUNCATE when the whole table must be cleared, or add the intended predicate. When every row must change, write the always-true condition explicitly (for example WHERE 1=1) to show it is intentional.
-    badExample: |
-      -- bad: unconditional DELETE wipes the whole table
+    description: Flags UPDATE or DELETE statements that carry no WHERE clause, which
+      would affect every row in the target table.
+    whyItMatters: A missing WHERE on a DML statement is a frequent source of data-loss
+      incidents. Flagging it before execution adds a safety gate for high-risk changes.
+    howToFix: Prefer TRUNCATE when the whole table must be cleared, or add the intended
+      predicate. When every row must change, write the always-true condition explicitly
+      (for example WHERE 1=1) to show it is intentional.
+    badExample: '-- bad: unconditional DELETE wipes the whole table
+
       DELETE FROM t;
-    goodExample: |
-      -- good: use TRUNCATE to clear a table (faster, explicit intent)
+
+      '
+    goodExample: '-- good: use TRUNCATE to clear a table (faster, explicit intent)
+
       TRUNCATE TABLE t;
+
 
       -- good: DELETE with a WHERE clause only removes the target rows
-      DELETE FROM t WHERE created_at < '2024-01-01';
-    summary: UPDATE/DELETE without a WHERE clause affects the whole table and is a common data-loss source; add a predicate, or use TRUNCATE deliberately to clear it.
+
+      DELETE FROM t WHERE created_at < ''2024-01-01'';
+
+      '
+    summary: UPDATE/DELETE without a WHERE clause affects the whole table and is a
+      common data-loss source; add a predicate, or use TRUNCATE deliberately to clear
+      it.
+    editorial:
+      status: draft
+      owners: []
   zh:
     name: 避免无条件的 UPDATE/DELETE 语句
-    description: 没有 WHERE 条件（或条件恒真）的 UPDATE 或 DELETE 语句，会更新或删除表中的所有数据记录。这是一个极其危险的操作—— 在生产环境中，一次无条件的 DELETE 可能在瞬间清空整张核心业务表，造成灾难性后果且难以恢复。
+    description: 没有 WHERE 条件（或条件恒真）的 UPDATE 或 DELETE 语句，会更新或删除表中的所有数据记录。这是一个极其危险的操作——
+      在生产环境中，一次无条件的 DELETE 可能在瞬间清空整张核心业务表，造成灾难性后果且难以恢复。
     whyItMatters: 缺少 WHERE 的 DML 会作用于整张表，是数据丢失事故的常见根源；在执行前识别它可以为高风险变更加一道安全闸。
-    howToFix: 如果确实需要清空全表数据，建议使用 TRUNCATE 语句替代 DELETE——TRUNCATE 是 DDL 操作，速度更快（不逐行记录日志）， 且更能清晰地表达“清空整表”的意图。如果业务逻辑确实需要更新所有行，也应在 WHERE 条件中显式写出恒真条件（如 WHERE 1=1）， 以表明这是有意为之而非遗漏。
-    badExample: |
-      -- 不推荐：无条件 DELETE，会清空整张表
+    howToFix: 如果确实需要清空全表数据，建议使用 TRUNCATE 语句替代 DELETE——TRUNCATE 是 DDL 操作，速度更快（不逐行记录日志），
+      且更能清晰地表达“清空整表”的意图。如果业务逻辑确实需要更新所有行，也应在 WHERE 条件中显式写出恒真条件（如 WHERE 1=1）， 以表明这是有意为之而非遗漏。
+    badExample: '-- 不推荐：无条件 DELETE，会清空整张表
+
       DELETE FROM t;
-    goodExample: |
-      -- 推荐：使用 TRUNCATE 清空表（更快且意图清晰）
+
+      '
+    goodExample: '-- 推荐：使用 TRUNCATE 清空表（更快且意图清晰）
+
       TRUNCATE TABLE t;
 
+
       -- 推荐：带 WHERE 条件的 DELETE，仅删除目标行
-      DELETE FROM t WHERE created_at < '2024-01-01';
+
+      DELETE FROM t WHERE created_at < ''2024-01-01'';
+
+      '
     summary: 无条件（无 WHERE）的 UPDATE/DELETE 会作用于整张表，是数据丢失的常见根源；应加条件，确需清空时用 TRUNCATE。
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

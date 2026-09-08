@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-replicated-distribution-for-large-tables
 title: 大表不建议使用复制(Replicated)分布
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-replicated-distribution-for-large-tables
 tags:
 - audit-rule
 - ddl
 description: 大表（默认超 10 万行）不宜用复制分布（存储与写放大）；应改用 HASH 等分片分布。
 localeOf: en-audit-rule-aud-avoid-replicated-distribution-for-large-tables
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-replicated-distribution-for-large-tables
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-replicated-distribution-for-large-tables
 | 规则名称 | 大表不建议使用复制(Replicated)分布 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

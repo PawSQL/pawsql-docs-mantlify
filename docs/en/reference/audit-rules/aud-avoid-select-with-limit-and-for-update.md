@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-select-with-limit-and-for-update
 title: Avoid SELECT with LIMIT and FOR UPDATE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-select-with-limit-and-for-update
 tags:
 - audit-rule
 - dml
 description: ORDER BY + LIMIT + FOR UPDATE locks far more rows than it returns; fetch
   the primary keys first, then lock them precisely.
 localeOf: audit-rule-aud-avoid-select-with-limit-and-for-update
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-select-with-limit-and-for-update
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-select-with-limit-and-for-update
 | Name | Avoid SELECT with LIMIT and FOR UPDATE |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

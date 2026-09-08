@@ -2,12 +2,22 @@
 id: user-guide-optimization-or-union
 title: OR to UNION Optimization
 description: How the OR-to-UNION rewrite works and when it helps.
-type: user-guide
-product: pawsql-optimizer
+type: guide
+product: pawsql
 versionIntroduced: 8.5.0
 status: draft
-tags: [optimization, rewrite, user-guide]
-relatedFeatures: [OPT-OR-UNION]
+tags:
+- optimization
+- rewrite
+- user-guide
+relatedFeatures:
+- OPT-OR-UNION
+subtype: operation
+language: en
+translationKey: user-guide-optimization-or-union
+layout: detail
+components:
+- optimizer
 ---
 
 # OR to UNION Optimization

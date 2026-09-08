@@ -3,11 +3,20 @@ id: optimizer-rule-opt-npe-rewrite
 title: NPE 重写（空指针异常预防）
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-npe-rewrite
 tags:
 - optimizer-rule
 - rewrite
 description: 当聚合输入全为 NULL 时 SUM/AVG 返回 NULL 可能引发程序 NPE；自动用空值处理函数包装聚合，保证返回数值。
 localeOf: en-optimizer-rule-opt-npe-rewrite
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-npe-rewrite
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-optimizer-rule-opt-npe-rewrite
 | 规则名称 | NPE 重写（空指针异常预防） |
 | 类别 | rewrite（重写） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -3,11 +3,20 @@ id: audit-rule-aud-addingcolumnswithdefaultdisallowed
 title: 禁止新增有默认值的列
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-addingcolumnswithdefaultdisallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止向已有数据的表直接新增带默认值的列（触发表重写/锁表/回填）；应分阶段：加可空列→回填→再设默认值。
 localeOf: en-audit-rule-aud-addingcolumnswithdefaultdisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-addingcolumnswithdefaultdisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-addingcolumnswithdefaultdisallowed
 | 规则名称 | 禁止新增有默认值的列 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

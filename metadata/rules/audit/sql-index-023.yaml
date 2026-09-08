@@ -17,29 +17,58 @@ relatedRules:
 content:
   en:
     name: Redundant Index Detection
-    description: Detects an index whose leading columns are already covered by another index, making the shorter one redundant for reads and a pure cost for writes.
-    whyItMatters: Every redundant index still consumes disk and must be maintained on writes, slowing down DML without helping any query. Removing it reduces write cost and storage without losing read performance.
-    howToFix: Drop the index that is a strict prefix of another index. Keep the longer index if it serves the workload; when unsure, verify with the query plan before dropping.
-    badExample: |
-      -- bad: redundant index; idx_name_dup is covered by idx_full
+    description: Detects an index whose leading columns are already covered by another
+      index, making the shorter one redundant for reads and a pure cost for writes.
+    whyItMatters: Every redundant index still consumes disk and must be maintained
+      on writes, slowing down DML without helping any query. Removing it reduces write
+      cost and storage without losing read performance.
+    howToFix: Drop the index that is a strict prefix of another index. Keep the longer
+      index if it serves the workload; when unsure, verify with the query plan before
+      dropping.
+    badExample: '-- bad: redundant index; idx_name_dup is covered by idx_full
+
       CREATE INDEX idx_full ON user(name, age, email);
+
       CREATE INDEX idx_name_dup ON user(name);
-    goodExample: |
-      -- good: only create necessary, non-redundant indexes
+
+      '
+    goodExample: '-- good: only create necessary, non-redundant indexes
+
       CREATE INDEX idx_full ON user(name, age, email);
+
       -- idx_full already serves equality/range lookups on name; no extra index needed
-    summary: Detects duplicate or redundant indexes whose leading columns another index already covers; they only add write and storage cost, so drop them.
+
+      '
+    summary: Detects duplicate or redundant indexes whose leading columns another
+      index already covers; they only add write and storage cost, so drop them.
+    editorial:
+      status: draft
+      owners: []
   zh:
     name: 禁止创建重复索引/冗余索引
-    description: 禁止创建重复或冗余的索引。重复索引（完全相同的列组合）和冗余索引（新索引的前缀列已被现有索引覆盖）不会带来任何查询性能提升，反而会浪费存储空间并降低写入性能——每次 INSERT/UPDATE/DELETE 都需要维护所有这些多余的索引结构。在数据量大的表上，冗余索引的额外维护开销可能十分显著。
+    description: 禁止创建重复或冗余的索引。重复索引（完全相同的列组合）和冗余索引（新索引的前缀列已被现有索引覆盖）不会带来任何查询性能提升，反而会浪费存储空间并降低写入性能——每次
+      INSERT/UPDATE/DELETE 都需要维护所有这些多余的索引结构。在数据量大的表上，冗余索引的额外维护开销可能十分显著。
     whyItMatters: 重复/冗余索引对查询没有任何帮助，却持续占用磁盘空间，并在每次写入时被额外维护，拖慢 DML 却不提升任何查询。
     howToFix: 创建索引前应仔细分析现有索引的列组合，确保新索引确实覆盖了现有索引未能覆盖的查询模式；如现有索引已能满足需求，则不应重复创建，并删除前缀列已被现有索引完全覆盖的多余索引。
-    badExample: |
-      -- 不推荐：冗余索引，idx_name_dup 已被 idx_full 的前缀覆盖
+    badExample: '-- 不推荐：冗余索引，idx_name_dup 已被 idx_full 的前缀覆盖
+
       CREATE INDEX idx_full ON user(name, age, email);
+
       CREATE INDEX idx_name_dup ON user(name);
-    goodExample: |
-      -- 推荐：仅创建必要的、非冗余的索引
+
+      '
+    goodExample: '-- 推荐：仅创建必要的、非冗余的索引
+
       CREATE INDEX idx_full ON user(name, age, email);
+
       -- idx_full 已经可以满足 name 列的等值/范围查询，无需额外索引
+
+      '
     summary: 检测重复/冗余索引：其前缀列已被其它索引覆盖，只会增加写入与存储成本，应删除。
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

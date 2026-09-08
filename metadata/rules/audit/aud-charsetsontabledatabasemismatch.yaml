@@ -11,28 +11,48 @@ tags:
 content:
   zh:
     name: 表的字符集和数据库不一致
-    description: |-
-      要求表的字符集必须与数据库的字符集保持一致，以避免字符集不一致导致的数据问题。当表的字符集与数据库字符集不同时，跨表查询或数据迁移可能触发隐式字符集转换，增加 CPU 开销、影响索引使用效率，严重时还可能导致乱码和数据丢失。
-      建议在创建表时不指定字符集，使其自动继承数据库的默认字符集。如果必须指定，应确保与数据库完全一致。
-    badExample: |-
-      -- ❌ 不推荐：表的字符集与数据库不一致
+    description: '要求表的字符集必须与数据库的字符集保持一致，以避免字符集不一致导致的数据问题。当表的字符集与数据库字符集不同时，跨表查询或数据迁移可能触发隐式字符集转换，增加
+      CPU 开销、影响索引使用效率，严重时还可能导致乱码和数据丢失。
+
+      建议在创建表时不指定字符集，使其自动继承数据库的默认字符集。如果必须指定，应确保与数据库完全一致。'
+    badExample: '-- ❌ 不推荐：表的字符集与数据库不一致
+
       -- 假设数据库字符集为 utf8mb4
-      CREATE TABLE t (id INT) DEFAULT CHARSET = latin1;
-    goodExample: |-
-      -- ✅ 推荐：表继承数据库默认字符集，保持一致
-      CREATE TABLE t (id INT);
+
+      CREATE TABLE t (id INT) DEFAULT CHARSET = latin1;'
+    goodExample: '-- ✅ 推荐：表继承数据库默认字符集，保持一致
+
+      CREATE TABLE t (id INT);'
     summary: 表字符集须与数据库一致，避免隐式转换、乱码或数据丢失；让表继承数据库默认字符集。
+    editorial:
+      status: draft
+      owners: []
   en:
     name: CharsetsOnTable&DatabaseMismatch
-    description: |-
-      This rule requires a table's character set to match the database's, to avoid the data problems caused by inconsistency. When they differ, cross-table queries or data migrations may trigger an implicit character-set conversion, increasing CPU cost, hurting index efficiency, and in severe cases causing mojibake or data loss.
+    description: 'This rule requires a table''s character set to match the database''s,
+      to avoid the data problems caused by inconsistency. When they differ, cross-table
+      queries or data migrations may trigger an implicit character-set conversion,
+      increasing CPU cost, hurting index efficiency, and in severe cases causing mojibake
+      or data loss.
 
-      Prefer not to specify a charset when creating a table so it inherits the database default automatically. If you must specify one, make sure it exactly matches the database.
-    summary: Table and database character sets must match to avoid implicit conversion, mojibake, or data loss; tables should inherit the database default charset.
-    badExample: |-
-      -- bad: table charset differs from the database's
+
+      Prefer not to specify a charset when creating a table so it inherits the database
+      default automatically. If you must specify one, make sure it exactly matches
+      the database.'
+    summary: Table and database character sets must match to avoid implicit conversion,
+      mojibake, or data loss; tables should inherit the database default charset.
+    badExample: '-- bad: table charset differs from the database''s
+
       -- assume the database charset is utf8mb4
-      CREATE TABLE t (id INT) DEFAULT CHARSET = latin1;
-    goodExample: |-
-      -- good: inherit the database default charset so they stay consistent
-      CREATE TABLE t (id INT);
+
+      CREATE TABLE t (id INT) DEFAULT CHARSET = latin1;'
+    goodExample: '-- good: inherit the database default charset so they stay consistent
+
+      CREATE TABLE t (id INT);'
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

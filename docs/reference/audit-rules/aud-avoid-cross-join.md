@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-cross-join
 title: 避免使用CROSS JOIN
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-cross-join
 tags:
 - audit-rule
 - dml
 description: 避免 CROSS JOIN 产生的笛卡尔积（性能陷阱）；应改用带 ON 条件的关联，确需笛卡尔积时加注释说明。
 localeOf: en-audit-rule-aud-avoid-cross-join
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-cross-join
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-cross-join
 | 规则名称 | 避免使用CROSS JOIN |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

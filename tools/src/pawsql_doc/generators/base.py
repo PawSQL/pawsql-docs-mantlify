@@ -33,8 +33,16 @@ def render_page(frontmatter: Dict, body: str) -> str:
 
 
 def write_page(path: Path, content: str) -> None:
+    from pawsql_doc.migration import classify
+    from pawsql_doc.validate import parse_frontmatter
+    data, error = parse_frontmatter(content)
+    if data and not error and "docs" in path.parts:
+        route = "/".join(path.parts[path.parts.index("docs") + 1:])
+        end = content.find("\n---", 4)
+        if end != -1:
+            content = yaml_frontmatter(classify(data, route)) + "\n" + content[end + 4:].lstrip("\r\n")
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(content, encoding="utf-8")
+    path.write_text(content, encoding="utf-8", newline="\n")
 
 
 def generated_note(source_glob: str) -> str:

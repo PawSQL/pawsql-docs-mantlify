@@ -12,6 +12,7 @@ from typing import Dict, Type
 from pydantic import BaseModel
 
 from pawsql_doc import models
+from pawsql_doc.models.governance import SUBTYPES
 
 EXPORTS: Dict[str, Type[BaseModel]] = {
     "frontmatter": models.FrontMatter,
@@ -31,8 +32,23 @@ def export_schemas(root: Path) -> None:
     for name, model in EXPORTS.items():
         target = schema_dir / f"{name}.schema.json"
         schema = model.model_json_schema()
+        if name == "frontmatter":
+            schema["description"] = "Compatibility schema; frontmatter-v2.schema.json defines canonical documents."
         schema.setdefault("description", f"PawSQL {name} content model (generated).")
         target.write_text(
             json.dumps(schema, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
+            encoding="utf-8", newline="\n",
         )
+        if name == "frontmatter":
+            canonical = json.loads(json.dumps(schema))
+            canonical["properties"]["type"] = {"type": "string", "enum": list(SUBTYPES)}
+            canonical["required"] = sorted(set(canonical.get("required", [])) | {"layout", "language", "translationKey", "product"})
+            canonical["properties"]["language"] = {"enum": ["zh", "en"]}
+            canonical["properties"]["product"] = {"const": "pawsql"}
+            canonical["allOf"] = [
+                {"if": {"properties": {"type": {"const": kind}}, "required": ["type"]},
+                 "then": {"properties": {"subtype": {"enum": sorted(allowed, key=str)}},
+                          **({"required": ["subtype"]} if None not in allowed else {})}}
+                for kind, allowed in SUBTYPES.items()
+            ]
+            (schema_dir / "frontmatter-v2.schema.json").write_text(json.dumps(canonical, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")

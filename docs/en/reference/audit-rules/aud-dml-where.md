@@ -3,6 +3,10 @@ id: en-audit-rule-aud-dml-where
 title: UPDATE/DELETE without WHERE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: AUD-DML-WHERE
 tags:
 - audit-rule
 - dml
@@ -13,6 +17,11 @@ description: UPDATE/DELETE without a WHERE clause affects the whole table and is
   common data-loss source; add a predicate, or use TRUNCATE deliberately to clear
   it.
 localeOf: audit-rule-aud-dml-where
+subtype: rule
+language: en
+translationKey: audit-rule-aud-dml-where
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.

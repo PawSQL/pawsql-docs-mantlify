@@ -3,12 +3,21 @@ id: en-audit-rule-aud-changingcolumnnamedisallowed
 title: ChangingColumnNameDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumnnamedisallowed
 tags:
 - audit-rule
 - ddl
 description: 'Do not rename a column directly (breaks every dependent app/report/ETL/view);
   when required use a staged rollout: new column, dual-write, switch, drop old.'
 localeOf: audit-rule-aud-changingcolumnnamedisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-changingcolumnnamedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-changingcolumnnamedisallowed
 | Name | ChangingColumnNameDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

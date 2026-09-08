@@ -3,11 +3,20 @@ id: audit-rule-aud-create-index-using-online-mode
 title: 建议使用在线模式创建索引
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-create-index-using-online-mode
 tags:
 - audit-rule
 - ddl
 description: 建索引优先在线模式（MySQL INPLACE/LOCK=NONE、PostgreSQL CONCURRENTLY），避免大表长锁阻塞 DML。
 localeOf: en-audit-rule-aud-create-index-using-online-mode
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-create-index-using-online-mode
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-create-index-using-online-mode
 | 规则名称 | 建议使用在线模式创建索引 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

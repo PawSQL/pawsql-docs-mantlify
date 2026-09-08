@@ -2,11 +2,18 @@
 id: contributing-style-guide
 title: 风格指南
 description: 写作风格、证据要求与 AI Guardrails（设计说明书 §30-§32）
-type: reference
-product: pawsql-docs
+type: guide
+product: pawsql
 status: draft
-owners: [docs-platform]
-tags: [content-model, style]
+owners:
+- docs-platform
+tags:
+- content-model
+- style
+language: zh
+translationKey: contributing-style-guide
+layout: detail
+subtype: operation
 ---
 
 # 风格指南

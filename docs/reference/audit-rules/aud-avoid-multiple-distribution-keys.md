@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-multiple-distribution-keys
 title: 分布键不建议使用多个字段
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-multiple-distribution-keys
 tags:
 - audit-rule
 - ddl
 description: 多列分布键限制水平扩展、增加哈希与本地化关联难度；建议用单一高频关联字段作分布键。
 localeOf: en-audit-rule-aud-avoid-multiple-distribution-keys
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-multiple-distribution-keys
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-multiple-distribution-keys
 | 规则名称 | 分布键不建议使用多个字段 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

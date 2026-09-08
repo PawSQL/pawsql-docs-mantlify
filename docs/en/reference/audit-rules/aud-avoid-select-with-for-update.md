@@ -3,6 +3,10 @@ id: en-audit-rule-aud-avoid-select-with-for-update
 title: Avoid SELECT with FOR UPDATE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-select-with-for-update
 tags:
 - audit-rule
 - dml
@@ -10,6 +14,11 @@ description: SELECT ... FOR UPDATE adds row locks that cause waits, blocking, an
   deadlocks under concurrency; use it only when pessimistic locking is truly needed,
   on the fewest rows.
 localeOf: audit-rule-aud-avoid-select-with-for-update
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-select-with-for-update
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -20,7 +29,7 @@ localeOf: audit-rule-aud-avoid-select-with-for-update
 | Name | Avoid SELECT with FOR UPDATE |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

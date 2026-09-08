@@ -3,12 +3,21 @@ id: en-audit-rule-aud-commentsontablerequired
 title: CommentsOnTableRequired
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-commentsontablerequired
 tags:
 - audit-rule
 - ddl
 description: CREATE TABLE should carry a table COMMENT (business purpose, data source,
   lifecycle); applies to engines supporting table comments such as MySQL.
 localeOf: audit-rule-aud-commentsontablerequired
+subtype: rule
+language: en
+translationKey: audit-rule-aud-commentsontablerequired
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-commentsontablerequired
 | Name | CommentsOnTableRequired |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

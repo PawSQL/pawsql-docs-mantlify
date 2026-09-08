@@ -3,12 +3,21 @@ id: en-audit-rule-aud-changingcolumns-order-disallowed
 title: ChangingColumn's Order Disallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumns-order-disallowed
 tags:
 - audit-rule
 - ddl
 description: Reordering table columns triggers a rebuild and can break position-dependent
   code; fix order at design time and migrate via a new table if needed.
 localeOf: audit-rule-aud-changingcolumns-order-disallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-changingcolumns-order-disallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-changingcolumns-order-disallowed
 | Name | ChangingColumn's Order Disallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

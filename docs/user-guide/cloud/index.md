@@ -2,10 +2,20 @@
 id: zh-user-guide-cloud-index
 title: PawSQL Cloud 使用手册
 description: PawSQL Cloud 产品概述：能力范围、核心功能与支持的数据库。
-type: user-guide
-product: pawsql-cloud
+type: guide
+product: pawsql
 status: draft
-tags: [cloud, saas, user-guide, zh]
+tags:
+- cloud
+- saas
+- user-guide
+- zh
+subtype: operation
+language: zh
+translationKey: user-guide-cloud-index
+layout: detail
+deployments:
+- public-cloud
 ---
 
 # PawSQL Cloud 使用手册

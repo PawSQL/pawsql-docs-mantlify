@@ -2,11 +2,14 @@
 # Feature for canonical audit rule: Expression in ORDER BY causes index invalidation.
 id: AUDIT-EXPR-ORDER-BY
 name: Expression in ORDER BY Causes Index Invalidation
-type: optimizer
-product: pawsql-optimizer
+product: pawsql
 status: released
 documentation:
   reference:
     required: true
-    paths:
-      - docs/reference/audit-rules/aud-expression-in-order-by.md
+    paths: []
+    documents:
+    - documentId: audit-rule-aud-expression-in-order-by
+      language: zh
+components:
+- optimizer

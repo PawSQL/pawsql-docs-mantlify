@@ -11,38 +11,43 @@ tags:
 content:
   zh:
     name: 分布式数据库不建议创建非分布表
-    description: |-
-      在分布式数据库中，非分布表（如 `DISTRIBUTED BY LOCAL`）的数据仅存储在单个节点上，容易成为性能瓶颈和单点故障。当多个查询同时访问该表时，所有请求都会集中到一个节点，无法充分利用分布式架构的并行计算能力。
-      此外，非分布表与分布表进行关联操作时，通常需要将分布表的数据重分布到非分布表所在的节点，产生大量的网络传输开销。建议所有业务表均使用合理的分布策略，充分利用分布式数据库的水平扩展优势。
-    badExample: |-
-      -- ❌ 不推荐：在分布式环境中创建本地表/非分布表
-      CREATE TABLE large_table (
-          id   BIGINT,
-          data TEXT
-      ) DISTRIBUTED BY LOCAL;
-    goodExample: |-
-      -- ✅ 推荐：使用 HASH 分布，数据均匀分散到各节点
-      CREATE TABLE large_table (
-          id   BIGINT,
-          data TEXT
-      ) DISTRIBUTED BY HASH (id);
+    description: '在分布式数据库中，非分布表（如 `DISTRIBUTED BY LOCAL`）的数据仅存储在单个节点上，容易成为性能瓶颈和单点故障。当多个查询同时访问该表时，所有请求都会集中到一个节点，无法充分利用分布式架构的并行计算能力。
+
+      此外，非分布表与分布表进行关联操作时，通常需要将分布表的数据重分布到非分布表所在的节点，产生大量的网络传输开销。建议所有业务表均使用合理的分布策略，充分利用分布式数据库的水平扩展优势。'
+    badExample: "-- ❌ 不推荐：在分布式环境中创建本地表/非分布表\nCREATE TABLE large_table (\n    id  \
+      \ BIGINT,\n    data TEXT\n) DISTRIBUTED BY LOCAL;"
+    goodExample: "-- ✅ 推荐：使用 HASH 分布，数据均匀分散到各节点\nCREATE TABLE large_table (\n    id\
+      \   BIGINT,\n    data TEXT\n) DISTRIBUTED BY HASH (id);"
     summary: 分布式数据库应避免非分布表（单点瓶颈、关联需重分布）；业务表用 HASH 分布。
+    editorial:
+      status: draft
+      owners: []
   en:
     name: Avoid Non-Distributed Tables
-    description: |-
-      In a distributed database, a non-distributed (local) table such as `DISTRIBUTED BY LOCAL` stores its data on a single node, making it a performance bottleneck and a single point of failure. When many queries access the table at once, all requests concentrate on one node and the parallel capabilities of the distributed architecture go unused.
+    description: 'In a distributed database, a non-distributed (local) table such
+      as `DISTRIBUTED BY LOCAL` stores its data on a single node, making it a performance
+      bottleneck and a single point of failure. When many queries access the table
+      at once, all requests concentrate on one node and the parallel capabilities
+      of the distributed architecture go unused.
 
-      Besides that, joining a non-distributed table with distributed tables usually requires redistributing the distributed table's data onto the local table's node, producing heavy network traffic. Prefer a sound distribution strategy for every business table so the distributed database's horizontal-scaling advantage is fully used.
-    summary: 'Avoid local/non-distributed tables in distributed databases: they become single-node bottlenecks and force redistribution on joins; use HASH distribution.'
-    badExample: |-
-      -- bad: creating a local/non-distributed table in a distributed environment
-      CREATE TABLE large_table (
-          id   BIGINT,
-          data TEXT
-      ) DISTRIBUTED BY LOCAL;
-    goodExample: |-
-      -- good: HASH distribution spreads data evenly across nodes
-      CREATE TABLE large_table (
-          id   BIGINT,
-          data TEXT
-      ) DISTRIBUTED BY HASH (id);
+
+      Besides that, joining a non-distributed table with distributed tables usually
+      requires redistributing the distributed table''s data onto the local table''s
+      node, producing heavy network traffic. Prefer a sound distribution strategy
+      for every business table so the distributed database''s horizontal-scaling advantage
+      is fully used.'
+    summary: 'Avoid local/non-distributed tables in distributed databases: they become
+      single-node bottlenecks and force redistribution on joins; use HASH distribution.'
+    badExample: "-- bad: creating a local/non-distributed table in a distributed environment\n\
+      CREATE TABLE large_table (\n    id   BIGINT,\n    data TEXT\n) DISTRIBUTED BY\
+      \ LOCAL;"
+    goodExample: "-- good: HASH distribution spreads data evenly across nodes\nCREATE\
+      \ TABLE large_table (\n    id   BIGINT,\n    data TEXT\n) DISTRIBUTED BY HASH\
+      \ (id);"
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

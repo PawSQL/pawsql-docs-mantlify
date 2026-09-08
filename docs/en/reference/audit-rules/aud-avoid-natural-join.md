@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-natural-join
 title: Avoid NATURAL JOIN
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-natural-join
 tags:
 - audit-rule
 - dml
 description: NATURAL JOIN's implicit join conditions hurt readability and silently
   change when the schema changes; use explicit JOIN ... ON.
 localeOf: audit-rule-aud-avoid-natural-join
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-natural-join
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-natural-join
 | Name | Avoid NATURAL JOIN |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

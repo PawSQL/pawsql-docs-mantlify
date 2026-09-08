@@ -1,0 +1,10 @@
+id: pawsql
+name: PawSQL
+description: Unified PawSQL product. Cloud is a public deployment, not a separate product.
+content:
+  zh:
+    name: PawSQL
+    description: PawSQL 是统一产品，Engine、Optimizer、Auditor、Advisor、Patroller 为组件或交付形态；Cloud 为公网部署形态。
+  en:
+    name: PawSQL
+    description: One PawSQL product with components and delivery forms; Cloud denotes public deployment.

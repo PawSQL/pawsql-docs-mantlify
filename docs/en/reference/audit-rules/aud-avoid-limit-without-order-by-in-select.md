@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-limit-without-order-by-in-select
 title: Avoid LIMIT Without ORDER BY in SELECT
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-limit-without-order-by-in-select
 tags:
 - audit-rule
 - dml
 description: SELECT ... LIMIT without ORDER BY returns nondeterministic rows; always
   add ORDER BY to define which rows are returned.
 localeOf: audit-rule-aud-avoid-limit-without-order-by-in-select
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-limit-without-order-by-in-select
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-limit-without-order-by-in-select
 | Name | Avoid LIMIT Without ORDER BY in SELECT |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -130,46 +130,80 @@ def _cmd_export_schemas(root: Path, _args: argparse.Namespace) -> int:
 
 def _cmd_build_references(root: Path, _args: argparse.Namespace) -> int:
     _abort_if_broken(root)
-    bundle, issues = load_metadata(root)
-    written = build_references(root, bundle)
+    from pawsql_doc.build import build
+    try:
+        written, stale = build(root, _args.mode, Path(_args.output) if _args.output else None)
+    except ValueError as exc:
+        print(f"FAIL {exc}", file=sys.stderr)
+        return 1
     for p in written:
-        print(f"  wrote {p.relative_to(root).as_posix()}")
+        print(f"  wrote {p}")
+    for p in stale:
+        print(f"STALE (not deleted): {p}")
     print(f"PASS  generated {len(written)} reference page(s)")
     return 0
 
 
+def _cmd_migrate(root, args):
+    from pawsql_doc.migration import migrate, migrate_metadata
+    changes = migrate(root, args.apply) + migrate_metadata(root, args.apply)
+    for path in changes:
+        print(path)
+    print(f"{'Applied' if args.apply else 'Dry run'}: {len(changes)} files")
+    return 0
+
+
+def _cmd_quality(root, args):
+    from pawsql_doc.quality import quality_report, write_report
+    report = quality_report(root, publication=args.release)
+    for key, values in report.items():
+        print(f"{key}: {len(values)} issue(s)")
+    if args.write_report:
+        print(write_report(root, report))
+    return int(bool(report['structure'] or report['existence'] or (args.release and any(report.values()))))
+
+
+def _cmd_inventory(root, args):
+    import json
+    from pawsql_doc.migration import inventory
+    result = inventory(root)
+    if args.output:
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(result, default=str, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    else:
+        print(json.dumps(result, default=str, ensure_ascii=False, indent=2))
+    return 0
+
+
 def _cmd_generate_rule(root: Path, args: argparse.Namespace) -> int:
-    counts = _abort_if_broken(root)
+    _abort_if_broken(root)
     bundle, issues = load_metadata(root)
-    paths = generate_single_rule(root, bundle, args.rule)
-    if not paths:
+    if not any(r.id.lower() == args.rule.lower() for rules in bundle.rules.values() for r in rules):
         print(f"FAIL  rule '{args.rule}' not found", file=sys.stderr)
         return 1
-    for path in paths:
-        print(f"  wrote {path.relative_to(root).as_posix()}")
-    return 0
+    print("Refreshing references and catalogs together to preserve manifest consistency.")
+    return _cmd_build_references(root, argparse.Namespace(mode="preview", output=None))
 
 
 def _cmd_generate_database(root: Path, args: argparse.Namespace) -> int:
     _abort_if_broken(root)
     bundle, issues = load_metadata(root)
-    path = generate_single_database(root, bundle, args.database)
-    if path is None:
+    if not any(db.database.lower() == args.database.lower() for db in bundle.databases):
         print(f"FAIL  database '{args.database}' not found", file=sys.stderr)
         return 1
-    print(f"  wrote {path.relative_to(root).as_posix()}")
-    return 0
+    print("Refreshing references and catalogs together to preserve manifest consistency.")
+    return _cmd_build_references(root, argparse.Namespace(mode="preview", output=None))
 
 
 def _cmd_generate_config(root: Path, args: argparse.Namespace) -> int:
     _abort_if_broken(root)
     bundle, issues = load_metadata(root)
-    path = generate_single_config(root, bundle, args.config)
-    if path is None:
+    if not any(cfg.name.lower() == args.config.lower() for cfg in bundle.configs):
         print(f"FAIL  config '{args.config}' not found", file=sys.stderr)
         return 1
-    print(f"  wrote {path.relative_to(root).as_posix()}")
-    return 0
+    print("Refreshing references and catalogs together to preserve manifest consistency.")
+    return _cmd_build_references(root, argparse.Namespace(mode="preview", output=None))
 
 
 def _print_coverage(lines) -> None:
@@ -202,9 +236,9 @@ def _cmd_gate(root: Path, _args: argparse.Namespace) -> int:
     for line in format_issues(missing):
         print(line, file=sys.stderr)
     if passed:
-        print("PASS  release gate: required documentation coverage = 100%")
+        print("PASS  existence gate: required documentation coverage = 100% (not publication approval)")
         return 0
-    print("FAIL  release gate: required documentation coverage < 100%", file=sys.stderr)
+    print("FAIL  existence gate: required documentation coverage < 100%", file=sys.stderr)
     return 1
 
 
@@ -220,9 +254,21 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("drift", help="Report required docs missing between metadata and content (exit 1 on gaps)")
     sub.add_parser("coverage", help="Print documentation coverage per category")
-    sub.add_parser("gate", help="Release gate: fail unless required coverage = 100%")
+    sub.add_parser("gate", help="Existence gate: required file coverage must be complete")
+
+    p = sub.add_parser("migrate-content-model", help="Idempotent v2 migration (dry-run by default)")
+    choices = p.add_mutually_exclusive_group()
+    choices.add_argument("--apply", action="store_true")
+    choices.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("quality", help="Structure, existence, completeness and release readiness")
+    p.add_argument("--release", action="store_true")
+    p.add_argument("--write-report", action="store_true")
+    p = sub.add_parser("inventory", help="Read-only content inventory")
+    p.add_argument("--output")
 
     p = sub.add_parser("build-references", help="Regenerate all metadata-driven reference pages")
+    p.add_argument("--mode", choices=["preview", "release"], default="preview")
+    p.add_argument("--output")
     p = sub.add_parser("generate-rule", help="Generate one rule reference page")
     p.add_argument("--rule", required=True)
     p = sub.add_parser("ingest-rules", help="P0.0.5: vault rule docs -> RuleMetadata yaml skeletons (dry-run by default)")
@@ -252,6 +298,9 @@ def main(argv: List[str] | None = None) -> int:
         print(exc, file=sys.stderr)
         return 2
     handler = {
+        "migrate-content-model": _cmd_migrate,
+        "quality": _cmd_quality,
+        "inventory": _cmd_inventory,
         "validate-metadata": _cmd_validate_metadata,
         "validate-frontmatter": _cmd_validate_frontmatter,
         "validate-nav": _cmd_validate_nav,

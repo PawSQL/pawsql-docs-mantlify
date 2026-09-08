@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-natural-join
 title: 避免使用NATURAL JOIN
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-natural-join
 tags:
 - audit-rule
 - dml
 description: 避免 NATURAL JOIN（隐式连接条件可读性差、表结构变化会悄然改变语义）；用显式 JOIN ... ON。
 localeOf: en-audit-rule-aud-avoid-natural-join
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-natural-join
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-natural-join
 | 规则名称 | 避免使用NATURAL JOIN |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -3,12 +3,21 @@ id: en-audit-rule-aud-column-and-table-character-set-mismatch
 title: Column and Table Character Set Mismatch
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-column-and-table-character-set-mismatch
 tags:
 - audit-rule
 - ddl
 description: Column and table character sets must match to avoid conversion, truncation,
   mojibake, and JOIN index invalidation; columns should inherit the table charset.
 localeOf: audit-rule-aud-column-and-table-character-set-mismatch
+subtype: rule
+language: en
+translationKey: audit-rule-aud-column-and-table-character-set-mismatch
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-column-and-table-character-set-mismatch
 | Name | Column and Table Character Set Mismatch |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

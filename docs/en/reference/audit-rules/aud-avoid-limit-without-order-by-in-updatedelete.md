@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-limit-without-order-by-in-updatedelete
 title: Avoid LIMIT Without ORDER BY in UPDATE/DELETE
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-limit-without-order-by-in-updatedelete
 tags:
 - audit-rule
 - dml
 description: UPDATE/DELETE ... LIMIT without ORDER BY touches nondeterministic rows;
   pair LIMIT with ORDER BY (or a WHERE subquery on PostgreSQL/openGauss).
 localeOf: audit-rule-aud-avoid-limit-without-order-by-in-updatedelete
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-limit-without-order-by-in-updatedelete
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-limit-without-order-by-in-updatedelete
 | Name | Avoid LIMIT Without ORDER BY in UPDATE/DELETE |
 | Category | dml — DML / data modification |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

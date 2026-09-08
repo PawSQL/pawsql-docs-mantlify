@@ -3,12 +3,21 @@ id: en-audit-rule-aud-consider-replicated-distribution-for-small-table
 title: Consider Replicated Distribution for Small Tables
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-consider-replicated-distribution-for-small-table
 tags:
 - audit-rule
 - ddl
 description: Small distributed tables (below ~100k rows, read-heavy) are often better
   as replicated tables so joins avoid cross-node data exchange.
 localeOf: audit-rule-aud-consider-replicated-distribution-for-small-table
+subtype: rule
+language: en
+translationKey: audit-rule-aud-consider-replicated-distribution-for-small-table
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-consider-replicated-distribution-for-small-table
 | Name | Consider Replicated Distribution for Small Tables |
 | Category | ddl — DDL / object design |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

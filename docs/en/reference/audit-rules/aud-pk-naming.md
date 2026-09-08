@@ -3,12 +3,21 @@ id: en-audit-rule-aud-pk-naming
 title: Primary Key Naming Convention
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-pk-naming
 tags:
 - audit-rule
 - ddl
 description: Primary-key constraints should follow one naming convention (e.g. pk_<table>_<columns>)
   so the constraint type and table are recognizable at a glance.
 localeOf: audit-rule-aud-pk-naming
+subtype: rule
+language: en
+translationKey: audit-rule-aud-pk-naming
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-pk-naming
 | Name | Primary Key Naming Convention |
 | Category | ddl — DDL / object design |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

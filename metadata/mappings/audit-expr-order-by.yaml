@@ -1,6 +1,7 @@
-feature: AUDIT-EXPR-ORDER-BY
 
+feature: AUDIT-EXPR-ORDER-BY
 documents:
-  - path: docs/reference/audit-rules/aud-expression-in-order-by.md
-    relation: reference
-    required: true
+- relation: reference
+  required: true
+  documentId: audit-rule-aud-expression-in-order-by
+  language: zh

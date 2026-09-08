@@ -26,14 +26,27 @@ jobs:
         working-directory: tools
         run: python -m pawsql_doc --root .. validate-frontmatter
 
+      - name: Content model structure and quality report
+        working-directory: tools
+        run: python -m pawsql_doc --root .. quality --write-report
+
+      - name: Upload quality report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-quality
+          path: reports/content-quality.json
+
       - name: Regenerate references
         working-directory: tools
         run: python -m pawsql_doc --root .. build-references
 
       - name: References are committed (no diff after regeneration)
-        run: git diff --exit-code -- docs/reference docs/en/reference docs/en/databases
+        run: |
+          git diff --exit-code -- docs metadata/documentation/generated-manifest.json
+          test -z "$(git ls-files --others --exclude-standard -- docs metadata/documentation/generated-manifest.json)"
 
-      - name: Drift and release gate
+      - name: Required-document existence gate (not publication approval)
         working-directory: tools
         run: python -m pawsql_doc --root .. drift && python -m pawsql_doc --root .. gate
 

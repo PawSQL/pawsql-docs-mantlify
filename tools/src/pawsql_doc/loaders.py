@@ -132,6 +132,42 @@ def load_metadata(root: Path) -> Tuple[MetadataBundle, List[Issue]]:
     bundle.policies = policies
     issues.extend(errs)
 
+    # Resolve stable document identity for legacy path-based gate consumers.
+    from pawsql_doc.validate import content_files, parse_frontmatter
+    docs_by_id = {}
+    for path in content_files(root):
+        data, error = parse_frontmatter(path.read_text(encoding="utf-8-sig"))
+        if data and not error:
+            docs_by_id.setdefault(data.get("id"), []).append((path, data.get("language")))
+    def resolve(document_id, language):
+        candidates = [(p, lang) for p, lang in docs_by_id.get(document_id, []) if language is None or language == lang]
+        # Missing generated files must remain rebuildable; their identity comes
+        # from active metadata, not from the existence of a previous artifact.
+        if not candidates:
+            from pawsql_doc.generators.rule_generator import _page_id, _rule_folder
+            from pawsql_doc.generators.base import slug
+            for kind, rules in bundle.rules.items():
+                for rule in rules:
+                    for lang in ("zh", "en"):
+                        if getattr(rule.content, lang) is not None and language in (None, lang) and _page_id(kind, rule, lang) == document_id:
+                            candidates.append((root / "docs" / ("en" if lang == "en" else "") / "reference" / _rule_folder(kind) / f"{slug(rule.id)}.md", lang))
+        if len(candidates) != 1:
+            issues.append(Issue(file="metadata/mappings", field="documentId", reason=f"unresolved or ambiguous document: {document_id}/{language}"))
+            return ""
+        return candidates[0][0].relative_to(root).as_posix()
+    for mapping in bundle.mappings:
+        for doc in mapping.documents:
+            if doc.documentId:
+                resolved = resolve(doc.documentId, doc.language)
+                if doc.path and doc.path != resolved:
+                    issues.append(Issue(file="metadata/mappings", field="path", reason="path conflicts with documentId"))
+                doc.path = resolved
+    for feature in bundle.features:
+        for requirement in (feature.documentation.reference, feature.documentation.userGuide, feature.documentation.releaseNote, feature.documentation.blog):
+            for ref in requirement.documents:
+                resolved = resolve(ref.documentId, ref.language)
+                if resolved and resolved not in requirement.paths:
+                    requirement.paths.append(resolved)
     return bundle, issues
 
 

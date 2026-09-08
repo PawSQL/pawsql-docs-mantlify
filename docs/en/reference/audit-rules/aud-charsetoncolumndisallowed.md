@@ -3,12 +3,21 @@ id: en-audit-rule-aud-charsetoncolumndisallowed
 title: CharsetOnColumnDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetoncolumndisallowed
 tags:
 - audit-rule
 - ddl
 description: Per-column character sets cause implicit conversion on JOIN (index invalidation,
   full scans) and comparison bugs; set the charset uniformly at table level.
 localeOf: audit-rule-aud-charsetoncolumndisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-charsetoncolumndisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-charsetoncolumndisallowed
 | Name | CharsetOnColumnDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -129,35 +129,42 @@ def _nav_page_targets(root: Path) -> List[str]:
     if not docs_json.is_file():
         return targets
     data = json.loads(docs_json.read_text(encoding="utf-8-sig"))
-    languages = (data or {}).get("navigation", {}).get("languages", [])
-    for lang in languages:
-        for tab in lang.get("tabs", []):
-            for group in tab.get("groups", []):
-                for page in group.get("pages", []):
-                    if isinstance(page, str):
-                        targets.append(page)
+    def walk(node):
+        if isinstance(node, dict):
+            for key, value in node.items():
+                if key == "pages":
+                    targets.extend(p for p in value if isinstance(p, str) and not p.startswith(("GET ", "POST ", "PUT ", "PATCH ", "DELETE ", "https://", "http://")))
+                if key == "root" and isinstance(value, str):
+                    targets.append(value)
+                if isinstance(value, (dict, list)):
+                    walk(value)
+        elif isinstance(node, list):
+            for item in node:
+                walk(item)
+    walk((data or {}).get("navigation", {}))
     return targets
 
 
 def validate_nav(root: Path) -> List[Issue]:
     """Navigation = publish (B3): pages listed in docs.json must not be draft/review.
 
-    Only pages that exist on disk are checked; an aspirational nav may reference
-    pages that have not been authored yet (that is a preview concern, not a
-    publication one). Enforcement is meaningful once content is promoted to
-    published/approved.
+    Missing targets and invalid front matter also block publication.
     """
     issues: List[Issue] = []
     content_root = root / "docs"
     for page in _nav_page_targets(root):
         path = content_root / f"{page}.md"
         if not path.is_file():
+            path = content_root / f"{page}.mdx"
+        if not path.is_file():
+            issues.append(Issue(file="docs/docs.json", field=page, reason="navigation target missing"))
             continue
         parsed = _page_frontmatter(root, path)
         if parsed is None:
+            issues.append(Issue(file="docs/docs.json", field=page, reason="navigation target has invalid front matter"))
             continue
         rel, fm = parsed
-        if fm.status in (DocStatus.DRAFT, DocStatus.REVIEW):
+        if fm.status not in (DocStatus.APPROVED, DocStatus.PUBLISHED):
             issues.append(
                 Issue(
                     file="docs/docs.json",

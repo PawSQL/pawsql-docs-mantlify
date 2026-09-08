@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-scalar-subqueries
 title: Avoid Scalar Subqueries
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-scalar-subqueries
 tags:
 - audit-rule
 - dml
 description: Scalar subqueries run once per outer row and can fail at run time; prefer
   a JOIN or derived table.
 localeOf: audit-rule-aud-avoid-scalar-subqueries
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-scalar-subqueries
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-scalar-subqueries
 | Name | Avoid Scalar Subqueries |
 | Category | dml — DML / data modification |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

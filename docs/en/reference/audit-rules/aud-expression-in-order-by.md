@@ -3,12 +3,21 @@ id: en-audit-rule-aud-expression-in-order-by
 title: Expression in ORDER BY Causes Index Invalidation
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-expression-in-order-by
 tags:
 - audit-rule
 - index
 description: ORDER BY on an expression or function (YEAR, LENGTH) makes the underlying
   column index unusable for sorting and adds a filesort; order by the bare column.
 localeOf: audit-rule-aud-expression-in-order-by
+subtype: rule
+language: en
+translationKey: audit-rule-aud-expression-in-order-by
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-expression-in-order-by
 | Name | Expression in ORDER BY Causes Index Invalidation |
 | Category | index — Index |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -1,8 +1,0 @@
-# SAMPLE — example metadata, to be verified against the product catalog.
-id: pawsql-optimizer
-name: PawSQL Optimizer
-kind: optimizer
-description: >-
-  Automatic SQL optimization engine: cost-based index recommendation and
-  semantic query rewrite for MySQL, PostgreSQL, Oracle, openGauss and more.
-tags: [optimizer, rewrite, index]

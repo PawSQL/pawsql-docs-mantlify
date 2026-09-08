@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
 title: 分布式数据库应避免跨分片的 DML 操作
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-crossshard-dml-operations-in-distributed-d
 tags:
 - audit-rule
 - dml
 description: UPDATE/DELETE 的 WHERE 未含分布键等值会跨分片触发分布式事务（慢且易死锁）；应加分布键等值条件。
 localeOf: en-audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-crossshard-dml-operations-in-distributed-d
 | 规则名称 | 分布式数据库应避免跨分片的 DML 操作 |
 | 类别 | dml（数据操作） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

@@ -14,9 +14,46 @@
           },
           "title": "Paths",
           "type": "array"
+        },
+        "documents": {
+          "items": {
+            "$ref": "#/$defs/DocumentRef"
+          },
+          "title": "Documents",
+          "type": "array"
         }
       },
       "title": "DocRequirement",
+      "type": "object"
+    },
+    "DocumentRef": {
+      "additionalProperties": false,
+      "properties": {
+        "documentId": {
+          "title": "Documentid",
+          "type": "string"
+        },
+        "language": {
+          "anyOf": [
+            {
+              "enum": [
+                "zh",
+                "en"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Language"
+        }
+      },
+      "required": [
+        "documentId"
+      ],
+      "title": "DocumentRef",
       "type": "object"
     },
     "DocumentationRequirements": {
@@ -38,6 +75,117 @@
       "title": "DocumentationRequirements",
       "type": "object"
     },
+    "Editorial": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "review",
+            "approved",
+            "scheduled",
+            "published",
+            "archived"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "owners": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Owners",
+          "type": "array"
+        },
+        "lastReviewed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lastreviewed"
+        },
+        "reviewCycle": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewcycle"
+        }
+      },
+      "title": "Editorial",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "supports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supports",
+          "type": "array"
+        },
+        "status": {
+          "default": "pending",
+          "enum": [
+            "pending",
+            "verified",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "verifiedBy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verifiedby"
+        },
+        "verifiedAt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verifiedat"
+        }
+      },
+      "required": [
+        "id",
+        "source"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
     "FeatureStatus": {
       "enum": [
         "planned",
@@ -47,6 +195,94 @@
       ],
       "title": "FeatureStatus",
       "type": "string"
+    },
+    "LocalizedText": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Summary"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        },
+        "keyFeatures": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Keyfeatures",
+          "type": "array"
+        },
+        "example": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Example"
+        },
+        "editorial": {
+          "$ref": "#/$defs/Editorial"
+        },
+        "translation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Translation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "LocalizedText",
+      "type": "object"
     },
     "ProductKind": {
       "enum": [
@@ -63,6 +299,113 @@
       ],
       "title": "ProductKind",
       "type": "string"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Repository"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "title": "Source",
+      "type": "object"
+    },
+    "TextBundle": {
+      "additionalProperties": false,
+      "properties": {
+        "zh": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LocalizedText"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "en": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LocalizedText"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "title": "TextBundle",
+      "type": "object"
+    },
+    "Translation": {
+      "additionalProperties": false,
+      "properties": {
+        "sourceLanguage": {
+          "enum": [
+            "zh",
+            "en"
+          ],
+          "title": "Sourcelanguage",
+          "type": "string"
+        },
+        "sourceDigest": {
+          "title": "Sourcedigest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceLanguage",
+        "sourceDigest"
+      ],
+      "title": "Translation",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -78,7 +421,15 @@
       "type": "string"
     },
     "type": {
-      "$ref": "#/$defs/ProductKind"
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ProductKind"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
     },
     "product": {
       "description": "Product id the feature ships in, e.g. pawsql-optimizer.",
@@ -117,12 +468,35 @@
     },
     "documentation": {
       "$ref": "#/$defs/DocumentationRequirements"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "capabilities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "content": {
+      "$ref": "#/$defs/TextBundle"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
     }
   },
   "required": [
     "id",
     "name",
-    "type",
     "product"
   ],
   "title": "FeatureManifest",

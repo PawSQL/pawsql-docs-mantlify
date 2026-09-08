@@ -3,12 +3,21 @@ id: en-audit-rule-aud-avoid-nondistributed-tables
 title: Avoid Non-Distributed Tables
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-nondistributed-tables
 tags:
 - audit-rule
 - ddl
 description: 'Avoid local/non-distributed tables in distributed databases: they become
   single-node bottlenecks and force redistribution on joins; use HASH distribution.'
 localeOf: audit-rule-aud-avoid-nondistributed-tables
+subtype: rule
+language: en
+translationKey: audit-rule-aud-avoid-nondistributed-tables
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-avoid-nondistributed-tables
 | Name | Avoid Non-Distributed Tables |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

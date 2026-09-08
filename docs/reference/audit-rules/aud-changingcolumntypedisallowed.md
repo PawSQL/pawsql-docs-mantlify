@@ -3,11 +3,20 @@ id: audit-rule-aud-changingcolumntypedisallowed
 title: 禁止修改列的数据类型
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-changingcolumntypedisallowed
 tags:
 - audit-rule
 - ddl
 description: 禁止直接改列类型（全表重写/锁表/截断风险）；用灰度迁移：新列→双写→分批回填→切换→下线。
 localeOf: en-audit-rule-aud-changingcolumntypedisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-changingcolumntypedisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-changingcolumntypedisallowed
 | 规则名称 | 禁止修改列的数据类型 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

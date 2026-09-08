@@ -1,39 +1,35 @@
 ---
 id: database-postgresql
-title: PostgreSQL Support
+translationKey: database-postgresql
+language: en
+title: PostgreSQL
 type: reference
 status: draft
-tags:
-- database
-- postgresql
-description: PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads,
-  including the newest supported release line.
+entityRef:
+  type: database
+  id: database-postgresql
+owners: []
+subtype: database
+layout: detail
+product: pawsql
 ---
 
-> **Generated file.** Do not edit by hand — change the source metadata (`metadata/databases/postgresql.yaml`) and re-run the generator.
+# PostgreSQL
 
-## Supported Versions
-
-| Database | Versions |
-|---|---|
-| PostgreSQL | 14, 15, 16, 17, 18 |
-
-## Feature Support
-
-| Feature | Supported |
-|---|---|
-| optimizer | Yes |
-| audit | Yes |
-| planVisualizer | No |
-
-## Key Features
-
-- Cost-based index recommendation
-- Semantic query rewrite (e.g. OR-to-UNION, subquery to join)
-- SQL audit rule review
-
-## Overview
+| Database | Versions | Capability | Status |
+|---|---|---|---|
+| postgresql | 14, 15, 16, 17, 18 | sql-rewrite | unknown |
+| postgresql | 14, 15, 16, 17, 18 | sql-audit | unknown |
+| postgresql | 14, 15, 16, 17, 18 | plan-visualization | unknown |
 
 PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads, including the newest supported release line.
 
-> Note: Version list is sample data pending confirmation from the product team.
+- Cost-based index recommendation
+
+- Semantic query rewrite (e.g. OR-to-UNION, subquery to join)
+
+- SQL audit rule review
+
+Version list is sample data pending confirmation from the product team.
+
+Unknown means compatibility has not been verified.

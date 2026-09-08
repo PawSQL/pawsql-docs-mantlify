@@ -3,12 +3,21 @@ id: en-optimizer-rule-opt-count-to-exists
 title: COUNT Scalar Subquery Rewrite
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-count-to-exists
 tags:
 - optimizer-rule
 - rewrite
 description: Rewrites (SELECT COUNT(*) ...) > 0 presence tests into EXISTS, which
   short-circuits on the first match instead of aggregating every row.
 localeOf: optimizer-rule-opt-count-to-exists
+subtype: rule
+language: en
+translationKey: optimizer-rule-opt-count-to-exists
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/optimizer/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: optimizer-rule-opt-count-to-exists
 | Name | COUNT Scalar Subquery Rewrite |
 | Category | rewrite — Rewrite |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

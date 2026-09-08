@@ -3,12 +3,21 @@ id: en-audit-rule-aud-create-index-before-constraint
 title: Create Index Before Constraint
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-create-index-before-constraint
 tags:
 - audit-rule
 - ddl
 description: Create the backing index before adding a constraint (unique/FK/CHECK)
   so validation reuses it instead of full-table scanning under lock.
 localeOf: audit-rule-aud-create-index-before-constraint
+subtype: rule
+language: en
+translationKey: audit-rule-aud-create-index-before-constraint
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-create-index-before-constraint
 | Name | Create Index Before Constraint |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

@@ -1,5 +1,227 @@
 {
   "$defs": {
+    "Applicability": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "pending",
+          "enum": [
+            "pending",
+            "reviewed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "prerequisites": {
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "title": "Prerequisites",
+          "type": "array"
+        },
+        "exclusions": {
+          "items": {
+            "$ref": "#/$defs/Condition"
+          },
+          "title": "Exclusions",
+          "type": "array"
+        },
+        "noExclusionsReason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Noexclusionsreason"
+        }
+      },
+      "title": "Applicability",
+      "type": "object"
+    },
+    "Condition": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "content": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": [
+              "zh",
+              "en"
+            ]
+          },
+          "title": "Content",
+          "type": "object"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "title": "Condition",
+      "type": "object"
+    },
+    "Editorial": {
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "default": "draft",
+          "enum": [
+            "draft",
+            "review",
+            "approved",
+            "scheduled",
+            "published",
+            "archived"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "owners": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Owners",
+          "type": "array"
+        },
+        "lastReviewed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lastreviewed"
+        },
+        "reviewCycle": {
+          "anyOf": [
+            {
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewcycle"
+        }
+      },
+      "title": "Editorial",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/Source"
+        },
+        "supports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Supports",
+          "type": "array"
+        },
+        "status": {
+          "default": "pending",
+          "enum": [
+            "pending",
+            "verified",
+            "rejected"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "verifiedBy": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verifiedby"
+        },
+        "verifiedAt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Verifiedat"
+        }
+      },
+      "required": [
+        "id",
+        "source"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "ExampleExpected": {
+      "additionalProperties": false,
+      "properties": {
+        "comparison": {
+          "enum": [
+            "multiset-equal",
+            "ordered-equal",
+            "triggers",
+            "does-not-trigger"
+          ],
+          "title": "Comparison",
+          "type": "string"
+        }
+      },
+      "required": [
+        "comparison"
+      ],
+      "title": "ExampleExpected",
+      "type": "object"
+    },
+    "Remediation": {
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "default": "advisory",
+          "enum": [
+            "advisory",
+            "conditional-auto",
+            "auto"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "requiresPerformanceValidation": {
+          "default": true,
+          "title": "Requiresperformancevalidation",
+          "type": "boolean"
+        }
+      },
+      "title": "Remediation",
+      "type": "object"
+    },
     "RuleCategory": {
       "description": "Controlled vocabulary for rule categories (decided 2026-09-04, A3).\n\n``unknown`` is a temporary placeholder for rules awaiting product mapping;\nsuch rules must not be considered published.",
       "enum": [
@@ -106,6 +328,20 @@
           ],
           "default": null,
           "title": "Goodexample"
+        },
+        "editorial": {
+          "$ref": "#/$defs/Editorial"
+        },
+        "translation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Translation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
         }
       },
       "title": "RuleContent",
@@ -141,6 +377,97 @@
       "title": "RuleContentBundle",
       "type": "object"
     },
+    "RuleExample": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "dialect": {
+          "title": "Dialect",
+          "type": "string"
+        },
+        "purpose": {
+          "default": "normal",
+          "enum": [
+            "normal",
+            "boundary"
+          ],
+          "title": "Purpose",
+          "type": "string"
+        },
+        "setupSql": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Setupsql"
+        },
+        "beforeSql": {
+          "title": "Beforesql",
+          "type": "string"
+        },
+        "afterSql": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Aftersql"
+        },
+        "expected": {
+          "$ref": "#/$defs/ExampleExpected"
+        },
+        "verification": {
+          "default": "pending",
+          "enum": [
+            "pending",
+            "passed",
+            "failed"
+          ],
+          "title": "Verification",
+          "type": "string"
+        },
+        "evidenceIds": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidenceids",
+          "type": "array"
+        },
+        "content": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "propertyNames": {
+            "enum": [
+              "zh",
+              "en"
+            ]
+          },
+          "title": "Content",
+          "type": "object"
+        }
+      },
+      "required": [
+        "id",
+        "dialect",
+        "beforeSql",
+        "expected"
+      ],
+      "title": "RuleExample",
+      "type": "object"
+    },
     "Severity": {
       "enum": [
         "error",
@@ -149,6 +476,84 @@
       ],
       "title": "Severity",
       "type": "string"
+    },
+    "Source": {
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Repository"
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Path"
+        },
+        "revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Revision"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Url"
+        }
+      },
+      "title": "Source",
+      "type": "object"
+    },
+    "Translation": {
+      "additionalProperties": false,
+      "properties": {
+        "sourceLanguage": {
+          "enum": [
+            "zh",
+            "en"
+          ],
+          "title": "Sourcelanguage",
+          "type": "string"
+        },
+        "sourceDigest": {
+          "title": "Sourcedigest",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceLanguage",
+        "sourceDigest"
+      ],
+      "title": "Translation",
+      "type": "object"
     }
   },
   "additionalProperties": false,
@@ -157,6 +562,68 @@
     "id": {
       "title": "Id",
       "type": "string"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "enum": [
+            "audit",
+            "optimizer"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Kind"
+    },
+    "product": {
+      "default": "pawsql",
+      "title": "Product",
+      "type": "string"
+    },
+    "components": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "capabilities": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "featureIds": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Featureids",
+      "type": "array"
+    },
+    "applicability": {
+      "$ref": "#/$defs/Applicability"
+    },
+    "remediation": {
+      "$ref": "#/$defs/Remediation"
+    },
+    "examples": {
+      "items": {
+        "$ref": "#/$defs/RuleExample"
+      },
+      "title": "Examples",
+      "type": "array"
+    },
+    "evidence": {
+      "items": {
+        "$ref": "#/$defs/Evidence"
+      },
+      "title": "Evidence",
+      "type": "array"
     },
     "category": {
       "$ref": "#/$defs/RuleCategory",

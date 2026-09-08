@@ -1,5 +1,7 @@
 # PawSQL 内容放置清单（PLACEMENT · 初稿）
 
+> v2：本清单保留为来源盘点；新内容按 [CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md) 分类。Cloud 属于公网部署，optimizer/advisor 等属于组件，历史目录不能解释为独立产品。已有页面 URL 保留，新建/拆分页面需先确定稳定 ID、语言与正文类型。
+
 > 依据《技术设计说明书 v1.1》与 MIGRATION-PLAYBOOK §2 目录映射；覆盖 vault 全部可迁移 `.md`。
 > 状态：**draft 初稿，供评审**。行级目标为目录级；页面级 slug/拆分在逐批执行时确定。
 > 语言约定：中文为默认树（`docs/**`），英文为镜像（`docs/en/**`）。`en`=英文源→`docs/en/**`；`zh`/`zh(英文待补)`=中文源→默认树 `docs/**`（英文后补）；规则类见 D 双语双输出（zh→`docs/reference`，en→`docs/en/reference`）。

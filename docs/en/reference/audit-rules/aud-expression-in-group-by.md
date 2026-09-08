@@ -3,12 +3,21 @@ id: en-audit-rule-aud-expression-in-group-by
 title: Expression in GROUP BY Causes Index Invalidation
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-expression-in-group-by
 tags:
 - audit-rule
 - index
 description: GROUP BY on an expression or function (LEFT, YEAR) disables the column
   index and forces an extra sort or hash aggregate; group by the bare column.
 localeOf: audit-rule-aud-expression-in-group-by
+subtype: rule
+language: en
+translationKey: audit-rule-aud-expression-in-group-by
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-expression-in-group-by
 | Name | Expression in GROUP BY Causes Index Invalidation |
 | Category | index — Index |
 | Severity | info |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

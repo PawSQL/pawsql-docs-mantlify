@@ -3,12 +3,21 @@ id: en-audit-rule-aud-charsetontabledisallowed
 title: CharsetOnTableDisallowed
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetontabledisallowed
 tags:
 - audit-rule
 - ddl
 description: Do not override the character set at table level; tables should inherit
   the database default to avoid cross-table implicit conversion.
 localeOf: audit-rule-aud-charsetontabledisallowed
+subtype: rule
+language: en
+translationKey: audit-rule-aud-charsetontabledisallowed
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-charsetontabledisallowed
 | Name | CharsetOnTableDisallowed |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

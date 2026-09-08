@@ -3,11 +3,20 @@ id: optimizer-rule-opt-exists-to-join
 title: EXISTS 查询转换为表连接
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-exists-to-join
 tags:
 - optimizer-rule
 - rewrite
 description: 将可转换的 EXISTS 子查询重写为等价内连接，让优化器可自由选择驱动表。
 localeOf: en-optimizer-rule-opt-exists-to-join
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-exists-to-join
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-optimizer-rule-opt-exists-to-join
 | 规则名称 | EXISTS 查询转换为表连接 |
 | 类别 | rewrite（重写） |
 | 预警级别 | 提示 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

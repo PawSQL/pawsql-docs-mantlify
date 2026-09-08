@@ -2,10 +2,21 @@
 id: zh-user-guide-cloud-results
 title: 优化结果解析
 description: 阅读 PawSQL Cloud 的优化详情：重写优化、规则审查、索引推荐、索引分析与性能验证，以及 SQL / 执行计划比对。
-type: user-guide
-product: pawsql-cloud
+type: guide
+product: pawsql
 status: draft
-tags: [cloud, saas, user-guide, results, zh]
+tags:
+- cloud
+- saas
+- user-guide
+- results
+- zh
+subtype: operation
+language: zh
+translationKey: user-guide-cloud-results
+layout: detail
+deployments:
+- public-cloud
 ---
 
 # 优化结果解析

@@ -3,12 +3,21 @@ id: en-audit-rule-aud-create-index-using-online-mode
 title: Create Index Using Online Mode
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-create-index-using-online-mode
 tags:
 - audit-rule
 - ddl
 description: Create indexes online (MySQL ALGORITHM=INPLACE LOCK=NONE, PostgreSQL
   CONCURRENTLY) to avoid long locks and DML blocking on large tables.
 localeOf: audit-rule-aud-create-index-using-online-mode
+subtype: rule
+language: en
+translationKey: audit-rule-aud-create-index-using-online-mode
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-create-index-using-online-mode
 | Name | Create Index Using Online Mode |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

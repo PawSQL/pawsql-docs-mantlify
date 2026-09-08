@@ -3,12 +3,21 @@ id: en-audit-rule-aud-addcheckconstraintshouldbedeferred
 title: AddCheckConstraintShouldBeDeferred
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-addcheckconstraintshouldbedeferred
 tags:
 - audit-rule
 - ddl
 description: Adding a CHECK to a populated table should use NO VALID to skip full-table
   validation; validate legacy rows offline in batches.
 localeOf: audit-rule-aud-addcheckconstraintshouldbedeferred
+subtype: rule
+language: en
+translationKey: audit-rule-aud-addcheckconstraintshouldbedeferred
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.
@@ -19,7 +28,7 @@ localeOf: audit-rule-aud-addcheckconstraintshouldbedeferred
 | Name | AddCheckConstraintShouldBeDeferred |
 | Category | ddl — DDL / object design |
 | Severity | warning |
-| Databases | All supported databases |
+| Databases | Unverified (database scope not declared) |
 
 ## Description
 

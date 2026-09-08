@@ -3,11 +3,20 @@ id: audit-rule-aud-charsetontabledisallowed
 title: 表定义时禁止使用字符集
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetontabledisallowed
 tags:
 - audit-rule
 - ddl
 description: 表定义时禁止单独指定字符集；表应继承数据库默认字符集，避免跨表隐式转换。
 localeOf: en-audit-rule-aud-charsetontabledisallowed
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-charsetontabledisallowed
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-charsetontabledisallowed
 | 规则名称 | 表定义时禁止使用字符集 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

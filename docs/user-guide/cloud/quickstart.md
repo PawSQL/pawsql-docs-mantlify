@@ -2,10 +2,21 @@
 id: zh-user-guide-cloud-quickstart
 title: 三步完成您的 SQL 优化
 description: 在 PawSQL Cloud 中创建查询优化：创建工作空间、录入待优化 SQL、配置并运行优化。
-type: user-guide
-product: pawsql-cloud
+type: guide
+product: pawsql
 status: draft
-tags: [cloud, saas, user-guide, quickstart, zh]
+tags:
+- cloud
+- saas
+- user-guide
+- quickstart
+- zh
+subtype: quickstart
+language: zh
+translationKey: user-guide-cloud-quickstart
+layout: detail
+deployments:
+- public-cloud
 ---
 
 # 三步完成您的 SQL 优化

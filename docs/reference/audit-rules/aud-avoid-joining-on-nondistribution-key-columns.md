@@ -3,11 +3,20 @@ id: audit-rule-aud-avoid-joining-on-nondistribution-key-columns
 title: 避免表关联字段不是分布键
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-avoid-joining-on-nondistribution-key-columns
 tags:
 - audit-rule
 - ddl
 description: 分布式库中 JOIN 关联字段非分布键会触发跨节点数据重分布、网络开销大；应让高频关联字段与分布键对齐。
 localeOf: en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-avoid-joining-on-nondistribution-key-columns
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-avoid-joining-on-nondistribution-key-columns
 | 规则名称 | 避免表关联字段不是分布键 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 

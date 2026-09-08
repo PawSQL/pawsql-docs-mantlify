@@ -3,6 +3,10 @@ id: en-audit-rule-aud-select-star
 title: SELECT * Detection
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: AUD-SELECT-STAR
 tags:
 - audit-rule
 - unknown
@@ -12,6 +16,11 @@ tags:
 description: 'Flags SELECT * on wide tables: unneeded columns cost IO and bandwidth
   and block covering-index optimization; list only the columns you need.'
 localeOf: audit-rule-aud-select-star
+subtype: rule
+language: en
+translationKey: audit-rule-aud-select-star
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.

@@ -3,6 +3,10 @@ id: en-audit-rule-sql-index-023
 title: Redundant Index Detection
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: SQL-INDEX-023
 tags:
 - audit-rule
 - index
@@ -11,6 +15,11 @@ tags:
 description: Detects duplicate or redundant indexes whose leading columns another
   index already covers; they only add write and storage cost, so drop them.
 localeOf: audit-rule-sql-index-023
+subtype: rule
+language: en
+translationKey: audit-rule-sql-index-023
+layout: detail
+product: pawsql
 ---
 
 > **Generated file.** Do not edit by hand — change the source metadata (`metadata/rules/audit/*.yaml`) and re-run the generator.

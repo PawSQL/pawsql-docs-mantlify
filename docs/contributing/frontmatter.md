@@ -2,11 +2,18 @@
 id: contributing-frontmatter
 title: Front Matter 规范
 description: 页面 Front Matter 字段定义与内容状态约定（对应设计说明书 §7）
-type: reference
-product: pawsql-docs
+type: guide
+product: pawsql
 status: approved
-owners: [docs-platform]
-tags: [content-model, frontmatter]
+owners:
+- docs-platform
+tags:
+- content-model
+- frontmatter
+language: zh
+translationKey: contributing-frontmatter
+layout: detail
+subtype: operation
 ---
 
 # Front Matter 规范

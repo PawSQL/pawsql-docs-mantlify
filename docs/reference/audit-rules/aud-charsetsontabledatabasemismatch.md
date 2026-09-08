@@ -3,11 +3,20 @@ id: audit-rule-aud-charsetsontabledatabasemismatch
 title: 表的字符集和数据库不一致
 type: reference
 status: draft
+owners: []
+entityRef:
+  type: rule
+  id: aud-charsetsontabledatabasemismatch
 tags:
 - audit-rule
 - ddl
 description: 表字符集须与数据库一致，避免隐式转换、乱码或数据丢失；让表继承数据库默认字符集。
 localeOf: en-audit-rule-aud-charsetsontabledatabasemismatch
+subtype: rule
+language: zh
+translationKey: audit-rule-aud-charsetsontabledatabasemismatch
+layout: detail
+product: pawsql
 ---
 
 > **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/audit/*.yaml`) 并重新运行生成器。
@@ -18,7 +27,7 @@ localeOf: en-audit-rule-aud-charsetsontabledatabasemismatch
 | 规则名称 | 表的字符集和数据库不一致 |
 | 类别 | ddl（对象与结构定义） |
 | 预警级别 | 警告 |
-| 适用数据库 | 所有支持数据库 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
 
 ## 说明
 
