@@ -2,32 +2,28 @@
 database: dameng
 title: Dameng
 supportedVersions:
-  - '8.0'
-  - '8.1'
+- '8.0'
+- '8.1'
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL supports the Dameng SQL dialect for domestic database migration, application modernization, and daily SQL governance.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL supports the Dameng SQL dialect for domestic database migration,
+      application modernization, and daily SQL governance.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['8.0', '8.1']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['8.0', '8.1']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['8.0', '8.1']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: partial
+  plan-visualization: partial
+  performance-inspection: partial

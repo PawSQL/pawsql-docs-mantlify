@@ -16,11 +16,16 @@ product: pawsql
 
 # MogDB
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| mogdb | 3.0, 5.0 | sql-rewrite | unknown |
-| mogdb | 3.0, 5.0 | sql-audit | unknown |
-| mogdb | 3.0, 5.0 | plan-visualization | unknown |
+**Supported versions:** 3.0, 5.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports MogDB for SQL parsing, review, and performance optimization, with openGauss-ecosystem adaptations.
 
@@ -32,4 +37,4 @@ PawSQL supports MogDB for SQL parsing, review, and performance optimization, wit
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

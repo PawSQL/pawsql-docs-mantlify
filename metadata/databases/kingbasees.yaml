@@ -2,31 +2,27 @@
 database: kingbasees
 title: KingbaseES
 supportedVersions:
-  - 'V8'
+- V8
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL supports KingbaseES for SQL parsing, review, rewrite, index recommendation, and performance analysis.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL supports KingbaseES for SQL parsing, review, rewrite, index
+      recommendation, and performance analysis.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['V8']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['V8']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['V8']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: partial

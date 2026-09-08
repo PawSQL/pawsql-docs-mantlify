@@ -1,7 +1,7 @@
-# SAMPLE — example metadata (design section 8.3), verify versions against the product.
+# SAMPLE - example metadata, verify versions/features against the product.
 database: postgresql
 title: PostgreSQL
-supportedVersions: &id001
+supportedVersions:
 - '14'
 - '15'
 - '16'
@@ -22,16 +22,10 @@ content:
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: *id001
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: *id001
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: *id001
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: supported

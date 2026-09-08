@@ -128,33 +128,32 @@ Hive support focuses on SQL quality, execution efficiency, and data-skew risks t
 
 The following matrix summarizes the major PawSQL capabilities available across supported databases.
 
-| Database | SQL Review | Query Rewrite | Index Advisor | Metadata Analysis | Performance Validation | Plan Analysis | Production Governance |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| PostgreSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| MariaDB | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
-| Oracle | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| SQL Server | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| IBM Db2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| openGauss | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| GaussDB | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| KingbaseES | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| Dameng | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
-| MogDB | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| OceanBase MySQL Mode | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| OceanBase Oracle Mode | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| TDSQL MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| TDSQL PostgreSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
-| TDSQLx-MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
-| GoldenDB | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
-| PolarDB-X | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
-| Apache Hive | ✓ | ✓ | — | ◐ | — | ◐ | ◐ |
+<!-- DATABASE_MATRIX:START -->
+| Database | SQL Review | Query Rewrite | Index Advisor | Performance Validation | Plan Analysis | Production Governance |
+| ---|:---:|:---:|:---:|:---:|:---:|:---:|
+| MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PostgreSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| MariaDB | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| Oracle | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Microsoft SQL Server | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| IBM Db2 | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| openGauss | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GaussDB | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| KingbaseES | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| Dameng | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| MogDB | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| OceanBase | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| TDSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| GoldenDB | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| PolarDB-X | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| Apache Hive | ✓ | ✓ | — | — | ◐ | ◐ |
 
 **Legend**
 
 - **✓** Fully supported
 - **◐** Supported with database- or version-specific limitations
 - **—** Not applicable or currently unavailable
+<!-- DATABASE_MATRIX:END -->
 
 > The matrix represents PawSQL's overall product capabilities. Exact support may vary by PawSQL release, database version, deployment mode, and whether online metadata access is available.
 

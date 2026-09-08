@@ -2,33 +2,29 @@
 database: oceanbase
 title: OceanBase
 supportedVersions:
-  - '4.0'
-  - '4.2'
-  - '4.3'
+- '4.0'
+- '4.2'
+- '4.3'
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL supports OceanBase in MySQL and Oracle modes, including OceanBase-specific DDL and optimizer characteristics.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL supports OceanBase in MySQL and Oracle modes, including OceanBase-specific
+      DDL and optimizer characteristics.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['4.0', '4.2', '4.3']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['4.0', '4.2', '4.3']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['4.0', '4.2', '4.3']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: partial

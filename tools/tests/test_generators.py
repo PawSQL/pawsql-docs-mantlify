@@ -58,6 +58,47 @@ def test_database_page_lists_database(repo):
     text = (repo / "docs/en/databases/postgresql/index.md").read_text(encoding="utf-8")
     assert "postgresql" in text
     assert "16" in text
+    assert "SQL Review" in text
+    assert "Performance Inspection" in text
+
+
+def test_splice_region_edits_only_between_markers():
+    from pawsql_doc.generators.base import DB_MATRIX_START, DB_MATRIX_END, splice_region
+
+    text = f"head\n{DB_MATRIX_START}\nold\n{DB_MATRIX_END}\ntail\n"
+    out = splice_region(text, "NEW")
+    assert out is not None
+    assert "NEW" in out and "old" not in out
+    assert out.startswith("head\n") and out.endswith("\ntail\n")
+
+
+def test_sync_database_matrix_injects_and_is_idempotent(repo):
+    from pawsql_doc.generators.base import DB_MATRIX_START, DB_MATRIX_END
+    from pawsql_doc.generators.structured import sync_database_matrix
+
+    rels = ("docs/getting-started/supported-databases.mdx", "docs/en/getting-started/supported-databases.mdx")
+    for rel in rels:
+        path = repo / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"# x\n\n{DB_MATRIX_START}\nplaceholder\n{DB_MATRIX_END}\n", encoding="utf-8")
+    bundle, _ = load_metadata(repo)
+    sync_database_matrix(repo, bundle)
+    first = {rel: (repo / rel).read_text(encoding="utf-8") for rel in rels}
+    assert all("postgresql" in text.lower() and "placeholder" not in text for text in first.values())
+    sync_database_matrix(repo, bundle)
+    assert first == {rel: (repo / rel).read_text(encoding="utf-8") for rel in rels}
+
+
+def test_sync_database_matrix_raises_without_markers(repo):
+    import pytest
+    from pawsql_doc.generators.structured import sync_database_matrix
+
+    path = repo / "docs/getting-started/supported-databases.mdx"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("# x\nno markers here\n", encoding="utf-8")
+    bundle, _ = load_metadata(repo)
+    with pytest.raises(ValueError):
+        sync_database_matrix(repo, bundle)
 
 
 def test_bilingual_rule_writes_dual_pages(repo):

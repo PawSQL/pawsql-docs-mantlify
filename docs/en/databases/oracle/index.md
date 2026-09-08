@@ -16,11 +16,16 @@ product: pawsql
 
 # Oracle
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| oracle | 19c, 21c, 23ai | sql-rewrite | unknown |
-| oracle | 19c, 21c, 23ai | sql-audit | unknown |
-| oracle | 19c, 21c, 23ai | plan-visualization | unknown |
+**Supported versions:** 19c, 21c, 23ai
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Supported |
 
 PawSQL provides deep parsing and optimization support for Oracle SQL, including complex enterprise SQL workloads.
 
@@ -32,4 +37,4 @@ PawSQL provides deep parsing and optimization support for Oracle SQL, including 
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

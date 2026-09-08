@@ -16,11 +16,16 @@ product: pawsql
 
 # openGauss
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| opengauss | 3.0, 5.0, 6.0 | sql-rewrite | unknown |
-| opengauss | 3.0, 5.0, 6.0 | sql-audit | unknown |
-| opengauss | 3.0, 5.0, 6.0 | plan-visualization | unknown |
+**Supported versions:** 3.0, 5.0, 6.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Supported |
 
 PawSQL deeply supports openGauss for SQL development, review, rewrite, index recommendation, and production slow-SQL governance.
 
@@ -32,4 +37,4 @@ PawSQL deeply supports openGauss for SQL development, review, rewrite, index rec
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

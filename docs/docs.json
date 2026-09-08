@@ -36,12 +36,9 @@
                 "pages": [
                   "getting-started/overview",
                   "getting-started/quickstart",
+                  "getting-started/choose-access",
                   "getting-started/supported-databases"
                 ]
-              },
-              {
-                "group": "安装与接入",
-                "pages": ["getting-started/choose-access"]
               },
               {
                 "group": "使用 PawSQL",
@@ -121,17 +118,14 @@
                 "pages": [
                   "en/getting-started/overview",
                   "en/getting-started/quickstart",
-                  "en/tutorials/index",
+                  "en/getting-started/choose-access",
                   "en/getting-started/supported-databases"
                 ]
               },
               {
-                "group": "Installation and Access",
-                "pages": ["en/getting-started/choose-access"]
-              },
-              {
                 "group": "Using PawSQL",
                 "pages": [
+                  "en/tutorials/index",
                   "en/user-guide/sql-audit/index",
                   "en/user-guide/optimization/or-union"
                 ]
@@ -147,7 +141,6 @@
               {
                 "group": "Reference",
                 "pages": [
-                  "en/reference/api/overview",
                   "en/reference/configuration/explain-timeout",
                   "en/databases/postgresql/index",
                   "en/databases/mysql/index",

@@ -55,13 +55,13 @@ def _cmd_validate_frontmatter(root: Path, _args: argparse.Namespace) -> int:
     return 0
 
 
-def _cmd_validate_nav(root: Path, _args: argparse.Namespace) -> int:
-    issues = validate_nav(root)
+def _cmd_validate_nav(root: Path, args: argparse.Namespace) -> int:
+    issues = validate_nav(root, release=args.release)
     _print_issues(issues)
     if issues:
-        print(f"FAIL  nav: {len(issues)} nav-referenced page(s) are not published/approved")
+        print(f"FAIL  nav: {len(issues)} issue(s) (release={args.release})")
         return 1
-    print("PASS  nav: every referenced page is published/approved")
+    print("PASS  nav")
     return 0
 
 
@@ -249,7 +249,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     sub.add_parser("validate-metadata", help="Validate metadata/ tree and cross-references")
     sub.add_parser("validate-frontmatter", help="Validate front matter of docs/ and blog/ pages")
-    sub.add_parser("validate-nav", help="Check docs.json nav references only published/approved pages")
+    p = sub.add_parser("validate-nav", help="Check docs.json nav: preview (existence + group/type) or --release (published/approved + sections)")
+    p.add_argument("--release", action="store_true")
     sub.add_parser("export-schemas", help="Export pydantic models to schemas/*.json")
 
     sub.add_parser("drift", help="Report required docs missing between metadata and content (exit 1 on gaps)")

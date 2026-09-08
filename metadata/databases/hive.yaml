@@ -2,33 +2,29 @@
 database: hive
 title: Apache Hive
 supportedVersions:
-  - '2.3'
-  - '3.1'
-  - '4.0'
+- '2.3'
+- '3.1'
+- '4.0'
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL supports Apache Hive SQL with rules for partition pruning, join, skew, and Top-N analysis in analytical workloads.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL supports Apache Hive SQL with rules for partition pruning,
+      join, skew, and Top-N analysis in analytical workloads.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['2.3', '3.1', '4.0']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['2.3', '3.1', '4.0']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['2.3', '3.1', '4.0']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: unsupported
+  performance-validation: unsupported
+  plan-visualization: partial
+  performance-inspection: partial

@@ -16,11 +16,16 @@ product: pawsql
 
 # PostgreSQL
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| postgresql | 14, 15, 16, 17, 18 | sql-rewrite | unknown |
-| postgresql | 14, 15, 16, 17, 18 | sql-audit | unknown |
-| postgresql | 14, 15, 16, 17, 18 | plan-visualization | unknown |
+**Supported versions:** 14, 15, 16, 17, 18
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Supported |
 
 PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads, including the newest supported release line.
 
@@ -32,4 +37,4 @@ PawSQL optimizes, audits and recommends indexes for PostgreSQL workloads, includ
 
 Version list is sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

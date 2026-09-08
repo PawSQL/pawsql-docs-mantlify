@@ -50,3 +50,29 @@ def generated_note(source_glob: str) -> str:
         "> **Generated file.** Do not edit by hand — change the source metadata "
         f"(`metadata/{source_glob}`) and re-run the generator.\n"
     )
+
+
+# Markers that delimit a generated region inside an otherwise authored page.
+DB_MATRIX_START = "<!-- DATABASE_MATRIX:START -->"
+DB_MATRIX_END = "<!-- DATABASE_MATRIX:END -->"
+
+
+def splice_region(
+    text: str,
+    fragment: str,
+    start: str = DB_MATRIX_START,
+    end: str = DB_MATRIX_END,
+) -> Optional[str]:
+    """Replace the region between two markers with ``fragment``.
+
+    Returns ``None`` when either marker is missing so callers can decide how to
+    surface it, and never touches text outside the markers.
+    """
+    start_at = text.find(start)
+    if start_at == -1:
+        return None
+    end_at = text.find(end, start_at + len(start))
+    if end_at == -1:
+        return None
+    block = start + "\n" + fragment.rstrip("\n") + "\n" + end
+    return text[:start_at] + block + text[end_at + len(end):]

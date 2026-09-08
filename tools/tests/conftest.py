@@ -38,6 +38,11 @@ def repo(tmp_path: Path) -> Path:
     _write_yaml(root / "metadata/databases/pg.yaml", {
         "database": "postgresql", "supportedVersions": ["16"],
         "features": {"optimizer": True},
+        "capabilities": {
+            "sql-audit": "supported", "sql-rewrite": "supported",
+            "index-recommendation": "supported", "performance-validation": "supported",
+            "plan-visualization": "supported", "performance-inspection": "partial",
+        },
     })
     _write_yaml(root / "metadata/configs/explain-timeout.yaml", {
         "id": "C-TIMEOUT", "name": "explain.timeout", "configType": "integer",

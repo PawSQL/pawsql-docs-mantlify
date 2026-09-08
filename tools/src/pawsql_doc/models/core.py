@@ -295,6 +295,19 @@ class RuleMetadata(_StrictModel):
 # ---------------------------------------------------------------------------
 
 
+# Capability slugs usable on the per-database support matrix. Keys must stay
+# within the global capabilities registry; the matrix is generated from them.
+DB_CAPABILITY_SLUGS = (
+    "sql-audit",
+    "sql-rewrite",
+    "index-recommendation",
+    "performance-validation",
+    "plan-visualization",
+    "performance-inspection",
+)
+_DB_CAPABILITY_STATUS = Literal["supported", "partial", "unsupported"]
+
+
 class DatabaseMetadata(_StrictModel):
     """Supported database versions and capability matrix (design 8.3)."""
 
@@ -305,12 +318,25 @@ class DatabaseMetadata(_StrictModel):
         default_factory=dict,
         description="Capability flags, e.g. {optimizer: true, audit: true, planVisualizer: false}.",
     )
+    capabilities: Dict[str, _DB_CAPABILITY_STATUS] = Field(
+        default_factory=dict,
+        description="Per-database support status keyed by capability slug.",
+    )
     description: Optional[str] = None
     keyFeatures: List[str] = Field(default_factory=list)
     notes: Optional[str] = None
     content: TextBundle = Field(default_factory=TextBundle)
     compatibility: List[Compatibility] = Field(default_factory=list)
     evidence: List[Evidence] = Field(default_factory=list)
+
+    @model_validator(mode="after")
+    def _capability_keys_are_registered(self):
+        unknown = set(self.capabilities) - set(DB_CAPABILITY_SLUGS)
+        if unknown:
+            raise ValueError(
+                f"database '{self.database}' has capabilities outside the registry: {sorted(unknown)}"
+            )
+        return self
 
 
 # ---------------------------------------------------------------------------

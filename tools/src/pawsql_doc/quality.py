@@ -25,7 +25,7 @@ def quality_report(root: Path, publication=False):
     report = {"structure": [str(x) for x in structure], "existence": [], "completeness": [], "release": []}
     if not errors:
         report["existence"] = [str(x) for x in find_drift(root)]
-    report["release"] = [str(x) for x in validate_nav(root)]
+    report["release"] = [str(x) for x in validate_nav(root, release=publication)]
     for path in content_files(root):
         text = path.read_text(encoding="utf-8-sig")
         data, error = parse_frontmatter(text)

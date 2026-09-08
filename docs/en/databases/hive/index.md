@@ -16,11 +16,16 @@ product: pawsql
 
 # Apache Hive
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| hive | 2.3, 3.1, 4.0 | sql-rewrite | unknown |
-| hive | 2.3, 3.1, 4.0 | sql-audit | unknown |
-| hive | 2.3, 3.1, 4.0 | plan-visualization | unknown |
+**Supported versions:** 2.3, 3.1, 4.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Unsupported |
+| Performance Validation | Unsupported |
+| Plan Visualization | Partial (database/version-limited) |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports Apache Hive SQL with rules for partition pruning, join, skew, and Top-N analysis in analytical workloads.
 
@@ -32,4 +37,4 @@ PawSQL supports Apache Hive SQL with rules for partition pruning, join, skew, an
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

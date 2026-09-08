@@ -447,6 +447,19 @@
       "title": "Features",
       "type": "object"
     },
+    "capabilities": {
+      "additionalProperties": {
+        "enum": [
+          "supported",
+          "partial",
+          "unsupported"
+        ],
+        "type": "string"
+      },
+      "description": "Per-database support status keyed by capability slug.",
+      "title": "Capabilities",
+      "type": "object"
+    },
     "description": {
       "anyOf": [
         {

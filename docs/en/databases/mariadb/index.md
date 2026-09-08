@@ -16,11 +16,16 @@ product: pawsql
 
 # MariaDB
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| mariadb | 10.6, 10.11, 11.4 | sql-rewrite | unknown |
-| mariadb | 10.6, 10.11, 11.4 | sql-audit | unknown |
-| mariadb | 10.6, 10.11, 11.4 | plan-visualization | unknown |
+**Supported versions:** 10.6, 10.11, 11.4
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Partial (database/version-limited) |
+| Plan Visualization | Partial (database/version-limited) |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports MariaDB SQL for review, rewrite, and index recommendation across supported release lines.
 
@@ -32,4 +37,4 @@ PawSQL supports MariaDB SQL for review, rewrite, and index recommendation across
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

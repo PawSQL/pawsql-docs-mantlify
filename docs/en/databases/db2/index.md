@@ -16,11 +16,16 @@ product: pawsql
 
 # IBM Db2
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| db2 | 11.5 | sql-rewrite | unknown |
-| db2 | 11.5 | sql-audit | unknown |
-| db2 | 11.5 | plan-visualization | unknown |
+**Supported versions:** 11.5
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports IBM Db2 SQL for SQL review, index analysis, and performance optimization.
 
@@ -32,4 +37,4 @@ PawSQL supports IBM Db2 SQL for SQL review, index analysis, and performance opti
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

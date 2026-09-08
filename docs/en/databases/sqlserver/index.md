@@ -16,11 +16,16 @@ product: pawsql
 
 # Microsoft SQL Server
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| sqlserver | 2017, 2019, 2022 | sql-rewrite | unknown |
-| sqlserver | 2017, 2019, 2022 | sql-audit | unknown |
-| sqlserver | 2017, 2019, 2022 | plan-visualization | unknown |
+**Supported versions:** 2017, 2019, 2022
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports Microsoft SQL Server and the T-SQL dialect for SQL review, optimization, and governance.
 
@@ -32,4 +37,4 @@ PawSQL supports Microsoft SQL Server and the T-SQL dialect for SQL review, optim
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

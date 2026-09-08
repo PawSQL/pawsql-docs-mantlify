@@ -16,11 +16,16 @@ product: pawsql
 
 # OceanBase
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| oceanbase | 4.0, 4.2, 4.3 | sql-rewrite | unknown |
-| oceanbase | 4.0, 4.2, 4.3 | sql-audit | unknown |
-| oceanbase | 4.0, 4.2, 4.3 | plan-visualization | unknown |
+**Supported versions:** 4.0, 4.2, 4.3
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports OceanBase in MySQL and Oracle modes, including OceanBase-specific DDL and optimizer characteristics.
 
@@ -32,4 +37,4 @@ PawSQL supports OceanBase in MySQL and Oracle modes, including OceanBase-specifi
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

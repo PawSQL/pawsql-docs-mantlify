@@ -2,8 +2,8 @@
 database: goldendb
 title: GoldenDB
 supportedVersions:
-  - '6.0'
-  - '8.0'
+- '6.0'
+- '8.0'
 features:
   optimizer: true
   audit: true
@@ -11,23 +11,18 @@ features:
 content:
   en:
     description: PawSQL supports GoldenDB SQL and its distributed database characteristics.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['6.0', '8.0']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['6.0', '8.0']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['6.0', '8.0']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: partial
+  plan-visualization: partial
+  performance-inspection: partial

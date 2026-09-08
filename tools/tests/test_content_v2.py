@@ -101,8 +101,8 @@ def test_nav_checks_nested_mdx_and_missing_page(repo):
     p.parent.mkdir(exist_ok=True)
     p.write_text("---\nid: a\ntitle: A\ntype: explanation\nstatus: draft\n---\n", encoding="utf-8")
     (repo / "docs/docs.json").write_text(json.dumps({"navigation": {"groups": [{"group": "Outer", "pages": [{"group": "Inner", "pages": ["a", "missing"]}]}]}}), encoding="utf-8")
-    issues = validate_nav(repo)
-    assert {i.field for i in issues} == {"a", "missing"}
+    issues = validate_nav(repo, release=True)
+    assert {i.field for i in issues if not i.field.startswith("sections.")} == {"a", "missing"}
 
 
 def test_migration_preserves_body_and_is_repeatable(repo):

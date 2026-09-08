@@ -16,11 +16,16 @@ product: pawsql
 
 # PolarDB-X
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| polardbx | 5.4, 6.0 | sql-rewrite | unknown |
-| polardbx | 5.4, 6.0 | sql-audit | unknown |
-| polardbx | 5.4, 6.0 | plan-visualization | unknown |
+**Supported versions:** 5.4, 6.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Partial (database/version-limited) |
+| Plan Visualization | Partial (database/version-limited) |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports PolarDB-X SQL and its distributed database features, including cross-node access analysis.
 
@@ -32,4 +37,4 @@ PawSQL supports PolarDB-X SQL and its distributed database features, including c
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

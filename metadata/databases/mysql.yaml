@@ -1,7 +1,7 @@
-# SAMPLE — example metadata, verify versions/features against the product.
+# SAMPLE - example metadata, verify versions/features against the product.
 database: mysql
 title: MySQL
-supportedVersions: &id001
+supportedVersions:
 - '5.7'
 - '8.0'
 features:
@@ -19,16 +19,10 @@ content:
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: *id001
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: *id001
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: *id001
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: supported

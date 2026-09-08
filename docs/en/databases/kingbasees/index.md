@@ -16,11 +16,16 @@ product: pawsql
 
 # KingbaseES
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| kingbasees | V8 | sql-rewrite | unknown |
-| kingbasees | V8 | sql-audit | unknown |
-| kingbasees | V8 | plan-visualization | unknown |
+**Supported versions:** V8
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports KingbaseES for SQL parsing, review, rewrite, index recommendation, and performance analysis.
 
@@ -32,4 +37,4 @@ PawSQL supports KingbaseES for SQL parsing, review, rewrite, index recommendatio
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

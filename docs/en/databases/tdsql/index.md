@@ -16,11 +16,16 @@ product: pawsql
 
 # TDSQL
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| tdsql | 5.7, 8.0 | sql-rewrite | unknown |
-| tdsql | 5.7, 8.0 | sql-audit | unknown |
-| tdsql | 5.7, 8.0 | plan-visualization | unknown |
+**Supported versions:** 5.7, 8.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports the TDSQL family (MySQL- and PostgreSQL-compatible variants) for distributed SQL review and optimization.
 
@@ -32,4 +37,4 @@ PawSQL supports the TDSQL family (MySQL- and PostgreSQL-compatible variants) for
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

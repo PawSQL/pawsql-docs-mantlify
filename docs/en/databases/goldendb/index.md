@@ -16,11 +16,16 @@ product: pawsql
 
 # GoldenDB
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| goldendb | 6.0, 8.0 | sql-rewrite | unknown |
-| goldendb | 6.0, 8.0 | sql-audit | unknown |
-| goldendb | 6.0, 8.0 | plan-visualization | unknown |
+**Supported versions:** 6.0, 8.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Partial (database/version-limited) |
+| Plan Visualization | Partial (database/version-limited) |
+| Performance Inspection | Partial (database/version-limited) |
 
 PawSQL supports GoldenDB SQL and its distributed database characteristics.
 
@@ -32,4 +37,4 @@ PawSQL supports GoldenDB SQL and its distributed database characteristics.
 
 Version list and capability status are sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

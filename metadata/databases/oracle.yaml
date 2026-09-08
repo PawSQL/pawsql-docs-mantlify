@@ -2,33 +2,29 @@
 database: oracle
 title: Oracle
 supportedVersions:
-  - '19c'
-  - '21c'
-  - '23ai'
+- 19c
+- 21c
+- 23ai
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL provides deep parsing and optimization support for Oracle SQL, including complex enterprise SQL workloads.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL provides deep parsing and optimization support for Oracle
+      SQL, including complex enterprise SQL workloads.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['19c', '21c', '23ai']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['19c', '21c', '23ai']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['19c', '21c', '23ai']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: supported

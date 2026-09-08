@@ -16,11 +16,16 @@ product: pawsql
 
 # MySQL
 
-| Database | Versions | Capability | Status |
-|---|---|---|---|
-| mysql | 5.7, 8.0 | sql-rewrite | unknown |
-| mysql | 5.7, 8.0 | sql-audit | unknown |
-| mysql | 5.7, 8.0 | plan-visualization | unknown |
+**Supported versions:** 5.7, 8.0
+
+| Capability | Status |
+|---|---|
+| SQL Review | Supported |
+| Query Rewrite | Supported |
+| Index Recommendation | Supported |
+| Performance Validation | Supported |
+| Plan Visualization | Supported |
+| Performance Inspection | Supported |
 
 PawSQL supports MySQL for index recommendation, SQL rewrite and audit-rule review across the supported release lines.
 
@@ -32,4 +37,4 @@ PawSQL supports MySQL for index recommendation, SQL rewrite and audit-rule revie
 
 Version list is sample data pending confirmation from the product team.
 
-Unknown means compatibility has not been verified.
+Status: supported / partial (database- or version-limited) / unsupported.

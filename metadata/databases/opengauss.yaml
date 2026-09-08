@@ -2,33 +2,29 @@
 database: opengauss
 title: openGauss
 supportedVersions:
-  - '3.0'
-  - '5.0'
-  - '6.0'
+- '3.0'
+- '5.0'
+- '6.0'
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL deeply supports openGauss for SQL development, review, rewrite, index recommendation, and production slow-SQL governance.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL deeply supports openGauss for SQL development, review, rewrite,
+      index recommendation, and production slow-SQL governance.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['3.0', '5.0', '6.0']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['3.0', '5.0', '6.0']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['3.0', '5.0', '6.0']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: supported
+  plan-visualization: supported
+  performance-inspection: supported

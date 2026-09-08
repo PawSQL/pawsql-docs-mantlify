@@ -14,6 +14,31 @@ from pawsql_doc.models import DocStatus, FrontMatter
 # A description that long is pasted body text, not a human one-liner.
 DESCRIPTION_MAX = 320
 
+# Canonical six nav groups -> allowed (type, subtype) where subtype is None
+# (type must carry no subtype), '*' (any subtype), or a specific subtype.
+NAV_GROUP_TYPES = {
+    "开始使用": [("explanation", None), ("guide", "quickstart")],
+    "Getting Started": [("explanation", None), ("guide", "quickstart")],
+    "安装与接入": [("guide", "installation"), ("guide", "integration"), ("guide", "operation")],
+    "Installation and Access": [("guide", "installation"), ("guide", "integration"), ("guide", "operation")],
+    "使用 PawSQL": [("guide", "*")],
+    "Using PawSQL": [("guide", "*")],
+    "能力与原理": [("explanation", None)],
+    "Capabilities and Concepts": [("explanation", None)],
+    "参考资料": [("reference", "*")],
+    "Reference": [("reference", "*")],
+    "帮助与排障": [("support", "*")],
+    "Help and Troubleshooting": [("support", "*")],
+}
+
+# Section slots a published detail page must provide per type (release gate).
+# Generated pages are exempt via entityRef; index pages are exempt.
+REQUIRED_SECTIONS = {
+    "guide": ["goal", "prerequisites", "steps", "expectedResult", "verification"],
+    "explanation": ["definition", "nextSteps"],
+    "support": ["symptom", "diagnosis", "resolution"],
+}
+
 
 def parse_frontmatter(text: str) -> Tuple[Optional[Dict], Optional[str]]:
     """Return (front-matter dict, error) for a markdown/mdx document."""
@@ -122,41 +147,93 @@ def _validate_localeof(root: Path) -> List[Issue]:
     return issues
 
 
-def _nav_page_targets(root: Path) -> List[str]:
-    """Flatten every page string referenced by docs.json navigation (both languages)."""
-    targets: List[str] = []
+def _nav_pages(root: Path) -> List[Tuple[Optional[str], str]]:
+    """Flatten docs.json navigation into ``(group, page)`` pairs (both languages)."""
+    pairs: List[Tuple[Optional[str], str]] = []
     docs_json = root / "docs" / "docs.json"
     if not docs_json.is_file():
-        return targets
+        return pairs
     data = json.loads(docs_json.read_text(encoding="utf-8-sig"))
-    def walk(node):
+
+    def walk(node, group: Optional[str] = None):
         if isinstance(node, dict):
-            for key, value in node.items():
-                if key == "pages":
-                    targets.extend(p for p in value if isinstance(p, str) and not p.startswith(("GET ", "POST ", "PUT ", "PATCH ", "DELETE ", "https://", "http://")))
-                if key == "root" and isinstance(value, str):
-                    targets.append(value)
-                if isinstance(value, (dict, list)):
-                    walk(value)
+            if isinstance(node.get("group"), str):
+                group = node["group"]
+            pages = node.get("pages")
+            if isinstance(pages, list):
+                for page in pages:
+                    if isinstance(page, str) and not page.startswith(("GET ", "POST ", "PUT ", "PATCH ", "DELETE ", "https://", "http://")):
+                        pairs.append((group, page))
+            for value in node.values():
+                walk(value, group)
         elif isinstance(node, list):
             for item in node:
-                walk(item)
+                walk(item, group)
+
     walk((data or {}).get("navigation", {}))
-    return targets
+    return pairs
 
 
-def validate_nav(root: Path) -> List[Issue]:
-    """Navigation = publish (B3): pages listed in docs.json must not be draft/review.
+def _resolve_nav_page(root: Path, page: str) -> Optional[Path]:
+    content_root = root / "docs"
+    for suffix in (".md", ".mdx"):
+        candidate = content_root / f"{page}{suffix}"
+        if candidate.is_file():
+            return candidate
+    return None
 
-    Missing targets and invalid front matter also block publication.
+
+def _group_type_issue(group, page, fm) -> Optional[Issue]:
+    """A nav page must match its six-group canonical content type (#1)."""
+    allowed = NAV_GROUP_TYPES.get(group) if group else None
+    if not allowed:
+        return None
+    for (typ, subtype) in allowed:
+        if fm.type != typ:
+            continue
+        if subtype is None:
+            ok = fm.subtype is None
+        elif subtype == "*":
+            ok = True
+        else:
+            ok = fm.subtype == subtype
+        if ok:
+            return None
+    return Issue(
+        file="docs/docs.json",
+        field=page,
+        reason=f"group '{group}' does not allow type={fm.type.value} subtype={fm.subtype.value if fm.subtype else None}",
+    )
+
+
+def _required_section_issues(path: Path, rel: str, fm) -> List[Issue]:
+    """Required per-type section slots for published detail pages (#9)."""
+    expected = REQUIRED_SECTIONS.get(fm.type)
+    if not expected or fm.layout == "index" or fm.entityRef:
+        return []
+    headings = {line.lstrip("#").strip() for line in path.read_text(encoding="utf-8-sig").splitlines() if line.startswith("#")}
+    sections = fm.sections or {}
+    issues = []
+    for slot in expected:
+        heading = sections.get(slot)
+        if not heading or heading not in headings:
+            issues.append(Issue(file=rel, field=f"sections.{slot}",
+                                reason=f"nav page missing required section '{slot}' (type {fm.type.value})"))
+    return issues
+
+
+def validate_nav(root: Path, *, release: bool = False) -> List[Issue]:
+    """Navigation gate (B3, two-phase).
+
+    Preview (default): every docs.json target must exist, carry valid front
+    matter and fit its nav group's canonical content type. ``release=True``
+    additionally requires targets to be approved/published and their detail
+    pages to provide the type's required sections.
     """
     issues: List[Issue] = []
-    content_root = root / "docs"
-    for page in _nav_page_targets(root):
-        path = content_root / f"{page}.md"
-        if not path.is_file():
-            path = content_root / f"{page}.mdx"
-        if not path.is_file():
+    for group, page in _nav_pages(root):
+        path = _resolve_nav_page(root, page)
+        if path is None:
             issues.append(Issue(file="docs/docs.json", field=page, reason="navigation target missing"))
             continue
         parsed = _page_frontmatter(root, path)
@@ -164,14 +241,20 @@ def validate_nav(root: Path) -> List[Issue]:
             issues.append(Issue(file="docs/docs.json", field=page, reason="navigation target has invalid front matter"))
             continue
         rel, fm = parsed
-        if fm.status not in (DocStatus.APPROVED, DocStatus.PUBLISHED):
-            issues.append(
-                Issue(
-                    file="docs/docs.json",
-                    field=page,
-                    reason=f"navigation references {rel} which is still {fm.status.value}; navigation = published/approved only",
+        group_issue = _group_type_issue(group, page, fm)
+        if group_issue:
+            issues.append(group_issue)
+        if release:
+            if fm.status not in (DocStatus.APPROVED, DocStatus.PUBLISHED):
+                issues.append(
+                    Issue(
+                        file="docs/docs.json",
+                        field=page,
+                        reason=f"navigation references {rel} which is still {fm.status.value}; navigation = published/approved only",
+                    )
                 )
-            )
+            for issue in _required_section_issues(path, rel, fm):
+                issues.append(issue)
     return issues
 
 

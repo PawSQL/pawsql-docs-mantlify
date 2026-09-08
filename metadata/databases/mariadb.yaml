@@ -2,33 +2,29 @@
 database: mariadb
 title: MariaDB
 supportedVersions:
-  - '10.6'
-  - '10.11'
-  - '11.4'
+- '10.6'
+- '10.11'
+- '11.4'
 features:
   optimizer: true
   audit: true
   planVisualizer: false
 content:
   en:
-    description: PawSQL supports MariaDB SQL for review, rewrite, and index recommendation across supported release lines.
-    notes: Version list and capability status are sample data pending confirmation from the product team.
+    description: PawSQL supports MariaDB SQL for review, rewrite, and index recommendation
+      across supported release lines.
+    notes: Version list and capability status are sample data pending confirmation
+      from the product team.
     keyFeatures:
     - Cost-based index recommendation
     - Semantic query rewrite
     - SQL audit rule review
     editorial:
       status: draft
-compatibility:
-- databaseVersions: ['10.6', '10.11', '11.4']
-  capability: sql-rewrite
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['10.6', '10.11', '11.4']
-  capability: sql-audit
-  status: unknown
-  evidenceIds: []
-- databaseVersions: ['10.6', '10.11', '11.4']
-  capability: plan-visualization
-  status: unknown
-  evidenceIds: []
+capabilities:
+  sql-audit: supported
+  sql-rewrite: supported
+  index-recommendation: supported
+  performance-validation: partial
+  plan-visualization: partial
+  performance-inspection: partial

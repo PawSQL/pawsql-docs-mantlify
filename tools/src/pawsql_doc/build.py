@@ -68,7 +68,7 @@ def build(root: Path, mode="preview", output: Path | None = None):
             release_root = staging / "release-root"
             release_root.mkdir()
             shutil.move(str(staging / "site"), str(release_root / "docs"))
-            problems = validate_nav(release_root)
+            problems = validate_nav(release_root, release=True)
             if problems:
                 raise ValueError("staged navigation invalid: " + str(problems))
             shutil.copytree(release_root / "docs", output)
@@ -78,6 +78,12 @@ def build(root: Path, mode="preview", output: Path | None = None):
             target.parent.mkdir(parents=True, exist_ok=True)
             if not target.exists() or target.read_bytes() != p.read_bytes():
                 shutil.copy2(p, target)
+        # Splicing the aggregate matrix into the authored supported-databases
+        # pages runs against the real content root (staging has no such page),
+        # keeping prose outside the markers untouched and the matrix in sync
+        # with metadata/databases. These pages stay out of generated-manifest.
+        from pawsql_doc.generators.structured import sync_database_matrix
+        sync_database_matrix(root, bundle)
         # Keep stale ownership records: do not silently forget orphaned artifacts.
         manifest_path.parent.mkdir(parents=True, exist_ok=True)
         manifest_path.write_text(json.dumps({**{k: previous[k] for k in stale}, **expected}, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
