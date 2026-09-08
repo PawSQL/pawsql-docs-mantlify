@@ -12,7 +12,7 @@ def test_build_references_writes_pages(repo):
     assert any(p.name == "aud-one.md" and "audit-rules" in p.parts for p in written)
     assert (repo / "docs/en/reference/audit-rules/aud-one.md").is_file()
     assert (repo / "docs/en/reference/optimizer-rules/opt-rewrite.md").is_file()
-    assert (repo / "docs/en/reference/compatibility/index.md").is_file()
+    assert not (repo / "docs/en/reference/compatibility/index.md").exists()
     assert (repo / "docs/en/databases/postgresql/index.md").is_file()
     assert (repo / "docs/en/reference/configuration/explain-timeout.md").is_file()
 
@@ -52,10 +52,10 @@ def test_config_page_contains_parameter_and_scope(repo):
     assert "optimizer" in text
 
 
-def test_compatibility_matrix_lists_database(repo):
+def test_database_page_lists_database(repo):
     bundle, _ = load_metadata(repo)
     build_references(repo, bundle)
-    text = (repo / "docs/en/reference/compatibility/index.md").read_text(encoding="utf-8")
+    text = (repo / "docs/en/databases/postgresql/index.md").read_text(encoding="utf-8")
     assert "postgresql" in text
     assert "16" in text
 

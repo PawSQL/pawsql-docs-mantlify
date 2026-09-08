@@ -49,9 +49,6 @@ def database_reference_path(db: DatabaseMetadata) -> str:
     return f"docs/en/databases/{db.database}/index.md"
 
 
-COMPATIBILITY_PATH = "docs/en/reference/compatibility/index.md"
-
-
 def config_reference_path(cfg: ConfigMetadata) -> str:
     # Configuration references are English-only until P0.6.
     return f"docs/en/reference/configuration/{slug(cfg.name)}.md"
@@ -74,8 +71,6 @@ def missing_reference_docs(root: Path, bundle) -> List[Issue]:
         rel = f"metadata/databases/{db.database}.yaml"
         if not _exists(root, database_reference_path(db)):
             issues.append(Issue(file=rel, field="reference-doc", reason=f"missing database guide: {database_reference_path(db)}"))
-        if not _exists(root, COMPATIBILITY_PATH):
-            issues.append(Issue(file=rel, field="reference-doc", reason=f"missing compatibility matrix: {COMPATIBILITY_PATH}"))
     for cfg in sorted(bundle.configs, key=lambda c: c.name):
         rel = f"metadata/configs/{slug(cfg.name)}.yaml"
         path = config_reference_path(cfg)
@@ -155,11 +150,7 @@ def _reference_ok(root: Path, bundle, kind: str) -> CoverageLine:
 
 def _database_reference_ok(root: Path, bundle) -> CoverageLine:
     dbs = bundle.databases
-    ok = sum(
-        1
-        for db in dbs
-        if _exists(root, database_reference_path(db)) and _exists(root, COMPATIBILITY_PATH)
-    )
+    ok = sum(1 for db in dbs if _exists(root, database_reference_path(db)))
     return CoverageLine("database-reference", ok, len(dbs))
 
 

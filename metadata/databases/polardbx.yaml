@@ -1,0 +1,33 @@
+# SAMPLE - example metadata, verify versions/features against the product.
+database: polardbx
+title: PolarDB-X
+supportedVersions:
+  - '5.4'
+  - '6.0'
+features:
+  optimizer: true
+  audit: true
+  planVisualizer: false
+content:
+  en:
+    description: PawSQL supports PolarDB-X SQL and its distributed database features, including cross-node access analysis.
+    notes: Version list and capability status are sample data pending confirmation from the product team.
+    keyFeatures:
+    - Cost-based index recommendation
+    - Semantic query rewrite
+    - SQL audit rule review
+    editorial:
+      status: draft
+compatibility:
+- databaseVersions: ['5.4', '6.0']
+  capability: sql-rewrite
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['5.4', '6.0']
+  capability: sql-audit
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['5.4', '6.0']
+  capability: plan-visualization
+  status: unknown
+  evidenceIds: []

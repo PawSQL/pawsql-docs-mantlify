@@ -1,29 +1,294 @@
 ---
-id: en-getting-started-supported-databases
+id: getting-started-supported-databases
 title: Supported Databases
-description: Databases and versions PawSQL optimizes and audits.
-type: reference
+description: Databases PawSQL supports (relational, Chinese enterprise, distributed, and big-data), with a per-database capability matrix.
+type: explanation
 product: pawsql
 status: draft
 tags:
 - databases
 - compatibility
 - getting-started
-localeOf: getting-started-supported-databases
-subtype: database
 language: en
 translationKey: getting-started-supported-databases
-layout: index
-components:
-- optimizer
+localeOf: zh-getting-started-supported-databases
+layout: detail
+capabilities:
+- sql-audit
+- sql-rewrite
+- index-recommendation
+- performance-validation
+- plan-visualization
+sections:
+  relational: Relational Databases
+  distributed: Distributed Databases
+  bigData: Big Data
+  matrix: Compatibility Matrix
+  parsingNotEnough: Database Support Is More Than SQL Parsing
+  onlineOffline: Online and Offline Modes
+  versionCompatibility: Version Compatibility
+  variants: Compatible Database Variants
+  availability: Feature Availability
+  notFound: Need Support for Another Database?
 ---
 
-# Supported Databases
+PawSQL supports a wide range of mainstream relational databases, Chinese enterprise databases, distributed databases, and big-data SQL engines.
 
-See the [compatibility matrix](/en/reference/compatibility/index) for database-version and capability-specific records.
+Support varies by database and capability. In addition to SQL parsing, PawSQL may provide SQL review, query rewrite, index recommendation, execution plan analysis, performance validation, and production SQL governance depending on the target database.
 
-Support is conditional on the recorded versions and capabilities; it must not be inferred for an entire database family. `unknown` means unverified, not supported or unsupported.
+---
 
-The authoritative source is `metadata/databases/*.yaml`; the matrix is generated from it and must not be edited by hand.
+## Relational Databases
 
-> Draft: the version and capability list is being reconciled with the product team.
+### Mainstream Databases
+
+- MySQL
+- PostgreSQL
+- MariaDB
+- Oracle
+- Microsoft SQL Server
+- IBM Db2
+
+### Chinese Enterprise Databases
+
+- openGauss
+- GaussDB
+- KingbaseES
+- Dameng
+- MogDB
+
+PawSQL provides database-specific adaptations instead of treating these systems only as MySQL- or PostgreSQL-compatible dialects.
+
+Depending on the database, adaptations may cover:
+
+- SQL syntax and data types
+- Built-in functions
+- DDL syntax
+- Metadata interfaces
+- Indexing mechanisms
+- Query optimizer behavior
+- Execution plan formats
+
+---
+
+## Distributed Databases
+
+PawSQL provides dedicated support for distributed database systems where SQL performance depends not only on access paths and indexes, but also on data distribution and cross-node execution.
+
+Supported distributed databases include:
+
+- OceanBase
+  - MySQL Mode
+  - Oracle Mode
+- TDSQL MySQL
+- TDSQL PostgreSQL
+- TDSQL PostgreSQL Distributed
+- TDSQLx-MySQL
+- GoldenDB
+- PolarDB-X
+
+For distributed databases, PawSQL can analyze database-specific characteristics such as:
+
+- Distribution keys
+- Sharding keys
+- Sharded tables
+- Replicated or broadcast tables
+- Cross-shard joins
+- Data redistribution
+- Local and global indexes
+- Distributed execution plans
+
+These capabilities can be used in SQL review, migration governance, and distributed SQL performance optimization.
+
+---
+
+## Big Data
+
+### Apache Hive
+
+PawSQL supports Apache Hive SQL and provides optimization rules designed specifically for distributed analytical workloads.
+
+Supported analysis scenarios include:
+
+- Partition pruning
+- Bucketed join analysis
+- MapJoin-related optimization
+- `COUNT DISTINCT` skew analysis
+- `GROUP BY` skew analysis
+- Window-function skew analysis
+- Global sorting and Top-N optimization
+- `UNION` skew analysis
+- Distributed SQL best-practice checks
+
+Hive support focuses on SQL quality, execution efficiency, and data-skew risks that are specific to large-scale distributed processing.
+
+---
+
+## Compatibility Matrix
+
+The following matrix summarizes the major PawSQL capabilities available across supported databases.
+
+| Database | SQL Review | Query Rewrite | Index Advisor | Metadata Analysis | Performance Validation | Plan Analysis | Production Governance |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| PostgreSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| MariaDB | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| Oracle | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| SQL Server | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| IBM Db2 | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| openGauss | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| GaussDB | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| KingbaseES | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| Dameng | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| MogDB | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| OceanBase MySQL Mode | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| OceanBase Oracle Mode | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| TDSQL MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TDSQL PostgreSQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| TDSQLx-MySQL | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ◐ |
+| GoldenDB | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| PolarDB-X | ✓ | ✓ | ✓ | ✓ | ◐ | ◐ | ◐ |
+| Apache Hive | ✓ | ✓ | — | ◐ | — | ◐ | ◐ |
+
+**Legend**
+
+- **✓** Fully supported
+- **◐** Supported with database- or version-specific limitations
+- **—** Not applicable or currently unavailable
+
+> The matrix represents PawSQL's overall product capabilities. Exact support may vary by PawSQL release, database version, deployment mode, and whether online metadata access is available.
+
+---
+
+
+## Database Support Is More Than SQL Parsing
+
+For PawSQL, supporting a database does not simply mean that its SQL syntax can be parsed.
+
+Database integration may include multiple layers:
+
+```text
+SQL Dialect
+    ↓
+Semantic Analysis
+    ↓
+Schema & Metadata
+    ↓
+Rewrite Rules
+    ↓
+Index Model
+    ↓
+Database Optimizer
+    ↓
+Execution Plan
+    ↓
+Performance Validation
+```
+
+The deeper the integration, the more database-aware optimization PawSQL can provide.
+
+---
+
+## Online and Offline Modes
+
+PawSQL can work in both online and offline environments.
+
+### Online Mode
+
+When PawSQL can connect to the target database, it may retrieve:
+
+- Tables
+- Columns
+- Indexes
+- Views
+- Statistics
+- Distribution metadata
+- Execution plans
+
+Online mode provides the richest context for SQL optimization and performance validation.
+
+### Offline Mode
+
+When direct database access is restricted, PawSQL can analyze SQL based on schema definitions such as:
+
+- DDL files
+- Manually imported DDL
+- Schema exported from development or test environments
+
+Offline mode is commonly used for:
+
+- CI/CD
+- SQL Quality Gates
+- Pre-production review
+- Security-isolated environments
+- Database migration
+- Financial industry environments
+
+---
+
+## Version Compatibility
+
+Database capabilities may differ between major and minor versions.
+
+Examples include:
+
+- SQL syntax changes
+- New data types
+- Optimizer behavior
+- Execution plan formats
+- Metadata interfaces
+- Distributed database features
+
+For production deployment, always verify compatibility against the PawSQL release you are using.
+
+---
+
+## Compatible Database Variants
+
+Some databases are derived from or compatible with MySQL, PostgreSQL, or openGauss.
+
+PawSQL does not automatically assume that compatible databases are identical.
+
+Database-specific differences may exist in:
+
+- Functions
+- DDL
+- Hints
+- Indexes
+- System catalogs
+- Distribution syntax
+- Optimizer behavior
+- Execution plans
+
+Where required, PawSQL maintains dedicated adaptations for individual database products.
+
+---
+
+## Feature Availability
+
+Feature availability may depend on:
+
+- Database type
+- Database version
+- PawSQL edition
+- PawSQL release
+- Online or offline mode
+- Availability of metadata and execution plans
+
+If a feature is marked as partially supported, contact the PawSQL team for the exact compatibility scope of your environment.
+
+---
+
+## Need Support for Another Database?
+
+If your database is not listed above, PawSQL may still be able to support it through an existing compatibility layer or a dedicated database adaptation.
+
+Typical cases include:
+
+- MySQL-compatible databases
+- PostgreSQL-compatible databases
+- openGauss-compatible databases
+- Industry-specific databases
+- Enterprise-customized database distributions
+
+Contact the PawSQL team to evaluate compatibility and adaptation requirements.

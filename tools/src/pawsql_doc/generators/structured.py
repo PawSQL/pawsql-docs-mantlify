@@ -1,7 +1,6 @@
 """Localized database/configuration references from neutral facts and own prose."""
 from pathlib import Path
 from pawsql_doc.generators.base import render_page, write_page, slug, code_block
-from pawsql_doc.models.governance import Editorial
 
 
 def _page(root, route, identity, lang, title, description, body, editorial=None):
@@ -47,27 +46,6 @@ def database_pages(root, db):
         identity = ("zh-" if zh else "") + f"database-{db.database}"
         written.append(_page(root, f"databases/{db.database}/index.md", identity, lang, name,
                             content.summary if content else None, "\n".join(body), content.editorial if content else None))
-    return written
-
-
-def compatibility_pages(root, databases):
-    written = []
-    for lang in ("zh", "en"):
-        zh = lang == "zh"
-        title = "数据库兼容性" if zh else "Database Compatibility Matrix"
-        body = ["| Database | Versions | Capability | Status |", "|---|---|---|---|"]
-        for db in sorted(databases, key=lambda d: d.database):
-            if db.compatibility:
-                body.extend(f"| {db.database} | {', '.join(row.databaseVersions)} | {row.capability} | {row.status} |" for row in db.compatibility)
-            else:
-                body.append(f"| {db.database} | {', '.join(db.supportedVersions)} | legacy claims | unknown |")
-        body.append("\nunknown 表示待验证，不表示支持或不支持。" if zh else "\nUnknown means unverified, not supported or unsupported.")
-        identity = ("zh-" if zh else "") + "database-compatibility-index"
-        contents = [getattr(db.content, lang) for db in databases]
-        approved = bool(contents) and all(c and c.editorial.status in {"approved", "published"} for c in contents)
-        editorial = Editorial(status="approved" if approved else "draft")
-        written.append(_page(root, "reference/compatibility/index.md", identity, lang, title,
-                            "按数据库版本和能力查看支持状态与待验证范围。" if zh else "Support status by database version and capability, including unverified claims.", "\n".join(body), editorial))
     return written
 
 

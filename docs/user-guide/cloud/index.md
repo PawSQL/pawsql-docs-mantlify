@@ -46,7 +46,7 @@ PawSQL 基于自研 SQL 解析器，支持多种数据库类型及 SQL 方言，
 - Oracle 11g 及以上（alpha）
 - KingbaseES V8（alpha）
 
-> 注：以上为历史快照，确切的支持范围以[数据库兼容性矩阵](en/reference/compatibility/index)为准，待产品复核。
+> 注：以上为历史快照，确切的支持范围以[支持的数据库](/getting-started/supported-databases)为准，待产品复核。
 
 ## 阅读路线
 

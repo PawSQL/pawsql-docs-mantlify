@@ -1,0 +1,33 @@
+# SAMPLE - example metadata, verify versions/features against the product.
+database: tdsql
+title: TDSQL
+supportedVersions:
+  - '5.7'
+  - '8.0'
+features:
+  optimizer: true
+  audit: true
+  planVisualizer: false
+content:
+  en:
+    description: PawSQL supports the TDSQL family (MySQL- and PostgreSQL-compatible variants) for distributed SQL review and optimization.
+    notes: Version list and capability status are sample data pending confirmation from the product team.
+    keyFeatures:
+    - Cost-based index recommendation
+    - Semantic query rewrite
+    - SQL audit rule review
+    editorial:
+      status: draft
+compatibility:
+- databaseVersions: ['5.7', '8.0']
+  capability: sql-rewrite
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['5.7', '8.0']
+  capability: sql-audit
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['5.7', '8.0']
+  capability: plan-visualization
+  status: unknown
+  evidenceIds: []

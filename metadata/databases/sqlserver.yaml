@@ -1,0 +1,34 @@
+# SAMPLE - example metadata, verify versions/features against the product.
+database: sqlserver
+title: Microsoft SQL Server
+supportedVersions:
+  - '2017'
+  - '2019'
+  - '2022'
+features:
+  optimizer: true
+  audit: true
+  planVisualizer: false
+content:
+  en:
+    description: PawSQL supports Microsoft SQL Server and the T-SQL dialect for SQL review, optimization, and governance.
+    notes: Version list and capability status are sample data pending confirmation from the product team.
+    keyFeatures:
+    - Cost-based index recommendation
+    - Semantic query rewrite
+    - SQL audit rule review
+    editorial:
+      status: draft
+compatibility:
+- databaseVersions: ['2017', '2019', '2022']
+  capability: sql-rewrite
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['2017', '2019', '2022']
+  capability: sql-audit
+  status: unknown
+  evidenceIds: []
+- databaseVersions: ['2017', '2019', '2022']
+  capability: plan-visualization
+  status: unknown
+  evidenceIds: []

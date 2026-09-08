@@ -7,7 +7,7 @@ from typing import List, Optional
 from pawsql_doc.generators.rule_generator import generate_rule_reference
 from pawsql_doc.generators.catalog import build_rule_indexes
 from pawsql_doc.loaders import MetadataBundle
-from pawsql_doc.generators.structured import database_pages, compatibility_pages, config_pages
+from pawsql_doc.generators.structured import database_pages, config_pages
 
 
 def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
@@ -20,8 +20,6 @@ def build_references(root: Path, bundle: MetadataBundle) -> List[Path]:
 
     for db in sorted(bundle.databases, key=lambda d: d.database):
         written.extend(database_pages(root, db))
-    if bundle.databases:
-        written.extend(compatibility_pages(root, bundle.databases))
 
     for cfg in sorted(bundle.configs, key=lambda c: c.name):
         written.extend(config_pages(root, cfg))
