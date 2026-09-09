@@ -74,7 +74,12 @@
               {
                 "group": "场景",
                 "pages": [
-                  "use-cases/index"
+                  "use-cases/index",
+                  "use-cases/developer-sql-copilot",
+                  "use-cases/sql-quality-gate-cicd",
+                  "use-cases/slow-sql-optimization",
+                  "use-cases/database-migration-sql-governance",
+                  "use-cases/enterprise-sql-governance"
                 ]
               }
             ]
@@ -162,7 +167,11 @@
               {
                 "group": "Scenarios",
                 "pages": [
-                  "en/use-cases/index"
+                  "en/use-cases/index",
+                  "en/use-cases/developer-sql-copilot",
+                  "en/use-cases/sql-quality-gate-cicd",
+                  "en/use-cases/slow-sql-optimization",
+                  "en/use-cases/enterprise-sql-governance"
                 ]
               }
             ]

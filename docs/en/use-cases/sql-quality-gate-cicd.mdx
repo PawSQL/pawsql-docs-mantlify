@@ -1,0 +1,779 @@
+---
+id: en-use-case-sql-quality-gate-cicd
+title: SQL Quality Gate for CI/CD
+description: Integrate automated SQL review and optimization into your CI/CD pipeline.
+  Detect risky and inefficient SQL before it reaches production with PawSQL.
+type: use-case
+product: pawsql
+status: draft
+tags:
+- use-case
+- sql-quality-gate-cicd
+language: en
+translationKey: use-case-sql-quality-gate-cicd
+localeOf: use-case-sql-quality-gate-cicd
+layout: detail
+---
+
+## Stop Bad SQL Before It Reaches Production
+
+Modern development teams automate code testing, security scanning, builds, and deployments through CI/CD pipelines.
+
+SQL, however, is often still reviewed manually.
+
+A developer submits a database change, a DBA reviews the SQL, comments on potential risks, waits for revisions, and reviews it again.
+
+As development teams scale, this process quickly becomes a bottleneck.
+
+**PawSQL brings automated SQL review and performance analysis into your CI/CD pipeline, allowing teams to detect risky and inefficient SQL before it reaches production.**
+
+---
+
+## The Challenge
+
+Imagine a development organization with:
+
+- 300+ developers
+- 50+ applications
+- MySQL, PostgreSQL, Oracle, SQL Server, and distributed databases
+- dozens of releases every week
+- hundreds or thousands of SQL changes every month
+
+A typical database release process may look like this:
+
+```text
+Developer
+    ↓
+Commit SQL
+    ↓
+Pull Request
+    ↓
+DBA Manual Review
+    ↓
+Developer Modification
+    ↓
+DBA Re-review
+    ↓
+Release
+```
+
+This model works when the development team is small.
+
+At scale, several problems emerge.
+
+### DBA Becomes a Delivery Bottleneck
+
+DBAs must manually inspect large numbers of SQL statements, including:
+
+- DDL changes
+- DML scripts
+- application queries
+- data migration scripts
+- schema modifications
+
+Routine SQL reviews consume significant DBA capacity that could otherwise be spent on architecture, capacity planning, and production performance engineering.
+
+---
+
+### SQL Review Standards Are Difficult to Enforce Consistently
+
+Different DBAs may apply different standards.
+
+Different teams may also maintain their own database development guidelines.
+
+For example:
+
+```text
+Team A
+50 SQL rules
+
+Team B
+80 SQL rules
+
+Team C
+Manual DBA review
+
+Team D
+No SQL review
+```
+
+As a result, SQL quality increasingly depends on individual experience rather than a consistent engineering process.
+
+---
+
+### Performance Problems Are Often Found Too Late
+
+Traditional SQL audit tools mainly check coding conventions.
+
+They may detect:
+
+```sql
+SELECT *
+FROM orders;
+```
+
+or:
+
+```sql
+UPDATE orders
+SET status = 'CLOSED';
+```
+
+But many production SQL problems are syntactically correct and still inefficient.
+
+For example:
+
+```sql
+SELECT *
+FROM orders
+WHERE DATE(create_time) = '2026-09-04'
+  AND customer_id = 10086;
+```
+
+The SQL is valid.
+
+But applying a function to `create_time` may prevent the database from efficiently using an index on that column.
+
+These issues may not become visible until the table contains millions of rows.
+
+---
+
+# The PawSQL Solution
+
+PawSQL introduces an automated SQL Quality Gate into the software delivery pipeline.
+
+```text
+Developer Commit
+       ↓
+Pull Request
+       ↓
+CI/CD Pipeline
+       ↓
+PawSQL SQL Analysis
+       ↓
+┌───────────────────────┐
+│ SQL Quality Evaluation│
+└───────────────────────┘
+       ↓
+ ┌────────────┬────────────┐
+ │ PASS       │ BLOCK      │
+ │            │            │
+ │ Merge      │ Fix SQL    │
+ └────────────┴────────────┘
+```
+
+Instead of waiting for a DBA to manually inspect every SQL statement, PawSQL automatically analyzes database changes as part of the CI/CD process.
+
+Developers receive feedback before the SQL reaches production.
+
+---
+
+# What PawSQL Checks
+
+PawSQL combines **SQL governance** and **SQL performance optimization** in the same analysis process.
+
+## SQL Coding and Safety Rules
+
+PawSQL can identify potentially risky SQL patterns such as:
+
+- `SELECT *`
+- `UPDATE` without appropriate predicates
+- `DELETE` without appropriate predicates
+- dangerous DDL operations
+- excessive transaction sizes
+- problematic data type usage
+- improper index definitions
+- naming convention violations
+
+Example:
+
+```sql
+DELETE FROM orders;
+```
+
+PawSQL can classify this statement as a high-risk operation and prevent it from passing the SQL Quality Gate.
+
+---
+
+## SQL Performance Risks
+
+PawSQL also analyzes SQL patterns that may cause poor execution performance.
+
+Examples include:
+
+- non-SARGable predicates
+- unnecessary `DISTINCT`
+- inefficient correlated subqueries
+- redundant joins
+- inefficient `OR` conditions
+- deep pagination
+- improper aggregation
+- unnecessary sorting
+- missing indexes
+
+For example:
+
+```sql
+SELECT *
+FROM orders
+WHERE DATE(create_time) = '2026-09-04'
+  AND customer_id = 10086;
+```
+
+PawSQL may identify:
+
+```text
+Performance Issue
+
+Function applied to indexed column:
+
+DATE(create_time)
+
+Potential impact:
+
+The database may not efficiently use an index on create_time.
+```
+
+PawSQL can then suggest an equivalent rewrite:
+
+```sql
+SELECT *
+FROM orders
+WHERE create_time >= '2026-09-04 00:00:00'
+  AND create_time <  '2026-09-05 00:00:00'
+  AND customer_id = 10086;
+```
+
+---
+
+# Go Beyond SQL Linting
+
+SQL linting tools typically answer one question:
+
+> Does this SQL follow our coding standards?
+
+PawSQL addresses a broader question:
+
+> Is this SQL safe, correct, and likely to perform efficiently in production?
+
+The analysis can include:
+
+```text
+SQL
+ │
+ ├── Syntax Analysis
+ │
+ ├── SQL Review Rules
+ │
+ ├── Query Rewrite
+ │
+ ├── Index Recommendation
+ │
+ ├── Schema Metadata
+ │
+ └── Execution Plan Analysis
+```
+
+This allows PawSQL to detect issues that conventional static SQL linters may miss.
+
+---
+
+# Example: Detecting an Inefficient Query Before Release
+
+Consider an API used to retrieve customer orders.
+
+A developer submits:
+
+```sql
+SELECT order_id,
+       customer_id,
+       create_time,
+       status
+FROM orders
+WHERE DATE(create_time) = '2026-09-04'
+  AND customer_id = 10086
+ORDER BY create_time DESC;
+```
+
+Assume the table contains:
+
+```text
+orders
+--------------------------------
+Rows:            80,000,000
+customer_id:     indexed
+create_time:     indexed
+```
+
+The query passes functional testing because the development environment contains only a small dataset.
+
+PawSQL analyzes the SQL during the pull request.
+
+---
+
+## Step 1 — Detect the Performance Risk
+
+PawSQL identifies:
+
+```text
+Rule
+
+Function on indexed column
+
+Expression
+
+DATE(create_time)
+
+Risk
+
+The expression may prevent the optimizer from
+using the create_time index efficiently.
+```
+
+---
+
+## Step 2 — Generate an Equivalent Rewrite
+
+PawSQL can recommend rewriting the predicate as a range condition:
+
+```sql
+SELECT order_id,
+       customer_id,
+       create_time,
+       status
+FROM orders
+WHERE create_time >= '2026-09-04 00:00:00'
+  AND create_time <  '2026-09-05 00:00:00'
+  AND customer_id = 10086
+ORDER BY create_time DESC;
+```
+
+---
+
+## Step 3 — Recommend an Index
+
+Based on query predicates and ordering requirements, PawSQL may recommend an index such as:
+
+```sql
+CREATE INDEX idx_orders_customer_create_time
+ON orders(customer_id, create_time);
+```
+
+Instead of providing a generic recommendation such as:
+
+> Add an index.
+
+PawSQL analyzes query structure and predicate relationships to generate a more actionable recommendation.
+
+---
+
+## Step 4 — Validate the Optimization
+
+Where database connectivity and execution-plan analysis are available, PawSQL can compare the execution strategy before and after optimization.
+
+For example:
+
+```text
+Before Optimization
+
+Table Scan / Large Range Scan
+Estimated Cost: 18452
+
+
+After Optimization
+
+Index Range Scan
+Estimated Cost: 327
+```
+
+The optimization recommendation can therefore be evaluated before it is merged into the release branch.
+
+---
+
+# Pull Request Feedback
+
+PawSQL analysis results can be incorporated into the development workflow.
+
+A pull request may receive feedback such as:
+
+```text
+PawSQL SQL Review
+
+Files analyzed:          4
+SQL statements:          37
+
+Passed:                  31
+Warnings:                 4
+Critical issues:          2
+
+Critical Issues
+
+1. DELETE without selective predicate
+   migration/V20260904_01.sql:28
+
+2. Non-SARGable predicate
+   OrderMapper.xml:142
+
+Optimization Suggestions
+
+- Rewrite DATE(create_time)
+- Add composite index:
+  (customer_id, create_time)
+```
+
+Developers can fix the SQL before requesting final approval.
+
+---
+
+# Define Your SQL Quality Gate
+
+Different organizations have different database governance policies.
+
+A financial institution may treat certain SQL operations as critical:
+
+```text
+TRUNCATE TABLE
+DROP TABLE
+UPDATE without selective predicate
+DELETE without selective predicate
+```
+
+A SaaS company may focus more heavily on performance:
+
+```text
+Full table scan risk
+Deep pagination
+Missing indexes
+Correlated subqueries
+Large joins
+```
+
+PawSQL allows SQL rules to become part of the engineering process rather than remaining only in internal database development documents.
+
+A typical policy might look like:
+
+| Severity | CI/CD Behavior |
+|---|---|
+| Info | Record only |
+| Warning | Allow merge with warning |
+| Error | Require developer confirmation |
+| Critical | Block pipeline |
+
+This creates a measurable and repeatable SQL governance process.
+
+---
+
+# Integrate SQL Review Into the Development Lifecycle
+
+PawSQL can be integrated into different stages of software development.
+
+```text
+                 SQL Development Lifecycle
+
+Developer
+   │
+   ▼
+IDE
+   │
+   │ PawSQL Developer Feedback
+   ▼
+Git Repository
+   │
+   ▼
+Pull Request
+   │
+   │ PawSQL SQL Review
+   ▼
+CI/CD Pipeline
+   │
+   │ SQL Quality Gate
+   ▼
+Deployment
+   │
+   ▼
+Production
+   │
+   │ Slow Query Monitoring
+   ▼
+PawSQL Performance Analysis
+```
+
+This shifts SQL quality management from a single release-stage review into a continuous engineering process.
+
+---
+
+# From DBA Review to Database DevOps
+
+The goal is not to remove DBAs from the development process.
+
+It is to automate repetitive SQL review so DBAs can focus on higher-value problems.
+
+## Traditional Model
+
+```text
+Every SQL
+   ↓
+DBA
+   ↓
+Manual Review
+```
+
+DBAs spend significant time checking routine issues.
+
+---
+
+## PawSQL Model
+
+```text
+Every SQL
+   ↓
+PawSQL
+   ↓
+Automated Analysis
+   ↓
+Only Complex / High-Risk SQL
+   ↓
+DBA
+```
+
+Routine problems are detected automatically.
+
+DBAs focus on:
+
+- complex SQL
+- architecture decisions
+- database design
+- production incidents
+- capacity planning
+- critical release changes
+
+---
+
+# Expected Outcomes
+
+Organizations adopting automated SQL Quality Gates typically aim to improve four areas.
+
+## Earlier Detection
+
+Find SQL issues during development instead of after production deployment.
+
+```text
+Production
+     ↑
+
+Release
+     ↑
+
+CI/CD      ← PawSQL
+
+Pull Request
+
+Development
+```
+
+The earlier a SQL performance problem is detected, the lower the cost of fixing it.
+
+---
+
+## Faster Database Release Reviews
+
+Automate repetitive SQL checks and reduce manual DBA workload.
+
+Possible internal KPIs include:
+
+| Metric | Before | Target |
+|---|---:|---:|
+| Average SQL review time | 30 min | < 5 min |
+| SQL automatically reviewed | 0% | > 80% |
+| DBA manual review workload | 100% | < 30% |
+| SQL issues found before release | 40% | > 90% |
+
+> These metrics should be defined according to the organization's own baseline and governance policy.
+
+---
+
+## Consistent SQL Standards
+
+Move database development rules from documentation into executable engineering controls.
+
+Instead of:
+
+```text
+Database Development Specification.pdf
+```
+
+the rules become:
+
+```text
+SQL Standards
+     ↓
+PawSQL
+     ↓
+CI/CD
+     ↓
+Automatically Enforced
+```
+
+---
+
+## Fewer Production SQL Incidents
+
+The ultimate goal of SQL Quality Gates is not simply to generate more review reports.
+
+It is to prevent problematic SQL from reaching production.
+
+---
+
+# Why PawSQL
+
+A SQL Quality Gate requires more than a SQL parser.
+
+PawSQL combines several capabilities in the same platform.
+
+| Capability | Purpose |
+|---|---|
+| SQL Parsing | Understand complex SQL syntax |
+| SQL Review | Detect coding and safety violations |
+| Query Rewrite | Generate optimization alternatives |
+| Index Advisor | Recommend appropriate indexes |
+| Execution Plan Analysis | Understand database execution strategies |
+| Performance Validation | Evaluate whether optimization is beneficial |
+| Multi-Database Support | Apply governance across heterogeneous databases |
+| API / Webhook Integration | Integrate with CI/CD workflows |
+
+This makes PawSQL suitable not only for SQL auditing but also for **continuous SQL performance engineering**.
+
+---
+
+# Supported Development Scenarios
+
+The SQL Quality Gate pattern can be applied to:
+
+- application development
+- database migration scripts
+- Flyway migrations
+- Liquibase migrations
+- SQL files
+- ORM-generated SQL
+- MyBatis Mapper SQL
+- data warehouse SQL
+- database release packages
+
+Typical integration points include:
+
+- Git-based development workflows
+- Pull Requests
+- Merge Requests
+- CI/CD pipelines
+- Webhooks
+- internal release platforms
+
+---
+
+# Who Is This For?
+
+This use case is particularly relevant for organizations that have:
+
+- large development teams
+- frequent database releases
+- multiple DBAs
+- heterogeneous database environments
+- strict production change controls
+- financial or regulated workloads
+- DevOps or DevSecOps initiatives
+- database development standards that need automated enforcement
+
+Typical roles include:
+
+### Development Teams
+
+Receive SQL feedback before code review is complete.
+
+### DBAs
+
+Reduce repetitive manual SQL review.
+
+### DevOps Teams
+
+Add database quality controls to CI/CD pipelines.
+
+### Engineering Managers
+
+Establish measurable SQL engineering standards.
+
+### Architects
+
+Apply consistent SQL governance across multiple databases.
+
+---
+
+# A Better SQL Release Process
+
+Without automated SQL review:
+
+```text
+Write SQL
+   ↓
+Test
+   ↓
+Release
+   ↓
+Production Problem
+   ↓
+DBA Investigation
+   ↓
+Emergency Optimization
+```
+
+With PawSQL:
+
+```text
+Write SQL
+   ↓
+PawSQL Analysis
+   ↓
+Fix SQL
+   ↓
+CI/CD Quality Gate
+   ↓
+Release
+   ↓
+Production Monitoring
+```
+
+The objective is simple:
+
+> **Find SQL problems when they are cheapest to fix.**
+
+---
+
+# Build SQL Quality Into Your CI/CD Pipeline
+
+SQL should be treated with the same engineering discipline as application code.
+
+Applications already have:
+
+- unit testing
+- code review
+- static analysis
+- security scanning
+- CI/CD quality gates
+
+Database SQL should have the same level of automated quality control.
+
+**PawSQL helps development teams make SQL review and optimization a standard part of the software delivery lifecycle.**
+
+[Explore PawSQL SQL Review →](/sql-review)
+
+[Learn About SQL Optimization →](/sql-optimization)
+
+[Request a Demo →](/contact)
+
+---
+
+## Related Use Cases
+
+- [Automated Slow SQL Optimization](/en/use-cases/slow-sql-optimization)
+- SQL Governance for Database Migration
+- [Developer SQL Optimization](/en/use-cases/developer-sql-copilot)
+- [Enterprise SQL Governance](/en/use-cases/enterprise-sql-governance)

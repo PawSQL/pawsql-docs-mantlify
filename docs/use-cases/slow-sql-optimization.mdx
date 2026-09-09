@@ -1,0 +1,1447 @@
+---
+id: use-case-slow-sql-optimization
+title: DBA 批量治理生产慢 SQL
+description: 从慢查询采集、SQL归一化、批量分析，到SQL重写、索引推荐和执行计划验证，PawSQL 帮助 DBA 将生产慢 SQL 治理从人工排查升级为自动化、规模化的性能工程流程。
+type: use-case
+product: pawsql
+status: draft
+tags:
+- use-case
+- slow-sql-optimization
+language: zh
+translationKey: use-case-slow-sql-optimization
+localeOf: en-use-case-slow-sql-optimization
+layout: detail
+---
+
+## 从“逐条救火”，升级为规模化慢 SQL 治理
+
+生产数据库中的慢 SQL 很少是单点问题。
+
+当业务规模扩大、系统数量增加、数据库实例增多之后，DBA 面对的往往不是：
+
+> “帮我优化这一条 SQL。”
+
+而是：
+
+> “今天生产环境又出现了几百条慢查询，哪些最重要？哪些可以自动优化？哪些需要 DBA 介入？”
+
+传统方式下，DBA 需要不断重复：
+
+```text
+查看慢 SQL
+    ↓
+检查执行计划
+    ↓
+查看表结构
+    ↓
+分析索引
+    ↓
+判断问题原因
+    ↓
+尝试 SQL 改写
+    ↓
+设计索引
+    ↓
+再次验证
+```
+
+当慢 SQL 数量从几十条增长到几百、几千条时，单纯依赖人工分析已经很难规模化。
+
+**PawSQL 将慢 SQL 采集、归一化、性能分析、SQL 重写、索引推荐和执行计划验证串联起来，帮助 DBA 建立一套可持续运行的生产 SQL 性能治理流程。**
+
+---
+
+# 一个典型的生产环境
+
+假设一家金融机构拥有：
+
+```text
+40+ 业务系统
+80+ 数据库实例
+多个数据库平台
+```
+
+包括：
+
+```text
+MySQL
+PostgreSQL
+Oracle
+SQL Server
+DB2
+openGauss
+TDSQL
+OceanBase
+...
+```
+
+每天生产环境产生：
+
+```text
+2,000+ 慢查询
+```
+
+其中很多 SQL 只是参数不同。
+
+例如：
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10086
+  AND order_status = 'PAID';
+```
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 20001
+  AND order_status = 'PAID';
+```
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 30012
+  AND order_status = 'PAID';
+```
+
+从 SQL 文本来看，它们是三条 SQL。
+
+但从性能治理角度来看，它们实际上属于同一个：
+
+> SQL Pattern
+
+如果 DBA 每条都单独处理，时间会被大量重复工作消耗。
+
+---
+
+# 慢 SQL 治理真正难在哪里？
+
+生产慢 SQL 治理通常面临四个问题。
+
+## 问题一：慢 SQL 数量太多
+
+假设每天产生：
+
+```text
+2,000 条慢 SQL
+```
+
+其中：
+
+```text
+1,400 条
+来自重复 SQL Pattern
+
+400 条
+属于已知问题
+
+200 条
+需要进一步分析
+```
+
+如果没有自动归类能力，DBA 很容易把大量时间耗费在重复 SQL 上。
+
+---
+
+## 问题二：慢不一定代表 SQL 本身有问题
+
+一条 SQL 变慢可能来自：
+
+- SQL 写法问题
+- 缺失索引
+- 索引失效
+- 数据量变化
+- 数据倾斜
+- 统计信息变化
+- 执行计划变化
+- 锁等待
+- IO 压力
+- CPU 资源竞争
+
+因此 DBA 不能只看到：
+
+```text
+Execution Time: 12.8s
+```
+
+就直接修改 SQL。
+
+首先需要判断：
+
+> 这个问题是否可以通过 SQL 优化解决？
+
+---
+
+## 问题三：知道“慢”，不等于知道“怎么改”
+
+很多监控平台可以告诉 DBA：
+
+```text
+这条 SQL 执行了 18 秒
+```
+
+但下一步仍然需要人工分析：
+
+```text
+为什么慢？
+
+哪里慢？
+
+能否重写？
+
+需要什么索引？
+
+优化后是否真的更好？
+```
+
+真正消耗 DBA 时间的是后面的分析过程。
+
+---
+
+## 问题四：优化建议缺少验证
+
+最常见的 SQL 优化建议是：
+
+```text
+建议增加索引
+```
+
+但真正的问题是：
+
+```text
+增加什么索引？
+
+是否已经存在相似索引？
+
+会不会产生冗余索引？
+
+SQL 重写后执行计划是否真的改善？
+
+优化后 Cost 是降低了，还是反而升高了？
+```
+
+生产环境需要的是：
+
+> 可验证的优化建议。
+
+而不仅仅是“可能更快”的经验判断。
+
+---
+
+# PawSQL 的治理方式
+
+PawSQL 将生产慢 SQL 治理拆成一个完整流程：
+
+```text
+生产数据库
+    ↓
+慢查询采集
+    ↓
+SQL 归一化 / 去重
+    ↓
+SQL Pattern 聚类
+    ↓
+性能风险分析
+    ↓
+┌─────────────────────┐
+│ SQL Rewrite         │
+│ Index Advisor       │
+│ Plan Analysis       │
+└─────────────────────┘
+    ↓
+性能验证
+    ↓
+DBA Review
+    ↓
+优化落地
+    ↓
+持续监控
+```
+
+这使 DBA 的工作方式从：
+
+```text
+逐条人工排查
+```
+
+逐步转变为：
+
+```text
+批量分析
++
+自动筛选
++
+重点审核
+```
+
+---
+
+# 示例：一天 2,000 条慢 SQL，DBA 应该先看什么？
+
+假设 PawSQL 从生产环境采集到：
+
+```text
+2,146 条慢 SQL
+```
+
+经过 SQL 归一化后：
+
+```text
+2,146 Slow Queries
+        ↓
+Normalize
+        ↓
+287 SQL Patterns
+```
+
+再按照执行频率、平均耗时、总耗时、风险等级等指标排序：
+
+| SQL Pattern | 调用次数 | 平均耗时 | 总耗时 | 风险 |
+|---|---:|---:|---:|---|
+| SQL-001 | 12,840 | 1.8s | 6.42h | High |
+| SQL-002 | 325 | 18.4s | 1.66h | Critical |
+| SQL-003 | 8,920 | 420ms | 1.04h | Medium |
+| SQL-004 | 61 | 42s | 42.7min | Critical |
+
+这时 DBA 不再需要从 2,146 条 SQL 中随机挑选。
+
+而是可以直接回答：
+
+> 哪些 SQL 对数据库总体性能影响最大？
+
+---
+
+# 第一步：识别高价值优化对象
+
+慢 SQL 优化不能只按照“单次耗时”排序。
+
+例如：
+
+### SQL A
+
+```text
+单次耗时：30 秒
+每天执行：5 次
+
+总耗时：
+150 秒
+```
+
+### SQL B
+
+```text
+单次耗时：800 ms
+每天执行：20,000 次
+
+总耗时：
+16,000 秒
+```
+
+SQL A 看起来更慢。
+
+但从整体数据库资源消耗来看，SQL B 可能更值得优先优化。
+
+因此慢 SQL 治理需要综合考虑：
+
+- 单次执行耗时
+- 执行频率
+- 总执行时间
+- 扫描行数
+- 返回行数
+- CPU 消耗
+- IO 消耗
+- SQL 风险等级
+
+最终建立：
+
+```text
+Optimization Priority
+```
+
+也就是：
+
+> 优化优先级。
+
+---
+
+# 第二步：自动分析 SQL 性能问题
+
+假设有一条高频慢 SQL：
+
+```sql
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.create_time,
+    o.total_amount
+FROM orders o
+WHERE DATE(o.create_time) = '2026-09-04'
+  AND o.customer_id = 10086;
+```
+
+PawSQL 可以识别：
+
+```text
+性能问题：
+
+过滤字段被函数包裹
+
+DATE(create_time)
+
+潜在影响：
+
+create_time 上的索引可能无法被充分利用
+```
+
+这类问题属于典型的：
+
+> Non-SARGable Predicate
+
+即可搜索性较差的查询条件。
+
+---
+
+# 第三步：自动生成 SQL 重写
+
+PawSQL 可以进一步给出等价改写：
+
+```sql
+SELECT
+    o.order_id,
+    o.customer_id,
+    o.create_time,
+    o.total_amount
+FROM orders o
+WHERE o.create_time >= '2026-09-04 00:00:00'
+  AND o.create_time <  '2026-09-05 00:00:00'
+  AND o.customer_id = 10086;
+```
+
+原 SQL：
+
+```sql
+DATE(create_time) = '2026-09-04'
+```
+
+变为：
+
+```sql
+create_time >= '2026-09-04 00:00:00'
+AND create_time < '2026-09-05 00:00:00'
+```
+
+这样可以让数据库优化器更容易使用索引范围扫描。
+
+---
+
+# 第四步：分析索引
+
+假设当前表有：
+
+```sql
+CREATE INDEX idx_orders_create_time
+ON orders(create_time);
+
+CREATE INDEX idx_orders_customer
+ON orders(customer_id);
+```
+
+而 SQL 同时使用：
+
+```text
+customer_id = ?
+```
+
+以及：
+
+```text
+create_time BETWEEN ...
+```
+
+PawSQL 可以进一步推荐：
+
+```sql
+CREATE INDEX idx_orders_customer_create_time
+ON orders(customer_id, create_time);
+```
+
+推荐过程不仅考虑：
+
+```text
+WHERE 条件
+```
+
+还可以结合：
+
+- 等值条件
+- 范围条件
+- Join 条件
+- Order By
+- Group By
+- 已有索引
+
+进行综合判断。
+
+---
+
+# 第五步：执行计划验证
+
+真正重要的一步，是验证：
+
+> 这个优化方案到底有没有效果？
+
+假设原 SQL 执行计划表现为：
+
+```text
+Original SQL
+
+Access Type:
+Range / Large Scan
+
+Estimated Rows:
+2,430,000
+
+Estimated Cost:
+31,842
+```
+
+优化后：
+
+```text
+Optimized SQL
+
+Access Type:
+Index Range Scan
+
+Index:
+idx_orders_customer_create_time
+
+Estimated Rows:
+186
+
+Estimated Cost:
+592
+```
+
+PawSQL 可以将两套方案进行对比：
+
+```text
+Original Cost
+31,842
+        ↓
+Optimized Cost
+592
+
+Cost Reduction
+98.1%
+```
+
+对于 DBA 来说，这比简单得到一句：
+
+```text
+建议创建索引
+```
+
+更有价值。
+
+因为优化建议已经得到数据库优化器的进一步验证。
+
+---
+
+# 示例二：相关子查询导致重复扫描
+
+生产环境中另一条 SQL：
+
+```sql
+SELECT
+    c.customer_id,
+    c.customer_name,
+    (
+        SELECT SUM(o.total_amount)
+        FROM orders o
+        WHERE o.customer_id = c.customer_id
+          AND o.order_status = 'PAID'
+    ) AS total_paid
+FROM customers c;
+```
+
+当 `customers` 表有几十万行时，相关子查询可能重复访问 `orders`。
+
+执行逻辑可能类似：
+
+```text
+Customers
+   ↓
+Customer 1
+   ↓
+Scan Orders
+
+Customer 2
+   ↓
+Scan Orders
+
+Customer 3
+   ↓
+Scan Orders
+
+...
+```
+
+PawSQL 可以识别这种查询模式，并评估是否可以解关联。
+
+例如改写为：
+
+```sql
+SELECT
+    c.customer_id,
+    c.customer_name,
+    COALESCE(o.total_paid, 0) AS total_paid
+FROM customers c
+LEFT JOIN (
+    SELECT
+        customer_id,
+        SUM(total_amount) AS total_paid
+    FROM orders
+    WHERE order_status = 'PAID'
+    GROUP BY customer_id
+) o
+    ON c.customer_id = o.customer_id;
+```
+
+执行模式变为：
+
+```text
+Orders
+   ↓
+一次聚合
+   ↓
+Grouped Result
+   ↓
+JOIN
+   ↓
+Customers
+```
+
+这类复杂 SQL 重写尤其适合自动化分析。
+
+---
+
+# 示例三：深分页 SQL
+
+生产环境常见：
+
+```sql
+SELECT
+    order_id,
+    customer_id,
+    create_time
+FROM orders
+ORDER BY create_time DESC
+LIMIT 1000000, 20;
+```
+
+返回：
+
+```text
+20 行
+```
+
+但数据库可能需要处理：
+
+```text
+1,000,020 行
+```
+
+PawSQL 可以识别：
+
+```text
+Deep Pagination
+
+OFFSET:
+1,000,000
+
+LIMIT:
+20
+```
+
+并提示使用 Keyset Pagination 等优化方式。
+
+例如：
+
+```sql
+SELECT
+    order_id,
+    customer_id,
+    create_time
+FROM orders
+WHERE create_time < ?
+ORDER BY create_time DESC
+LIMIT 20;
+```
+
+是否能够采用这种改写，需要结合具体业务分页方式判断。
+
+但 PawSQL 可以自动把这类 SQL 从数千条慢查询中筛选出来。
+
+---
+
+# 示例四：OR 条件导致低效访问
+
+例如：
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10086
+   OR mobile = '13800000000';
+```
+
+如果两个字段分别有不同索引，某些数据库或某些数据分布情况下可能无法得到理想访问路径。
+
+PawSQL 可以分析是否存在改写机会，例如：
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10086
+
+UNION ALL
+
+SELECT *
+FROM orders
+WHERE mobile = '13800000000'
+  AND customer_id <> 10086;
+```
+
+具体是否采用该优化，应结合：
+
+- 数据库类型
+- 索引
+- 数据选择率
+- 执行计划
+
+进行验证。
+
+这也是为什么 SQL Rewrite 最好与：
+
+```text
+Execution Plan Validation
+```
+
+结合使用。
+
+---
+
+# DBA 不应该逐条分析所有慢 SQL
+
+传统流程：
+
+```text
+2,000 Slow Queries
+        ↓
+DBA
+        ↓
+人工逐条分析
+```
+
+这种方式很难持续。
+
+PawSQL 的目标是变成：
+
+```text
+2,000 Slow Queries
+        ↓
+SQL Normalize
+        ↓
+280 SQL Patterns
+        ↓
+自动分析
+        ↓
+80 条有优化建议
+        ↓
+20 条高价值 SQL
+        ↓
+DBA Review
+```
+
+DBA 最终只需要重点关注：
+
+> 真正值得人工决策的 SQL。
+
+---
+
+# SQL 归一化为什么重要？
+
+考虑以下 SQL：
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10001;
+```
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10002;
+```
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = 10003;
+```
+
+归一化后可以统一为：
+
+```sql
+SELECT *
+FROM orders
+WHERE customer_id = ?;
+```
+
+于是：
+
+```text
+3 条 SQL
+```
+
+变成：
+
+```text
+1 个 SQL Pattern
+```
+
+实际生产环境可能是：
+
+```text
+100,000 条执行记录
+        ↓
+1,000 个 SQL Pattern
+```
+
+这样 DBA 才能真正从：
+
+> Query Execution
+
+提升到：
+
+> Query Pattern Governance
+
+即：
+
+> 从单次查询治理，升级为 SQL 模式治理。
+
+---
+
+# 建立慢 SQL 优先级模型
+
+不是所有慢 SQL 都值得立即处理。
+
+一个完整的慢 SQL 治理平台需要帮助 DBA 判断：
+
+```text
+先优化谁？
+```
+
+可以考虑：
+
+```text
+Priority Score
+
+=
+Execution Time
+
+× Frequency
+
+× Resource Impact
+
+× Risk Level
+```
+
+例如：
+
+| SQL | 平均耗时 | 执行次数 | 总耗时 | 优先级 |
+|---|---:|---:|---:|---|
+| A | 25s | 10 | 250s | Medium |
+| B | 1.2s | 20,000 | 24,000s | Critical |
+| C | 8s | 300 | 2,400s | High |
+| D | 400ms | 50,000 | 20,000s | High |
+
+真正有价值的治理，并不是：
+
+> 找出最慢的 SQL。
+
+而是：
+
+> 找出最值得优化的 SQL。
+
+---
+
+# 自动识别常见 SQL 性能模式
+
+PawSQL 可以帮助 DBA 从慢查询中识别多种典型问题。
+
+## 谓词问题
+
+例如：
+
+```sql
+WHERE YEAR(create_time) = 2026
+```
+
+```sql
+WHERE amount + 100 > 1000
+```
+
+```sql
+WHERE CAST(customer_id AS CHAR) = '10086'
+```
+
+---
+
+## 子查询问题
+
+例如：
+
+- 相关子查询
+- Scalar Subquery
+- 可解关联子查询
+- 不合理 IN / EXISTS
+- 重复子查询
+
+---
+
+## JOIN 问题
+
+例如：
+
+- 冗余 JOIN
+- 不合理 JOIN 顺序
+- Join 条件缺失
+- 大中间结果集
+- 阻碍 Predicate Pushdown
+
+---
+
+## 排序与分页问题
+
+例如：
+
+```sql
+ORDER BY ...
+LIMIT 500000, 20
+```
+
+以及：
+
+- 不必要 ORDER BY
+- 全量排序
+- 深分页
+
+---
+
+## 聚合问题
+
+例如：
+
+- 不必要 DISTINCT
+- 冗余 GROUP BY
+- 聚合前过滤不足
+- 重复聚合
+
+---
+
+## 索引问题
+
+例如：
+
+- 缺失索引
+- 索引前导列不合理
+- 低效组合索引
+- 重复索引
+- 无法匹配 SQL 访问模式的索引
+
+---
+
+# 不只是发现问题，而是形成优化闭环
+
+很多监控工具负责：
+
+```text
+发现慢 SQL
+```
+
+PawSQL 更进一步：
+
+```text
+发现慢 SQL
+    ↓
+理解 SQL
+    ↓
+分析问题
+    ↓
+生成优化方案
+    ↓
+验证方案
+    ↓
+交给 DBA 决策
+```
+
+这形成了：
+
+> **Detect → Analyze → Optimize → Validate**
+
+完整性能优化闭环。
+
+---
+
+# 与监控系统形成互补
+
+APM、数据库监控系统和慢日志非常擅长告诉 DBA：
+
+```text
+哪里慢？
+```
+
+例如：
+
+```text
+SQL Avg Time: 8.4s
+
+QPS: 320
+
+Rows Examined:
+1,840,000
+
+CPU:
+High
+```
+
+但 PawSQL 更侧重回答：
+
+```text
+为什么慢？
+
+SQL 哪里存在问题？
+
+有没有等价改写？
+
+应该增加什么索引？
+
+优化后执行计划是否更好？
+```
+
+因此二者可以形成：
+
+```text
+Monitoring / APM
+       ↓
+发现性能问题
+       ↓
+PawSQL
+       ↓
+SQL Engineering
+       ↓
+优化方案
+```
+
+---
+
+# 从“慢查询处理”到“SQL 性能治理”
+
+单纯处理某一条 SQL：
+
+```text
+Slow SQL
+   ↓
+Optimize
+   ↓
+Done
+```
+
+并不能解决长期问题。
+
+更成熟的方式是建立循环：
+
+```text
+生产监控
+    ↓
+发现慢 SQL
+    ↓
+SQL Pattern 聚类
+    ↓
+优先级排序
+    ↓
+自动分析
+    ↓
+DBA Review
+    ↓
+优化上线
+    ↓
+继续监控
+    └───────────────┐
+                    ↓
+                 Next Cycle
+```
+
+这才是：
+
+> SQL Performance Governance
+
+即：
+
+> SQL 性能治理。
+
+---
+
+# DBA 的工作方式如何改变？
+
+传统 DBA：
+
+```text
+慢 SQL
+   ↓
+人工分析
+   ↓
+人工改写
+   ↓
+人工推荐索引
+   ↓
+人工验证
+```
+
+引入 PawSQL 后：
+
+```text
+慢 SQL
+   ↓
+PawSQL 自动分析
+   ↓
+自动 SQL Rewrite
+   ↓
+自动 Index Advisor
+   ↓
+自动 Plan Analysis
+   ↓
+DBA Review
+```
+
+DBA 的角色从：
+
+> SQL 分析执行者
+
+转变为：
+
+> SQL 优化决策者。
+
+---
+
+# DBA 可以把时间花在哪里？
+
+减少重复 SQL 分析之后，DBA 可以将更多精力用于：
+
+- 数据库架构
+- 容量规划
+- Schema 设计
+- 索引体系设计
+- 核心系统性能优化
+- 数据库参数调优
+- 数据分布设计
+- 数据库迁移
+- 生产故障分析
+- 高风险 SQL 审核
+
+也就是说：
+
+```text
+减少重复劳动
+        ↓
+增加高价值数据库工程
+```
+
+---
+
+# 建议关注的治理指标
+
+企业建立慢 SQL 治理体系后，可以持续跟踪：
+
+| 指标 | 目标 |
+|---|---|
+| 每日慢 SQL 数量 | 持续下降 |
+| SQL Pattern 数量 | 可控 |
+| 自动分析覆盖率 | 提升 |
+| 自动产生优化建议比例 | 提升 |
+| DBA 单条 SQL 平均处理时间 | 降低 |
+| 高价值 SQL 优化完成率 | 提升 |
+| 慢 SQL 重复发生率 | 降低 |
+| SQL 总资源消耗 | 降低 |
+
+还可以建立：
+
+```text
+Top SQL Optimization
+```
+
+排行榜，例如：
+
+```text
+本月优化 SQL：186 条
+
+其中：
+
+SQL Rewrite：72 条
+Index Optimization：96 条
+Rewrite + Index：18 条
+```
+
+并持续追踪：
+
+```text
+Estimated Cost Reduction
+```
+
+或实际运行指标改善。
+
+---
+
+# 一个典型的治理结果
+
+例如一次慢 SQL 批量治理任务：
+
+```text
+原始慢查询
+2,386 条
+
+        ↓
+
+SQL 归一化
+312 个 Pattern
+
+        ↓
+
+自动分析
+198 个存在明确优化机会
+
+        ↓
+
+高优先级
+61 个
+
+        ↓
+
+DBA Review
+45 个进入优化
+
+        ↓
+
+验证通过
+39 个
+
+        ↓
+
+生产实施
+```
+
+最终 DBA 不再需要：
+
+```text
+分析 2,386 条 SQL
+```
+
+而只需要重点关注：
+
+```text
+几十条真正高价值 SQL
+```
+
+这就是批量治理的核心价值。
+
+---
+
+# 适合哪些企业？
+
+这一场景尤其适合：
+
+- 生产数据库规模较大的企业
+- 拥有多个数据库实例
+- 每天产生大量慢查询
+- DBA 人力有限
+- 有统一数据库运维平台
+- 已建设 APM / 数据库监控系统
+- 经常开展专项 SQL 优化
+- 需要持续降低数据库资源成本
+
+典型行业包括：
+
+- 银行
+- 证券
+- 保险
+- 电信
+- 电商
+- SaaS
+- 物流
+- 大型互联网平台
+- 大型政企系统
+
+---
+
+# 多数据库环境下的统一慢 SQL 治理
+
+大型企业通常同时使用：
+
+```text
+Oracle
+MySQL
+PostgreSQL
+SQL Server
+DB2
+openGauss
+GaussDB
+TDSQL
+OceanBase
+Kingbase
+DM
+...
+```
+
+不同数据库：
+
+- SQL 语法不同
+- Explain 格式不同
+- 索引机制不同
+- 优化器策略不同
+
+如果每一种数据库都使用完全不同的慢 SQL 优化工具，治理成本会迅速增加。
+
+PawSQL 的价值之一，就是建立统一的：
+
+```text
+SQL Analysis
++
+SQL Rewrite
++
+Index Advisor
++
+Plan Analysis
+```
+
+能力层。
+
+在上层形成一致的 SQL 性能治理体验。
+
+---
+
+# 从开发到生产，建立完整 SQL 生命周期
+
+生产慢 SQL 治理不是 PawSQL 的孤立场景。
+
+它可以和开发阶段、发布阶段形成完整闭环：
+
+```text
+              SQL 全生命周期
+
+开发阶段
+    ↓
+Developer SQL Copilot
+    ↓
+尽早发现 SQL 问题
+    ↓
+提交代码
+    ↓
+SQL Quality Gate
+    ↓
+阻止高风险 SQL 上线
+    ↓
+生产环境
+    ↓
+Performance Patroller
+    ↓
+发现慢 SQL
+    ↓
+PawSQL Optimization
+    ↓
+持续优化
+```
+
+其中：
+
+### Developer SQL Copilot
+
+负责：
+
+> 写 SQL 时发现问题。
+
+### SQL Quality Gate
+
+负责：
+
+> 上线前拦截问题。
+
+### Slow SQL Optimization
+
+负责：
+
+> 生产环境持续发现和治理问题。
+
+三个场景组合起来，形成完整的：
+
+> **SQL Performance Lifecycle**
+
+---
+
+# 让慢 SQL 治理从人工任务变成持续工程
+
+生产数据库永远不会没有慢 SQL。
+
+因为业务会变化：
+
+- 数据不断增长
+- SQL 不断新增
+- 数据分布发生变化
+- 索引不断调整
+- 应用版本持续发布
+
+真正的问题不是：
+
+> 如何一次性消灭所有慢 SQL？
+
+而是：
+
+> 如何建立一套可以长期运行的慢 SQL 治理机制？
+
+PawSQL 帮助 DBA 将：
+
+```text
+发现问题
++
+分析问题
++
+优化问题
++
+验证效果
+```
+
+串成一个自动化、可规模化、可持续的性能治理流程。
+
+> **不再逐条追着慢 SQL 跑，而是建立持续运行的 SQL 性能治理体系。**
+
+[了解 PawSQL 慢 SQL 优化 →](/zh/sql-optimization)
+
+[了解 SQL 执行计划分析 →](/zh/execution-plan)
+
+[了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
+
+[申请产品演示 →](/zh/contact)
+
+---
+
+## 相关 User Cases
+
+- [Developer SQL Copilot](/use-cases/developer-sql-copilot)
+- [CI/CD SQL Quality Gate](/use-cases/sql-quality-gate-cicd)
+- 数据库迁移 SQL 治理
+- [企业级 SQL 全生命周期治理](/use-cases/enterprise-sql-governance)

@@ -1,7 +1,8 @@
 ---
 id: use-cases-index
 title: 用户场景
-description: 不同角色的 PawSQL 典型使用场景（开发者 / CI/CD / DBA / 迁移 / 企业治理）。
+description: 从开发阶段 SQL 优化、CI/CD SQL 质量门禁，到生产慢 SQL 治理、数据库迁移和企业级 SQL Governance，PawSQL
+  覆盖 SQL 从编写、审核、发布到生产优化的完整生命周期。
 type: use-case
 status: draft
 tags:
@@ -14,16 +15,397 @@ layout: index
 product: pawsql
 ---
 
-# 用户场景
+## 让 SQL 治理覆盖从开发到生产的整个生命周期
 
-按角色与场景挑选最贴近你的路线。各场景独立成篇，后续将展开为手把手续教程。
+SQL 问题不会只发生在生产环境。
 
-| 场景 | 解决什么问题 | 相关入口 |
+它可能从开发人员写下第一行 SQL 时就已经存在，也可能在代码提交、数据库发布、业务增长、数据分布变化之后才逐渐暴露。
+
+传统方式往往是：
+
+```text
+Write SQL
+    ↓
+Release
+    ↓
+Production
+    ↓
+Slow Query
+    ↓
+DBA Investigation
+    ↓
+Emergency Optimization
+```
+
+而 PawSQL 希望把 SQL 治理前移，并贯穿整个软件生命周期：
+
+```text
+Write
+  ↓
+Analyze
+  ↓
+Review
+  ↓
+Release
+  ↓
+Monitor
+  ↓
+Optimize
+  ↓
+Improve
+```
+
+**无论你是开发人员、DevOps、DBA、数据库架构师，还是企业技术平台主管，都可以在 PawSQL 中找到对应的 SQL 治理场景。**
+
+---
+
+# 从 SQL 优化工具，到 SQL Engineering Platform
+
+很多企业已经拥有：
+
+- SQL 规范文档
+- DBA 人工审核
+- CI/CD
+- APM
+- 慢查询监控
+- 数据库迁移工具
+
+但这些能力通常是彼此分散的。
+
+PawSQL 将不同阶段的 SQL 工作连接起来：
+
+```text
+Development
+    ↓
+Delivery
+    ↓
+Production
+    ↓
+Governance
+```
+
+并提供统一的：
+
+```text
+SQL Review
++
+SQL Rewrite
++
+Index Advisor
++
+Execution Plan Analysis
++
+Performance Validation
+```
+
+帮助企业逐步建立 **SQL Engineering** 和 **SQL Governance** 能力。
+
+---
+
+# 选择最适合你的场景
+
+## Developer SQL Copilot
+
+### 在写 SQL 的时候，就把性能问题解决掉
+
+开发人员通常最早接触 SQL，但也是最容易在无意中引入性能问题的人。
+
+例如：
+
+```sql
+SELECT *
+FROM orders
+WHERE DATE(create_time) = '2026-09-04'
+  AND customer_id = 10086;
+```
+
+SQL 在开发环境中可能运行很快。
+
+但当生产表增长到数千万甚至上亿行后，函数条件、低效子查询、不合理索引和深分页都可能成为性能瓶颈。
+
+PawSQL Developer SQL Copilot 帮助开发人员在编码阶段完成：
+
+- SQL 性能风险识别
+- SQL 问题解释
+- 等价 SQL 重写
+- 索引推荐
+- 执行计划分析
+- 优化效果验证
+
+> **把 SQL 性能问题解决在代码提交之前。**
+
+[了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
+
+---
+
+## SQL Quality Gate for CI/CD
+
+### 在 SQL 进入生产之前，把风险拦下来
+
+应用代码已经拥有单元测试、代码审核、安全扫描和 CI/CD。数据库 SQL 也应该有同样的质量控制。
+
+PawSQL 可以将 SQL 审核和性能分析嵌入 CI/CD 流程：
+
+```text
+Developer Commit
+        ↓
+Pull Request
+        ↓
+CI/CD
+        ↓
+PawSQL SQL Review
+        ↓
+Policy Evaluation
+        ↓
+PASS / BLOCK
+```
+
+帮助团队自动发现：
+
+- 高风险 DML / DDL
+- SQL 规范问题
+- SQL 性能风险
+- 缺失索引
+- 深分页
+- 低效子查询
+- 不合理 Join
+
+并根据风险等级决定 PASS、WARNING、DBA REVIEW 或 BLOCK。
+
+> **让 SQL Review 从人工流程升级为自动质量门禁。**
+
+[了解 SQL Quality Gate →](/use-cases/sql-quality-gate-cicd)
+
+---
+
+## DBA 批量治理生产慢 SQL
+
+### 从逐条救火，升级为规模化 SQL 性能治理
+
+监控系统通常可以告诉 DBA 哪条 SQL 慢，但 DBA 真正需要解决的是：为什么慢、哪里有问题、怎么改、需要什么索引，以及优化后是否真的更好。
+
+PawSQL 可以将慢查询采集、SQL 归一化、SQL Pattern 聚类、性能分析、SQL 重写、索引推荐和执行计划验证串联起来。
+
+例如：
+
+```text
+2,386 Slow Queries
+        ↓
+312 SQL Patterns
+        ↓
+198 Optimization Opportunities
+        ↓
+61 High-Priority Patterns
+        ↓
+45 DBA Review
+        ↓
+39 Validated Optimizations
+```
+
+DBA 不再需要逐条分析所有慢 SQL，而是聚焦真正值得人工处理的高价值 SQL。
+
+> **Monitoring tells you which SQL is slow. PawSQL tells you why, how to fix it, and whether the fix is better.**
+
+[了解生产慢 SQL 治理 →](/use-cases/slow-sql-optimization)
+
+---
+
+## 信创 / 数据库迁移中的 SQL 治理
+
+### 迁移成功，不等于性能成功
+
+数据库迁移最常见的目标是 SQL 能否在新数据库上执行，但真正进入生产后，更重要的问题是 SQL 在目标数据库上还能不能跑得足够快。
+
+PawSQL 可以帮助迁移团队完成：
+
+```text
+SQL Inventory
+        ↓
+Compatibility Analysis
+        ↓
+Performance Risk Analysis
+        ↓
+SQL Rewrite
+        ↓
+Index Redesign
+        ↓
+Execution Plan Validation
+```
+
+让数据库迁移从 Syntax Migration 升级为 **Performance-Aware SQL Migration**。
+
+> **不要只迁移 SQL，也不要把旧数据库中的性能问题一起迁过去。**
+
+[了解数据库迁移 SQL 治理 →](/use-cases/database-migration-sql-governance)
+
+---
+
+## 企业统一 SQL Governance 平台
+
+### 一个企业，不应该有十套 SQL 治理方式
+
+大型企业内部通常同时存在多个开发团队、多个 DBA 团队、多个数据库平台、多个发布流程和多个 SQL 标准。
+
+PawSQL 可以将 Development Governance、Delivery Governance 和 Production Governance 统一起来，形成覆盖 Developer SQL Copilot、SQL Quality Gate、Performance Patroller、SQL Review、SQL Rewrite、Index Advisor、Execution Plan Analysis 和 Governance Metrics 的统一平台。
+
+> **建立统一、可执行、可度量的 SQL Governance Platform。**
+
+[了解企业统一 SQL Governance →](/use-cases/enterprise-sql-governance)
+
+---
+
+# 按角色选择 PawSQL
+
+| 角色 | 最常见的问题 | 推荐 Use Case |
 |---|---|---|
-| 开发者：在 IDE 中自助优化 SQL | 写完即审，减少等待 DBA | DBeaver / JetBrains / VS Code 插件 |
-| CI/CD：建立 SQL 上线门禁 | 把 SQL 审核放进流水线，不达标不放行 | GitHub Actions / DevOps |
-| DBA：批量治理生产慢 SQL | 收敛慢 SQL 清单，逐条给可执行优化 | PawSQL 平台 + 性能巡检（Patroller） |
-| 信创 / 数据库迁移中的 SQL 治理 | 换库前的兼容性与规范治理 | [SQL 审核](en/user-guide/sql-audit/index) |
-| 企业：统一 SQL Governance 平台 | 集中规则、角色与发布门禁 | 企业版 / 私有化 |
+| 开发人员 | SQL 怎么写得更快、更合理？ | Developer SQL Copilot |
+| DevOps / 研发效能 | 如何自动阻止问题 SQL 上线？ | SQL Quality Gate |
+| DBA | 如何批量处理生产慢 SQL？ | Slow SQL Optimization |
+| 数据库迁移团队 | 如何降低迁移后的 SQL 性能回退？ | Database Migration Governance |
+| 技术平台主管 | 如何统一不同团队和数据库的 SQL 标准？ | Enterprise SQL Governance |
 
-> 草稿占位：各场景的完整教程与截图正在撰写，随内容到达 `published` 后逐步点亮。
+---
+
+# 按软件生命周期选择 PawSQL
+
+## Development
+
+```text
+Write SQL
+    ↓
+Developer SQL Copilot
+    ↓
+Analyze
+Rewrite
+Recommend Index
+Validate
+```
+
+目标：**尽早发现问题。**
+
+## Delivery
+
+```text
+Commit
+    ↓
+Pull Request
+    ↓
+CI/CD
+    ↓
+SQL Quality Gate
+```
+
+目标：**阻止问题进入生产。**
+
+## Production
+
+```text
+Production SQL
+    ↓
+Monitoring
+    ↓
+Slow SQL
+    ↓
+PawSQL Optimization
+```
+
+目标：**持续发现并治理性能问题。**
+
+## Governance
+
+```text
+Rules
++
+Workflow
++
+Metrics
++
+Multi-Database Coverage
+```
+
+目标：**把 SQL 优化从个人能力升级为企业工程能力。**
+
+---
+
+# 一套 SQL 智能能力，服务不同治理场景
+
+| 能力 | 作用 |
+|---|---|
+| SQL Review | 发现规范、安全和潜在风险 |
+| SQL Rewrite | 自动生成等价优化方案 |
+| Index Advisor | 根据查询模式推荐索引 |
+| Execution Plan Analysis | 分析数据库执行策略 |
+| Performance Validation | 验证优化方案是否真正改善 |
+| Multi-Database Support | 支持异构数据库统一治理 |
+
+---
+
+# 一个完整的 SQL Engineering Lifecycle
+
+```text
+Developer
+    ↓
+Write SQL
+    ↓
+Developer SQL Copilot
+    ↓
+Commit
+    ↓
+SQL Quality Gate
+    ↓
+Release
+    ↓
+Production
+    ↓
+Performance Patroller
+    ↓
+Slow SQL Analysis
+    ↓
+SQL Rewrite / Index Advisor
+    ↓
+Performance Validation
+    ↓
+Feed Back to Development
+```
+
+这不是几个独立工具的简单组合，而是一套完整的 **SQL Lifecycle Governance**。
+
+---
+
+# 从这里开始
+
+- [开始了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
+- [开始了解 SQL Quality Gate →](/use-cases/sql-quality-gate-cicd)
+- [开始了解 Slow SQL Optimization →](/use-cases/slow-sql-optimization)
+- [开始了解 Database Migration SQL Governance →](/use-cases/database-migration-sql-governance)
+- [开始了解 Enterprise SQL Governance →](/use-cases/enterprise-sql-governance)
+
+---
+
+# 让 SQL 从“上线后优化”，变成“全生命周期治理”
+
+真正成熟的 SQL 工程体系应该覆盖：
+
+```text
+Write
++
+Review
++
+Release
++
+Monitor
++
+Optimize
++
+Improve
+```
+
+PawSQL 帮助企业把 SQL 审核、性能优化、CI/CD 门禁、生产治理和多数据库标准连接起来，形成统一的 SQL Engineering 与 SQL Governance 能力。
+
+> **从第一行 SQL 到生产环境，PawSQL 让 SQL 质量和性能始终处于治理之中。**
+
+[立即开始使用 PawSQL →](/getting-started/overview)
+
+[查看支持的数据库 →](/getting-started/supported-databases)
+
+申请产品演示 →
