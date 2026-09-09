@@ -83,6 +83,20 @@ def _description_issues(fm: FrontMatter, rel: str) -> List[Issue]:
     return issues
 
 
+def _mdx_html_comment_issues(text: str, rel: str) -> List[Issue]:
+    """MDX does not allow HTML comments; flag ``<!--`` outside fenced blocks."""
+    issues: List[Issue] = []
+    fenced = False
+    for line_no, line in enumerate(text.splitlines(), start=1):
+        if line.lstrip().startswith("```"):
+            fenced = not fenced
+            continue
+        if not fenced and "<!--" in line:
+            issues.append(Issue(file=rel, field="mdx-syntax",
+                                reason=f"HTML comment not allowed in MDX (line {line_no}); use {{/* ... */}}"))
+    return issues
+
+
 def validate_frontmatter_file(root: Path, path: Path) -> List[Issue]:
     rel = path.relative_to(root).as_posix()
     try:
@@ -102,7 +116,10 @@ def validate_frontmatter_file(root: Path, path: Path) -> List[Issue]:
             loc = ".".join(str(p) for p in item.get("loc", ()))
             issues.append(Issue(file=rel, field=loc or None, reason=item.get("msg", "")))
         return issues
-    return _description_issues(fm, rel)
+    issues = _description_issues(fm, rel)
+    if path.suffix == ".mdx":
+        issues.extend(_mdx_html_comment_issues(text, rel))
+    return issues
 
 
 def validate_frontmatter(root: Path) -> List[Issue]:
