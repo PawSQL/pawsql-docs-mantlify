@@ -11,6 +11,9 @@
   "icons": {
     "library": "lucide"
   },
+  "interaction": {
+    "drilldown": true
+  },
   "styling": {
     "eyebrows": "breadcrumbs"
   },
@@ -41,7 +44,7 @@
                 ]
               },
               {
-                "group": "使用 PawSQL",
+                "group": "用户手册",
                 "pages": [
                   "user-guide/cloud/index",
                   "user-guide/cloud/quickstart",
