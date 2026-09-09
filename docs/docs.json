@@ -51,7 +51,15 @@
               {
                 "group": "能力与原理",
                 "pages": [
-                  "features/index"
+                  "features/index",
+                  "features/sql-review",
+                  "features/automatic-sql-rewrite",
+                  "features/index-recommendation",
+                  "features/performance-validation",
+                  "features/execution-plan-visualization",
+                  "features/sql-quality-gate",
+                  "features/distributed-sql-optimization",
+                  "features/big-data-sql-optimization"
                 ]
               },
               {
@@ -139,6 +147,14 @@
                 "group": "Capabilities and Concepts",
                 "pages": [
                   "en/features/index",
+                  "en/features/sql-review",
+                  "en/features/automatic-sql-rewrite",
+                  "en/features/index-recommendation",
+                  "en/features/performance-validation",
+                  "en/features/execution-plan-visualization",
+                  "en/features/sql-quality-gate",
+                  "en/features/distributed-sql-optimization",
+                  "en/features/big-data-sql-optimization",
                   "en/products/optimizer",
                   "en/products/advisor"
                 ]

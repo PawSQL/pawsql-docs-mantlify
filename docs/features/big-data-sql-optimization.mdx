@@ -1,0 +1,294 @@
+---
+id: feature-big-data-sql-optimization
+title: 大数据 SQL 优化
+description: 针对 Hive 等大数据 SQL 的分区裁剪、分桶 Join、数据倾斜、聚合、窗口函数和全局排序进行专项优化。
+type: explanation
+product: pawsql
+status: draft
+tags:
+- features
+- big-data-sql-optimization
+language: zh
+translationKey: feature-big-data-sql-optimization
+localeOf: en-feature-big-data-sql-optimization
+layout: detail
+---
+
+PawSQL Big Data SQL Optimization 面向 Hive 等大数据 SQL 场景，识别传统关系型数据库中不常见、但在大规模分布式计算中影响显著的性能问题。
+
+分析重点包括分区裁剪、分桶 Join、数据倾斜、聚合倾斜、窗口函数、全局排序以及大规模 Shuffle。
+
+
+<style>
+.paw-flow {
+  margin: 24px 0 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.paw-flow * { box-sizing: border-box; }
+.paw-flow .flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.paw-flow .flow-node {
+  min-width: 150px;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #102a43;
+  font-weight: 650;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(16,42,67,.05);
+}
+.paw-flow .flow-node.primary {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.paw-flow .flow-node.soft { background: #f7fafc; }
+.paw-flow .flow-node.success {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #047857;
+}
+.paw-flow .flow-node.danger {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #b42318;
+}
+.paw-flow .flow-arrow {
+  color: #9fb3c8;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+.paw-flow .flow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+.paw-flow .flow-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.paw-flow .flow-card {
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  padding: 14px;
+  background: #ffffff;
+  color: #102a43;
+}
+.paw-flow .flow-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.paw-flow .flow-card span {
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .paw-flow .flow-row,
+  .paw-flow .flow-grid,
+  .paw-flow .flow-grid.cols-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .paw-flow .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+</style>
+
+
+## 概览
+
+在大数据 SQL 中，性能问题往往不是由单个算子决定，而是由数据扫描量、Shuffle、分区设计以及数据倾斜共同决定。
+
+一条 SQL 可能只写了几十行，却触发：
+
+- 扫描数 TB 数据
+- 大规模网络 Shuffle
+- 单个 Reduce Task 长时间运行
+- COUNT DISTINCT 数据倾斜
+- Window Function 热点分区
+- 全局排序阻塞整个任务
+
+PawSQL 针对这些问题建立大数据 SQL 专项规则与优化模型。
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">Hive SQL</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Partition / Bucket Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Skew & Shuffle Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Rewrite / Strategy</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Optimized Big Data SQL</div>
+  </div>
+</div>
+
+## 为什么大数据 SQL 需要专项规则
+
+传统数据库中的主要瓶颈往往是：
+
+- 随机 IO
+- 索引访问
+- Join 选择
+- 单机内存与 CPU
+
+而 Hive 等大数据平台中的核心成本通常来自：
+
+- 数据扫描量
+- Shuffle
+- Task 数量
+- 数据倾斜
+- 分区与分桶设计
+- 全局排序和聚合
+
+因此，大数据 SQL 需要不同于 OLTP 数据库的优化方法。
+
+## 核心能力
+
+### 分区裁剪分析
+
+识别是否因为分区字段使用函数、计算或不合理条件，导致分区裁剪失效。
+
+例如：
+
+```sql
+WHERE date_format(dt, 'yyyy-MM-dd') = '2026-09-09'
+```
+
+可能阻止引擎直接使用分区字段 `dt` 进行裁剪。
+
+### 分桶 Join 分析
+
+分析 Join 字段与 Bucket 设计是否匹配，并识别：
+
+- 分桶字段不一致
+- Bucket 数量不满足倍数关系
+- 可以使用 SMB Join 但条件不满足
+- 可使用 Map Join 的小表未被利用
+
+### COUNT DISTINCT 数据倾斜
+
+识别 `COUNT(DISTINCT ...)` 在热点值或高基数场景下可能造成的 Reduce 倾斜，并给出分阶段聚合或其他改写建议。
+
+### GROUP BY 数据倾斜
+
+分析 Group Key 数据分布，识别某些 Key 聚集导致单个 Reduce Task 过载的风险。
+
+### 窗口函数数据倾斜
+
+对 `ROW_NUMBER()`、`RANK()`、`SUM() OVER (...)` 等窗口函数，识别 Partition Key 不均衡导致的数据倾斜。
+
+### 全局排序优化
+
+识别 `ORDER BY` 触发的全局排序风险。
+
+对于只需要 Top-N 的场景，可考虑局部排序、窗口函数或其他等价改写减少全局排序成本。
+
+### UNION 与聚合优化
+
+识别：
+
+- 可替换为 `UNION ALL` 的场景
+- UNION 去重造成的额外 Shuffle
+- 无分组聚合数据倾斜
+- 多阶段聚合优化机会
+
+## 典型优化领域
+
+<div class="paw-flow">
+  <div class="flow-grid">
+    <div class="flow-card"><strong>Partition Pruning</strong><span>尽可能减少扫描数据量。</span></div>
+    <div class="flow-card"><strong>Bucket-aware Join</strong><span>利用分桶设计降低 Shuffle。</span></div>
+    <div class="flow-card"><strong>Data Skew</strong><span>识别热点 Key 和长尾 Task。</span></div>
+    <div class="flow-card"><strong>Aggregation</strong><span>优化 COUNT DISTINCT 与 GROUP BY。</span></div>
+    <div class="flow-card"><strong>Window Functions</strong><span>避免分区键导致单节点过载。</span></div>
+    <div class="flow-card"><strong>Global Sort</strong><span>减少全局排序和单 Reduce 瓶颈。</span></div>
+  </div>
+</div>
+
+## 示例：分区裁剪
+
+假设表：
+
+```text
+sales
+PARTITIONED BY (dt STRING)
+```
+
+低效写法：
+
+```sql
+SELECT *
+FROM sales
+WHERE substr(dt, 1, 7) = '2026-09';
+```
+
+更适合分区裁剪的形式可能是：
+
+```sql
+SELECT *
+FROM sales
+WHERE dt >= '2026-09-01'
+  AND dt <  '2026-10-01';
+```
+
+后者更容易让执行引擎直接识别需要读取的分区范围。
+
+## 示例：全局 Top-N
+
+原始 SQL：
+
+```sql
+SELECT *
+FROM events
+ORDER BY score DESC
+LIMIT 100;
+```
+
+在大规模数据集上，全局排序可能非常昂贵。
+
+PawSQL 可以根据引擎能力分析是否能够使用：
+
+- 局部 Top-N
+- 分区排序
+- 两阶段 Top-N
+- 窗口函数
+
+减少全量全局排序压力。
+
+## 大数据优化本质是数据移动
+
+对于大数据 SQL，最关键的优化问题之一通常不是：
+
+> “哪一个索引更好？”
+
+而是：
+
+> **需要扫描多少数据？需要移动多少数据？最慢的 Task 为什么慢？**
+
+因此 PawSQL 会将扫描量、Shuffle、分区、分桶与数据倾斜作为核心分析对象。
+
+## 相关功能
+
+- [Automatic SQL Rewrite](/features/automatic-sql-rewrite)
+- [Distributed SQL Optimization](/features/distributed-sql-optimization)
+- [Performance Validation](/features/performance-validation)
+
+## 相关用户场景
+
+- DBA Batch SQL Governance
+- Big Data SQL Quality Governance
+- Enterprise SQL Governance Platform
+
+## 下一步
+
+继续了解：
+
+- [Distributed SQL Optimization](/features/distributed-sql-optimization)
+- [Supported Databases](/getting-started/supported-databases)

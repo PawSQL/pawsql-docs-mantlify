@@ -1,0 +1,258 @@
+---
+id: en-feature-execution-plan-visualization
+title: Execution Plan Visualization
+description: Turn complex database execution plans into visual structures that make
+  scans, joins, sorting, cost, and bottlenecks easier to understand.
+type: explanation
+product: pawsql
+status: draft
+tags:
+- features
+- execution-plan-visualization
+language: en
+translationKey: feature-execution-plan-visualization
+localeOf: feature-execution-plan-visualization
+layout: detail
+capabilities:
+- plan-visualization
+---
+
+PawSQL Execution Plan Visualization transforms native database execution plans into more intuitive graphical structures so developers and DBAs can understand SQL execution paths faster.
+
+It is designed not only to show which operators exist, but also to help identify performance bottlenecks, explain optimization results, and compare execution plans before and after tuning.
+
+
+<style>
+.paw-flow {
+  margin: 24px 0 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.paw-flow * { box-sizing: border-box; }
+.paw-flow .flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.paw-flow .flow-node {
+  min-width: 150px;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #102a43;
+  font-weight: 650;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(16,42,67,.05);
+}
+.paw-flow .flow-node.primary {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.paw-flow .flow-node.soft {
+  background: #f7fafc;
+}
+.paw-flow .flow-arrow {
+  color: #9fb3c8;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+.paw-flow .flow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+.paw-flow .flow-card {
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  padding: 14px;
+  background: #ffffff;
+  color: #102a43;
+}
+.paw-flow .flow-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.paw-flow .flow-card span {
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .paw-flow .flow-row,
+  .paw-flow .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .paw-flow .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+</style>
+
+
+## Overview
+
+Database execution plans may contain many layers of operators, cost estimates, row estimates, and database-specific attributes.
+
+For complex SQL, reading raw text plans can be difficult and time-consuming.
+
+PawSQL converts execution plans into a normalized visual structure:
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">Database EXPLAIN</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Plan Parser</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Plan Model</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Operator Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Visual Plan</div>
+  </div>
+</div>
+
+## Why Plan Visualization Matters
+
+SQL performance optimization ultimately requires understanding how the database intends to execute the SQL.
+
+SQL text alone cannot answer many important questions:
+
+- Is the database using an index?
+- Which table is being fully scanned?
+- Is the join using Hash Join or Nested Loop?
+- Which operator has the highest cost?
+- Is Sort or Aggregate becoming a bottleneck?
+- Are estimated rows expanding dramatically?
+- Is a distributed database redistributing data across nodes?
+
+Execution plans provide this information, and visualization makes complex plans easier to interpret.
+
+## Key Capabilities
+
+### Plan tree visualization
+
+Display execution-plan operators and parent-child relationships as a tree or graph.
+
+Typical operators include:
+
+- Table Scan
+- Index Scan
+- Index Seek
+- Nested Loop
+- Hash Join
+- Merge Join
+- Sort
+- Aggregate
+- Materialize
+- Exchange / Redistribute
+
+### Cost visibility
+
+Show key metrics at plan nodes, such as:
+
+- Node Cost
+- Total Cost
+- Estimated Rows
+- Actual Rows, when available
+- Width / Data Volume
+- Execution Time, when present in the plan
+
+### Bottleneck identification
+
+Help identify:
+
+- High-cost operators
+- Full table scans
+- Large sorts
+- Row-count explosion
+- Large-table Nested Loops
+- Join skew
+- Distributed data movement
+
+### Before-and-after comparison
+
+When used with Performance Validation, PawSQL can compare:
+
+- Original execution plans
+- Plans after SQL rewrite
+- Plans after index recommendation
+
+This makes access-path changes visible rather than implicit.
+
+## Example
+
+Suppose the original plan is:
+
+```text
+Nested Loop
+├── Seq Scan orders
+└── Index Scan customers
+```
+
+After optimization:
+
+```text
+Hash Join
+├── Index Scan orders
+└── Index Scan customers
+```
+
+Visualization should help the user understand not only that operators changed, but also:
+
+- Why the access path changed
+- Which node became cheaper
+- Whether scanned data volume decreased
+- Whether the new index is actually being used
+
+## Plan Visualization Is Not Just a Pretty Tree
+
+A professional execution-plan tool should do more than convert text into graphics.
+
+The real value is helping users answer:
+
+> **Where is the cost? Why is it expensive? What changed after optimization?**
+
+PawSQL can therefore combine visualization with:
+
+<div class="paw-flow">
+  <div class="flow-grid">
+    <div class="flow-card"><strong>Visualization</strong><span>Understand the execution path quickly</span></div>
+    <div class="flow-card"><strong>Analysis</strong><span>Identify costly or abnormal operators</span></div>
+    <div class="flow-card"><strong>Validation</strong><span>Compare plan changes after optimization</span></div>
+  </div>
+</div>
+
+## Database-aware Plan Parsing
+
+EXPLAIN formats differ substantially across database systems.
+
+PawSQL maps database-specific execution plans into a unified model while preserving database-specific details such as:
+
+- MySQL access types
+- PostgreSQL plan nodes
+- Oracle operations
+- SQL Server physical operators
+- DB2 explain operators
+- Distributed-database exchange / motion nodes
+
+## Related Features
+
+- [SQL Review](/en/features/sql-review)
+- [Automatic SQL Rewrite](/en/features/automatic-sql-rewrite)
+- [Index Recommendation](/en/features/index-recommendation)
+- [Performance Validation](/en/features/performance-validation)
+
+## Related Use Cases
+
+- Developer SQL Copilot
+- DBA Batch Slow SQL Governance
+- Enterprise SQL Governance Platform
+
+## Next Steps
+
+Continue with:
+
+- [Performance Validation](/en/features/performance-validation)
+- [Supported Databases](/en/getting-started/supported-databases)

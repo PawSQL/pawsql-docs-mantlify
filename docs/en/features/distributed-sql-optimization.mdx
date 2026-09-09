@@ -1,0 +1,291 @@
+---
+id: en-feature-distributed-sql-optimization
+title: Distributed SQL Optimization
+description: Optimize distributed SQL using distribution keys, cross-shard join analysis,
+  data movement, replicated tables, and global/local index strategies.
+type: explanation
+product: pawsql
+status: draft
+tags:
+- features
+- distributed-sql-optimization
+language: en
+translationKey: feature-distributed-sql-optimization
+localeOf: feature-distributed-sql-optimization
+layout: detail
+---
+
+PawSQL Distributed SQL Optimization targets performance problems that are specific to distributed databases by analyzing data distribution, cross-node movement, join paths, distribution keys, and index strategies.
+
+Unlike traditional single-node databases, distributed SQL performance depends not only on access paths, but also on where data is located and whether computation can be pushed down to the nodes that own the data.
+
+
+<style>
+.paw-flow {
+  margin: 24px 0 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.paw-flow * { box-sizing: border-box; }
+.paw-flow .flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.paw-flow .flow-node {
+  min-width: 150px;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #102a43;
+  font-weight: 650;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(16,42,67,.05);
+}
+.paw-flow .flow-node.primary {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.paw-flow .flow-node.soft { background: #f7fafc; }
+.paw-flow .flow-node.success {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #047857;
+}
+.paw-flow .flow-node.danger {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #b42318;
+}
+.paw-flow .flow-arrow {
+  color: #9fb3c8;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+.paw-flow .flow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+.paw-flow .flow-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.paw-flow .flow-card {
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  padding: 14px;
+  background: #ffffff;
+  color: #102a43;
+}
+.paw-flow .flow-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.paw-flow .flow-card span {
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .paw-flow .flow-row,
+  .paw-flow .flow-grid,
+  .paw-flow .flow-grid.cols-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .paw-flow .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+</style>
+
+
+## Overview
+
+In a distributed database, a SQL statement may be logically correct and still perform poorly because of inefficient data distribution.
+
+Common problems include:
+
+- Join columns that do not align with distribution keys
+- Large Shuffle / Redistribute operations between nodes
+- Small tables that are not replicated
+- Predicates that are not pushed down
+- Data skew caused by poor distribution-key selection
+- Inefficient use of global or local indexes
+
+PawSQL analyzes both SQL structure and distribution metadata.
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">SQL</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Metadata & Distribution</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Distributed Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Rewrite / Index / Distribution</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Optimized Plan</div>
+  </div>
+</div>
+
+## Why Distributed SQL Needs Specialized Optimization
+
+Traditional SQL optimization focuses on:
+
+- Indexes
+- Join algorithms
+- Scan types
+- Predicate pushdown
+- Aggregation and sorting
+
+Distributed databases add another set of questions:
+
+- Which node owns the data?
+- Can the join be completed locally?
+- Must data move between nodes?
+- Which side is suitable for broadcast?
+- Does the distribution key match the dominant access pattern?
+- Is data heavily skewed?
+
+As a result, SQL that is efficient on a single-node database may be inefficient in a distributed environment.
+
+## Key Capabilities
+
+### Distribution key analysis
+
+Evaluate whether table distribution keys align with common filter conditions, join predicates, and access patterns.
+
+Typical issues include:
+
+- Frequently joined tables using unrelated distribution keys
+- Filters that do not benefit from the distribution strategy
+- Low-cardinality distribution keys
+- Hot partitions or node-level skew
+
+### Cross-shard join detection
+
+Identify joins that require data to cross shards or nodes.
+
+For large business tables, cross-shard joins can introduce:
+
+- Network transfer
+- Shuffle
+- Intermediate-result explosion
+- Coordinator pressure
+
+PawSQL can further analyze potential optimization paths.
+
+### Data movement analysis
+
+Identify execution-plan operators such as:
+
+- Redistribute
+- Broadcast
+- Exchange
+- Motion
+- Shuffle
+
+and determine whether some of that movement can be avoided.
+
+### Replicated table recommendation
+
+For relatively small tables that are frequently joined, such as configuration, dimension, or parameter tables, PawSQL can evaluate whether replicated or broadcast-table designs are more appropriate.
+
+Potential benefits include:
+
+- Fewer cross-node joins
+- Lower network overhead
+- Better join pushdown
+
+### Predicate and join pushdown
+
+Analyze whether filters and joins can be pushed closer to the data nodes to reduce intermediate row volume.
+
+### Global and local index analysis
+
+For databases that support global and local indexes, PawSQL can evaluate:
+
+- Index coverage
+- Partition / shard access paths
+- Global-index maintenance cost
+- Whether local indexes satisfy the query pattern
+
+## Common Optimization Strategies
+
+<div class="paw-flow">
+  <div class="flow-grid">
+    <div class="flow-card"><strong>Align Distribution Keys</strong><span>Keep frequent joins local whenever possible.</span></div>
+    <div class="flow-card"><strong>Reduce Data Movement</strong><span>Use pushdown and rewrites to reduce Shuffle and Redistribute.</span></div>
+    <div class="flow-card"><strong>Use Replicated Tables</strong><span>Reduce cross-node joins for frequently accessed small tables.</span></div>
+    <div class="flow-card"><strong>Rewrite Cross-shard SQL</strong><span>Change distributed execution behavior using equivalent SQL forms.</span></div>
+    <div class="flow-card"><strong>Optimize Index Strategy</strong><span>Choose access paths using global and local indexes.</span></div>
+    <div class="flow-card"><strong>Control Data Skew</strong><span>Avoid hot shards and uneven node utilization.</span></div>
+  </div>
+</div>
+
+## Example
+
+Suppose two large distributed tables use different distribution keys:
+
+```text
+orders       DISTRIBUTED BY customer_id
+payments     DISTRIBUTED BY payment_id
+```
+
+SQL:
+
+```sql
+SELECT *
+FROM orders o
+JOIN payments p
+  ON o.customer_id = p.customer_id;
+```
+
+Because the two tables are distributed differently, the database may need to redistribute one side before completing the join.
+
+Possible optimization strategies include:
+
+1. Changing the distribution key
+2. Reducing the joined data set using filters
+3. Broadcasting the smaller side
+4. Rewriting or decomposing the SQL to reduce data movement
+5. Introducing an additional replica or replicated table
+
+The correct strategy depends on data volume, database capabilities, and the business data model.
+
+## Supported Scenarios
+
+Distributed SQL Optimization applies to distributed database environments such as:
+
+- TDSQL PostgreSQL
+- TDSQLx-MySQL
+- OceanBase
+- GaussDB
+- openGauss
+- PolarDB-X
+- GoldenDB
+- Greenplum
+
+See [Supported Databases](/en/getting-started/supported-databases) for detailed capability coverage.
+
+## Related Features
+
+- [Automatic SQL Rewrite](/en/features/automatic-sql-rewrite)
+- [Index Recommendation](/en/features/index-recommendation)
+- [Performance Validation](/en/features/performance-validation)
+- [Execution Plan Visualization](/en/features/execution-plan-visualization)
+
+## Related Use Cases
+
+- DBA Batch Slow SQL Governance
+- Database Migration SQL Governance
+- Enterprise SQL Governance Platform
+
+## Next Steps
+
+Continue with:
+
+- [Big Data SQL Optimization](/en/features/big-data-sql-optimization)
+- [Performance Validation](/en/features/performance-validation)

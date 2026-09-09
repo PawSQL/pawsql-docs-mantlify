@@ -1,0 +1,248 @@
+---
+id: en-feature-index-recommendation
+title: Index Recommendation
+description: Generate and validate effective index strategies using SQL predicates,
+  joins, sorting, grouping, selectivity, and existing indexes.
+type: explanation
+product: pawsql
+status: draft
+tags:
+- features
+- index-recommendation
+language: en
+translationKey: feature-index-recommendation
+localeOf: feature-index-recommendation
+layout: detail
+capabilities:
+- index-recommendation
+---
+
+PawSQL Index Recommendation identifies index optimization opportunities and generates candidate indexes that better match SQL access paths.
+
+The recommendation process goes beyond WHERE clauses. It also analyzes joins, ORDER BY, GROUP BY, column selectivity, existing indexes, and target-database execution plans.
+
+
+<style>
+.paw-flow {
+  margin: 24px 0 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.paw-flow * { box-sizing: border-box; }
+.paw-flow .flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.paw-flow .flow-node {
+  min-width: 150px;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #102a43;
+  font-weight: 650;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(16,42,67,.05);
+}
+.paw-flow .flow-node.primary {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.paw-flow .flow-node.soft {
+  background: #f7fafc;
+}
+.paw-flow .flow-arrow {
+  color: #9fb3c8;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+.paw-flow .flow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+.paw-flow .flow-card {
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  padding: 14px;
+  background: #ffffff;
+  color: #102a43;
+}
+.paw-flow .flow-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.paw-flow .flow-card span {
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .paw-flow .flow-row,
+  .paw-flow .flow-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .paw-flow .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+</style>
+
+
+## Overview
+
+“Create an index on every WHERE column” is not a reliable indexing strategy.
+
+An effective index usually depends on several factors:
+
+- Which predicates provide meaningful filtering
+- Which columns are used for joins
+- Which columns should become leading columns in a composite index
+- Whether the index can support sorting or grouping
+- Whether equivalent or overlapping indexes already exist
+- Whether a new index actually changes the execution plan
+
+PawSQL separates index recommendation into candidate generation, filtering, simulation, and validation.
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">SQL</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Predicate / Join Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Index Candidates</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Existing Index Check</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Plan Validation</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Recommended Index</div>
+  </div>
+</div>
+
+## Key Capabilities
+
+### Predicate-driven candidate generation
+
+Analyze equality, range, IN, LIKE, and other predicates to identify columns that may benefit from indexing.
+
+### Join-aware indexing
+
+Analyze join conditions to identify indexing opportunities on join keys.
+
+For frequently joined business tables, this may be more important than analyzing WHERE predicates alone.
+
+### Composite index design
+
+Evaluate ordering across multiple index columns using:
+
+- Selectivity
+- Equality and range predicates
+- Join conditions
+- ORDER BY
+- GROUP BY
+
+to generate more practical composite-index candidates.
+
+### Existing index analysis
+
+Before recommending a new index, PawSQL evaluates existing indexes to avoid:
+
+- Duplicate indexes
+- Prefix-duplicate indexes
+- Highly overlapping indexes
+- Unnecessary index proliferation
+
+### Database-aware index syntax
+
+Index capabilities vary significantly by database.
+
+PawSQL can account for database-specific characteristics such as:
+
+- B-tree / bitmap and other index types
+- INCLUDE / covering indexes
+- Local / global indexes
+- Concurrent or online index creation
+- Partitioned-table indexes
+- Distributed-database index restrictions
+
+### Index effectiveness validation
+
+The final goal is not to generate a `CREATE INDEX` statement. It is to determine:
+
+> Will this index actually change the access path and reduce SQL cost?
+
+## Example
+
+Original SQL:
+
+```sql
+SELECT order_id, order_date, amount
+FROM orders
+WHERE customer_id = ?
+  AND order_date >= ?
+ORDER BY order_date DESC;
+```
+
+Possible index candidate:
+
+```sql
+CREATE INDEX idx_orders_customer_date
+ON orders(customer_id, order_date);
+```
+
+The candidate may be useful because:
+
+- `customer_id` is used for equality filtering
+- `order_date` is used for a range predicate
+- `order_date` also participates in sorting
+
+The final recommendation still depends on existing indexes, data distribution, and execution-plan validation.
+
+## Recommend → Simulate → Validate
+
+PawSQL's indexing workflow can be summarized as:
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">Recommend</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Simulate</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Compare Plan</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Validate</div>
+  </div>
+</div>
+
+If the target database supports virtual indexes, hypothetical indexes, or equivalent mechanisms, recommendations can be validated without immediately creating physical indexes.
+
+## What PawSQL Tries to Avoid
+
+A good index recommendation system must understand not only which indexes to add, but also which indexes should not be added.
+
+Examples include:
+
+- Mechanically indexing low-selectivity columns
+- Creating many similar indexes for individual SQL statements
+- Ignoring existing composite indexes
+- Optimizing reads while ignoring write overhead
+- Recommending indexes that do not change the execution plan
+
+## Related Features
+
+- [SQL Review](/en/features/sql-review)
+- [Automatic SQL Rewrite](/en/features/automatic-sql-rewrite)
+- [Performance Validation](/en/features/performance-validation)
+- [Execution Plan Visualization](/en/features/execution-plan-visualization)
+
+## Related Use Cases
+
+- Developer SQL Copilot
+- DBA Batch Slow SQL Governance
+- Enterprise SQL Governance Platform
+
+## Next Steps
+
+Continue with:
+
+- [Performance Validation](/en/features/performance-validation)
+- [Execution Plan Visualization](/en/features/execution-plan-visualization)

@@ -1,0 +1,296 @@
+---
+id: en-feature-big-data-sql-optimization
+title: Big Data SQL Optimization
+description: Optimize Hive and big-data SQL using partition pruning, bucket-aware
+  joins, skew analysis, aggregation optimization, window functions, and global sort
+  analysis.
+type: explanation
+product: pawsql
+status: draft
+tags:
+- features
+- big-data-sql-optimization
+language: en
+translationKey: feature-big-data-sql-optimization
+localeOf: feature-big-data-sql-optimization
+layout: detail
+---
+
+PawSQL Big Data SQL Optimization targets performance problems that are common in Hive and other large-scale SQL processing environments but less common in traditional relational databases.
+
+The analysis focuses on partition pruning, bucket-aware joins, data skew, aggregation skew, window functions, global sorting, and large-scale Shuffle.
+
+
+<style>
+.paw-flow {
+  margin: 24px 0 32px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.paw-flow * { box-sizing: border-box; }
+.paw-flow .flow-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.paw-flow .flow-node {
+  min-width: 150px;
+  padding: 14px 16px;
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #102a43;
+  font-weight: 650;
+  text-align: center;
+  box-shadow: 0 1px 2px rgba(16,42,67,.05);
+}
+.paw-flow .flow-node.primary {
+  border-color: #bfdbfe;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+.paw-flow .flow-node.soft { background: #f7fafc; }
+.paw-flow .flow-node.success {
+  border-color: #a7f3d0;
+  background: #ecfdf5;
+  color: #047857;
+}
+.paw-flow .flow-node.danger {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #b42318;
+}
+.paw-flow .flow-arrow {
+  color: #9fb3c8;
+  font-size: 20px;
+  line-height: 1;
+  font-weight: 700;
+}
+.paw-flow .flow-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 14px;
+}
+.paw-flow .flow-grid.cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.paw-flow .flow-card {
+  border: 1px solid #d9e2ec;
+  border-radius: 12px;
+  padding: 14px;
+  background: #ffffff;
+  color: #102a43;
+}
+.paw-flow .flow-card strong {
+  display: block;
+  margin-bottom: 5px;
+}
+.paw-flow .flow-card span {
+  color: #627d98;
+  font-size: 13px;
+  line-height: 1.55;
+}
+@media (max-width: 760px) {
+  .paw-flow .flow-row,
+  .paw-flow .flow-grid,
+  .paw-flow .flow-grid.cols-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .paw-flow .flow-arrow {
+    transform: rotate(90deg);
+    text-align: center;
+  }
+}
+</style>
+
+
+## Overview
+
+In big-data SQL, performance is often determined not by a single operator but by the interaction between scan volume, Shuffle, partition design, and data skew.
+
+A SQL statement with only a few dozen lines may trigger:
+
+- Terabytes of data scanning
+- Large network Shuffles
+- Long-running Reduce tasks
+- COUNT DISTINCT skew
+- Hot partitions in window functions
+- Global sorting that blocks the entire job
+
+PawSQL applies big-data-specific optimization rules and analysis models to these patterns.
+
+<div class="paw-flow">
+  <div class="flow-row">
+    <div class="flow-node">Hive SQL</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Partition / Bucket Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Skew & Shuffle Analysis</div><div class="flow-arrow">→</div>
+    <div class="flow-node">Rewrite / Strategy</div><div class="flow-arrow">→</div>
+    <div class="flow-node primary">Optimized Big Data SQL</div>
+  </div>
+</div>
+
+## Why Big Data SQL Needs Specialized Rules
+
+Traditional database bottlenecks often involve:
+
+- Random I/O
+- Index access
+- Join selection
+- Single-node CPU and memory
+
+In Hive and other big-data engines, the dominant costs are more often:
+
+- Data scan volume
+- Shuffle
+- Task count
+- Data skew
+- Partition and bucket design
+- Global sorting and aggregation
+
+Big-data SQL therefore requires optimization methods that differ from OLTP databases.
+
+## Key Capabilities
+
+### Partition pruning analysis
+
+Detect cases where functions, expressions, or inappropriate predicates on partition columns prevent partition pruning.
+
+For example:
+
+```sql
+WHERE date_format(dt, 'yyyy-MM-dd') = '2026-09-09'
+```
+
+may prevent the engine from pruning directly on `dt`.
+
+### Bucket join analysis
+
+Analyze whether join columns and bucket design are compatible, including:
+
+- Mismatched bucket columns
+- Bucket-count relationships
+- SMB Join conditions
+- Small-table opportunities for Map Join
+
+### COUNT DISTINCT skew
+
+Detect scenarios where `COUNT(DISTINCT ...)` may create reducer skew and suggest multi-stage aggregation or equivalent rewrites.
+
+### GROUP BY skew
+
+Analyze Group Key distribution and identify cases where a small number of hot keys overload individual Reduce tasks.
+
+### Window-function skew
+
+For `ROW_NUMBER()`, `RANK()`, `SUM() OVER (...)`, and similar functions, identify imbalanced partition keys that may create hot tasks.
+
+### Global sort optimization
+
+Detect the cost of `ORDER BY` global sorting.
+
+For Top-N scenarios, PawSQL can evaluate local sorting, window-based techniques, or multi-stage Top-N strategies.
+
+### UNION and aggregation optimization
+
+Identify:
+
+- Cases where `UNION ALL` is sufficient
+- Extra Shuffle caused by UNION deduplication
+- Skew in global aggregation
+- Multi-stage aggregation opportunities
+
+## Typical Optimization Areas
+
+<div class="paw-flow">
+  <div class="flow-grid">
+    <div class="flow-card"><strong>Partition Pruning</strong><span>Reduce the amount of data scanned.</span></div>
+    <div class="flow-card"><strong>Bucket-aware Join</strong><span>Use bucket design to reduce Shuffle.</span></div>
+    <div class="flow-card"><strong>Data Skew</strong><span>Detect hot keys and long-tail tasks.</span></div>
+    <div class="flow-card"><strong>Aggregation</strong><span>Optimize COUNT DISTINCT and GROUP BY.</span></div>
+    <div class="flow-card"><strong>Window Functions</strong><span>Avoid overloaded partitions.</span></div>
+    <div class="flow-card"><strong>Global Sort</strong><span>Reduce global-sort and single-reducer bottlenecks.</span></div>
+  </div>
+</div>
+
+## Example: Partition Pruning
+
+Suppose the table is:
+
+```text
+sales
+PARTITIONED BY (dt STRING)
+```
+
+Inefficient form:
+
+```sql
+SELECT *
+FROM sales
+WHERE substr(dt, 1, 7) = '2026-09';
+```
+
+A more pruning-friendly form may be:
+
+```sql
+SELECT *
+FROM sales
+WHERE dt >= '2026-09-01'
+  AND dt <  '2026-10-01';
+```
+
+The latter makes the required partition range easier for the engine to identify directly.
+
+## Example: Global Top-N
+
+Original SQL:
+
+```sql
+SELECT *
+FROM events
+ORDER BY score DESC
+LIMIT 100;
+```
+
+On a very large data set, global sorting may be expensive.
+
+Depending on engine capabilities, PawSQL can analyze whether the query can use:
+
+- Local Top-N
+- Partitioned sorting
+- Two-stage Top-N
+- Window functions
+
+to reduce full global sorting.
+
+## Big Data Optimization Is About Data Movement
+
+For big-data SQL, one of the most important questions is usually not:
+
+> “Which index is better?”
+
+but:
+
+> **How much data must be scanned? How much data must move? Why is the slowest task slow?**
+
+PawSQL therefore treats scan volume, Shuffle, partitioning, bucketing, and skew as first-class optimization signals.
+
+## Related Features
+
+- [Automatic SQL Rewrite](/en/features/automatic-sql-rewrite)
+- [Distributed SQL Optimization](/en/features/distributed-sql-optimization)
+- [Performance Validation](/en/features/performance-validation)
+
+## Related Use Cases
+
+- DBA Batch SQL Governance
+- Big Data SQL Quality Governance
+- Enterprise SQL Governance Platform
+
+## Next Steps
+
+Continue with:
+
+- [Distributed SQL Optimization](/en/features/distributed-sql-optimization)
+- [Supported Databases](/en/getting-started/supported-databases)
