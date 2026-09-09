@@ -1,7 +1,7 @@
 ---
 id: features-index
-title: 核心功能
-description: PawSQL 核心能力总览：SQL 质量、SQL 优化、性能智能、SQL 治理与平台集成。
+title: 核心能力
+description: 探索 PawSQL 在 SQL 质量、SQL 优化、性能分析、SQL 治理与研发集成方面的核心能力。
 type: explanation
 product: pawsql
 status: draft
@@ -19,164 +19,162 @@ layout: index
 `}</style>
 
 
-PawSQL 是面向开发者、QA 团队、DBA 与企业数据库团队的 **SQL 工程与治理平台**。
+PawSQL 是面向开发、测试、DBA 与企业数据库治理团队的 **SQL 工程与治理平台**。
 
-它提供覆盖 SQL 全生命周期的一整套能力：从开发期审核与优化，到发布前质量门禁、生产慢 SQL 治理、性能验证与持续的 SQL 治理。
+它围绕 SQL 的完整生命周期提供统一能力：从开发阶段的规范审核与实时优化，到上线前的质量门禁，再到生产环境中的慢 SQL 治理、性能验证与持续优化。
 
-PawSQL 能力分为五个领域：
+PawSQL 的核心能力由五个部分组成：
 
-- **SQL 质量** — 发现语法、规范、风险与潜在性能问题
-- **SQL 优化** — 自动重写 SQL、推荐索引并针对数据库专项负载做优化
-- **性能智能** — 借助执行计划、代价与数据库优化器验证改进效果
-- **SQL 治理** — 在 CI/CD、生产与企业流程中落地 SQL 质量与性能控制
-- **平台与集成** — 将 PawSQL 接入 IDE、CI/CD、API、Webhook、MCP 与企业内部平台
+- **SQL 质量**：发现语法、规范、风险和潜在性能问题
+- **SQL 优化**：自动进行 SQL 重写、索引推荐与专项性能优化
+- **性能智能**：通过执行计划、代价与数据库优化器验证优化效果
+- **SQL 治理**：将 SQL 质量与性能治理扩展到 CI/CD、生产巡检和企业级管理流程
+- **平台与集成**：连接 IDE、CI/CD、API、Webhook、MCP 与企业内部平台
 
 ---
 
-## 从 SQL 分析到企业级治理
+## 从 SQL 分析到企业治理
 
-PawSQL 不止回答“这条 SQL 有什么问题？”，
+PawSQL 不只回答“这条 SQL 有什么问题”，还进一步回答：
 
-它还能帮助你回答：
+- 是否存在规范或高风险操作？
+- SQL 是否有更高效的等价写法？
+- 是否需要创建或调整索引？
+- 优化后的执行计划是否真正改善？
+- 是否可以自动纳入研发、发布和生产治理流程？
 
-- 该 SQL 是否违反编码或运维规范？
-- 是否存在语义等价但更高效的写法？
-- 是否应该创建或修改索引？
-- 优化后的版本是否真的产生更优的执行计划？
-- 同样的检查能否在开发与发布流程中被自动执行？
-
-<div class="paw-diagram"><div class="paw-title">Capability Overview</div><div class="paw-stage"><div class="paw-node primary">SQL</div><div class="paw-down">↓</div><div class="paw-node">SQL Quality</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-card"><h4>SQL Optimization</h4><p>Rewrite / Index Analysis</p></div><div class="paw-card"><h4>Risk & Policy</h4><p>SQL Quality</p></div></div><div class="paw-down">↓</div><div class="paw-node primary">Performance Validation</div><div class="paw-down">↓</div><div class="paw-node">SQL Governance</div><div class="paw-down">↓</div><div class="paw-node soft">IDE / CI/CD / API / Webhook / MCP</div></div></div>
+<div class="paw-diagram"><div class="paw-title">能力总览</div><div class="paw-stage"><div class="paw-node primary">SQL</div><div class="paw-down">↓</div><div class="paw-node">SQL 质量分析</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-card"><h4>SQL 自动优化</h4><p>重写 / 索引分析</p></div><div class="paw-card"><h4>风险与规范</h4><p>SQL 质量分析</p></div></div><div class="paw-down">↓</div><div class="paw-node primary">性能验证</div><div class="paw-down">↓</div><div class="paw-node">SQL 治理</div><div class="paw-down">↓</div><div class="paw-node soft">IDE / CI/CD / API / Webhook / MCP</div></div></div>
 
 ---
 
 ## SQL 质量
 
-在 SQL 进入测试、发布或生产之前发现其中的问题。
+在 SQL 进入测试、发布或生产环境之前识别问题。
 
-PawSQL 通过解析、语义分析、数据库元数据与规则引擎进行结构化分析，而不是仅依赖文本匹配或正则表达式。
+PawSQL 基于 SQL 解析、语义分析、数据库元数据和规则引擎，对 SQL 进行结构化审核，而不是仅依赖文本匹配或正则规则。
 
-### 核心能力
+### 主要能力
 
 - SQL 语法与兼容性检查
-- SQL 编码规范审核
-- 高风险 DDL/DML 检测
+- SQL 规范审核
+- 高风险 DDL / DML 检测
 - 潜在性能问题检测
 - 数据库专项规则
 - 企业自定义规则
 - 存储过程 SQL 分析
 
-### 典型场景
+### 适用场景
 
-开发者自检、代码评审、发布检查、数据库变更评审与企业 SQL 规范落地。
+开发自检、代码评审、上线审核、数据库变更审核、企业 SQL 规范治理。
 
-[了解 SQL 审核 →](/features/sql-review)
+[了解 SQL Review →](/features/sql-review)
 
 ---
 
 ## SQL 优化
 
-自动发现更高效的 SQL 写法与索引策略。
+自动寻找更高效的 SQL 写法与索引方案。
 
-PawSQL 结合 SQL 解析、语义等价分析、重写规则、索引分析与数据库优化器信息，生成可评估的优化候选。
+PawSQL 通过 SQL 解析、语义等价性分析、重写规则、索引分析和数据库优化器能力，对 SQL 进行自动优化。
 
-### 核心能力
+### 主要能力
 
-- SQL 自动重写
+- 自动 SQL 重写
 - 子查询优化
 - Join 优化
 - 谓词下推
 - 聚合与排序优化
 - 深分页优化
 - 智能索引推荐
-- 分布式 SQL 优化
-- 大数据 SQL 优化
+- 分布式 SQL 专项优化
+- 大数据 SQL 专项优化
 
-目标不只是给出建议，而是产出可以被评估并应用的优化候选。
+PawSQL 的目标不是简单给出“优化建议”，而是尽可能形成可执行的优化方案。
 
-<div class="paw-diagram"><div class="paw-title">SQL Optimization</div><div class="paw-flow"><div class="paw-node">Original SQL</div><div class="paw-arrow">→</div><div class="paw-node">Parsing & Semantic Analysis</div><div class="paw-arrow">→</div><div class="paw-node">Rewrite / Index Analysis</div><div class="paw-arrow">→</div><div class="paw-node">Optimization Candidate</div><div class="paw-arrow">→</div><div class="paw-node primary">Performance Validation</div><div class="paw-arrow">→</div><div class="paw-node">Optimized SQL</div></div></div>
+<div class="paw-diagram"><div class="paw-title">SQL 自动优化</div><div class="paw-flow"><div class="paw-node">原始 SQL</div><div class="paw-arrow">→</div><div class="paw-node">解析与语义分析</div><div class="paw-arrow">→</div><div class="paw-node">重写 / 索引分析</div><div class="paw-arrow">→</div><div class="paw-node">候选优化方案</div><div class="paw-arrow">→</div><div class="paw-node primary">性能验证</div><div class="paw-arrow">→</div><div class="paw-node">优化后 SQL</div></div></div>
 
-[了解 SQL 自动重写 →](/features/automatic-sql-rewrite)
+[了解 Automatic SQL Rewrite →](/features/automatic-sql-rewrite)
 
-[了解索引推荐 →](/features/index-recommendation)
+[了解 Index Recommendation →](/features/index-recommendation)
 
 ---
 
 ## 性能智能
 
-判断一次优化是否真正改善了 SQL。
+判断优化是否真正有效。
 
-SQL 优化不应只依赖启发式规则。PawSQL 借助数据库优化器信息、执行计划与代价对比，评估原始 SQL 与优化后 SQL。
+SQL 优化不能只依赖经验规则。PawSQL 结合目标数据库优化器、执行计划和代价信息，对优化前后的 SQL 进行比较。
 
-### 核心能力
+### 主要能力
 
 - 优化前后执行计划对比
-- SQL 代价对比
-- 索引有效性验证
+- SQL Cost 对比
+- 索引效果验证
 - 执行计划可视化
-- 高代价算子检测
-- 全表扫描与大结果集操作检测
+- 高代价算子识别
+- 全表扫描与大数据量操作识别
 - 慢 SQL 分析
 - 优化收益评估
 
-<div class="paw-diagram"><div class="paw-title">Performance Validation</div><div class="paw-compare"><div class="paw-card"><h4>Original SQL Plan</h4><p>Execution Plan</p></div><div class="paw-center">⇄</div><div class="paw-card"><h4>Optimized SQL Plan</h4><p>Execution Plan</p></div></div><div class="paw-stage" style="margin-top:14px"><div class="paw-down">↓</div><div class="paw-node primary">Plan & Cost Comparison</div><div class="paw-down">↓</div><div class="paw-node">Optimization Result</div></div></div>
+<div class="paw-diagram"><div class="paw-title">性能验证</div><div class="paw-compare"><div class="paw-card"><h4>原始 SQL 执行计划</h4><p>Execution Plan</p></div><div class="paw-center">⇄</div><div class="paw-card"><h4>优化 SQL 执行计划</h4><p>Execution Plan</p></div></div><div class="paw-stage" style="margin-top:14px"><div class="paw-down">↓</div><div class="paw-node primary">代价与执行计划对比</div><div class="paw-down">↓</div><div class="paw-node">优化结果</div></div></div>
 
-由此形成完整的优化闭环：
+这使 PawSQL 可以形成完整闭环：
 
-> **Detect → Optimize → Validate**
+> **发现问题 → 生成优化方案 → 验证优化效果**
 
-[了解性能验证 →](/features/performance-validation)
+[了解 Performance Validation →](/features/performance-validation)
 
-[了解执行计划可视化 →](/features/execution-plan-visualization)
+[了解 Execution Plan Visualization →](/features/execution-plan-visualization)
 
 ---
 
 ## SQL 治理
 
-把 SQL 优化从单条语句扩展到持续的企业级治理。
+将单条 SQL 优化扩展为持续、规模化的 SQL 治理。
 
-当企业需要管理成千上万甚至上百万条 SQL 时，人工审核与优化已无法跟上现代交付节奏。
+当 SQL 数量从几十条增长到几千、几万甚至更多时，人工审核和优化无法满足持续交付与生产治理要求。
 
-PawSQL 把 SQL 分析、风险控制与性能优化嵌入开发、部署、迁移与生产流程。
+PawSQL 支持将 SQL 分析、风险控制和性能优化能力嵌入企业研发与运维流程。
 
-### 核心能力
+### 主要能力
 
-- CI/CD SQL 质量门禁
+- CI/CD SQL Quality Gate
 - 批量 SQL 审核与优化
-- SQL 指纹识别
-- 慢 SQL 治理
+- SQL 指纹归并
+- 慢 SQL 批量治理
 - 数据库迁移 SQL 治理
 - SQL 风险分级
-- 优化优先级
-- 企业级 SQL 治理看板
+- 优化优先级分析
+- 企业 SQL Governance Dashboard
 
-### 典型工作流
+### 典型流程
 
-<div class="paw-diagram"><div class="paw-title">SQL Governance</div><div class="paw-stage"><div class="paw-node">Developer / DBA / Migration</div><div class="paw-down">↓</div><div class="paw-node">SQL Collection</div><div class="paw-down">↓</div><div class="paw-node primary">PawSQL Analysis</div><div class="paw-down">↓</div><div class="paw-branches"><div class="paw-branch">Risk</div><div class="paw-branch">Rewrite</div><div class="paw-branch">Index</div></div><div class="paw-down">↓</div><div class="paw-node">Performance Validation</div><div class="paw-down">↓</div><div class="paw-node">Governance Policy</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-node">Pass</div><div class="paw-node">Block</div></div></div></div>
+<div class="paw-diagram"><div class="paw-title">SQL 治理</div><div class="paw-stage"><div class="paw-node">开发 / DBA / 迁移</div><div class="paw-down">↓</div><div class="paw-node">SQL 收集</div><div class="paw-down">↓</div><div class="paw-node primary">PawSQL 分析</div><div class="paw-down">↓</div><div class="paw-branches"><div class="paw-branch">Risk</div><div class="paw-branch">Rewrite</div><div class="paw-branch">Index</div></div><div class="paw-down">↓</div><div class="paw-node">性能验证</div><div class="paw-down">↓</div><div class="paw-node">治理策略</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-node">通过</div><div class="paw-node">阻断</div></div></div></div>
 
-[了解 SQL 质量门禁 →](/features/sql-quality-gate)
+[了解 SQL Quality Gate →](/features/sql-quality-gate)
 
-了解批量 SQL 治理 →
+了解 Batch SQL Governance →
 
 ---
 
 ## 平台与集成
 
-把 SQL 智能带入团队已在使用的工具。
+让 SQL 能力进入开发者和企业现有工具链。
 
-PawSQL 可以运行在开发、DevOps、企业内部数据库平台与 AI 助手工作流中，而不只是一款独立 SQL 工具。
+PawSQL 可以运行在开发 IDE、CI/CD Pipeline、企业内部平台和 AI Agent 工作流中，而不仅仅作为一个独立 SQL 工具。
 
 ### 集成方式
 
-| 集成 | 典型用途 |
+| 集成方式 | 典型用途 |
 |---|---|
-| IDE | 开发期 SQL 审核与优化 |
-| CI/CD | 发布前 SQL 质量门禁 |
-| REST API | 企业平台与自动化集成 |
-| Webhook | DevOps 工作流触发 |
-| MCP | 面向 AI 助手的 SQL 审核与优化 |
-| Web Console | DBA 与企业级 SQL 治理 |
+| IDE | 开发阶段 SQL 自检与优化 |
+| CI/CD | SQL 上线质量门禁 |
+| REST API | 企业平台与自动化系统集成 |
+| Webhook | DevOps 流程触发 |
+| MCP | AI Agent 调用 SQL 审核与优化能力 |
+| Web Console | DBA 与企业 SQL 治理 |
 
-典型集成包括：
+支持场景包括：
 
 - JetBrains
 - Visual Studio Code
@@ -184,59 +182,59 @@ PawSQL 可以运行在开发、DevOps、企业内部数据库平台与 AI 助手
 - GitLab CI/CD
 - Coding
 - 企业 DevOps 平台
-- AI 编码助手
-- 企业内部数据库管理平台
+- AI Coding Agent
+- 内部数据库管理平台
 
-了解平台与集成 →
-
----
-
-## 异构数据库环境下的统一平台
-
-现代企业往往同时运行传统关系型数据库、国产数据库、分布式数据库与大数据平台。
-
-PawSQL 在异构数据库环境下提供统一的 SQL 分析模型，以及一致的审核、优化与治理体验。
-
-<div class="paw-diagram"><div class="paw-title">Multi-Database Architecture</div><div class="paw-stage"><div class="paw-node primary">PawSQL</div><div class="paw-down">↓</div></div><div class="paw-db-groups"><div class="paw-db-group"><strong>Traditional Databases</strong><div>MySQL<br/>PostgreSQL<br/>Oracle<br/>SQL Server<br/>DB2<br/>…</div></div><div class="paw-db-group"><strong>Distributed Databases</strong><div>OceanBase<br/>TDSQL<br/>GaussDB<br/>PolarDB-X<br/>GoldenDB<br/>…</div></div><div class="paw-db-group"><strong>Big Data</strong><div>Hive<br/>…</div></div></div></div>
-
-关于数据库版本与能力覆盖范围，请见：
-
-[支持的数据库 →](/getting-started/supported-databases)
+了解 Platform & Integration →
 
 ---
 
-## PawSQL 的典型使用方式
+## 一个统一平台，支持多种数据库环境
 
-不同角色可通过不同的工作流进入 PawSQL。
+现代企业通常同时运行传统关系型数据库、国产数据库、分布式数据库以及大数据平台。
+
+PawSQL 通过统一 SQL 分析模型，为不同数据库提供一致的审核、优化和治理体验。
+
+<div class="paw-diagram"><div class="paw-title">Multi-Database Architecture</div><div class="paw-stage"><div class="paw-node primary">PawSQL</div><div class="paw-down">↓</div></div><div class="paw-db-groups"><div class="paw-db-group"><strong>传统关系型数据库</strong><div>MySQL<br/>PostgreSQL<br/>Oracle<br/>SQL Server<br/>DB2<br/>…</div></div><div class="paw-db-group"><strong>分布式数据库</strong><div>OceanBase<br/>TDSQL<br/>GaussDB<br/>PolarDB-X<br/>GoldenDB<br/>…</div></div><div class="paw-db-group"><strong>大数据</strong><div>Hive<br/>…</div></div></div></div>
+
+具体数据库、版本与功能支持情况，请参阅：
+
+[Supported Databases →](/getting-started/supported-databases)
+
+---
+
+## 典型使用方式
+
+不同角色可以从不同入口使用 PawSQL。
 
 | 角色 | 典型需求 | 推荐能力 |
 |---|---|---|
-| 开发者 | 编码时发现并优化 SQL | SQL 审核、SQL 重写、IDE 集成 |
-| DBA | 规模化治理慢 SQL 与索引问题 | 批量 SQL 治理、索引推荐、性能验证 |
-| DevOps | 部署前拦截风险 SQL | SQL 质量门禁、CI/CD 集成 |
-| 迁移团队 | 迁移后校验兼容性与性能 | 数据库迁移 SQL 治理 |
-| 数据库平台团队 | 构建统一 SQL 治理平台 | API、策略、看板、多数据库支持 |
-| AI 助手 | 校验并优化生成的 SQL | MCP、SQL 审核、SQL 优化 |
+| Developer | 在编码阶段发现并优化 SQL | SQL Review、SQL Rewrite、IDE Integration |
+| DBA | 批量治理慢 SQL 与索引问题 | Batch SQL Governance、Index Recommendation、Performance Validation |
+| DevOps | 在发布流程中阻断高风险 SQL | SQL Quality Gate、CI/CD Integration |
+| Migration Team | 迁移后检查兼容性与性能 | Database Migration Governance |
+| Database Platform Team | 建设统一 SQL 治理平台 | API、Policy、Dashboard、Multi-Database Support |
+| AI Agent | 生成 SQL 后进行专业校验与优化 | MCP、SQL Review、SQL Optimization |
 
 ---
 
 ## PawSQL 能力闭环
 
-PawSQL 将 SQL 质量与性能工程组织成一个持续闭环：
+PawSQL 将 SQL 质量和性能治理组织成一个持续闭环：
 
-<div class="paw-diagram"><div class="paw-title">Continuous Improvement</div><div class="paw-loop"><div class="paw-node">Write</div><div class="paw-node primary">Review</div><div class="paw-node primary">Optimize</div><div class="paw-node primary">Validate</div><div class="paw-node">Release</div><div class="paw-node">Monitor</div><div class="paw-node">Govern</div></div><div class="paw-footnote">↺ Continuous Improvement</div></div>
+<div class="paw-diagram"><div class="paw-title">持续改进</div><div class="paw-loop"><div class="paw-node">编写</div><div class="paw-node primary">审核</div><div class="paw-node primary">优化</div><div class="paw-node primary">验证</div><div class="paw-node">发布</div><div class="paw-node">监控</div><div class="paw-node">治理</div></div><div class="paw-footnote">↺ 持续改进</div></div>
 
-SQL 优化因此成为可复用的工程能力，而不只是性能事故后的被动补救。
+这意味着 SQL 优化不再是上线后的临时性能救火，而可以成为软件研发与数据库治理流程中的标准能力。
 
 ---
 
 ## 下一步
 
-如果你是 PawSQL 新手，可从以下核心能力开始：
+如果你刚开始使用 PawSQL，可以从以下内容继续：
 
-- [SQL 审核](/features/sql-review) — 识别 SQL 质量与风险问题
-- [SQL 自动重写](/features/automatic-sql-rewrite) — 自动改写低效 SQL
-- [索引推荐](/features/index-recommendation) — 生成智能索引推荐
-- [性能验证](/features/performance-validation) — 验证优化效果
-- [执行计划可视化](/features/execution-plan-visualization) — 理解复杂执行计划
-- [用户场景](/use-cases) — 了解 PawSQL 如何融入真实开发与数据库治理工作流
+- [SQL Review](/features/sql-review) — 了解 SQL 审核与风险识别
+- [Automatic SQL Rewrite](/features/automatic-sql-rewrite) — 了解 SQL 自动重写
+- [Index Recommendation](/features/index-recommendation) — 了解智能索引推荐
+- [Performance Validation](/features/performance-validation) — 了解优化效果验证
+- [Execution Plan Visualization](/features/execution-plan-visualization) — 了解执行计划可视化
+- [Use Cases](/use-cases) — 查看 PawSQL 在真实研发与数据库治理流程中的使用方式
