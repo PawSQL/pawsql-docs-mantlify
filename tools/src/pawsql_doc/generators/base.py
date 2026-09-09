@@ -52,9 +52,10 @@ def generated_note(source_glob: str) -> str:
     )
 
 
-# Markers that delimit a generated region inside an otherwise authored page.
-DB_MATRIX_START = "<!-- DATABASE_MATRIX:START -->"
-DB_MATRIX_END = "<!-- DATABASE_MATRIX:END -->"
+# Markers that delimit a generated region inside an otherwise authored .mdx page.
+# .mdx is parsed as MDX, where HTML comments are invalid; JSX comments are used instead.
+DB_MATRIX_START = "{/* DATABASE_MATRIX:START */}"
+DB_MATRIX_END = "{/* DATABASE_MATRIX:END */}"
 
 
 def splice_region(
