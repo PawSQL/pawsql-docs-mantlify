@@ -138,7 +138,7 @@ These issues may not become visible until the table contains millions of rows.
 
 ---
 
-# The PawSQL Solution
+## The PawSQL Solution
 
 PawSQL introduces an automated SQL Quality Gate into the software delivery pipeline.
 
@@ -168,11 +168,11 @@ Developers receive feedback before the SQL reaches production.
 
 ---
 
-# What PawSQL Checks
+## What PawSQL Checks
 
 PawSQL combines **SQL governance** and **SQL performance optimization** in the same analysis process.
 
-## SQL Coding and Safety Rules
+### SQL Coding and Safety Rules
 
 PawSQL can identify potentially risky SQL patterns such as:
 
@@ -195,7 +195,7 @@ PawSQL can classify this statement as a high-risk operation and prevent it from 
 
 ---
 
-## SQL Performance Risks
+### SQL Performance Risks
 
 PawSQL also analyzes SQL patterns that may cause poor execution performance.
 
@@ -246,7 +246,7 @@ WHERE create_time >= '2026-09-04 00:00:00'
 
 ---
 
-# Go Beyond SQL Linting
+## Go Beyond SQL Linting
 
 SQL linting tools typically answer one question:
 
@@ -278,7 +278,7 @@ This allows PawSQL to detect issues that conventional static SQL linters may mis
 
 ---
 
-# Example: Detecting an Inefficient Query Before Release
+## Example: Detecting an Inefficient Query Before Release
 
 Consider an API used to retrieve customer orders.
 
@@ -311,7 +311,7 @@ PawSQL analyzes the SQL during the pull request.
 
 ---
 
-## Step 1 — Detect the Performance Risk
+### Step 1 — Detect the Performance Risk
 
 PawSQL identifies:
 
@@ -332,7 +332,7 @@ using the create_time index efficiently.
 
 ---
 
-## Step 2 — Generate an Equivalent Rewrite
+### Step 2 — Generate an Equivalent Rewrite
 
 PawSQL can recommend rewriting the predicate as a range condition:
 
@@ -350,7 +350,7 @@ ORDER BY create_time DESC;
 
 ---
 
-## Step 3 — Recommend an Index
+### Step 3 — Recommend an Index
 
 Based on query predicates and ordering requirements, PawSQL may recommend an index such as:
 
@@ -367,7 +367,7 @@ PawSQL analyzes query structure and predicate relationships to generate a more a
 
 ---
 
-## Step 4 — Validate the Optimization
+### Step 4 — Validate the Optimization
 
 Where database connectivity and execution-plan analysis are available, PawSQL can compare the execution strategy before and after optimization.
 
@@ -390,7 +390,7 @@ The optimization recommendation can therefore be evaluated before it is merged i
 
 ---
 
-# Pull Request Feedback
+## Pull Request Feedback
 
 PawSQL analysis results can be incorporated into the development workflow.
 
@@ -425,7 +425,7 @@ Developers can fix the SQL before requesting final approval.
 
 ---
 
-# Define Your SQL Quality Gate
+## Define Your SQL Quality Gate
 
 Different organizations have different database governance policies.
 
@@ -463,7 +463,7 @@ This creates a measurable and repeatable SQL governance process.
 
 ---
 
-# Integrate SQL Review Into the Development Lifecycle
+## Integrate SQL Review Into the Development Lifecycle
 
 PawSQL can be integrated into different stages of software development.
 
@@ -502,13 +502,13 @@ This shifts SQL quality management from a single release-stage review into a con
 
 ---
 
-# From DBA Review to Database DevOps
+## From DBA Review to Database DevOps
 
 The goal is not to remove DBAs from the development process.
 
 It is to automate repetitive SQL review so DBAs can focus on higher-value problems.
 
-## Traditional Model
+### Traditional Model
 
 ```text
 Every SQL
@@ -522,7 +522,7 @@ DBAs spend significant time checking routine issues.
 
 ---
 
-## PawSQL Model
+### PawSQL Model
 
 ```text
 Every SQL
@@ -549,11 +549,11 @@ DBAs focus on:
 
 ---
 
-# Expected Outcomes
+## Expected Outcomes
 
 Organizations adopting automated SQL Quality Gates typically aim to improve four areas.
 
-## Earlier Detection
+### Earlier Detection
 
 Find SQL issues during development instead of after production deployment.
 
@@ -575,7 +575,7 @@ The earlier a SQL performance problem is detected, the lower the cost of fixing 
 
 ---
 
-## Faster Database Release Reviews
+### Faster Database Release Reviews
 
 Automate repetitive SQL checks and reduce manual DBA workload.
 
@@ -592,7 +592,7 @@ Possible internal KPIs include:
 
 ---
 
-## Consistent SQL Standards
+### Consistent SQL Standards
 
 Move database development rules from documentation into executable engineering controls.
 
@@ -616,7 +616,7 @@ Automatically Enforced
 
 ---
 
-## Fewer Production SQL Incidents
+### Fewer Production SQL Incidents
 
 The ultimate goal of SQL Quality Gates is not simply to generate more review reports.
 
@@ -624,7 +624,7 @@ It is to prevent problematic SQL from reaching production.
 
 ---
 
-# Why PawSQL
+## Why PawSQL
 
 A SQL Quality Gate requires more than a SQL parser.
 
@@ -645,7 +645,7 @@ This makes PawSQL suitable not only for SQL auditing but also for **continuous S
 
 ---
 
-# Supported Development Scenarios
+## Supported Development Scenarios
 
 The SQL Quality Gate pattern can be applied to:
 
@@ -670,7 +670,7 @@ Typical integration points include:
 
 ---
 
-# Who Is This For?
+## Who Is This For?
 
 This use case is particularly relevant for organizations that have:
 
@@ -685,29 +685,29 @@ This use case is particularly relevant for organizations that have:
 
 Typical roles include:
 
-### Development Teams
+#### Development Teams
 
 Receive SQL feedback before code review is complete.
 
-### DBAs
+#### DBAs
 
 Reduce repetitive manual SQL review.
 
-### DevOps Teams
+#### DevOps Teams
 
 Add database quality controls to CI/CD pipelines.
 
-### Engineering Managers
+#### Engineering Managers
 
 Establish measurable SQL engineering standards.
 
-### Architects
+#### Architects
 
 Apply consistent SQL governance across multiple databases.
 
 ---
 
-# A Better SQL Release Process
+## A Better SQL Release Process
 
 Without automated SQL review:
 
@@ -747,7 +747,7 @@ The objective is simple:
 
 ---
 
-# Build SQL Quality Into Your CI/CD Pipeline
+## Build SQL Quality Into Your CI/CD Pipeline
 
 SQL should be treated with the same engineering discipline as application code.
 
@@ -771,7 +771,7 @@ Database SQL should have the same level of automated quality control.
 
 ---
 
-## Related Use Cases
+### Related Use Cases
 
 - [Automated Slow SQL Optimization](/en/use-cases/slow-sql-optimization)
 - SQL Governance for Database Migration

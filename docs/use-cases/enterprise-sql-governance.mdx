@@ -1,6 +1,6 @@
 ---
 id: use-case-enterprise-sql-governance
-title: 企业统一 SQL Governance 平台
+title: 企业统一 SQL 治理平台
 description: 面向多团队、多数据库和复杂研发流程，PawSQL 帮助企业建立统一的 SQL Governance 平台，覆盖开发、CI/CD、上线审核、生产巡检和持续优化，形成端到端
   SQL 全生命周期治理体系。
 type: use-case
@@ -82,13 +82,13 @@ Hive
 
 ---
 
-# 企业 SQL 治理为什么越来越难？
+## 企业 SQL 治理为什么越来越难？
 
 SQL 治理的复杂度通常随着企业规模快速上升。
 
 最常见的四个挑战是：
 
-## 挑战一：数据库越来越多
+### 挑战一：数据库越来越多
 
 企业早期可能只有：
 
@@ -125,7 +125,7 @@ Hive
 
 ---
 
-## 挑战二：SQL 分布在整个软件生命周期
+### 挑战二：SQL 分布在整个软件生命周期
 
 SQL 并不只存在于生产数据库中。
 
@@ -155,7 +155,7 @@ Slow Query Log
 
 ---
 
-## 挑战三：不同团队标准不一致
+### 挑战三：不同团队标准不一致
 
 大型企业经常出现：
 
@@ -189,7 +189,7 @@ Team D
 
 ---
 
-## 挑战四：问题发现太晚
+### 挑战四：问题发现太晚
 
 传统 SQL 治理经常是：
 
@@ -229,7 +229,7 @@ DBA 排查
 
 ---
 
-# PawSQL 的企业 SQL Governance 模型
+## PawSQL 的企业 SQL Governance 模型
 
 PawSQL 可以将 SQL 治理划分为三个核心层次：
 
@@ -243,19 +243,19 @@ Production Governance
 
 对应：
 
-### 开发阶段
+#### 开发阶段
 
 解决：
 
 > SQL 写出来的时候是否合理？
 
-### 交付阶段
+#### 交付阶段
 
 解决：
 
 > 这条 SQL 是否允许进入生产？
 
-### 生产阶段
+#### 生产阶段
 
 解决：
 
@@ -267,7 +267,7 @@ Production Governance
 
 ---
 
-# 一个统一的 SQL Governance 架构
+## 一个统一的 SQL Governance 架构
 
 企业级架构可以概括为：
 
@@ -310,7 +310,7 @@ Production Governance
 
 ---
 
-# 第一层：开发阶段 SQL Governance
+## 第一层：开发阶段 SQL Governance
 
 开发人员写 SQL 时，最容易出现的是：
 
@@ -364,7 +364,7 @@ DATE(create_time)
 
 ---
 
-# 第二层：CI/CD SQL Quality Gate
+## 第二层：CI/CD SQL Quality Gate
 
 开发阶段自助优化并不能完全替代组织级控制。
 
@@ -398,7 +398,7 @@ SQL Policy Evaluation
 
 检查内容可以包括：
 
-### 安全风险
+#### 安全风险
 
 - DELETE 无有效条件
 - UPDATE 无有效条件
@@ -406,7 +406,7 @@ SQL Policy Evaluation
 - DROP
 - 高风险 DDL
 
-### SQL 规范
+#### SQL 规范
 
 - SELECT *
 - 命名规范
@@ -414,7 +414,7 @@ SQL Policy Evaluation
 - 索引规范
 - DDL 规范
 
-### 性能风险
+#### 性能风险
 
 - 深分页
 - 非 SARGable Predicate
@@ -441,7 +441,7 @@ Executable SQL Policy
 
 ---
 
-# 第三层：生产慢 SQL Governance
+## 第三层：生产慢 SQL Governance
 
 即使开发和上线阶段已经建立质量门禁，生产系统中仍然会产生新的性能问题。
 
@@ -490,7 +490,7 @@ PawSQL 可以从慢查询中：
 
 ---
 
-# 从三个独立流程，形成一个治理闭环
+## 从三个独立流程，形成一个治理闭环
 
 如果开发、上线、生产分别使用完全不同的工具：
 
@@ -538,7 +538,7 @@ Feed Back to Development
 
 ---
 
-# 一套规则，覆盖多个团队
+## 一套规则，覆盖多个团队
 
 企业 SQL Governance 最重要的价值之一，是统一标准。
 
@@ -550,7 +550,7 @@ Enterprise SQL Standard
 
 包含：
 
-### P0 — Critical
+#### P0 — Critical
 
 ```text
 DELETE without predicate
@@ -567,7 +567,7 @@ BLOCK
 
 ---
 
-### P1 — High
+#### P1 — High
 
 例如：
 
@@ -585,7 +585,7 @@ DBA Review
 
 ---
 
-### P2 — Warning
+#### P2 — Warning
 
 例如：
 
@@ -602,7 +602,7 @@ Pass with Warning
 
 ---
 
-# 总部统一规则 + 团队扩展规则
+## 总部统一规则 + 团队扩展规则
 
 大型企业不应该只有一套完全刚性的规则。
 
@@ -640,7 +640,7 @@ Project-Specific Rules
 
 ---
 
-# 多数据库统一治理
+## 多数据库统一治理
 
 一个企业 SQL Governance 平台必须面对的现实是：
 
@@ -672,7 +672,7 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 
 ---
 
-# 多数据库不代表“完全相同规则”
+## 多数据库不代表“完全相同规则”
 
 统一治理并不意味着：
 
@@ -680,7 +680,7 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 
 例如：
 
-### MySQL
+#### MySQL
 
 可能关注：
 
@@ -689,7 +689,7 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 - 索引前导列
 - InnoDB 访问路径
 
-### Oracle
+#### Oracle
 
 可能关注：
 
@@ -698,7 +698,7 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 - Function-Based Index
 - PL/SQL
 
-### PostgreSQL / openGauss
+#### PostgreSQL / openGauss
 
 可能关注：
 
@@ -707,7 +707,7 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 - CTE
 - Distribution
 
-### Hive
+#### Hive
 
 可能关注：
 
@@ -726,7 +726,7 @@ Database-Specific Intelligence
 
 ---
 
-# 从 SQL 规范文档升级为 Policy as Code
+## 从 SQL 规范文档升级为 Policy as Code
 
 很多企业已经有几十页甚至上百页：
 
@@ -785,7 +785,7 @@ SQL 治理因此从：
 
 ---
 
-# 自定义企业 SQL 规则
+## 自定义企业 SQL 规则
 
 每个大型企业都会有自己的数据库规范。
 
@@ -828,7 +828,7 @@ Release Review
 
 ---
 
-# 将 DBA 从流程瓶颈变成专家决策者
+## 将 DBA 从流程瓶颈变成专家决策者
 
 传统企业数据库治理很容易形成：
 
@@ -876,7 +876,7 @@ DBA 不再负责：
 
 ---
 
-# 企业 SQL Governance Dashboard
+## 企业 SQL Governance Dashboard
 
 统一平台的另一项重要价值，是管理层可以获得统一指标。
 
@@ -915,7 +915,7 @@ DBA 人工工作量是否下降？
 
 ---
 
-# 建立 SQL Quality Score
+## 建立 SQL Quality Score
 
 还可以进一步定义：
 
@@ -956,7 +956,7 @@ Optimization Completion Rate
 
 ---
 
-# 建立团队 SQL Governance Scorecard
+## 建立团队 SQL Governance Scorecard
 
 例如：
 
@@ -977,11 +977,11 @@ Optimization Completion Rate
 
 ---
 
-# 一个平台，服务不同角色
+## 一个平台，服务不同角色
 
 企业 SQL Governance 并不是只服务 DBA。
 
-## Developer
+### Developer
 
 关注：
 
@@ -995,7 +995,7 @@ Optimization Completion Rate
 
 ---
 
-## DevOps
+### DevOps
 
 关注：
 
@@ -1009,7 +1009,7 @@ Optimization Completion Rate
 
 ---
 
-## DBA
+### DBA
 
 关注：
 
@@ -1023,7 +1023,7 @@ Optimization Completion Rate
 
 ---
 
-## Architect
+### Architect
 
 关注：
 
@@ -1037,7 +1037,7 @@ Optimization Completion Rate
 
 ---
 
-## Engineering Manager
+### Engineering Manager
 
 关注：
 
@@ -1051,7 +1051,7 @@ Optimization Completion Rate
 
 ---
 
-## CIO / CTO
+### CIO / CTO
 
 关注：
 
@@ -1065,7 +1065,7 @@ Optimization Completion Rate
 
 ---
 
-# 与企业现有工具链集成
+## 与企业现有工具链集成
 
 SQL Governance 不应该要求企业重建整套研发流程。
 
@@ -1112,7 +1112,7 @@ Review / Rewrite / Index / Plan
 
 ---
 
-# 从 SQL Audit 升级到 SQL Governance
+## 从 SQL Audit 升级到 SQL Governance
 
 SQL Audit 通常关注：
 
@@ -1162,7 +1162,7 @@ Metrics
 
 ---
 
-# 从 SQL Optimization 升级到 SQL Engineering
+## 从 SQL Optimization 升级到 SQL Engineering
 
 单点优化通常是：
 
@@ -1204,13 +1204,13 @@ PawSQL 的长期价值不应该只定义为：
 
 ---
 
-# 企业级治理的典型实施路径
+## 企业级治理的典型实施路径
 
 对于大型企业，不建议一次性上线全部能力。
 
 可以分阶段实施。
 
-## Phase 1 — Unified SQL Review
+### Phase 1 — Unified SQL Review
 
 首先统一：
 
@@ -1228,7 +1228,7 @@ Review Standards
 
 ---
 
-## Phase 2 — CI/CD Quality Gate
+### Phase 2 — CI/CD Quality Gate
 
 进一步接入：
 
@@ -1246,7 +1246,7 @@ Webhook
 
 ---
 
-## Phase 3 — Developer Shift Left
+### Phase 3 — Developer Shift Left
 
 将 SQL 分析前移：
 
@@ -1262,7 +1262,7 @@ Developer Workflow
 
 ---
 
-## Phase 4 — Production Governance
+### Phase 4 — Production Governance
 
 接入：
 
@@ -1280,7 +1280,7 @@ Performance Patroller
 
 ---
 
-## Phase 5 — Enterprise Governance Metrics
+### Phase 5 — Enterprise Governance Metrics
 
 最后建立：
 
@@ -1300,7 +1300,7 @@ Governance Report
 
 ---
 
-# 一个典型的企业治理结果
+## 一个典型的企业治理结果
 
 假设某大型企业上线统一 SQL Governance 平台后，每月处理：
 
@@ -1348,7 +1348,7 @@ Automated Review
 
 ---
 
-# 企业真正获得的不是一个工具，而是一套能力
+## 企业真正获得的不是一个工具，而是一套能力
 
 最终，企业获得的不是：
 
@@ -1384,7 +1384,7 @@ SQL Metrics
 
 ---
 
-# 哪些企业最适合？
+## 哪些企业最适合？
 
 这个场景尤其适合：
 
@@ -1417,7 +1417,7 @@ DBA 人力有限
 
 ---
 
-# 建议关注的企业级治理指标
+## 建议关注的企业级治理指标
 
 企业可以重点跟踪：
 
@@ -1446,7 +1446,7 @@ Lower Database Performance Cost
 
 ---
 
-# 从工具堆叠走向统一 SQL Governance Platform
+## 从工具堆叠走向统一 SQL Governance Platform
 
 很多企业现在的状态是：
 
@@ -1494,7 +1494,7 @@ Governance
 
 ---
 
-# 一个数据库治理平台，覆盖 SQL 的整个生命周期
+## 一个数据库治理平台，覆盖 SQL 的整个生命周期
 
 SQL 不应该只在生产出现问题时才被治理。
 
@@ -1532,7 +1532,7 @@ PawSQL 帮助企业把 SQL 审核、SQL 优化和数据库性能治理从分散�
 
 ---
 
-## 相关 User Cases
+### 相关 User Cases
 
 - [Developer SQL Copilot](/use-cases/developer-sql-copilot)
 - [CI/CD SQL Quality Gate](/use-cases/sql-quality-gate-cicd)

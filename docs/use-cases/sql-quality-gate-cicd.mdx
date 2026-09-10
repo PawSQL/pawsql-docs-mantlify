@@ -55,7 +55,7 @@ DBA 人工审核
 
 ---
 
-# 一个典型场景
+## 一个典型场景
 
 假设某企业拥有：
 
@@ -99,7 +99,7 @@ DBA Review
 
 ---
 
-# PawSQL 的处理方式
+## PawSQL 的处理方式
 
 将 PawSQL 接入代码提交和发布流程：
 
@@ -131,9 +131,9 @@ SQL 审核从：
 
 ---
 
-# PawSQL 可以检查什么？
+## PawSQL 可以检查什么？
 
-## SQL 安全风险
+### SQL 安全风险
 
 例如：
 
@@ -161,7 +161,7 @@ Action: Block Pipeline
 
 ---
 
-## SQL 开发规范
+### SQL 开发规范
 
 例如：
 
@@ -191,7 +191,7 @@ Executable SQL Policy
 
 ---
 
-# 不只是 SQL Lint
+## 不只是 SQL Lint
 
 普通 SQL Lint 工具通常关注：
 
@@ -236,7 +236,7 @@ Index on create_time may not be efficiently used.
 
 ---
 
-# 自动生成 SQL 优化建议
+## 自动生成 SQL 优化建议
 
 原 SQL：
 
@@ -267,7 +267,7 @@ WHERE create_time >= '2026-09-04 00:00:00'
 
 ---
 
-# 进一步分析索引
+## 进一步分析索引
 
 如果目标数据库 Schema 和索引信息可用，PawSQL 还可以分析：
 
@@ -294,7 +294,7 @@ SQL Quality Gate 因此不只是：
 
 ---
 
-# 用执行计划验证优化
+## 用执行计划验证优化
 
 如果连接目标数据库，PawSQL 可以进一步比较执行计划。
 
@@ -324,7 +324,7 @@ Estimated Cost: 327
 
 ---
 
-# Pull Request 中直接获得反馈
+## Pull Request 中直接获得反馈
 
 一个典型的 SQL Review 结果可以是：
 
@@ -371,7 +371,7 @@ Rewrite as range predicate
 
 ---
 
-# 根据风险等级决定发布动作
+## 根据风险等级决定发布动作
 
 企业可以建立统一的 SQL Policy：
 
@@ -402,7 +402,7 @@ PASS WITH WARNING
 
 ---
 
-# 总部规则 + 项目规则
+## 总部规则 + 项目规则
 
 大型企业通常需要多级规则体系：
 
@@ -440,7 +440,7 @@ OFFSET > 100000
 
 ---
 
-# DBA 的工作方式发生变化
+## DBA 的工作方式发生变化
 
 传统模式：
 
@@ -478,9 +478,9 @@ DBA 不再需要处理所有 SQL。
 
 ---
 
-# SQL Quality Gate 的核心价值
+## SQL Quality Gate 的核心价值
 
-## 更早发现 SQL 问题
+### 更早发现 SQL 问题
 
 从：
 
@@ -494,11 +494,11 @@ Production
 Pull Request / CI/CD
 ```
 
-## 降低 DBA 人工审核量
+### 降低 DBA 人工审核量
 
 将大量重复性规范检查自动化。
 
-## 统一企业 SQL 标准
+### 统一企业 SQL 标准
 
 让 SQL 规范不再依赖：
 
@@ -508,7 +508,7 @@ Pull Request / CI/CD
 
 > 企业统一 Policy。
 
-## 减少高风险 SQL 进入生产
+### 减少高风险 SQL 进入生产
 
 最终目标不是生成更多报告。
 
@@ -518,7 +518,7 @@ Pull Request / CI/CD
 
 ---
 
-# 建议关注的效果指标
+## 建议关注的效果指标
 
 | 指标 | 目标 |
 |---|---|
@@ -531,7 +531,7 @@ Pull Request / CI/CD
 
 ---
 
-# 适合哪些团队？
+## 适合哪些团队？
 
 这个场景特别适合：
 
@@ -546,7 +546,7 @@ Pull Request / CI/CD
 
 ---
 
-# 将 SQL 变成真正的工程质量门禁
+## 将 SQL 变成真正的工程质量门禁
 
 应用代码已经有：
 

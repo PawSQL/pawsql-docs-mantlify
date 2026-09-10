@@ -1,6 +1,6 @@
 ---
 id: en-use-case-slow-sql-optimization
-title: DBA Slow SQL Optimization at Scale
+title: Slow SQL Optimization at Scale
 description: From slow-query collection and SQL normalization to automated rewrite,
   index recommendations, and execution-plan validation, PawSQL helps DBAs turn production
   slow SQL troubleshooting into a scalable and continuous performance engineering
@@ -57,7 +57,7 @@ It does not scale when the number of slow queries grows into the hundreds or tho
 
 ---
 
-# A Typical Production Environment
+## A Typical Production Environment
 
 Consider a financial institution running:
 
@@ -122,11 +122,11 @@ If DBAs review each statement independently, a large amount of time is wasted on
 
 ---
 
-# Why Is Slow SQL Governance Difficult?
+## Why Is Slow SQL Governance Difficult?
 
 Production slow SQL management usually has four major challenges.
 
-## Challenge 1 — There Are Too Many Slow Queries
+### Challenge 1 — There Are Too Many Slow Queries
 
 Suppose the production environment generates:
 
@@ -153,7 +153,7 @@ Without normalization and grouping, DBAs may spend most of their time reviewing 
 
 ---
 
-## Challenge 2 — A Slow Query Does Not Always Mean Bad SQL
+### Challenge 2 — A Slow Query Does Not Always Mean Bad SQL
 
 A query can become slow because of:
 
@@ -184,7 +184,7 @@ The first question should be:
 
 ---
 
-## Challenge 3 — Detecting a Slow Query Is Not the Same as Fixing It
+### Challenge 3 — Detecting a Slow Query Is Not the Same as Fixing It
 
 Monitoring platforms can tell DBAs:
 
@@ -212,7 +212,7 @@ This analysis is where most DBA time is spent.
 
 ---
 
-## Challenge 4 — Optimization Advice Without Validation Is Risky
+### Challenge 4 — Optimization Advice Without Validation Is Risky
 
 A very common recommendation is:
 
@@ -242,7 +242,7 @@ Not just advice that “might be faster.”
 
 ---
 
-# The PawSQL Approach
+## The PawSQL Approach
 
 PawSQL turns slow SQL optimization into an end-to-end workflow:
 
@@ -290,7 +290,7 @@ Focused DBA Review
 
 ---
 
-# Example: 2,000 Slow Queries — What Should the DBA Look at First?
+## Example: 2,000 Slow Queries — What Should the DBA Look at First?
 
 Suppose PawSQL collects:
 
@@ -335,13 +335,13 @@ Instead, the team can answer:
 
 ---
 
-# Step 1 — Identify High-Value Optimization Targets
+## Step 1 — Identify High-Value Optimization Targets
 
 Slow SQL should not be prioritized only by single-query latency.
 
 Consider two queries.
 
-### SQL A
+#### SQL A
 
 ```text
 Execution Time: 30s
@@ -351,7 +351,7 @@ Total Time:
 150s
 ```
 
-### SQL B
+#### SQL B
 
 ```text
 Execution Time: 800ms
@@ -384,7 +384,7 @@ not simply a list of the slowest individual queries.
 
 ---
 
-# Step 2 — Automatically Analyze SQL Performance Problems
+## Step 2 — Automatically Analyze SQL Performance Problems
 
 Consider a high-frequency slow query:
 
@@ -424,7 +424,7 @@ The problem is that the predicate structure may prevent efficient index access.
 
 ---
 
-# Step 3 — Generate an Equivalent SQL Rewrite
+## Step 3 — Generate an Equivalent SQL Rewrite
 
 PawSQL can recommend rewriting the condition as:
 
@@ -457,7 +457,7 @@ This gives the optimizer a better opportunity to use an index range scan.
 
 ---
 
-# Step 4 — Analyze Index Strategy
+## Step 4 — Analyze Index Strategy
 
 Assume the table currently has:
 
@@ -501,7 +501,7 @@ rather than simply suggesting an index for every filtered column.
 
 ---
 
-# Step 5 — Validate the Execution Plan
+## Step 5 — Validate the Execution Plan
 
 The most important question is:
 
@@ -563,7 +563,7 @@ The optimization has been evaluated against the database optimizer.
 
 ---
 
-# Example 2 — Correlated Subquery Causing Repeated Access
+## Example 2 — Correlated Subquery Causing Repeated Access
 
 Consider another production query:
 
@@ -641,7 +641,7 @@ This type of query rewrite is particularly valuable for large-scale automated sl
 
 ---
 
-# Example 3 — Deep Pagination
+## Example 3 — Deep Pagination
 
 A common production pattern is:
 
@@ -702,7 +702,7 @@ The important point is that PawSQL can automatically identify this pattern among
 
 ---
 
-# Example 4 — Inefficient OR Predicates
+## Example 4 — Inefficient OR Predicates
 
 Consider:
 
@@ -747,7 +747,7 @@ instead of being treated as an isolated transformation.
 
 ---
 
-# DBAs Should Not Manually Analyze Every Slow Query
+## DBAs Should Not Manually Analyze Every Slow Query
 
 The traditional model looks like this:
 
@@ -785,7 +785,7 @@ The DBA focuses on:
 
 ---
 
-# Why SQL Normalization Matters
+## Why SQL Normalization Matters
 
 Consider:
 
@@ -841,7 +841,7 @@ That change is essential for scalable SQL performance engineering.
 
 ---
 
-# Build a Slow SQL Priority Model
+## Build a Slow SQL Priority Model
 
 Not every slow query deserves immediate optimization.
 
@@ -880,11 +880,11 @@ The goal is:
 
 ---
 
-# Automatically Detect Common SQL Performance Patterns
+## Automatically Detect Common SQL Performance Patterns
 
 PawSQL can help DBAs identify multiple categories of performance issues.
 
-## Predicate Problems
+### Predicate Problems
 
 Examples include:
 
@@ -902,7 +902,7 @@ WHERE CAST(customer_id AS CHAR) = '10086'
 
 ---
 
-## Subquery Problems
+### Subquery Problems
 
 Examples include:
 
@@ -914,7 +914,7 @@ Examples include:
 
 ---
 
-## JOIN Problems
+### JOIN Problems
 
 Examples include:
 
@@ -926,7 +926,7 @@ Examples include:
 
 ---
 
-## Sorting and Pagination Problems
+### Sorting and Pagination Problems
 
 Examples include:
 
@@ -943,7 +943,7 @@ as well as:
 
 ---
 
-## Aggregation Problems
+### Aggregation Problems
 
 Examples include:
 
@@ -954,7 +954,7 @@ Examples include:
 
 ---
 
-## Index Problems
+### Index Problems
 
 Examples include:
 
@@ -966,7 +966,7 @@ Examples include:
 
 ---
 
-# Go Beyond Detection — Build an Optimization Loop
+## Go Beyond Detection — Build an Optimization Loop
 
 Monitoring platforms are excellent at:
 
@@ -998,7 +998,7 @@ performance engineering loop.
 
 ---
 
-# Complement Your Monitoring and APM Platforms
+## Complement Your Monitoring and APM Platforms
 
 APM platforms, database monitoring systems, and slow-query logs are good at answering:
 
@@ -1052,7 +1052,7 @@ It complements them by addressing the SQL engineering work that begins after a s
 
 ---
 
-# From Slow Query Troubleshooting to SQL Performance Governance
+## From Slow Query Troubleshooting to SQL Performance Governance
 
 Optimizing one query:
 
@@ -1097,7 +1097,7 @@ not just one-time query tuning.
 
 ---
 
-# How Does the DBA Workflow Change?
+## How Does the DBA Workflow Change?
 
 Traditional DBA workflow:
 
@@ -1139,7 +1139,7 @@ toward:
 
 ---
 
-# Where Can DBAs Spend More Time?
+## Where Can DBAs Spend More Time?
 
 By reducing repetitive slow SQL analysis, DBAs can focus more on:
 
@@ -1164,7 +1164,7 @@ More High-Value Database Engineering
 
 ---
 
-# Recommended Governance Metrics
+## Recommended Governance Metrics
 
 Organizations can track metrics such as:
 
@@ -1199,7 +1199,7 @@ or actual production runtime improvements.
 
 ---
 
-# A Typical Batch Optimization Outcome
+## A Typical Batch Optimization Outcome
 
 Consider one production optimization campaign:
 
@@ -1253,7 +1253,7 @@ That is the core value of batch slow SQL governance.
 
 ---
 
-# Who Is This For?
+## Who Is This For?
 
 This use case is especially relevant for organizations that:
 
@@ -1280,7 +1280,7 @@ Typical industries include:
 
 ---
 
-# Unified Slow SQL Governance Across Multiple Databases
+## Unified Slow SQL Governance Across Multiple Databases
 
 Large organizations often operate multiple database technologies:
 
@@ -1324,7 +1324,7 @@ helping organizations establish a more consistent SQL performance governance pro
 
 ---
 
-# Build a Complete SQL Performance Lifecycle
+## Build a Complete SQL Performance Lifecycle
 
 Production slow SQL optimization is not an isolated use case.
 
@@ -1356,19 +1356,19 @@ PawSQL Optimization
 Continuous Improvement
 ```
 
-### Developer SQL Copilot
+#### Developer SQL Copilot
 
 Helps developers:
 
 > Find SQL problems while writing code.
 
-### SQL Quality Gate
+#### SQL Quality Gate
 
 Helps engineering teams:
 
 > Prevent risky SQL from reaching production.
 
-### Slow SQL Optimization
+#### Slow SQL Optimization
 
 Helps DBAs:
 
@@ -1380,7 +1380,7 @@ Together, these capabilities form a complete:
 
 ---
 
-# Turn Slow SQL Optimization into a Continuous Engineering Process
+## Turn Slow SQL Optimization into a Continuous Engineering Process
 
 Production systems will always generate new slow queries.
 
@@ -1426,7 +1426,7 @@ into a scalable and sustainable SQL performance engineering workflow.
 
 ---
 
-## Related Use Cases
+### Related Use Cases
 
 - [Developer SQL Copilot](/en/use-cases/developer-sql-copilot)
 - [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd)

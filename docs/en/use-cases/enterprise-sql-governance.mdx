@@ -1,6 +1,6 @@
 ---
 id: en-use-case-enterprise-sql-governance
-title: Enterprise SQL Governance Platform
+title: Enterprise SQL Governance
 description: PawSQL helps enterprises unify SQL review, delivery controls, production
   performance governance, and governance metrics across teams, databases, and the
   entire software lifecycle.
@@ -83,13 +83,13 @@ But the governance model is fragmented.
 
 ---
 
-# Why Enterprise SQL Governance Becomes Difficult at Scale
+## Why Enterprise SQL Governance Becomes Difficult at Scale
 
 As engineering organizations grow, SQL governance becomes increasingly complex.
 
 Four challenges appear repeatedly.
 
-## Challenge 1 — More Databases, More Governance Complexity
+### Challenge 1 — More Databases, More Governance Complexity
 
 An enterprise may start with:
 
@@ -126,7 +126,7 @@ If every database requires a separate governance process, operational complexity
 
 ---
 
-## Challenge 2 — SQL Exists Across the Entire Software Lifecycle
+### Challenge 2 — SQL Exists Across the Entire Software Lifecycle
 
 SQL does not exist only inside production databases.
 
@@ -156,7 +156,7 @@ If governance happens only at one point—for example, manual DBA review before 
 
 ---
 
-## Challenge 3 — Governance Standards Differ Across Teams
+### Challenge 3 — Governance Standards Differ Across Teams
 
 A common enterprise pattern looks like this:
 
@@ -196,7 +196,7 @@ Executable Engineering Policy
 
 ---
 
-## Challenge 4 — SQL Problems Are Detected Too Late
+### Challenge 4 — SQL Problems Are Detected Too Late
 
 Traditional SQL governance often looks like this:
 
@@ -230,7 +230,7 @@ with a different control mechanism at each stage.
 
 ---
 
-# The PawSQL Enterprise Governance Model
+## The PawSQL Enterprise Governance Model
 
 PawSQL organizes enterprise SQL governance into three major layers:
 
@@ -244,15 +244,15 @@ Production Governance
 
 Each layer answers a different question.
 
-### Development Governance
+#### Development Governance
 
 > Is this SQL well designed while it is being written?
 
-### Delivery Governance
+#### Delivery Governance
 
 > Should this SQL be allowed to reach production?
 
-### Production Governance
+#### Production Governance
 
 > Is this SQL continuing to perform well after deployment?
 
@@ -262,7 +262,7 @@ Together, they form a complete:
 
 ---
 
-# Enterprise SQL Governance Architecture
+## Enterprise SQL Governance Architecture
 
 A high-level architecture looks like this:
 
@@ -305,7 +305,7 @@ The core principle is:
 
 ---
 
-# Layer 1 — Development Governance
+## Layer 1 — Development Governance
 
 The earliest opportunity to improve SQL quality is when developers are still writing the query.
 
@@ -359,7 +359,7 @@ The objective of development governance is simple:
 
 ---
 
-# Layer 2 — SQL Quality Gate for Delivery
+## Layer 2 — SQL Quality Gate for Delivery
 
 Developer-side optimization is valuable, but enterprises also need organization-level controls.
 
@@ -389,7 +389,7 @@ SQL Policy Evaluation
 
 The policy can cover several dimensions.
 
-## Safety Risks
+### Safety Risks
 
 Examples:
 
@@ -399,7 +399,7 @@ Examples:
 - `DROP`
 - high-risk DDL
 
-## SQL Standards
+### SQL Standards
 
 Examples:
 
@@ -409,7 +409,7 @@ Examples:
 - index conventions
 - DDL conventions
 
-## Performance Risks
+### Performance Risks
 
 Examples:
 
@@ -434,7 +434,7 @@ Executable SQL Policy
 
 ---
 
-# Layer 3 — Production SQL Performance Governance
+## Layer 3 — Production SQL Performance Governance
 
 Even with strong development and delivery controls, production systems will still generate new SQL performance issues.
 
@@ -485,7 +485,7 @@ that actually deserve expert review.
 
 ---
 
-# Turn Three Separate Processes into One Closed Loop
+## Turn Three Separate Processes into One Closed Loop
 
 When development, delivery, and production each use isolated tools, the architecture often becomes:
 
@@ -531,7 +531,7 @@ Production findings can influence future engineering standards instead of remain
 
 ---
 
-# One Governance Standard Across Multiple Teams
+## One Governance Standard Across Multiple Teams
 
 A major benefit of enterprise governance is consistency.
 
@@ -539,7 +539,7 @@ An organization can define a shared SQL policy framework.
 
 For example:
 
-## P0 — Critical
+### P0 — Critical
 
 ```text
 DELETE without predicate
@@ -556,7 +556,7 @@ BLOCK
 
 ---
 
-## P1 — High
+### P1 — High
 
 Examples:
 
@@ -574,7 +574,7 @@ DBA Review Required
 
 ---
 
-## P2 — Warning
+### P2 — Warning
 
 Examples:
 
@@ -593,7 +593,7 @@ The organization now has a consistent control model rather than a collection of 
 
 ---
 
-# Enterprise Baseline + Business Unit Extensions
+## Enterprise Baseline + Business Unit Extensions
 
 Enterprise governance should not mean forcing every team to use an identical rule set.
 
@@ -631,7 +631,7 @@ This allows the organization to establish a common baseline while preserving dom
 
 ---
 
-# Unified Governance Across Multiple Databases
+## Unified Governance Across Multiple Databases
 
 A true enterprise SQL Governance Platform has to assume that multiple database technologies will coexist.
 
@@ -661,11 +661,11 @@ PawSQL can provide a common analysis and governance layer while still preserving
 
 ---
 
-# Unified Governance Does Not Mean Identical Rules
+## Unified Governance Does Not Mean Identical Rules
 
 Different databases require different technical awareness.
 
-### MySQL
+#### MySQL
 
 Typical concerns include:
 
@@ -674,7 +674,7 @@ Typical concerns include:
 - index leading columns
 - InnoDB access paths
 
-### Oracle
+#### Oracle
 
 Typical concerns include:
 
@@ -683,7 +683,7 @@ Typical concerns include:
 - function-based indexes
 - PL/SQL
 
-### PostgreSQL / openGauss
+#### PostgreSQL / openGauss
 
 Typical concerns include:
 
@@ -692,7 +692,7 @@ Typical concerns include:
 - CTE behavior
 - data distribution
 
-### Hive
+#### Hive
 
 Typical concerns include:
 
@@ -711,7 +711,7 @@ Database-Specific Intelligence
 
 ---
 
-# From SQL Standards Documents to Policy as Code
+## From SQL Standards Documents to Policy as Code
 
 Many enterprises already maintain large SQL standards documents.
 
@@ -766,7 +766,7 @@ Systems Enforce the Rules
 
 ---
 
-# Support Enterprise-Specific SQL Rules
+## Support Enterprise-Specific SQL Rules
 
 Every large organization has internal standards that go beyond generic SQL best practices.
 
@@ -802,7 +802,7 @@ without rebuilding the same logic in multiple tools.
 
 ---
 
-# Move DBAs from Workflow Bottlenecks to Expert Decision-Makers
+## Move DBAs from Workflow Bottlenecks to Expert Decision-Makers
 
 A traditional model looks like this:
 
@@ -848,7 +848,7 @@ Instead, the DBA focuses on:
 
 ---
 
-# Enterprise SQL Governance Dashboard
+## Enterprise SQL Governance Dashboard
 
 A unified platform also enables governance metrics.
 
@@ -881,7 +881,7 @@ Is DBA manual workload decreasing?
 
 ---
 
-# Build an SQL Quality Score
+## Build an SQL Quality Score
 
 Enterprises can go one step further and establish:
 
@@ -922,7 +922,7 @@ Governance becomes something that can be tracked over time rather than just an a
 
 ---
 
-# Build Team-Level SQL Governance Scorecards
+## Build Team-Level SQL Governance Scorecards
 
 For example:
 
@@ -942,11 +942,11 @@ These metrics are useful for:
 
 ---
 
-# One Platform for Different Roles
+## One Platform for Different Roles
 
 Enterprise SQL governance is not only for DBAs.
 
-## Developers
+### Developers
 
 Ask:
 
@@ -958,7 +958,7 @@ Use:
 
 ---
 
-## DevOps Teams
+### DevOps Teams
 
 Ask:
 
@@ -970,7 +970,7 @@ Use:
 
 ---
 
-## DBAs
+### DBAs
 
 Ask:
 
@@ -982,7 +982,7 @@ Use:
 
 ---
 
-## Architects
+### Architects
 
 Ask:
 
@@ -994,7 +994,7 @@ Use:
 
 ---
 
-## Engineering Managers
+### Engineering Managers
 
 Ask:
 
@@ -1006,7 +1006,7 @@ Use:
 
 ---
 
-## CIO / CTO
+### CIO / CTO
 
 Ask:
 
@@ -1018,7 +1018,7 @@ Use:
 
 ---
 
-# Integrate with the Existing Enterprise Toolchain
+## Integrate with the Existing Enterprise Toolchain
 
 SQL Governance should not require organizations to rebuild their engineering processes.
 
@@ -1065,7 +1065,7 @@ Not create another disconnected tool.
 
 ---
 
-# From SQL Audit to SQL Governance
+## From SQL Audit to SQL Governance
 
 Traditional SQL auditing usually asks:
 
@@ -1113,7 +1113,7 @@ Metrics
 
 ---
 
-# From SQL Optimization to SQL Engineering
+## From SQL Optimization to SQL Engineering
 
 A point optimization tool typically looks like:
 
@@ -1151,13 +1151,13 @@ It is to help enterprises build a scalable SQL Engineering capability.
 
 ---
 
-# A Practical Enterprise Adoption Roadmap
+## A Practical Enterprise Adoption Roadmap
 
 Large organizations do not need to deploy every governance capability at once.
 
 A staged rollout is often more effective.
 
-## Phase 1 — Unified SQL Review
+### Phase 1 — Unified SQL Review
 
 Standardize:
 
@@ -1175,7 +1175,7 @@ Goal:
 
 ---
 
-## Phase 2 — CI/CD Quality Gate
+### Phase 2 — CI/CD Quality Gate
 
 Integrate with:
 
@@ -1193,7 +1193,7 @@ Goal:
 
 ---
 
-## Phase 3 — Developer Shift Left
+### Phase 3 — Developer Shift Left
 
 Move SQL analysis into:
 
@@ -1209,7 +1209,7 @@ Goal:
 
 ---
 
-## Phase 4 — Production Governance
+### Phase 4 — Production Governance
 
 Connect:
 
@@ -1227,7 +1227,7 @@ Goal:
 
 ---
 
-## Phase 5 — Enterprise Governance Metrics
+### Phase 5 — Enterprise Governance Metrics
 
 Build:
 
@@ -1247,7 +1247,7 @@ Goal:
 
 ---
 
-# Example of Enterprise-Scale Governance
+## Example of Enterprise-Scale Governance
 
 Suppose an enterprise processes:
 
@@ -1295,7 +1295,7 @@ Instead, the key question becomes:
 
 ---
 
-# The Real Outcome Is an Enterprise Capability
+## The Real Outcome Is an Enterprise Capability
 
 The enterprise does not end up with only:
 
@@ -1331,7 +1331,7 @@ Together, these form:
 
 ---
 
-# Who Is This For?
+## Who Is This For?
 
 This use case is especially relevant for:
 
@@ -1363,7 +1363,7 @@ High Production Performance Requirements
 
 ---
 
-# Recommended Enterprise Governance Metrics
+## Recommended Enterprise Governance Metrics
 
 Organizations can track:
 
@@ -1392,7 +1392,7 @@ Lower Database Performance Cost
 
 ---
 
-# Move from Tool Sprawl to a Unified SQL Governance Platform
+## Move from Tool Sprawl to a Unified SQL Governance Platform
 
 Many enterprises currently operate a collection of tools:
 
@@ -1440,7 +1440,7 @@ into a unified:
 
 ---
 
-# One Platform for the Entire SQL Lifecycle
+## One Platform for the Entire SQL Lifecycle
 
 SQL should not be governed only after something goes wrong in production.
 
@@ -1478,7 +1478,7 @@ PawSQL helps enterprises turn SQL review, optimization, and production performan
 
 ---
 
-## Related Use Cases
+### Related Use Cases
 
 - [Developer SQL Copilot](/en/use-cases/developer-sql-copilot)
 - [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd)

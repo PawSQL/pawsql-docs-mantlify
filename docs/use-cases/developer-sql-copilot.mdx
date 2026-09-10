@@ -1,6 +1,6 @@
 ---
 id: use-case-developer-sql-copilot
-title: Developer SQL Copilot：开发者 SQL 智能优化助手
+title: 开发者 SQL 智能优化助手
 description: 在编码阶段分析、优化并验证 SQL。PawSQL 帮助开发人员提前发现 SQL 性能风险、自动生成等价重写、推荐索引，并在代码提交前完成性能优化。
 type: use-case
 product: pawsql
@@ -57,7 +57,7 @@ layout: detail
 
 ---
 
-# 一个典型的开发场景
+## 一个典型的开发场景
 
 假设一名 Java 后端开发人员正在开发订单查询接口。
 
@@ -110,7 +110,7 @@ orders
 
 ---
 
-# 功能正确，不代表性能正确
+## 功能正确，不代表性能正确
 
 从业务逻辑上，这条 SQL 没有问题。
 
@@ -138,7 +138,7 @@ Cannot be efficiently used
 
 ---
 
-# PawSQL 的开发者工作流
+## PawSQL 的开发者工作流
 
 Developer SQL Copilot 将过程变成：
 
@@ -164,7 +164,7 @@ Developer Applies Fix
 
 ---
 
-# 第一步：发现问题
+## 第一步：发现问题
 
 PawSQL 分析：
 
@@ -197,7 +197,7 @@ create_time 上的普通索引
 
 ---
 
-# 第二步：生成等价 SQL 重写
+## 第二步：生成等价 SQL 重写
 
 原条件：
 
@@ -232,7 +232,7 @@ ORDER BY create_time DESC;
 
 ---
 
-# 第三步：推荐索引
+## 第三步：推荐索引
 
 假设当前已有：
 
@@ -277,7 +277,7 @@ ON orders(customer_id, create_time);
 
 ---
 
-# 第四步：解释为什么推荐这个索引
+## 第四步：解释为什么推荐这个索引
 
 查询逻辑可以理解为：
 
@@ -311,7 +311,7 @@ Create this index.
 
 ---
 
-# 第五步：执行计划验证
+## 第五步：执行计划验证
 
 如果连接数据库，PawSQL 可以继续验证。
 
@@ -357,7 +357,7 @@ After
 
 ---
 
-# 第六步：在代码提交前完成修改
+## 第六步：在代码提交前完成修改
 
 MyBatis 原 SQL：
 
@@ -390,7 +390,7 @@ Emergency Optimization
 
 ---
 
-# 示例二：相关子查询优化
+## 示例二：相关子查询优化
 
 例如：
 
@@ -456,7 +456,7 @@ Join Customers
 
 ---
 
-# 示例三：深分页
+## 示例三：深分页
 
 开发人员写：
 
@@ -518,9 +518,9 @@ LIMIT 20;
 
 ---
 
-# Developer SQL Copilot 能发现哪些问题？
+## Developer SQL Copilot 能发现哪些问题？
 
-## Predicate
+### Predicate
 
 例如：
 
@@ -532,7 +532,7 @@ WHERE YEAR(create_time) = 2026
 WHERE amount + 100 > 1000
 ```
 
-## Subquery
+### Subquery
 
 例如：
 
@@ -541,7 +541,7 @@ WHERE amount + 100 > 1000
 - 可解关联子查询
 - 低效 `IN` / `EXISTS`
 
-## JOIN
+### JOIN
 
 例如：
 
@@ -550,7 +550,7 @@ WHERE amount + 100 > 1000
 - 中间结果集过大
 - Predicate Pushdown 受阻
 
-## Aggregation
+### Aggregation
 
 例如：
 
@@ -558,7 +558,7 @@ WHERE amount + 100 > 1000
 - 冗余 GROUP BY
 - 低效聚合
 
-## Pagination
+### Pagination
 
 例如：
 
@@ -566,7 +566,7 @@ WHERE amount + 100 > 1000
 LIMIT 500000, 20
 ```
 
-## Index
+### Index
 
 例如：
 
@@ -577,7 +577,7 @@ LIMIT 500000, 20
 
 ---
 
-# 不只是“帮你生成 SQL”
+## 不只是“帮你生成 SQL”
 
 很多 AI 编程助手主要解决：
 
@@ -611,7 +611,7 @@ Developer SQL Copilot 的价值就在这里。
 
 ---
 
-# Developer SQL Copilot + SQL Quality Gate
+## Developer SQL Copilot + SQL Quality Gate
 
 Developer SQL Copilot 解决：
 
@@ -653,7 +653,7 @@ Production
 
 ---
 
-# 对开发人员的价值
+## 对开发人员的价值
 
 - 更快获得 SQL 优化建议
 - 减少等待 DBA 的时间
@@ -663,7 +663,7 @@ Production
 
 ---
 
-# 对 DBA 的价值
+## 对 DBA 的价值
 
 传统模式：
 
@@ -698,7 +698,7 @@ DBA 可以更多关注：
 
 ---
 
-# 建议关注的效果指标
+## 建议关注的效果指标
 
 | 指标 | 目标 |
 |---|---|
@@ -711,7 +711,7 @@ DBA 可以更多关注：
 
 ---
 
-# 适合哪些团队？
+## 适合哪些团队？
 
 特别适合：
 
@@ -726,7 +726,7 @@ DBA 可以更多关注：
 
 ---
 
-# 在 SQL 上线之前，把问题解决掉
+## 在 SQL 上线之前，把问题解决掉
 
 最容易解决的 SQL 性能问题，是：
 

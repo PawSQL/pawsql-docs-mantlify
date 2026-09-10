@@ -1,6 +1,6 @@
 ---
 id: feature-automatic-sql-rewrite
-title: 自动 SQL 重写
+title: SQL 重写
 description: 使用 PawSQL 自动识别低效 SQL 写法，并生成语义等价且更高效的 SQL 重写方案。
 type: explanation
 product: pawsql
@@ -16,7 +16,7 @@ capabilities:
 - sql-rewrite
 ---
 
-PawSQL Automatic SQL Rewrite 通过 SQL 解析、语义分析与优化规则，将低效 SQL 自动转换为语义等价、但更有利于数据库优化器生成高效执行计划的形式。
+PawSQL 自动化重新优化通过 SQL 解析、语义分析与优化规则，将低效 SQL 自动转换为语义等价、但更有利于数据库优化器生成高效执行计划的形式。
 
 与仅输出文字建议不同，PawSQL 的目标是直接生成可执行的优化 SQL，并进一步通过性能验证判断重写是否有效。
 

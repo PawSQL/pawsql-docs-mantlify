@@ -38,7 +38,7 @@ The challenge is that most developers do not have the time—or database experti
 
 ---
 
-# The Challenge
+## The Challenge
 
 Consider a backend developer building an order management API.
 
@@ -89,7 +89,7 @@ The production table contains:
 
 ---
 
-# Functional Correctness Is Not Performance Correctness
+## Functional Correctness Is Not Performance Correctness
 
 From an application perspective, the SQL is correct.
 
@@ -111,7 +111,7 @@ The query may therefore scan significantly more data than necessary.
 
 The developer now has several options.
 
-### Option 1 — Ignore It
+#### Option 1 — Ignore It
 
 The SQL passes testing.
 
@@ -121,7 +121,7 @@ This is the fastest option today—and potentially the most expensive option lat
 
 ---
 
-### Option 2 — Ask a DBA
+#### Option 2 — Ask a DBA
 
 The developer sends the SQL to the DBA:
 
@@ -145,7 +145,7 @@ But doing this for hundreds of developers does not scale.
 
 ---
 
-### Option 3 — Ask a General AI Assistant
+#### Option 3 — Ask a General AI Assistant
 
 The developer can also ask an LLM:
 
@@ -173,7 +173,7 @@ This is where SQL-specific engineering context becomes important.
 
 ---
 
-# The PawSQL Approach
+## The PawSQL Approach
 
 PawSQL acts as a SQL performance copilot inside the developer workflow.
 
@@ -203,7 +203,7 @@ PawSQL provides the database-specific analysis needed to make a better engineeri
 
 ---
 
-# Example: Optimizing an Order Query
+## Example: Optimizing an Order Query
 
 Let's return to the original SQL.
 
@@ -244,7 +244,7 @@ ON orders(customer_id);
 
 ---
 
-# Step 1 — Detect the SQL Performance Risk
+## Step 1 — Detect the SQL Performance Risk
 
 PawSQL analyzes the query and identifies the expression:
 
@@ -281,7 +281,7 @@ It explains the specific SQL pattern responsible for the risk.
 
 ---
 
-# Step 2 — Generate an Equivalent Rewrite
+## Step 2 — Generate an Equivalent Rewrite
 
 The query can be rewritten as:
 
@@ -318,7 +318,7 @@ This gives the optimizer a better opportunity to use an index range scan.
 
 ---
 
-# Step 3 — Analyze the Existing Indexes
+## Step 3 — Analyze the Existing Indexes
 
 The query filters on:
 
@@ -375,7 +375,7 @@ ORDER BY create_time DESC
 
 ---
 
-# Step 4 — Show the Reasoning Behind the Recommendation
+## Step 4 — Show the Reasoning Behind the Recommendation
 
 A useful developer tool should not only output:
 
@@ -405,7 +405,7 @@ Compared with two independent indexes, a composite index may provide a more effi
 
 ---
 
-# Step 5 — Validate With the Execution Plan
+## Step 5 — Validate With the Execution Plan
 
 When database connectivity and execution-plan analysis are available, PawSQL can evaluate how the database intends to execute the original and optimized queries.
 
@@ -448,7 +448,7 @@ The important part is that the recommendation can be checked against the databas
 
 ---
 
-# Step 6 — Apply the Optimization Before Code Review
+## Step 6 — Apply the Optimization Before Code Review
 
 The developer updates the mapper SQL before creating the pull request.
 
@@ -478,7 +478,7 @@ It never becomes:
 
 ---
 
-# The Developer Experience
+## The Developer Experience
 
 The ideal workflow is simple.
 
@@ -509,7 +509,7 @@ The developer does not need to leave the coding workflow and start a separate da
 
 ---
 
-# Another Example: Correlated Subquery
+## Another Example: Correlated Subquery
 
 Developer SQL Copilot becomes even more valuable as SQL complexity increases.
 
@@ -577,7 +577,7 @@ For developers working with complex SQL, this type of rewrite is far more valuab
 
 ---
 
-# Another Example: Deep Pagination
+## Another Example: Deep Pagination
 
 A developer implements a pagination API:
 
@@ -628,11 +628,11 @@ The important point is that the developer is alerted to the scaling problem whil
 
 ---
 
-# What Developer SQL Copilot Can Help Detect
+## What Developer SQL Copilot Can Help Detect
 
 PawSQL can help developers identify different categories of SQL performance problems.
 
-## Predicate Problems
+### Predicate Problems
 
 Examples include:
 
@@ -652,7 +652,7 @@ These expressions may make index access less efficient.
 
 ---
 
-## Subquery Problems
+### Subquery Problems
 
 Examples include:
 
@@ -663,7 +663,7 @@ Examples include:
 
 ---
 
-## Join Problems
+### Join Problems
 
 Examples include:
 
@@ -675,7 +675,7 @@ Examples include:
 
 ---
 
-## Aggregation Problems
+### Aggregation Problems
 
 Examples include:
 
@@ -686,7 +686,7 @@ Examples include:
 
 ---
 
-## Pagination Problems
+### Pagination Problems
 
 Examples include:
 
@@ -698,7 +698,7 @@ or equivalent deep-offset pagination patterns.
 
 ---
 
-## Index Problems
+### Index Problems
 
 Examples include:
 
@@ -709,7 +709,7 @@ Examples include:
 
 ---
 
-# From SQL Assistant to SQL Engineering Copilot
+## From SQL Assistant to SQL Engineering Copilot
 
 Many developer assistants focus primarily on SQL generation.
 
@@ -748,7 +748,7 @@ That is the role PawSQL is designed to play.
 
 ---
 
-# PawSQL in the Developer Workflow
+## PawSQL in the Developer Workflow
 
 PawSQL can participate at multiple points in the development lifecycle.
 
@@ -781,11 +781,11 @@ Production
 
 This creates two layers of protection.
 
-### Developer Layer
+#### Developer Layer
 
 Fix SQL while it is being written.
 
-### CI/CD Layer
+#### CI/CD Layer
 
 Verify SQL again before release.
 
@@ -793,7 +793,7 @@ Together, they shift SQL governance significantly earlier in the software lifecy
 
 ---
 
-# Reduce Developer Dependence on DBA Availability
+## Reduce Developer Dependence on DBA Availability
 
 Developers should still involve DBAs for complex database decisions.
 
@@ -835,15 +835,15 @@ DBA
 
 ---
 
-# Benefits for Developers
+## Benefits for Developers
 
-## Faster SQL Optimization
+### Faster SQL Optimization
 
 Developers receive optimization feedback without waiting for a separate DBA review cycle.
 
 ---
 
-## Learn While Coding
+### Learn While Coding
 
 Each optimization becomes an opportunity to understand:
 
@@ -859,13 +859,13 @@ It can help explain why the original SQL is problematic.
 
 ---
 
-## Fewer Production Surprises
+### Fewer Production Surprises
 
 Performance risks are discovered while the developer still has full context about the code being written.
 
 ---
 
-## More Confidence in SQL Changes
+### More Confidence in SQL Changes
 
 Instead of relying entirely on intuition, developers can use:
 
@@ -883,7 +883,7 @@ to make better decisions.
 
 ---
 
-# Benefits for DBAs
+## Benefits for DBAs
 
 Developer SQL Copilot is also valuable to DBA teams.
 
@@ -932,7 +932,7 @@ DBAs can spend more time on:
 
 ---
 
-# Benefits for Engineering Managers
+## Benefits for Engineering Managers
 
 SQL performance is often treated as individual developer knowledge.
 
@@ -962,7 +962,7 @@ This helps teams establish more consistent SQL quality across projects.
 
 ---
 
-# Recommended Success Metrics
+## Recommended Success Metrics
 
 Organizations adopting Developer SQL Copilot can track metrics such as:
 
@@ -986,7 +986,7 @@ The exact target should be determined based on the organization's existing engin
 
 ---
 
-# Where Developer SQL Copilot Fits Best
+## Where Developer SQL Copilot Fits Best
 
 This use case is particularly relevant for teams that:
 
@@ -1011,7 +1011,7 @@ Typical environments include:
 
 ---
 
-# Beyond a Single Database
+## Beyond a Single Database
 
 Modern development organizations rarely use only one database.
 
@@ -1041,7 +1041,7 @@ For development teams, this means developers do not need an entirely different S
 
 ---
 
-# Developer SQL Copilot + SQL Quality Gate
+## Developer SQL Copilot + SQL Quality Gate
 
 Developer SQL Copilot solves the problem at coding time.
 
@@ -1082,7 +1082,7 @@ This creates a complete **shift-left SQL performance strategy**.
 
 ---
 
-# Build Better SQL Before Production
+## Build Better SQL Before Production
 
 The cheapest SQL performance problem to fix is the one that never reaches production.
 
@@ -1104,7 +1104,7 @@ They need the right database intelligence at the moment they write it.
 
 ---
 
-## Related Use Cases
+### Related Use Cases
 
 - [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd)
 - [Automated Slow SQL Optimization](/en/use-cases/slow-sql-optimization)

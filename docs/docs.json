@@ -8,6 +8,10 @@
     "light": "#26BD6C",
     "dark": "#0D9373"
   },
+  "logo": {
+    "light": "/images/pawsql_logo_90.png",
+    "dark": "/images/pawsql_logo_90.png"
+  },
   "icons": {
     "library": "lucide"
   },
@@ -33,9 +37,13 @@
         "tabs": [
           {
             "tab": "文档",
+            "icon": "folder-open",
             "groups": [
               {
                 "group": "开始使用",
+                "icon": "rocket",
+                "expanded": true,
+                "root": "getting-started/overview",
                 "pages": [
                   "getting-started/overview",
                   "getting-started/quickstart",
@@ -45,6 +53,9 @@
               },
               {
                 "group": "用户手册",
+                "icon": "book-open",
+                "expanded": true,
+                "root": "user-guide/cloud/index",
                 "pages": [
                   "user-guide/cloud/index",
                   "user-guide/cloud/quickstart",
@@ -52,7 +63,11 @@
                 ]
               },
               {
-                "group": "能力与原理",
+                "group": "核心能力",
+                "icon": "cog",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "features/index",
                 "pages": [
                   "features/index",
                   "features/sql-review",
@@ -67,6 +82,10 @@
               },
               {
                 "group": "参考资料",
+                "icon": "file-text",
+                "directory": "accordion",
+                "root": "reference/audit-rules/index",
+                "expanded": true,
                 "pages": [
                   "reference/audit-rules/index",
                   "reference/optimizer-rules/index",
@@ -75,15 +94,17 @@
               },
               {
                 "group": "帮助与排障",
+                "icon": "flag",
+                "directory": "accordion",
+                "root": "help/index",
+                "expanded": true,
                 "pages": ["help/index"]
               }
             ]
           },
           {
-            "tab": "用户场景",
-            "groups": [
-              {
-                "group": "场景",
+            "tab": "使用场景",
+            "icon": "layers",
                 "pages": [
                   "use-cases/index",
                   "use-cases/developer-sql-copilot",
@@ -92,15 +113,16 @@
                   "use-cases/database-migration-sql-governance",
                   "use-cases/enterprise-sql-governance"
                 ]
-              }
-            ]
+
           },
           {
             "tab": "API",
+            "icon": "code",
             "openapi": "openapi/pawsql-openapi.yaml"
           },
           {
             "tab": "博客",
+            "icon": "book-open",
             "groups": [
               {
                 "group": "文章",
@@ -112,6 +134,7 @@
           },
           {
             "tab": "变更日志",
+            "icon": "clock",
             "groups": [
               {
                 "group": "版本",
@@ -131,6 +154,10 @@
             "groups": [
               {
                 "group": "Getting Started",
+                "icon": "rocket",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/getting-started/overview",
                 "pages": [
                   "en/getting-started/overview",
                   "en/getting-started/quickstart",
@@ -139,15 +166,11 @@
                 ]
               },
               {
-                "group": "Using PawSQL",
-                "pages": [
-                  "en/tutorials/index",
-                  "en/user-guide/sql-audit/index",
-                  "en/user-guide/optimization/or-union"
-                ]
-              },
-              {
-                "group": "Capabilities and Concepts",
+                "group": "Features",
+                "icon": "cog",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/features/index",
                 "pages": [
                   "en/features/index",
                   "en/features/sql-review",
@@ -164,6 +187,10 @@
               },
               {
                 "group": "Reference",
+                "icon": "book",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/reference/audit-rules/index",
                 "pages": [
                   "en/reference/configuration/explain-timeout",
                   "en/databases/postgresql/index",
@@ -174,6 +201,10 @@
               },
               {
                 "group": "Help and Troubleshooting",
+                "icon": "help-circle",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/faq/index",
                 "pages": [
                   "en/faq/index"
                 ]
@@ -182,9 +213,6 @@
           },
           {
             "tab": "Use Cases",
-            "groups": [
-              {
-                "group": "Scenarios",
                 "pages": [
                   "en/use-cases/index",
                   "en/use-cases/developer-sql-copilot",
@@ -192,8 +220,6 @@
                   "en/use-cases/slow-sql-optimization",
                   "en/use-cases/enterprise-sql-governance"
                 ]
-              }
-            ]
           },
           {
             "tab": "API Reference",
@@ -232,7 +258,7 @@
     "primary": {
       "type": "button",
       "label": "PawSQL Cloud",
-      "href": "https://app.pawsql.com"
+      "href": "https://www.pawsql.com"
     }
   },
   "footer": {
