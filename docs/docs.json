@@ -54,12 +54,148 @@
               {
                 "group": "用户手册",
                 "icon": "book-open",
+                "directory": "accordion",
                 "expanded": true,
-                "root": "user-guide/cloud/index",
+                "root": "user-guide/index",
                 "pages": [
+                  "user-guide/index"
+                ]
+              },
+              {
+                "group": "安装与接入",
+                "icon": "download",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/installation/index",
+                "pages": [
+                  "user-guide/installation/index",
+                  "user-guide/installation/pawsql-cloud",
+                  "user-guide/installation/pawsql-server",
+                  "user-guide/installation/ide-plugins",
+                  "user-guide/installation/pawsql-mcp",
+                  "user-guide/installation/authentication",
+                  "user-guide/installation/verify-installation",
                   "user-guide/cloud/index",
                   "user-guide/cloud/quickstart",
                   "user-guide/cloud/results"
+                ]
+              },
+              {
+                "group": "工作空间与数据库上下文",
+                "icon": "box",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/workspaces/index",
+                "pages": [
+                  "user-guide/workspaces/index",
+                  "user-guide/workspaces/database-context",
+                  "user-guide/workspaces/create-workspace",
+                  "user-guide/workspaces/create-from-ddl",
+                  "user-guide/workspaces/create-from-database",
+                  "user-guide/workspaces/manage-connections",
+                  "user-guide/workspaces/refresh-metadata",
+                  "user-guide/workspaces/manage-workspace",
+                  "user-guide/workspaces/permissions"
+                ]
+              },
+              {
+                "group": "SQL 优化",
+                "icon": "wand-sparkles",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/optimization/index",
+                "pages": [
+                  "user-guide/optimization/index",
+                  "user-guide/optimization/submit-sql",
+                  "user-guide/optimization/review-suggestions",
+                  "user-guide/optimization/apply-rewrite",
+                  "user-guide/optimization/apply-index",
+                  "user-guide/optimization/verify-result",
+                  "user-guide/optimization/compare-plans",
+                  "user-guide/optimization/history-export"
+                ]
+              },
+              {
+                "group": "SQL 审核",
+                "icon": "shield-check",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/sql-audit/index",
+                "pages": [
+                  "user-guide/sql-audit/index",
+                  "user-guide/sql-audit/create-task",
+                  "user-guide/sql-audit/submit-sql",
+                  "user-guide/sql-audit/environment",
+                  "user-guide/sql-audit/results",
+                  "user-guide/sql-audit/manual-review",
+                  "user-guide/sql-audit/high-risk-control",
+                  "user-guide/sql-audit/reports-export"
+                ]
+              },
+              {
+                "group": "批量优化与性能巡检",
+                "icon": "activity",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/performance/index",
+                "pages": [
+                  "user-guide/performance/index",
+                  "user-guide/performance/connect-instance",
+                  "user-guide/performance/collect-slow-sql",
+                  "user-guide/performance/patrol-task",
+                  "user-guide/performance/aggregate-dedup",
+                  "user-guide/performance/batch-optimize",
+                  "user-guide/performance/reports",
+                  "user-guide/performance/track-progress"
+                ]
+              },
+              {
+                "group": "规则与质量策略",
+                "icon": "sliders-horizontal",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/rules-policy/index",
+                "pages": [
+                  "user-guide/rules-policy/index",
+                  "user-guide/rules-policy/rule-sets",
+                  "user-guide/rules-policy/severity",
+                  "user-guide/rules-policy/parameters",
+                  "user-guide/rules-policy/custom-rules",
+                  "user-guide/rules-policy/quality-gate",
+                  "user-guide/rules-policy/import-export-versioning"
+                ]
+              },
+              {
+                "group": "开发工具",
+                "icon": "code",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/dev-tools/index",
+                "pages": [
+                  "user-guide/dev-tools/index",
+                  "user-guide/dev-tools/jetbrains",
+                  "user-guide/dev-tools/vscode",
+                  "user-guide/dev-tools/mcp",
+                  "user-guide/dev-tools/use-workspace",
+                  "user-guide/dev-tools/audit-and-optimize"
+                ]
+              },
+              {
+                "group": "CI/CD 与平台集成",
+                "icon": "git-merge",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "user-guide/cicd/index",
+                "pages": [
+                  "user-guide/cicd/index",
+                  "user-guide/cicd/access-token",
+                  "user-guide/cicd/webhook",
+                  "user-guide/cicd/coding",
+                  "user-guide/cicd/jenkins",
+                  "user-guide/cicd/gitlab",
+                  "user-guide/cicd/github-actions",
+                  "user-guide/cicd/pipeline-gate",
+                  "user-guide/cicd/logs-troubleshooting"
                 ]
               },
               {
@@ -98,22 +234,23 @@
                 "directory": "accordion",
                 "root": "help/index",
                 "expanded": true,
-                "pages": ["help/index"]
+                "pages": [
+                  "help/index"
+                ]
               }
             ]
           },
           {
             "tab": "使用场景",
             "icon": "layers",
-                "pages": [
-                  "use-cases/index",
-                  "use-cases/developer-sql-copilot",
-                  "use-cases/sql-quality-gate-cicd",
-                  "use-cases/slow-sql-optimization",
-                  "use-cases/database-migration-sql-governance",
-                  "use-cases/enterprise-sql-governance"
-                ]
-
+            "pages": [
+              "use-cases/index",
+              "use-cases/developer-sql-copilot",
+              "use-cases/sql-quality-gate-cicd",
+              "use-cases/slow-sql-optimization",
+              "use-cases/database-migration-sql-governance",
+              "use-cases/enterprise-sql-governance"
+            ]
           },
           {
             "tab": "API",
@@ -166,6 +303,151 @@
                 ]
               },
               {
+                "group": "User Guide",
+                "icon": "book-open",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/index",
+                "pages": [
+                  "en/user-guide/index"
+                ]
+              },
+              {
+                "group": "Installation & Access",
+                "icon": "download",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/installation/index",
+                "pages": [
+                  "en/user-guide/installation/index",
+                  "en/user-guide/installation/pawsql-cloud",
+                  "en/user-guide/installation/pawsql-server",
+                  "en/user-guide/installation/ide-plugins",
+                  "en/user-guide/installation/pawsql-mcp",
+                  "en/user-guide/installation/authentication",
+                  "en/user-guide/installation/verify-installation"
+                ]
+              },
+              {
+                "group": "Workspaces & Database Context",
+                "icon": "box",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/workspaces/index",
+                "pages": [
+                  "en/user-guide/workspaces/index",
+                  "en/user-guide/workspaces/database-context",
+                  "en/user-guide/workspaces/create-workspace",
+                  "en/user-guide/workspaces/create-from-ddl",
+                  "en/user-guide/workspaces/create-from-database",
+                  "en/user-guide/workspaces/manage-connections",
+                  "en/user-guide/workspaces/refresh-metadata",
+                  "en/user-guide/workspaces/manage-workspace",
+                  "en/user-guide/workspaces/permissions"
+                ]
+              },
+              {
+                "group": "SQL Optimization",
+                "icon": "wand-sparkles",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/optimization/index",
+                "pages": [
+                  "en/user-guide/optimization/index",
+                  "en/user-guide/optimization/submit-sql",
+                  "en/user-guide/optimization/review-suggestions",
+                  "en/user-guide/optimization/apply-rewrite",
+                  "en/user-guide/optimization/apply-index",
+                  "en/user-guide/optimization/verify-result",
+                  "en/user-guide/optimization/compare-plans",
+                  "en/user-guide/optimization/history-export",
+                  "en/user-guide/optimization/or-union"
+                ]
+              },
+              {
+                "group": "SQL Audit",
+                "icon": "shield-check",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/sql-audit/index",
+                "pages": [
+                  "en/user-guide/sql-audit/index",
+                  "en/user-guide/sql-audit/create-task",
+                  "en/user-guide/sql-audit/submit-sql",
+                  "en/user-guide/sql-audit/environment",
+                  "en/user-guide/sql-audit/results",
+                  "en/user-guide/sql-audit/manual-review",
+                  "en/user-guide/sql-audit/high-risk-control",
+                  "en/user-guide/sql-audit/reports-export"
+                ]
+              },
+              {
+                "group": "Batch Optimization & Patrol",
+                "icon": "activity",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/performance/index",
+                "pages": [
+                  "en/user-guide/performance/index",
+                  "en/user-guide/performance/connect-instance",
+                  "en/user-guide/performance/collect-slow-sql",
+                  "en/user-guide/performance/patrol-task",
+                  "en/user-guide/performance/aggregate-dedup",
+                  "en/user-guide/performance/batch-optimize",
+                  "en/user-guide/performance/reports",
+                  "en/user-guide/performance/track-progress"
+                ]
+              },
+              {
+                "group": "Rules & Quality Policy",
+                "icon": "sliders-horizontal",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/rules-policy/index",
+                "pages": [
+                  "en/user-guide/rules-policy/index",
+                  "en/user-guide/rules-policy/rule-sets",
+                  "en/user-guide/rules-policy/severity",
+                  "en/user-guide/rules-policy/parameters",
+                  "en/user-guide/rules-policy/custom-rules",
+                  "en/user-guide/rules-policy/quality-gate",
+                  "en/user-guide/rules-policy/import-export-versioning"
+                ]
+              },
+              {
+                "group": "Developer Tools",
+                "icon": "code",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/dev-tools/index",
+                "pages": [
+                  "en/user-guide/dev-tools/index",
+                  "en/user-guide/dev-tools/jetbrains",
+                  "en/user-guide/dev-tools/vscode",
+                  "en/user-guide/dev-tools/mcp",
+                  "en/user-guide/dev-tools/use-workspace",
+                  "en/user-guide/dev-tools/audit-and-optimize"
+                ]
+              },
+              {
+                "group": "CI/CD & Platform Integration",
+                "icon": "git-merge",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/user-guide/cicd/index",
+                "pages": [
+                  "en/user-guide/cicd/index",
+                  "en/user-guide/cicd/access-token",
+                  "en/user-guide/cicd/webhook",
+                  "en/user-guide/cicd/coding",
+                  "en/user-guide/cicd/jenkins",
+                  "en/user-guide/cicd/gitlab",
+                  "en/user-guide/cicd/github-actions",
+                  "en/user-guide/cicd/pipeline-gate",
+                  "en/user-guide/cicd/logs-troubleshooting"
+                ]
+              },
+              {
                 "group": "Features",
                 "icon": "cog",
                 "directory": "accordion",
@@ -213,13 +495,13 @@
           },
           {
             "tab": "Use Cases",
-                "pages": [
-                  "en/use-cases/index",
-                  "en/use-cases/developer-sql-copilot",
-                  "en/use-cases/sql-quality-gate-cicd",
-                  "en/use-cases/slow-sql-optimization",
-                  "en/use-cases/enterprise-sql-governance"
-                ]
+            "pages": [
+              "en/use-cases/index",
+              "en/use-cases/developer-sql-copilot",
+              "en/use-cases/sql-quality-gate-cicd",
+              "en/use-cases/slow-sql-optimization",
+              "en/use-cases/enterprise-sql-governance"
+            ]
           },
           {
             "tab": "API Reference",
