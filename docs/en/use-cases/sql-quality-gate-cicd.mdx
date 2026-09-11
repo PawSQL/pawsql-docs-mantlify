@@ -453,6 +453,65 @@ flowchart TD
 
 This shifts SQL quality management from a single release-stage review into a continuous engineering process.
 
+## Policy as Code
+
+The SQL Quality Gate can act as the enforcement layer for an enterprise **SQL Policy as Code** model, turning database standards from documents into executable policy.
+
+```text
+Policy
+├─ No DELETE without WHERE
+├─ No full table scan on large tables
+├─ No forbidden DDL
+├─ Index naming convention
+├─ Maximum affected rows
+└─ Database-specific production rules
+```
+
+Standards no longer live only in a wiki or a policy document; they run directly in the delivery pipeline.
+
+### Configurable thresholds
+
+Teams can configure what the gate allows:
+
+- Maximum number of critical issues
+- Maximum number of warnings
+- Rules that may be ignored
+- Rules that must block
+- Different policy per environment
+
+Test environments can be relatively permissive while production releases enforce a stricter policy.
+
+## Connecting the gate to your pipeline
+
+The SQL Quality Gate integrates through:
+
+- REST API
+- Webhook
+- CLI / script
+- DevOps platform integration
+
+Common integrations:
+
+<CardGroup cols={2}>
+  <Card title="GitLab CI/CD" icon="git-merge" href="/en/user-guide/cicd/gitlab" />
+  <Card title="Jenkins" icon="git-merge" href="/en/user-guide/cicd/jenkins" />
+  <Card title="Coding" icon="git-merge" href="/en/user-guide/cicd/coding" />
+  <Card title="GitHub Actions" icon="git-merge" href="/en/user-guide/cicd/github-actions" />
+</CardGroup>
+
+Enterprise release platforms and database change platforms can be integrated in the same way.
+
+### Pipeline report
+
+The gate produces a CI/CD-ready report containing:
+
+- Pass / fail
+- Issue counts
+- Severity levels
+- Rule names
+- SQL location
+- Suggested fixes
+
 ---
 
 ## From DBA Review to Database DevOps

@@ -413,6 +413,65 @@ OFFSET > 100000
 
 这种方式既保证统一底线，又允许业务差异化。
 
+## 策略即代码
+
+SQL Quality Gate 可以作为企业 **SQL Policy as Code** 的执行层：把数据库规范从文档转换为可执行策略。
+
+```text
+Policy
+├─ No DELETE without WHERE
+├─ No full table scan on large tables
+├─ No forbidden DDL
+├─ Index naming convention
+├─ Maximum affected rows
+└─ Database-specific production rules
+```
+
+规范因此不再只存在于 Wiki 或制度文档中，而是直接进入交付流水线。
+
+### 可配置阈值
+
+企业可以根据自身流程配置：
+
+- 最大 Critical 数量
+- 最大 Warning 数量
+- 允许忽略的规则
+- 必须阻断的规则
+- 不同环境的策略
+
+例如测试环境可以相对宽松，而生产发布使用更严格策略。
+
+## 如何接入流水线
+
+SQL Quality Gate 可以通过以下方式接入现有流水线：
+
+- REST API
+- Webhook
+- CLI / Script
+- DevOps Integration
+
+常见集成场景：
+
+<CardGroup cols={2}>
+  <Card title="GitLab CI/CD" icon="git-merge" href="/user-guide/cicd/gitlab" />
+  <Card title="Jenkins" icon="git-merge" href="/user-guide/cicd/jenkins" />
+  <Card title="Coding" icon="git-merge" href="/user-guide/cicd/coding" />
+  <Card title="GitHub Actions" icon="git-merge" href="/user-guide/cicd/github-actions" />
+</CardGroup>
+
+此外也可集成企业自研发布平台与数据库变更平台。
+
+### 流水线报告
+
+审核结果会生成可用于 CI/CD 的报告，包含：
+
+- 通过 / 失败
+- 问题数量
+- 风险等级
+- 规则名称
+- SQL 定位
+- 修改建议
+
 ---
 
 ## DBA 的工作方式发生变化

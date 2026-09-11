@@ -173,7 +173,6 @@
                   "features/index-recommendation",
                   "features/performance-validation",
                   "features/execution-plan-visualization",
-                  "features/sql-quality-gate",
                   "features/distributed-sql-optimization",
                   "features/big-data-sql-optimization"
                 ]
@@ -399,7 +398,6 @@
                   "en/features/index-recommendation",
                   "en/features/performance-validation",
                   "en/features/execution-plan-visualization",
-                  "en/features/sql-quality-gate",
                   "en/features/distributed-sql-optimization",
                   "en/features/big-data-sql-optimization"
                 ]
