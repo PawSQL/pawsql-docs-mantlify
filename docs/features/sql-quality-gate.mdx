@@ -21,91 +21,6 @@ PawSQL SQL Quality Gate 将 SQL Review、风险检测和性能规则嵌入 CI/CD
 它可以在 SQL 进入测试或生产环境之前，根据企业策略自动决定：**通过、告警或阻断**。
 
 
-<style>{`
-.paw-flow {
-  margin: 24px 0 32px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.paw-flow * { box-sizing: border-box; }
-.paw-flow .flow-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.paw-flow .flow-node {
-  min-width: 150px;
-  padding: 14px 16px;
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #102a43;
-  font-weight: 650;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(16,42,67,.05);
-}
-.paw-flow .flow-node.primary {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-.paw-flow .flow-node.soft { background: #f7fafc; }
-.paw-flow .flow-node.success {
-  border-color: #a7f3d0;
-  background: #ecfdf5;
-  color: #047857;
-}
-.paw-flow .flow-node.danger {
-  border-color: #fecaca;
-  background: #fff1f2;
-  color: #b42318;
-}
-.paw-flow .flow-arrow {
-  color: #9fb3c8;
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 700;
-}
-.paw-flow .flow-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 14px;
-}
-.paw-flow .flow-grid.cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.paw-flow .flow-card {
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  padding: 14px;
-  background: #ffffff;
-  color: #102a43;
-}
-.paw-flow .flow-card strong {
-  display: block;
-  margin-bottom: 5px;
-}
-.paw-flow .flow-card span {
-  color: #627d98;
-  font-size: 13px;
-  line-height: 1.55;
-}
-@media (max-width: 760px) {
-  .paw-flow .flow-row,
-  .paw-flow .flow-grid,
-  .paw-flow .flow-grid.cols-2 {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .paw-flow .flow-arrow {
-    transform: rotate(90deg);
-    text-align: center;
-  }
-}
-`}</style>
-
-
 ## 概览
 
 在传统数据库发布流程中，SQL 审核往往发生在上线前的最后阶段：
@@ -120,18 +35,12 @@ PawSQL SQL Quality Gate 将 SQL Review、风险检测和性能规则嵌入 CI/CD
 
 SQL Quality Gate 将审核能力自动嵌入 Pipeline：
 
-<div class="paw-flow">
-  <div class="flow-row">
-    <div class="flow-node">Git Push / Pull Request</div><div class="flow-arrow">→</div>
-    <div class="flow-node">CI Pipeline</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">PawSQL Review</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Policy Decision</div>
-  </div>
-  <div class="flow-grid cols-2">
-    <div class="flow-node success">PASS → Deploy</div>
-    <div class="flow-node danger">FAIL → Block</div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Git Push / Pull Request"] --> B["CI Pipeline"] --> C["PawSQL Review"] --> D["Policy Decision"]
+    D --> E["PASS → Deploy"]
+    D --> F["FAIL → Block"]
+```
 
 ## 为什么 SQL 质量门禁很重要
 
@@ -210,15 +119,10 @@ SQL Quality Gate 可以通过：
 
 ## 典型 CI/CD 流程
 
-<div class="paw-flow">
-  <div class="flow-row">
-    <div class="flow-node">Commit</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Build</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Unit Test</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">SQL Quality Gate</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Deploy</div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Commit"] --> B["Build"] --> C["Unit Test"] --> D["SQL Quality Gate"] --> E["Deploy"]
+```
 
 SQL 因此成为软件质量门禁中的标准检查对象，而不是独立于研发流程之外的数据库活动。
 
@@ -281,10 +185,12 @@ SQL Quality Gate 可以用于：
 
 ## 相关功能
 
-- [SQL Review](/features/sql-review)
-- [Automatic SQL Rewrite](/features/automatic-sql-rewrite)
-- [Index Recommendation](/features/index-recommendation)
-- [Performance Validation](/features/performance-validation)
+<CardGroup cols={2}>
+  <Card title="SQL Review" icon="list-check" href="/features/sql-review" />
+  <Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+  <Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
+  <Card title="Performance Validation" icon="gauge" href="/features/performance-validation" />
+</CardGroup>
 
 ## 相关用户场景
 
@@ -296,5 +202,7 @@ SQL Quality Gate 可以用于：
 
 继续了解：
 
-- [SQL Review](/features/sql-review)
-- API & Webhook
+<CardGroup cols={2}>
+  <Card title="SQL Review" icon="list-check" href="/features/sql-review" />
+  <Card title="API & Webhook" icon="plug" />
+</CardGroup>

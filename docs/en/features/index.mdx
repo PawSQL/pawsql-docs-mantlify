@@ -15,11 +15,6 @@ translationKey: features-index
 layout: index
 ---
 
-<style>{`
-.paw-diagram{--paw-border:#d9e2ec;--paw-text:#102a43;--paw-muted:#627d98;--paw-bg:#fff;--paw-soft:#f7fafc;--paw-accent:#2563eb;--paw-accent-soft:#eff6ff;margin:24px 0 32px;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.paw-diagram *{box-sizing:border-box}.paw-diagram .paw-title{margin-bottom:14px;font-size:13px;font-weight:700;color:var(--paw-muted);letter-spacing:.04em;text-transform:uppercase}.paw-diagram .paw-flow{display:flex;flex-wrap:wrap;gap:12px;align-items:center}.paw-diagram .paw-node{min-width:150px;padding:14px 16px;border:1px solid var(--paw-border);border-radius:12px;background:var(--paw-bg);color:var(--paw-text);font-weight:650;text-align:center;box-shadow:0 1px 2px rgba(16,42,67,.05)}.paw-diagram .paw-node.primary{border-color:#bfdbfe;background:var(--paw-accent-soft);color:#1d4ed8}.paw-diagram .paw-node.soft{background:var(--paw-soft)}.paw-diagram .paw-arrow{color:#9fb3c8;font-size:20px;line-height:1;font-weight:700}.paw-diagram .paw-grid{display:grid;gap:14px}.paw-diagram .paw-grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.paw-diagram .paw-grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.paw-diagram .paw-card{border:1px solid var(--paw-border);border-radius:14px;padding:16px;background:var(--paw-bg)}.paw-diagram .paw-card h4{margin:0 0 8px;font-size:15px;color:var(--paw-text)}.paw-diagram .paw-card p{margin:0;color:var(--paw-muted);font-size:13px;line-height:1.6}.paw-diagram .paw-stage{display:grid;gap:12px;justify-items:center}.paw-diagram .paw-stage .paw-node{width:min(100%,360px)}.paw-diagram .paw-down{color:#9fb3c8;font-size:22px;line-height:1}.paw-diagram .paw-branches{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.paw-diagram .paw-branch{padding:12px 14px;border:1px solid var(--paw-border);border-radius:10px;background:var(--paw-soft);text-align:center;color:var(--paw-text);font-weight:600}.paw-diagram .paw-compare{display:grid;grid-template-columns:1fr 56px 1fr;gap:14px;align-items:center}.paw-diagram .paw-center{text-align:center;color:var(--paw-muted);font-size:18px}.paw-diagram .paw-db-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.paw-diagram .paw-db-group{border:1px solid var(--paw-border);border-radius:14px;overflow:hidden;background:var(--paw-bg)}.paw-diagram .paw-db-group strong{display:block;padding:12px 14px;background:var(--paw-soft);color:var(--paw-text)}.paw-diagram .paw-db-group div{padding:12px 14px 14px;color:var(--paw-muted);line-height:1.7;font-size:13px}.paw-diagram .paw-loop{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:center}.paw-diagram .paw-loop .paw-node{min-width:0;padding:12px 8px;font-size:13px}.paw-diagram .paw-footnote{margin-top:12px;color:var(--paw-muted);font-size:12px;text-align:center}@media(max-width:760px){.paw-diagram .paw-grid.cols-3,.paw-diagram .paw-grid.cols-2,.paw-diagram .paw-branches,.paw-diagram .paw-db-groups,.paw-diagram .paw-compare,.paw-diagram .paw-loop{grid-template-columns:1fr}.paw-diagram .paw-arrow,.paw-diagram .paw-center{transform:rotate(90deg);text-align:center}}
-`}</style>
-
-
 PawSQL is a **SQL engineering and governance platform** for developers, QA teams, DBAs, and enterprise database teams.
 
 It provides a unified set of capabilities across the SQL lifecycle: from development-time review and optimization, to pre-release quality gates, production slow-SQL remediation, performance validation, and continuous SQL governance.
@@ -46,7 +41,18 @@ It also helps answer:
 - Does the optimized version actually produce a better execution plan?
 - Can the same checks be enforced automatically across development and release workflows?
 
-<div class="paw-diagram"><div class="paw-title">Capability Overview</div><div class="paw-stage"><div class="paw-node primary">SQL</div><div class="paw-down">↓</div><div class="paw-node">SQL Quality</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-card"><h4>SQL Optimization</h4><p>Rewrite / Index Analysis</p></div><div class="paw-card"><h4>Risk & Policy</h4><p>SQL Quality</p></div></div><div class="paw-down">↓</div><div class="paw-node primary">Performance Validation</div><div class="paw-down">↓</div><div class="paw-node">SQL Governance</div><div class="paw-down">↓</div><div class="paw-node soft">IDE / CI/CD / API / Webhook / MCP</div></div></div>
+```mermaid
+flowchart TD
+  subgraph sgOverview["Capability Overview"]
+    A["SQL"] --> B["SQL Quality"]
+    B --> C1["SQL Optimization<br>Rewrite / Index Analysis"]
+    B --> C2["Risk & Policy<br>SQL Quality"]
+    C1 --> D["Performance Validation"]
+    C2 --> D
+    D --> E["SQL Governance"]
+    E --> F["IDE / CI/CD / API / Webhook / MCP"]
+  end
+```
 
 ---
 
@@ -94,7 +100,16 @@ PawSQL combines SQL parsing, semantic equivalence analysis, rewrite rules, index
 
 The goal is not simply to produce suggestions, but to generate optimization candidates that can be evaluated and applied.
 
-<div class="paw-diagram"><div class="paw-title">SQL Optimization</div><div class="paw-flow"><div class="paw-node">Original SQL</div><div class="paw-arrow">→</div><div class="paw-node">Parsing & Semantic Analysis</div><div class="paw-arrow">→</div><div class="paw-node">Rewrite / Index Analysis</div><div class="paw-arrow">→</div><div class="paw-node">Optimization Candidate</div><div class="paw-arrow">→</div><div class="paw-node primary">Performance Validation</div><div class="paw-arrow">→</div><div class="paw-node">Optimized SQL</div></div></div>
+```mermaid
+flowchart LR
+  subgraph sgRewrite["SQL Optimization"]
+    A["Original SQL"] --> B["Parsing & Semantic Analysis"]
+    B --> C["Rewrite / Index Analysis"]
+    C --> D["Optimization Candidate"]
+    D --> E["Performance Validation"]
+    E --> F["Optimized SQL"]
+  end
+```
 
 [Explore Automatic SQL Rewrite →](/en/features/automatic-sql-rewrite)
 
@@ -119,11 +134,21 @@ SQL optimization should not rely only on heuristic rules. PawSQL uses database o
 - Slow SQL analysis
 - Optimization benefit assessment
 
-<div class="paw-diagram"><div class="paw-title">Performance Validation</div><div class="paw-compare"><div class="paw-card"><h4>Original SQL Plan</h4><p>Execution Plan</p></div><div class="paw-center">⇄</div><div class="paw-card"><h4>Optimized SQL Plan</h4><p>Execution Plan</p></div></div><div class="paw-stage" style="margin-top:14px"><div class="paw-down">↓</div><div class="paw-node primary">Plan & Cost Comparison</div><div class="paw-down">↓</div><div class="paw-node">Optimization Result</div></div></div>
+```mermaid
+flowchart TD
+  subgraph sgPerf["Performance Validation"]
+    A["Original SQL Plan<br>Execution Plan"] <--> B["Optimized SQL Plan<br>Execution Plan"]
+    A --> C["Plan & Cost Comparison"]
+    B --> C
+    C --> D["Optimization Result"]
+  end
+```
 
 This creates a complete optimization loop:
 
-> **Detect → Optimize → Validate**
+<Note>
+**Detect → Optimize → Validate**
+</Note>
 
 [Explore Performance Validation →](/en/features/performance-validation)
 
@@ -152,7 +177,22 @@ PawSQL integrates SQL analysis, risk control, and performance optimization into 
 
 ### Typical workflow
 
-<div class="paw-diagram"><div class="paw-title">SQL Governance</div><div class="paw-stage"><div class="paw-node">Developer / DBA / Migration</div><div class="paw-down">↓</div><div class="paw-node">SQL Collection</div><div class="paw-down">↓</div><div class="paw-node primary">PawSQL Analysis</div><div class="paw-down">↓</div><div class="paw-branches"><div class="paw-branch">Risk</div><div class="paw-branch">Rewrite</div><div class="paw-branch">Index</div></div><div class="paw-down">↓</div><div class="paw-node">Performance Validation</div><div class="paw-down">↓</div><div class="paw-node">Governance Policy</div><div class="paw-down">↓</div><div class="paw-grid cols-2" style="width:100%"><div class="paw-node">Pass</div><div class="paw-node">Block</div></div></div></div>
+```mermaid
+flowchart TD
+  subgraph sgGov["SQL Governance"]
+    A["Developer / DBA / Migration"] --> B["SQL Collection"]
+    B --> C["PawSQL Analysis"]
+    C --> D1["Risk"]
+    C --> D2["Rewrite"]
+    C --> D3["Index"]
+    D1 --> E["Performance Validation"]
+    D2 --> E
+    D3 --> E
+    E --> F["Governance Policy"]
+    F --> G1["Pass"]
+    F --> G2["Block"]
+  end
+```
 
 [Explore SQL Quality Gate →](/en/features/sql-quality-gate)
 
@@ -198,7 +238,14 @@ Modern enterprises often operate traditional relational databases, domestic data
 
 PawSQL provides a unified SQL analysis model and a consistent review, optimization, and governance experience across heterogeneous database environments.
 
-<div class="paw-diagram"><div class="paw-title">Multi-Database Architecture</div><div class="paw-stage"><div class="paw-node primary">PawSQL</div><div class="paw-down">↓</div></div><div class="paw-db-groups"><div class="paw-db-group"><strong>Traditional Databases</strong><div>MySQL<br/>PostgreSQL<br/>Oracle<br/>SQL Server<br/>DB2<br/>…</div></div><div class="paw-db-group"><strong>Distributed Databases</strong><div>OceanBase<br/>TDSQL<br/>GaussDB<br/>PolarDB-X<br/>GoldenDB<br/>…</div></div><div class="paw-db-group"><strong>Big Data</strong><div>Hive<br/>…</div></div></div></div>
+```mermaid
+flowchart TD
+  subgraph sgMultiDb["Multi-Database Architecture"]
+    A["PawSQL"] --> B1["Traditional Databases<br>MySQL<br>PostgreSQL<br>Oracle<br>SQL Server<br>DB2<br>…"]
+    A --> B2["Distributed Databases<br>OceanBase<br>TDSQL<br>GaussDB<br>PolarDB-X<br>GoldenDB<br>…"]
+    A --> B3["Big Data<br>Hive<br>…"]
+  end
+```
 
 For database versions and capability coverage, see:
 
@@ -225,7 +272,15 @@ Different roles can enter PawSQL through different workflows.
 
 PawSQL organizes SQL quality and performance engineering into a continuous lifecycle:
 
-<div class="paw-diagram"><div class="paw-title">Continuous Improvement</div><div class="paw-loop"><div class="paw-node">Write</div><div class="paw-node primary">Review</div><div class="paw-node primary">Optimize</div><div class="paw-node primary">Validate</div><div class="paw-node">Release</div><div class="paw-node">Monitor</div><div class="paw-node">Govern</div></div><div class="paw-footnote">↺ Continuous Improvement</div></div>
+```mermaid
+flowchart LR
+  subgraph sgLoop["Continuous Improvement"]
+    A["Write"] --> B["Review"] --> C["Optimize"] --> D["Validate"] --> E["Release"] --> F["Monitor"] --> G["Govern"]
+    G -.-> A
+  end
+```
+
+↺ Continuous Improvement
 
 SQL optimization therefore becomes a repeatable engineering capability rather than a reactive activity performed only after performance incidents occur.
 
@@ -235,9 +290,23 @@ SQL optimization therefore becomes a repeatable engineering capability rather th
 
 If you are new to PawSQL, continue with these core capabilities:
 
-- [SQL Review](/en/features/sql-review) — identify SQL quality and risk issues
-- [Automatic SQL Rewrite](/en/features/automatic-sql-rewrite) — automatically transform inefficient SQL
-- [Index Recommendation](/en/features/index-recommendation) — generate intelligent index recommendations
-- [Performance Validation](/en/features/performance-validation) — validate optimization effectiveness
-- [Execution Plan Visualization](/en/features/execution-plan-visualization) — understand complex execution plans
-- [Use Cases](/en/use-cases) — see how PawSQL fits real development and database governance workflows
+<CardGroup cols={2}>
+  <Card title="SQL Review" href="/en/features/sql-review" icon="list-check">
+    identify SQL quality and risk issues
+  </Card>
+  <Card title="Automatic SQL Rewrite" href="/en/features/automatic-sql-rewrite" icon="wand-sparkles">
+    automatically transform inefficient SQL
+  </Card>
+  <Card title="Index Recommendation" href="/en/features/index-recommendation" icon="database">
+    generate intelligent index recommendations
+  </Card>
+  <Card title="Performance Validation" href="/en/features/performance-validation" icon="gauge">
+    validate optimization effectiveness
+  </Card>
+  <Card title="Execution Plan Visualization" href="/en/features/execution-plan-visualization" icon="chart-line">
+    understand complex execution plans
+  </Card>
+  <Card title="Use Cases" href="/en/use-cases" icon="compass">
+    see how PawSQL fits real development and database governance workflows
+  </Card>
+</CardGroup>

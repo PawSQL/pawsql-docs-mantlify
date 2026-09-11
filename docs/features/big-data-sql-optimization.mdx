@@ -18,92 +18,6 @@ PawSQL Big Data SQL Optimization 面向 Hive 等大数据 SQL 场景，识别传
 
 分析重点包括分区裁剪、分桶 Join、数据倾斜、聚合倾斜、窗口函数、全局排序以及大规模 Shuffle。
 
-
-<style>{`
-.paw-flow {
-  margin: 24px 0 32px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.paw-flow * { box-sizing: border-box; }
-.paw-flow .flow-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.paw-flow .flow-node {
-  min-width: 150px;
-  padding: 14px 16px;
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #102a43;
-  font-weight: 650;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(16,42,67,.05);
-}
-.paw-flow .flow-node.primary {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-.paw-flow .flow-node.soft { background: #f7fafc; }
-.paw-flow .flow-node.success {
-  border-color: #a7f3d0;
-  background: #ecfdf5;
-  color: #047857;
-}
-.paw-flow .flow-node.danger {
-  border-color: #fecaca;
-  background: #fff1f2;
-  color: #b42318;
-}
-.paw-flow .flow-arrow {
-  color: #9fb3c8;
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 700;
-}
-.paw-flow .flow-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 14px;
-}
-.paw-flow .flow-grid.cols-2 {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-.paw-flow .flow-card {
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  padding: 14px;
-  background: #ffffff;
-  color: #102a43;
-}
-.paw-flow .flow-card strong {
-  display: block;
-  margin-bottom: 5px;
-}
-.paw-flow .flow-card span {
-  color: #627d98;
-  font-size: 13px;
-  line-height: 1.55;
-}
-@media (max-width: 760px) {
-  .paw-flow .flow-row,
-  .paw-flow .flow-grid,
-  .paw-flow .flow-grid.cols-2 {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .paw-flow .flow-arrow {
-    transform: rotate(90deg);
-    text-align: center;
-  }
-}
-`}</style>
-
-
 ## 概览
 
 在大数据 SQL 中，性能问题往往不是由单个算子决定，而是由数据扫描量、Shuffle、分区设计以及数据倾斜共同决定。
@@ -119,15 +33,13 @@ PawSQL Big Data SQL Optimization 面向 Hive 等大数据 SQL 场景，识别传
 
 PawSQL 针对这些问题建立大数据 SQL 专项规则与优化模型。
 
-<div class="paw-flow">
-  <div class="flow-row">
-    <div class="flow-node">Hive SQL</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Partition / Bucket Analysis</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Skew & Shuffle Analysis</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Rewrite / Strategy</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Optimized Big Data SQL</div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Hive SQL"] --> B["Partition / Bucket Analysis"]
+    B --> C["Skew & Shuffle Analysis"]
+    C --> D["Rewrite / Strategy"]
+    D --> E["Optimized Big Data SQL"]
+```
 
 ## 为什么大数据 SQL 需要专项规则
 
@@ -201,16 +113,15 @@ WHERE date_format(dt, 'yyyy-MM-dd') = '2026-09-09'
 
 ## 典型优化领域
 
-<div class="paw-flow">
-  <div class="flow-grid">
-    <div class="flow-card"><strong>Partition Pruning</strong><span>尽可能减少扫描数据量。</span></div>
-    <div class="flow-card"><strong>Bucket-aware Join</strong><span>利用分桶设计降低 Shuffle。</span></div>
-    <div class="flow-card"><strong>Data Skew</strong><span>识别热点 Key 和长尾 Task。</span></div>
-    <div class="flow-card"><strong>Aggregation</strong><span>优化 COUNT DISTINCT 与 GROUP BY。</span></div>
-    <div class="flow-card"><strong>Window Functions</strong><span>避免分区键导致单节点过载。</span></div>
-    <div class="flow-card"><strong>Global Sort</strong><span>减少全局排序和单 Reduce 瓶颈。</span></div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Partition Pruning<br>尽可能减少扫描数据量。"]
+    B["Bucket-aware Join<br>利用分桶设计降低 Shuffle。"]
+    C["Data Skew<br>识别热点 Key 和长尾 Task。"]
+    D["Aggregation<br>优化 COUNT DISTINCT 与 GROUP BY。"]
+    E["Window Functions<br>避免分区键导致单节点过载。"]
+    F["Global Sort<br>减少全局排序和单 Reduce 瓶颈。"]
+```
 
 ## 示例：分区裁剪
 
@@ -270,15 +181,19 @@ PawSQL 可以根据引擎能力分析是否能够使用：
 
 而是：
 
-> **需要扫描多少数据？需要移动多少数据？最慢的 Task 为什么慢？**
+<Note>
+**需要扫描多少数据？需要移动多少数据？最慢的 Task 为什么慢？**
+</Note>
 
 因此 PawSQL 会将扫描量、Shuffle、分区、分桶与数据倾斜作为核心分析对象。
 
 ## 相关功能
 
-- [Automatic SQL Rewrite](/features/automatic-sql-rewrite)
-- [Distributed SQL Optimization](/features/distributed-sql-optimization)
-- [Performance Validation](/features/performance-validation)
+<CardGroup cols={2}>
+  <Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+  <Card title="Distributed SQL Optimization" icon="waypoints" href="/features/distributed-sql-optimization" />
+  <Card title="Performance Validation" icon="gauge" href="/features/performance-validation" />
+</CardGroup>
 
 ## 相关用户场景
 
@@ -290,5 +205,7 @@ PawSQL 可以根据引擎能力分析是否能够使用：
 
 继续了解：
 
-- [Distributed SQL Optimization](/features/distributed-sql-optimization)
-- [Supported Databases](/getting-started/supported-databases)
+<CardGroup cols={2}>
+  <Card title="Distributed SQL Optimization" icon="waypoints" href="/features/distributed-sql-optimization" />
+  <Card title="Supported Databases" icon="database" href="/getting-started/supported-databases" />
+</CardGroup>

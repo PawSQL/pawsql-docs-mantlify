@@ -21,79 +21,6 @@ PawSQL Performance Validation 用于验证 SQL 优化是否真正改善执行计
 它把 SQL 优化从“推荐”推进到“验证”。
 
 
-<style>{`
-.paw-flow {
-  margin: 24px 0 32px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-.paw-flow * { box-sizing: border-box; }
-.paw-flow .flow-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.paw-flow .flow-node {
-  min-width: 150px;
-  padding: 14px 16px;
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  background: #ffffff;
-  color: #102a43;
-  font-weight: 650;
-  text-align: center;
-  box-shadow: 0 1px 2px rgba(16,42,67,.05);
-}
-.paw-flow .flow-node.primary {
-  border-color: #bfdbfe;
-  background: #eff6ff;
-  color: #1d4ed8;
-}
-.paw-flow .flow-node.soft {
-  background: #f7fafc;
-}
-.paw-flow .flow-arrow {
-  color: #9fb3c8;
-  font-size: 20px;
-  line-height: 1;
-  font-weight: 700;
-}
-.paw-flow .flow-grid {
-  display: grid;
-  gap: 12px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 14px;
-}
-.paw-flow .flow-card {
-  border: 1px solid #d9e2ec;
-  border-radius: 12px;
-  padding: 14px;
-  background: #ffffff;
-  color: #102a43;
-}
-.paw-flow .flow-card strong {
-  display: block;
-  margin-bottom: 5px;
-}
-.paw-flow .flow-card span {
-  color: #627d98;
-  font-size: 13px;
-  line-height: 1.55;
-}
-@media (max-width: 760px) {
-  .paw-flow .flow-row,
-  .paw-flow .flow-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-  }
-  .paw-flow .flow-arrow {
-    transform: rotate(90deg);
-    text-align: center;
-  }
-}
-`}</style>
-
-
 ## 概览
 
 一条 SQL 看起来更简洁，并不代表执行更快。
@@ -102,16 +29,14 @@ PawSQL Performance Validation 用于验证 SQL 优化是否真正改善执行计
 
 因此，PawSQL 在生成 SQL Rewrite 或 Index Recommendation 后，可以进一步比较优化前后的执行计划与 Cost，以判断候选方案是否真正带来收益。
 
-<div class="paw-flow">
-  <div class="flow-row">
-    <div class="flow-node">Original SQL</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Original Plan</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Optimization</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Optimized Plan</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Cost Comparison</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Result</div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Original SQL"] --> B["Original Plan"]
+    B --> C["Optimization"]
+    C --> D["Optimized Plan"]
+    D --> E["Cost Comparison"]
+    E --> F["Result"]
+```
 
 ## 为什么验证很重要
 
@@ -202,15 +127,13 @@ ON orders(customer_id);
 
 ## 验证闭环
 
-<div class="paw-flow">
-  <div class="flow-row">
-    <div class="flow-node">Detect</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Optimize</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Validate</div><div class="flow-arrow">→</div>
-    <div class="flow-node">Compare</div><div class="flow-arrow">→</div>
-    <div class="flow-node primary">Accept / Reject</div>
-  </div>
-</div>
+```mermaid
+flowchart LR
+    A["Detect"] --> B["Optimize"]
+    B --> C["Validate"]
+    C --> D["Compare"]
+    D --> E["Accept / Reject"]
+```
 
 这使 SQL 优化形成闭环，而不是停留在建议列表。
 
@@ -227,10 +150,12 @@ ON orders(customer_id);
 
 ## 相关功能
 
-- [SQL Review](/features/sql-review)
-- [Automatic SQL Rewrite](/features/automatic-sql-rewrite)
-- [Index Recommendation](/features/index-recommendation)
-- [Execution Plan Visualization](/features/execution-plan-visualization)
+<CardGroup cols={2}>
+  <Card title="SQL Review" icon="list-check" href="/features/sql-review" />
+  <Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+  <Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
+  <Card title="Execution Plan Visualization" icon="list-tree" href="/features/execution-plan-visualization" />
+</CardGroup>
 
 ## 相关用户场景
 
@@ -243,5 +168,7 @@ ON orders(customer_id);
 
 继续了解：
 
-- [Execution Plan Visualization](/features/execution-plan-visualization)
-- [Supported Databases](/getting-started/supported-databases)
+<CardGroup cols={2}>
+  <Card title="Execution Plan Visualization" icon="list-tree" href="/features/execution-plan-visualization" />
+  <Card title="Supported Databases" icon="database" href="/getting-started/supported-databases" />
+</CardGroup>
