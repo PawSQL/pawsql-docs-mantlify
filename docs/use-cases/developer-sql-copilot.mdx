@@ -125,10 +125,9 @@ DATE(create_time)
 
 这可能导致：
 
-```text
-Index on create_time
-        ↓
-Cannot be efficiently used
+```mermaid
+flowchart LR
+    A[Index on create_time] --> B[Cannot be efficiently used]
 ```
 
 或者产生更大的扫描范围。
@@ -143,29 +142,21 @@ Cannot be efficiently used
 
 Developer SQL Copilot 将过程变成：
 
-```text
-Write SQL
-    ↓
-PawSQL Analyze
-    ↓
-Detect Performance Risk
-    ↓
-Explain Why
-    ↓
-Generate Rewrite
-    ↓
-Recommend Index
-    ↓
-Validate Plan
-    ↓
-Developer Applies Fix
+```mermaid
+flowchart TD
+    A[Write SQL] --> B[PawSQL Analyze]
+    B --> C[Detect Performance Risk]
+    C --> D[Explain Why]
+    D --> E[Generate Rewrite]
+    E --> F[Recommend Index]
+    F --> G[Validate Plan]
+    G --> H[Developer Applies Fix]
 ```
 
 开发人员不需要离开当前研发流程。
 
----
-
-## 第一步：发现问题
+<Steps>
+<Step title="第一步：发现问题">
 
 PawSQL 分析：
 
@@ -196,9 +187,9 @@ create_time 上的普通索引
 
 > 哪个表达式有问题，以及为什么。
 
----
+</Step>
 
-## 第二步：生成等价 SQL 重写
+<Step title="第二步：生成等价 SQL 重写">
 
 原条件：
 
@@ -231,9 +222,9 @@ ORDER BY create_time DESC;
 
 这样数据库优化器有更好的机会使用索引范围扫描。
 
----
+</Step>
 
-## 第三步：推荐索引
+<Step title="第三步：推荐索引">
 
 假设当前已有：
 
@@ -276,20 +267,17 @@ ON orders(customer_id, create_time);
 
 进行综合分析。
 
----
+</Step>
 
-## 第四步：解释为什么推荐这个索引
+<Step title="第四步：解释为什么推荐这个索引">
 
 查询逻辑可以理解为：
 
-```text
-customer_id = 10086
-        ↓
-先定位客户订单
-        ↓
-create_time 范围过滤
-        ↓
-按时间返回结果
+```mermaid
+flowchart TD
+    A["customer_id = 10086"] --> B[先定位客户订单]
+    B --> C[create_time 范围过滤]
+    C --> D[按时间返回结果]
 ```
 
 因此：
@@ -310,9 +298,9 @@ Create this index.
 
 > Why?
 
----
+</Step>
 
-## 第五步：执行计划验证
+<Step title="第五步：执行计划验证">
 
 如果连接数据库，PawSQL 可以继续验证。
 
@@ -344,21 +332,16 @@ Estimated Cost:
 
 开发人员可以直接看到：
 
-```text
-Before
-18,452
-
-↓
-
-After
-327
+```mermaid
+flowchart LR
+    A["Before: 18,452"] --> B["After: 327"]
 ```
 
 而不是只凭经验判断优化是否有效。
 
----
+</Step>
 
-## 第六步：在代码提交前完成修改
+<Step title="第六步：在代码提交前完成修改">
 
 MyBatis 原 SQL：
 
@@ -379,15 +362,16 @@ WHERE create_time >= #{startTime}
 
 它不会继续演变成：
 
-```text
-Production Slow SQL
-        ↓
-Monitoring Alert
-        ↓
-DBA Ticket
-        ↓
-Emergency Optimization
+```mermaid
+flowchart TD
+    A[Production Slow SQL] --> B[Monitoring Alert]
+    B --> C[DBA Ticket]
+    C --> D[Emergency Optimization]
 ```
+
+</Step>
+
+</Steps>
 
 ---
 
@@ -433,26 +417,19 @@ LEFT JOIN (
 
 执行逻辑从：
 
-```text
-Customer 1
-    ↓
-Query Orders
-
-Customer 2
-    ↓
-Query Orders
-
-...
+```mermaid
+flowchart TD
+    A[Customer 1] --> B[Query Orders]
+    C[Customer 2] --> D[Query Orders]
+    E["..."]
 ```
 
 转变为：
 
-```text
-Orders
-    ↓
-Aggregate Once
-    ↓
-Join Customers
+```mermaid
+flowchart TD
+    A[Orders] --> B[Aggregate Once]
+    B --> C[Join Customers]
 ```
 
 ---
@@ -521,60 +498,62 @@ LIMIT 20;
 
 ## Developer SQL Copilot 能发现哪些问题？
 
-### Predicate
+<AccordionGroup>
+  <Accordion title="Predicate">
+    例如：
 
-例如：
+    ```sql
+    WHERE YEAR(create_time) = 2026
+    ```
 
-```sql
-WHERE YEAR(create_time) = 2026
-```
+    ```sql
+    WHERE amount + 100 > 1000
+    ```
+  </Accordion>
 
-```sql
-WHERE amount + 100 > 1000
-```
+  <Accordion title="Subquery">
+    例如：
 
-### Subquery
+    - Correlated Subquery
+    - Scalar Subquery
+    - 可解关联子查询
+    - 低效 `IN` / `EXISTS`
+  </Accordion>
 
-例如：
+  <Accordion title="JOIN">
+    例如：
 
-- Correlated Subquery
-- Scalar Subquery
-- 可解关联子查询
-- 低效 `IN` / `EXISTS`
+    - 冗余 Join
+    - Join 条件缺失
+    - 中间结果集过大
+    - Predicate Pushdown 受阻
+  </Accordion>
 
-### JOIN
+  <Accordion title="Aggregation">
+    例如：
 
-例如：
+    - 不必要 `DISTINCT`
+    - 冗余 GROUP BY
+    - 低效聚合
+  </Accordion>
 
-- 冗余 Join
-- Join 条件缺失
-- 中间结果集过大
-- Predicate Pushdown 受阻
+  <Accordion title="Pagination">
+    例如：
 
-### Aggregation
+    ```sql
+    LIMIT 500000, 20
+    ```
+  </Accordion>
 
-例如：
+  <Accordion title="Index">
+    例如：
 
-- 不必要 `DISTINCT`
-- 冗余 GROUP BY
-- 低效聚合
-
-### Pagination
-
-例如：
-
-```sql
-LIMIT 500000, 20
-```
-
-### Index
-
-例如：
-
-- 缺失索引
-- 索引前导列不合理
-- 查询条件与索引不匹配
-- 重复索引
+    - 缺失索引
+    - 索引前导列不合理
+    - 查询条件与索引不匹配
+    - 重复索引
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -624,29 +603,23 @@ SQL Quality Gate 解决：
 
 两者结合：
 
-```text
-Developer
-    ↓
-Write SQL
-    ↓
-Developer SQL Copilot
-    ↓
-Find & Fix
-    ↓
-Commit
-    ↓
-Pull Request
-    ↓
-SQL Quality Gate
-    ↓
-Verify & Enforce
-    ↓
-Production
+```mermaid
+flowchart TD
+    A[Developer] --> B[Write SQL]
+    B --> C[Developer SQL Copilot]
+    C --> D["Find & Fix"]
+    D --> E[Commit]
+    E --> F[Pull Request]
+    F --> G[SQL Quality Gate]
+    G --> H["Verify & Enforce"]
+    H --> I[Production]
 ```
 
 形成：
 
-> **Shift Left SQL Performance**
+<Note>
+**Shift Left SQL Performance**
+</Note>
 
 即：
 
@@ -666,27 +639,23 @@ Production
 
 ## 对 DBA 的价值
 
-传统模式：
-
-```text
-100 Developers
-       ↓
-Hundreds of SQL Questions
-       ↓
-DBA Team
-```
-
-使用 PawSQL：
-
-```text
-100 Developers
-       ↓
-PawSQL First-Line Analysis
-       ↓
-Complex Cases Only
-       ↓
-DBA Team
-```
+<Tabs>
+  <Tab title="传统模式">
+    ```mermaid
+    flowchart TD
+        A[100 Developers] --> B[Hundreds of SQL Questions]
+        B --> C[DBA Team]
+    ```
+  </Tab>
+  <Tab title="使用 PawSQL">
+    ```mermaid
+    flowchart TD
+        A[100 Developers] --> B[PawSQL First-Line Analysis]
+        B --> C[Complex Cases Only]
+        C --> D[DBA Team]
+    ```
+  </Tab>
+</Tabs>
 
 DBA 可以更多关注：
 
@@ -741,12 +710,21 @@ DBA 可以更多关注：
 
 **PawSQL Developer SQL Copilot 帮助开发人员在编码阶段完成 SQL 分析、问题解释、SQL 重写、索引推荐和执行计划验证。**
 
-> **写 SQL。理解 SQL。优化 SQL。然后再上线。**
+<Note>
+**写 SQL。理解 SQL。优化 SQL。然后再上线。**
+</Note>
 
-[立即体验 PawSQL →](/getting-started/quickstart)
-
-[了解 SQL 优化 →](/features/automatic-sql-rewrite)
-
-[了解 SQL Quality Gate →](/use-cases/sql-quality-gate-cicd)
-
-[申请产品演示 →](https://www.pawsql.com)
+<CardGroup cols={2}>
+  <Card title="立即体验 PawSQL" icon="bolt" href="/getting-started/quickstart">
+    用一条 SQL 完成第一次审核、重写与索引推荐。
+  </Card>
+  <Card title="了解 SQL 优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite">
+    查看自动 SQL 重写能力。
+  </Card>
+  <Card title="了解 SQL Quality Gate" icon="git-merge" href="/use-cases/sql-quality-gate-cicd">
+    在 CI/CD 中拦截有风险的 SQL。
+  </Card>
+  <Card title="申请产品演示" icon="building-2" href="https://www.pawsql.com">
+    联系 PawSQL 团队获取演示。
+  </Card>
+</CardGroup>

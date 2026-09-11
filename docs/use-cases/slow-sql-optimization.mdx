@@ -29,29 +29,17 @@ layout: detail
 
 传统方式下，DBA 需要不断重复：
 
-```text
-查看慢 SQL
-    ↓
-检查执行计划
-    ↓
-查看表结构
-    ↓
-分析索引
-    ↓
-判断问题原因
-    ↓
-尝试 SQL 改写
-    ↓
-设计索引
-    ↓
-再次验证
+```mermaid
+flowchart LR
+    A[查看慢 SQL] --> B[检查执行计划] --> C[查看表结构] --> D[分析索引]
+    D --> E[判断问题原因] --> F[尝试 SQL 改写] --> G[设计索引] --> H[再次验证]
 ```
 
 当慢 SQL 数量从几十条增长到几百、几千条时，单纯依赖人工分析已经很难规模化。
 
+<Note>
 **PawSQL 将慢 SQL 采集、归一化、性能分析、SQL 重写、索引推荐和执行计划验证串联起来，帮助 DBA 建立一套可持续运行的生产 SQL 性能治理流程。**
-
----
+</Note>
 
 ## 一个典型的生产环境
 
@@ -116,8 +104,6 @@ WHERE customer_id = 30012
 
 如果 DBA 每条都单独处理，时间会被大量重复工作消耗。
 
----
-
 ## 慢 SQL 治理真正难在哪里？
 
 生产慢 SQL 治理通常面临四个问题。
@@ -144,8 +130,6 @@ WHERE customer_id = 30012
 ```
 
 如果没有自动归类能力，DBA 很容易把大量时间耗费在重复 SQL 上。
-
----
 
 ### 问题二：慢不一定代表 SQL 本身有问题
 
@@ -174,8 +158,6 @@ Execution Time: 12.8s
 
 > 这个问题是否可以通过 SQL 优化解决？
 
----
-
 ### 问题三：知道“慢”，不等于知道“怎么改”
 
 很多监控平台可以告诉 DBA：
@@ -199,8 +181,6 @@ Execution Time: 12.8s
 ```
 
 真正消耗 DBA 时间的是后面的分析过程。
-
----
 
 ### 问题四：优化建议缺少验证
 
@@ -226,40 +206,21 @@ SQL 重写后执行计划是否真的改善？
 
 生产环境需要的是：
 
-> 可验证的优化建议。
+<Note>
+可验证的优化建议。
+</Note>
 
 而不仅仅是“可能更快”的经验判断。
-
----
 
 ## PawSQL 的治理方式
 
 PawSQL 将生产慢 SQL 治理拆成一个完整流程：
 
-```text
-生产数据库
-    ↓
-慢查询采集
-    ↓
-SQL 归一化 / 去重
-    ↓
-SQL Pattern 聚类
-    ↓
-性能风险分析
-    ↓
-┌─────────────────────┐
-│ SQL Rewrite         │
-│ Index Advisor       │
-│ Plan Analysis       │
-└─────────────────────┘
-    ↓
-性能验证
-    ↓
-DBA Review
-    ↓
-优化落地
-    ↓
-持续监控
+```mermaid
+flowchart TD
+    A[生产数据库] --> B[慢查询采集] --> C["SQL 归一化 / 去重"] --> D[SQL Pattern 聚类]
+    D --> E[性能风险分析] --> F["SQL Rewrite<br/>Index Advisor<br/>Plan Analysis"]
+    F --> G[性能验证] --> H[DBA Review] --> I[优化落地] --> J[持续监控]
 ```
 
 这使 DBA 的工作方式从：
@@ -278,8 +239,6 @@ DBA Review
 重点审核
 ```
 
----
-
 ## 示例：一天 2,000 条慢 SQL，DBA 应该先看什么？
 
 假设 PawSQL 从生产环境采集到：
@@ -290,12 +249,9 @@ DBA Review
 
 经过 SQL 归一化后：
 
-```text
-2,146 Slow Queries
-        ↓
-Normalize
-        ↓
-287 SQL Patterns
+```mermaid
+flowchart LR
+    A["2,146 Slow Queries"] --> B[Normalize] --> C[287 SQL Patterns]
 ```
 
 再按照执行频率、平均耗时、总耗时、风险等级等指标排序：
@@ -313,466 +269,418 @@ Normalize
 
 > 哪些 SQL 对数据库总体性能影响最大？
 
----
+<Steps>
+  <Step title="第一步：识别高价值优化对象">
 
-## 第一步：识别高价值优化对象
+    慢 SQL 优化不能只按照“单次耗时”排序。
 
-慢 SQL 优化不能只按照“单次耗时”排序。
+    例如：
 
-例如：
+    #### SQL A
 
-#### SQL A
+    ```text
+    单次耗时：30 秒
+    每天执行：5 次
 
-```text
-单次耗时：30 秒
-每天执行：5 次
+    总耗时：
+    150 秒
+    ```
 
-总耗时：
-150 秒
-```
+    #### SQL B
 
-#### SQL B
+    ```text
+    单次耗时：800 ms
+    每天执行：20,000 次
 
-```text
-单次耗时：800 ms
-每天执行：20,000 次
+    总耗时：
+    16,000 秒
+    ```
 
-总耗时：
-16,000 秒
-```
+    SQL A 看起来更慢。
 
-SQL A 看起来更慢。
+    但从整体数据库资源消耗来看，SQL B 可能更值得优先优化。
 
-但从整体数据库资源消耗来看，SQL B 可能更值得优先优化。
+    因此慢 SQL 治理需要综合考虑：
 
-因此慢 SQL 治理需要综合考虑：
+    - 单次执行耗时
+    - 执行频率
+    - 总执行时间
+    - 扫描行数
+    - 返回行数
+    - CPU 消耗
+    - IO 消耗
+    - SQL 风险等级
 
-- 单次执行耗时
-- 执行频率
-- 总执行时间
-- 扫描行数
-- 返回行数
-- CPU 消耗
-- IO 消耗
-- SQL 风险等级
+    最终建立：
 
-最终建立：
+    ```text
+    Optimization Priority
+    ```
 
-```text
-Optimization Priority
-```
+    也就是：
 
-也就是：
+    <Note>
+    优化优先级。
+    </Note>
+  </Step>
+  <Step title="第二步：自动分析 SQL 性能问题">
 
-> 优化优先级。
+    假设有一条高频慢 SQL：
 
----
-
-## 第二步：自动分析 SQL 性能问题
-
-假设有一条高频慢 SQL：
-
-```sql
-SELECT
-    o.order_id,
-    o.customer_id,
-    o.create_time,
-    o.total_amount
-FROM orders o
-WHERE DATE(o.create_time) = '2026-09-04'
-  AND o.customer_id = 10086;
-```
-
-PawSQL 可以识别：
-
-```text
-性能问题：
-
-过滤字段被函数包裹
-
-DATE(create_time)
-
-潜在影响：
-
-create_time 上的索引可能无法被充分利用
-```
-
-这类问题属于典型的：
-
-> Non-SARGable Predicate
-
-即可搜索性较差的查询条件。
-
----
-
-## 第三步：自动生成 SQL 重写
-
-PawSQL 可以进一步给出等价改写：
-
-```sql
-SELECT
-    o.order_id,
-    o.customer_id,
-    o.create_time,
-    o.total_amount
-FROM orders o
-WHERE o.create_time >= '2026-09-04 00:00:00'
-  AND o.create_time <  '2026-09-05 00:00:00'
-  AND o.customer_id = 10086;
-```
-
-原 SQL：
-
-```sql
-DATE(create_time) = '2026-09-04'
-```
-
-变为：
-
-```sql
-create_time >= '2026-09-04 00:00:00'
-AND create_time < '2026-09-05 00:00:00'
-```
-
-这样可以让数据库优化器更容易使用索引范围扫描。
-
----
-
-## 第四步：分析索引
-
-假设当前表有：
-
-```sql
-CREATE INDEX idx_orders_create_time
-ON orders(create_time);
-
-CREATE INDEX idx_orders_customer
-ON orders(customer_id);
-```
-
-而 SQL 同时使用：
-
-```text
-customer_id = ?
-```
-
-以及：
-
-```text
-create_time BETWEEN ...
-```
-
-PawSQL 可以进一步推荐：
-
-```sql
-CREATE INDEX idx_orders_customer_create_time
-ON orders(customer_id, create_time);
-```
-
-推荐过程不仅考虑：
-
-```text
-WHERE 条件
-```
-
-还可以结合：
-
-- 等值条件
-- 范围条件
-- Join 条件
-- Order By
-- Group By
-- 已有索引
-
-进行综合判断。
-
----
-
-## 第五步：执行计划验证
-
-真正重要的一步，是验证：
-
-> 这个优化方案到底有没有效果？
-
-假设原 SQL 执行计划表现为：
-
-```text
-Original SQL
-
-Access Type:
-Range / Large Scan
-
-Estimated Rows:
-2,430,000
-
-Estimated Cost:
-31,842
-```
-
-优化后：
-
-```text
-Optimized SQL
-
-Access Type:
-Index Range Scan
-
-Index:
-idx_orders_customer_create_time
-
-Estimated Rows:
-186
-
-Estimated Cost:
-592
-```
-
-PawSQL 可以将两套方案进行对比：
-
-```text
-Original Cost
-31,842
-        ↓
-Optimized Cost
-592
-
-Cost Reduction
-98.1%
-```
-
-对于 DBA 来说，这比简单得到一句：
-
-```text
-建议创建索引
-```
-
-更有价值。
-
-因为优化建议已经得到数据库优化器的进一步验证。
-
----
-
-## 示例二：相关子查询导致重复扫描
-
-生产环境中另一条 SQL：
-
-```sql
-SELECT
-    c.customer_id,
-    c.customer_name,
-    (
-        SELECT SUM(o.total_amount)
-        FROM orders o
-        WHERE o.customer_id = c.customer_id
-          AND o.order_status = 'PAID'
-    ) AS total_paid
-FROM customers c;
-```
-
-当 `customers` 表有几十万行时，相关子查询可能重复访问 `orders`。
-
-执行逻辑可能类似：
-
-```text
-Customers
-   ↓
-Customer 1
-   ↓
-Scan Orders
-
-Customer 2
-   ↓
-Scan Orders
-
-Customer 3
-   ↓
-Scan Orders
-
-...
-```
-
-PawSQL 可以识别这种查询模式，并评估是否可以解关联。
-
-例如改写为：
-
-```sql
-SELECT
-    c.customer_id,
-    c.customer_name,
-    COALESCE(o.total_paid, 0) AS total_paid
-FROM customers c
-LEFT JOIN (
+    ```sql
     SELECT
+        o.order_id,
+        o.customer_id,
+        o.create_time,
+        o.total_amount
+    FROM orders o
+    WHERE DATE(o.create_time) = '2026-09-04'
+      AND o.customer_id = 10086;
+    ```
+
+    PawSQL 可以识别：
+
+    ```text
+    性能问题：
+
+    过滤字段被函数包裹
+
+    DATE(create_time)
+
+    潜在影响：
+
+    create_time 上的索引可能无法被充分利用
+    ```
+
+    这类问题属于典型的：
+
+    > Non-SARGable Predicate
+
+    即可搜索性较差的查询条件。
+  </Step>
+  <Step title="第三步：自动生成 SQL 重写">
+
+    PawSQL 可以进一步给出等价改写：
+
+    ```sql
+    SELECT
+        o.order_id,
+        o.customer_id,
+        o.create_time,
+        o.total_amount
+    FROM orders o
+    WHERE o.create_time >= '2026-09-04 00:00:00'
+      AND o.create_time <  '2026-09-05 00:00:00'
+      AND o.customer_id = 10086;
+    ```
+
+    原 SQL：
+
+    ```sql
+    DATE(create_time) = '2026-09-04'
+    ```
+
+    变为：
+
+    ```sql
+    create_time >= '2026-09-04 00:00:00'
+    AND create_time < '2026-09-05 00:00:00'
+    ```
+
+    这样可以让数据库优化器更容易使用索引范围扫描。
+  </Step>
+  <Step title="第四步：分析索引">
+
+    假设当前表有：
+
+    ```sql
+    CREATE INDEX idx_orders_create_time
+    ON orders(create_time);
+
+    CREATE INDEX idx_orders_customer
+    ON orders(customer_id);
+    ```
+
+    而 SQL 同时使用：
+
+    ```text
+    customer_id = ?
+    ```
+
+    以及：
+
+    ```text
+    create_time BETWEEN ...
+    ```
+
+    PawSQL 可以进一步推荐：
+
+    ```sql
+    CREATE INDEX idx_orders_customer_create_time
+    ON orders(customer_id, create_time);
+    ```
+
+    推荐过程不仅考虑：
+
+    ```text
+    WHERE 条件
+    ```
+
+    还可以结合：
+
+    - 等值条件
+    - 范围条件
+    - Join 条件
+    - Order By
+    - Group By
+    - 已有索引
+
+    进行综合判断。
+  </Step>
+  <Step title="第五步：执行计划验证">
+
+    真正重要的一步，是验证：
+
+    > 这个优化方案到底有没有效果？
+
+    假设原 SQL 执行计划表现为：
+
+    ```text
+    Original SQL
+
+    Access Type:
+    Range / Large Scan
+
+    Estimated Rows:
+    2,430,000
+
+    Estimated Cost:
+    31,842
+    ```
+
+    优化后：
+
+    ```text
+    Optimized SQL
+
+    Access Type:
+    Index Range Scan
+
+    Index:
+    idx_orders_customer_create_time
+
+    Estimated Rows:
+    186
+
+    Estimated Cost:
+    592
+    ```
+
+    PawSQL 可以将两套方案进行对比：
+
+    ```mermaid
+    flowchart LR
+        A["Original Cost<br/>31,842"] --> B["Optimized Cost<br/>592"] --> C["Cost Reduction<br/>98.1%"]
+    ```
+
+    对于 DBA 来说，这比简单得到一句：
+
+    ```text
+    建议创建索引
+    ```
+
+    更有价值。
+
+    因为优化建议已经得到数据库优化器的进一步验证。
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="示例二：相关子查询导致重复扫描">
+
+    生产环境中另一条 SQL：
+
+    ```sql
+    SELECT
+        c.customer_id,
+        c.customer_name,
+        (
+            SELECT SUM(o.total_amount)
+            FROM orders o
+            WHERE o.customer_id = c.customer_id
+              AND o.order_status = 'PAID'
+        ) AS total_paid
+    FROM customers c;
+    ```
+
+    当 `customers` 表有几十万行时，相关子查询可能重复访问 `orders`。
+
+    执行逻辑可能类似：
+
+    ```mermaid
+    flowchart TD
+        A[Customers] --> B[Customer 1] --> C[Scan Orders]
+        A --> D[Customer 2] --> E[Scan Orders]
+        A --> F[Customer 3] --> G[Scan Orders]
+        A --> H["..."]
+    ```
+
+    PawSQL 可以识别这种查询模式，并评估是否可以解关联。
+
+    例如改写为：
+
+    ```sql
+    SELECT
+        c.customer_id,
+        c.customer_name,
+        COALESCE(o.total_paid, 0) AS total_paid
+    FROM customers c
+    LEFT JOIN (
+        SELECT
+            customer_id,
+            SUM(total_amount) AS total_paid
+        FROM orders
+        WHERE order_status = 'PAID'
+        GROUP BY customer_id
+    ) o
+        ON c.customer_id = o.customer_id;
+    ```
+
+    执行模式变为：
+
+    ```mermaid
+    flowchart LR
+        A[Orders] --> B[一次聚合] --> C[Grouped Result] --> D[JOIN] --> E[Customers]
+    ```
+
+    这类复杂 SQL 重写尤其适合自动化分析。
+  </Tab>
+  <Tab title="示例三：深分页 SQL">
+
+    生产环境常见：
+
+    ```sql
+    SELECT
+        order_id,
         customer_id,
-        SUM(total_amount) AS total_paid
+        create_time
     FROM orders
-    WHERE order_status = 'PAID'
-    GROUP BY customer_id
-) o
-    ON c.customer_id = o.customer_id;
-```
+    ORDER BY create_time DESC
+    LIMIT 1000000, 20;
+    ```
 
-执行模式变为：
+    返回：
 
-```text
-Orders
-   ↓
-一次聚合
-   ↓
-Grouped Result
-   ↓
-JOIN
-   ↓
-Customers
-```
+    ```text
+    20 行
+    ```
 
-这类复杂 SQL 重写尤其适合自动化分析。
+    但数据库可能需要处理：
 
----
+    ```text
+    1,000,020 行
+    ```
 
-## 示例三：深分页 SQL
+    PawSQL 可以识别：
 
-生产环境常见：
+    ```text
+    Deep Pagination
 
-```sql
-SELECT
-    order_id,
-    customer_id,
-    create_time
-FROM orders
-ORDER BY create_time DESC
-LIMIT 1000000, 20;
-```
+    OFFSET:
+    1,000,000
 
-返回：
+    LIMIT:
+    20
+    ```
 
-```text
-20 行
-```
+    并提示使用 Keyset Pagination 等优化方式。
 
-但数据库可能需要处理：
+    例如：
 
-```text
-1,000,020 行
-```
+    ```sql
+    SELECT
+        order_id,
+        customer_id,
+        create_time
+    FROM orders
+    WHERE create_time < ?
+    ORDER BY create_time DESC
+    LIMIT 20;
+    ```
 
-PawSQL 可以识别：
+    是否能够采用这种改写，需要结合具体业务分页方式判断。
 
-```text
-Deep Pagination
+    但 PawSQL 可以自动把这类 SQL 从数千条慢查询中筛选出来。
+  </Tab>
+  <Tab title="示例四：OR 条件导致低效访问">
 
-OFFSET:
-1,000,000
+    例如：
 
-LIMIT:
-20
-```
+    ```sql
+    SELECT *
+    FROM orders
+    WHERE customer_id = 10086
+       OR mobile = '13800000000';
+    ```
 
-并提示使用 Keyset Pagination 等优化方式。
+    如果两个字段分别有不同索引，某些数据库或某些数据分布情况下可能无法得到理想访问路径。
 
-例如：
+    PawSQL 可以分析是否存在改写机会，例如：
 
-```sql
-SELECT
-    order_id,
-    customer_id,
-    create_time
-FROM orders
-WHERE create_time < ?
-ORDER BY create_time DESC
-LIMIT 20;
-```
+    ```sql
+    SELECT *
+    FROM orders
+    WHERE customer_id = 10086
 
-是否能够采用这种改写，需要结合具体业务分页方式判断。
+    UNION ALL
 
-但 PawSQL 可以自动把这类 SQL 从数千条慢查询中筛选出来。
+    SELECT *
+    FROM orders
+    WHERE mobile = '13800000000'
+      AND customer_id <> 10086;
+    ```
 
----
+    具体是否采用该优化，应结合：
 
-## 示例四：OR 条件导致低效访问
+    - 数据库类型
+    - 索引
+    - 数据选择率
+    - 执行计划
 
-例如：
+    进行验证。
 
-```sql
-SELECT *
-FROM orders
-WHERE customer_id = 10086
-   OR mobile = '13800000000';
-```
+    这也是为什么 SQL Rewrite 最好与：
 
-如果两个字段分别有不同索引，某些数据库或某些数据分布情况下可能无法得到理想访问路径。
+    ```text
+    Execution Plan Validation
+    ```
 
-PawSQL 可以分析是否存在改写机会，例如：
-
-```sql
-SELECT *
-FROM orders
-WHERE customer_id = 10086
-
-UNION ALL
-
-SELECT *
-FROM orders
-WHERE mobile = '13800000000'
-  AND customer_id <> 10086;
-```
-
-具体是否采用该优化，应结合：
-
-- 数据库类型
-- 索引
-- 数据选择率
-- 执行计划
-
-进行验证。
-
-这也是为什么 SQL Rewrite 最好与：
-
-```text
-Execution Plan Validation
-```
-
-结合使用。
-
----
+    结合使用。
+  </Tab>
+</Tabs>
 
 ## DBA 不应该逐条分析所有慢 SQL
 
 传统流程：
 
-```text
-2,000 Slow Queries
-        ↓
-DBA
-        ↓
-人工逐条分析
+```mermaid
+flowchart LR
+    A["2,000 Slow Queries"] --> B[DBA] --> C[人工逐条分析]
 ```
 
 这种方式很难持续。
 
 PawSQL 的目标是变成：
 
-```text
-2,000 Slow Queries
-        ↓
-SQL Normalize
-        ↓
-280 SQL Patterns
-        ↓
-自动分析
-        ↓
-80 条有优化建议
-        ↓
-20 条高价值 SQL
-        ↓
-DBA Review
+```mermaid
+flowchart TD
+    A["2,000 Slow Queries"] --> B[SQL Normalize] --> C[280 SQL Patterns] --> D[自动分析]
+    D --> E[80 条有优化建议] --> F[20 条高价值 SQL] --> G[DBA Review]
 ```
 
 DBA 最终只需要重点关注：
 
 > 真正值得人工决策的 SQL。
-
----
 
 ## SQL 归一化为什么重要？
 
@@ -818,10 +726,9 @@ WHERE customer_id = ?;
 
 实际生产环境可能是：
 
-```text
-100,000 条执行记录
-        ↓
-1,000 个 SQL Pattern
+```mermaid
+flowchart LR
+    A["100,000 条执行记录"] --> B["1,000 个 SQL Pattern"]
 ```
 
 这样 DBA 才能真正从：
@@ -835,8 +742,6 @@ WHERE customer_id = ?;
 即：
 
 > 从单次查询治理，升级为 SQL 模式治理。
-
----
 
 ## 建立慢 SQL 优先级模型
 
@@ -878,95 +783,86 @@ Execution Time
 
 而是：
 
-> 找出最值得优化的 SQL。
-
----
+<Note>
+找出最值得优化的 SQL。
+</Note>
 
 ## 自动识别常见 SQL 性能模式
 
 PawSQL 可以帮助 DBA 从慢查询中识别多种典型问题。
 
-### 谓词问题
+<AccordionGroup>
+  <Accordion title="谓词问题">
 
-例如：
+    例如：
 
-```sql
-WHERE YEAR(create_time) = 2026
-```
+    ```sql
+    WHERE YEAR(create_time) = 2026
+    ```
 
-```sql
-WHERE amount + 100 > 1000
-```
+    ```sql
+    WHERE amount + 100 > 1000
+    ```
 
-```sql
-WHERE CAST(customer_id AS CHAR) = '10086'
-```
+    ```sql
+    WHERE CAST(customer_id AS CHAR) = '10086'
+    ```
+  </Accordion>
+  <Accordion title="子查询问题">
 
----
+    例如：
 
-### 子查询问题
+    - 相关子查询
+    - Scalar Subquery
+    - 可解关联子查询
+    - 不合理 IN / EXISTS
+    - 重复子查询
+  </Accordion>
+  <Accordion title="JOIN 问题">
 
-例如：
+    例如：
 
-- 相关子查询
-- Scalar Subquery
-- 可解关联子查询
-- 不合理 IN / EXISTS
-- 重复子查询
+    - 冗余 JOIN
+    - 不合理 JOIN 顺序
+    - Join 条件缺失
+    - 大中间结果集
+    - 阻碍 Predicate Pushdown
+  </Accordion>
+  <Accordion title="排序与分页问题">
 
----
+    例如：
 
-### JOIN 问题
+    ```sql
+    ORDER BY ...
+    LIMIT 500000, 20
+    ```
 
-例如：
+    以及：
 
-- 冗余 JOIN
-- 不合理 JOIN 顺序
-- Join 条件缺失
-- 大中间结果集
-- 阻碍 Predicate Pushdown
+    - 不必要 ORDER BY
+    - 全量排序
+    - 深分页
+  </Accordion>
+  <Accordion title="聚合问题">
 
----
+    例如：
 
-### 排序与分页问题
+    - 不必要 DISTINCT
+    - 冗余 GROUP BY
+    - 聚合前过滤不足
+    - 重复聚合
+  </Accordion>
+  <Accordion title="索引问题">
 
-例如：
+    例如：
 
-```sql
-ORDER BY ...
-LIMIT 500000, 20
-```
-
-以及：
-
-- 不必要 ORDER BY
-- 全量排序
-- 深分页
-
----
-
-### 聚合问题
-
-例如：
-
-- 不必要 DISTINCT
-- 冗余 GROUP BY
-- 聚合前过滤不足
-- 重复聚合
-
----
-
-### 索引问题
-
-例如：
-
-- 缺失索引
-- 索引前导列不合理
-- 低效组合索引
-- 重复索引
-- 无法匹配 SQL 访问模式的索引
-
----
+    - 缺失索引
+    - 索引前导列不合理
+    - 低效组合索引
+    - 重复索引
+    - 无法匹配 SQL 访问模式的索引
+  </Accordion>
+</AccordionGroup>
 
 ## 不只是发现问题，而是形成优化闭环
 
@@ -978,27 +874,19 @@ LIMIT 500000, 20
 
 PawSQL 更进一步：
 
-```text
-发现慢 SQL
-    ↓
-理解 SQL
-    ↓
-分析问题
-    ↓
-生成优化方案
-    ↓
-验证方案
-    ↓
-交给 DBA 决策
+```mermaid
+flowchart TD
+    A[发现慢 SQL] --> B[理解 SQL] --> C[分析问题] --> D[生成优化方案]
+    D --> E[验证方案] --> F[交给 DBA 决策]
 ```
 
 这形成了：
 
-> **Detect → Analyze → Optimize → Validate**
+<Note>
+**Detect → Analyze → Optimize → Validate**
+</Note>
 
 完整性能优化闭环。
-
----
 
 ## 与监控系统形成互补
 
@@ -1038,98 +926,61 @@ SQL 哪里存在问题？
 
 因此二者可以形成：
 
-```text
-Monitoring / APM
-       ↓
-发现性能问题
-       ↓
-PawSQL
-       ↓
-SQL Engineering
-       ↓
-优化方案
+```mermaid
+flowchart TD
+    A["Monitoring / APM"] --> B[发现性能问题] --> C[PawSQL] --> D[SQL Engineering] --> E[优化方案]
 ```
-
----
 
 ## 从“慢查询处理”到“SQL 性能治理”
 
 单纯处理某一条 SQL：
 
-```text
-Slow SQL
-   ↓
-Optimize
-   ↓
-Done
+```mermaid
+flowchart LR
+    A[Slow SQL] --> B[Optimize] --> C[Done]
 ```
 
 并不能解决长期问题。
 
 更成熟的方式是建立循环：
 
-```text
-生产监控
-    ↓
-发现慢 SQL
-    ↓
-SQL Pattern 聚类
-    ↓
-优先级排序
-    ↓
-自动分析
-    ↓
-DBA Review
-    ↓
-优化上线
-    ↓
-继续监控
-    └───────────────┐
-                    ↓
-                 Next Cycle
+```mermaid
+flowchart TD
+    A[生产监控] --> B[发现慢 SQL] --> C[SQL Pattern 聚类] --> D[优先级排序]
+    D --> E[自动分析] --> F[DBA Review] --> G[优化上线] --> H[继续监控]
+    H --> I[Next Cycle]
+    I -.-> A
 ```
 
 这才是：
 
-> SQL Performance Governance
+<Note>
+SQL Performance Governance
+</Note>
 
 即：
 
 > SQL 性能治理。
 
----
-
 ## DBA 的工作方式如何改变？
 
-传统 DBA：
+<Tabs>
+  <Tab title="传统 DBA">
 
-```text
-慢 SQL
-   ↓
-人工分析
-   ↓
-人工改写
-   ↓
-人工推荐索引
-   ↓
-人工验证
-```
+    ```mermaid
+    flowchart TD
+        A[慢 SQL] --> B[人工分析] --> C[人工改写] --> D[人工推荐索引] --> E[人工验证]
+    ```
+  </Tab>
+  <Tab title="引入 PawSQL 后">
 
-引入 PawSQL 后：
-
-```text
-慢 SQL
-   ↓
-PawSQL 自动分析
-   ↓
-自动 SQL Rewrite
-   ↓
-自动 Index Advisor
-   ↓
-自动 Plan Analysis
-   ↓
-DBA Review
-```
+    ```mermaid
+    flowchart TD
+        A[慢 SQL] --> B[PawSQL 自动分析] --> C[自动 SQL Rewrite] --> D[自动 Index Advisor]
+        D --> E[自动 Plan Analysis] --> F[DBA Review]
+    ```
+  </Tab>
+</Tabs>
 
 DBA 的角色从：
 
@@ -1137,9 +988,9 @@ DBA 的角色从：
 
 转变为：
 
-> SQL 优化决策者。
-
----
+<Note>
+SQL 优化决策者。
+</Note>
 
 ## DBA 可以把时间花在哪里？
 
@@ -1158,13 +1009,10 @@ DBA 的角色从：
 
 也就是说：
 
-```text
-减少重复劳动
-        ↓
-增加高价值数据库工程
+```mermaid
+flowchart LR
+    A[减少重复劳动] --> B[增加高价值数据库工程]
 ```
-
----
 
 ## 建议关注的治理指标
 
@@ -1207,44 +1055,16 @@ Estimated Cost Reduction
 
 或实际运行指标改善。
 
----
-
 ## 一个典型的治理结果
 
 例如一次慢 SQL 批量治理任务：
 
-```text
-原始慢查询
-2,386 条
-
-        ↓
-
-SQL 归一化
-312 个 Pattern
-
-        ↓
-
-自动分析
-198 个存在明确优化机会
-
-        ↓
-
-高优先级
-61 个
-
-        ↓
-
-DBA Review
-45 个进入优化
-
-        ↓
-
-验证通过
-39 个
-
-        ↓
-
-生产实施
+```mermaid
+flowchart TD
+    A["原始慢查询<br/>2,386 条"] --> B["SQL 归一化<br/>312 个 Pattern"]
+    B --> C["自动分析<br/>198 个存在明确优化机会"] --> D["高优先级<br/>61 个"]
+    D --> E["DBA Review<br/>45 个进入优化"] --> F["验证通过<br/>39 个"]
+    F --> G[生产实施]
 ```
 
 最终 DBA 不再需要：
@@ -1260,8 +1080,6 @@ DBA Review
 ```
 
 这就是批量治理的核心价值。
-
----
 
 ## 适合哪些企业？
 
@@ -1287,8 +1105,6 @@ DBA Review
 - 物流
 - 大型互联网平台
 - 大型政企系统
-
----
 
 ## 多数据库环境下的统一慢 SQL 治理
 
@@ -1334,38 +1150,18 @@ Plan Analysis
 
 在上层形成一致的 SQL 性能治理体验。
 
----
-
 ## 从开发到生产，建立完整 SQL 生命周期
 
 生产慢 SQL 治理不是 PawSQL 的孤立场景。
 
 它可以和开发阶段、发布阶段形成完整闭环：
 
-```text
-              SQL 全生命周期
-
-开发阶段
-    ↓
-Developer SQL Copilot
-    ↓
-尽早发现 SQL 问题
-    ↓
-提交代码
-    ↓
-SQL Quality Gate
-    ↓
-阻止高风险 SQL 上线
-    ↓
-生产环境
-    ↓
-Performance Patroller
-    ↓
-发现慢 SQL
-    ↓
-PawSQL Optimization
-    ↓
-持续优化
+```mermaid
+flowchart TD
+    T["SQL 全生命周期"] --> A[开发阶段]
+    A --> B[Developer SQL Copilot] --> C[尽早发现 SQL 问题] --> D[提交代码]
+    D --> E[SQL Quality Gate] --> F[阻止高风险 SQL 上线] --> G[生产环境]
+    G --> H[Performance Patroller] --> I[发现慢 SQL] --> J[PawSQL Optimization] --> K[持续优化]
 ```
 
 其中：
@@ -1390,9 +1186,9 @@ PawSQL Optimization
 
 三个场景组合起来，形成完整的：
 
-> **SQL Performance Lifecycle**
-
----
+<Note>
+**SQL Performance Lifecycle**
+</Note>
 
 ## 让慢 SQL 治理从人工任务变成持续工程
 
@@ -1428,21 +1224,22 @@ PawSQL 帮助 DBA 将：
 
 串成一个自动化、可规模化、可持续的性能治理流程。
 
-> **不再逐条追着慢 SQL 跑，而是建立持续运行的 SQL 性能治理体系。**
+<Note>
+**不再逐条追着慢 SQL 跑，而是建立持续运行的 SQL 性能治理体系。**
+</Note>
 
-[了解 PawSQL 慢 SQL 优化 →](/features/automatic-sql-rewrite)
-
-[了解 SQL 执行计划分析 →](/features/execution-plan-visualization)
-
-[了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
-
-[申请产品演示 →](https://www.pawsql.com)
-
----
+<CardGroup cols={2}>
+  <Card title="了解 PawSQL 慢 SQL 优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+  <Card title="了解 SQL 执行计划分析" icon="route" href="/features/execution-plan-visualization" />
+  <Card title="了解 Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot" />
+  <Card title="申请产品演示" icon="plug" href="https://www.pawsql.com" />
+</CardGroup>
 
 ### 相关 User Cases
 
-- [Developer SQL Copilot](/use-cases/developer-sql-copilot)
-- [CI/CD SQL Quality Gate](/use-cases/sql-quality-gate-cicd)
-- 数据库迁移 SQL 治理
-- [企业级 SQL 全生命周期治理](/use-cases/enterprise-sql-governance)
+<CardGroup cols={2}>
+  <Card title="Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot" />
+  <Card title="CI/CD SQL Quality Gate" icon="git-merge" href="/use-cases/sql-quality-gate-cicd" />
+  <Card title="数据库迁移 SQL 治理" icon="arrow-right-left" />
+  <Card title="企业级 SQL 全生命周期治理" icon="building-2" href="/use-cases/enterprise-sql-governance" />
+</CardGroup>

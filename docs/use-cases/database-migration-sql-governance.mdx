@@ -223,10 +223,9 @@ WHERE DATE(create_time) = '2026-09-04'
 
 虽然语义看似正确，但在目标数据库中可能导致：
 
-```text
-Index Access
-    ↓
-Full Scan / Large Range Scan
+```mermaid
+flowchart TD
+    A[Index Access] --> B["Full Scan / Large Range Scan"]
 ```
 
 最终出现明显性能下降。
@@ -262,26 +261,11 @@ SQL 的执行模型也发生了变化。
 
 PawSQL 可以将迁移 SQL 治理划分为几个阶段：
 
-```text
-Application Source Code
-        ↓
-SQL Extraction
-        ↓
-SQL Parsing
-        ↓
-Compatibility Analysis
-        ↓
-Performance Risk Analysis
-        ↓
-Target Database Metadata
-        ↓
-SQL Rewrite / Index Advisor
-        ↓
-Execution Plan Analysis
-        ↓
-Migration Validation
-        ↓
-Release
+```mermaid
+flowchart TD
+    A[Application Source Code] --> B[SQL Extraction] --> C[SQL Parsing] --> D[Compatibility Analysis]
+    D --> E[Performance Risk Analysis] --> F[Target Database Metadata] --> G["SQL Rewrite / Index Advisor"]
+    G --> H[Execution Plan Analysis] --> I[Migration Validation] --> J[Release]
 ```
 
 这使迁移项目从单纯的：
@@ -360,29 +344,31 @@ PawSQL 可以将这些 SQL 统一纳入分析范围。
 
 例如 Oracle SQL：
 
-```sql
-SELECT *
-FROM orders
-WHERE ROWNUM <= 20;
-```
+<Tabs>
+  <Tab title="ROWNUM 分页">
+    ```sql
+    SELECT *
+    FROM orders
+    WHERE ROWNUM <= 20;
+    ```
 
-迁移到 PostgreSQL 体系后，分页机制需要调整。
-
-又例如：
-
-```sql
-SELECT NVL(total_amount, 0)
-FROM orders;
-```
-
-或者：
-
-```sql
-SELECT *
-FROM orders
-START WITH parent_id IS NULL
-CONNECT BY PRIOR id = parent_id;
-```
+    迁移到 PostgreSQL 体系后，分页机制需要调整。
+  </Tab>
+  <Tab title="NVL 空值函数">
+    ```sql
+    SELECT NVL(total_amount, 0)
+    FROM orders;
+    ```
+  </Tab>
+  <Tab title="CONNECT BY 层级查询">
+    ```sql
+    SELECT *
+    FROM orders
+    START WITH parent_id IS NULL
+    CONNECT BY PRIOR id = parent_id;
+    ```
+  </Tab>
+</Tabs>
 
 这些 SQL 都包含明显的数据库专有能力。
 
@@ -457,7 +443,9 @@ WHERE create_time >= '2026-09-04 00:00:00'
 
 这一步解决的是：
 
-> SQL 性能迁移。
+<Note>
+SQL 性能迁移。
+</Note>
 
 而不是单纯 SQL 语法迁移。
 
@@ -544,7 +532,9 @@ Estimated Rows: 2,800,000
 
 这已经说明：
 
-> SQL 语法迁移成功，但性能迁移失败。
+<Note>
+SQL 语法迁移成功，但性能迁移失败。
+</Note>
 
 经过 SQL 重写和索引调整后：
 
@@ -555,7 +545,9 @@ Estimated Rows: 196
 
 迁移团队才能真正确认：
 
-> 这条 SQL 不只是“能跑”，而且具备合理的执行路径。
+<Note>
+这条 SQL 不只是“能跑”，而且具备合理的执行路径。
+</Note>
 
 ---
 
@@ -581,10 +573,9 @@ Nested Loop
 
 迁移到目标数据库后：
 
-```text
-Oracle Hint
-        ↓
-Unsupported / Ignored
+```mermaid
+flowchart TD
+    A[Oracle Hint] --> B["Unsupported / Ignored"]
 ```
 
 执行计划可能变为：
@@ -597,22 +588,16 @@ Hash Join
 
 因此迁移工作不应该简单做：
 
-```text
-Oracle Hint
-    ↓
-Target DB Hint
+```mermaid
+flowchart TD
+    A[Oracle Hint] --> B[Target DB Hint]
 ```
 
 更合理的方式是：
 
-```text
-Understand Original Intent
-        ↓
-Analyze Target Optimizer
-        ↓
-Compare Execution Plan
-        ↓
-Decide Whether Hint Is Still Needed
+```mermaid
+flowchart TD
+    A[Understand Original Intent] --> B[Analyze Target Optimizer] --> C[Compare Execution Plan] --> D[Decide Whether Hint Is Still Needed]
 ```
 
 PawSQL 可以帮助迁移团队从：
@@ -689,7 +674,9 @@ LIMIT 20;
 
 这再次说明：
 
-> SQL 转换只是迁移的第一步。
+<Note>
+SQL 转换只是迁移的第一步。
+</Note>
 
 ---
 
@@ -736,13 +723,13 @@ o.customer_id = c.customer_id
 
 执行过程可能变为：
 
-```text
-Node 1 ─┐
-Node 2 ─┼── Data Redistribution
-Node 3 ─┤
-Node 4 ─┘
-              ↓
-             JOIN
+```mermaid
+flowchart TD
+    N1[Node 1] --> R[Data Redistribution]
+    N2[Node 2] --> R
+    N3[Node 3] --> R
+    N4[Node 4] --> R
+    R --> J[JOIN]
 ```
 
 这会产生：
@@ -814,20 +801,16 @@ Local Join
 
 将高选择率条件尽可能下推：
 
-```text
-Filter
-   ↓
-Reduce Data
-   ↓
-Join
+```mermaid
+flowchart TD
+    A[Filter] --> B[Reduce Data] --> C[Join]
 ```
 
 而不是：
 
-```text
-Join Huge Dataset
-   ↓
-Filter
+```mermaid
+flowchart TD
+    A[Join Huge Dataset] --> B[Filter]
 ```
 
 ---
@@ -879,18 +862,10 @@ Performance
 
 更好的治理方式是：
 
-```text
-Stored Procedure
-        ↓
-Parse Control Structure
-        ↓
-Extract Embedded SQL
-        ↓
-Compatibility Review
-        ↓
-Performance Review
-        ↓
-Migration
+```mermaid
+flowchart TD
+    A[Stored Procedure] --> B[Parse Control Structure] --> C[Extract Embedded SQL]
+    C --> D[Compatibility Review] --> E[Performance Review] --> F[Migration]
 ```
 
 这样才能发现隐藏在存储过程中的性能问题。
@@ -934,20 +909,11 @@ Migration
 
 一个典型过程可以是：
 
-```text
-12,632 SQL Statements
-        ↓
-Automated Parsing
-        ↓
-11,482 Directly Compatible
-        ↓
-1,150 Need Further Analysis
-        ↓
-327 Performance Risks
-        ↓
-93 High-Risk SQL
-        ↓
-47 DBA Review
+```mermaid
+flowchart TD
+    A[12,632 SQL Statements] --> B[Automated Parsing] --> C[11,482 Directly Compatible]
+    C --> D[1,150 Need Further Analysis] --> E[327 Performance Risks]
+    E --> F[93 High-Risk SQL] --> G[47 DBA Review]
 ```
 
 迁移专家最终不需要：
@@ -980,43 +946,40 @@ Compatibility Gate
 
 更完整的迁移流程应该增加第二个 Gate：
 
-```text
-Compatibility Gate
-        ↓
-Performance Gate
+```mermaid
+flowchart TD
+    A[Compatibility Gate] --> B[Performance Gate]
 ```
 
 即：
 
-#### Gate 1 — Compatibility
+<Steps>
+  <Step title="Gate 1 — Compatibility">
+    检查：
 
-检查：
+    - 语法
+    - 函数
+    - 数据类型
+    - 数据库对象
+    - 存储过程
+  </Step>
+  <Step title="Gate 2 — Performance">
+    检查：
 
-- 语法
-- 函数
-- 数据类型
-- 数据库对象
-- 存储过程
-
-#### Gate 2 — Performance
-
-检查：
-
-- SQL Rewrite
-- Index
-- Execution Plan
-- Cost
-- Distribution
-- Scan Strategy
+    - SQL Rewrite
+    - Index
+    - Execution Plan
+    - Cost
+    - Distribution
+    - Scan Strategy
+  </Step>
+</Steps>
 
 只有两个 Gate 都通过：
 
-```text
-Compatibility
-    ✓
-
-Performance
-    ✓
+```mermaid
+flowchart TD
+    A["Compatibility ✓"] --> B["Performance ✓"]
 ```
 
 才能真正进入生产。
@@ -1039,35 +1002,25 @@ Statistics?
 
 如果问题直到生产阶段才发现：
 
-```text
-Migration Complete
-        ↓
-Production
-        ↓
-Performance Regression
-        ↓
-Emergency Investigation
+```mermaid
+flowchart TD
+    A[Migration Complete] --> B[Production] --> C[Performance Regression] --> D[Emergency Investigation]
 ```
 
 处理成本会明显增加。
 
 更合理的方式是：
 
-```text
-Migration
-    ↓
-PawSQL Analysis
-    ↓
-Performance Validation
-    ↓
-Fix
-    ↓
-Production
+```mermaid
+flowchart TD
+    A[Migration] --> B[PawSQL Analysis] --> C[Performance Validation] --> D[Fix] --> E[Production]
 ```
 
 即：
 
-> 在正式切换之前发现性能风险。
+<Note>
+在正式切换之前发现性能风险。
+</Note>
 
 ---
 
@@ -1077,18 +1030,10 @@ PawSQL 不需要替代数据库厂商提供的迁移工具。
 
 一个完整迁移平台通常包括：
 
-```text
-Schema Migration
-        ↓
-Data Migration
-        ↓
-SQL Syntax Conversion
-        ↓
-PawSQL
-        ↓
-SQL Performance Governance
-        ↓
-Application Validation
+```mermaid
+flowchart TD
+    A[Schema Migration] --> B[Data Migration] --> C[SQL Syntax Conversion]
+    C --> D[PawSQL] --> E[SQL Performance Governance] --> F[Application Validation]
 ```
 
 传统迁移工具擅长：
@@ -1192,71 +1137,42 @@ Manual Review Completion
 
 ## 哪些角色会使用 PawSQL？
 
-### 数据库迁移负责人
+<AccordionGroup>
+  <Accordion title="数据库迁移负责人">
+    关注：
 
-关注：
+    - 迁移进度
+    - SQL 风险
+    - 上线 Ready 状态
+  </Accordion>
+  <Accordion title="DBA">
+    关注：
 
-```text
-迁移进度
-+
-SQL 风险
-+
-上线 Ready 状态
-```
+    - SQL Rewrite
+    - Index
+    - Execution Plan
+  </Accordion>
+  <Accordion title="应用开发团队">
+    关注：
 
----
+    - SQL Compatibility
+    - Code Modification
+  </Accordion>
+  <Accordion title="架构师">
+    关注：
 
-### DBA
+    - Distributed SQL
+    - Schema Design
+    - Distribution Strategy
+  </Accordion>
+  <Accordion title="项目经理">
+    关注：
 
-关注：
-
-```text
-SQL Rewrite
-+
-Index
-+
-Execution Plan
-```
-
----
-
-### 应用开发团队
-
-关注：
-
-```text
-SQL Compatibility
-+
-Code Modification
-```
-
----
-
-### 架构师
-
-关注：
-
-```text
-Distributed SQL
-+
-Schema Design
-+
-Distribution Strategy
-```
-
----
-
-### 项目经理
-
-关注：
-
-```text
-Remaining Risks
-+
-Migration Workload
-+
-Go-Live Readiness
-```
+    - Remaining Risks
+    - Migration Workload
+    - Go-Live Readiness
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -1290,7 +1206,9 @@ Execution Plan Validation
 
 也就是：
 
-> **SQL Migration Engineering**
+<Note>
+**SQL Migration Engineering**
+</Note>
 
 ---
 
@@ -1298,39 +1216,28 @@ Execution Plan Validation
 
 PawSQL 可以贯穿多个阶段：
 
-```text
-Before Migration
-        ↓
-SQL Inventory
-        ↓
-Compatibility Assessment
-        ↓
-Performance Risk Assessment
-
-Migration
-        ↓
-SQL Conversion
-        ↓
-SQL Rewrite
-        ↓
-Index Redesign
-        ↓
-Plan Validation
-
-After Migration
-        ↓
-Production Monitoring
-        ↓
-Slow SQL Detection
-        ↓
-Continuous Optimization
+```mermaid
+flowchart TD
+    subgraph P1["Before Migration"]
+        A1[SQL Inventory] --> A2[Compatibility Assessment] --> A3[Performance Risk Assessment]
+    end
+    subgraph P2["Migration"]
+        B1[SQL Conversion] --> B2[SQL Rewrite] --> B3[Index Redesign] --> B4[Plan Validation]
+    end
+    subgraph P3["After Migration"]
+        C1[Production Monitoring] --> C2[Slow SQL Detection] --> C3[Continuous Optimization]
+    end
+    A3 --> B1
+    B4 --> C1
 ```
 
 这样迁移就不再是一锤子买卖。
 
 而是完整的：
 
-> **Database Migration SQL Lifecycle**
+<Note>
+**Database Migration SQL Lifecycle**
+</Note>
 
 ---
 
@@ -1352,37 +1259,31 @@ Continuous Optimization
 
 如果只是机械转换：
 
-```text
-Legacy SQL
-        ↓
-Convert
-        ↓
-New Database
+```mermaid
+flowchart TD
+    A[Legacy SQL] --> B[Convert] --> C[New Database]
 ```
 
 这些问题也会一起迁过去。
 
 更合理的方式是：
 
-```text
-Legacy SQL
-        ↓
-Analyze
-        ↓
-Optimize
-        ↓
-Validate
-        ↓
-Target Database
+```mermaid
+flowchart TD
+    A[Legacy SQL] --> B[Analyze] --> C[Optimize] --> D[Validate] --> E[Target Database]
 ```
 
 因此，数据库迁移不应该只是：
 
-> **Move the SQL.**
+<Note>
+**Move the SQL.**
+</Note>
 
 而应该是：
 
-> **Move it, optimize it, and validate it.**
+<Note>
+**Move it, optimize it, and validate it.**
+</Note>
 
 ---
 
@@ -1422,7 +1323,9 @@ Execution Plan Validation
 
 连接起来，建立一套可批量执行、可验证、可持续的 SQL 迁移治理流程。
 
-> **迁移成功，不只是 SQL 能运行，而是 SQL 在新数据库上依然能够高效运行。**
+<Note>
+**迁移成功，不只是 SQL 能运行，而是 SQL 在新数据库上依然能够高效运行。**
+</Note>
 
 [了解 PawSQL SQL 优化 →](/features/automatic-sql-rewrite)
 
@@ -1436,8 +1339,11 @@ Execution Plan Validation
 
 ### 相关 User Cases
 
-- [Developer SQL Copilot](/use-cases/developer-sql-copilot)
-- [CI/CD SQL Quality Gate](/use-cases/sql-quality-gate-cicd)
-- [DBA 批量治理生产慢 SQL](/use-cases/slow-sql-optimization)
-- 分布式数据库 SQL 优化
-- [企业级 SQL 全生命周期治理](/use-cases/enterprise-sql-governance)
+<CardGroup cols={2}>
+  <Card title="Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot" />
+  <Card title="CI/CD SQL Quality Gate" icon="git-merge" href="/use-cases/sql-quality-gate-cicd" />
+  <Card title="DBA 批量治理生产慢 SQL" icon="gauge" href="/use-cases/slow-sql-optimization" />
+  <Card title="企业级 SQL 全生命周期治理" icon="building-2" href="/use-cases/enterprise-sql-governance" />
+</CardGroup>
+
+分布式数据库 SQL 优化

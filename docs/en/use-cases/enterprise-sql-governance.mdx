@@ -133,24 +133,9 @@ SQL does not exist only inside production databases.
 
 It may appear in:
 
-```text
-IDE
-↓
-Source Code
-↓
-MyBatis Mapper
-↓
-Pull Request
-↓
-Migration Script
-↓
-CI/CD Pipeline
-↓
-Database Release
-↓
-Production
-↓
-Slow Query Log
+```mermaid
+flowchart TD
+    A["IDE"] --> B["Source Code"] --> C["MyBatis Mapper"] --> D["Pull Request"] --> E["Migration Script"] --> F["CI/CD Pipeline"] --> G["Database Release"] --> H["Production"] --> I["Slow Query Log"]
 ```
 
 If governance happens only at one point—for example, manual DBA review before release—large parts of the lifecycle remain unmanaged.
@@ -199,35 +184,32 @@ Executable Engineering Policy
 
 ### Challenge 4 — SQL Problems Are Detected Too Late
 
-Traditional SQL governance often looks like this:
+<Tabs>
+  <Tab title="Reactive Governance">
+    Traditional SQL governance often looks like this:
 
-```text
-Write SQL
-    ↓
-Release
-    ↓
-Production Slow Query
-    ↓
-DBA Investigation
-    ↓
-Emergency Optimization
-```
+    ```mermaid
+    flowchart TD
+        A["Write SQL"] --> B["Release"] --> C["Production Slow Query"] --> D["DBA Investigation"] --> E["Emergency Optimization"]
+    ```
 
-This is fundamentally:
+    This is fundamentally:
 
-> **Reactive Governance**
+    <Note>
+    **Reactive Governance**
+    </Note>
+  </Tab>
+  <Tab title="Proactive Governance">
+    A more mature model introduces governance controls earlier:
 
-A more mature model introduces governance controls earlier:
+    ```mermaid
+    flowchart TD
+        A["Development"] --> B["Delivery"] --> C["Production"]
+    ```
 
-```text
-Development
-    ↓
-Delivery
-    ↓
-Production
-```
-
-with a different control mechanism at each stage.
+    with a different control mechanism at each stage.
+  </Tab>
+</Tabs>
 
 ---
 
@@ -235,31 +217,30 @@ with a different control mechanism at each stage.
 
 PawSQL organizes enterprise SQL governance into three major layers:
 
-```text
-Development Governance
-        ↓
-Delivery Governance
-        ↓
-Production Governance
+```mermaid
+flowchart TD
+    A["Development Governance"] --> B["Delivery Governance"] --> C["Production Governance"]
 ```
 
 Each layer answers a different question.
 
-#### Development Governance
-
-> Is this SQL well designed while it is being written?
-
-#### Delivery Governance
-
-> Should this SQL be allowed to reach production?
-
-#### Production Governance
-
-> Is this SQL continuing to perform well after deployment?
+<Tabs>
+  <Tab title="Development Governance">
+    > Is this SQL well designed while it is being written?
+  </Tab>
+  <Tab title="Delivery Governance">
+    > Should this SQL be allowed to reach production?
+  </Tab>
+  <Tab title="Production Governance">
+    > Is this SQL continuing to perform well after deployment?
+  </Tab>
+</Tabs>
 
 Together, they form a complete:
 
-> **SQL Lifecycle Governance Model**
+<Note>
+**SQL Lifecycle Governance Model**
+</Note>
 
 ---
 
@@ -267,42 +248,32 @@ Together, they form a complete:
 
 A high-level architecture looks like this:
 
-```text
-                  Enterprise SQL Governance
-
-                           PawSQL
-                             │
-          ┌──────────────────┼──────────────────┐
-          │                  │                  │
-          ▼                  ▼                  ▼
-     Development          Delivery          Production
-     Governance           Governance        Governance
-          │                  │                  │
-          ▼                  ▼                  ▼
-  Developer SQL        SQL Quality       Performance
-      Copilot              Gate            Patroller
-          │                  │                  │
-          └──────────────────┼──────────────────┘
-                             │
-                             ▼
-                     PawSQL Analysis Engine
-                             │
-         ┌───────────────────┼───────────────────┐
-         ▼                   ▼                   ▼
-     SQL Review          SQL Rewrite        Index Advisor
-                             │
-                             ▼
-                   Execution Plan Analysis
-                             │
-                             ▼
-                    Performance Validation
+```mermaid
+flowchart TD
+    A["Enterprise SQL Governance"] --> B["PawSQL"]
+    B --> C["Development Governance"]
+    B --> D["Delivery Governance"]
+    B --> E["Production Governance"]
+    C --> F["Developer SQL Copilot"]
+    D --> G["SQL Quality Gate"]
+    E --> H["Performance Patroller"]
+    F --> I["PawSQL Analysis Engine"]
+    G --> I
+    H --> I
+    I --> J["SQL Review"]
+    I --> K["SQL Rewrite"]
+    I --> L["Index Advisor"]
+    K --> M["Execution Plan Analysis"]
+    M --> N["Performance Validation"]
 ```
 
 The important point is not one individual feature.
 
 The core principle is:
 
-> Every governance stage shares the same underlying SQL intelligence.
+<Note>
+Every governance stage shares the same underlying SQL intelligence.
+</Note>
 
 ---
 
@@ -356,7 +327,9 @@ and provide:
 
 The objective of development governance is simple:
 
-> **Fix common SQL problems before they become part of the codebase.**
+<Note>
+**Fix common SQL problems before they become part of the codebase.**
+</Note>
 
 ---
 
@@ -370,56 +343,45 @@ That is the role of:
 
 A typical workflow may look like:
 
-```text
-Developer Commit
-        ↓
-Pull Request
-        ↓
-CI/CD Pipeline
-        ↓
-PawSQL Review
-        ↓
-SQL Policy Evaluation
-        ↓
-┌──────────────┬──────────────┐
-│ PASS         │ BLOCK        │
-│              │              │
-│ Merge        │ Fix SQL      │
-└──────────────┴──────────────┘
+```mermaid
+flowchart TD
+    A["Developer Commit"] --> B["Pull Request"] --> C["CI/CD Pipeline"] --> D["PawSQL Review"] --> E["SQL Policy Evaluation"] --> F{"PASS / BLOCK"}
+    F -->|PASS| G["Merge"]
+    F -->|BLOCK| H["Fix SQL"]
 ```
 
 The policy can cover several dimensions.
 
-### Safety Risks
+<AccordionGroup>
+  <Accordion title="Safety Risks">
+    Examples:
 
-Examples:
+    - `DELETE` without an appropriate predicate
+    - `UPDATE` without an appropriate predicate
+    - `TRUNCATE`
+    - `DROP`
+    - high-risk DDL
+  </Accordion>
+  <Accordion title="SQL Standards">
+    Examples:
 
-- `DELETE` without an appropriate predicate
-- `UPDATE` without an appropriate predicate
-- `TRUNCATE`
-- `DROP`
-- high-risk DDL
+    - `SELECT *`
+    - naming conventions
+    - data type standards
+    - index conventions
+    - DDL conventions
+  </Accordion>
+  <Accordion title="Performance Risks">
+    Examples:
 
-### SQL Standards
-
-Examples:
-
-- `SELECT *`
-- naming conventions
-- data type standards
-- index conventions
-- DDL conventions
-
-### Performance Risks
-
-Examples:
-
-- deep pagination
-- non-SARGable predicates
-- inefficient subqueries
-- missing indexes
-- problematic joins
-- inefficient aggregation
+    - deep pagination
+    - non-SARGable predicates
+    - inefficient subqueries
+    - missing indexes
+    - problematic joins
+    - inefficient aggregation
+  </Accordion>
+</AccordionGroup>
 
 This turns a document such as:
 
@@ -450,14 +412,9 @@ Because:
 
 Production governance therefore requires a continuous loop:
 
-```text
-Detect
-↓
-Analyze
-↓
-Optimize
-↓
-Validate
+```mermaid
+flowchart LR
+    A["Detect"] --> B["Analyze"] --> C["Optimize"] --> D["Validate"]
 ```
 
 PawSQL can help process production slow SQL through:
@@ -490,43 +447,25 @@ that actually deserve expert review.
 
 When development, delivery, and production each use isolated tools, the architecture often becomes:
 
-```text
-Development Tool
-        ↓
-CI/CD Tool
-        ↓
-Monitoring Tool
-        ↓
-DBA Manual Process
+```mermaid
+flowchart TD
+    A["Development Tool"] --> B["CI/CD Tool"] --> C["Monitoring Tool"] --> D["DBA Manual Process"]
 ```
 
 This creates process and data silos.
 
 A unified model connects them:
 
-```text
-Write SQL
-    ↓
-Analyze
-    ↓
-Commit
-    ↓
-Quality Gate
-    ↓
-Release
-    ↓
-Production
-    ↓
-Monitor
-    ↓
-Optimize
-    ↓
-Feed Back to Development
+```mermaid
+flowchart TD
+    A["Write SQL"] --> B["Analyze"] --> C["Commit"] --> D["Quality Gate"] --> E["Release"] --> F["Production"] --> G["Monitor"] --> H["Optimize"] --> I["Feed Back to Development"]
 ```
 
 This creates:
 
-> **Closed-Loop SQL Governance**
+<Note>
+**Closed-Loop SQL Governance**
+</Note>
 
 Production findings can influence future engineering standards instead of remaining isolated operational incidents.
 
@@ -540,55 +479,51 @@ An organization can define a shared SQL policy framework.
 
 For example:
 
-### P0 — Critical
+<AccordionGroup>
+  <Accordion title="P0 — Critical">
+    ```text
+    DELETE without predicate
+    UPDATE without predicate
+    DROP TABLE
+    TRUNCATE TABLE
+    ```
 
-```text
-DELETE without predicate
-UPDATE without predicate
-DROP TABLE
-TRUNCATE TABLE
-```
+    Action:
 
-Action:
+    ```text
+    BLOCK
+    ```
+  </Accordion>
+  <Accordion title="P1 — High">
+    Examples:
 
-```text
-BLOCK
-```
+    - high-risk DDL
+    - deep pagination
+    - full-scan risk
+    - expensive subqueries
+    - missing critical indexes
 
----
+    Action:
 
-### P1 — High
+    ```text
+    DBA Review Required
+    ```
+  </Accordion>
+  <Accordion title="P2 — Warning">
+    Examples:
 
-Examples:
+    - `SELECT *`
+    - unnecessary `DISTINCT`
+    - optimizable predicates
+    - non-recommended SQL patterns
 
-- high-risk DDL
-- deep pagination
-- full-scan risk
-- expensive subqueries
-- missing critical indexes
+    Action:
 
-Action:
-
-```text
-DBA Review Required
-```
-
----
-
-### P2 — Warning
-
-Examples:
-
-- `SELECT *`
-- unnecessary `DISTINCT`
-- optimizable predicates
-- non-recommended SQL patterns
-
-Action:
-
-```text
-Pass with Warning
-```
+    ```text
+    Pass with Warning
+    ```
+  </Accordion>
+</AccordionGroup>
 
 The organization now has a consistent control model rather than a collection of individual DBA preferences.
 
@@ -610,22 +545,12 @@ Project-Specific Rules
 
 For example:
 
-```text
-Enterprise Baseline
-    ↓
-Mandatory for every project
-
-Core Banking Rules
-    ↓
-Additional high-risk change controls
-
-Data Platform Rules
-    ↓
-Hive-specific performance standards
-
-High-Traffic Application Rules
-    ↓
-Pagination and concurrency standards
+```mermaid
+flowchart TD
+    A["Enterprise Baseline"] --> B["Mandatory for every project"]
+    C["Core Banking Rules"] --> D["Additional high-risk change controls"]
+    E["Data Platform Rules"] --> F["Hive-specific performance standards"]
+    G["High-Traffic Application Rules"] --> H["Pagination and concurrency standards"]
 ```
 
 This allows the organization to establish a common baseline while preserving domain-specific controls.
@@ -652,10 +577,9 @@ Hive Performance Rules
 
 But enterprise stakeholders still want a common governance view:
 
-```text
-One Governance Framework
-        ↓
-Multiple Database Engines
+```mermaid
+flowchart TD
+    A["One Governance Framework"] --> B["Multiple Database Engines"]
 ```
 
 PawSQL can provide a common analysis and governance layer while still preserving database-specific intelligence.
@@ -666,41 +590,40 @@ PawSQL can provide a common analysis and governance layer while still preserving
 
 Different databases require different technical awareness.
 
-#### MySQL
+<Tabs>
+  <Tab title="MySQL">
+    Typical concerns include:
 
-Typical concerns include:
+    - `LIMIT`
+    - implicit conversion
+    - index leading columns
+    - InnoDB access paths
+  </Tab>
+  <Tab title="Oracle">
+    Typical concerns include:
 
-- `LIMIT`
-- implicit conversion
-- index leading columns
-- InnoDB access paths
+    - hints
+    - `ROWNUM`
+    - function-based indexes
+    - PL/SQL
+  </Tab>
+  <Tab title="PostgreSQL / openGauss">
+    Typical concerns include:
 
-#### Oracle
+    - sequential scans
+    - join strategies
+    - CTE behavior
+    - data distribution
+  </Tab>
+  <Tab title="Hive">
+    Typical concerns include:
 
-Typical concerns include:
-
-- hints
-- `ROWNUM`
-- function-based indexes
-- PL/SQL
-
-#### PostgreSQL / openGauss
-
-Typical concerns include:
-
-- sequential scans
-- join strategies
-- CTE behavior
-- data distribution
-
-#### Hive
-
-Typical concerns include:
-
-- partition pruning
-- data skew
-- MapJoin
-- global sorting
+    - partition pruning
+    - data skew
+    - MapJoin
+    - global sorting
+  </Tab>
+</Tabs>
 
 Therefore, the correct model is:
 
@@ -718,7 +641,9 @@ Many enterprises already maintain large SQL standards documents.
 
 The problem is:
 
-> Documentation does not block bad SQL from reaching production.
+<Note>
+Documentation does not block bad SQL from reaching production.
+</Note>
 
 A mature governance model converts rules into:
 
@@ -807,45 +732,34 @@ without rebuilding the same logic in multiple tools.
 
 A traditional model looks like this:
 
-```text
-Every SQL Change
-    ↓
-DBA
-    ↓
-Manual Review
+```mermaid
+flowchart TD
+    A["Every SQL Change"] --> B["DBA"] --> C["Manual Review"]
 ```
 
 As development scales:
 
-```text
-300 Developers
-       ↓
-Thousands of SQL Changes
-       ↓
-Small DBA Team
+```mermaid
+flowchart TD
+    A["300 Developers"] --> B["Thousands of SQL Changes"] --> C["Small DBA Team"]
 ```
 
 DBAs quickly become a delivery bottleneck.
 
 A more scalable model is:
 
-```text
-All SQL
-    ↓
-PawSQL Automated Review
-    ↓
-Routine Issues Handled Automatically
-    ↓
-High-Risk / Complex SQL
-    ↓
-DBA
+```mermaid
+flowchart TD
+    A["All SQL"] --> B["PawSQL Automated Review"] --> C["Routine Issues Handled Automatically"] --> D["High-Risk / Complex SQL"] --> E["DBA"]
 ```
 
 The DBA no longer needs to inspect every query.
 
 Instead, the DBA focuses on:
 
-> **The SQL that actually requires expert judgment.**
+<Note>
+**The SQL that actually requires expert judgment.**
+</Note>
 
 ---
 
@@ -947,75 +861,62 @@ These metrics are useful for:
 
 Enterprise SQL governance is not only for DBAs.
 
-### Developers
+<Tabs>
+  <Tab title="Developers">
+    Ask:
 
-Ask:
+    > How can I write better SQL?
 
-> How can I write better SQL?
+    Use:
 
-Use:
+    > Developer SQL Copilot
+  </Tab>
+  <Tab title="DevOps Teams">
+    Ask:
 
-> Developer SQL Copilot
+    > How can we automatically prevent risky SQL from being released?
 
----
+    Use:
 
-### DevOps Teams
+    > SQL Quality Gate
+  </Tab>
+  <Tab title="DBAs">
+    Ask:
 
-Ask:
+    > How can we govern production slow SQL at scale?
 
-> How can we automatically prevent risky SQL from being released?
+    Use:
 
-Use:
+    > Slow SQL Optimization
+  </Tab>
+  <Tab title="Architects">
+    Ask:
 
-> SQL Quality Gate
+    > How can we standardize SQL governance across multiple databases?
 
----
+    Use:
 
-### DBAs
+    > Multi-Database Governance
+  </Tab>
+  <Tab title="Engineering Managers">
+    Ask:
 
-Ask:
+    > Is SQL quality improving across teams?
 
-> How can we govern production slow SQL at scale?
+    Use:
 
-Use:
+    > Governance Metrics
+  </Tab>
+  <Tab title="CIO / CTO">
+    Ask:
 
-> Slow SQL Optimization
+    > Is enterprise database risk under control?
 
----
+    Use:
 
-### Architects
-
-Ask:
-
-> How can we standardize SQL governance across multiple databases?
-
-Use:
-
-> Multi-Database Governance
-
----
-
-### Engineering Managers
-
-Ask:
-
-> Is SQL quality improving across teams?
-
-Use:
-
-> Governance Metrics
-
----
-
-### CIO / CTO
-
-Ask:
-
-> Is enterprise database risk under control?
-
-Use:
-
-> Enterprise SQL Governance
+    > Enterprise SQL Governance
+  </Tab>
+</Tabs>
 
 ---
 
@@ -1045,22 +946,16 @@ Database Monitoring Platform
 
 A simplified architecture looks like:
 
-```text
-Existing Enterprise Toolchain
-            │
-            ▼
-       PawSQL API Layer
-            │
-            ▼
-   SQL Governance Engine
-            │
-            ▼
-Review / Rewrite / Index / Plan
+```mermaid
+flowchart TD
+    A["Existing Enterprise Toolchain"] --> B["PawSQL API Layer"] --> C["SQL Governance Engine"] --> D["Review / Rewrite / Index / Plan"]
 ```
 
 The objective is:
 
-> Embed SQL governance into the systems teams already use.
+<Note>
+Embed SQL governance into the systems teams already use.
+</Note>
 
 Not create another disconnected tool.
 
@@ -1068,48 +963,41 @@ Not create another disconnected tool.
 
 ## From SQL Audit to SQL Governance
 
-Traditional SQL auditing usually asks:
+<Tabs>
+  <Tab title="SQL Audit">
+    Traditional SQL auditing usually asks:
 
-> Does this SQL violate a rule?
+    > Does this SQL violate a rule?
+  </Tab>
+  <Tab title="SQL Governance">
+    Enterprise SQL Governance must answer more:
 
-Enterprise SQL Governance must answer more:
+    ```text
+    Is the SQL safe?
 
-```text
-Is the SQL safe?
+    Is it compliant?
 
-Is it compliant?
+    Is it efficient?
 
-Is it efficient?
+    Can it be optimized?
 
-Can it be optimized?
+    Can the optimization be validated?
 
-Can the optimization be validated?
+    Who needs to review it?
 
-Who needs to review it?
+    Should it be allowed into production?
 
-Should it be allowed into production?
-
-Did it become slow after release?
-```
+    Did it become slow after release?
+    ```
+  </Tab>
+</Tabs>
 
 The distinction can be summarized as:
 
-```text
-SQL Audit
-    ↓
-Rule Checking
-
-SQL Governance
-    ↓
-Policy
-+
-Performance
-+
-Workflow
-+
-Lifecycle
-+
-Metrics
+```mermaid
+flowchart TD
+    A["SQL Audit"] --> B["Rule Checking"]
+    C["SQL Governance"] --> D["Policy + Performance + Workflow + Lifecycle + Metrics"]
 ```
 
 ---
@@ -1118,12 +1006,9 @@ Metrics
 
 A point optimization tool typically looks like:
 
-```text
-Input SQL
-    ↓
-Optimization
-    ↓
-Output SQL
+```mermaid
+flowchart TD
+    A["Input SQL"] --> B["Optimization"] --> C["Output SQL"]
 ```
 
 Enterprise engineering requires more:
@@ -1144,7 +1029,9 @@ Governance Metrics
 
 This is better described as:
 
-> **SQL Engineering**
+<Note>
+**SQL Engineering**
+</Note>
 
 PawSQL's long-term role is not only to optimize individual SQL statements.
 
@@ -1158,93 +1045,93 @@ Large organizations do not need to deploy every governance capability at once.
 
 A staged rollout is often more effective.
 
-### Phase 1 — Unified SQL Review
+<Steps>
+  <Step title="Phase 1 — Unified SQL Review">
+    Standardize:
 
-Standardize:
+    ```text
+    SQL Rules
+    +
+    Database Coverage
+    +
+    Review Standards
+    ```
 
-```text
-SQL Rules
-+
-Database Coverage
-+
-Review Standards
-```
+    Goal:
 
-Goal:
+    <Note>
+    Establish a common SQL review platform.
+    </Note>
+  </Step>
+  <Step title="Phase 2 — CI/CD Quality Gate">
+    Integrate with:
 
-> Establish a common SQL review platform.
+    ```text
+    Git
+    +
+    CI/CD
+    +
+    Webhook
+    ```
 
----
+    Goal:
 
-### Phase 2 — CI/CD Quality Gate
+    <Note>
+    Enforce SQL policy automatically.
+    </Note>
+  </Step>
+  <Step title="Phase 3 — Developer Shift Left">
+    Move SQL analysis into:
 
-Integrate with:
+    ```text
+    IDE
+    +
+    Developer Workflow
+    ```
 
-```text
-Git
-+
-CI/CD
-+
-Webhook
-```
+    Goal:
 
-Goal:
+    <Note>
+    Reduce SQL problems during development.
+    </Note>
+  </Step>
+  <Step title="Phase 4 — Production Governance">
+    Connect:
 
-> Enforce SQL policy automatically.
+    ```text
+    Slow Query
+    +
+    Monitoring
+    +
+    Performance Patroller
+    ```
 
----
+    Goal:
 
-### Phase 3 — Developer Shift Left
+    <Note>
+    Establish continuous SQL performance governance.
+    </Note>
+  </Step>
+  <Step title="Phase 5 — Enterprise Governance Metrics">
+    Build:
 
-Move SQL analysis into:
+    ```text
+    Dashboard
+    +
+    Scorecard
+    +
+    Quality Score
+    +
+    Governance Report
+    ```
 
-```text
-IDE
-+
-Developer Workflow
-```
+    Goal:
 
-Goal:
-
-> Reduce SQL problems during development.
-
----
-
-### Phase 4 — Production Governance
-
-Connect:
-
-```text
-Slow Query
-+
-Monitoring
-+
-Performance Patroller
-```
-
-Goal:
-
-> Establish continuous SQL performance governance.
-
----
-
-### Phase 5 — Enterprise Governance Metrics
-
-Build:
-
-```text
-Dashboard
-+
-Scorecard
-+
-Quality Score
-+
-Governance Report
-```
-
-Goal:
-
-> Turn SQL governance from a tooling capability into a measurable management system.
+    <Note>
+    Turn SQL governance from a tooling capability into a measurable management system.
+    </Note>
+  </Step>
+</Steps>
 
 ---
 
@@ -1258,32 +1145,16 @@ Suppose an enterprise processes:
 
 Automated governance may produce:
 
-```text
-128,000 SQL
-        ↓
-Automated Review
-        ↓
-8,600 Issues Detected
-        ↓
-7,900 Fixed Before Release
-        ↓
-700 Require Further Review
-        ↓
-186 Critical
-        ↓
-61 DBA Review
+```mermaid
+flowchart TD
+    A["128,000 SQL"] --> B["Automated Review"] --> C["8,600 Issues Detected"] --> D["7,900 Fixed Before Release"] --> E["700 Require Further Review"] --> F["186 Critical"] --> G["61 DBA Review"]
 ```
 
 Production governance may then continue with:
 
-```text
-2,800 Slow Queries
-        ↓
-312 SQL Patterns
-        ↓
-198 Optimization Opportunities
-        ↓
-39 Validated Fixes
+```mermaid
+flowchart TD
+    A["2,800 Slow Queries"] --> B["312 SQL Patterns"] --> C["198 Optimization Opportunities"] --> D["39 Validated Fixes"]
 ```
 
 Management no longer sees only:
@@ -1328,7 +1199,9 @@ SQL Metrics
 
 Together, these form:
 
-> **Enterprise SQL Governance Capability**
+<Note>
+**Enterprise SQL Governance Capability**
+</Note>
 
 ---
 
@@ -1417,27 +1290,16 @@ But the overall governance model remains fragmented.
 
 PawSQL connects these stages:
 
-```text
-Development
-    ↓
-Review
-    ↓
-Quality Gate
-    ↓
-Release
-    ↓
-Production
-    ↓
-Monitoring
-    ↓
-Optimization
-    ↓
-Governance
+```mermaid
+flowchart TD
+    A["Development"] --> B["Review"] --> C["Quality Gate"] --> D["Release"] --> E["Production"] --> F["Monitoring"] --> G["Optimization"] --> H["Governance"]
 ```
 
 into a unified:
 
-> **Enterprise SQL Governance Platform**
+<Note>
+**Enterprise SQL Governance Platform**
+</Note>
 
 ---
 
@@ -1447,35 +1309,24 @@ SQL should not be governed only after something goes wrong in production.
 
 Governance should begin when the first line of SQL is written.
 
-```text
-Write
- ↓
-Analyze
- ↓
-Review
- ↓
-Release
- ↓
-Monitor
- ↓
-Optimize
- ↓
-Improve
+```mermaid
+flowchart LR
+    A["Write"] --> B["Analyze"] --> C["Review"] --> D["Release"] --> E["Monitor"] --> F["Optimize"] --> G["Improve"]
 ```
 
 PawSQL helps enterprises turn SQL review, optimization, and production performance management from disconnected tools and manual processes into a unified, executable, and measurable governance system.
 
-> **One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**
+<Note>
+**One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**
+</Note>
 
-[Explore PawSQL SQL Governance →](/en/features/index)
-
-[Explore Developer SQL Copilot →](/en/use-cases/developer-sql-copilot)
-
-[Explore SQL Quality Gate →](/en/use-cases/sql-quality-gate-cicd)
-
-[Explore Slow SQL Optimization →](/en/use-cases/slow-sql-optimization)
-
-[Request an Enterprise Demo →](https://www.pawsql.com)
+<CardGroup cols={2}>
+  <Card title="Explore PawSQL SQL Governance" icon="layers" href="/en/features/index" />
+  <Card title="Explore Developer SQL Copilot" icon="code" href="/en/use-cases/developer-sql-copilot" />
+  <Card title="Explore SQL Quality Gate" icon="git-merge" href="/en/use-cases/sql-quality-gate-cicd" />
+  <Card title="Explore Slow SQL Optimization" icon="gauge" href="/en/use-cases/slow-sql-optimization" />
+  <Card title="Request an Enterprise Demo" icon="compass" href="https://www.pawsql.com" />
+</CardGroup>
 
 ---
 

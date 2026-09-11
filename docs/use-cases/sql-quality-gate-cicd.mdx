@@ -32,18 +32,10 @@ layout: detail
 
 典型流程是：
 
-```text
-开发提交 SQL
-    ↓
-DBA 人工审核
-    ↓
-发现问题
-    ↓
-开发修改
-    ↓
-重新审核
-    ↓
-上线
+```mermaid
+flowchart TD
+    A[开发提交 SQL] --> B[DBA 人工审核] --> C[发现问题]
+    C --> D[开发修改] --> E[重新审核] --> F[上线]
 ```
 
 当开发团队规模扩大、发布频率提高之后，这种模式很容易产生三个问题：
@@ -82,16 +74,10 @@ openGauss
 
 传统情况下，每一次数据库变更都可能需要 DBA 人工处理：
 
-```text
-Pull Request
-    ↓
-DBA Review
-    ↓
-反馈问题
-    ↓
-开发修改
-    ↓
-再次 Review
+```mermaid
+flowchart TD
+    A[Pull Request] --> B[DBA Review] --> C[反馈问题]
+    C --> D[开发修改] --> E[再次 Review]
 ```
 
 对于少量 SQL，这种模式可以工作。
@@ -104,22 +90,13 @@ DBA Review
 
 将 PawSQL 接入代码提交和发布流程：
 
-```text
-Developer Commit
-        ↓
-Pull Request
-        ↓
-CI/CD Pipeline
-        ↓
-PawSQL SQL Review
-        ↓
-SQL Policy Evaluation
-        ↓
-┌───────────────┬───────────────┐
-│ PASS          │ BLOCK         │
-│               │               │
-│ Merge         │ Fix SQL       │
-└───────────────┴───────────────┘
+```mermaid
+flowchart TD
+    A[Developer Commit] --> B[Pull Request] --> C[CI/CD Pipeline]
+    C --> D[PawSQL SQL Review] --> E[SQL Policy Evaluation]
+    E --> F{PASS / BLOCK}
+    F -->|PASS| G[Merge]
+    F -->|BLOCK| H[Fix SQL]
 ```
 
 SQL 审核从：
@@ -138,16 +115,19 @@ SQL 审核从：
 
 例如：
 
-```sql
-DELETE FROM orders;
-```
-
-或者：
-
-```sql
-UPDATE customer
-SET status = 'DISABLED';
-```
+<Tabs>
+  <Tab title="DELETE 缺少过滤条件">
+    ```sql
+    DELETE FROM orders;
+    ```
+  </Tab>
+  <Tab title="UPDATE 缺少过滤条件">
+    ```sql
+    UPDATE customer
+    SET status = 'DISABLED';
+    ```
+  </Tab>
+</Tabs>
 
 如果缺少有效过滤条件，可以被识别为高风险 SQL。
 
@@ -174,16 +154,11 @@ Action: Block Pipeline
 - 大事务
 - 高风险数据库对象操作
 
-将：
+将《数据库开发规范》从一份文档，变成：
 
-```text
-《数据库开发规范》
-```
-
-从一份文档，变成：
-
-```text
-Executable SQL Policy
+```mermaid
+flowchart LR
+    A["《数据库开发规范》"] --> B["Executable SQL Policy"]
 ```
 
 即：
@@ -301,21 +276,24 @@ SQL Quality Gate 因此不只是：
 
 例如：
 
-```text
-Before
+<Tabs>
+  <Tab title="优化前">
+    ```text
+    Before
 
-Large Range Scan
-Estimated Cost: 18,452
-```
+    Large Range Scan
+    Estimated Cost: 18,452
+    ```
+  </Tab>
+  <Tab title="优化后">
+    ```text
+    After
 
-优化后：
-
-```text
-After
-
-Index Range Scan
-Estimated Cost: 327
-```
+    Index Range Scan
+    Estimated Cost: 327
+    ```
+  </Tab>
+</Tabs>
 
 这样 SQL 优化建议不仅仅停留在理论层面。
 
@@ -342,31 +320,34 @@ Critical:                2
 
 例如：
 
-```text
-Critical Issue #1
+<AccordionGroup>
+  <Accordion title="Critical Issue 示例">
+    ```text
+    Critical Issue #1
 
-DELETE without selective predicate
+    DELETE without selective predicate
 
-File:
-migration/V20260907_01.sql
+    File:
+    migration/V20260907_01.sql
 
-Line:
-28
-```
+    Line:
+    28
+    ```
+  </Accordion>
+  <Accordion title="Performance Issue 示例">
+    ```text
+    Performance Issue #2
 
-以及：
+    Non-SARGable predicate
 
-```text
-Performance Issue #2
+    Expression:
+    DATE(create_time)
 
-Non-SARGable predicate
-
-Expression:
-DATE(create_time)
-
-Suggestion:
-Rewrite as range predicate
-```
+    Suggestion:
+    Rewrite as range predicate
+    ```
+  </Accordion>
+</AccordionGroup>
 
 开发人员可以直接在代码提交阶段完成修改。
 
@@ -385,18 +366,11 @@ Rewrite as range predicate
 
 例如：
 
-```text
-Critical
-    ↓
-BLOCK
-
-High
-    ↓
-DBA Review
-
-Warning
-    ↓
-PASS WITH WARNING
+```mermaid
+flowchart LR
+    A[Critical] --> B[BLOCK]
+    C[High] --> D[DBA Review]
+    E[Warning] --> F[PASS WITH WARNING]
 ```
 
 从而形成可重复、可审计的 SQL 发布标准。
@@ -445,26 +419,17 @@ OFFSET > 100000
 
 传统模式：
 
-```text
-Every SQL
-    ↓
-DBA
-    ↓
-Manual Review
+```mermaid
+flowchart LR
+    A[Every SQL] --> B[DBA] --> C[Manual Review]
 ```
 
 引入 PawSQL 后：
 
-```text
-Every SQL
-    ↓
-PawSQL
-    ↓
-Automated Review
-    ↓
-Only High-Risk / Complex SQL
-    ↓
-DBA
+```mermaid
+flowchart TD
+    A[Every SQL] --> B[PawSQL] --> C[Automated Review]
+    C --> D[Only High-Risk / Complex SQL] --> E[DBA]
 ```
 
 DBA 不再需要处理所有 SQL。
@@ -483,16 +448,11 @@ DBA 不再需要处理所有 SQL。
 
 ### 更早发现 SQL 问题
 
-从：
+从 Production 前移到 Pull Request / CI/CD：
 
-```text
-Production
-```
-
-前移到：
-
-```text
-Pull Request / CI/CD
+```mermaid
+flowchart LR
+    A[Production] --> B[Pull Request / CI/CD]
 ```
 
 ### 降低 DBA 人工审核量
@@ -563,24 +523,28 @@ CI/CD
 
 数据库 SQL 也应该拥有同样的工程质量控制。
 
-PawSQL 帮助企业把 SQL Review 从：
+PawSQL 帮助企业把 SQL Review 从 Manual Approval 升级为：
 
-```text
-Manual Approval
+```mermaid
+flowchart LR
+    A[Manual Approval] --> B[Automated SQL Quality Gate]
 ```
 
-升级为：
+<Note>
+**不要等 SQL 上线之后再发现问题。让问题 SQL 在 CI/CD 阶段就停下来。**
+</Note>
 
-```text
-Automated SQL Quality Gate
-```
-
-> **不要等 SQL 上线之后再发现问题。让问题 SQL 在 CI/CD 阶段就停下来。**
-
-[了解 PawSQL SQL Review →](/features/sql-review)
-
-[了解 SQL Optimization →](/features/automatic-sql-rewrite)
-
-[了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
-
-[申请产品演示 →](https://www.pawsql.com)
+<CardGroup cols={2}>
+  <Card title="了解 PawSQL SQL Review" icon="list-check" href="/features/sql-review">
+    在 CI/CD 中审核 SQL 规范、安全与性能风险。
+  </Card>
+  <Card title="了解 SQL Optimization" icon="wand-sparkles" href="/features/automatic-sql-rewrite">
+    自动生成等价的 SQL 重写与索引建议。
+  </Card>
+  <Card title="了解 Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot">
+    在编写 SQL 时获得实时优化建议。
+  </Card>
+  <Card title="申请产品演示" icon="plug" href="https://www.pawsql.com">
+    预约 PawSQL 产品演示。
+  </Card>
+</CardGroup>

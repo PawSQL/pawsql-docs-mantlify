@@ -112,67 +112,61 @@ The query may therefore scan significantly more data than necessary.
 
 The developer now has several options.
 
-#### Option 1 — Ignore It
+<Tabs>
+  <Tab title="Option 1 — Ignore It">
+    The SQL passes testing.
 
-The SQL passes testing.
+    Ship it.
 
-Ship it.
+    This is the fastest option today—and potentially the most expensive option later.
+  </Tab>
+  <Tab title="Option 2 — Ask a DBA">
+    The developer sends the SQL to the DBA:
 
-This is the fastest option today—and potentially the most expensive option later.
+    ```text
+    Can you check whether this SQL has a performance problem?
+    ```
 
----
+    The DBA needs to:
 
-#### Option 2 — Ask a DBA
+    1. understand the SQL,
+    2. inspect the schema,
+    3. check indexes,
+    4. obtain an execution plan,
+    5. analyze the predicate,
+    6. recommend a rewrite,
+    7. possibly recommend an index.
 
-The developer sends the SQL to the DBA:
+    This works.
 
-```text
-Can you check whether this SQL has a performance problem?
-```
+    But doing this for hundreds of developers does not scale.
+  </Tab>
+  <Tab title="Option 3 — Ask a General AI Assistant">
+    The developer can also ask an LLM:
 
-The DBA needs to:
+    ```text
+    How can I optimize this SQL?
+    ```
 
-1. understand the SQL,
-2. inspect the schema,
-3. check indexes,
-4. obtain an execution plan,
-5. analyze the predicate,
-6. recommend a rewrite,
-7. possibly recommend an index.
+    The model may suggest:
 
-This works.
+    - rewriting the function,
+    - adding an index,
+    - changing the query structure.
 
-But doing this for hundreds of developers does not scale.
+    Some recommendations may be useful.
 
----
+    But the developer still needs to determine:
 
-#### Option 3 — Ask a General AI Assistant
+    - Is the rewritten SQL logically equivalent?
+    - Is the suggested index appropriate?
+    - Does the database already have a similar index?
+    - Will the new SQL actually produce a better execution plan?
+    - Is the advice suitable for this specific database?
 
-The developer can also ask an LLM:
-
-```text
-How can I optimize this SQL?
-```
-
-The model may suggest:
-
-- rewriting the function,
-- adding an index,
-- changing the query structure.
-
-Some recommendations may be useful.
-
-But the developer still needs to determine:
-
-- Is the rewritten SQL logically equivalent?
-- Is the suggested index appropriate?
-- Does the database already have a similar index?
-- Will the new SQL actually produce a better execution plan?
-- Is the advice suitable for this specific database?
-
-This is where SQL-specific engineering context becomes important.
-
----
+    This is where SQL-specific engineering context becomes important.
+  </Tab>
+</Tabs>
 
 ## The PawSQL Approach
 
@@ -180,22 +174,15 @@ PawSQL acts as a SQL performance copilot inside the developer workflow.
 
 Instead of treating SQL performance as a separate DBA activity, PawSQL moves optimization closer to where the SQL is written.
 
-```text
-Write SQL
-    ↓
-PawSQL Analyze
-    ↓
-Detect Performance Risks
-    ↓
-Explain the Problem
-    ↓
-Generate Rewrite
-    ↓
-Recommend Index
-    ↓
-Validate Optimization
-    ↓
-Developer Applies Fix
+```mermaid
+flowchart TD
+    A[Write SQL] --> B[PawSQL Analyze]
+    B --> C[Detect Performance Risks]
+    C --> D[Explain the Problem]
+    D --> E[Generate Rewrite]
+    E --> F[Recommend Index]
+    F --> G[Validate Optimization]
+    G --> H[Developer Applies Fix]
 ```
 
 The developer remains in control.
@@ -243,9 +230,8 @@ CREATE INDEX idx_orders_customer
 ON orders(customer_id);
 ```
 
----
-
-## Step 1 — Detect the SQL Performance Risk
+<Steps>
+<Step title="Step 1 — Detect the SQL Performance Risk">
 
 PawSQL analyzes the query and identifies the expression:
 
@@ -280,9 +266,9 @@ SQL is slow.
 
 It explains the specific SQL pattern responsible for the risk.
 
----
+</Step>
 
-## Step 2 — Generate an Equivalent Rewrite
+<Step title="Step 2 — Generate an Equivalent Rewrite">
 
 The query can be rewritten as:
 
@@ -317,9 +303,9 @@ The filtering column is no longer wrapped inside a function.
 
 This gives the optimizer a better opportunity to use an index range scan.
 
----
+</Step>
 
-## Step 3 — Analyze the Existing Indexes
+<Step title="Step 3 — Analyze the Existing Indexes">
 
 The query filters on:
 
@@ -374,9 +360,9 @@ Ordering
 ORDER BY create_time DESC
 ```
 
----
+</Step>
 
-## Step 4 — Show the Reasoning Behind the Recommendation
+<Step title="Step 4 — Show the Reasoning Behind the Recommendation">
 
 A useful developer tool should not only output:
 
@@ -388,25 +374,21 @@ It should help the developer understand why.
 
 Conceptually:
 
-```text
-Query Access Pattern
-
-customer_id = 10086
-        ↓
-High-selectivity equality lookup
-        ↓
-create_time range
-        ↓
-Retrieve only matching orders
-        ↓
-Return rows in create_time order
+```mermaid
+flowchart TD
+    subgraph QAP["Query Access Pattern"]
+        A["customer_id = 10086"] --> B[High-selectivity equality lookup]
+        B --> C[create_time range]
+        C --> D[Retrieve only matching orders]
+        D --> E[Return rows in create_time order]
+    end
 ```
 
 Compared with two independent indexes, a composite index may provide a more efficient access path for this specific query pattern.
 
----
+</Step>
 
-## Step 5 — Validate With the Execution Plan
+<Step title="Step 5 — Validate With the Execution Plan">
 
 When database connectivity and execution-plan analysis are available, PawSQL can evaluate how the database intends to execute the original and optimized queries.
 
@@ -447,9 +429,9 @@ The point is not the absolute cost number.
 
 The important part is that the recommendation can be checked against the database optimizer rather than being accepted purely as theoretical advice.
 
----
+</Step>
 
-## Step 6 — Apply the Optimization Before Code Review
+<Step title="Step 6 — Apply the Optimization Before Code Review">
 
 The developer updates the mapper SQL before creating the pull request.
 
@@ -477,33 +459,25 @@ It never becomes:
 - a DBA ticket,
 - an emergency optimization task.
 
+</Step>
+
+</Steps>
+
 ---
 
 ## The Developer Experience
 
 The ideal workflow is simple.
 
-```text
-Developer writes SQL
-        ↓
-Select SQL
-        ↓
-Analyze with PawSQL
-        ↓
-┌─────────────────────────────┐
-│ 1 Performance Risk Found    │
-│                             │
-│ Function on indexed column  │
-│ DATE(create_time)            │
-└─────────────────────────────┘
-        ↓
-View Rewrite
-        ↓
-View Index Recommendation
-        ↓
-Review Execution Plan
-        ↓
-Apply Fix
+```mermaid
+flowchart TD
+    A[Developer writes SQL] --> B[Select SQL]
+    B --> C[Analyze with PawSQL]
+    C --> D["1 Performance Risk Found<br/>Function on indexed column<br/>DATE(create_time)"]
+    D --> E[View Rewrite]
+    E --> F[View Index Recommendation]
+    F --> G[Review Execution Plan]
+    G --> H[Apply Fix]
 ```
 
 The developer does not need to leave the coding workflow and start a separate database tuning project.
@@ -556,22 +530,18 @@ LEFT JOIN (
 
 The optimization changes the execution pattern from conceptually:
 
-```text
-Customers
-   ↓
-For each customer
-   ↓
-Query orders again
+```mermaid
+flowchart TD
+    A[Customers] --> B[For each customer]
+    B --> C[Query orders again]
 ```
 
 to:
 
-```text
-Orders
-   ↓
-Aggregate once
-   ↓
-Join with customers
+```mermaid
+flowchart TD
+    A[Orders] --> B[Aggregate once]
+    B --> C[Join with customers]
 ```
 
 For developers working with complex SQL, this type of rewrite is far more valuable than simple SQL formatting or linting.
@@ -633,80 +603,72 @@ The important point is that the developer is alerted to the scaling problem whil
 
 PawSQL can help developers identify different categories of SQL performance problems.
 
-### Predicate Problems
+<AccordionGroup>
+  <Accordion title="Predicate Problems">
+    Examples include:
 
-Examples include:
+    ```sql
+    WHERE YEAR(create_time) = 2026
+    ```
 
-```sql
-WHERE YEAR(create_time) = 2026
-```
+    ```sql
+    WHERE amount + 100 > 1000
+    ```
 
-```sql
-WHERE amount + 100 > 1000
-```
+    ```sql
+    WHERE CAST(customer_id AS CHAR) = '10086'
+    ```
 
-```sql
-WHERE CAST(customer_id AS CHAR) = '10086'
-```
+    These expressions may make index access less efficient.
+  </Accordion>
 
-These expressions may make index access less efficient.
+  <Accordion title="Subquery Problems">
+    Examples include:
 
----
+    - correlated subqueries,
+    - unnecessary nested subqueries,
+    - inefficient `IN` / `EXISTS` patterns,
+    - scalar subqueries that execute repeatedly.
+  </Accordion>
 
-### Subquery Problems
+  <Accordion title="Join Problems">
+    Examples include:
 
-Examples include:
+    - redundant joins,
+    - missing join predicates,
+    - inappropriate join conditions,
+    - joins that prevent predicate pushdown,
+    - unnecessarily large intermediate result sets.
+  </Accordion>
 
-- correlated subqueries,
-- unnecessary nested subqueries,
-- inefficient `IN` / `EXISTS` patterns,
-- scalar subqueries that execute repeatedly.
+  <Accordion title="Aggregation Problems">
+    Examples include:
 
----
+    - unnecessary `DISTINCT`,
+    - inefficient aggregation,
+    - redundant grouping,
+    - aggregation performed on unnecessarily large datasets.
+  </Accordion>
 
-### Join Problems
+  <Accordion title="Pagination Problems">
+    Examples include:
 
-Examples include:
+    ```sql
+    LIMIT 500000, 20
+    ```
 
-- redundant joins,
-- missing join predicates,
-- inappropriate join conditions,
-- joins that prevent predicate pushdown,
-- unnecessarily large intermediate result sets.
+    or equivalent deep-offset pagination patterns.
+  </Accordion>
 
----
+  <Accordion title="Index Problems">
+    Examples include:
 
-### Aggregation Problems
-
-Examples include:
-
-- unnecessary `DISTINCT`,
-- inefficient aggregation,
-- redundant grouping,
-- aggregation performed on unnecessarily large datasets.
-
----
-
-### Pagination Problems
-
-Examples include:
-
-```sql
-LIMIT 500000, 20
-```
-
-or equivalent deep-offset pagination patterns.
-
----
-
-### Index Problems
-
-Examples include:
-
-- missing indexes,
-- inefficient index leading columns,
-- redundant indexes,
-- query predicates not aligned with existing indexes.
+    - missing indexes,
+    - inefficient index leading columns,
+    - redundant indexes,
+    - query predicates not aligned with existing indexes.
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -753,31 +715,17 @@ That is the role PawSQL is designed to play.
 
 PawSQL can participate at multiple points in the development lifecycle.
 
-```text
-                 Developer Workflow
-
-Requirement
-    ↓
-Write SQL
-    ↓
-┌──────────────────────┐
-│ PawSQL SQL Copilot   │
-│                      │
-│ Analyze              │
-│ Rewrite              │
-│ Recommend Index      │
-│ Explain Plan         │
-└──────────────────────┘
-    ↓
-Unit Test
-    ↓
-Commit
-    ↓
-Pull Request
-    ↓
-CI/CD SQL Quality Gate
-    ↓
-Production
+```mermaid
+flowchart TD
+    subgraph WF["Developer Workflow"]
+        A[Requirement] --> B[Write SQL]
+        B --> C["PawSQL SQL Copilot<br/>Analyze<br/>Rewrite<br/>Recommend Index<br/>Explain Plan"]
+        C --> D[Unit Test]
+        D --> E[Commit]
+        E --> F[Pull Request]
+        F --> G[CI/CD SQL Quality Gate]
+        G --> H[Production]
+    end
 ```
 
 This creates two layers of protection.
@@ -816,22 +764,17 @@ PawSQL can automate much of this first-line analysis.
 
 A better model is:
 
-```text
-Routine SQL Question
-        ↓
-PawSQL
-
-Complex Architecture Question
-        ↓
-DBA
+```mermaid
+flowchart TD
+    A[Routine SQL Question] --> B[PawSQL]
+    C[Complex Architecture Question] --> D[DBA]
 ```
 
 Instead of:
 
-```text
-Every SQL Question
-        ↓
-DBA
+```mermaid
+flowchart TD
+    A[Every SQL Question] --> B[DBA]
 ```
 
 ---
@@ -900,27 +843,23 @@ The objective is:
 Reduce repetitive DBA work
 ```
 
-Without automated developer-side analysis:
-
-```text
-100 Developers
-       ↓
-Hundreds of SQL Questions
-       ↓
-DBA Team
-```
-
-With PawSQL:
-
-```text
-100 Developers
-       ↓
-PawSQL First-Line Analysis
-       ↓
-Only Complex Cases
-       ↓
-DBA Team
-```
+<Tabs>
+  <Tab title="Without automated developer-side analysis">
+    ```mermaid
+    flowchart TD
+        A[100 Developers] --> B[Hundreds of SQL Questions]
+        B --> C[DBA Team]
+    ```
+  </Tab>
+  <Tab title="With PawSQL">
+    ```mermaid
+    flowchart TD
+        A[100 Developers] --> B[PawSQL First-Line Analysis]
+        B --> C[Only Complex Cases]
+        C --> D[DBA Team]
+    ```
+  </Tab>
+</Tabs>
 
 DBAs can spend more time on:
 
@@ -1050,33 +989,17 @@ SQL Quality Gate solves the problem at delivery time.
 
 Together:
 
-```text
-                 SQL Engineering Lifecycle
-
-Developer
-    │
-    ▼
-Write SQL
-    │
-    ▼
-Developer SQL Copilot
-    │
-    │ Find and Fix
-    ▼
-Commit
-    │
-    ▼
-Pull Request
-    │
-    ▼
-SQL Quality Gate
-    │
-    │ Verify and Enforce
-    ▼
-Release
-    │
-    ▼
-Production Monitoring
+```mermaid
+flowchart TD
+    subgraph LC["SQL Engineering Lifecycle"]
+        A[Developer] --> B[Write SQL]
+        B --> C[Developer SQL Copilot]
+        C -->|"Find and Fix"| D[Commit]
+        D --> E[Pull Request]
+        E --> F[SQL Quality Gate]
+        F -->|"Verify and Enforce"| G[Release]
+        G --> H[Production Monitoring]
+    end
 ```
 
 This creates a complete **shift-left SQL performance strategy**.
@@ -1093,15 +1016,24 @@ They need the right database intelligence at the moment they write it.
 
 **PawSQL Developer SQL Copilot helps developers analyze SQL, understand performance risks, generate optimization alternatives, recommend indexes, and validate improvements before release.**
 
-> **Write SQL. Understand it. Optimize it. Before production.**
+<Note>
+**Write SQL. Understand it. Optimize it. Before production.**
+</Note>
 
-[Try PawSQL →](/en/getting-started/quickstart)
-
-[Explore SQL Optimization →](/en/features/automatic-sql-rewrite)
-
-[Learn About SQL Quality Gate →](/en/use-cases/sql-quality-gate-cicd)
-
-[Request a Demo →](https://www.pawsql.com)
+<CardGroup cols={2}>
+  <Card title="Try PawSQL" icon="bolt" href="/en/getting-started/quickstart">
+    Run your first review, rewrite, and index recommendation.
+  </Card>
+  <Card title="Explore SQL Optimization" icon="wand-sparkles" href="/en/features/automatic-sql-rewrite">
+    See how PawSQL generates equivalent rewrites.
+  </Card>
+  <Card title="Learn About SQL Quality Gate" icon="git-merge" href="/en/use-cases/sql-quality-gate-cicd">
+    Block risky SQL in your CI/CD pipeline.
+  </Card>
+  <Card title="Request a Demo" icon="building-2" href="https://www.pawsql.com">
+    Talk to the PawSQL team.
+  </Card>
+</CardGroup>
 
 ---
 

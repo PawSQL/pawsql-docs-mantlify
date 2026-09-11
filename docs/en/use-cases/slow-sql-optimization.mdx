@@ -32,31 +32,19 @@ Instead, the real question becomes:
 
 The traditional workflow is highly manual:
 
-```text
-Inspect Slow SQL
-    ↓
-Check Execution Plan
-    ↓
-Inspect Schema
-    ↓
-Review Existing Indexes
-    ↓
-Identify Root Cause
-    ↓
-Rewrite SQL
-    ↓
-Design Index
-    ↓
-Validate Again
+```mermaid
+flowchart LR
+    A[Inspect Slow SQL] --> B[Check Execution Plan] --> C[Inspect Schema] --> D[Review Existing Indexes]
+    D --> E[Identify Root Cause] --> F[Rewrite SQL] --> G[Design Index] --> H[Validate Again]
 ```
 
 This approach works for a few queries.
 
 It does not scale when the number of slow queries grows into the hundreds or thousands.
 
+<Note>
 **PawSQL connects slow-query collection, SQL normalization, performance analysis, query rewriting, index recommendation, and execution-plan validation into one workflow—helping DBAs build a scalable and sustainable SQL performance governance process.**
-
----
+</Note>
 
 ## A Typical Production Environment
 
@@ -121,8 +109,6 @@ From a performance-governance perspective, they are the same:
 
 If DBAs review each statement independently, a large amount of time is wasted on repetitive work.
 
----
-
 ## Why Is Slow SQL Governance Difficult?
 
 Production slow SQL management usually has four major challenges.
@@ -151,8 +137,6 @@ Require deeper analysis
 ```
 
 Without normalization and grouping, DBAs may spend most of their time reviewing the same problem repeatedly.
-
----
 
 ### Challenge 2 — A Slow Query Does Not Always Mean Bad SQL
 
@@ -183,8 +167,6 @@ The first question should be:
 
 > Can this problem actually be solved through SQL optimization?
 
----
-
 ### Challenge 3 — Detecting a Slow Query Is Not the Same as Fixing It
 
 Monitoring platforms can tell DBAs:
@@ -211,8 +193,6 @@ Will the optimized SQL actually perform better?
 
 This analysis is where most DBA time is spent.
 
----
-
 ### Challenge 4 — Optimization Advice Without Validation Is Risky
 
 A very common recommendation is:
@@ -237,40 +217,21 @@ Did the optimizer cost go down—or actually increase?
 
 Production systems need:
 
-> **Validated optimization recommendations.**
+<Note>
+**Validated optimization recommendations.**
+</Note>
 
 Not just advice that “might be faster.”
-
----
 
 ## The PawSQL Approach
 
 PawSQL turns slow SQL optimization into an end-to-end workflow:
 
-```text
-Production Database
-        ↓
-Slow Query Collection
-        ↓
-SQL Normalization
-        ↓
-SQL Pattern Grouping
-        ↓
-Performance Analysis
-        ↓
-┌─────────────────────┐
-│ SQL Rewrite         │
-│ Index Advisor       │
-│ Plan Analysis       │
-└─────────────────────┘
-        ↓
-Performance Validation
-        ↓
-DBA Review
-        ↓
-Optimization Deployment
-        ↓
-Continuous Monitoring
+```mermaid
+flowchart TD
+    A[Production Database] --> B[Slow Query Collection] --> C[SQL Normalization] --> D[SQL Pattern Grouping]
+    D --> E[Performance Analysis] --> F["SQL Rewrite<br/>Index Advisor<br/>Plan Analysis"]
+    F --> G[Performance Validation] --> H[DBA Review] --> I[Optimization Deployment] --> J[Continuous Monitoring]
 ```
 
 This changes the DBA workflow from:
@@ -289,8 +250,6 @@ Automated Prioritization
 Focused DBA Review
 ```
 
----
-
 ## Example: 2,000 Slow Queries — What Should the DBA Look at First?
 
 Suppose PawSQL collects:
@@ -303,12 +262,9 @@ from production.
 
 After SQL normalization:
 
-```text
-2,146 Slow Queries
-        ↓
-Normalize
-        ↓
-287 SQL Patterns
+```mermaid
+flowchart LR
+    A["2,146 Slow Queries"] --> B[Normalize] --> C[287 SQL Patterns]
 ```
 
 The patterns can then be prioritized using metrics such as:
@@ -334,457 +290,411 @@ Instead, the team can answer:
 
 > Which SQL patterns have the greatest impact on overall database performance?
 
----
+<Steps>
+  <Step title="Step 1 — Identify High-Value Optimization Targets">
 
-## Step 1 — Identify High-Value Optimization Targets
+    Slow SQL should not be prioritized only by single-query latency.
 
-Slow SQL should not be prioritized only by single-query latency.
+    Consider two queries.
 
-Consider two queries.
+    #### SQL A
 
-#### SQL A
+    ```text
+    Execution Time: 30s
+    Executions Per Day: 5
 
-```text
-Execution Time: 30s
-Executions Per Day: 5
+    Total Time:
+    150s
+    ```
 
-Total Time:
-150s
-```
+    #### SQL B
 
-#### SQL B
+    ```text
+    Execution Time: 800ms
+    Executions Per Day: 20,000
 
-```text
-Execution Time: 800ms
-Executions Per Day: 20,000
+    Total Time:
+    16,000s
+    ```
 
-Total Time:
-16,000s
-```
+    SQL A looks slower.
 
-SQL A looks slower.
+    But SQL B may consume far more total database resources.
 
-But SQL B may consume far more total database resources.
+    A meaningful slow SQL governance process should therefore consider:
 
-A meaningful slow SQL governance process should therefore consider:
+    - average execution time
+    - execution frequency
+    - total execution time
+    - rows scanned
+    - rows returned
+    - CPU consumption
+    - I/O consumption
+    - risk level
 
-- average execution time
-- execution frequency
-- total execution time
-- rows scanned
-- rows returned
-- CPU consumption
-- I/O consumption
-- risk level
+    The goal is to establish an:
 
-The goal is to establish an:
+    <Note>
+    **Optimization Priority**
+    </Note>
 
-> **Optimization Priority**
+    not simply a list of the slowest individual queries.
+  </Step>
+  <Step title="Step 2 — Automatically Analyze SQL Performance Problems">
 
-not simply a list of the slowest individual queries.
+    Consider a high-frequency slow query:
 
----
-
-## Step 2 — Automatically Analyze SQL Performance Problems
-
-Consider a high-frequency slow query:
-
-```sql
-SELECT
-    o.order_id,
-    o.customer_id,
-    o.create_time,
-    o.total_amount
-FROM orders o
-WHERE DATE(o.create_time) = '2026-09-04'
-  AND o.customer_id = 10086;
-```
-
-PawSQL can identify:
-
-```text
-Performance Issue
-
-Function applied to filtering column:
-
-DATE(create_time)
-
-Potential Impact:
-
-The database may not efficiently use
-the index on create_time.
-```
-
-This is a typical example of a:
-
-> Non-SARGable Predicate
-
-The problem is not that the SQL is invalid.
-
-The problem is that the predicate structure may prevent efficient index access.
-
----
-
-## Step 3 — Generate an Equivalent SQL Rewrite
-
-PawSQL can recommend rewriting the condition as:
-
-```sql
-SELECT
-    o.order_id,
-    o.customer_id,
-    o.create_time,
-    o.total_amount
-FROM orders o
-WHERE o.create_time >= '2026-09-04 00:00:00'
-  AND o.create_time <  '2026-09-05 00:00:00'
-  AND o.customer_id = 10086;
-```
-
-The original predicate:
-
-```sql
-DATE(create_time) = '2026-09-04'
-```
-
-becomes:
-
-```sql
-create_time >= '2026-09-04 00:00:00'
-AND create_time < '2026-09-05 00:00:00'
-```
-
-This gives the optimizer a better opportunity to use an index range scan.
-
----
-
-## Step 4 — Analyze Index Strategy
-
-Assume the table currently has:
-
-```sql
-CREATE INDEX idx_orders_create_time
-ON orders(create_time);
-
-CREATE INDEX idx_orders_customer
-ON orders(customer_id);
-```
-
-The query filters on:
-
-```text
-customer_id = ?
-```
-
-and a range on:
-
-```text
-create_time
-```
-
-PawSQL can further recommend a composite index such as:
-
-```sql
-CREATE INDEX idx_orders_customer_create_time
-ON orders(customer_id, create_time);
-```
-
-The recommendation can take into account:
-
-- equality predicates
-- range predicates
-- join predicates
-- ORDER BY
-- GROUP BY
-- existing indexes
-
-rather than simply suggesting an index for every filtered column.
-
----
-
-## Step 5 — Validate the Execution Plan
-
-The most important question is:
-
-> Does the optimization actually help?
-
-Suppose the original query has:
-
-```text
-Original SQL
-
-Access Type:
-Range / Large Scan
-
-Estimated Rows:
-2,430,000
-
-Estimated Cost:
-31,842
-```
-
-After optimization:
-
-```text
-Optimized SQL
-
-Access Type:
-Index Range Scan
-
-Index:
-idx_orders_customer_create_time
-
-Estimated Rows:
-186
-
-Estimated Cost:
-592
-```
-
-PawSQL can compare the plans:
-
-```text
-Original Cost
-31,842
-        ↓
-Optimized Cost
-592
-
-Cost Reduction
-98.1%
-```
-
-For DBAs, this is far more useful than a generic recommendation such as:
-
-```text
-Consider adding an index.
-```
-
-The optimization has been evaluated against the database optimizer.
-
----
-
-## Example 2 — Correlated Subquery Causing Repeated Access
-
-Consider another production query:
-
-```sql
-SELECT
-    c.customer_id,
-    c.customer_name,
-    (
-        SELECT SUM(o.total_amount)
-        FROM orders o
-        WHERE o.customer_id = c.customer_id
-          AND o.order_status = 'PAID'
-    ) AS total_paid
-FROM customers c;
-```
-
-When `customers` contains hundreds of thousands of rows, the correlated subquery may repeatedly access `orders`.
-
-Conceptually:
-
-```text
-Customers
-   ↓
-Customer 1
-   ↓
-Scan Orders
-
-Customer 2
-   ↓
-Scan Orders
-
-Customer 3
-   ↓
-Scan Orders
-
-...
-```
-
-PawSQL can identify this pattern and determine whether the subquery can be decorrelated.
-
-For example:
-
-```sql
-SELECT
-    c.customer_id,
-    c.customer_name,
-    COALESCE(o.total_paid, 0) AS total_paid
-FROM customers c
-LEFT JOIN (
+    ```sql
     SELECT
+        o.order_id,
+        o.customer_id,
+        o.create_time,
+        o.total_amount
+    FROM orders o
+    WHERE DATE(o.create_time) = '2026-09-04'
+      AND o.customer_id = 10086;
+    ```
+
+    PawSQL can identify:
+
+    ```text
+    Performance Issue
+
+    Function applied to filtering column:
+
+    DATE(create_time)
+
+    Potential Impact:
+
+    The database may not efficiently use
+    the index on create_time.
+    ```
+
+    This is a typical example of a:
+
+    > Non-SARGable Predicate
+
+    The problem is not that the SQL is invalid.
+
+    The problem is that the predicate structure may prevent efficient index access.
+  </Step>
+  <Step title="Step 3 — Generate an Equivalent SQL Rewrite">
+
+    PawSQL can recommend rewriting the condition as:
+
+    ```sql
+    SELECT
+        o.order_id,
+        o.customer_id,
+        o.create_time,
+        o.total_amount
+    FROM orders o
+    WHERE o.create_time >= '2026-09-04 00:00:00'
+      AND o.create_time <  '2026-09-05 00:00:00'
+      AND o.customer_id = 10086;
+    ```
+
+    The original predicate:
+
+    ```sql
+    DATE(create_time) = '2026-09-04'
+    ```
+
+    becomes:
+
+    ```sql
+    create_time >= '2026-09-04 00:00:00'
+    AND create_time < '2026-09-05 00:00:00'
+    ```
+
+    This gives the optimizer a better opportunity to use an index range scan.
+  </Step>
+  <Step title="Step 4 — Analyze Index Strategy">
+
+    Assume the table currently has:
+
+    ```sql
+    CREATE INDEX idx_orders_create_time
+    ON orders(create_time);
+
+    CREATE INDEX idx_orders_customer
+    ON orders(customer_id);
+    ```
+
+    The query filters on:
+
+    ```text
+    customer_id = ?
+    ```
+
+    and a range on:
+
+    ```text
+    create_time
+    ```
+
+    PawSQL can further recommend a composite index such as:
+
+    ```sql
+    CREATE INDEX idx_orders_customer_create_time
+    ON orders(customer_id, create_time);
+    ```
+
+    The recommendation can take into account:
+
+    - equality predicates
+    - range predicates
+    - join predicates
+    - ORDER BY
+    - GROUP BY
+    - existing indexes
+
+    rather than simply suggesting an index for every filtered column.
+  </Step>
+  <Step title="Step 5 — Validate the Execution Plan">
+
+    The most important question is:
+
+    > Does the optimization actually help?
+
+    Suppose the original query has:
+
+    ```text
+    Original SQL
+
+    Access Type:
+    Range / Large Scan
+
+    Estimated Rows:
+    2,430,000
+
+    Estimated Cost:
+    31,842
+    ```
+
+    After optimization:
+
+    ```text
+    Optimized SQL
+
+    Access Type:
+    Index Range Scan
+
+    Index:
+    idx_orders_customer_create_time
+
+    Estimated Rows:
+    186
+
+    Estimated Cost:
+    592
+    ```
+
+    PawSQL can compare the plans:
+
+    ```mermaid
+    flowchart LR
+        A["Original Cost<br/>31,842"] --> B["Optimized Cost<br/>592"] --> C["Cost Reduction<br/>98.1%"]
+    ```
+
+    For DBAs, this is far more useful than a generic recommendation such as:
+
+    ```text
+    Consider adding an index.
+    ```
+
+    The optimization has been evaluated against the database optimizer.
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="Example 2 — Correlated Subquery Causing Repeated Access">
+
+    Consider another production query:
+
+    ```sql
+    SELECT
+        c.customer_id,
+        c.customer_name,
+        (
+            SELECT SUM(o.total_amount)
+            FROM orders o
+            WHERE o.customer_id = c.customer_id
+              AND o.order_status = 'PAID'
+        ) AS total_paid
+    FROM customers c;
+    ```
+
+    When `customers` contains hundreds of thousands of rows, the correlated subquery may repeatedly access `orders`.
+
+    Conceptually:
+
+    ```mermaid
+    flowchart TD
+        A[Customers] --> B[Customer 1] --> C[Scan Orders]
+        A --> D[Customer 2] --> E[Scan Orders]
+        A --> F[Customer 3] --> G[Scan Orders]
+        A --> H["..."]
+    ```
+
+    PawSQL can identify this pattern and determine whether the subquery can be decorrelated.
+
+    For example:
+
+    ```sql
+    SELECT
+        c.customer_id,
+        c.customer_name,
+        COALESCE(o.total_paid, 0) AS total_paid
+    FROM customers c
+    LEFT JOIN (
+        SELECT
+            customer_id,
+            SUM(total_amount) AS total_paid
+        FROM orders
+        WHERE order_status = 'PAID'
+        GROUP BY customer_id
+    ) o
+        ON c.customer_id = o.customer_id;
+    ```
+
+    The execution pattern becomes:
+
+    ```mermaid
+    flowchart LR
+        A[Orders] --> B[Aggregate Once] --> C[Grouped Result] --> D[JOIN] --> E[Customers]
+    ```
+
+    This type of query rewrite is particularly valuable for large-scale automated slow SQL analysis.
+  </Tab>
+  <Tab title="Example 3 — Deep Pagination">
+
+    A common production pattern is:
+
+    ```sql
+    SELECT
+        order_id,
         customer_id,
-        SUM(total_amount) AS total_paid
+        create_time
     FROM orders
-    WHERE order_status = 'PAID'
-    GROUP BY customer_id
-) o
-    ON c.customer_id = o.customer_id;
-```
+    ORDER BY create_time DESC
+    LIMIT 1000000, 20;
+    ```
 
-The execution pattern becomes:
+    The application returns:
 
-```text
-Orders
-   ↓
-Aggregate Once
-   ↓
-Grouped Result
-   ↓
-JOIN
-   ↓
-Customers
-```
+    ```text
+    20 rows
+    ```
 
-This type of query rewrite is particularly valuable for large-scale automated slow SQL analysis.
+    but the database may need to process more than:
 
----
+    ```text
+    1,000,000 rows
+    ```
 
-## Example 3 — Deep Pagination
+    before returning the requested result.
 
-A common production pattern is:
+    PawSQL can identify:
 
-```sql
-SELECT
-    order_id,
-    customer_id,
-    create_time
-FROM orders
-ORDER BY create_time DESC
-LIMIT 1000000, 20;
-```
+    ```text
+    Deep Pagination
 
-The application returns:
+    OFFSET:
+    1,000,000
 
-```text
-20 rows
-```
+    LIMIT:
+    20
+    ```
 
-but the database may need to process more than:
+    and recommend evaluating keyset pagination.
 
-```text
-1,000,000 rows
-```
+    For example:
 
-before returning the requested result.
+    ```sql
+    SELECT
+        order_id,
+        customer_id,
+        create_time
+    FROM orders
+    WHERE create_time < ?
+    ORDER BY create_time DESC
+    LIMIT 20;
+    ```
 
-PawSQL can identify:
+    Whether this rewrite is appropriate depends on the application’s pagination semantics.
 
-```text
-Deep Pagination
+    The important point is that PawSQL can automatically identify this pattern among thousands of production slow queries.
+  </Tab>
+  <Tab title="Example 4 — Inefficient OR Predicates">
 
-OFFSET:
-1,000,000
+    Consider:
 
-LIMIT:
-20
-```
+    ```sql
+    SELECT *
+    FROM orders
+    WHERE customer_id = 10086
+       OR mobile = '13800000000';
+    ```
 
-and recommend evaluating keyset pagination.
+    If the two columns are indexed separately, some database optimizers or data distributions may still produce an inefficient access path.
 
-For example:
+    PawSQL can analyze whether a rewrite opportunity exists.
 
-```sql
-SELECT
-    order_id,
-    customer_id,
-    create_time
-FROM orders
-WHERE create_time < ?
-ORDER BY create_time DESC
-LIMIT 20;
-```
+    For example:
 
-Whether this rewrite is appropriate depends on the application’s pagination semantics.
+    ```sql
+    SELECT *
+    FROM orders
+    WHERE customer_id = 10086
 
-The important point is that PawSQL can automatically identify this pattern among thousands of production slow queries.
+    UNION ALL
 
----
+    SELECT *
+    FROM orders
+    WHERE mobile = '13800000000'
+      AND customer_id <> 10086;
+    ```
 
-## Example 4 — Inefficient OR Predicates
+    Whether this rewrite should be applied depends on:
 
-Consider:
+    - database engine
+    - available indexes
+    - predicate selectivity
+    - execution plan
 
-```sql
-SELECT *
-FROM orders
-WHERE customer_id = 10086
-   OR mobile = '13800000000';
-```
+    That is why SQL Rewrite should ideally be combined with:
 
-If the two columns are indexed separately, some database optimizers or data distributions may still produce an inefficient access path.
+    <Note>
+    **Execution Plan Validation**
+    </Note>
 
-PawSQL can analyze whether a rewrite opportunity exists.
-
-For example:
-
-```sql
-SELECT *
-FROM orders
-WHERE customer_id = 10086
-
-UNION ALL
-
-SELECT *
-FROM orders
-WHERE mobile = '13800000000'
-  AND customer_id <> 10086;
-```
-
-Whether this rewrite should be applied depends on:
-
-- database engine
-- available indexes
-- predicate selectivity
-- execution plan
-
-That is why SQL Rewrite should ideally be combined with:
-
-> **Execution Plan Validation**
-
-instead of being treated as an isolated transformation.
-
----
+    instead of being treated as an isolated transformation.
+  </Tab>
+</Tabs>
 
 ## DBAs Should Not Manually Analyze Every Slow Query
 
 The traditional model looks like this:
 
-```text
-2,000 Slow Queries
-        ↓
-DBA
-        ↓
-Manual Analysis
+```mermaid
+flowchart LR
+    A["2,000 Slow Queries"] --> B[DBA] --> C[Manual Analysis]
 ```
 
 This is difficult to sustain.
 
 The PawSQL model is closer to:
 
-```text
-2,000 Slow Queries
-        ↓
-SQL Normalize
-        ↓
-280 SQL Patterns
-        ↓
-Automated Analysis
-        ↓
-80 Patterns with Optimization Opportunities
-        ↓
-20 High-Value SQL Patterns
-        ↓
-DBA Review
+```mermaid
+flowchart TD
+    A["2,000 Slow Queries"] --> B[SQL Normalize] --> C[280 SQL Patterns] --> D[Automated Analysis]
+    D --> E[80 Patterns with Optimization Opportunities] --> F[20 High-Value SQL Patterns] --> G[DBA Review]
 ```
 
 The DBA focuses on:
 
 > The SQL patterns that actually deserve human attention.
-
----
 
 ## Why SQL Normalization Matters
 
@@ -824,10 +734,9 @@ Three SQL statements become:
 
 At production scale, the transformation can look like:
 
-```text
-100,000 Query Executions
-        ↓
-1,000 SQL Patterns
+```mermaid
+flowchart LR
+    A["100,000 Query Executions"] --> B["1,000 SQL Patterns"]
 ```
 
 This shifts performance management from:
@@ -836,11 +745,11 @@ This shifts performance management from:
 
 to:
 
-> **Query Pattern Governance**
+<Note>
+**Query Pattern Governance**
+</Note>
 
 That change is essential for scalable SQL performance engineering.
-
----
 
 ## Build a Slow SQL Priority Model
 
@@ -877,95 +786,86 @@ The goal is not:
 
 The goal is:
 
-> **Find the SQL with the highest optimization value.**
-
----
+<Note>
+**Find the SQL with the highest optimization value.**
+</Note>
 
 ## Automatically Detect Common SQL Performance Patterns
 
 PawSQL can help DBAs identify multiple categories of performance issues.
 
-### Predicate Problems
+<AccordionGroup>
+  <Accordion title="Predicate Problems">
 
-Examples include:
+    Examples include:
 
-```sql
-WHERE YEAR(create_time) = 2026
-```
+    ```sql
+    WHERE YEAR(create_time) = 2026
+    ```
 
-```sql
-WHERE amount + 100 > 1000
-```
+    ```sql
+    WHERE amount + 100 > 1000
+    ```
 
-```sql
-WHERE CAST(customer_id AS CHAR) = '10086'
-```
+    ```sql
+    WHERE CAST(customer_id AS CHAR) = '10086'
+    ```
+  </Accordion>
+  <Accordion title="Subquery Problems">
 
----
+    Examples include:
 
-### Subquery Problems
+    - correlated subqueries
+    - scalar subqueries
+    - decorrelatable subqueries
+    - inefficient `IN` / `EXISTS`
+    - duplicated subqueries
+  </Accordion>
+  <Accordion title="JOIN Problems">
 
-Examples include:
+    Examples include:
 
-- correlated subqueries
-- scalar subqueries
-- decorrelatable subqueries
-- inefficient `IN` / `EXISTS`
-- duplicated subqueries
+    - redundant joins
+    - missing join predicates
+    - inefficient join structures
+    - oversized intermediate result sets
+    - blocked predicate pushdown
+  </Accordion>
+  <Accordion title="Sorting and Pagination Problems">
 
----
+    Examples include:
 
-### JOIN Problems
+    ```sql
+    ORDER BY ...
+    LIMIT 500000, 20
+    ```
 
-Examples include:
+    as well as:
 
-- redundant joins
-- missing join predicates
-- inefficient join structures
-- oversized intermediate result sets
-- blocked predicate pushdown
+    - unnecessary sorting
+    - global sorting over large datasets
+    - deep pagination
+  </Accordion>
+  <Accordion title="Aggregation Problems">
 
----
+    Examples include:
 
-### Sorting and Pagination Problems
+    - unnecessary `DISTINCT`
+    - redundant `GROUP BY`
+    - insufficient filtering before aggregation
+    - repeated aggregation
+  </Accordion>
+  <Accordion title="Index Problems">
 
-Examples include:
+    Examples include:
 
-```sql
-ORDER BY ...
-LIMIT 500000, 20
-```
-
-as well as:
-
-- unnecessary sorting
-- global sorting over large datasets
-- deep pagination
-
----
-
-### Aggregation Problems
-
-Examples include:
-
-- unnecessary `DISTINCT`
-- redundant `GROUP BY`
-- insufficient filtering before aggregation
-- repeated aggregation
-
----
-
-### Index Problems
-
-Examples include:
-
-- missing indexes
-- poor leading-column selection
-- inefficient composite indexes
-- redundant indexes
-- indexes that do not match query access patterns
-
----
+    - missing indexes
+    - poor leading-column selection
+    - inefficient composite indexes
+    - redundant indexes
+    - indexes that do not match query access patterns
+  </Accordion>
+</AccordionGroup>
 
 ## Go Beyond Detection — Build an Optimization Loop
 
@@ -977,27 +877,19 @@ Detecting Slow SQL
 
 PawSQL goes further:
 
-```text
-Detect Slow SQL
-    ↓
-Understand SQL
-    ↓
-Analyze Root Cause
-    ↓
-Generate Optimization
-    ↓
-Validate the Result
-    ↓
-DBA Review
+```mermaid
+flowchart TD
+    A[Detect Slow SQL] --> B[Understand SQL] --> C[Analyze Root Cause] --> D[Generate Optimization]
+    D --> E[Validate the Result] --> F[DBA Review]
 ```
 
 This creates a complete:
 
-> **Detect → Analyze → Optimize → Validate**
+<Note>
+**Detect → Analyze → Optimize → Validate**
+</Note>
 
 performance engineering loop.
-
----
 
 ## Complement Your Monitoring and APM Platforms
 
@@ -1035,100 +927,63 @@ Will the execution plan actually improve?
 
 Together, the architecture becomes:
 
-```text
-Monitoring / APM
-       ↓
-Detect Performance Problem
-       ↓
-PawSQL
-       ↓
-SQL Performance Engineering
-       ↓
-Validated Optimization
+```mermaid
+flowchart TD
+    A["Monitoring / APM"] --> B[Detect Performance Problem] --> C[PawSQL] --> D[SQL Performance Engineering] --> E[Validated Optimization]
 ```
 
 PawSQL does not need to replace monitoring systems.
 
 It complements them by addressing the SQL engineering work that begins after a slow query is detected.
 
----
-
 ## From Slow Query Troubleshooting to SQL Performance Governance
 
 Optimizing one query:
 
-```text
-Slow SQL
-   ↓
-Optimize
-   ↓
-Done
+```mermaid
+flowchart LR
+    A[Slow SQL] --> B[Optimize] --> C[Done]
 ```
 
 does not solve the long-term problem.
 
 A more mature model is continuous:
 
-```text
-Production Monitoring
-        ↓
-Detect Slow SQL
-        ↓
-SQL Pattern Grouping
-        ↓
-Prioritization
-        ↓
-Automated Analysis
-        ↓
-DBA Review
-        ↓
-Optimization Deployment
-        ↓
-Monitor Again
-        └───────────────┐
-                        ↓
-                     Next Cycle
+```mermaid
+flowchart TD
+    A[Production Monitoring] --> B[Detect Slow SQL] --> C[SQL Pattern Grouping] --> D[Prioritization]
+    D --> E[Automated Analysis] --> F[DBA Review] --> G[Optimization Deployment] --> H[Monitor Again]
+    H --> I[Next Cycle]
+    I -.-> A
 ```
 
 This is:
 
-> **SQL Performance Governance**
+<Note>
+**SQL Performance Governance**
+</Note>
 
 not just one-time query tuning.
 
----
-
 ## How Does the DBA Workflow Change?
 
-Traditional DBA workflow:
+<Tabs>
+  <Tab title="Traditional DBA workflow">
 
-```text
-Slow SQL
-   ↓
-Manual Analysis
-   ↓
-Manual Rewrite
-   ↓
-Manual Index Design
-   ↓
-Manual Validation
-```
+    ```mermaid
+    flowchart TD
+        A[Slow SQL] --> B[Manual Analysis] --> C[Manual Rewrite] --> D[Manual Index Design] --> E[Manual Validation]
+    ```
+  </Tab>
+  <Tab title="With PawSQL">
 
-With PawSQL:
-
-```text
-Slow SQL
-   ↓
-PawSQL Analysis
-   ↓
-Automated SQL Rewrite
-   ↓
-Automated Index Advisor
-   ↓
-Execution Plan Analysis
-   ↓
-DBA Review
-```
+    ```mermaid
+    flowchart TD
+        A[Slow SQL] --> B[PawSQL Analysis] --> C[Automated SQL Rewrite] --> D[Automated Index Advisor]
+        D --> E[Execution Plan Analysis] --> F[DBA Review]
+    ```
+  </Tab>
+</Tabs>
 
 The DBA moves from:
 
@@ -1136,9 +991,9 @@ The DBA moves from:
 
 toward:
 
-> **SQL optimization decision-maker**
-
----
+<Note>
+**SQL optimization decision-maker**
+</Note>
 
 ## Where Can DBAs Spend More Time?
 
@@ -1157,13 +1012,10 @@ By reducing repetitive slow SQL analysis, DBAs can focus more on:
 
 In short:
 
-```text
-Less Repetitive Work
-        ↓
-More High-Value Database Engineering
+```mermaid
+flowchart LR
+    A[Less Repetitive Work] --> B[More High-Value Database Engineering]
 ```
-
----
 
 ## Recommended Governance Metrics
 
@@ -1198,44 +1050,16 @@ Estimated Cost Reduction
 
 or actual production runtime improvements.
 
----
-
 ## A Typical Batch Optimization Outcome
 
 Consider one production optimization campaign:
 
-```text
-Raw Slow Queries
-2,386
-
-        ↓
-
-SQL Normalization
-312 Patterns
-
-        ↓
-
-Automated Analysis
-198 with Clear Optimization Opportunities
-
-        ↓
-
-High Priority
-61
-
-        ↓
-
-DBA Review
-45 Selected for Optimization
-
-        ↓
-
-Validation Passed
-39
-
-        ↓
-
-Production Deployment
+```mermaid
+flowchart TD
+    A["Raw Slow Queries<br/>2,386"] --> B["SQL Normalization<br/>312 Patterns"]
+    B --> C["Automated Analysis<br/>198 with Clear Optimization Opportunities"] --> D["High Priority<br/>61"]
+    D --> E["DBA Review<br/>45 Selected for Optimization"] --> F["Validation Passed<br/>39"]
+    F --> G[Production Deployment]
 ```
 
 Instead of analyzing:
@@ -1251,8 +1075,6 @@ A Few Dozen High-Value SQL Patterns
 ```
 
 That is the core value of batch slow SQL governance.
-
----
 
 ## Who Is This For?
 
@@ -1278,8 +1100,6 @@ Typical industries include:
 - logistics
 - large internet platforms
 - government and enterprise IT
-
----
 
 ## Unified Slow SQL Governance Across Multiple Databases
 
@@ -1323,38 +1143,18 @@ Plan Analysis
 
 helping organizations establish a more consistent SQL performance governance process across heterogeneous database environments.
 
----
-
 ## Build a Complete SQL Performance Lifecycle
 
 Production slow SQL optimization is not an isolated use case.
 
 It connects naturally with development-stage and delivery-stage SQL governance.
 
-```text
-              SQL Performance Lifecycle
-
-Development
-    ↓
-Developer SQL Copilot
-    ↓
-Find Problems Early
-    ↓
-Code Commit
-    ↓
-SQL Quality Gate
-    ↓
-Block Risky SQL Before Release
-    ↓
-Production
-    ↓
-Performance Patroller
-    ↓
-Detect Slow SQL
-    ↓
-PawSQL Optimization
-    ↓
-Continuous Improvement
+```mermaid
+flowchart TD
+    T["SQL Performance Lifecycle"] --> A[Development]
+    A --> B[Developer SQL Copilot] --> C[Find Problems Early] --> D[Code Commit]
+    D --> E[SQL Quality Gate] --> F[Block Risky SQL Before Release] --> G[Production]
+    G --> H[Performance Patroller] --> I[Detect Slow SQL] --> J[PawSQL Optimization] --> K[Continuous Improvement]
 ```
 
 #### Developer SQL Copilot
@@ -1377,9 +1177,9 @@ Helps DBAs:
 
 Together, these capabilities form a complete:
 
-> **SQL Performance Lifecycle**
-
----
+<Note>
+**SQL Performance Lifecycle**
+</Note>
 
 ## Turn Slow SQL Optimization into a Continuous Engineering Process
 
@@ -1415,21 +1215,22 @@ Validation
 
 into a scalable and sustainable SQL performance engineering workflow.
 
-> **Stop chasing slow queries one by one. Build a continuous SQL performance governance process instead.**
+<Note>
+**Stop chasing slow queries one by one. Build a continuous SQL performance governance process instead.**
+</Note>
 
-[Explore PawSQL SQL Optimization →](/en/features/automatic-sql-rewrite)
-
-[Explore Execution Plan Analysis →](/en/features/execution-plan-visualization)
-
-[Learn About Developer SQL Copilot →](/en/use-cases/developer-sql-copilot)
-
-[Request a Demo →](https://www.pawsql.com)
-
----
+<CardGroup cols={2}>
+  <Card title="Explore PawSQL SQL Optimization" icon="wand-sparkles" href="/en/features/automatic-sql-rewrite" />
+  <Card title="Explore Execution Plan Analysis" icon="route" href="/en/features/execution-plan-visualization" />
+  <Card title="Learn About Developer SQL Copilot" icon="code" href="/en/use-cases/developer-sql-copilot" />
+  <Card title="Request a Demo" icon="plug" href="https://www.pawsql.com" />
+</CardGroup>
 
 ### Related Use Cases
 
-- [Developer SQL Copilot](/en/use-cases/developer-sql-copilot)
-- [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd)
-- SQL Governance for Database Migration
-- [Enterprise SQL Governance](/en/use-cases/enterprise-sql-governance)
+<CardGroup cols={2}>
+  <Card title="Developer SQL Copilot" icon="code" href="/en/use-cases/developer-sql-copilot" />
+  <Card title="SQL Quality Gate for CI/CD" icon="git-merge" href="/en/use-cases/sql-quality-gate-cicd" />
+  <Card title="SQL Governance for Database Migration" icon="arrow-right-left" />
+  <Card title="Enterprise SQL Governance" icon="building-2" href="/en/use-cases/enterprise-sql-governance" />
+</CardGroup>

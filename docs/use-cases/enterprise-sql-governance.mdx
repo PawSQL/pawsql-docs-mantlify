@@ -22,7 +22,9 @@ layout: detail
 
 真正的问题是：
 
-> SQL 分散在不同团队、不同数据库、不同研发阶段和不同管理流程中，却缺少统一治理。
+<Note>
+SQL 分散在不同团队、不同数据库、不同研发阶段和不同管理流程中，却缺少统一治理。
+</Note>
 
 一个大型企业内部可能同时存在：
 
@@ -77,7 +79,9 @@ Hive
 
 最终形成的问题是：
 
-> SQL 治理能力存在，但治理体系是碎片化的。
+<Note>
+SQL 治理能力存在，但治理体系是碎片化的。
+</Note>
 
 **PawSQL 帮助企业将 SQL 开发、审核、发布、监控、优化和治理指标统一到同一个平台中，建立跨团队、跨数据库、跨研发流程的 SQL Governance 体系。**
 
@@ -132,24 +136,9 @@ SQL 并不只存在于生产数据库中。
 
 它可能出现在：
 
-```text
-IDE
-↓
-Source Code
-↓
-MyBatis Mapper
-↓
-Pull Request
-↓
-Migration Script
-↓
-CI/CD Pipeline
-↓
-Database Release
-↓
-Production
-↓
-Slow Query Log
+```mermaid
+flowchart TD
+    A["IDE"] --> B["Source Code"] --> C["MyBatis Mapper"] --> D["Pull Request"] --> E["Migration Script"] --> F["CI/CD Pipeline"] --> G["Database Release"] --> H["Production"] --> I["Slow Query Log"]
 ```
 
 如果治理只发生在某一个阶段，例如上线前 DBA 审核，就无法覆盖整个生命周期。
@@ -192,41 +181,36 @@ Team D
 
 ### 挑战四：问题发现太晚
 
-传统 SQL 治理经常是：
+<Tabs>
+  <Tab title="Reactive Governance">
+    传统 SQL 治理经常是：
 
-```text
-开发 SQL
-    ↓
-上线
-    ↓
-生产出现慢查询
-    ↓
-DBA 排查
-    ↓
-紧急优化
-```
+    ```mermaid
+    flowchart TD
+        A["开发 SQL"] --> B["上线"] --> C["生产出现慢查询"] --> D["DBA 排查"] --> E["紧急优化"]
+    ```
 
-问题只有在生产环境暴露后，才进入治理流程。
+    问题只有在生产环境暴露后，才进入治理流程。
 
-这种方式本质上是：
+    这种方式本质上是：
 
-> Reactive Governance
+    > Reactive Governance
 
-即：
+    即：
 
-> 被动治理。
+    > 被动治理。
+  </Tab>
+  <Tab title="Proactive Governance">
+    更成熟的企业 SQL Governance 应该尽可能前移：
 
-更成熟的企业 SQL Governance 应该尽可能前移：
+    ```mermaid
+    flowchart TD
+        A["开发阶段"] --> B["交付阶段"] --> C["生产阶段"]
+    ```
 
-```text
-开发阶段
-    ↓
-交付阶段
-    ↓
-生产阶段
-```
-
-在每个阶段都建立相应的 SQL 控制点。
+    在每个阶段都建立相应的 SQL 控制点。
+  </Tab>
+</Tabs>
 
 ---
 
@@ -234,37 +218,36 @@ DBA 排查
 
 PawSQL 可以将 SQL 治理划分为三个核心层次：
 
-```text
-Development Governance
-        ↓
-Delivery Governance
-        ↓
-Production Governance
+```mermaid
+flowchart TD
+    A["Development Governance"] --> B["Delivery Governance"] --> C["Production Governance"]
 ```
 
 对应：
 
-#### 开发阶段
+<Tabs>
+  <Tab title="开发阶段">
+    解决：
 
-解决：
+    > SQL 写出来的时候是否合理？
+  </Tab>
+  <Tab title="交付阶段">
+    解决：
 
-> SQL 写出来的时候是否合理？
+    > 这条 SQL 是否允许进入生产？
+  </Tab>
+  <Tab title="生产阶段">
+    解决：
 
-#### 交付阶段
-
-解决：
-
-> 这条 SQL 是否允许进入生产？
-
-#### 生产阶段
-
-解决：
-
-> 已经运行的 SQL 是否持续保持健康？
+    > 已经运行的 SQL 是否持续保持健康？
+  </Tab>
+</Tabs>
 
 最终形成：
 
-> **SQL 全生命周期治理。**
+<Note>
+**SQL 全生命周期治理。**
+</Note>
 
 ---
 
@@ -272,42 +255,32 @@ Production Governance
 
 企业级架构可以概括为：
 
-```text
-                  Enterprise SQL Governance
-
-                           PawSQL
-                             │
-          ┌──────────────────┼──────────────────┐
-          │                  │                  │
-          ▼                  ▼                  ▼
-     Development          Delivery          Production
-     Governance           Governance        Governance
-          │                  │                  │
-          ▼                  ▼                  ▼
-  Developer SQL        SQL Quality       Performance
-      Copilot              Gate            Patroller
-          │                  │                  │
-          └──────────────────┼──────────────────┘
-                             │
-                             ▼
-                     PawSQL Analysis Engine
-                             │
-         ┌───────────────────┼───────────────────┐
-         ▼                   ▼                   ▼
-     SQL Review          SQL Rewrite        Index Advisor
-                             │
-                             ▼
-                   Execution Plan Analysis
-                             │
-                             ▼
-                    Performance Validation
+```mermaid
+flowchart TD
+    A["Enterprise SQL Governance"] --> B["PawSQL"]
+    B --> C["Development Governance"]
+    B --> D["Delivery Governance"]
+    B --> E["Production Governance"]
+    C --> F["Developer SQL Copilot"]
+    D --> G["SQL Quality Gate"]
+    E --> H["Performance Patroller"]
+    F --> I["PawSQL Analysis Engine"]
+    G --> I
+    H --> I
+    I --> J["SQL Review"]
+    I --> K["SQL Rewrite"]
+    I --> L["Index Advisor"]
+    K --> M["Execution Plan Analysis"]
+    M --> N["Performance Validation"]
 ```
 
 这个架构的核心不是某一个功能。
 
 而是：
 
-> 所有 SQL 治理环节共享同一套分析能力。
+<Note>
+所有 SQL 治理环节共享同一套分析能力。
+</Note>
 
 ---
 
@@ -361,7 +334,9 @@ DATE(create_time)
 
 开发阶段治理的目标是：
 
-> 在 SQL 进入代码仓库之前，把常见问题解决掉。
+<Note>
+在 SQL 进入代码仓库之前，把常见问题解决掉。
+</Note>
 
 ---
 
@@ -379,50 +354,39 @@ DATE(create_time)
 
 典型流程：
 
-```text
-Developer Commit
-        ↓
-Pull Request
-        ↓
-CI/CD Pipeline
-        ↓
-PawSQL Review
-        ↓
-SQL Policy Evaluation
-        ↓
-┌──────────────┬──────────────┐
-│ PASS         │ BLOCK        │
-│              │              │
-│ Merge        │ Fix SQL      │
-└──────────────┴──────────────┘
+```mermaid
+flowchart TD
+    A["Developer Commit"] --> B["Pull Request"] --> C["CI/CD Pipeline"] --> D["PawSQL Review"] --> E["SQL Policy Evaluation"] --> F{"PASS / BLOCK"}
+    F -->|PASS| G["Merge"]
+    F -->|BLOCK| H["Fix SQL"]
 ```
 
 检查内容可以包括：
 
-#### 安全风险
-
-- DELETE 无有效条件
-- UPDATE 无有效条件
-- TRUNCATE
-- DROP
-- 高风险 DDL
-
-#### SQL 规范
-
-- SELECT *
-- 命名规范
-- 字段类型规范
-- 索引规范
-- DDL 规范
-
-#### 性能风险
-
-- 深分页
-- 非 SARGable Predicate
-- 不合理子查询
-- 缺失索引
-- 不合理 Join
-- 低效聚合
+<AccordionGroup>
+  <Accordion title="安全风险">
+    - DELETE 无有效条件
+    - UPDATE 无有效条件
+    - TRUNCATE
+    - DROP
+    - 高风险 DDL
+  </Accordion>
+  <Accordion title="SQL 规范">
+    - SELECT *
+    - 命名规范
+    - 字段类型规范
+    - 索引规范
+    - DDL 规范
+  </Accordion>
+  <Accordion title="性能风险">
+    - 深分页
+    - 非 SARGable Predicate
+    - 不合理子查询
+    - 缺失索引
+    - 不合理 Join
+    - 低效聚合
+  </Accordion>
+</AccordionGroup>
 
 这样 SQL 规范就从：
 
@@ -438,7 +402,9 @@ Executable SQL Policy
 
 即：
 
-> 可执行的 SQL 治理规则。
+<Note>
+可执行的 SQL 治理规则。
+</Note>
 
 ---
 
@@ -457,14 +423,9 @@ Executable SQL Policy
 
 因此生产环境仍然需要：
 
-```text
-Detect
-↓
-Analyze
-↓
-Optimize
-↓
-Validate
+```mermaid
+flowchart LR
+    A["Detect"] --> B["Analyze"] --> C["Optimize"] --> D["Validate"]
 ```
 
 PawSQL 可以从慢查询中：
@@ -495,43 +456,25 @@ PawSQL 可以从慢查询中：
 
 如果开发、上线、生产分别使用完全不同的工具：
 
-```text
-Development Tool
-        ↓
-CI/CD Tool
-        ↓
-Monitoring Tool
-        ↓
-DBA Manual Process
+```mermaid
+flowchart TD
+    A["Development Tool"] --> B["CI/CD Tool"] --> C["Monitoring Tool"] --> D["DBA Manual Process"]
 ```
 
 很容易形成数据和流程孤岛。
 
 PawSQL 的目标是把这些阶段串联起来：
 
-```text
-Write SQL
-    ↓
-Analyze
-    ↓
-Commit
-    ↓
-Quality Gate
-    ↓
-Release
-    ↓
-Production
-    ↓
-Monitor
-    ↓
-Optimize
-    ↓
-Feed Back to Development
+```mermaid
+flowchart TD
+    A["Write SQL"] --> B["Analyze"] --> C["Commit"] --> D["Quality Gate"] --> E["Release"] --> F["Production"] --> G["Monitor"] --> H["Optimize"] --> I["Feed Back to Development"]
 ```
 
 最终形成：
 
-> **Closed-Loop SQL Governance**
+<Note>
+**Closed-Loop SQL Governance**
+</Note>
 
 即：
 
@@ -551,55 +494,51 @@ Enterprise SQL Standard
 
 包含：
 
-#### P0 — Critical
+<AccordionGroup>
+  <Accordion title="P0 — Critical">
+    ```text
+    DELETE without predicate
+    UPDATE without predicate
+    DROP TABLE
+    TRUNCATE TABLE
+    ```
 
-```text
-DELETE without predicate
-UPDATE without predicate
-DROP TABLE
-TRUNCATE TABLE
-```
+    直接：
 
-直接：
+    ```text
+    BLOCK
+    ```
+  </Accordion>
+  <Accordion title="P1 — High">
+    例如：
 
-```text
-BLOCK
-```
+    - 高风险 DDL
+    - 深分页
+    - 全表扫描风险
+    - 高成本子查询
+    - 缺失关键索引
 
----
+    要求：
 
-#### P1 — High
+    ```text
+    DBA Review
+    ```
+  </Accordion>
+  <Accordion title="P2 — Warning">
+    例如：
 
-例如：
+    - SELECT *
+    - 不合理 DISTINCT
+    - 可优化谓词
+    - 非推荐函数写法
 
-- 高风险 DDL
-- 深分页
-- 全表扫描风险
-- 高成本子查询
-- 缺失关键索引
+    允许：
 
-要求：
-
-```text
-DBA Review
-```
-
----
-
-#### P2 — Warning
-
-例如：
-
-- SELECT *
-- 不合理 DISTINCT
-- 可优化谓词
-- 非推荐函数写法
-
-允许：
-
-```text
-Pass with Warning
-```
+    ```text
+    Pass with Warning
+    ```
+  </Accordion>
+</AccordionGroup>
 
 ---
 
@@ -619,22 +558,12 @@ Project-Specific Rules
 
 例如：
 
-```text
-集团级规则
-    ↓
-所有项目必须执行
-
-银行核心系统规则
-    ↓
-增加高风险变更规范
-
-数据平台规则
-    ↓
-增加 Hive SQL 规范
-
-互联网业务规则
-    ↓
-增加分页和高并发查询规范
+```mermaid
+flowchart TD
+    A["集团级规则"] --> B["所有项目必须执行"]
+    C["银行核心系统规则"] --> D["增加高风险变更规范"]
+    E["数据平台规则"] --> F["增加 Hive SQL 规范"]
+    G["互联网业务规则"] --> H["增加分页和高并发查询规范"]
 ```
 
 这样既可以保证统一底线，也可以满足不同业务特点。
@@ -645,7 +574,9 @@ Project-Specific Rules
 
 一个企业 SQL Governance 平台必须面对的现实是：
 
-> 同一企业通常不会只有一个数据库。
+<Note>
+同一企业通常不会只有一个数据库。
+</Note>
 
 不同数据库可能使用：
 
@@ -663,10 +594,9 @@ Hive Performance Rules
 
 但对企业管理者而言，希望看到的是统一治理视图：
 
-```text
-One Policy Framework
-        ↓
-Multiple Database Engines
+```mermaid
+flowchart TD
+    A["One Policy Framework"] --> B["Multiple Database Engines"]
 ```
 
 PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
@@ -677,45 +607,46 @@ PawSQL 的统一分析层可以帮助企业屏蔽底层差异。
 
 统一治理并不意味着：
 
-> 所有数据库执行完全相同的检查。
+<Note>
+所有数据库执行完全相同的检查。
+</Note>
 
 例如：
 
-#### MySQL
+<Tabs>
+  <Tab title="MySQL">
+    可能关注：
 
-可能关注：
+    - LIMIT
+    - 隐式转换
+    - 索引前导列
+    - InnoDB 访问路径
+  </Tab>
+  <Tab title="Oracle">
+    可能关注：
 
-- LIMIT
-- 隐式转换
-- 索引前导列
-- InnoDB 访问路径
+    - Hint
+    - ROWNUM
+    - Function-Based Index
+    - PL/SQL
+  </Tab>
+  <Tab title="PostgreSQL / openGauss">
+    可能关注：
 
-#### Oracle
+    - Seq Scan
+    - Join Strategy
+    - CTE
+    - Distribution
+  </Tab>
+  <Tab title="Hive">
+    可能关注：
 
-可能关注：
-
-- Hint
-- ROWNUM
-- Function-Based Index
-- PL/SQL
-
-#### PostgreSQL / openGauss
-
-可能关注：
-
-- Seq Scan
-- Join Strategy
-- CTE
-- Distribution
-
-#### Hive
-
-可能关注：
-
-- Partition Pruning
-- Data Skew
-- MapJoin
-- Global Sort
+    - Partition Pruning
+    - Data Skew
+    - MapJoin
+    - Global Sort
+  </Tab>
+</Tabs>
 
 因此正确的统一治理应该是：
 
@@ -737,7 +668,9 @@ Database-Specific Intelligence
 
 问题是：
 
-> 文档本身不会阻止错误 SQL 上线。
+<Note>
+文档本身不会阻止错误 SQL 上线。
+</Note>
 
 真正成熟的方式是将规范转变为：
 
@@ -833,38 +766,25 @@ Release Review
 
 传统企业数据库治理很容易形成：
 
-```text
-所有 SQL
-    ↓
-DBA
-    ↓
-人工审核
+```mermaid
+flowchart TD
+    A["所有 SQL"] --> B["DBA"] --> C["人工审核"]
 ```
 
 随着团队扩大：
 
-```text
-300 Developers
-       ↓
-Thousands of SQL Changes
-       ↓
-Small DBA Team
+```mermaid
+flowchart TD
+    A["300 Developers"] --> B["Thousands of SQL Changes"] --> C["Small DBA Team"]
 ```
 
 DBA 很快成为交付瓶颈。
 
 更好的方式是：
 
-```text
-All SQL
-    ↓
-PawSQL Automated Review
-    ↓
-Routine Issues Auto-Handled
-    ↓
-High-Risk / Complex SQL
-    ↓
-DBA
+```mermaid
+flowchart TD
+    A["All SQL"] --> B["PawSQL Automated Review"] --> C["Routine Issues Auto-Handled"] --> D["High-Risk / Complex SQL"] --> E["DBA"]
 ```
 
 DBA 不再负责：
@@ -982,87 +902,74 @@ Optimization Completion Rate
 
 企业 SQL Governance 并不是只服务 DBA。
 
-### Developer
+<Tabs>
+  <Tab title="Developer">
+    关注：
 
-关注：
+    ```text
+    如何把 SQL 写得更好？
+    ```
 
-```text
-如何把 SQL 写得更好？
-```
+    通过：
 
-通过：
+    > Developer SQL Copilot
+  </Tab>
+  <Tab title="DevOps">
+    关注：
 
-> Developer SQL Copilot
+    ```text
+    如何自动阻止坏 SQL 上线？
+    ```
 
----
+    通过：
 
-### DevOps
+    > SQL Quality Gate
+  </Tab>
+  <Tab title="DBA">
+    关注：
 
-关注：
+    ```text
+    生产慢 SQL 怎么批量治理？
+    ```
 
-```text
-如何自动阻止坏 SQL 上线？
-```
+    通过：
 
-通过：
+    > Slow SQL Optimization
+  </Tab>
+  <Tab title="Architect">
+    关注：
 
-> SQL Quality Gate
+    ```text
+    不同数据库如何统一治理？
+    ```
 
----
+    通过：
 
-### DBA
+    > Multi-Database Governance
+  </Tab>
+  <Tab title="Engineering Manager">
+    关注：
 
-关注：
+    ```text
+    团队 SQL 质量是否改善？
+    ```
 
-```text
-生产慢 SQL 怎么批量治理？
-```
+    通过：
 
-通过：
+    > Governance Metrics
+  </Tab>
+  <Tab title="CIO / CTO">
+    关注：
 
-> Slow SQL Optimization
+    ```text
+    企业数据库风险是否可控？
+    ```
 
----
+    通过：
 
-### Architect
-
-关注：
-
-```text
-不同数据库如何统一治理？
-```
-
-通过：
-
-> Multi-Database Governance
-
----
-
-### Engineering Manager
-
-关注：
-
-```text
-团队 SQL 质量是否改善？
-```
-
-通过：
-
-> Governance Metrics
-
----
-
-### CIO / CTO
-
-关注：
-
-```text
-企业数据库风险是否可控？
-```
-
-通过：
-
-> Enterprise SQL Governance
+    > Enterprise SQL Governance
+  </Tab>
+</Tabs>
 
 ---
 
@@ -1092,22 +999,16 @@ Database Monitoring Platform
 
 整体架构可以是：
 
-```text
-Existing Enterprise Toolchain
-            │
-            ▼
-       PawSQL API Layer
-            │
-            ▼
-   SQL Governance Engine
-            │
-            ▼
-Review / Rewrite / Index / Plan
+```mermaid
+flowchart TD
+    A["Existing Enterprise Toolchain"] --> B["PawSQL API Layer"] --> C["SQL Governance Engine"] --> D["Review / Rewrite / Index / Plan"]
 ```
 
 核心目标是：
 
-> 把 SQL Governance 嵌入企业已有研发和运维体系。
+<Note>
+把 SQL Governance 嵌入企业已有研发和运维体系。
+</Note>
 
 而不是再建立一个孤立工具。
 
@@ -1115,50 +1016,43 @@ Review / Rewrite / Index / Plan
 
 ## 从 SQL Audit 升级到 SQL Governance
 
-SQL Audit 通常关注：
+<Tabs>
+  <Tab title="SQL Audit">
+    SQL Audit 通常关注：
 
-```text
-Does this SQL violate a rule?
-```
+    ```text
+    Does this SQL violate a rule?
+    ```
+  </Tab>
+  <Tab title="SQL Governance">
+    SQL Governance 需要回答更多问题：
 
-SQL Governance 需要回答更多问题：
+    ```text
+    Is the SQL safe?
 
-```text
-Is the SQL safe?
+    Is it compliant?
 
-Is it compliant?
+    Is it efficient?
 
-Is it efficient?
+    Can it be optimized?
 
-Can it be optimized?
+    Can the optimization be validated?
 
-Can the optimization be validated?
+    Who needs to review it?
 
-Who needs to review it?
+    Should it be allowed into production?
 
-Should it be allowed into production?
-
-Did it become slow later?
-```
+    Did it become slow later?
+    ```
+  </Tab>
+</Tabs>
 
 因此两者的边界是：
 
-```text
-SQL Audit
-    ↓
-Rule Checking
-
-SQL Governance
-    ↓
-Policy
-+
-Performance
-+
-Workflow
-+
-Lifecycle
-+
-Metrics
+```mermaid
+flowchart TD
+    A["SQL Audit"] --> B["Rule Checking"]
+    C["SQL Governance"] --> D["Policy + Performance + Workflow + Lifecycle + Metrics"]
 ```
 
 ---
@@ -1167,12 +1061,9 @@ Metrics
 
 单点优化通常是：
 
-```text
-Input SQL
-    ↓
-Optimization
-    ↓
-Output SQL
+```mermaid
+flowchart TD
+    A["Input SQL"] --> B["Optimization"] --> C["Output SQL"]
 ```
 
 企业真正需要的是：
@@ -1193,7 +1084,9 @@ Governance Metrics
 
 也就是：
 
-> **SQL Engineering**
+<Note>
+**SQL Engineering**
+</Note>
 
 PawSQL 的长期价值不应该只定义为：
 
@@ -1211,93 +1104,93 @@ PawSQL 的长期价值不应该只定义为：
 
 可以分阶段实施。
 
-### Phase 1 — Unified SQL Review
+<Steps>
+  <Step title="Phase 1 — Unified SQL Review">
+    首先统一：
 
-首先统一：
+    ```text
+    SQL Rules
+    +
+    Database Coverage
+    +
+    Review Standards
+    ```
 
-```text
-SQL Rules
-+
-Database Coverage
-+
-Review Standards
-```
+    目标：
 
-目标：
+    <Note>
+    建立统一 SQL 审核平台。
+    </Note>
+  </Step>
+  <Step title="Phase 2 — CI/CD Quality Gate">
+    进一步接入：
 
-> 建立统一 SQL 审核平台。
+    ```text
+    Git
+    +
+    CI/CD
+    +
+    Webhook
+    ```
 
----
+    目标：
 
-### Phase 2 — CI/CD Quality Gate
+    <Note>
+    实现 SQL Policy 自动执行。
+    </Note>
+  </Step>
+  <Step title="Phase 3 — Developer Shift Left">
+    将 SQL 分析前移：
 
-进一步接入：
+    ```text
+    IDE
+    +
+    Developer Workflow
+    ```
 
-```text
-Git
-+
-CI/CD
-+
-Webhook
-```
+    目标：
 
-目标：
+    <Note>
+    在开发阶段减少问题 SQL。
+    </Note>
+  </Step>
+  <Step title="Phase 4 — Production Governance">
+    接入：
 
-> 实现 SQL Policy 自动执行。
+    ```text
+    Slow Query
+    +
+    Monitoring
+    +
+    Performance Patroller
+    ```
 
----
+    目标：
 
-### Phase 3 — Developer Shift Left
+    <Note>
+    建立持续 SQL 性能治理。
+    </Note>
+  </Step>
+  <Step title="Phase 5 — Enterprise Governance Metrics">
+    最后建立：
 
-将 SQL 分析前移：
+    ```text
+    Dashboard
+    +
+    Scorecard
+    +
+    Quality Score
+    +
+    Governance Report
+    ```
 
-```text
-IDE
-+
-Developer Workflow
-```
+    目标：
 
-目标：
-
-> 在开发阶段减少问题 SQL。
-
----
-
-### Phase 4 — Production Governance
-
-接入：
-
-```text
-Slow Query
-+
-Monitoring
-+
-Performance Patroller
-```
-
-目标：
-
-> 建立持续 SQL 性能治理。
-
----
-
-### Phase 5 — Enterprise Governance Metrics
-
-最后建立：
-
-```text
-Dashboard
-+
-Scorecard
-+
-Quality Score
-+
-Governance Report
-```
-
-目标：
-
-> SQL 治理从工具能力升级为管理体系。
+    <Note>
+    SQL 治理从工具能力升级为管理体系。
+    </Note>
+  </Step>
+</Steps>
 
 ---
 
@@ -1311,32 +1204,16 @@ Governance Report
 
 经过自动治理：
 
-```text
-128,000 SQL
-        ↓
-Automated Review
-        ↓
-8,600 Issues Detected
-        ↓
-7,900 Fixed Before Release
-        ↓
-700 Require Further Review
-        ↓
-186 Critical
-        ↓
-61 DBA Review
+```mermaid
+flowchart TD
+    A["128,000 SQL"] --> B["Automated Review"] --> C["8,600 Issues Detected"] --> D["7,900 Fixed Before Release"] --> E["700 Require Further Review"] --> F["186 Critical"] --> G["61 DBA Review"]
 ```
 
 生产阶段又进一步：
 
-```text
-2,800 Slow Queries
-        ↓
-312 Patterns
-        ↓
-198 Optimization Opportunities
-        ↓
-39 Validated Fixes
+```mermaid
+flowchart TD
+    A["2,800 Slow Queries"] --> B["312 Patterns"] --> C["198 Optimization Opportunities"] --> D["39 Validated Fixes"]
 ```
 
 管理层最终看到的不是：
@@ -1381,7 +1258,9 @@ SQL Metrics
 
 共同组成的：
 
-> **Enterprise SQL Governance Capability**
+<Note>
+**Enterprise SQL Governance Capability**
+</Note>
 
 ---
 
@@ -1471,27 +1350,16 @@ Slow SQL Tool
 
 PawSQL 的目标是把这些能力连接起来：
 
-```text
-Development
-    ↓
-Review
-    ↓
-Quality Gate
-    ↓
-Release
-    ↓
-Production
-    ↓
-Monitoring
-    ↓
-Optimization
-    ↓
-Governance
+```mermaid
+flowchart TD
+    A["Development"] --> B["Review"] --> C["Quality Gate"] --> D["Release"] --> E["Production"] --> F["Monitoring"] --> G["Optimization"] --> H["Governance"]
 ```
 
 形成统一的：
 
-> **Enterprise SQL Governance Platform**
+<Note>
+**Enterprise SQL Governance Platform**
+</Note>
 
 ---
 
@@ -1501,35 +1369,24 @@ SQL 不应该只在生产出现问题时才被治理。
 
 它应该从写下第一行开始，就进入完整的工程体系。
 
-```text
-Write
- ↓
-Analyze
- ↓
-Review
- ↓
-Release
- ↓
-Monitor
- ↓
-Optimize
- ↓
-Improve
+```mermaid
+flowchart LR
+    A["Write"] --> B["Analyze"] --> C["Review"] --> D["Release"] --> E["Monitor"] --> F["Optimize"] --> G["Improve"]
 ```
 
 PawSQL 帮助企业把 SQL 审核、SQL 优化和数据库性能治理从分散工具和人工流程中抽离出来，沉淀成一个统一、可执行、可度量的 SQL Governance 平台。
 
-> **One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**
+<Note>
+**One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**
+</Note>
 
-[了解 PawSQL SQL Governance →](/features/index)
-
-[了解 Developer SQL Copilot →](/use-cases/developer-sql-copilot)
-
-[了解 SQL Quality Gate →](/use-cases/sql-quality-gate-cicd)
-
-[了解生产慢 SQL 治理 →](/use-cases/slow-sql-optimization)
-
-[申请企业级产品演示 →](https://www.pawsql.com)
+<CardGroup cols={2}>
+  <Card title="了解 PawSQL SQL Governance" icon="layers" href="/features/index" />
+  <Card title="了解 Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot" />
+  <Card title="了解 SQL Quality Gate" icon="git-merge" href="/use-cases/sql-quality-gate-cicd" />
+  <Card title="了解生产慢 SQL 治理" icon="gauge" href="/use-cases/slow-sql-optimization" />
+  <Card title="申请企业级产品演示" icon="compass" href="https://www.pawsql.com" />
+</CardGroup>
 
 ---
 
