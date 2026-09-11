@@ -144,7 +144,7 @@ SQL optimization should not rely only on heuristic rules. PawSQL uses database o
 - Before-and-after execution plan comparison
 - SQL cost comparison
 - Index effectiveness validation
-- Execution plan visualization
+- Execution plan analysis
 - High-cost operator detection
 - Full-scan and large-volume operation detection
 - Slow SQL analysis
@@ -170,12 +170,12 @@ This creates a complete optimization loop:
   <Card title="Performance Validation" icon="gauge" href="/en/features/performance-validation">
     Confirm with the database optimizer that a change is actually faster.
   </Card>
-  <Card title="Execution Plan Visualization" icon="list-tree" href="/en/features/execution-plan-visualization">
+  <Card title="Execution Plan Analysis" icon="list-tree" href="/en/features/execution-plan-visualization">
     Turn text plans into a visual execution tree.
   </Card>
 </CardGroup>
 
-The two play different roles: **Performance Validation answers "is it better?"** — it compares plans and cost before and after, and produces a judgment you can rely on. **Execution Plan Visualization answers "what does the plan look like?"** — it renders plan structure and metrics so you can locate bottlenecks and understand what changed. One produces the verdict, the other the evidence.
+The two play different roles: **Performance Validation answers "is it better?"** — it compares plans and cost before and after, and produces a judgment you can rely on. **Execution Plan Analysis answers "what does the plan look like?"** — it renders plan structure and metrics so you can locate bottlenecks and understand what changed. One produces the verdict, the other the evidence.
 
 ---
 

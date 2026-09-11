@@ -141,7 +141,7 @@ SQL 优化不能只依赖经验规则。PawSQL 结合目标数据库优化器、
 - 优化前后执行计划对比
 - SQL Cost 对比
 - 索引效果验证
-- 执行计划可视化
+- 执行计划分析
 - 高代价算子识别
 - 全表扫描与大数据量操作识别
 - 慢 SQL 分析
@@ -167,12 +167,12 @@ flowchart TD
   <Card title="Performance Validation" icon="gauge" href="/features/performance-validation">
     用数据库优化器验证优化是否真正更快。
   </Card>
-  <Card title="Execution Plan Visualization" icon="list-tree" href="/features/execution-plan-visualization">
+  <Card title="Execution Plan Analysis" icon="list-tree" href="/features/execution-plan-visualization">
     把文本执行计划还原为可视化执行树。
   </Card>
 </CardGroup>
 
-两者分工不同：**Performance Validation 回答"是否更好"**——比较优化前后的执行计划与代价，给出可采信的判定；**Execution Plan Visualization 回答"计划长什么样"**——呈现计划结构与指标，用于定位瓶颈与理解变化。前者产出结论，后者提供依据。
+两者分工不同：**Performance Validation 回答"是否更好"**——比较优化前后的执行计划与代价，给出可采信的判定；**Execution Plan Analysis 回答"计划长什么样"**——呈现计划结构与指标，用于定位瓶颈与理解变化。前者产出结论，后者提供依据。
 
 ---
 
