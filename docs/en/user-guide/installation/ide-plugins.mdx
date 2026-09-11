@@ -1,20 +1,101 @@
 ---
 id: en-user-guide-installation-ide-plugins
-title: Install IDE Plugins
-description: Install IDE Plugins — PawSQL User Guide (draft).
+title: Install IDE Extensions
+description: Install the PawSQL extension for JetBrains IDEs or Visual Studio Code and connect it to a PawSQL service.
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-ide-plugins
 ---
 
-# Install IDE Plugins
+PawSQL IDE extensions bring SQL review and optimization into the editor. Each extension connects to PawSQL Cloud or PawSQL Server and operates within the projects and workspaces available to the authenticated user.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Before you install
 
-## What this page will cover
+- A supported JetBrains IDE or Visual Studio Code version;
+- the PawSQL Cloud or PawSQL Server endpoint;
+- a client credential where required;
+- access to the intended project and workspace;
+- marketplace connectivity or an approved offline package.
 
-- To be added
+## Install from the marketplace
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Tabs>
+  <Tab title="JetBrains">
+    <Steps>
+      <Step title="Open plugin settings">Open the IDE plugin-management page.</Step>
+      <Step title="Find PawSQL">Search for PawSQL and verify the publisher.</Step>
+      <Step title="Install and restart">Install the extension and restart the IDE if prompted.</Step>
+    </Steps>
+  </Tab>
+  <Tab title="Visual Studio Code">
+    <Steps>
+      <Step title="Open Extensions">Open the Extensions view.</Step>
+      <Step title="Find PawSQL">Search for PawSQL and verify the publisher.</Step>
+      <Step title="Install">Install the extension and reload the window if requested.</Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+For an offline installation, use only a package supplied by PawSQL or an approved internal software repository. Confirm compatibility with both the IDE and the PawSQL service version.
+
+## Connect the extension
+
+<Steps>
+  <Step title="Open PawSQL settings">
+    Use the IDE settings or the PawSQL tool window.
+  </Step>
+  <Step title="Enter the endpoint">
+    Add the complete Cloud or Server URL and label test and production endpoints clearly.
+  </Step>
+  <Step title="Add credentials">
+    Use the client’s secure credential facility where available. Do not store tokens in project files.
+  </Step>
+  <Step title="Test the connection">
+    Verify network access, TLS trust, authentication, and service health.
+  </Step>
+  <Step title="Select context">
+    Choose the organization, project, and workspace, then verify the database engine and schema.
+  </Step>
+</Steps>
+
+## Validate the extension
+
+1. Open a file containing a complete SQL statement.
+2. Select a sanitized read-only query.
+3. Run a PawSQL analysis command.
+4. Confirm that a task is created and results return.
+5. Verify database dialect and object resolution.
+
+<Tip>
+If connectivity works but recommendations are unexpected, inspect the selected workspace before reinstalling the extension.
+</Tip>
+
+## Security guidance
+
+- Never commit a token to source control.
+- Use the IDE or operating system credential store.
+- Separate production and non-production workspaces.
+- Review generated changes before applying them to source code.
+- Revoke credentials when a device or extension is no longer used.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Extension cannot be found | IDE version, marketplace access, corporate proxy |
+| Connection test fails | Endpoint, TLS certificate, proxy, token, service status |
+| No workspace is available | Project membership and workspace permissions |
+| SQL is only partially parsed | Selection boundaries, dialect, placeholders, delimiters |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" href="/en/user-guide/installation/authentication" />
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Developer tools" href="/en/user-guide/dev-tools" />
+  <Card title="Workspaces" href="/en/user-guide/workspaces" />
+</CardGroup>

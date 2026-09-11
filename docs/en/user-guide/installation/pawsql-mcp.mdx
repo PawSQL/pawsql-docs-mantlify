@@ -1,20 +1,116 @@
 ---
 id: en-user-guide-installation-pawsql-mcp
 title: Install and Configure PawSQL MCP
-description: Install and Configure PawSQL MCP — PawSQL User Guide (draft).
+description: Connect an MCP-compatible AI coding client to PawSQL and validate tool discovery and SQL analysis.
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-pawsql-mcp
 ---
 
-# Install and Configure PawSQL MCP
+PawSQL MCP exposes SQL review and optimization capabilities as tools for compatible AI clients. It acts as the integration layer between the client and PawSQL Cloud or PawSQL Server; it does not replace the PawSQL service.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+```mermaid
+flowchart LR
+    A["AI coding client"] --> B["PawSQL MCP"]
+    B --> C["PawSQL Cloud or Server"]
+    C --> D["Analysis results"]
+    D --> A
+```
 
-## What this page will cover
+## Prerequisites
 
-- To be added
+- A reachable PawSQL service;
+- a PawSQL MCP release compatible with that service;
+- an MCP-compatible client and supported local runtime;
+- an endpoint and client credential;
+- permission to use the intended project and workspace.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Setup workflow
+
+<Steps>
+  <Step title="Confirm compatibility">
+    Check the PawSQL MCP, PawSQL service, runtime, and client versions.
+  </Step>
+  <Step title="Obtain the release">
+    Use an official distribution or an approved internal repository.
+  </Step>
+  <Step title="Install the MCP service">
+    Follow the release-specific installation method. Commands and package names vary by version.
+  </Step>
+  <Step title="Configure the client">
+    Add the MCP launch method, PawSQL endpoint, and credential using the client’s documented schema.
+  </Step>
+  <Step title="Reload and verify">
+    Restart or reload the client and confirm that PawSQL tools are discoverable.
+  </Step>
+</Steps>
+
+## Configuration inputs
+
+| Input | Purpose | Sensitive |
+| --- | --- | --- |
+| Server name | Identifies PawSQL in the client | No |
+| Launch command | Starts the PawSQL MCP process | No |
+| PawSQL endpoint | Selects Cloud or Server | Usually no |
+| Access credential | Authenticates the client | Yes |
+| Default project or workspace | Establishes optional context | Possibly |
+| Timeout | Controls how long the client waits | No |
+
+The following is a structural example, not a release-ready configuration:
+
+```json
+{
+  "mcpServers": {
+    "pawsql": {
+      "command": "<PAWSQL_MCP_COMMAND>",
+      "args": ["<RELEASE_SPECIFIC_ARGUMENTS>"],
+      "env": {
+        "PAWSQL_SERVICE_URL": "<PAWSQL_SERVICE_URL>",
+        "PAWSQL_ACCESS_TOKEN": "<READ_FROM_SECRET_STORE>"
+      }
+    }
+  }
+}
+```
+
+<Warning>
+Use the actual field names documented by the selected MCP client and PawSQL release. Do not run the placeholders above or commit a plaintext token.
+</Warning>
+
+## Validate the integration
+
+- The MCP process starts without configuration errors.
+- The client discovers PawSQL tools.
+- A sanitized query can be submitted with explicit database or workspace context.
+- Results identify the expected service, account, project, and workspace.
+- Tool failures do not expose credentials in logs.
+
+## Operating principles
+
+- Ask the client to state which PawSQL tool and workspace it will use.
+- Supply database version and schema context when it is not implicit.
+- Do not allow an AI client to execute rewritten SQL or DDL automatically.
+- Validate semantics and performance before applying recommendations.
+- Treat conversation content containing production SQL as sensitive data.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| MCP server is not discovered | Configuration location, syntax, command, runtime |
+| PawSQL connection fails | Endpoint, TLS, proxy, credential, internal network access |
+| No project or workspace is available | Token identity, membership, workspace permissions |
+| Tool call times out | Service health, network latency, client timeout, task queue |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" href="/en/user-guide/installation/authentication" />
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Developer tools" href="/en/user-guide/dev-tools" />
+  <Card title="Developer SQL Copilot" href="/en/use-cases/developer-sql-copilot" />
+</CardGroup>

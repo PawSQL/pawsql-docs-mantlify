@@ -1,20 +1,103 @@
 ---
 id: en-user-guide-installation-pawsql-server
 title: Deploy PawSQL Server
-description: Deploy PawSQL Server — PawSQL User Guide (draft).
+description: Plan, deploy, initialize, and validate a private PawSQL Server environment.
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-pawsql-server
 ---
 
-# Deploy PawSQL Server
+PawSQL Server provides SQL analysis and governance inside an organization-controlled environment. This page defines the stable deployment lifecycle. Package names, commands, ports, and component versions must come from the release-specific delivery bundle.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+<Note>
+Use installation media and deployment instructions that match the exact PawSQL Server version. Do not reuse commands from another release without verification.
+</Note>
 
-## What this page will cover
+## Plan the environment
 
-- To be added
+| Area | Decisions to make |
+| --- | --- |
+| Environment | Development, validation, staging, or production |
+| Compute | CPU, memory, disk, operating system, and runtime |
+| Platform dependencies | Metadata database, cache, or other release-specific services |
+| Network | DNS, ports, proxy, load balancer, and firewall rules |
+| TLS | Certificate source, hostname, validity, and rotation |
+| Database access | Network path from PawSQL to managed databases |
+| Identity | Local accounts, enterprise SSO, or another supported method |
+| Persistence | Configuration, task data, logs, and reports |
+| Recovery | Backup scope, frequency, retention, and recovery objectives |
+| Ownership | Operators responsible for deployment, security, upgrades, and incidents |
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+Production should not double as an installation test environment. Validate the release and rollback process in a separate environment first.
+
+## Deployment workflow
+
+<Steps>
+  <Step title="Verify the delivery bundle">
+    Confirm the version, integrity information, release notes, deployment guide, and license.
+  </Step>
+  <Step title="Prepare infrastructure">
+    Provision the required hosts, dependencies, service accounts, storage, DNS, and network policies.
+  </Step>
+  <Step title="Configure the service">
+    Set endpoints, persistence, logging, authentication, and notifications. Store sensitive values securely.
+  </Step>
+  <Step title="Install and start PawSQL">
+    Use the release-provided script or deployment template and record all local changes.
+  </Step>
+  <Step title="Initialize the platform">
+    Create the initial administrator, apply the license, and establish organization-level settings.
+  </Step>
+  <Step title="Complete acceptance testing">
+    Validate sign-in, permissions, task processing, persistence, logs, notifications, and database connectivity.
+  </Step>
+</Steps>
+
+## Network paths to validate
+
+| Source | Destination | Purpose |
+| --- | --- | --- |
+| User browser | PawSQL Server | Web console access |
+| IDE, MCP, or CI runner | PawSQL Server | SQL analysis requests |
+| PawSQL Server | Platform dependencies | Configuration and task persistence |
+| PawSQL Server | Managed databases | Metadata, plans, patrol data, or approved validation |
+| PawSQL Server | Identity and notification services | SSO, email, or webhooks |
+
+## Security baseline
+
+- Run services under dedicated system identities.
+- Grant platform and database accounts only the permissions they need.
+- Use HTTPS and establish certificate rotation.
+- Restrict administrative endpoints by network and role.
+- Keep secrets out of repositories, ordinary scripts, and logs.
+- Protect backups and diagnostic data with explicit retention policies.
+- Require review, backup, validation, and rollback for production changes.
+
+## Acceptance checklist
+
+- [ ] All required services are healthy.
+- [ ] The expected URL is reachable.
+- [ ] TLS is trusted and the hostname matches.
+- [ ] Administrator and standard-user permissions behave correctly.
+- [ ] The license is valid.
+- [ ] A workspace and test task can be created.
+- [ ] Data persists across a controlled restart.
+- [ ] Monitoring, logging, and notifications are operational.
+- [ ] Backup and restore have been tested.
+- [ ] Version, configuration, ownership, and rollback details are recorded.
+
+<Warning>
+Do not upgrade production without a verified backup and rollback plan. Validate the release with sanitized SQL and non-production databases first.
+</Warning>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Authentication" href="/en/user-guide/installation/authentication" />
+  <Card title="Workspaces" href="/en/user-guide/workspaces" />
+</CardGroup>

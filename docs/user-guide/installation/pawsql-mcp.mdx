@@ -1,21 +1,142 @@
 ---
 id: user-guide-installation-pawsql-mcp
 title: 安装与配置 PawSQL MCP
-description: 安装与配置 PawSQL MCP——PawSQL 用户手册（草稿）。
+description: 在支持 MCP 的 AI 编程客户端中安装 PawSQL MCP，配置服务连接并验证工具调用。
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-installation-pawsql-mcp
 localeOf: en-user-guide-installation-pawsql-mcp
 ---
 
-# 安装与配置 PawSQL MCP
+PawSQL MCP 将 SQL 审核和优化能力以 MCP 工具的形式提供给兼容客户端。配置完成后，AI 编程助手可以在用户授权范围内调用 PawSQL，但是否执行调用以及如何采用结果仍由用户确认。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 工作方式
 
-## 本节将覆盖
+```mermaid
+flowchart LR
+    A["AI 编程客户端"] --> B["PawSQL MCP"]
+    B --> C["PawSQL Cloud 或 Server"]
+    C --> D["审核与优化结果"]
+    D --> A
+```
 
-- 待补充
+PawSQL MCP 不替代 PawSQL 服务。它负责在 MCP 客户端和 PawSQL 服务之间传递经过授权的工具请求与结果。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+## 前提条件
+
+- 已部署或可以访问 PawSQL Cloud、PawSQL Server；
+- 已取得与当前版本对应的 PawSQL MCP 安装包或发行方式；
+- 使用支持 MCP 的客户端；
+- 本地运行环境满足对应版本要求；
+- 已准备服务地址和客户端认证信息；
+- 当前账号可以访问所需项目和工作空间。
+
+## 安装 PawSQL MCP
+
+<Steps>
+  <Step title="确认版本">
+    核对 PawSQL MCP、PawSQL 服务、运行环境和 MCP 客户端的兼容性。
+  </Step>
+  <Step title="获取发行包">
+    从 PawSQL 官方渠道或企业软件仓库获取安装包，并按发布说明核验来源和完整性。
+  </Step>
+  <Step title="完成安装">
+    使用该版本提供的安装方式安装或启动 PawSQL MCP。具体命令以发行包文档为准。
+  </Step>
+  <Step title="准备客户端配置">
+    确认 MCP 的启动方式、所需参数、服务地址和认证信息。
+  </Step>
+</Steps>
+
+## 配置 MCP 客户端
+
+不同客户端的配置文件位置和字段名称不同，但通常需要提供以下信息：
+
+| 配置项 | 说明 | 是否敏感 |
+| --- | --- | --- |
+| 服务名称 | 客户端中用于识别 PawSQL MCP 的名称 | 否 |
+| 启动方式 | 启动 PawSQL MCP 所需的命令或入口 | 否 |
+| PawSQL 服务地址 | PawSQL Cloud 或 Server 的完整地址 | 通常否 |
+| 认证信息 | 访问令牌或当前版本要求的认证参数 | 是 |
+| 默认项目或工作空间 | 可选的默认分析范围 | 取决于命名内容 |
+| 超时设置 | 客户端等待工具调用完成的时间 | 否 |
+
+下面仅表示配置结构，不代表任何客户端的实际字段：
+
+```json
+{
+  "mcpServers": {
+    "pawsql": {
+      "command": "<PawSQL MCP 启动命令>",
+      "args": ["<当前版本要求的参数>"],
+      "env": {
+        "PAWSQL_SERVICE_URL": "<PawSQL 服务地址>",
+        "PAWSQL_ACCESS_TOKEN": "<从安全存储读取>"
+      }
+    }
+  }
+}
+```
+
+<Warning>
+以上配置是结构示意。请使用 PawSQL MCP 当前版本和目标客户端提供的真实字段，不要直接复制占位符运行。访问令牌不应以明文提交到代码仓库。
+</Warning>
+
+## 验证 MCP 工具
+
+<Steps>
+  <Step title="重启或重新加载客户端">
+    保存配置后，让客户端重新发现 MCP 服务。
+  </Step>
+  <Step title="检查服务状态">
+    确认 PawSQL MCP 已启动，客户端未显示配置或连接错误。
+  </Step>
+  <Step title="查看工具列表">
+    确认客户端可以发现 PawSQL 提供的工具。工具名称以当前版本为准。
+  </Step>
+  <Step title="执行最小测试">
+    使用一条脱敏的查询 SQL 发起审核或优化请求，并明确指定数据库类型或工作空间。
+  </Step>
+  <Step title="检查返回结果">
+    确认调用成功，并核对数据库方言、工作空间和对象识别结果。
+  </Step>
+</Steps>
+
+## 使用原则
+
+- 提示 AI 助手先说明将调用什么工具以及使用哪个工作空间。
+- SQL 缺少数据库上下文时，先补充数据库类型、版本或工作空间。
+- 不让客户端自动执行重写 SQL、DDL 或索引变更。
+- 在采用建议前检查语义、兼容性和性能验证结果。
+- 对包含生产对象和业务逻辑的对话遵守企业数据安全规范。
+
+## 常见问题
+
+### 客户端未发现 PawSQL MCP
+
+检查配置文件位置、格式、启动方式和本地运行环境，并重新加载客户端。
+
+### MCP 已启动但无法连接 PawSQL
+
+检查 PawSQL 服务地址、证书、网络代理和认证信息。使用 PawSQL Server 时还应确认客户端网络可以访问内部服务。
+
+### 可以调用工具但没有项目或工作空间
+
+检查令牌对应的账号、组织成员关系和工作空间权限。
+
+### 调用超时
+
+检查 PawSQL 服务状态和网络延迟，并确认客户端超时配置适用于 SQL 分析任务。不要在结果未知时连续重复提交。
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="登录与身份认证" href="/user-guide/installation/authentication" />
+  <Card title="验证安装与连接" href="/user-guide/installation/verify-installation" />
+  <Card title="开发工具" href="/user-guide/dev-tools" />
+  <Card title="开发者 SQL 智能优化助手" href="/use-cases/developer-sql-copilot" />
+</CardGroup>

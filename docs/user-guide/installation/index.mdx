@@ -1,21 +1,110 @@
 ---
 id: user-guide-installation-index
-title: 安装与接入概述
-description: 安装与接入概述——PawSQL 用户手册（草稿）。
+title: 安装与接入
+description: 根据使用方式完成 PawSQL Cloud、PawSQL Server、IDE 插件或 PawSQL MCP 的安装、登录与连接验证。
 type: guide
 subtype: installation
+layout: index
+product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-installation-index
 localeOf: en-user-guide-installation-index
 ---
 
-# 安装与接入概述
+PawSQL 提供 Web 控制台、IDE 插件、PawSQL MCP 和 API 等使用入口。开始安装前，应先确定服务部署位置和访问方式，再准备账号、服务地址、网络和认证信息。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+如果尚未确定使用哪种方式，请先阅读[选择使用方式](/getting-started/choose-access)。
 
-## 本节将覆盖
+## 选择安装路径
 
-- 待补充
+| 使用方式 | 是否需要部署 PawSQL 服务 | 本地需要安装什么 | 适用场景 |
+| --- | --- | --- | --- |
+| PawSQL Cloud | 不需要 | 现代浏览器 | 快速体验、个人或小团队使用 |
+| PawSQL Server | 需要 | 服务端组件和浏览器 | 私有化部署、企业统一治理 |
+| JetBrains 插件 | 需要连接 Cloud 或 Server | JetBrains 插件 | 在数据库 IDE 或开发 IDE 中优化 SQL |
+| Visual Studio Code 插件 | 需要连接 Cloud 或 Server | VS Code 扩展 | 在代码编辑器中审核和优化 SQL |
+| PawSQL MCP | 需要连接可用的 PawSQL 服务 | MCP 服务及客户端配置 | 在 AI 编程助手中调用 PawSQL |
+| OpenAPI | 需要连接可用的 PawSQL 服务 | 无固定客户端 | 平台集成和自动化调用 |
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<CardGroup cols={2}>
+  <Card title="使用 PawSQL Cloud" href="/user-guide/installation/pawsql-cloud" icon="cloud">
+    无需部署服务，通过浏览器注册或登录后开始使用。
+  </Card>
+  <Card title="部署 PawSQL Server" href="/user-guide/installation/pawsql-server" icon="server">
+    在企业网络中部署并初始化私有化服务。
+  </Card>
+  <Card title="安装 IDE 插件" href="/user-guide/installation/ide-plugins" icon="plug">
+    在 JetBrains 或 Visual Studio Code 中连接 PawSQL。
+  </Card>
+  <Card title="配置 PawSQL MCP" href="/user-guide/installation/pawsql-mcp" icon="robot">
+    为支持 MCP 的客户端配置 SQL 审核和优化工具。
+  </Card>
+</CardGroup>
+
+## 通用接入流程
+
+<Steps>
+  <Step title="确认部署方式">
+    明确使用 PawSQL Cloud 还是企业私有化部署的 PawSQL Server，并获取对应服务地址。
+  </Step>
+  <Step title="准备账号与权限">
+    登录或由管理员创建账号，加入正确的组织或项目，并获得所需功能权限。
+  </Step>
+  <Step title="检查网络连接">
+    确认浏览器、IDE、MCP 客户端或集成系统能够访问 PawSQL 服务。
+  </Step>
+  <Step title="完成客户端配置">
+    根据使用方式安装插件或配置客户端，填写服务地址和认证信息。
+  </Step>
+  <Step title="验证接入结果">
+    登录并创建一个测试任务，确认认证、权限和分析服务均正常。
+  </Step>
+</Steps>
+
+## 安装前需要准备
+
+- PawSQL 服务地址和产品版本；
+- 使用者账号及所在组织或项目；
+- 所需功能和对应权限；
+- 浏览器、IDE 或 MCP 客户端版本；
+- 企业网络中的代理、域名、证书和防火墙要求；
+- 私有化部署所需的服务器、数据库、存储和备份方案；
+- 后续创建工作空间所需的 DDL 或数据库连接信息。
+
+## 服务地址
+
+PawSQL Cloud 使用官方提供的访问地址；PawSQL Server 使用企业管理员分配的内部地址。配置客户端时应填写完整的服务地址，并注意：
+
+- 优先使用 HTTPS；
+- 不要混用测试和生产服务地址；
+- 不要在地址末尾自行追加未经文档说明的接口路径；
+- 通过代理或网关访问时，确认长连接、请求体大小和超时策略满足要求；
+- 证书由企业签发时，客户端需要信任对应的证书链。
+
+## 认证信息
+
+Web 控制台通常使用账号登录；IDE、MCP 和 API 通常使用访问令牌或管理员配置的认证方式。具体操作参见[登录与身份认证](/user-guide/installation/authentication)。
+
+<Warning>
+不要在代码仓库、终端历史、截图或聊天记录中保存密码和访问令牌。客户端配置应优先引用安全的环境变量或密钥存储。
+</Warning>
+
+## 安装完成标准
+
+满足以下条件后，可以进入工作空间配置：
+
+- 可以打开 PawSQL 服务并完成登录或认证；
+- 可以进入正确的组织或项目；
+- 可以看到与角色相符的菜单；
+- 客户端显示 PawSQL 服务连接成功；
+- 可以创建或打开一项测试任务；
+- 没有证书、跨域、代理或权限错误。
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="验证安装与连接" href="/user-guide/installation/verify-installation" />
+  <Card title="登录与身份认证" href="/user-guide/installation/authentication" />
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" />
+</CardGroup>

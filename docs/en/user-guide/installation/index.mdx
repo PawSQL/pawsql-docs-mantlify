@@ -1,20 +1,91 @@
 ---
 id: en-user-guide-installation-index
-title: Installation Overview
-description: Installation Overview — PawSQL User Guide (draft).
+title: Installation and Access
+description: Set up PawSQL Cloud, PawSQL Server, IDE extensions, or PawSQL MCP and verify end-to-end access.
 type: guide
 subtype: installation
+layout: index
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-index
 ---
 
-# Installation Overview
+PawSQL can be used through a web console, an IDE extension, an MCP-compatible AI client, or an API integration. Select where the PawSQL service will run first, then configure identity, network access, and client connectivity.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Choose a setup
 
-## What this page will cover
+| Access method | PawSQL service deployment | Local requirement | Best suited for |
+| --- | --- | --- | --- |
+| PawSQL Cloud | Managed by PawSQL | Modern browser | Evaluation, individuals, and small teams |
+| PawSQL Server | Private deployment | Server-side components and browser | Enterprise governance and controlled environments |
+| JetBrains extension | Connects to Cloud or Server | Compatible JetBrains IDE | SQL work inside DataGrip or a development IDE |
+| VS Code extension | Connects to Cloud or Server | Visual Studio Code | Repository and editor-based SQL work |
+| PawSQL MCP | Connects to Cloud or Server | MCP runtime and client configuration | Tool-based SQL analysis from AI coding clients |
+| OpenAPI | Connects to Cloud or Server | HTTP client or integration service | Automation and platform integration |
 
-- To be added
+<CardGroup cols={2}>
+  <Card title="Use PawSQL Cloud" href="/en/user-guide/installation/pawsql-cloud" icon="cloud" />
+  <Card title="Deploy PawSQL Server" href="/en/user-guide/installation/pawsql-server" icon="server" />
+  <Card title="Install an IDE extension" href="/en/user-guide/installation/ide-plugins" icon="plug" />
+  <Card title="Configure PawSQL MCP" href="/en/user-guide/installation/pawsql-mcp" icon="robot" />
+</CardGroup>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Standard access flow
+
+<Steps>
+  <Step title="Identify the service">
+    Obtain the official PawSQL Cloud URL or the approved endpoint for your PawSQL Server deployment.
+  </Step>
+  <Step title="Provision identity and permissions">
+    Sign in or request an account, then join the correct organization or project.
+  </Step>
+  <Step title="Verify network access">
+    Confirm that browsers, IDEs, MCP clients, or integration workers can reach the service.
+  </Step>
+  <Step title="Configure the client">
+    Install the required extension or runtime and add the endpoint and credentials.
+  </Step>
+  <Step title="Run an end-to-end check">
+    Submit a sanitized test query and confirm authentication, authorization, and analysis services.
+  </Step>
+</Steps>
+
+## What to prepare
+
+- PawSQL service endpoint and version;
+- user account, organization, and project;
+- required product permissions;
+- supported browser, IDE, or MCP client;
+- proxy, DNS, firewall, TLS, and certificate requirements;
+- infrastructure, storage, and backup plans for a private deployment;
+- DDL or database connectivity for the first workspace.
+
+## Endpoint guidance
+
+- Prefer HTTPS.
+- Keep test and production endpoints clearly separated.
+- Do not append undocumented API paths.
+- Verify certificate trust on every client type.
+- When using a gateway, confirm request-size and timeout policies for SQL analysis tasks.
+
+<Warning>
+Keep passwords and access tokens out of source control, screenshots, tickets, and shell history. Use an approved secret store whenever the client supports one.
+</Warning>
+
+## Completion criteria
+
+- The service opens at the expected endpoint.
+- Authentication succeeds.
+- The correct organization and project are visible.
+- Menus match the user’s role.
+- Client connection tests succeed.
+- A sanitized test task can be created and completed.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Authentication" href="/en/user-guide/installation/authentication" />
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Workspaces" href="/en/user-guide/workspaces" />
+</CardGroup>

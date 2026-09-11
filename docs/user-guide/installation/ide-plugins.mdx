@@ -1,21 +1,142 @@
 ---
 id: user-guide-installation-ide-plugins
 title: 安装 IDE 插件
-description: 安装 IDE 插件——PawSQL 用户手册（草稿）。
+description: 在 JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-installation-ide-plugins
 localeOf: en-user-guide-installation-ide-plugins
 ---
 
-# 安装 IDE 插件
+PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能力。插件需要连接 PawSQL Cloud 或企业部署的 PawSQL Server，并使用有效的认证信息访问用户有权使用的项目和工作空间。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 支持的开发环境
 
-## 本节将覆盖
+| 插件 | 适用环境 | 典型用途 |
+| --- | --- | --- |
+| PawSQL for JetBrains | IntelliJ IDEA、DataGrip 等兼容的 JetBrains IDE | 在数据库控制台、SQL 文件或项目代码中分析 SQL |
+| PawSQL for Visual Studio Code | Visual Studio Code | 在代码仓库和 SQL 文件中审核或优化 SQL |
 
-- 待补充
+具体支持的 IDE 版本以插件发布页和当前 PawSQL 版本说明为准。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+## 安装前准备
+
+- PawSQL Cloud 或 PawSQL Server 服务地址；
+- 可以正常登录 PawSQL 的账号；
+- 客户端认证所需的访问凭据；
+- 有权访问的组织、项目和工作空间；
+- 支持的 IDE 版本；
+- 可以访问插件市场，或已获得离线安装包。
+
+## 从插件市场安装
+
+<Tabs>
+  <Tab title="JetBrains">
+    <Steps>
+      <Step title="打开插件设置">
+        在 IDE 设置中进入插件管理页面。
+      </Step>
+      <Step title="搜索 PawSQL">
+        在插件市场搜索 PawSQL，核对发布者和插件信息。
+      </Step>
+      <Step title="安装并重启">
+        安装插件；如果 IDE 提示需要重启，保存工作后完成重启。
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Visual Studio Code">
+    <Steps>
+      <Step title="打开扩展视图">
+        在 Visual Studio Code 中进入扩展管理页面。
+      </Step>
+      <Step title="搜索 PawSQL">
+        搜索 PawSQL，并核对发布者和扩展信息。
+      </Step>
+      <Step title="完成安装">
+        安装扩展；如有提示，重新加载编辑器窗口。
+      </Step>
+    </Steps>
+  </Tab>
+</Tabs>
+
+## 离线安装
+
+企业网络无法访问插件市场时，可以使用管理员提供的离线安装包。安装前应确认：
+
+- 安装包来自 PawSQL 官方或企业内部可信的软件仓库；
+- 插件版本与 IDE 和 PawSQL 服务版本兼容；
+- 安装包已经通过企业安全检查；
+- 后续升级和撤回方式已经明确。
+
+具体离线安装入口随 IDE 版本不同，以对应 IDE 的插件管理页面为准。
+
+## 连接 PawSQL 服务
+
+<Steps>
+  <Step title="打开 PawSQL 设置">
+    在 IDE 设置或 PawSQL 工具窗口中打开连接配置。
+  </Step>
+  <Step title="填写服务地址">
+    输入完整的 PawSQL Cloud 或 PawSQL Server 地址。测试与生产地址应使用清晰的配置名称区分。
+  </Step>
+  <Step title="配置认证信息">
+    按当前服务要求填写访问令牌或其他认证信息。不要将凭据写入项目配置文件。
+  </Step>
+  <Step title="测试连接">
+    执行连接测试，确认服务地址、证书、网络和认证均正常。
+  </Step>
+  <Step title="选择工作范围">
+    选择组织、项目和工作空间，并核对数据库类型、版本与 Schema。
+  </Step>
+</Steps>
+
+## 验证插件
+
+1. 打开一个包含完整 SQL 的文件或编辑器。
+2. 选择一条查询语句。
+3. 从 PawSQL 工具窗口或编辑器命令中发起分析。
+4. 确认任务成功提交并返回结果。
+5. 检查工作空间、数据库方言和对象识别是否正确。
+
+<Tip>
+如果插件能够连接但 SQL 分析结果不符合预期，应先检查工作空间和数据库上下文，而不是重新安装插件。
+</Tip>
+
+## 安全建议
+
+- 不要把访问令牌提交到 Git 仓库。
+- 优先使用 IDE 提供的安全凭据存储能力。
+- 共享电脑上不要启用不受保护的长期登录。
+- 生产工作空间应与开发、测试工作空间清晰区分。
+- 应用重写 SQL 前检查语义，并在测试环境验证。
+
+## 常见问题
+
+### 搜索不到插件
+
+检查 IDE 版本、插件市场连接和企业代理。受限网络环境中请向管理员获取正式离线安装包。
+
+### 连接测试失败
+
+检查服务地址、HTTPS 证书、代理、访问令牌和 PawSQL 服务状态。
+
+### 登录成功但没有可选工作空间
+
+确认账号已加入正确项目，并具有工作空间查看或使用权限。
+
+### SQL 无法完整识别
+
+确认选中了完整语句，并检查方言、Schema、参数占位符和语句分隔符。
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="登录与身份认证" href="/user-guide/installation/authentication" />
+  <Card title="验证安装与连接" href="/user-guide/installation/verify-installation" />
+  <Card title="开发工具" href="/user-guide/dev-tools" />
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" />
+</CardGroup>

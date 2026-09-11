@@ -1,20 +1,84 @@
 ---
 id: en-user-guide-installation-authentication
-title: Sign-in and Authentication
-description: Sign-in and Authentication — PawSQL User Guide (draft).
+title: Authentication
+description: Securely authenticate web, IDE, MCP, and API clients and understand how identity differs from authorization.
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-authentication
 ---
 
-# Sign-in and Authentication
+Authentication establishes who is connecting to PawSQL. Authorization then determines which organizations, projects, workspaces, and operations that identity can access.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+| Concept | Question answered | Examples |
+| --- | --- | --- |
+| Authentication | Who are you? | Password, enterprise SSO, access token |
+| Authorization | What may you do? | View a workspace, create a review, manage rules |
 
-## What this page will cover
+If sign-in succeeds but a resource is missing, investigate authorization before resetting credentials.
 
-- To be added
+## Authentication by client
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+| Client | Common method | Notes |
+| --- | --- | --- |
+| Web console | Account sign-in or enterprise SSO | Interactive use |
+| IDE extension | Client credential supported by the release | Browser state is usually separate |
+| PawSQL MCP | Access token or configured service authentication | Supply through secure client configuration |
+| OpenAPI | Token or documented API authentication | Intended for service-to-service calls |
+| Webhook | Signature, token, or platform-specific mechanism | Validate both origin and integrity |
+
+## Web sign-in
+
+<Steps>
+  <Step title="Open a trusted endpoint">Verify the domain and TLS certificate.</Step>
+  <Step title="Authenticate">Use the login method shown by the service.</Step>
+  <Step title="Confirm identity">Check the account, organization, and project after sign-in.</Step>
+  <Step title="Confirm authorization">Verify that the required features and workspaces are visible.</Step>
+</Steps>
+
+## Manage access tokens
+
+- Create separate tokens for IDE, MCP, CI/CD, and temporary testing.
+- Use a name that identifies purpose and owner.
+- Limit scope and lifetime.
+- Store the value immediately in an approved secret manager.
+- Rotate credentials on a defined schedule.
+- Revoke a token as soon as it is no longer needed.
+
+<Warning>
+Tokens may be shown in full only once. Never paste them into source code, ordinary configuration files, screenshots, documentation, or build logs.
+</Warning>
+
+## Credential storage order
+
+1. Client or operating-system secure credential store.
+2. CI/CD secret or enterprise vault.
+3. Access-restricted environment configuration excluded from version control.
+4. Avoid plaintext command-line arguments because they may appear in shell history or process inspection.
+
+## Account hygiene
+
+- Assign an individual account to each user.
+- Review privileged and inactive accounts regularly.
+- Revoke access when a user changes role or leaves a project.
+- Treat suspected exposure as an incident: revoke first, replace the credential, and review audit records.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Sign-in rejected | Endpoint, account, password, identity provider, system time |
+| Token rejected | Expiration, revocation, incomplete copy, wrong PawSQL environment |
+| Authentication succeeds but access fails | Organization membership, project role, workspace permission, license |
+| SSO returns to the login page | Cookies, callback URL, domain, system time, identity-provider settings |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Install IDE extensions" href="/en/user-guide/installation/ide-plugins" />
+  <Card title="Configure PawSQL MCP" href="/en/user-guide/installation/pawsql-mcp" />
+</CardGroup>

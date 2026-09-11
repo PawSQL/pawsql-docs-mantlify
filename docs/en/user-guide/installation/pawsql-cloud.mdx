@@ -1,20 +1,96 @@
 ---
 id: en-user-guide-installation-pawsql-cloud
 title: Use PawSQL Cloud
-description: Use PawSQL Cloud — PawSQL User Guide (draft).
+description: Access PawSQL Cloud in a browser, verify your organization, and prepare the account for its first task.
 type: guide
 subtype: installation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-installation-pawsql-cloud
 ---
 
-# Use PawSQL Cloud
+PawSQL Cloud provides a managed PawSQL service. No server deployment is required: users sign in through a supported browser, create or select a workspace, and use the capabilities included in their account and role.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Prerequisites
 
-## What this page will cover
+- The official PawSQL Cloud URL;
+- a supported modern browser;
+- network access to the service;
+- a valid account;
+- organization or project membership for team use.
 
-- To be added
+<Warning>
+Enter credentials only on an official PawSQL endpoint or a URL approved by your organization.
+</Warning>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Sign in
+
+<Steps>
+  <Step title="Open the service">
+    Verify the domain and HTTPS certificate before entering credentials.
+  </Step>
+  <Step title="Authenticate">
+    Use the login method presented by the service. Follow your organization’s identity policy if SSO is enabled.
+  </Step>
+  <Step title="Confirm scope">
+    Check the active organization, project, and account after sign-in.
+  </Step>
+  <Step title="Review available features">
+    Confirm that Workspaces and SQL Optimization are available. Visibility depends on account type, role, and entitlement.
+  </Step>
+</Steps>
+
+## First-session tasks
+
+1. Confirm your account and organization.
+2. Review usage or quota information where available.
+3. Create or select a non-production workspace.
+4. Run a sanitized read-only query.
+5. Create separate credentials only if an IDE, MCP client, or API integration is required.
+
+## Client access
+
+Browser sessions and client authentication are typically independent.
+
+| Client | What you usually need |
+| --- | --- |
+| Web console | User sign-in |
+| IDE extension | Cloud endpoint and client credential |
+| PawSQL MCP | Cloud endpoint, MCP launch configuration, and credential |
+| OpenAPI | API endpoint and supported authentication credential |
+
+## Security practices
+
+- Remove credentials and unnecessary business data from submitted SQL.
+- Do not persist login sessions on shared devices.
+- Revoke unused tokens.
+- Confirm organizational policy before connecting Cloud to a database.
+- Treat SQL text, schema metadata, and execution plans according to their data classification.
+
+## Troubleshooting
+
+### The sign-in page does not open
+
+Check the URL, DNS, proxy, network policy, and TLS certificate.
+
+### The expected project is missing
+
+Verify the account used to sign in and ask an organization administrator to review membership.
+
+### A feature is not visible
+
+Check role permissions, account entitlement, and current usage limits.
+
+### An IDE cannot reuse the browser session
+
+Configure the client-specific credential described in [Authentication](/en/user-guide/installation/authentication).
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Verify the installation" href="/en/user-guide/installation/verify-installation" />
+  <Card title="Create a workspace" href="/en/user-guide/workspaces/index" />
+  <Card title="One-minute SQL optimization" href="/en/getting-started/quickstart" />
+</CardGroup>
