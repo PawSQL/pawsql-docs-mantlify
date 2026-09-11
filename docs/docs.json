@@ -256,8 +256,9 @@
                 "icon": "rocket",
                 "directory": "accordion",
                 "expanded": true,
-                "root": "en/index",
+                "root": "en/getting-started/index",
                 "pages": [
+                  "en/getting-started/index",
                   "en/getting-started/quickstart",
                   "en/getting-started/choose-access",
                   "en/getting-started/supported-databases"
