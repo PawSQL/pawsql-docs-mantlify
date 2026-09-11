@@ -103,6 +103,8 @@ git diff --exit-code -- docs/reference docs/en/reference docs/en/databases  # �
 - PLACEMENT.md：行尾加 `| 批次 | 状态 |` 列，逐批更新（`todo→in-progress→migrated`）。
 - MIGRATION-PLAYBOOK.md 附录 B：登记每批日期/结果/遗留。
 - 本计划随执行回填实际子批范围与闸门截图。
+- **2026-09-10 执行状态**：`99-待归类` 用户手册批次已落位——安装与接入（7 页 × 中英）、开始使用（quickstart / choose-access 各 × 中英）、工作空间与数据库上下文（9 页 × 中英）。随后按产品口径收敛：工作空间分组由 4 页合并为 3 页（删 5 页、`index` 与 `create-workspace` 合并）；`user-guide/cloud/` 三页删除，改由 `/getting-started/quickstart` 承载。详见 [IMPLEMENTATION-V2.md](IMPLEMENTATION-V2.md)。
+  > §4 批次表中 P1.x 的 `docs/products/*` 目标路径已被 v2「唯一产品 pawsql + 组件」IA 取代（实际为 `user-guide/*`），执行时以当前仓库树为准。
 
 ## 9. 首个执行批（P0.1 建议）
 

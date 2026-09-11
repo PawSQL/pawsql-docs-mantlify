@@ -31,6 +31,36 @@
 
 搜索提示需要 Mintlify 登录；本轮没有登录或验证搜索服务。未验证所有页面、动态链接、生产网络及部署授权。完整缺口见 [reports/content-quality.json](reports/content-quality.json)。
 
+## 用户手册内容批次（2026-09-10 追加）
+
+以下批次把 `99-待归类` 的手册源文档按内容模型落位，并做了产品口径下的结构收敛。正文尽量保留原文，只规范化 frontmatter、重复 H1、链接与展现形式。
+
+**安装与接入**（`pawsql-user-guide-group-02-installation`，7 页 × 中英）
+- 补齐 `type/subtype/layout/product/status/language`；保留既有 `id/translationKey/localeOf`
+- 删除与 frontmatter `title` 重复的正文 H1（共 14 处）
+- 路由对齐：`user-guide/developer-tools → dev-tools`；en 侧 `/en/help → /en/faq`；统一去尾斜杠
+- 移除指向未迁移页面的卡片
+
+**开始使用**（`get-started`：quickstart、choose-access × 中英）
+- 用源文档替换占位页；源使用旧 IA 路由，映射到现有页面：
+  `user-guide/install-and-access[/ide|/mcp|/private-deployment] → user-guide/installation[/ide-plugins|/pawsql-mcp|/pawsql-server]`、
+  `use-cases/sql-quality-gate → sql-quality-gate-cicd`、`use-cases/dba-slow-sql-governance → slow-sql-optimization`
+- en 页内部链接统一补 `/en` 前缀
+
+**工作空间与数据库上下文**（`pawsql-user-guide-group-03-workspaces`，9 页 × 中英）
+- 同批规范化；中文「常见问题」共 20 条改为 `<AccordionGroup>` 折叠展示
+- 组件实测结论：Markdown `- [ ]` 已原生渲染为复选框列表，保持原样；`<Check>` 在 Mintlify 中是提示框（callout）而非清单组件，未用于待办清单
+
+**产品口径下的结构收敛**
+- 删除 `user-guide/cloud/`（index / quickstart / results）：内容已由 `/getting-started/quickstart` 承载，引用全部重定向
+- 删除工作空间 5 页：`database-context`、`refresh-metadata`（联机库自动更新）、`manage-workspace`、`permissions`（工作空间从属于团队）、`manage-connections`（无独立连接管理功能）
+- `index` 与 `create-workspace` 合并为一页（概念 + 两种方式对比 + 基本信息建议 + 使用原则），删除 `create-workspace`；两个创建分支页只保留该方式特有内容
+- 删除随页面替换而失效的 `tools/tests/test_quickstart_q2.py`
+
+**本批验证**：`validate-frontmatter` / `validate-nav` PASS；`user-guide` 全树链接 38/38 可达；相关页面 MDX 编译通过；pytest 76 项通过。
+
+> 注：上述结构收敛改变了工作空间分组（4 页 → 3 页）与「安装与接入」组内容，`MIGRATION-PLAN.md` 批次表中部分目标路径（如 `docs/products/*`）已不适用，以本节记录为准。
+
 ## 下一批内容工作
 
 1. 产品负责人核定规则 ID/分类/版本/实现映射/数据库范围，提供可追溯证据。
