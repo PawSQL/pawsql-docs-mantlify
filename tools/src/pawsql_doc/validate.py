@@ -216,10 +216,12 @@ def _group_type_issue(group, page, fm) -> Optional[Issue]:
             ok = fm.subtype == subtype
         if ok:
             return None
+    type_name = getattr(fm.type, "value", fm.type)
+    subtype_name = getattr(fm.subtype, "value", fm.subtype)
     return Issue(
         file="docs/docs.json",
         field=page,
-        reason=f"group '{group}' does not allow type={fm.type.value} subtype={fm.subtype.value if fm.subtype else None}",
+        reason=f"group '{group}' does not allow type={type_name} subtype={subtype_name}",
     )
 
 
@@ -230,12 +232,13 @@ def _required_section_issues(path: Path, rel: str, fm) -> List[Issue]:
         return []
     headings = {line.lstrip("#").strip() for line in path.read_text(encoding="utf-8-sig").splitlines() if line.startswith("#")}
     sections = fm.sections or {}
+    type_name = getattr(fm.type, "value", fm.type)
     issues = []
     for slot in expected:
         heading = sections.get(slot)
         if not heading or heading not in headings:
             issues.append(Issue(file=rel, field=f"sections.{slot}",
-                                reason=f"nav page missing required section '{slot}' (type {fm.type.value})"))
+                                reason=f"nav page missing required section '{slot}' (type {type_name})"))
     return issues
 
 
