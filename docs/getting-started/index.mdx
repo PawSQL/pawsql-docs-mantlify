@@ -1,7 +1,7 @@
 ---
 id: index
 title: 什么是 PawSQL?
-description: 了解 PawSQL 如何通过 SQL 审核、查询重写、索引推荐与性能验证，帮助开发者和 DBA 提升 SQL 质量与数据库性能。
+description: PawSQL 是一个面向开发人员、测试人员、数据库管理员与企业治理团队的 **SQL 工程与治理平台**，把规范审核、重写优化、索引推荐、性能验证与执行计划分析整合到统一平台，覆盖 SQL 从开发到生产的全生命周期。
 type: explanation
 icon: wifi
 status: draft
@@ -19,9 +19,6 @@ capabilities:
 
 SQL 性能问题通常并不是在生产环境中突然出现的。低效的写法、不合理的索引、数据库迁移后的执行计划变化，都可能在开发阶段被引入，最终演变为生产环境中的性能或稳定性问题。
 
-PawSQL 是一个面向开发人员、测试人员、数据库管理员与企业治理团队的 **SQL 工程与治理平台**，把规范审核、重写优化、索引推荐、性能验证与执行计划分析整合到统一平台，覆盖 SQL 从开发到生产的全生命周期。
-
-> **让 SQL 质量与性能成为软件工程流程的一部分。**
 
 <CardGroup cols={2}>
   <Card title="用户场景" icon="users" href="/use-cases/index">
@@ -38,17 +35,6 @@ PawSQL 是一个面向开发人员、测试人员、数据库管理员与企业�
   </Card>
 </CardGroup>
 
-## 一分钟了解 PawSQL
-
-<iframe
-  className="w-full aspect-video rounded-xl"
-  src="https://player.bilibili.com/player.html?bvid=BV1RJoNY9Es7&high_quality=3"
-  title="PawSQL 一分钟演示"
-  scrolling="no"
-  frameBorder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowFullScreen
-/>
 
 ## 覆盖 SQL 全生命周期
 
@@ -69,6 +55,8 @@ flowchart LR
     D --> E[生产环境]
     E --> F[慢 SQL 治理]
 ```
+
+> **让 SQL 质量与性能成为软件工程流程的一部分。**
 
 ## 核心能力
 
@@ -92,27 +80,6 @@ PawSQL 不仅帮助团队发现 SQL 问题，还进一步给出可执行的优�
   </Card>
 </CardGroup>
 
-### 重写优化示例
-
-<Tabs>
-  <Tab title="改写前">
-    ```sql
-    SELECT *
-    FROM orders
-    WHERE customer_id = 1001
-       OR customer_id = 1002;
-    ```
-  </Tab>
-  <Tab title="改写后">
-    ```sql
-    SELECT *
-    FROM orders
-    WHERE customer_id IN (1001, 1002);
-    ```
-  </Tab>
-</Tabs>
-
-对于更复杂的查询，PawSQL 还会分析子查询、关联、聚合与谓词下推等优化机会，在保持语义一致的前提下生成候选方案。
 
 ### 各项能力的关键检查项
 

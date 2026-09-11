@@ -61,7 +61,7 @@
                     "root": "user-guide/installation/index"
                   },
                   {
-                    "group": "工作空间与数据库上下文",
+                    "group": "工作空间和上下文",
                     "pages": [
                       "user-guide/workspaces/index",
                       "user-guide/workspaces/create-from-ddl",
@@ -130,7 +130,7 @@
                     "root": "user-guide/rules-policy/index"
                   },
                   {
-                    "group": "开发工具",
+                    "group": "开发工具插件",
                     "pages": [
                       "user-guide/dev-tools/index",
                       "user-guide/dev-tools/jetbrains",
@@ -285,7 +285,7 @@
                     "root": "en/user-guide/installation/index"
                   },
                   {
-                    "group": "Workspaces & Database Context",
+                    "group": "Workspaces & Context",
                     "pages": [
                       "en/user-guide/workspaces/index",
                       "en/user-guide/workspaces/create-from-ddl",
@@ -311,7 +311,7 @@
                     "root": "en/user-guide/optimization/index"
                   },
                   {
-                    "group": "SQL Audit",
+                    "group": "SQL Quality review",
                     "pages": [
                       "en/user-guide/sql-audit/index",
                       "en/user-guide/sql-audit/create-task",
@@ -355,7 +355,7 @@
                     "root": "en/user-guide/rules-policy/index"
                   },
                   {
-                    "group": "Developer Tools",
+                    "group": "Developer Tool Integration",
                     "pages": [
                       "en/user-guide/dev-tools/index",
                       "en/user-guide/dev-tools/jetbrains",
