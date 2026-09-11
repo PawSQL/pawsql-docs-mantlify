@@ -109,9 +109,20 @@ flowchart LR
   end
 ```
 
-[了解 Automatic SQL Rewrite →](/features/automatic-sql-rewrite)
-
-[了解 Index Recommendation →](/features/index-recommendation)
+<CardGroup cols={2}>
+  <Card title="Automatic SQL Rewrite" icon="git-compare" href="/features/automatic-sql-rewrite">
+    自动生成语义等价的 SQL 重写方案。
+  </Card>
+  <Card title="Index Recommendation" icon="scan-search" href="/features/index-recommendation">
+    根据查询访问模式推荐候选索引。
+  </Card>
+  <Card title="Distributed SQL Optimization" icon="network" href="/features/distributed-sql-optimization">
+    面向分片键、分布式 Join 与跨节点访问的专项优化。
+  </Card>
+  <Card title="Big Data SQL Optimization" icon="hard-drive" href="/features/big-data-sql-optimization">
+    面向 Hive 等大数据引擎的数据倾斜与执行优化。
+  </Card>
+</CardGroup>
 
 ---
 
@@ -194,7 +205,7 @@ flowchart TD
 
 [了解 SQL Quality Gate →](/features/sql-quality-gate)
 
-了解 Batch SQL Governance →
+[了解 Batch SQL Governance →](/use-cases/slow-sql-optimization)
 
 ---
 
@@ -226,7 +237,20 @@ PawSQL 可以运行在开发 IDE、CI/CD Pipeline、企业内部平台和 AI Age
 - AI Coding Agent
 - 内部数据库管理平台
 
-了解 Platform & Integration →
+<CardGroup cols={2}>
+  <Card title="IDE 插件" icon="code" href="/user-guide/installation/ide-plugins">
+    在 IntelliJ IDEA、DataGrip 或 VS Code 中自检与优化 SQL。
+  </Card>
+  <Card title="CI/CD 集成" icon="git-merge" href="/user-guide/cicd/index">
+    把 SQL 质量门禁接入流水线。
+  </Card>
+  <Card title="PawSQL MCP" icon="bot" href="/user-guide/installation/pawsql-mcp">
+    让 AI 编程助手调用 SQL 审核与优化能力。
+  </Card>
+  <Card title="API 参考" icon="plug" href="/api-reference/list-workspaces">
+    通过 API 集成到企业平台与自动化系统。
+  </Card>
+</CardGroup>
 
 ---
 
