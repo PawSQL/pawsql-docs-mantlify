@@ -10,8 +10,10 @@
   },
   "logo": {
     "light": "/images/pawsql_logo_90.png",
-    "dark": "/images/pawsql_logo_90.png"
+    "dark": "/images/pawsql_logo_90.png",
+    "href": "https://www.pawsql.com"
   },
+  "favicon": "/images/pawsql_logo_90.png",
   "icons": {
     "library": "lucide"
   },
@@ -67,10 +69,7 @@
                       "user-guide/installation/ide-plugins",
                       "user-guide/installation/pawsql-mcp",
                       "user-guide/installation/authentication",
-                      "user-guide/installation/verify-installation",
-                      "user-guide/cloud/index",
-                      "user-guide/cloud/quickstart",
-                      "user-guide/cloud/results"
+                      "user-guide/installation/verify-installation"
                     ],
                     "icon": "download",
                     "root": "user-guide/installation/index"
@@ -79,14 +78,8 @@
                     "group": "工作空间与数据库上下文",
                     "pages": [
                       "user-guide/workspaces/index",
-                      "user-guide/workspaces/database-context",
-                      "user-guide/workspaces/create-workspace",
                       "user-guide/workspaces/create-from-ddl",
-                      "user-guide/workspaces/create-from-database",
-                      "user-guide/workspaces/manage-connections",
-                      "user-guide/workspaces/refresh-metadata",
-                      "user-guide/workspaces/manage-workspace",
-                      "user-guide/workspaces/permissions"
+                      "user-guide/workspaces/create-from-database"
                     ],
                     "icon": "box",
                     "root": "user-guide/workspaces/index"
@@ -310,14 +303,8 @@
                     "group": "Workspaces & Database Context",
                     "pages": [
                       "en/user-guide/workspaces/index",
-                      "en/user-guide/workspaces/database-context",
-                      "en/user-guide/workspaces/create-workspace",
                       "en/user-guide/workspaces/create-from-ddl",
-                      "en/user-guide/workspaces/create-from-database",
-                      "en/user-guide/workspaces/manage-connections",
-                      "en/user-guide/workspaces/refresh-metadata",
-                      "en/user-guide/workspaces/manage-workspace",
-                      "en/user-guide/workspaces/permissions"
+                      "en/user-guide/workspaces/create-from-database"
                     ],
                     "icon": "box",
                     "root": "en/user-guide/workspaces/index"

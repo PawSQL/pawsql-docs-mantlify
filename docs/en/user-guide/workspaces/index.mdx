@@ -1,20 +1,93 @@
 ---
 id: en-user-guide-workspaces-index
-title: Workspaces Overview
-description: Workspaces Overview — PawSQL User Guide (draft).
+title: Workspaces and Database Context
+description: Build the database context PawSQL needs for SQL review and optimization by using DDL or a live database connection.
 type: guide
 subtype: operation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-workspaces-index
 ---
 
-# Workspaces Overview
+A workspace is the primary container for SQL analysis context in PawSQL. It records the database engine, version, schema scope, and available metadata—such as tables, columns, constraints, and indexes—used by review, rewrite, index recommendation, plan analysis, and validation features.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+<Note>
+A workspace is not a business database. Creating one does not create, modify, or delete objects in the target database.
+</Note>
 
-## What this page will cover
+## How a workspace participates in analysis
 
-- To be added
+```mermaid
+flowchart TD
+    A["DDL or database connection"] --> B["Workspace"]
+    B --> C["Engine and version"]
+    B --> D["Tables, columns, constraints, indexes"]
+    C --> E["Dialect parsing and rule selection"]
+    D --> F["Rewrite, indexing, and plan analysis"]
+```
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+The same SQL can parse and optimize differently under a different engine, version, schema, or index set. Confirm that the selected workspace matches the environment where the SQL actually runs.
+
+## Two ways to create a workspace
+
+| Consideration | DDL | Database connection |
+| --- | --- | --- |
+| Direct database access | Not required | Required |
+| Metadata source | User-supplied definitions | Target database |
+| Refresh model | Reimport or edit DDL | Resynchronize |
+| Existing indexes | Must be included in DDL | Retrieved when permitted |
+| Statistics and online plans | Usually limited | Depends on database and permissions |
+| Best suited for | Isolated or limited analysis | Ongoing governance and richer validation |
+
+By scenario:
+
+| Scenario | Recommended source |
+| --- | --- |
+| One-off analysis | DDL |
+| Database is isolated from PawSQL | DDL |
+| Credentials cannot be provided | DDL |
+| No deployed database yet, but design-stage DDL exists | DDL |
+| A separate context for demos, training, or testing | DDL |
+| Team repeatedly analyzes the same database | Database connection |
+| Schema and index changes should be synchronized | Database connection |
+| Online plans or validation are required | Database connection with approved permissions |
+
+For a quick one-off analysis, a DDL workspace is usually enough; for ongoing review, batch governance, or performance validation, prefer a database connection. Steps are in [Create from DDL](/en/user-guide/workspaces/create-from-ddl) and [Create from a database](/en/user-guide/workspaces/create-from-database).
+
+## Configuration guidance
+
+Use names that distinguish the system, database, and environment:
+
+```text
+orders-mysql-test
+customer-oracle-production
+warehouse-hive-development
+```
+
+Avoid generic names such as `database-1` or `test`.
+
+| Field | Recommendation |
+| --- | --- |
+| Name | Include system, database, and environment |
+| Description | Record purpose, source, and owner |
+| Engine | Match the real database product |
+| Version | Use the deployed version, not a default latest version |
+| Default schema | Select the schema for unqualified names |
+| Metadata scope | Include only what the project needs |
+
+## Operating principles
+
+- Refresh metadata after structural changes.
+- Review task and user dependencies before retiring a workspace.
+- Validate any proposed database change in the real target conditions.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create from DDL" href="/en/user-guide/workspaces/create-from-ddl" />
+  <Card title="Create from a database" href="/en/user-guide/workspaces/create-from-database" />
+  <Card title="SQL optimization" href="/en/user-guide/optimization" />
+  <Card title="Supported databases" href="/en/getting-started/supported-databases" />
+</CardGroup>

@@ -1,21 +1,130 @@
 ---
 id: user-guide-workspaces-create-from-ddl
 title: 通过 DDL 创建工作空间
-description: 通过 DDL 创建工作空间——PawSQL 用户手册（草稿）。
+description: 使用表、视图和索引等 DDL 构建不依赖数据库连接的 PawSQL 工作空间。
 type: guide
 subtype: operation
+layout: detail
+product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-workspaces-create-from-ddl
 localeOf: en-user-guide-workspaces-create-from-ddl
 ---
 
-# 通过 DDL 创建工作空间
+通过 DDL 创建工作空间时，PawSQL 从用户提供的对象定义中构建数据库上下文，不需要访问目标数据库。这种方式适合网络隔离、快速验证、有限对象分析或不允许保存数据库凭据的场景。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 适用场景
 
-## 本节将覆盖
+- 无法从 PawSQL 网络连接目标数据库；
+- 企业安全策略不允许提供数据库账户；
+- 只需要分析少量 SQL 和相关对象；
+- 数据库尚未部署，但已有设计阶段 DDL；
+- 需要为示例、培训或测试建立独立上下文。
 
-- 待补充
+## 准备 DDL
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+为了获得更完整的分析结果，建议准备：
+
+- SQL 涉及表的 `CREATE TABLE` 语句；
+- 列名、数据类型、可空属性和默认值；
+- 主键、唯一约束和必要的外键；
+- 已有索引的定义和索引列顺序；
+- SQL 引用视图时的视图定义；
+- 对象所在 Schema；
+- 数据库特有的分区、分布或其他必要定义。
+
+<Note>
+只提供表名和列名虽然可能满足基础解析，但会限制依赖数据类型、约束和索引信息的审核与优化能力。
+</Note>
+
+## DDL 示例
+
+以下示例只用于说明 DDL 应包含的关键信息：
+
+```sql
+CREATE TABLE orders (
+    order_id      BIGINT       NOT NULL,
+    customer_id   BIGINT       NOT NULL,
+    order_status  VARCHAR(32)  NOT NULL,
+    created_at    TIMESTAMP    NOT NULL,
+    PRIMARY KEY (order_id)
+);
+
+CREATE INDEX idx_orders_customer_created
+    ON orders (customer_id, created_at);
+```
+
+实际 DDL 应使用目标数据库真实支持的语法和数据类型。
+
+## 创建步骤
+
+选择 DDL 方式后，需要完成以下步骤：
+
+<Steps>
+  <Step title="选择 DDL 方式">
+    将元数据来源设置为 DDL，然后进入 DDL 输入或导入页面。
+  </Step>
+  <Step title="输入 DDL">
+    粘贴或上传经过检查的 DDL。文件编码和大小应符合当前版本要求。
+  </Step>
+  <Step title="检查解析结果">
+    查看成功识别的 Schema、表、列、约束和索引，并处理解析失败的语句。
+  </Step>
+</Steps>
+
+## 多 Schema 和同名对象
+
+DDL 中存在多个 Schema 或同名表时，建议：
+
+- 在 DDL 中使用完整限定名；
+- 明确工作空间的默认 Schema；
+- 保留 SQL 实际使用的对象所属关系；
+- 测试未限定表名能否解析到正确对象。
+
+## 更新 DDL
+
+目标数据库结构发生变化后，应重新导入或更新对应 DDL，例如：
+
+- 新增、删除或修改列；
+- 新建或删除索引；
+- 修改约束；
+- 新增分区或改变分布策略；
+- 修改视图定义。
+
+更新后使用已有测试 SQL 检查对象解析和优化结果是否符合预期。
+
+## 限制
+
+DDL 工作空间通常无法直接提供：
+
+- 数据库实时统计信息；
+- 当前数据规模和分布；
+- 数据库优化器生成的在线执行计划；
+- 基于真实环境的 SQL 执行和性能验证；
+- 未包含在 DDL 中的对象和索引。
+
+<Warning>
+不要为了让 SQL 通过分析而编造主键、唯一约束或索引。这些信息可能改变重写安全性和索引推荐结论。
+</Warning>
+
+## 常见问题
+
+
+<AccordionGroup>
+  <Accordion title="DDL 无法解析">
+    检查数据库类型、版本、文件编码、语句分隔符和数据库专有语法。可以先缩小到失败语句进行定位。
+  </Accordion>
+  <Accordion title="SQL 中的表无法识别">
+    确认对应 DDL 已导入，并检查 Schema、大小写、引号和对象限定名。
+  </Accordion>
+  <Accordion title="产生了已有索引的重复建议">
+    检查 DDL 是否包含目标数据库中的现有索引定义，以及索引列顺序是否正确。
+  </Accordion>
+</AccordionGroup>
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="SQL 优化" href="/user-guide/optimization" />
+  <Card title="通过数据库连接创建" href="/user-guide/workspaces/create-from-database" />
+</CardGroup>

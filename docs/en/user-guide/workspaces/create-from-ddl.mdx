@@ -1,20 +1,87 @@
 ---
 id: en-user-guide-workspaces-create-from-ddl
 title: Create a Workspace from DDL
-description: Create a Workspace from DDL — PawSQL User Guide (draft).
+description: Build a self-contained PawSQL workspace from table, view, constraint, and index definitions without a live database connection.
 type: guide
 subtype: operation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-workspaces-create-from-ddl
 ---
 
-# Create a Workspace from DDL
+A DDL-based workspace derives database context from object definitions you provide. It is useful when the target database is unreachable, credentials cannot be shared, or the analysis scope is small and well defined.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## What to include
 
-## What this page will cover
+- `CREATE TABLE` statements for every referenced table;
+- column names, data types, nullability, and defaults;
+- primary keys, unique constraints, and relevant foreign keys;
+- existing index definitions and key order;
+- view definitions used by the query;
+- schema-qualified object names where needed;
+- relevant partitioning or distribution definitions.
 
-- To be added
+<Note>
+Table and column names may be enough for basic parsing, but metadata-dependent rewrites and index analysis often require types, constraints, and existing indexes.
+</Note>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Example
+
+```sql
+CREATE TABLE orders (
+    order_id      BIGINT       NOT NULL,
+    customer_id   BIGINT       NOT NULL,
+    order_status  VARCHAR(32)  NOT NULL,
+    created_at    TIMESTAMP    NOT NULL,
+    PRIMARY KEY (order_id)
+);
+
+CREATE INDEX idx_orders_customer_created
+    ON orders (customer_id, created_at);
+```
+
+Use syntax valid for the actual target engine and version.
+
+## Create the workspace
+
+After choosing DDL as the source, complete these steps:
+
+<Steps>
+  <Step title="Choose DDL as the source">Open the DDL input or upload flow.</Step>
+  <Step title="Provide the definitions">Paste or upload current, sanitized DDL.</Step>
+  <Step title="Review parsing">Inspect recognized schemas, objects, constraints, indexes, and failures.</Step>
+</Steps>
+
+## Multiple schemas
+
+When identical object names exist in multiple schemas:
+
+- qualify names in DDL;
+- set the appropriate default schema;
+- preserve the schema relationships used in production SQL;
+- test unqualified names explicitly.
+
+## Limitations
+
+A DDL-only workspace generally cannot provide live statistics, data distribution, database-generated plans, runtime validation, or objects omitted from the supplied definitions.
+
+<Warning>
+Do not invent a primary key, uniqueness constraint, or index to make analysis succeed. Incorrect metadata can change rewrite safety and recommendation quality.
+</Warning>
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| DDL does not parse | Engine, version, encoding, delimiters, vendor syntax |
+| Query object is unresolved | Missing DDL, schema, case, quoting |
+| Recommendation duplicates an existing index | Existing index definition missing or incomplete |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="SQL optimization" href="/en/user-guide/optimization" />
+  <Card title="Create from a database" href="/en/user-guide/workspaces/create-from-database" />
+</CardGroup>

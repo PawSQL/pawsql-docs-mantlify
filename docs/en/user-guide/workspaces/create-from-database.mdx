@@ -1,20 +1,74 @@
 ---
 id: en-user-guide-workspaces-create-from-database
-title: Create a Workspace from a Database Connection
-description: Create a Workspace from a Database Connection — PawSQL User Guide (draft).
+title: Create a Workspace from a Database
+description: Connect PawSQL to a database and synchronize the authorized schemas, tables, columns, constraints, and indexes.
 type: guide
 subtype: operation
+layout: detail
+product: pawsql
 status: draft
 language: en
 translationKey: user-guide-workspaces-create-from-database
 ---
 
-# Create a Workspace from a Database Connection
+A connected workspace retrieves metadata from the target database through a dedicated account. This approach is designed for recurring team use, evolving schemas, production query governance, and features that depend on plans or runtime information.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Prerequisites
 
-## What this page will cover
+A connected workspace requires:
 
-- To be added
+- Network reachability from the PawSQL service to the database;
+- a database and version supported by the PawSQL release;
+- a dedicated database account;
+- an approved database or schema scope;
+- known TLS, allowlist, proxy, and connection-limit requirements;
+- permission to create both workspaces and connections.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Apply least privilege
+
+| Required capability | Permission approach |
+| --- | --- |
+| Read schema and index metadata | Grant only the catalog access required for the selected scope |
+| Retrieve execution plans | Add the minimum plan privilege required by that database |
+| Run online validation | Permit only in an isolated, approved environment |
+| Collect patrol data | Restrict access to approved instances and performance views |
+
+<Warning>
+Do not use a database administrator account or reuse an application account. A failed metadata read is not a reason to grant unrestricted privileges.
+</Warning>
+
+## Connection inputs
+
+Typical inputs include connection name, engine and version, host, port, database or service identifier, username, secret, TLS configuration, optional driver properties, and schema scope. Exact fields vary by database and PawSQL release.
+
+## Create the workspace
+
+After choosing the database connection source, complete these steps:
+
+<Steps>
+  <Step title="Choose database connection">Create a connection or select an approved shared connection.</Step>
+  <Step title="Enter connectivity settings">Provide endpoint, identity, and security parameters.</Step>
+  <Step title="Test the connection">Validate network, TLS, authentication, and basic catalog access.</Step>
+  <Step title="Limit synchronization scope">Select only the databases or schemas required by the project.</Step>
+  <Step title="Synchronize and review">Inspect created, updated, skipped, and failed objects.</Step>
+</Steps>
+
+## Scope guidance
+
+A focused schema scope reduces synchronization time, limits metadata exposure, and makes object selection easier. Include multiple schemas only when the target SQL genuinely crosses those boundaries.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Connection timeout | Network path from PawSQL, DNS, routing, firewall, allowlist |
+| Authentication failure | Username, secret, database identifier, account status |
+| TLS error | Certificate validity, hostname, trust chain, supported protocol |
+| No schemas visible | Catalog permissions, default database, scope filters |
+| Some objects fail | Object type support, permissions, identifier case, compatibility |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Verify connectivity" href="/en/user-guide/installation/verify-installation" />
+</CardGroup>
