@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "mint",
   "name": "PawSQL",
   "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
   "colors": {
@@ -8,12 +8,7 @@
     "light": "#26BD6C",
     "dark": "#0D9373"
   },
-  "logo": {
-    "light": "/images/pawsql_logo_90.png",
-    "dark": "/images/pawsql_logo_90.png",
-    "href": "https://www.pawsql.com"
-  },
-  "favicon": "/images/pawsql_logo_90.png",
+  "favicon": "/images/favicon.png",
   "icons": {
     "library": "lucide"
   },
@@ -24,15 +19,6 @@
     "eyebrows": "breadcrumbs"
   },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "首页",
-          "icon": "house",
-          "href": "/"
-        }
-      ]
-    },
     "languages": [
       {
         "language": "zh",
@@ -45,9 +31,9 @@
                 "group": "开始使用",
                 "icon": "rocket",
                 "expanded": true,
-                "root": "getting-started/overview",
+                "root": "getting-started/index",
                 "pages": [
-                  "getting-started/overview",
+                  "getting-started/index",
                   "getting-started/quickstart",
                   "getting-started/choose-access",
                   "getting-started/supported-databases"
@@ -270,9 +256,8 @@
                 "icon": "rocket",
                 "directory": "accordion",
                 "expanded": true,
-                "root": "en/getting-started/overview",
+                "root": "en/index",
                 "pages": [
-                  "en/getting-started/overview",
                   "en/getting-started/quickstart",
                   "en/getting-started/choose-access",
                   "en/getting-started/supported-databases"
