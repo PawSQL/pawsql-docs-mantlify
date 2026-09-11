@@ -74,7 +74,11 @@ PawSQL 基于 SQL 解析、语义分析、数据库元数据和规则引擎，�
 
 开发自检、代码评审、上线审核、数据库变更审核、企业 SQL 规范治理。
 
-[了解 SQL Review →](/features/sql-review)
+<CardGroup cols={2}>
+  <Card title="SQL Review" icon="list-check" href="/features/sql-review">
+    在 SQL 上线前识别规范、安全与性能风险。
+  </Card>
+</CardGroup>
 
 ---
 
@@ -159,9 +163,14 @@ flowchart TD
 **发现问题 → 生成优化方案 → 验证优化效果**
 </Note>
 
-[了解 Performance Validation →](/features/performance-validation)
-
-[了解 Execution Plan Visualization →](/features/execution-plan-visualization)
+<CardGroup cols={2}>
+  <Card title="Performance Validation" icon="gauge" href="/features/performance-validation">
+    用数据库优化器验证优化是否真正更快。
+  </Card>
+  <Card title="Execution Plan Visualization" icon="list-tree" href="/features/execution-plan-visualization">
+    把文本执行计划还原为可视化执行树。
+  </Card>
+</CardGroup>
 
 ---
 
@@ -203,9 +212,14 @@ flowchart TD
   end
 ```
 
-[了解 SQL Quality Gate →](/features/sql-quality-gate)
-
-[了解 Batch SQL Governance →](/use-cases/slow-sql-optimization)
+<CardGroup cols={2}>
+  <Card title="SQL Quality Gate" icon="shield-check" href="/features/sql-quality-gate">
+    把 SQL 质量门禁接入 CI/CD 流水线。
+  </Card>
+  <Card title="Batch SQL Governance" icon="gauge" href="/use-cases/slow-sql-optimization">
+    批量治理生产环境慢 SQL。
+  </Card>
+</CardGroup>
 
 ---
 
@@ -313,22 +327,10 @@ flowchart LR
 如果你刚开始使用 PawSQL，可以从以下内容继续：
 
 <CardGroup cols={2}>
-  <Card title="SQL Review" href="/features/sql-review" icon="list-check">
-    了解 SQL 审核与风险识别
+  <Card title="使用场景" icon="compass" href="/use-cases/index">
+    查看 PawSQL 在真实研发与数据库治理流程中的使用方式。
   </Card>
-  <Card title="Automatic SQL Rewrite" href="/features/automatic-sql-rewrite" icon="wand-sparkles">
-    了解 SQL 自动重写
-  </Card>
-  <Card title="Index Recommendation" href="/features/index-recommendation" icon="database">
-    了解智能索引推荐
-  </Card>
-  <Card title="Performance Validation" href="/features/performance-validation" icon="gauge">
-    了解优化效果验证
-  </Card>
-  <Card title="Execution Plan Visualization" href="/features/execution-plan-visualization" icon="chart-line">
-    了解执行计划可视化
-  </Card>
-  <Card title="Use Cases" href="/use-cases" icon="compass">
-    查看 PawSQL 在真实研发与数据库治理流程中的使用方式
+  <Card title="支持的数据库" icon="database" href="/getting-started/supported-databases">
+    确认数据库、版本与能力的支持范围。
   </Card>
 </CardGroup>

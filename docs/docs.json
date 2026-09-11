@@ -401,9 +401,7 @@
                   "en/features/execution-plan-visualization",
                   "en/features/sql-quality-gate",
                   "en/features/distributed-sql-optimization",
-                  "en/features/big-data-sql-optimization",
-                  "en/products/optimizer",
-                  "en/products/advisor"
+                  "en/features/big-data-sql-optimization"
                 ]
               },
               {

@@ -77,7 +77,11 @@ PawSQL performs structured SQL analysis using parsing, semantic analysis, databa
 
 Developer self-review, code review, release checks, database change review, and enterprise SQL policy enforcement.
 
-[Explore SQL Review →](/en/features/sql-review)
+<CardGroup cols={2}>
+  <Card title="SQL Review" icon="list-check" href="/en/features/sql-review">
+    Identify standards, safety, and performance risks before release.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -162,9 +166,14 @@ This creates a complete optimization loop:
 **Detect → Optimize → Validate**
 </Note>
 
-[Explore Performance Validation →](/en/features/performance-validation)
-
-[Explore Execution Plan Visualization →](/en/features/execution-plan-visualization)
+<CardGroup cols={2}>
+  <Card title="Performance Validation" icon="gauge" href="/en/features/performance-validation">
+    Confirm with the database optimizer that a change is actually faster.
+  </Card>
+  <Card title="Execution Plan Visualization" icon="list-tree" href="/en/features/execution-plan-visualization">
+    Turn text plans into a visual execution tree.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -206,9 +215,14 @@ flowchart TD
   end
 ```
 
-[Explore SQL Quality Gate →](/en/features/sql-quality-gate)
-
-[Explore Batch SQL Governance →](/en/use-cases/slow-sql-optimization)
+<CardGroup cols={2}>
+  <Card title="SQL Quality Gate" icon="shield-check" href="/en/features/sql-quality-gate">
+    Enforce SQL quality gates in CI/CD.
+  </Card>
+  <Card title="Batch SQL Governance" icon="gauge" href="/en/use-cases/slow-sql-optimization">
+    Govern production slow SQL at scale.
+  </Card>
+</CardGroup>
 
 ---
 
@@ -316,22 +330,10 @@ SQL optimization therefore becomes a repeatable engineering capability rather th
 If you are new to PawSQL, continue with these core capabilities:
 
 <CardGroup cols={2}>
-  <Card title="SQL Review" href="/en/features/sql-review" icon="list-check">
-    identify SQL quality and risk issues
+  <Card title="Use Cases" icon="compass" href="/en/use-cases/index">
+    See how PawSQL fits real development and database governance workflows.
   </Card>
-  <Card title="Automatic SQL Rewrite" href="/en/features/automatic-sql-rewrite" icon="wand-sparkles">
-    automatically transform inefficient SQL
-  </Card>
-  <Card title="Index Recommendation" href="/en/features/index-recommendation" icon="database">
-    generate intelligent index recommendations
-  </Card>
-  <Card title="Performance Validation" href="/en/features/performance-validation" icon="gauge">
-    validate optimization effectiveness
-  </Card>
-  <Card title="Execution Plan Visualization" href="/en/features/execution-plan-visualization" icon="chart-line">
-    understand complex execution plans
-  </Card>
-  <Card title="Use Cases" href="/en/use-cases" icon="compass">
-    see how PawSQL fits real development and database governance workflows
+  <Card title="Supported Databases" icon="database" href="/en/getting-started/supported-databases">
+    Confirm database, version, and capability coverage.
   </Card>
 </CardGroup>
