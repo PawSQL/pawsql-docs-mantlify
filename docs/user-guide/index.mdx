@@ -1,21 +1,94 @@
 ---
 id: user-guide-index
-title: 用户手册概述
-description: 用户手册概述——PawSQL 用户手册（草稿）。
+title: 用户手册概览
+description: PawSQL 用户手册提供面向实际任务的操作指南，帮助开发人员、DBA、审核人员、DevOps 工程师和平台管理员正确配置分析环境，并在研发、测试、发布和生产治理过程中使用 PawSQL。
 type: guide
 subtype: operation
+layout: index
+product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-index
 localeOf: en-user-guide-index
 ---
 
-# 用户手册概述
+如果你是第一次使用 PawSQL，建议先完成[一分钟完成 SQL 优化](/getting-started/quickstart)，再通过本手册了解工作空间、数据库上下文和完整操作流程。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 从这里开始
 
-## 本节将覆盖
+<CardGroup cols={2}>
+  <Card title="安装与接入" href="/user-guide/installation" icon="download">
+    登录 PawSQL Cloud，部署 PawSQL Server，或配置 IDE 与 MCP。
+  </Card>
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" icon="layer-group">
+    通过 DDL 或数据库连接建立 SQL 分析所需的上下文。
+  </Card>
+</CardGroup>
 
-- 待补充
+## 推荐学习路径
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<Steps>
+  <Step title="选择使用方式">
+    根据使用场景选择 PawSQL Cloud、PawSQL Server、IDE 插件、PawSQL MCP 或 API。参见[选择使用方式](/getting-started/choose-access)。
+  </Step>
+  <Step title="完成安装或登录">
+    连接 PawSQL 服务并确认账号可以正常访问目标组织或项目。
+  </Step>
+  <Step title="创建工作空间">
+    指定数据库类型和版本，通过 DDL 或数据库连接导入表、列和索引等元数据。
+  </Step>
+  <Step title="完成第一项任务">
+    提交一条 SQL，查看审核问题、重写结果、索引建议和性能验证信息。
+  </Step>
+  <Step title="进入团队工作流">
+    根据职责继续配置审核任务、质量门禁、性能巡检、权限或系统管理。
+  </Step>
+</Steps>
+
+## 按角色阅读
+
+| 角色 | 建议阅读顺序 | 主要目标 |
+| --- | --- | --- |
+| 开发人员 | 工作空间 → SQL 优化 → 开发工具 | 在编码阶段发现并修复 SQL 问题 |
+| DBA | 工作空间 → SQL 审核 → 性能巡检 | 控制上线风险并治理生产慢 SQL |
+| 审核人员 | SQL 审核 → 规则与质量策略 | 复核风险、管理例外并跟踪处理结果 |
+| DevOps 工程师 | 规则与质量策略 → CI/CD 集成 | 建立自动化 SQL 质量门禁 |
+| 项目管理员 | 工作空间 → 组织、项目与权限 | 配置项目资源及成员权限 |
+| 系统管理员 | 安装与接入 → 权限 → 系统管理 | 维护服务、授权、连接和运行状态 |
+
+## 基本对象
+
+| 对象 | 用途 |
+| --- | --- |
+| 组织与项目 | 定义用户、工作空间、任务和权限的管理边界 |
+| 工作空间 | 保存目标数据库类型、版本和元数据，为 SQL 分析提供上下文 |
+| 数据库连接 | 从目标数据库获取表、列、索引及其他允许访问的元数据 |
+| 规则集 | 定义需要检查的 SQL 规范、风险级别和参数阈值 |
+| 优化任务 | 记录 SQL 输入、重写建议、索引建议及验证结果 |
+| 审核任务 | 记录待审核脚本、规则问题、处理状态和审批结论 |
+| 巡检任务 | 组织慢 SQL 采集、批量分析、优化建议和治理进度 |
+
+<Note>
+工作空间不会创建或修改业务数据库。它用于保存 SQL 分析所需的数据库上下文；只有在用户主动执行 SQL 或索引变更时，目标数据库才可能发生变化。
+</Note>
+
+## 用户手册分组
+
+<CardGroup cols={2}>
+  <Card title="安装与接入" href="/user-guide/installation" />
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" />
+  <Card title="SQL 优化" href="/user-guide/optimization" />
+  <Card title="SQL 审核" href="/user-guide/sql-audit" />
+  <Card title="批量优化与性能巡检" href="/user-guide/performance" />
+  <Card title="规则与质量策略" href="/user-guide/rules-policy" />
+  <Card title="开发工具" href="/user-guide/dev-tools" />
+  <Card title="CI/CD 与平台集成" href="/user-guide/cicd" />
+</CardGroup>
+
+## 文档使用说明
+
+操作指南通常包含前提条件、操作步骤、结果说明、注意事项和相关文档。不同版本和授权方案可用的功能可能不同，具体支持范围以产品界面、License 和[支持的数据库](/getting-started/supported-databases)为准。
+
+## 获取帮助
+
+遇到问题时，请记录 PawSQL 版本、使用入口、数据库类型和版本、工作空间、任务编号、完整错误信息及可复现问题的最小 SQL 或 DDL，然后前往[帮助与排障](/help)查找处理方法。提交信息前请移除密码、令牌、连接串和业务敏感数据。
