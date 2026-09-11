@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-optimization-apply-index
-title: Apply Index Recommendations
-description: Apply Index Recommendations — PawSQL User Guide (draft).
+title: Apply an Index Recommendation
+description: Evaluate index overlap, read benefit, write overhead, deployment risk, and long-term maintenance before creating an index.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,76 @@ language: en
 translationKey: user-guide-optimization-apply-index
 ---
 
-# Apply Index Recommendations
+PawSQL proposes indexes from predicates, joins, ordering, grouping, and available database context. A recommendation is a candidate design, not an instruction to execute DDL immediately.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Evaluation workflow
 
-## What this page will cover
+<Steps>
+  <Step title="Verify metadata">Confirm tables, columns, existing indexes, and database version.</Step>
+  <Step title="Identify the access goal">Determine whether the candidate targets filtering, joining, ordering, grouping, or query coverage.</Step>
+  <Step title="Check overlap">Compare key order, included columns, filters, uniqueness, and index type.</Step>
+  <Step title="Measure read benefit">Test plan choice, runtime, scanned rows, and resource use.</Step>
+  <Step title="Measure operational cost">Assess writes, storage, build time, locking, and maintenance.</Step>
+  <Step title="Review and deploy">Use database-appropriate DDL, an approved window, and a rollback plan.</Step>
+</Steps>
 
-- To be added
+## Read the definition
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+Confirm target schema and table, index type, key columns and order, sort direction, included columns, filter predicate, uniqueness, partition or global scope, and online-build options.
+
+## Compare with existing indexes
+
+| Relationship | What to inspect | Likely action |
+| --- | --- | --- |
+| Identical | All keys and properties match | Do not duplicate |
+| Existing index covers candidate | Candidate is a leading prefix | Validate whether the existing index already solves the query |
+| Candidate covers existing index | Wider index may replace a narrower one | Analyze all dependent SQL before consolidation |
+| Same columns, different order | Leading-column selectivity and ordering requirements | Test both designs |
+| Partial overlap | Different workload goals | Evaluate at workload level |
+
+<Warning>
+The same set of columns does not make two indexes equivalent. Column order, included columns, filters, direction, uniqueness, and index type all matter.
+</Warning>
+
+## Evaluate benefit
+
+Look for a smaller scan range, fewer rows read, improved join access, reduced sorting, less temporary work, or a useful covering path. Confirm that the optimizer actually selects the candidate for representative parameters.
+
+## Evaluate cost
+
+| Cost | Questions |
+| --- | --- |
+| DML | How much do INSERT, UPDATE, and DELETE slow down? |
+| Storage | What is the current and projected index size? |
+| Build | What CPU, I/O, log, and temporary space are required? |
+| Locking | Can creation block readers or writers? |
+| Maintenance | What changes for statistics, rebuilds, backup, and restore? |
+| Distributed systems | Does a global index add replication or network cost? |
+
+## Deployment workflow
+
+1. Generate DDL valid for the exact engine and version.
+2. Build and measure the index in a representative test environment.
+3. Compare read performance and representative write performance.
+4. Submit evidence, capacity estimate, rollout window, and rollback DDL for review.
+5. Deploy during an approved window and monitor locks, load, storage, and plan changes.
+
+## Reject or defer when
+
+- existing indexes are not fully synchronized;
+- the candidate duplicates an index;
+- the query is too rare to justify maintenance cost;
+- write overhead or index width is unacceptable;
+- the optimizer does not use it under representative conditions;
+- there is no safe build window or rollback plan.
+
+Do not immediately remove an older “overlapping” index until workload-wide usage is understood.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Validate performance" href="/en/user-guide/optimization/verify-result" />
+  <Card title="Compare execution plans" href="/en/user-guide/optimization/compare-plans" />
+  <Card title="Index Recommendation" href="/en/features/index-recommendation" />
+  <Card title="History and export" href="/en/user-guide/optimization/history-export" />
+</CardGroup>

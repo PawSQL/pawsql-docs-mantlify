@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-optimization-compare-plans
-title: View and Compare Execution Plans
-description: View and Compare Execution Plans — PawSQL User Guide (draft).
+title: Compare Execution Plans
+description: Compare access paths, join strategies, estimates, sorting, temporary work, and distributed data movement.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,75 @@ language: en
 translationKey: user-guide-optimization-compare-plans
 ---
 
-# View and Compare Execution Plans
+An execution plan describes how the database intends to run a statement. PawSQL makes plan structure easier to inspect, but interpretation still depends on engine version, statistics, parameters, and runtime evidence.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Before retrieving a plan
 
-## What this page will cover
+- Use the correct database and environment.
+- Confirm successful SQL parsing.
+- Grant only the plan privileges required by the database.
+- Use representative parameters.
+- Ensure statistics reasonably reflect current data.
+- Determine whether the selected plan mode executes the SQL.
 
-- To be added
+<Warning>
+Some actual-plan modes execute the statement. Confirm product and database behavior before using them with DML or expensive production queries.
+</Warning>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Reading sequence
+
+<Steps>
+  <Step title="Confirm provenance">Verify SQL, database, parameters, plan type, and timestamp.</Step>
+  <Step title="Inspect access paths">Review scans, indexes, filters, and rows read.</Step>
+  <Step title="Inspect joins">Check join order, algorithm, input size, and intermediate results.</Step>
+  <Step title="Locate expensive work">Find sorts, aggregation, temporary data, lookups, repeated subplans, and data movement.</Step>
+  <Step title="Compare estimates with actuals">Large row-count errors may indicate stale statistics or correlation.</Step>
+  <Step title="Compare the candidate">Confirm that the intended cost is reduced without creating a new bottleneck elsewhere.</Step>
+</Steps>
+
+## What to inspect
+
+| Area | Question |
+| --- | --- |
+| Full scan | Is it appropriate for the table size and result fraction? |
+| Index access | Does it reduce work, or still read and look up many rows? |
+| Join strategy | Does it fit input size and ordering? |
+| Row estimates | Are estimates close enough to actuals? |
+| Sort and aggregation | Is intermediate work spilling or growing excessively? |
+| Repeated execution | Is a subplan invoked far more often than expected? |
+| Data movement | Are broadcast or redistribution costs dominating? |
+| Parallelism | Does it improve throughput or only add coordination overhead? |
+
+## Comparison table
+
+| Dimension | Original | Candidate | Decision signal |
+| --- | --- | --- | --- |
+| Access path | Scan or index method | New method | Reduced work? |
+| Join | Order and algorithm | Changed order or algorithm | Smaller intermediates? |
+| Cardinality | Key estimates | Key estimates | Closer to reality? |
+| Sort or temporary work | Presence and scale | Presence and scale | Reduced? |
+| Optimizer cost | Baseline estimate | Candidate estimate | Relative signal only |
+| Actual metrics | Runtime and resources | Runtime and resources | Stable improvement? |
+
+## Cost is not elapsed time
+
+Optimizer cost is an internal value used to rank plans. It is not milliseconds and should not be compared across different engines, instances, or configurations. A lower cost is useful evidence only when the context is comparable and runtime behavior supports the same conclusion.
+
+## Common mistakes
+
+- Treating every full scan as a defect.
+- Looking only at total cost.
+- Equating cost with milliseconds.
+- Checking index usage without rows read or lookup cost.
+- Ignoring parameters, statistics, and cache state.
+- Assuming a shorter plan must be faster.
+- Using a plan from another environment as production evidence.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Validate performance" href="/en/user-guide/optimization/verify-result" />
+  <Card title="Execution Plan Visualization" href="/en/features/execution-plan-visualization" />
+  <Card title="Apply a SQL rewrite" href="/en/user-guide/optimization/apply-rewrite" />
+  <Card title="Apply an index recommendation" href="/en/user-guide/optimization/apply-index" />
+</CardGroup>

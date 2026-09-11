@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-optimization-verify-result
-title: Verify Optimization Results
-description: Verify Optimization Results — PawSQL User Guide (draft).
+title: Validate Optimization Performance
+description: Compare correctness and performance under controlled, representative conditions before releasing an SQL or index change.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,75 @@ language: en
 translationKey: user-guide-optimization-verify-result
 ---
 
-# Verify Optimization Results
+Performance validation answers two separate questions: does the candidate remain correct, and does it provide a stable improvement? A single runtime measurement or optimizer cost is rarely enough for a production decision.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Validation levels
 
-## What this page will cover
+| Level | Evidence | Best used for |
+| --- | --- | --- |
+| Static review | Semantics, syntax, objects, compatibility | Initial screening |
+| Plan comparison | Operators, estimates, rows, cost | Fast or non-executing assessment |
+| Isolated measurement | Runtime, scans, CPU, I/O, result equivalence | Test and staging |
+| Production observation | Latency, throughput, stability, regression | Controlled post-release monitoring |
 
-- To be added
+## Preserve comparability
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+Use the same engine and version, instance class, data, statistics, parameter values, session settings, result-consumption behavior, and measurement method. Record any unavoidable differences.
+
+## Validation workflow
+
+<Steps>
+  <Step title="Define the objective">Select the metric the change is intended to improve.</Step>
+  <Step title="Establish a baseline">Record original SQL, parameters, plans, result checks, and repeated measurements.</Step>
+  <Step title="Verify correctness">Compare result sets, types, affected rows, or final data state.</Step>
+  <Step title="Run the candidate">Use identical conditions and multiple executions.</Step>
+  <Step title="Compare the distribution">Inspect typical behavior, variability, and worst cases—not just the fastest run.</Step>
+  <Step title="Make a decision">Accept, refine, reject, or expand testing with documented evidence.</Step>
+</Steps>
+
+## Useful metrics
+
+| Metric | What it shows |
+| --- | --- |
+| Response time | End-to-end user or caller latency |
+| Database execution time | Time spent executing inside the database |
+| Rows scanned or read | Efficiency of the access path |
+| CPU and I/O | Resource demand |
+| Sort and temporary space | Intermediate processing cost |
+| Lock wait | Impact on concurrent transactions |
+| Network movement | Distributed-query cost |
+| Write latency | Index-maintenance overhead |
+
+## Parameter coverage
+
+Test common, high-selectivity, low-selectivity, no-result, boundary-date, and boundary-number values. Include values likely to produce different plans.
+
+## Account for cache effects
+
+First execution may include compilation and cold I/O; later executions may benefit from cached pages or plans. Define whether the test measures cold or warm behavior, use a consistent sequence, run multiple times, and record concurrent system load.
+
+## Correctness evidence
+
+For queries, compare row counts, complete results or controlled samples, key columns, types, order where required, aggregates, or bidirectional set differences. Validate DML only in an isolated or safely reversible environment.
+
+<Warning>
+Do not repeatedly run expensive SQL, build unapproved indexes, or execute broad DML against production merely to collect benchmark data.
+</Warning>
+
+## Acceptance criteria
+
+- Results remain correct.
+- The target database supports the candidate.
+- Priority metrics improve consistently.
+- Write, lock, storage, and resource regressions remain acceptable.
+- Test conditions represent real use.
+- Review, rollout, observation, and rollback are ready.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Compare execution plans" href="/en/user-guide/optimization/compare-plans" />
+  <Card title="Apply a SQL rewrite" href="/en/user-guide/optimization/apply-rewrite" />
+  <Card title="Apply an index recommendation" href="/en/user-guide/optimization/apply-index" />
+  <Card title="Performance Validation" href="/en/features/performance-validation" />
+</CardGroup>
