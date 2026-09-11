@@ -19,93 +19,46 @@ product: pawsql
 
 ## Govern SQL Across the Entire Lifecycle — From Development to Production
 
-SQL problems do not begin in production.
+SQL problems do not begin in production. They may be introduced when a developer writes the first query, during code review, while database changes are released, or later as data volume and workload patterns evolve.
 
-They may be introduced when a developer writes the first query, during code review, while database changes are released, or later as data volume and workload patterns evolve.
+A traditional workflow often looks like this:
 
-A traditional workflow often looks like:
-
-```text
-Write SQL
-    ↓
-Release
-    ↓
-Production
-    ↓
-Slow Query
-    ↓
-DBA Investigation
-    ↓
-Emergency Optimization
+```mermaid
+flowchart LR
+    A[Write SQL] --> B[Release] --> C[Production] --> D[Slow Query]
+    D --> E[DBA Investigation] --> F[Emergency Optimization]
 ```
 
 PawSQL moves SQL governance earlier and extends it across the full software lifecycle:
 
-```text
-Write
-  ↓
-Analyze
-  ↓
-Review
-  ↓
-Release
-  ↓
-Monitor
-  ↓
-Optimize
-  ↓
-Improve
+```mermaid
+flowchart LR
+    A[Write] --> B[Analyze] --> C[Review] --> D[Release]
+    D --> E[Monitor] --> F[Optimize] --> G[Improve]
 ```
 
-**Whether you are a developer, DevOps engineer, DBA, database architect, or engineering leader, PawSQL provides a governance workflow for the SQL problems you are responsible for.**
-
----
+<Note>
+Whether you are a developer, DevOps engineer, DBA, database architect, or engineering leader, PawSQL provides a governance workflow for the SQL problems you are responsible for.
+</Note>
 
 ## From SQL Optimization Tool to SQL Engineering Platform
 
-Many enterprises already have SQL standards documents, manual DBA reviews, CI/CD pipelines, APM platforms, slow-query monitoring, and database migration tools.
+Many enterprises already have SQL standards documents, manual DBA reviews, CI/CD pipelines, APM platforms, slow-query monitoring, and database migration tools. The problem is that these capabilities are often disconnected.
 
-The problem is that these capabilities are often disconnected.
+PawSQL connects SQL work across the lifecycle:
 
-PawSQL connects SQL work across:
-
-```text
-Development
-    ↓
-Delivery
-    ↓
-Production
-    ↓
-Governance
+```mermaid
+flowchart LR
+    A[Development] --> B[Delivery] --> C[Production] --> D[Governance]
 ```
 
-through a shared intelligence layer:
-
-```text
-SQL Review
-+
-SQL Rewrite
-+
-Index Advisor
-+
-Execution Plan Analysis
-+
-Performance Validation
-```
-
-helping organizations build scalable **SQL Engineering** and **SQL Governance** capabilities.
-
----
+through a shared intelligence layer: **SQL Review · SQL Rewrite · Index Advisor · Execution Plan Analysis · Performance Validation** — helping organizations build scalable SQL Engineering and SQL Governance capabilities.
 
 ## Choose the Use Case That Matches Your Challenge
 
 ### Developer SQL Copilot
 
-#### Fix SQL Performance Problems While You Code
-
 Developers are usually the first people to work with SQL—and the earliest point where performance problems can be prevented.
-
-For example:
 
 ```sql
 SELECT *
@@ -116,213 +69,133 @@ WHERE DATE(create_time) = '2026-09-04'
 
 The query may perform well in development, but once the production table grows to tens or hundreds of millions of rows, function-wrapped predicates, inefficient subqueries, poor index design, and deep pagination can become serious bottlenecks.
 
-PawSQL Developer SQL Copilot helps developers with:
+PawSQL Developer SQL Copilot helps developers with: SQL performance risk detection · root-cause explanation · equivalent SQL rewrites · index recommendations · execution-plan analysis · optimization validation.
 
-- SQL performance risk detection
-- root-cause explanation
-- equivalent SQL rewrites
-- index recommendations
-- execution-plan analysis
-- optimization validation
-
-> **Fix SQL performance problems before the code is committed.**
+<Note>
+**Fix SQL performance problems before the code is committed.**
+</Note>
 
 [Explore Developer SQL Copilot →](/en/use-cases/developer-sql-copilot)
 
----
-
 ### SQL Quality Gate for CI/CD
 
-#### Stop Risky SQL Before It Reaches Production
+Application code already has unit tests, code review, security scanning, and CI/CD. Database SQL should have the same level of engineering control. PawSQL can integrate SQL review and performance analysis into CI/CD:
 
-Application code already has unit tests, code review, security scanning, and CI/CD. Database SQL should have the same level of engineering control.
-
-PawSQL can integrate SQL review and performance analysis into CI/CD:
-
-```text
-Developer Commit
-        ↓
-Pull Request
-        ↓
-CI/CD
-        ↓
-PawSQL SQL Review
-        ↓
-Policy Evaluation
-        ↓
-PASS / BLOCK
+```mermaid
+flowchart LR
+    A[Developer Commit] --> B[Pull Request] --> C[CI/CD]
+    C --> D[SQL Review] --> E[Policy Evaluation] --> F{PASS / BLOCK}
 ```
 
-Teams can automatically detect risky DML / DDL, standards violations, performance risks, missing indexes, deep pagination, inefficient subqueries, and problematic joins.
+Teams can automatically detect risky DML / DDL, standards violations, performance risks, missing indexes, deep pagination, inefficient subqueries, and problematic joins — then decide between PASS, WARNING, DBA REVIEW, or BLOCK.
 
-> **Turn SQL review from a manual approval process into an automated quality gate.**
+<Note>
+**Turn SQL review from a manual approval process into an automated quality gate.**
+</Note>
 
 [Explore SQL Quality Gate →](/en/use-cases/sql-quality-gate-cicd)
 
----
-
 ### DBA Slow SQL Optimization at Scale
-
-#### Move from Query-by-Query Firefighting to Scalable Performance Governance
 
 Monitoring platforms can tell DBAs which SQL is slow. The harder questions are why it is slow, how it should be rewritten, which index is needed, and whether the optimized plan is actually better.
 
-PawSQL connects:
+PawSQL connects slow-query collection, SQL normalization, pattern grouping, performance analysis, SQL rewrite, index advice, and plan validation into one flow:
 
-```text
-Slow Query Collection
-        ↓
-SQL Normalization
-        ↓
-SQL Pattern Grouping
-        ↓
-Performance Analysis
-        ↓
-SQL Rewrite
-        ↓
-Index Advisor
-        ↓
-Plan Validation
+```mermaid
+flowchart TD
+    A[2,386 Slow Queries] --> B[312 SQL Patterns]
+    B --> C[198 Optimization Opportunities]
+    C --> D[61 High-Priority Patterns]
+    D --> E[45 DBA Review]
+    E --> F[39 Validated Optimizations]
 ```
 
-For example:
-
-```text
-2,386 Slow Queries
-        ↓
-312 SQL Patterns
-        ↓
-198 Optimization Opportunities
-        ↓
-61 High-Priority Patterns
-        ↓
-45 DBA Review
-        ↓
-39 Validated Optimizations
-```
-
-> **Monitoring tells you which SQL is slow. PawSQL tells you why, how to fix it, and whether the fix is better.**
+<Note>
+**Monitoring tells you which SQL is slow. PawSQL tells you why, how to fix it, and whether the fix is better.**
+</Note>
 
 [Explore Slow SQL Optimization →](/en/use-cases/slow-sql-optimization)
 
----
-
 ### SQL Governance for Database Migration
 
-#### Migration Success Means More Than Compatibility
+A migration project should answer not only whether SQL runs on the target database, but whether it still runs efficiently. PawSQL helps migration teams build a workflow around:
 
-A migration project should answer not only whether SQL runs on the target database, but whether it still runs efficiently.
-
-PawSQL helps migration teams build a workflow around:
-
-```text
-SQL Inventory
-        ↓
-Compatibility Analysis
-        ↓
-Performance Risk Analysis
-        ↓
-SQL Rewrite
-        ↓
-Index Redesign
-        ↓
-Execution Plan Validation
+```mermaid
+flowchart TD
+    A[SQL Inventory] --> B[Compatibility Analysis]
+    B --> C[Performance Risk Analysis]
+    C --> D[SQL Rewrite]
+    D --> E[Index Redesign]
+    E --> F[Execution Plan Validation]
 ```
 
 moving database migration from Syntax Migration to **Performance-Aware SQL Migration**.
 
-> **Do not just migrate SQL. Avoid migrating legacy performance problems with it.**
+<Note>
+**Do not just migrate SQL. Avoid migrating legacy performance problems with it.**
+</Note>
 
-Explore Database Migration SQL Governance →
-
----
+[Explore Database Migration SQL Governance →](/en/use-cases/index#sql-governance-for-database-migration)
 
 ### Enterprise SQL Governance Platform
-
-#### One Enterprise Should Not Have Ten Different SQL Governance Models
 
 Large organizations often have multiple development teams, DBA teams, database platforms, release processes, and SQL standards.
 
 PawSQL unifies Development Governance, Delivery Governance, and Production Governance through Developer SQL Copilot, SQL Quality Gate, Performance Patroller, SQL Review, SQL Rewrite, Index Advisor, Execution Plan Analysis, and Governance Metrics.
 
-> **Build a unified, executable, and measurable SQL Governance Platform.**
+<Note>
+**Build a unified, executable, and measurable SQL Governance Platform.**
+</Note>
 
 [Explore Enterprise SQL Governance →](/en/use-cases/enterprise-sql-governance)
-
----
 
 ## Choose PawSQL by Role
 
 | Role | Typical Question | Recommended Use Case |
 |---|---|---|
-| Developer | How do I write SQL that is safer and faster? | Developer SQL Copilot |
-| DevOps / Developer Productivity | How do we automatically stop risky SQL before release? | SQL Quality Gate |
-| DBA | How do we manage production slow SQL at scale? | Slow SQL Optimization |
-| Migration Team | How do we reduce SQL performance regression during migration? | Database Migration Governance |
-| Engineering Leadership | How do we standardize SQL governance across teams and databases? | Enterprise SQL Governance |
-
----
+| Developer | How do I write SQL that is safer and faster? | [Developer SQL Copilot](/en/use-cases/developer-sql-copilot) |
+| DevOps / Developer Productivity | How do we automatically stop risky SQL before release? | [SQL Quality Gate](/en/use-cases/sql-quality-gate-cicd) |
+| DBA | How do we manage production slow SQL at scale? | [Slow SQL Optimization](/en/use-cases/slow-sql-optimization) |
+| Migration Team | How do we reduce SQL performance regression during migration? | [Database Migration Governance](/en/use-cases/index#sql-governance-for-database-migration) |
+| Engineering Leadership | How do we standardize SQL governance across teams and databases? | [Enterprise SQL Governance](/en/use-cases/enterprise-sql-governance) |
 
 ## Choose PawSQL by Software Lifecycle
 
-### Development
+<Tabs>
+  <Tab title="Development">
+    ```mermaid
+    flowchart LR
+        A[Write SQL] --> B[Developer SQL Copilot]
+        B --> C[Analyze] --> D[Rewrite] --> E[Recommend index] --> F[Validate]
+    ```
 
-```text
-Write SQL
-    ↓
-Developer SQL Copilot
-    ↓
-Analyze
-Rewrite
-Recommend Index
-Validate
-```
+    Goal: **Find problems early.**
+  </Tab>
+  <Tab title="Delivery">
+    ```mermaid
+    flowchart LR
+        A[Commit] --> B[Pull Request] --> C[CI/CD] --> D[SQL Quality Gate]
+    ```
 
-Goal: **Find problems early.**
+    Goal: **Prevent risky SQL from reaching production.**
+  </Tab>
+  <Tab title="Production">
+    ```mermaid
+    flowchart LR
+        A[Production SQL] --> B[Monitoring] --> C[Slow SQL] --> D[PawSQL Optimization]
+    ```
 
-### Delivery
+    Goal: **Continuously detect and optimize performance problems.**
+  </Tab>
+  <Tab title="Governance">
+    ```mermaid
+    flowchart LR
+        A[Rules] --> B[Workflow] --> C[Metrics] --> D[Multi-Database Coverage]
+    ```
 
-```text
-Commit
-    ↓
-Pull Request
-    ↓
-CI/CD
-    ↓
-SQL Quality Gate
-```
-
-Goal: **Prevent risky SQL from reaching production.**
-
-### Production
-
-```text
-Production SQL
-    ↓
-Monitoring
-    ↓
-Slow SQL
-    ↓
-PawSQL Optimization
-```
-
-Goal: **Continuously detect and optimize performance problems.**
-
-### Governance
-
-```text
-Rules
-+
-Workflow
-+
-Metrics
-+
-Multi-Database Coverage
-```
-
-Goal: **Turn SQL optimization from individual expertise into an enterprise engineering capability.**
-
----
+    Goal: **Turn SQL optimization from individual expertise into an enterprise engineering capability.**
+  </Tab>
+</Tabs>
 
 ## One SQL Intelligence Layer for Multiple Governance Scenarios
 
@@ -335,74 +208,60 @@ Goal: **Turn SQL optimization from individual expertise into an enterprise engin
 | Performance Validation | Verify that optimization actually improves the plan |
 | Multi-Database Support | Apply governance across heterogeneous database environments |
 
----
-
 ## A Complete SQL Engineering Lifecycle
 
-```text
-Developer
-    ↓
-Write SQL
-    ↓
-Developer SQL Copilot
-    ↓
-Commit
-    ↓
-SQL Quality Gate
-    ↓
-Release
-    ↓
-Production
-    ↓
-Performance Patroller
-    ↓
-Slow SQL Analysis
-    ↓
-SQL Rewrite / Index Advisor
-    ↓
-Performance Validation
-    ↓
-Feed Back to Development
+```mermaid
+flowchart TD
+    A[Developer writes SQL] --> B[Developer SQL Copilot]
+    B --> C[Commit]
+    C --> D[SQL Quality Gate]
+    D --> E[Release]
+    E --> F[Production]
+    F --> G[Performance Patroller]
+    G --> H[Slow SQL Analysis]
+    H --> I[SQL Rewrite / Index Advisor]
+    I --> J[Performance Validation]
+    J --> K[Feed back to development]
+    K -.-> A
 ```
 
 This is not simply a collection of independent tools. It is a complete **SQL Lifecycle Governance** model.
 
----
-
 ## Start with the Use Case That Matters Most
 
-- [Explore Developer SQL Copilot →](/en/use-cases/developer-sql-copilot)
-- [Explore SQL Quality Gate →](/en/use-cases/sql-quality-gate-cicd)
-- [Explore Slow SQL Optimization →](/en/use-cases/slow-sql-optimization)
-- Explore Database Migration SQL Governance →
-- [Explore Enterprise SQL Governance →](/en/use-cases/enterprise-sql-governance)
-
----
+<CardGroup cols={2}>
+  <Card title="Developer SQL Copilot" icon="code" href="/en/use-cases/developer-sql-copilot">
+    Get feedback and optimization suggestions while writing SQL.
+  </Card>
+  <Card title="SQL Quality Gate" icon="git-merge" href="/en/use-cases/sql-quality-gate-cicd">
+    Block risky SQL in your CI/CD pipeline.
+  </Card>
+  <Card title="Slow SQL Optimization" icon="gauge" href="/en/use-cases/slow-sql-optimization">
+    Govern production slow SQL at scale.
+  </Card>
+  <Card title="Database Migration Governance" icon="arrow-right-left" href="/en/use-cases/index#sql-governance-for-database-migration">
+    Keep migrated SQL running efficiently.
+  </Card>
+  <Card title="Enterprise SQL Governance" icon="building-2" href="/en/use-cases/enterprise-sql-governance">
+    Build one measurable governance platform.
+  </Card>
+</CardGroup>
 
 ## Move SQL from Post-Production Tuning to Lifecycle Governance
 
-A mature SQL engineering model should cover:
-
-```text
-Write
-+
-Review
-+
-Release
-+
-Monitor
-+
-Optimize
-+
-Improve
-```
+A mature SQL engineering model should cover the full loop: **Write → Review → Release → Monitor → Optimize → Improve**.
 
 PawSQL connects SQL review, performance optimization, CI/CD quality gates, production governance, and multi-database standards into a unified SQL Engineering and SQL Governance capability.
 
-> **From the first line of SQL to production, PawSQL keeps SQL quality and performance under continuous governance.**
+<Note>
+**From the first line of SQL to production, PawSQL keeps SQL quality and performance under continuous governance.**
+</Note>
 
-[Get Started with PawSQL →](/en/getting-started/quickstart)
-
-[View Supported Databases →](/en/getting-started/supported-databases)
-
-Request a Demo →
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="bolt" href="/en/getting-started/quickstart">
+    Run your first review, rewrite, and index recommendation.
+  </Card>
+  <Card title="Supported Databases" icon="database" href="/en/getting-started/supported-databases">
+    Database, version, and capability coverage.
+  </Card>
+</CardGroup>
