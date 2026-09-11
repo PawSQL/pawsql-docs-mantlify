@@ -1,37 +1,172 @@
 ---
 id: en-choose-access
-translationKey: choose-access
-language: en
-title: Choose an access path
-description: Choose a PawSQL deployment environment and access interface for your workflow.
+title: Choose How to Use PawSQL
+description: Choose between PawSQL Cloud and private deployment, then connect through the web console, an IDE, automation, or MCP.
+icon: route
 type: explanation
 layout: detail
 product: pawsql
 status: draft
+language: en
+translationKey: choose-access
 sections:
-  definition: One product
-  purpose: Choose a path
-  mechanism: Environment and interface
-  limitations: Before starting
+  definition: Choose a path
   nextSteps: Next steps
 ---
 
-## One product
+PawSQL can run as a public cloud service or inside your organization's environment. Its SQL review and optimization capabilities are available through the web console, IDE extensions, APIs, webhooks, and MCP. Choosing the right setup involves two separate decisions: **where PawSQL runs** and **how it fits into your workflow**.
 
-PawSQL is one product. Cloud denotes public deployment. Engine, Optimizer, Auditor, Advisor and Patroller are components or delivery forms.
+<Tip>
+  **Want the fastest path to a working result?** Start with **PawSQL Cloud and the web console**, then follow [Optimize Your First SQL Query](/en/getting-started/quickstart).
+</Tip>
 
 ## Choose a path
 
-Use Web access to learn the workflow, private deployment when you require services in your own environment, and an IDE integration for development workflows. For an automated release process, start with the [use cases](/en/use-cases/index).
+| Your goal | Recommended setup | Next step |
+| --- | --- | --- |
+| Optimize a query as quickly as possible | PawSQL Cloud + web console | [Follow the quickstart](/en/getting-started/quickstart) |
+| Optimize SQL in IntelliJ IDEA, DataGrip, or VS Code | Cloud or private deployment + IDE extension | [Install an IDE extension](/en/user-guide/installation/ide-plugins) |
+| Keep SQL, DDL, and database metadata within your network | Private deployment + web or IDE | [Prepare a private deployment](/en/user-guide/installation/pawsql-server) |
+| Check SQL during code review or release | Cloud or private deployment + API/webhook | [Add a CI/CD quality gate](/en/use-cases/sql-quality-gate-cicd) |
+| Call SQL optimization from an AI coding assistant | Cloud or private deployment + MCP | [Configure PawSQL MCP](/en/user-guide/installation/pawsql-mcp) |
+| Discover and govern slow SQL across production systems | Private deployment + performance patrol | [Explore slow-SQL governance](/en/use-cases/slow-sql-optimization) |
 
-## Environment and interface
+<Note>
+  Deployment and access are independent choices. For example, an IDE extension may connect to either a cloud service or a privately deployed PawSQL service, depending on the edition and configuration available to your organization.
+</Note>
 
-Deployment identifies where a service runs. Web, API and IDE identify how you access its capabilities. An IDE integration alone does not determine the service deployment. Consult verified delivery-version instructions for the available combinations.
+## Step 1: Choose where PawSQL runs
 
-## Before starting
+The deployment model determines where the service operates, which network boundary the analysis data crosses, and who is responsible for operating the system.
 
-Confirm database/version compatibility, connectivity, permissions and delivery version. See [Supported Databases](/en/getting-started/supported-databases) for coverage; partially supported entries should be confirmed against the exact database version.
+<CardGroup cols={2}>
+  <Card title="PawSQL Cloud" icon="cloud">
+    Best for evaluation, individual use, and teams that want to avoid installing and maintaining the service. Once access is enabled, users can connect through supported clients.
+  </Card>
+  <Card title="Private deployment" icon="server">
+    Best for organizations with specific requirements for data boundaries, network isolation, access control, or internal platform integration. PawSQL runs on infrastructure designated by the organization.
+  </Card>
+</CardGroup>
+
+### Deployment comparison
+
+| Consideration | PawSQL Cloud | Private deployment |
+| --- | --- | --- |
+| Service location | Public environment operated by PawSQL | Organization-controlled server or cloud environment |
+| Time to start | No installation required | Available after infrastructure, network, and installation setup |
+| Operations | Primarily handled by PawSQL | Defined between the organization and PawSQL as part of delivery |
+| Data boundary | SQL and required analysis context are submitted according to the service configuration | Analysis can remain within an organization-controlled network |
+| Enterprise integration | Designed for standard access patterns | Better suited to internal systems, centralized identity, and enterprise workflows |
+| Typical users | Individuals, development teams, and evaluation teams | Regulated industries and organizations with strict governance requirements |
+
+<Warning>
+  If your policies prohibit SQL, DDL, database metadata, or execution plans from being sent to a public service, choose a private deployment and complete the required security and permission reviews before connecting a database.
+</Warning>
+
+### Choose PawSQL Cloud when
+
+- You want to evaluate SQL review, automatic rewriting, and index recommendations immediately.
+- You do not want to provision servers or operate the PawSQL service.
+- You primarily analyze development, test, or sanitized SQL.
+- Your organization permits the use of a public service for this workload.
+
+### Choose a private deployment when
+
+- SQL, DDL, statistics, or database connections must remain within your network.
+- PawSQL needs to connect to production or pre-production databases.
+- You need centralized identity, approval workflows, CI/CD, or internal platform integration.
+- Multiple teams, database instances, and review policies must be managed centrally.
+
+Before installation, confirm the required compute resources, operating system, network access, database connectivity, identity configuration, and product license. Requirements may vary by the delivered edition.
+
+## Step 2: Choose how users connect
+
+After selecting a deployment model, choose the entry points that match where SQL is created and who needs to work with the results. A team can use several entry points together.
+
+<Tabs>
+  <Tab title="Web console">
+    **Best for:** developers, testers, DBAs, and SQL reviewers.
+
+    **Use it to:** create workspaces, submit individual or batch SQL, inspect findings, compare rewrites, evaluate index recommendations, and review validation evidence.
+
+    The web console is usually the clearest entry point for a first PawSQL session.
+  </Tab>
+  <Tab title="IDE extensions">
+    **Best for:** application developers who want feedback while coding.
+
+    **Use them to:** submit and optimize SQL from IntelliJ IDEA, DataGrip, PyCharm, VS Code, and other supported development environments without repeatedly switching to a browser.
+
+    Install the appropriate extension and configure a reachable PawSQL service before use.
+  </Tab>
+  <Tab title="APIs and webhooks">
+    **Best for:** DevOps, platform engineering, and developer-productivity teams.
+
+    **Use them to:** add SQL review to commits, pull requests, builds, or releases, then trigger notifications, approvals, or quality gates based on the result.
+
+    Define the trigger, authentication method, enforcement policy, and result callback before integration.
+  </Tab>
+  <Tab title="MCP">
+    **Best for:** developers using AI coding assistants or agentic development tools.
+
+    **Use it to:** let an MCP-compatible client send generated or selected SQL to PawSQL for review and optimization.
+
+    MCP provides an access path to PawSQL; it does not replace database permission controls or release validation.
+  </Tab>
+  <Tab title="Performance patrol">
+    **Best for:** DBAs, database operations teams, and production performance programs.
+
+    **Use it to:** collect and group slow queries, inspect database objects and query risks on a schedule, and track remediation over time.
+
+    This workflow generally requires deployment-side configuration for database connections, collection scope, and task schedules.
+  </Tab>
+</Tabs>
+
+## Common combinations
+
+### Developer self-service optimization
+
+Developers analyze SQL from an IDE extension and open the web console when they need more context or detailed validation evidence.
+
+**Recommended combination:** Cloud or private deployment + IDE extension + web console.
+
+### SQL quality gates in CI/CD
+
+A pipeline sends changed SQL through an API or webhook. Findings can trigger a notification, request manual approval, or block a release according to policy.
+
+**Recommended combination:** Cloud or private deployment + API/webhook + web console.
+
+### Production slow-SQL governance
+
+Performance patrol discovers slow queries, while DBAs use the web console to assess findings, rewrites, index candidates, and validation evidence.
+
+**Recommended combination:** Private deployment + performance patrol + web console.
+
+## Before you start
+
+Confirm the following for any setup:
+
+- **Database compatibility:** The database type, version, and required PawSQL capabilities are supported.
+- **Data boundaries:** Your policies permit the selected handling of SQL, DDL, statistics, and execution plans.
+- **Network connectivity:** PawSQL, databases, IDEs, and pipelines can reach the required endpoints.
+- **Identity and permissions:** User roles, read-only database accounts, API credentials, and organization permissions are ready.
+- **Scope:** You know whether the target is individual optimization, team review, a release gate, or production patrol.
+- **Validation process:** Rewritten SQL and index changes have a path through test validation and controlled release.
+
+See [Supported Databases](/en/getting-started/supported-databases) for database, version, and capability coverage.
 
 ## Next steps
 
-Read the [getting started guide](/en/getting-started/quickstart). The current Web walkthrough is available in [Chinese](/user-guide/cloud/quickstart). Detailed installation and integration instructions will be added as verified content becomes available.
+<CardGroup cols={2}>
+  <Card title="Optimize your first query" icon="bolt" href="/en/getting-started/quickstart">
+    Create a workspace in the web console and submit your first SQL statement.
+  </Card>
+  <Card title="Install and connect" icon="plug" href="/en/user-guide/installation">
+    Configure cloud access, private deployment, IDE extensions, APIs, and MCP.
+  </Card>
+  <Card title="Check database support" icon="database" href="/en/getting-started/supported-databases">
+    Confirm compatibility for your database, version, and required capabilities.
+  </Card>
+  <Card title="Explore use cases" icon="diagram-project" href="/en/use-cases">
+    Plan a workflow for development, CI/CD, DBA operations, or enterprise governance.
+  </Card>
+</CardGroup>

@@ -1,42 +1,176 @@
 ---
 id: choose-access
-translationKey: choose-access
-language: zh
-title: 选择使用方式
-description: 根据运行环境和工作流程选择 PawSQL 公网使用、私有部署或 IDE 接入路径。
+title: 选择 PawSQL 使用方式
+description: 根据数据边界、部署环境和工作流程，选择 PawSQL Cloud、私有部署及 Web、IDE 或自动化接入方式。
+icon: route
 type: explanation
 layout: detail
 product: pawsql
 status: draft
+language: zh
+translationKey: choose-access
 sections:
-  definition: 一个产品，多种使用方式
-  purpose: 选择路径
-  mechanism: 环境与入口分别选择
-  limitations: 开始前确认
+  definition: 快速选择
   nextSteps: 下一步
 ---
 
-## 一个产品，多种使用方式
+PawSQL 可以运行在公网服务或企业私有环境中，并通过 Web、IDE、API、Webhook 和 MCP 等入口提供 SQL 审核与优化能力。选择使用方式时，需要分别确定**服务部署在哪里**以及**如何接入日常工作流**。
 
-PawSQL 是统一产品。Cloud 指公网部署形态；Engine、Optimizer、Auditor、Advisor、Patroller 是组件或交付形态，不应被当作五套无关产品。
+<Tip>
+  **只想尽快体验？** 选择 **PawSQL Cloud + Web 控制台**，然后按照[一分钟完成 SQL 优化](/getting-started/quickstart)提交第一条 SQL。
+</Tip>
 
-## 选择路径
+## 快速选择
 
-| 需求 | 优先查看 |
-|---|---|
-| 先了解 Web 操作流程 | [公网使用指南](/user-guide/cloud/index) |
-| 将服务部署到企业自己的环境 | 私有部署的环境、交付包和授权要求；详细安装指南待补齐 |
-| 在开发过程中使用 PawSQL | Advisor 组件及对应 IDE 插件的安装、连接和权限要求 |
-| 将 SQL 审核放入上线流程 | [用户场景](/use-cases/index)及经核实的 API/自动化接入文档 |
+| 如果你希望…… | 推荐方式 | 下一步 |
+| --- | --- | --- |
+| 尽快完成第一次 SQL 优化 | PawSQL Cloud + Web 控制台 | [开始快速体验](/getting-started/quickstart) |
+| 在 IntelliJ IDEA、DataGrip 或 VS Code 中优化 SQL | PawSQL Cloud 或私有部署 + IDE 插件 | [安装 IDE 插件](/user-guide/installation/ide-plugins) |
+| SQL、DDL 和数据库元数据不离开企业网络 | 私有部署 + Web 或 IDE | [准备私有部署](/user-guide/installation/pawsql-server) |
+| 在代码提交或发布阶段检查 SQL | Cloud 或私有部署 + API/Webhook | [接入 CI/CD](/use-cases/sql-quality-gate-cicd) |
+| 在 AI 编程助手中调用 SQL 优化能力 | Cloud 或私有部署 + MCP | [配置 PawSQL MCP](/user-guide/installation/pawsql-mcp) |
+| 集中发现和治理生产慢 SQL | 私有部署 + 性能巡检 | [了解生产慢 SQL 治理](/use-cases/slow-sql-optimization) |
 
-## 环境与入口分别选择
+<Note>
+  部署方式和使用入口是两个独立维度。例如，IDE 插件既可以连接公网服务，也可以连接企业私有环境，实际可用组合取决于所购买或部署的版本。
+</Note>
 
-部署环境说明服务运行在哪里，Web、API、IDE 等入口说明用户如何访问能力。选择 IDE 插件并不能单独决定服务位于公网还是私有环境；具体连接方式应以该交付版本的说明为准。
+## 第一步：选择部署方式
+
+部署方式决定 PawSQL 服务运行的位置、数据经过的网络边界，以及由谁负责系统运维。
+
+<CardGroup cols={2}>
+  <Card title="PawSQL Cloud" icon="cloud">
+    适合快速体验、个人使用，以及希望减少部署和维护工作的团队。开通账号后即可通过支持的入口使用 PawSQL。
+  </Card>
+  <Card title="私有部署" icon="server">
+    适合对数据边界、网络隔离、访问控制或系统集成有明确要求的企业。PawSQL 服务部署在企业指定的基础设施中。
+  </Card>
+</CardGroup>
+
+### 部署方式对比
+
+| 比较项 | PawSQL Cloud | 私有部署 |
+| --- | --- | --- |
+| 服务位置 | PawSQL 提供的公网环境 | 企业指定的服务器或云环境 |
+| 上手速度 | 无需自行安装，开通后即可使用 | 完成资源、网络和安装配置后使用 |
+| 运维责任 | 主要由 PawSQL 负责 | 由企业与 PawSQL 按交付方案共同确定 |
+| 数据边界 | SQL 和必要的分析信息需按服务要求提交 | 可保留在企业控制的网络环境中 |
+| 企业集成 | 适合标准化接入 | 更适合内网系统、统一认证和企业流程集成 |
+| 典型用户 | 个人、开发团队、产品评估团队 | 金融、政企和具有严格数据治理要求的组织 |
+
+<Warning>
+  如果组织规定 SQL、DDL、数据库对象信息或执行计划不能提交到公网环境，请选择私有部署，并在接入数据库前完成安全与权限评审。
+</Warning>
+
+### 选择 PawSQL Cloud
+
+PawSQL Cloud 更适合以下情况：
+
+- 希望立即体验 SQL 审核、自动重写和索引推荐；
+- 不希望准备服务器或维护 PawSQL 服务；
+- 主要处理开发、测试或已脱敏的 SQL；
+- 团队可以按照组织策略使用公网服务。
+
+### 选择私有部署
+
+私有部署更适合以下情况：
+
+- SQL、DDL、统计信息或数据库连接必须保留在企业网络内；
+- 需要连接生产或准生产数据库；
+- 需要接入企业统一认证、审批、CI/CD 或内部研发平台；
+- 需要集中管理多个团队、数据库实例和审核规范。
+
+私有部署前通常需要确认服务器资源、操作系统、网络访问、数据库连通性、身份认证和产品授权。具体要求以对应交付版本为准。
+
+## 第二步：选择使用入口
+
+确定部署环境后，根据 SQL 出现的位置和使用人员选择入口。同一团队可以组合使用多个入口。
+
+<Tabs>
+  <Tab title="Web 控制台">
+    **适合：** 开发人员、测试人员、DBA 和审核人员。
+
+    **用于：** 创建工作空间、提交单条或批量 SQL、查看审核结果、比较重写方案、评估索引建议和性能验证结果。
+
+    Web 控制台通常是第一次使用 PawSQL 时最直观的入口。
+  </Tab>
+  <Tab title="IDE 插件">
+    **适合：** 希望在编码过程中获得即时反馈的应用开发人员。
+
+    **用于：** 在 IntelliJ IDEA、DataGrip、PyCharm、VS Code 等开发环境中直接提交和优化 SQL，减少在编辑器与 Web 页面之间切换。
+
+    使用前需要安装对应插件，并配置可访问的 PawSQL 服务。
+  </Tab>
+  <Tab title="API 与 Webhook">
+    **适合：** DevOps、平台工程和研发效能团队。
+
+    **用于：** 将 SQL 审核加入代码提交、合并请求、构建或发布流程，根据审核结果执行提醒、审批或质量门禁。
+
+    接入前需要明确触发方式、鉴权信息、阻断策略和结果回传方式。
+  </Tab>
+  <Tab title="MCP">
+    **适合：** 使用 AI 编程助手或智能开发工具的开发人员。
+
+    **用于：** 让支持 MCP 的客户端调用 PawSQL，对生成或选中的 SQL 执行审核与优化。
+
+    MCP 是访问 PawSQL 能力的入口，不替代数据库权限管理和上线验证流程。
+  </Tab>
+  <Tab title="性能巡检">
+    **适合：** DBA、数据库运维和生产性能治理团队。
+
+    **用于：** 采集和聚合慢 SQL，定期分析数据库对象与查询问题，并持续跟踪治理结果。
+
+    该方式通常需要部署侧完成数据库连接、采集范围和任务周期配置。
+  </Tab>
+</Tabs>
+
+## 常见组合
+
+### 开发人员自助优化
+
+开发人员通过 IDE 插件分析正在编写的 SQL；需要查看更多上下文或验证信息时，再进入 Web 控制台查看完整结果。
+
+**推荐组合：** Cloud 或私有部署 + IDE 插件 + Web 控制台。
+
+### CI/CD SQL 质量门禁
+
+流水线通过 API 或 Webhook 提交变更 SQL，并按照风险等级决定提醒、人工确认或阻断发布。
+
+**推荐组合：** Cloud 或私有部署 + API/Webhook + Web 控制台。
+
+### 生产慢 SQL 治理
+
+性能巡检任务发现慢 SQL 后，由 DBA 在 Web 控制台检查审核问题、重写建议、索引方案和验证证据。
+
+**推荐组合：** 私有部署 + 性能巡检 + Web 控制台。
 
 ## 开始前确认
 
-确认数据库及版本、网络可达性、身份权限、使用范围和交付版本。支持范围见[支持的数据库](/getting-started/supported-databases)；部分支持条目应结合实际数据库版本确认。
+无论选择哪种方式，都建议提前确认以下事项：
+
+- **数据库兼容性：** 数据库类型、版本和所需能力是否受支持；
+- **数据边界：** SQL、DDL、统计信息和执行计划是否允许离开当前网络；
+- **网络连通性：** PawSQL 服务、数据库、IDE 和流水线之间是否可以互相访问；
+- **身份与权限：** 用户权限、数据库只读账号、API 凭据和组织角色是否准备完成；
+- **使用范围：** 是个人优化、团队审核、上线门禁，还是生产巡检；
+- **验证流程：** 重写 SQL 和索引变更如何在测试环境验证并进入发布流程。
+
+数据库与版本范围请参阅[支持的数据库](/getting-started/supported-databases)。
 
 ## 下一步
 
-准备好使用环境后，按[快速操作指南](/user-guide/cloud/quickstart)完成第一次操作，再阅读[结果说明](/user-guide/cloud/results)。私有部署和具体插件指南将在有可验证内容后加入导航。
+<CardGroup cols={2}>
+  <Card title="完成第一次 SQL 优化" icon="bolt" href="/getting-started/quickstart">
+    通过 Web 控制台创建工作空间并提交第一条 SQL。
+  </Card>
+  <Card title="安装与接入" icon="plug" href="/user-guide/installation">
+    配置公网访问、私有部署、IDE、API 和 MCP。
+  </Card>
+  <Card title="查看支持的数据库" icon="database" href="/getting-started/supported-databases">
+    确认数据库、版本和能力兼容范围。
+  </Card>
+  <Card title="浏览使用场景" icon="diagram-project" href="/use-cases">
+    根据开发、CI/CD、DBA 和企业治理场景规划使用方式。
+  </Card>
+</CardGroup>

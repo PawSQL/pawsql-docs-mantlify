@@ -1,266 +1,211 @@
 ---
 id: zh-getting-started-quickstart
 title: 一分钟完成 SQL 优化
-description: 使用 TPC-H Query 2 完成一次 PawSQL 分析，阅读重写与索引建议，并验证结果和实际性能。
+description: 从创建工作空间到获得 SQL 重写、索引推荐和性能验证结果，快速完成第一次 PawSQL 优化。
+icon: bolt
 type: guide
 subtype: quickstart
 layout: detail
 product: pawsql
+status: draft
 language: zh
 translationKey: getting-started-quickstart
 localeOf: getting-started-quickstart
-status: draft
-tags:
-- quickstart
-- tpch
-- sql-optimization
-capabilities:
-- sql-audit
-- sql-rewrite
-- index-recommendation
-- performance-validation
-- plan-visualization
-interfaces:
-- web
 sections:
   goal: 你将完成什么
-  prerequisites: 开始前准备
-  steps: 第 1 步：准备 Query 2 的数据
-  expectedResult: 第 2 步：运行原查询，保存基线
-  verification: 第 5 步：验证后再决定是否采用
-  troubleshooting: 常见问题
+  prerequisites: 开始之前
+  steps: 第 1 步：创建或选择工作空间
+  expectedResult: 第 3 步：阅读优化结果
+  verification: 建议的阅读顺序
+  troubleshooting: 如果没有生成建议
 ---
+
+PawSQL 可以在一个工作流中分析 SQL，发现潜在问题，并给出可执行的重写方案、索引建议和性能验证结果。本教程将带你完成第一次 SQL 优化。
+
+<Note>
+  本教程对应视频 **PawSQL in a Minute** 的核心操作流程。首次使用时，创建工作空间可能需要额外几分钟；工作空间准备完成后，一次优化通常只需要三个步骤。
+</Note>
+
+<iframe
+  src="https://player.bilibili.com/player.html?bvid=BV1RJoNY9Es7&page=1&high_quality=1"
+  title="PawSQL in a Minute"
+  width="100%"
+  height="480"
+  scrolling="no"
+  frameBorder="0"
+  allow="autoplay; fullscreen; picture-in-picture"
+  allowFullScreen
+/>
 
 ## 你将完成什么
 
-以 TPC-H Query 2 为例，在 PawSQL 中完成一次 **提供数据库上下文 → 提交 SQL → 阅读建议 → 验证方案** 的流程。
+完成本教程后，你将能够：
 
-Query 2 要解决的问题是：在指定地区，为满足尺寸和类型要求的零件找到报价最低的供应商，并保留并列最低报价。本文选用 `EUROPE`、尺寸 `15` 和类型后缀 `BRASS`，用显式 JOIN 编写 PostgreSQL 方言的教学版本。业务定义参见 [TPC-H 规范 §2.4.2](https://www.tpc.org/tpc_documents_current_versions/pdf/tpc-h_v2.17.3.pdf)。
+- 创建或选择一个工作空间；
+- 提交一条待优化 SQL；
+- 查看 SQL 审核、自动重写和索引推荐；
+- 在具备数据库连接时，对优化前后的性能进行验证。
 
-完成后，你应该能够解释一份优化报告，并决定“采用建议”“继续验证”或“保留原方案”，而不只是得到一段新 SQL。
+## 开始之前
 
-<Note>
-本文提供的是基于 Q2 的上手练习，不是正式 TPC-H 基准测试。精简数据集用于验证流程和结果，不用于证明性能提升。文中的优化观察点也不代表 PawSQL 必然生成某条建议。
-</Note>
+你需要：
 
-## 开始前准备
+- 一个可用的 PawSQL 账号和产品访问地址；
+- 一条需要分析的 `SELECT` 语句；
+- SQL 所引用对象的结构信息，或一个可访问的数据库连接。
 
-- 一个可用的 PawSQL Web 环境。可以从 [PawSQL 公网入口](https://app.pawsql.com)开始；Cloud 是公网部署形态，不是另一款产品。私有环境也可按同样流程操作，具体界面以所用版本为准。
-- 一个在所用 PawSQL 版本支持范围内的 PostgreSQL 测试实例，以及一个空的练习数据库。先查看[数据库支持说明](/getting-started/supported-databases)。
-- 一个数据库客户端，用于准备数据、执行查询和查看执行计划。
-- 数据准备账号需要在练习库中建表和写入数据。PawSQL 分析连接所需权限按所用版本配置；不要直接授予生产库管理权限。
+<Tip>
+  只想快速体验？使用 DDL 创建工作空间即可，无需连接真实数据库。若要获取基于统计信息的索引建议、执行计划和性能验证结果，请使用数据库连接。
+</Tip>
+
+## 第 1 步：创建或选择工作空间
+
+工作空间用于保存数据库类型、版本、表结构和统计信息等优化上下文。准确的上下文可以帮助 PawSQL 正确解析 SQL，并生成更可靠的优化建议。
+
+<Steps>
+  <Step title="进入工作空间">
+    登录 PawSQL，在工作空间列表中选择一个现有工作空间，或点击 **新建工作空间**。
+  </Step>
+  <Step title="选择数据库类型和版本">
+    选择待优化 SQL 实际运行的数据库及版本。不同数据库的语法、优化规则和索引能力不同，请不要选择“最接近”的数据库作为替代。
+  </Step>
+  <Step title="提供数据库结构">
+    根据你的使用环境选择一种方式：
+
+    <Tabs>
+      <Tab title="导入 DDL">
+        粘贴或上传 SQL 涉及的 `CREATE TABLE`、`CREATE INDEX` 等 DDL。该方式适合快速体验、开发测试或无法连接数据库的场景。
+      </Tab>
+      <Tab title="连接数据库">
+        配置数据库地址、端口、数据库名和只读账号，并测试连接。PawSQL 可按授权范围读取对象定义、统计信息和执行计划所需的元数据。
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+{/* SCREENSHOT: /images/quickstart/01-workspace.png
+    Recommended frame: the workspace selector/create dialog, with database type and DDL/database connection methods visible.
+    Suggested video moment: the first screen showing workspace selection or creation.
+    Redact hostnames, usernames, IP addresses, and credentials before publishing. */}
+<Frame caption="选择现有工作空间，或使用 DDL / 数据库连接创建新工作空间">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/quickstart/01-workspace.png
+  </div>
+</Frame>
 
 <Warning>
-只在隔离测试环境中练习。连接公网服务前确认网络和数据使用策略，不要为演示把生产数据库开放到公网。仅导入 DDL 可以体验结构分析，但不能据此得到真实执行耗时；性能验证需要合适的数据库上下文和权限。启用验证前确认它是否会实际执行查询或创建、删除测试索引。
+  生产环境建议使用权限最小化的只读账号。不要在截图、文档或代码仓库中公开数据库密码、内网地址或访问令牌。
 </Warning>
 
-## 第 1 步：准备 Query 2 的数据
+## 第 2 步：提交待优化 SQL
 
-Q2 涉及五张表：`part`（零件）、`partsupp`（零件报价）、`supplier`（供应商）、`nation`（国家）和 `region`（地区）。
+进入工作空间后，打开 **SQL 优化** 页面，将 SQL 粘贴到编辑器中。
 
-已有 TPC-H 测试库时，可以跳过下面的初始化，但应核对表名、字段、数据规模、主外键、现有索引和统计信息。没有测试库时，在**空的练习数据库**运行以下脚本。它只创建 Q2 用到的字段，不覆盖或清空已有表。
-
-<Accordion title="展开：创建精简表结构与测试数据">
+下面的示例用于查询指定客户最近创建的已付款订单：
 
 ```sql
-CREATE TABLE region (
-    r_regionkey integer PRIMARY KEY,
-    r_name varchar(25) NOT NULL
-);
-CREATE TABLE nation (
-    n_nationkey integer PRIMARY KEY,
-    n_name varchar(25) NOT NULL,
-    n_regionkey integer NOT NULL REFERENCES region(r_regionkey)
-);
-CREATE TABLE supplier (
-    s_suppkey integer PRIMARY KEY,
-    s_name varchar(25) NOT NULL,
-    s_address varchar(40) NOT NULL,
-    s_nationkey integer NOT NULL REFERENCES nation(n_nationkey),
-    s_phone varchar(15) NOT NULL,
-    s_acctbal numeric(15, 2) NOT NULL,
-    s_comment varchar(101) NOT NULL
-);
-CREATE TABLE part (
-    p_partkey integer PRIMARY KEY,
-    p_mfgr varchar(25) NOT NULL,
-    p_type varchar(25) NOT NULL,
-    p_size integer NOT NULL
-);
-CREATE TABLE partsupp (
-    ps_partkey integer NOT NULL REFERENCES part(p_partkey),
-    ps_suppkey integer NOT NULL REFERENCES supplier(s_suppkey),
-    ps_supplycost numeric(15, 2) NOT NULL,
-    PRIMARY KEY (ps_partkey, ps_suppkey)
-);
-
-INSERT INTO region VALUES (1, 'EUROPE'), (2, 'ASIA');
-INSERT INTO nation VALUES
-    (1, 'GERMANY', 1), (2, 'FRANCE', 1), (3, 'JAPAN', 2);
-INSERT INTO supplier VALUES
-    (1, 'Supplier Alpha', 'Test address A', 1, '00-000-0001', 1000.00, 'Demo only'),
-    (2, 'Supplier Bravo', 'Test address B', 2, '00-000-0002', 2000.00, 'Demo only'),
-    (3, 'Supplier Charlie', 'Test address C', 3, '00-000-0003', 3000.00, 'Demo only');
-INSERT INTO part VALUES
-    (1, 'Manufacturer#1', 'STANDARD BRASS', 15),
-    (2, 'Manufacturer#2', 'STANDARD STEEL', 15),
-    (3, 'Manufacturer#3', 'STANDARD BRASS', 20);
-INSERT INTO partsupp VALUES
-    (1, 1, 10.00), (1, 2, 10.00), (1, 3, 5.00),
-    (2, 1, 8.00), (3, 2, 12.00);
-
-ANALYZE region;
-ANALYZE nation;
-ANALYZE supplier;
-ANALYZE part;
-ANALYZE partsupp;
+SELECT o.order_id,
+       o.customer_id,
+       o.created_at,
+       o.total_amount
+FROM orders o
+WHERE o.customer_id = 10001
+  AND o.status = 'PAID'
+ORDER BY o.created_at DESC
+LIMIT 20;
 ```
 
-这里故意设置了两个欧洲供应商并列最低价，以及一个报价更低、但不在欧洲的供应商。它们用于检查改写是否保留了地区限制和并列结果。
+<Steps>
+  <Step title="输入 SQL">
+    粘贴一条完整 SQL。请保留真实的表名、列名、连接条件和过滤条件；这些信息会影响审核和索引推荐结果。
+  </Step>
+  <Step title="确认上下文">
+    检查当前工作空间、默认数据库或 Schema。若 SQL 使用了非默认 Schema，请在 SQL 中显式限定对象，或在任务配置中选择正确的 Schema。
+  </Step>
+  <Step title="开始优化">
+    点击 **优化**。PawSQL 将解析 SQL，并根据当前工作空间可用的信息执行规则审核、自动重写和索引分析。
+  </Step>
+</Steps>
 
-</Accordion>
+{/* SCREENSHOT: /images/quickstart/02-submit-sql.png
+    Recommended frame: SQL editor with workspace/schema selector, Optimize button, and the sample SQL visible.
+    Suggested video moment: immediately before the Optimize button is clicked. */}
+<Frame caption="确认工作空间和 Schema 后，提交 SQL 进行优化">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/quickstart/02-submit-sql.png
+  </div>
+</Frame>
 
-## 第 2 步：运行原查询，保存基线
+## 第 3 步：阅读优化结果
 
-先在数据库客户端执行下面的完整 SQL，确认查询本身可以运行；稍后将同一条 SQL 提交给 PawSQL。
+优化完成后，先查看结果摘要，再逐项检查建议。不同 SQL 和工作空间可能展示不同结果。
 
-```sql
-SELECT
-    s.s_acctbal,
-    s.s_name,
-    n.n_name,
-    p.p_partkey,
-    p.p_mfgr,
-    s.s_address,
-    s.s_phone,
-    s.s_comment
-FROM part AS p
-JOIN partsupp AS ps ON ps.ps_partkey = p.p_partkey
-JOIN supplier AS s ON s.s_suppkey = ps.ps_suppkey
-JOIN nation AS n ON n.n_nationkey = s.s_nationkey
-JOIN region AS r ON r.r_regionkey = n.n_regionkey
-WHERE p.p_size = 15
-  AND p.p_type LIKE '%BRASS'
-  AND r.r_name = 'EUROPE'
-  AND ps.ps_supplycost = (
-      SELECT MIN(ps_min.ps_supplycost)
-      FROM partsupp AS ps_min
-      JOIN supplier AS s_min ON s_min.s_suppkey = ps_min.ps_suppkey
-      JOIN nation AS n_min ON n_min.n_nationkey = s_min.s_nationkey
-      JOIN region AS r_min ON r_min.r_regionkey = n_min.n_regionkey
-      WHERE ps_min.ps_partkey = p.p_partkey
-        AND r_min.r_name = 'EUROPE'
-  )
-ORDER BY s.s_acctbal DESC, n.n_name, s.s_name, p.p_partkey
-LIMIT 100;
-```
+<CardGroup cols={2}>
+  <Card title="SQL 审核" icon="list-check">
+    识别正确性、性能、安全性和可维护性风险，并说明命中的规则与修改方向。
+  </Card>
+  <Card title="自动重写" icon="wand-magic-sparkles">
+    在保持语义等价的前提下，提供更利于数据库优化器执行的候选 SQL。
+  </Card>
+  <Card title="索引推荐" icon="layer-group">
+    结合过滤、连接、排序和分组字段，给出候选索引及对应的建索引语句。
+  </Card>
+  <Card title="性能验证" icon="gauge-high">
+    在可连接数据库时，对优化前后的执行计划或实际执行表现进行比较。
+  </Card>
+</CardGroup>
 
-在本文精简数据集上，应得到 **2 行**，顺序如下，其余列对应初始化数据：
+{/* SCREENSHOT: /images/quickstart/03-optimization-result.png
+    Recommended frame: result overview showing review findings, rewritten SQL, index recommendations, and validation area.
+    Suggested video moment: the final result screen after optimization finishes.
+    Keep the most important recommendation expanded; crop browser chrome if it adds no context. */}
+<Frame caption="从结果摘要进入审核、重写、索引和性能验证详情">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/quickstart/03-optimization-result.png
+  </div>
+</Frame>
 
-| s_acctbal | s_name | n_name | p_partkey |
-|---|---|---|---|
-| 2000.00 | Supplier Bravo | FRANCE | 1 |
-| 1000.00 | Supplier Alpha | GERMANY | 1 |
+### 建议的阅读顺序
 
-`Supplier Charlie` 即使报价更低，也不应入选。钢制零件和尺寸为 20 的零件同样不应入选。真实 TPC-H 数据集的结果不应与这两行示例直接比较。
+1. **先处理高优先级审核问题。** 正确性或安全性问题通常比单纯的性能建议更紧急。
+2. **比较原始 SQL 与重写 SQL。** 确认业务语义、返回列和排序要求符合预期。
+3. **评估索引建议。** 检查是否已有重复或前缀重叠索引，并考虑写入开销与存储成本。
+4. **查看验证证据。** 优先采用有执行计划或实测数据支持的方案。
 
-在完整查询前加上 `EXPLAIN (FORMAT JSON)`，保存原始执行计划。在允许实际运行的测试环境中，可改用 `EXPLAIN (ANALYZE, BUFFERS, FORMAT JSON)` 收集执行信息。`ANALYZE` 选项会真正执行查询，具体含义见 [PostgreSQL EXPLAIN 文档](https://www.postgresql.org/docs/16/sql-explain.html)。
+<Warning>
+  不要未经验证就直接在生产环境执行重写 SQL 或创建索引。请先在测试环境确认结果集等价，并按照组织的变更流程评估和发布。
+</Warning>
 
-同时记录数据库与 PawSQL 版本、数据量、现有索引、统计信息更新时间及测试参数，作为后续比较的基线。
+## 如果没有生成建议
 
-## 第 3 步：在 PawSQL 中提交分析
-
-1. 登录 PawSQL Web，选择或创建一个工作空间。工作空间提供 SQL 分析需要的表结构、索引及可用统计信息等上下文。
-2. 选择对应的 PostgreSQL 数据库类型，按界面指引连接测试数据库，或导入这五张表的 DDL。使用实际 TPC-H 库时，应导入实际结构与索引，不要用精简结构替代。
-3. 创建查询优化任务，将第 2 步的 SQL 粘贴到 SQL 输入区域。提交的是查询本身，不是前面的建表脚本，也不是 `EXPLAIN` 包装语句。
-4. 如果界面提供“仅索引推荐”选项，本次练习不要开启，以便同时观察重写与索引建议。保留现有索引信息，不为了让推荐结果更多而删除它们。
-5. 先运行分析。若需要开启性能验证，先确认连接、权限、验证机制和资源预算，再在隔离库中执行。
-
-详细工作空间与任务配置见 [Web 操作指南](/user-guide/cloud/quickstart)。
-
-**本步完成标志：** 能打开该 SQL 的分析详情，确认数据库类型、原始 SQL 和所引用的五张表均正确。若上下文不完整，先修正再解读优化结果。
-
-## 第 4 步：读懂 Q2 的优化报告
-
-按“审核 → 重写 → 索引 → 验证”的顺序阅读，不要直接复制所有推荐 DDL。
-
-### 审核：先排除输入与规则问题
-
-查看问题说明、严重级别及对应 SQL 片段。没有告警并不表示查询一定高效；有告警也不意味着每项都是 Q2 的主要性能瓶颈。
-
-### 重写：观察相关子查询是否得到改善
-
-Q2 中的 `MIN(ps_supplycost)` 子查询依赖外层 `p_partkey`。阅读重写 SQL 或计划时，可检查系统是否提出减少重复计算的方案，例如将地区内的最低报价按零件聚合后再连接。**这是分析方向，不是预设的 PawSQL 输出**；数据库本身也可能已经处理得很好。
-
-若出现改写，重点核对：
-
-- 最低报价仍然只在 `EUROPE` 范围内计算，而不是全球最低价。
-- 同价供应商都保留，不能变成每个零件任取一个供应商。
-- 零件尺寸与类型过滤、输出列、排序和 `LIMIT 100` 没有被错误改变。
-
-没有重写建议时，可以继续评估索引建议，不必为了完成教程手动制造一种改写。
-
-### 索引：理解推荐服务于哪条访问路径
-
-结合实际报告，检查建议是否有助于零件过滤、`partsupp` 的零件关联与报价读取，或地区到供应商的关联。列顺序要结合真实执行计划理解，不能只看“这些列都出现在 WHERE 中”。
-
-注意 `LIKE '%BRASS'` 是后缀匹配，不应把普通 B-tree 索引当作必然有效的前缀范围扫描方案，参见 [PostgreSQL 索引类型说明](https://www.postgresql.org/docs/16/indexes-types.html)。精简数据只有几行，顺序扫描或没有新索引建议都可能是合理结果。
-
-采用索引前还应核对已有索引是否覆盖同样需求，以及新增索引的空间、写入和维护成本。本文不提供一组冒充实际推荐结果的固定索引。
-
-### 验证：分清代价与耗时
-
-比较计划结构、访问方式和可用的实际执行指标。估算代价降低与真实运行变快不是同一件事；计划发生变化也不是收益证明。详情字段说明见 [优化结果解析](/user-guide/cloud/results)。
-
-## 第 5 步：验证后再决定是否采用
-
-### 先验证结果
-
-在数据不变的环境中对比原 SQL 与候选 SQL 的全部输出列、行数和重复行。本文数据应仍然返回 Bravo、Alpha 两行，且顺序一致。
-
-真实数据要额外检查并列最低报价及地区外低价等边界。对带 Top-N 的查询，还应考虑排序键完全相同的行：不要把并列顺序变化误判为语义错误，也不要只凭两次都返回 100 行就认定等价。
-
-### 再验证性能
-
-精简数据只验证流程。性能试验应使用有代表性的数据规模和分布，并保留原索引与参数基线。
-
-- 仅有重写建议：在相同索引条件下对比原 SQL 与改写 SQL。
-- 仅有索引建议：SQL 不变，比较测试索引应用前后。
-- 两者都有：条件允许时分别测重写、索引以及组合方案，避免把全部收益归给其中一项。
-
-只在练习库中按实际推荐 DDL 创建测试索引。记录本次新增索引，以便需要时精确撤销；不要删除原有索引，也不要假定自动验证一定已经清理完毕。
-
-相同数据、硬件、数据库参数和统计信息下，交替运行原方案与候选方案多次，区分首次运行与缓存后的结果，并记录实际耗时的中位数。不要通过清空共享缓存来影响其他业务。
-
-| 记录项 | 原方案 | 候选方案 |
-|---|---|---|
-| 查询结果及重复行 | 实测记录 | 核对一致性 |
-| SQL 与索引组合 | 原 SQL、原索引 | 记录具体改动 |
-| 估算代价 | 实测记录 | 实测记录 |
-| 实际耗时中位数 | 实测记录 | 实测记录 |
-| 计划中的重复执行与数据访问 | 实测记录 | 实测记录 |
-| 新增索引及维护影响 | 原有基线 | 评估新增成本 |
-
-如果候选方案实际更慢，就保留原方案，记录现象并继续排查。**成功完成 Quickstart 的标志是作出有依据的决定，而不是必须得到性能提升。**
-
-## 常见问题
-
-| 现象 | 优先检查 |
-|---|---|
-| 找不到表或字段 | 是否连接正确数据库、schema；工作空间是否包含五张表；大小写及 search_path 是否正确 |
-| 初始化提示表已存在 | 改用新的空练习库；不要为重跑示例直接删除已有表 |
-| 精简数据未返回预期两行 | 数据是否完整导入；地区限制是否同时存在于外层和子查询；参数是否保持一致 |
-| 没有重写或索引建议 | 数据量是否很小、已有索引是否足够、规则是否适用；无建议不等于失败 |
-| 有建议但没有真实耗时 | 是否只导入 DDL；是否配置了可用的数据库验证连接；报告展示的是估算还是实际执行 |
-| 建议应用后更慢 | 数据分布、统计信息、缓存、索引是否实际生效，以及原计划是否已经足够好 |
-| 连接或验证失败 | 网络可达性、凭据、权限及超时；不要用开放生产库访问来绕过问题 |
+<AccordionGroup>
+  <Accordion title="SQL 无法解析">
+    检查工作空间的数据库类型和版本是否正确，SQL 是否完整，以及是否包含当前版本尚未支持的方言语法。
+  </Accordion>
+  <Accordion title="缺少对象信息">
+    补充 SQL 涉及表的 DDL，或检查数据库连接账号是否有权读取相应 Schema 的元数据。
+  </Accordion>
+  <Accordion title="没有索引推荐">
+    这并不一定表示分析失败。当前索引可能已经覆盖访问路径，SQL 也可能不适合通过新增索引优化。请结合审核和执行计划结果判断。
+  </Accordion>
+  <Accordion title="无法进行性能验证">
+    性能验证通常需要可用的数据库连接、执行权限和足够的运行数据。仅导入 DDL 的工作空间仍可用于语法分析、规则审核和部分索引分析。
+  </Accordion>
+</AccordionGroup>
 
 ## 下一步
 
-- [优化结果解析](/user-guide/cloud/results)：深入阅读 SQL、索引和执行计划对比。
-- [优化算法目录](/reference/optimizer-rules/index)：查阅具体改写的适用条件。
-- [用户场景](/use-cases/index)：将单条 SQL 分析扩展到 IDE、CI/CD 或慢 SQL 治理。
-
-<Note>
-本文未附实际 PawSQL Q2 运行报告，不承诺特定重写、索引或提速比例。发布前应在目标 PawSQL/PostgreSQL 版本完成实机复核；当前文档保持 draft。
-</Note>
+<CardGroup cols={2}>
+  <Card title="选择使用方式" icon="route" href="/getting-started/choose-access">
+    比较 Web、IDE、API 和流水线接入方式。
+  </Card>
+  <Card title="支持的数据库" icon="database" href="/getting-started/supported-databases">
+    查看数据库、版本和能力兼容范围。
+  </Card>
+  <Card title="SQL 重写" icon="code-compare" href="/features/automatic-sql-rewrite">
+    了解自动重写的工作方式和使用边界。
+  </Card>
+  <Card title="性能验证" icon="chart-line" href="/features/performance-validation">
+    了解如何用执行证据选择优化方案。
+  </Card>
+</CardGroup>

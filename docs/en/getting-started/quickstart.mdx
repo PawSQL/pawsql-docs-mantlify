@@ -1,32 +1,210 @@
 ---
 id: getting-started-quickstart
-title: PawSQL in a Minute
-description: Run your first SQL optimization with PawSQL in one minute.
+title: Optimize Your First SQL Query
+description: Create a workspace, submit a query, and review rewrite, index, and performance recommendations in PawSQL.
+icon: bolt
 type: guide
+subtype: quickstart
+layout: detail
 product: pawsql
 status: draft
-tags:
-- quickstart
-- tutorial
-subtype: quickstart
 language: en
 translationKey: getting-started-quickstart
-layout: detail
-components:
-- optimizer
+sections:
+  goal: What you will accomplish
+  prerequisites: Before you begin
+  steps: "Step 1: Create or select a workspace"
+  expectedResult: "Step 3: Review the results"
+  verification: Recommended review order
+  troubleshooting: If no recommendation appears
 ---
 
-# Quickstart
+PawSQL analyzes a query in context, identifies potential issues, and produces actionable rewrite, index, and validation results in one workflow. This guide walks you through your first optimization.
 
-1. Connect a database or paste the schema DDL into a PawSQL workspace (available in the web platform, DBeaver, JetBrains and VS Code plugins, and the MCP server).
-2. Submit a slow SQL query for analysis.
-3. Read the optimization report:
-   - **Violations** grouped by severity from the SQL audit rules.
-   - **Recommended indexes** as ready-to-run DDL, with the estimated cost improvement.
-   - **Suggested rewrites** that change the query structure.
+<Note>
+  This guide follows the core workflow shown in **PawSQL in a Minute**. Initial workspace setup may take a few extra minutes; after that, optimizing a query is a three-step process.
+</Note>
 
-## Verifying an index recommendation
+<iframe
+  src="https://player.bilibili.com/player.html?bvid=BV1RJoNY9Es7&page=1&high_quality=1"
+  title="PawSQL in a Minute"
+  width="100%"
+  height="480"
+  scrolling="no"
+  frameBorder="0"
+  allow="autoplay; fullscreen; picture-in-picture"
+  allowFullScreen
+/>
 
-Apply the recommended index, re-run the query, and compare execution plans before and after. PawSQL can run this What-If validation when a live database connection is available.
+## What you will accomplish
 
-> Status: draft content for the new documentation site.
+By the end of this guide, you will know how to:
+
+- create or select a workspace;
+- submit a query for analysis;
+- review SQL findings, automatic rewrites, and index recommendations; and
+- compare performance evidence when a database connection is available.
+
+## Before you begin
+
+You need:
+
+- access to a PawSQL deployment and a valid account;
+- a `SELECT` statement to analyze; and
+- the schema definitions referenced by the query, or access to a database connection.
+
+<Tip>
+  For a quick evaluation, create a workspace from DDL—no live database is required. Connect to a database when you need statistics-aware index advice, execution plans, or performance validation.
+</Tip>
+
+## Step 1: Create or select a workspace
+
+A workspace stores the database type, version, schema definitions, and available statistics that form the context for optimization. Accurate context helps PawSQL parse the query correctly and produce relevant recommendations.
+
+<Steps>
+  <Step title="Open a workspace">
+    Sign in to PawSQL. Select an existing workspace, or click **New workspace**.
+  </Step>
+  <Step title="Choose the database type and version">
+    Select the database and version on which the query actually runs. SQL syntax, rewrite rules, and index capabilities vary by database, so avoid selecting an approximate substitute.
+  </Step>
+  <Step title="Provide schema context">
+    Choose the method that fits your environment:
+
+    <Tabs>
+      <Tab title="Import DDL">
+        Paste or upload the relevant `CREATE TABLE`, `CREATE INDEX`, and related DDL. This is ideal for evaluations, development environments, or cases where direct database access is unavailable.
+      </Tab>
+      <Tab title="Connect a database">
+        Enter the host, port, database name, and a read-only account, then test the connection. PawSQL can read authorized object definitions, statistics, and metadata required for execution-plan analysis.
+      </Tab>
+    </Tabs>
+  </Step>
+</Steps>
+
+{/* SCREENSHOT: /images/quickstart/01-workspace.png
+    Recommended frame: the workspace selector/create dialog, with database type and DDL/database connection methods visible.
+    Suggested video moment: the first screen showing workspace selection or creation.
+    Redact hostnames, usernames, IP addresses, and credentials before publishing. */}
+<Frame caption="Select a workspace, or create one from DDL or a database connection">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/quickstart/01-workspace.png
+  </div>
+</Frame>
+
+<Warning>
+  Use a least-privilege, read-only account for production databases. Never expose passwords, internal addresses, or access tokens in screenshots, documentation, or source control.
+</Warning>
+
+## Step 2: Submit a query
+
+Open **SQL Optimization** in the workspace and paste the query into the editor.
+
+The following example retrieves the most recent paid orders for a customer:
+
+```sql
+SELECT o.order_id,
+       o.customer_id,
+       o.created_at,
+       o.total_amount
+FROM orders o
+WHERE o.customer_id = 10001
+  AND o.status = 'PAID'
+ORDER BY o.created_at DESC
+LIMIT 20;
+```
+
+<Steps>
+  <Step title="Enter the SQL">
+    Paste a complete statement. Keep the real table names, columns, join predicates, and filters because they directly affect findings and index recommendations.
+  </Step>
+  <Step title="Confirm the context">
+    Verify the selected workspace and default database or schema. If the query uses a different schema, qualify the objects in SQL or select the correct schema in the task settings.
+  </Step>
+  <Step title="Run the optimization">
+    Click **Optimize**. PawSQL parses the statement and runs SQL checks, rewrite analysis, and index analysis using the context available in the workspace.
+  </Step>
+</Steps>
+
+{/* SCREENSHOT: /images/quickstart/02-submit-sql.png
+    Recommended frame: SQL editor with workspace/schema selector, Optimize button, and the sample SQL visible.
+    Suggested video moment: immediately before the Optimize button is clicked. */}
+<Frame caption="Confirm the workspace and schema, then submit the query">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/quickstart/02-submit-sql.png
+  </div>
+</Frame>
+
+## Step 3: Review the results
+
+Start with the summary, then inspect each recommendation. The available result sections depend on the query and workspace context.
+
+<CardGroup cols={2}>
+  <Card title="SQL review" icon="list-check">
+    Surfaces correctness, performance, security, and maintainability risks, with the matched rule and remediation guidance.
+  </Card>
+  <Card title="Automatic rewrite" icon="wand-magic-sparkles">
+    Produces a semantically equivalent candidate that is easier for the database optimizer to execute efficiently.
+  </Card>
+  <Card title="Index recommendation" icon="layer-group">
+    Evaluates filter, join, sort, and grouping columns and provides candidate index DDL.
+  </Card>
+  <Card title="Performance validation" icon="gauge-high">
+    When a database is connected, compares execution plans or measured behavior before and after optimization.
+  </Card>
+</CardGroup>
+
+{/* SCREENSHOT: /images/quickstart/03-optimization-result.png
+    Recommended frame: result overview showing review findings, rewritten SQL, index recommendations, and validation area.
+    Suggested video moment: the final result screen after optimization finishes.
+    Keep the most important recommendation expanded; crop browser chrome if it adds no context. */}
+<Frame caption="Open the detailed findings, rewrite, index, and validation views from the result summary">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/quickstart/03-optimization-result.png
+  </div>
+</Frame>
+
+### Recommended review order
+
+1. **Resolve high-priority findings first.** Correctness and security issues usually take precedence over performance-only advice.
+2. **Compare the original and rewritten SQL.** Confirm the business meaning, selected columns, and ordering behavior.
+3. **Evaluate each proposed index.** Check for existing duplicate or prefix-overlapping indexes and account for write and storage overhead.
+4. **Inspect the validation evidence.** Prefer changes supported by an improved execution plan or controlled measurements.
+
+<Warning>
+  Do not apply rewritten SQL or create indexes directly in production without validation. Confirm result equivalence in a test environment and follow your organization's change process.
+</Warning>
+
+## If no recommendation appears
+
+<AccordionGroup>
+  <Accordion title="The SQL cannot be parsed">
+    Confirm that the workspace database type and version are correct, the statement is complete, and the query does not rely on unsupported dialect syntax.
+  </Accordion>
+  <Accordion title="Object information is missing">
+    Add the DDL for every referenced table, or verify that the database account can read metadata from the required schema.
+  </Accordion>
+  <Accordion title="No index is recommended">
+    This does not necessarily mean the analysis failed. Existing indexes may already cover the access path, or an additional index may not benefit this query. Review the findings and execution plan together.
+  </Accordion>
+  <Accordion title="Performance validation is unavailable">
+    Validation generally requires a working database connection, sufficient permissions, and representative data. A DDL-only workspace can still support parsing, rule checks, rewrites, and parts of index analysis.
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Choose how to use PawSQL" icon="route" href="/en/getting-started/choose-access">
+    Compare web, IDE, API, and pipeline workflows.
+  </Card>
+  <Card title="Supported databases" icon="database" href="/en/getting-started/supported-databases">
+    Check database, version, and feature compatibility.
+  </Card>
+  <Card title="Automatic SQL rewrite" icon="code-compare" href="/en/features/automatic-sql-rewrite">
+    Learn how rewrites work and where their boundaries are.
+  </Card>
+  <Card title="Performance validation" icon="chart-line" href="/en/features/performance-validation">
+    Learn how to compare optimization candidates with execution evidence.
+  </Card>
+</CardGroup>
