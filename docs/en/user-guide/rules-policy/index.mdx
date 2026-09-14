@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-rules-policy-index
-title: Rule Configuration Overview
-description: Rule Configuration Overview — PawSQL User Guide (draft).
+title: Review Policy Overview
+description: A review policy defines the SQL rules, severities, and parameter thresholds to check. This page overviews global and local templates, rule categories, and severity levels.
 type: guide
 subtype: operation
 layout: index
@@ -11,12 +11,35 @@ language: en
 translationKey: user-guide-rules-policy-index
 ---
 
-# Rule Configuration Overview
+A review policy is the basis for SQL auditing: it defines a set of enabled audit rules, along with each rule's severity and parameter thresholds. The PawSQL Audit and Optimization modules share the same set of audit rule templates.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+<Note>
+The same object has several names in the UI: the navigation and creation form show "Policy", the creation button is "Create a Policy", and some descriptions say "audit rule template". This guide uses "review policy" throughout.
+</Note>
 
-## What this page will cover
+## Global and local templates
 
-- To be added
+- **Global templates**: preset when the Audit platform is installed and visible to all users, one per database type (MySQL, Oracle, PostgreSQL, openGauss, DB2, DM, and others), each with 135–173 enabled rules. Global templates are read-only.
+- **Local templates**: created from a global template (or another visible template) and visible only to the creator and their team members. Local templates can enable or disable rules and adjust thresholds.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Rule categories
+
+Rules are organized into three top-level categories — Object Design, Object Operation, and Data Operation — each divided into subcategories:
+
+| Top-level | Subcategories |
+| --- | --- |
+| Object Design | Naming Specification, Data Distribution, Table/View Definition, Constraints, Index, Comment, Column Definition, Character Set/Collation, Other |
+| Object Operation | Syntax Error, Update Object, Delete Object, Add Constraint |
+| Data Operation | Performance, Maintainability, Distributed, Correctness, Security |
+
+## Rule severity
+
+Each audit rule has a severity that marks how serious its findings are, in three levels from lightest to most severe: notice, warning, critical. See [Manage Rules](/en/user-guide/rules-policy/configure-rules).
+
+## In this section
+
+<CardGroup cols={2}>
+  <Card title="Manage Review Policies" href="/en/user-guide/rules-policy/rule-sets" />
+  <Card title="Manage Rules" href="/en/user-guide/rules-policy/configure-rules" />
+  <Card title="Configure the SQL Quality Gate" href="/en/user-guide/rules-policy/quality-gate" />
+</CardGroup>

@@ -51,7 +51,7 @@ flowchart LR
     A[Development] --> B[Delivery] --> C[Production] --> D[Governance]
 ```
 
-并提供统一的能力组合：**SQL Review · SQL Rewrite · Index Advisor · Execution Plan Analysis · Performance Validation**，帮助企业逐步建立 SQL Engineering 与 SQL Governance 能力。
+并提供统一的能力组合：**SQL质量检查 · 查询重写优化 · 智能索引推荐 · 执行计划分析 · 自动化性能验证**，帮助企业逐步建立 SQL Engineering 与 SQL Governance 能力。
 
 ## 选择最适合你的场景
 
@@ -68,7 +68,7 @@ WHERE DATE(create_time) = '2026-09-04'
 
 SQL 在开发环境中可能运行很快；但当生产表增长到数千万甚至上亿行后，函数条件、低效子查询、不合理索引和深分页都可能成为性能瓶颈。
 
-PawSQL Developer SQL Copilot 帮助开发人员在编码阶段完成：SQL 性能风险识别 · SQL 问题解释 · 等价 SQL 重写 · 索引推荐 · 执行计划分析 · 优化效果验证。
+PawSQL Developer SQL Copilot 帮助开发人员在编码阶段完成：SQL 性能风险识别 · SQL 问题解释 · 查询重写优化 · 智能索引推荐 · 执行计划分析 · 优化效果验证。
 
 <Note>
 **把 SQL 性能问题解决在代码提交之前。**
@@ -78,18 +78,18 @@ PawSQL Developer SQL Copilot 帮助开发人员在编码阶段完成：SQL 性�
 
 ### SQL Quality Gate for CI/CD
 
-应用代码已经拥有单元测试、代码审核、安全扫描和 CI/CD，数据库 SQL 也应该有同样的质量控制。PawSQL 可以将 SQL 审核和性能分析嵌入 CI/CD 流程：
+应用代码已经拥有单元测试、代码审核、安全扫描和 CI/CD，数据库 SQL 也应该有同样的质量控制。PawSQL 可以将 SQL质量检查和性能分析嵌入 CI/CD 流程：
 
 ```mermaid
 flowchart LR
     A[Developer Commit] --> B[Pull Request] --> C[CI/CD]
-    C --> D[SQL Review] --> E[Policy Evaluation] --> F{PASS / BLOCK}
+    C --> D[SQL质量检查] --> E[Policy Evaluation] --> F{PASS / BLOCK}
 ```
 
 帮助团队自动发现高风险 DML / DDL、SQL 规范问题、SQL 性能风险、缺失索引、深分页、低效子查询和不合理 Join，并根据风险等级决定 PASS、WARNING、DBA REVIEW 或 BLOCK。
 
 <Note>
-**让 SQL Review 从人工流程升级为自动质量门禁。**
+**让 SQL质量检查从人工流程升级为自动质量门禁。**
 </Note>
 
 [了解 SQL Quality Gate →](/use-cases/sql-quality-gate-cicd)
@@ -98,7 +98,7 @@ flowchart LR
 
 监控系统通常可以告诉 DBA 哪条 SQL 慢，但 DBA 真正需要解决的是：为什么慢、哪里有问题、怎么改、需要什么索引，以及优化后是否真的更好。
 
-PawSQL 可以将慢查询采集、SQL 归一化、SQL Pattern 聚类、性能分析、SQL 重写、索引推荐和执行计划验证串联起来：
+PawSQL 可以将慢查询采集、SQL 归一化、SQL Pattern 聚类、性能分析、查询重写优化、智能索引推荐和执行计划验证串联起来：
 
 ```mermaid
 flowchart TD
@@ -125,7 +125,7 @@ DBA 不再需要逐条分析所有慢 SQL，而是聚焦真正值得人工处理
 flowchart TD
     A[SQL Inventory] --> B[Compatibility Analysis]
     B --> C[Performance Risk Analysis]
-    C --> D[SQL Rewrite]
+    C --> D[查询重写优化]
     D --> E[Index Redesign]
     E --> F[Execution Plan Validation]
 ```
@@ -142,7 +142,7 @@ flowchart TD
 
 大型企业内部通常同时存在多个开发团队、多个 DBA 团队、多个数据库平台、多个发布流程和多个 SQL 标准。
 
-PawSQL 可以将 Development Governance、Delivery Governance 和 Production Governance 统一起来，形成覆盖 Developer SQL Copilot、SQL Quality Gate、Performance Patroller、SQL Review、SQL Rewrite、Index Advisor、Execution Plan Analysis 和 Governance Metrics 的统一平台。
+PawSQL 可以将 Development Governance、Delivery Governance 和 Production Governance 统一起来，形成覆盖 Developer SQL Copilot、SQL Quality Gate、Performance Patroller、SQL质量检查、查询重写优化、智能索引推荐、执行计划分析 和 Governance Metrics 的统一平台。
 
 <Note>
 **建立统一、可执行、可度量的 SQL Governance Platform。**
@@ -202,11 +202,11 @@ PawSQL 可以将 Development Governance、Delivery Governance 和 Production Gov
 
 | 能力 | 作用 |
 |---|---|
-| SQL Review | 发现规范、安全和潜在风险 |
-| SQL Rewrite | 自动生成等价优化方案 |
-| Index Advisor | 根据查询模式推荐索引 |
-| Execution Plan Analysis | 分析数据库执行策略 |
-| Performance Validation | 验证优化方案是否真正改善 |
+| SQL质量检查 | 发现规范、安全和潜在风险 |
+| 查询重写优化 | 自动生成等价优化方案 |
+| 智能索引推荐 | 根据查询模式推荐索引 |
+| 执行计划分析 | 分析数据库执行策略 |
+| 自动化性能验证 | 验证优化方案是否真正改善 |
 | Multi-Database Support | 支持异构数据库统一治理 |
 
 ## 一个完整的 SQL Engineering Lifecycle
@@ -220,8 +220,8 @@ flowchart TD
     E --> F[Production]
     F --> G[Performance Patroller]
     G --> H[Slow SQL Analysis]
-    H --> I[SQL Rewrite / Index Advisor]
-    I --> J[Performance Validation]
+    H --> I[查询重写优化 / 智能索引推荐]
+    I --> J[自动化性能验证]
     J --> K[Feed Back to Development]
     K -.-> A
 ```
@@ -252,7 +252,7 @@ flowchart TD
 
 真正成熟的 SQL 工程体系应该覆盖 **编写 → 审核 → 发布 → 监控 → 优化 → 持续改进** 的完整闭环。
 
-PawSQL 帮助企业把 SQL 审核、性能优化、CI/CD 门禁、生产治理和多数据库标准连接起来，形成统一的 SQL Engineering 与 SQL Governance 能力。
+PawSQL 帮助企业把 SQL质量检查、性能优化、CI/CD 门禁、生产治理和多数据库标准连接起来，形成统一的 SQL Engineering 与 SQL Governance 能力。
 
 <Note>
 **从第一行 SQL 到生产环境，PawSQL 让 SQL 质量和性能始终处于治理之中。**
@@ -260,7 +260,7 @@ PawSQL 帮助企业把 SQL 审核、性能优化、CI/CD 门禁、生产治理�
 
 <CardGroup cols={2}>
   <Card title="快速开始" icon="bolt" href="/getting-started/quickstart">
-    用一条 SQL 完成第一次审核、重写与索引推荐。
+    用一条 SQL 完成第一次审核、重写与智能索引推荐。
   </Card>
   <Card title="支持的数据库" icon="database" href="/getting-started/supported-databases">
     查看数据库、版本与能力的支持范围。

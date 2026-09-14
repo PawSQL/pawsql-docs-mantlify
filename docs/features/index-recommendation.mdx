@@ -17,7 +17,7 @@ capabilities:
 - index-recommendation
 ---
 
-PawSQL Index Recommendation 用于识别 SQL 的索引优化机会，并生成更符合查询访问路径的候选索引。
+PawSQL 智能索引推荐用于识别 SQL 的索引优化机会，并生成更符合查询访问路径的候选索引。
 
 推荐过程不仅考虑 WHERE 条件，还会综合分析 Join、ORDER BY、GROUP BY、列选择性、已有索引以及目标数据库的执行计划。
 
@@ -35,7 +35,7 @@ PawSQL Index Recommendation 用于识别 SQL 的索引优化机会，并生成�
 - 是否已存在等价或重复索引
 - 新索引是否会真正改变执行计划
 
-PawSQL 将索引推荐分为候选生成、筛选、模拟和验证多个阶段。
+PawSQL 将智能索引推荐分为候选生成、筛选、模拟和验证多个阶段。
 
 ```mermaid
 flowchart LR
@@ -90,7 +90,7 @@ PawSQL 可根据目标数据库考虑：
 
 ### 索引有效性验证
 
-索引推荐的最终目标不是“生成 CREATE INDEX”，而是确认：
+智能索引推荐的最终目标不是“生成 CREATE INDEX”，而是确认：
 
 <Note>
 新索引是否真的能改变执行路径，并降低 SQL 成本。
@@ -136,7 +136,7 @@ flowchart LR
 
 ## PawSQL 会避免什么
 
-一个好的索引推荐系统不仅需要知道“应该加什么索引”，也需要知道“不应该加什么索引”。
+一个好的智能索引推荐系统不仅需要知道“应该加什么索引”，也需要知道“不应该加什么索引”。
 
 例如：
 
@@ -149,10 +149,10 @@ flowchart LR
 ## 相关能力
 
 <CardGroup cols={2}>
-<Card title="SQL Review" icon="list-check" href="/features/sql-review" />
-<Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
-<Card title="Performance Validation" icon="gauge" href="/features/performance-validation" />
-<Card title="Execution Plan Analysis" icon="route" href="/features/execution-plan-visualization" />
+<Card title="SQL质量检查" icon="list-check" href="/features/sql-review" />
+<Card title="查询重写优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+<Card title="自动化性能验证" icon="gauge" href="/features/performance-validation" />
+<Card title="执行计划分析" icon="route" href="/features/execution-plan-visualization" />
 </CardGroup>
 
 ## 相关场景

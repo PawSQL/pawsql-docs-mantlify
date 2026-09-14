@@ -17,12 +17,12 @@ layout: index
 
 PawSQL 是面向开发、测试、DBA 与企业数据库治理团队的 **SQL 工程与治理平台**。
 
-它围绕 SQL 的完整生命周期提供统一能力：从开发阶段的规范审核与实时优化，到上线前的质量门禁，再到生产环境中的慢 SQL 治理、性能验证与持续优化。
+它围绕 SQL 的完整生命周期提供统一能力：从开发阶段的规范审核与实时优化，到上线前的质量门禁，再到生产环境中的慢 SQL 治理、自动化性能验证与持续优化。
 
 PawSQL 的核心能力由五个部分组成：
 
 - **SQL 质量**：发现语法、规范、风险和潜在性能问题
-- **SQL 优化**：自动进行 SQL 重写、索引推荐与专项性能优化
+- **SQL 优化**：自动进行查询重写优化、智能索引推荐与专项性能优化
 - **性能智能**：通过执行计划、代价与数据库优化器验证优化效果
 - **SQL 治理**：将 SQL 质量与性能治理扩展到 CI/CD、生产巡检和企业级管理流程
 - **平台与集成**：连接 IDE、CI/CD、API、Webhook、MCP 与企业内部平台
@@ -45,7 +45,7 @@ flowchart TD
     A["SQL"] --> B["SQL 质量分析"]
     B --> C1["SQL 自动优化<br>重写 / 索引分析"]
     B --> C2["风险与规范<br>SQL 质量分析"]
-    C1 --> D["性能验证"]
+    C1 --> D["自动化性能验证"]
     C2 --> D
     D --> E["SQL 治理"]
     E --> F["IDE / CI/CD / API / Webhook / MCP"]
@@ -75,7 +75,7 @@ PawSQL 基于 SQL 解析、语义分析、数据库元数据和规则引擎，�
 开发自检、代码评审、上线审核、数据库变更审核、企业 SQL 规范治理。
 
 <CardGroup cols={2}>
-  <Card title="SQL Review" icon="list-check" href="/features/sql-review">
+  <Card title="SQL质量检查" icon="list-check" href="/features/sql-review">
     在 SQL 上线前识别规范、安全与性能风险。
   </Card>
 </CardGroup>
@@ -90,7 +90,7 @@ PawSQL 通过 SQL 解析、语义等价性分析、重写规则、索引分析�
 
 ### 主要能力
 
-- 自动 SQL 重写
+- 查询重写优化
 - 子查询优化
 - Join 优化
 - 谓词下推
@@ -108,16 +108,16 @@ flowchart LR
     A["原始 SQL"] --> B["解析与语义分析"]
     B --> C["重写 / 索引分析"]
     C --> D["候选优化方案"]
-    D --> E["性能验证"]
+    D --> E["自动化性能验证"]
     E --> F["优化后 SQL"]
   end
 ```
 
 <CardGroup cols={2}>
-  <Card title="Automatic SQL Rewrite" icon="git-compare" href="/features/automatic-sql-rewrite">
-    自动生成语义等价的 SQL 重写方案。
+  <Card title="查询重写优化" icon="git-compare" href="/features/automatic-sql-rewrite">
+    自动生成语义等价的查询重写优化方案。
   </Card>
-  <Card title="Index Recommendation" icon="scan-search" href="/features/index-recommendation">
+  <Card title="智能索引推荐" icon="scan-search" href="/features/index-recommendation">
     根据查询访问模式推荐候选索引。
   </Card>
   <Card title="Distributed SQL Optimization" icon="network" href="/features/distributed-sql-optimization">
@@ -149,7 +149,7 @@ SQL 优化不能只依赖经验规则。PawSQL 结合目标数据库优化器、
 
 ```mermaid
 flowchart TD
-  subgraph sgPerf["性能验证"]
+  subgraph sgPerf["自动化性能验证"]
     A["原始 SQL 执行计划<br>Execution Plan"] <--> B["优化 SQL 执行计划<br>Execution Plan"]
     A --> C["代价与执行计划对比"]
     B --> C
@@ -164,15 +164,15 @@ flowchart TD
 </Note>
 
 <CardGroup cols={2}>
-  <Card title="Performance Validation" icon="gauge" href="/features/performance-validation">
+  <Card title="自动化性能验证" icon="gauge" href="/features/performance-validation">
     用数据库优化器验证优化是否真正更快。
   </Card>
-  <Card title="Execution Plan Analysis" icon="list-tree" href="/features/execution-plan-visualization">
+  <Card title="执行计划分析" icon="list-tree" href="/features/execution-plan-visualization">
     把文本执行计划还原为可视化执行树。
   </Card>
 </CardGroup>
 
-两者分工不同：**Performance Validation 回答"是否更好"**——比较优化前后的执行计划与代价，给出可采信的判定；**Execution Plan Analysis 回答"计划长什么样"**——呈现计划结构与指标，用于定位瓶颈与理解变化。前者产出结论，后者提供依据。
+两者分工不同：**自动化性能验证回答"是否更好"**——比较优化前后的执行计划与代价，给出可采信的判定；**执行计划分析回答"计划长什么样"**——呈现计划结构与指标，用于定位瓶颈与理解变化。前者产出结论，后者提供依据。
 
 ---
 
@@ -205,7 +205,7 @@ flowchart TD
     C --> D1["Risk"]
     C --> D2["Rewrite"]
     C --> D3["Index"]
-    D1 --> E["性能验证"]
+    D1 --> E["自动化性能验证"]
     D2 --> E
     D3 --> E
     E --> F["治理策略"]
@@ -239,7 +239,7 @@ PawSQL 可以运行在开发 IDE、CI/CD Pipeline、企业内部平台和 AI Age
 | CI/CD | SQL 上线质量门禁 |
 | REST API | 企业平台与自动化系统集成 |
 | Webhook | DevOps 流程触发 |
-| MCP | AI Agent 调用 SQL 审核与优化能力 |
+| MCP | AI Agent 调用 SQL质量检查与优化能力 |
 | Web Console | DBA 与企业 SQL 治理 |
 
 支持场景包括：
@@ -261,7 +261,7 @@ PawSQL 可以运行在开发 IDE、CI/CD Pipeline、企业内部平台和 AI Age
     把 SQL 质量门禁接入流水线。
   </Card>
   <Card title="PawSQL MCP" icon="bot" href="/user-guide/installation/pawsql-mcp">
-    让 AI 编程助手调用 SQL 审核与优化能力。
+    让 AI 编程助手调用 SQL质量检查与优化能力。
   </Card>
   <Card title="API 参考" icon="plug" href="/api-reference/list-workspaces">
     通过 API 集成到企业平台与自动化系统。
@@ -297,12 +297,12 @@ flowchart TD
 
 | 角色 | 典型需求 | 推荐能力 |
 |---|---|---|
-| Developer | 在编码阶段发现并优化 SQL | SQL Review、SQL Rewrite、IDE Integration |
-| DBA | 批量治理慢 SQL 与索引问题 | Batch SQL Governance、Index Recommendation、Performance Validation |
+| Developer | 在编码阶段发现并优化 SQL | SQL质量检查、查询重写优化、开发工具插件 |
+| DBA | 批量治理慢 SQL 与索引问题 | 批量 SQL 治理、智能索引推荐、自动化性能验证 |
 | DevOps | 在发布流程中阻断高风险 SQL | SQL Quality Gate、CI/CD Integration |
 | Migration Team | 迁移后检查兼容性与性能 | Database Migration Governance |
 | Database Platform Team | 建设统一 SQL 治理平台 | API、Policy、Dashboard、Multi-Database Support |
-| AI Agent | 生成 SQL 后进行专业校验与优化 | MCP、SQL Review、SQL Optimization |
+| AI Agent | 生成 SQL 后进行专业校验与优化 | MCP、SQL质量检查、SQL 优化 |
 
 ---
 

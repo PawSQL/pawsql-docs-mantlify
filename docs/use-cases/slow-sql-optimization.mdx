@@ -38,7 +38,7 @@ flowchart LR
 当慢 SQL 数量从几十条增长到几百、几千条时，单纯依赖人工分析已经很难规模化。
 
 <Note>
-**PawSQL 将慢 SQL 采集、归一化、性能分析、SQL 重写、索引推荐和执行计划验证串联起来，帮助 DBA 建立一套可持续运行的生产 SQL 性能治理流程。**
+**PawSQL 将慢 SQL 采集、归一化、性能分析、查询重写优化、智能索引推荐和执行计划验证串联起来，帮助 DBA 建立一套可持续运行的生产 SQL 性能治理流程。**
 </Note>
 
 ## 一个典型的生产环境
@@ -219,7 +219,7 @@ PawSQL 将生产慢 SQL 治理拆成一个完整流程：
 ```mermaid
 flowchart TD
     A[生产数据库] --> B[慢查询采集] --> C["SQL 归一化 / 去重"] --> D[SQL Pattern 聚类]
-    D --> E[性能风险分析] --> F["SQL Rewrite<br/>Index Advisor<br/>Plan Analysis"]
+    D --> E[性能风险分析] --> F["查询重写优化<br/>智能索引推荐<br/>执行计划分析"]
     F --> G[性能验证] --> H[DBA Review] --> I[优化落地] --> J[持续监控]
 ```
 
@@ -649,7 +649,7 @@ flowchart LR
 
     进行验证。
 
-    这也是为什么 SQL Rewrite 最好与：
+    这也是为什么查询重写优化最好与：
 
     ```text
     Execution Plan Validation
@@ -976,8 +976,8 @@ SQL Performance Governance
 
     ```mermaid
     flowchart TD
-        A[慢 SQL] --> B[PawSQL 自动分析] --> C[自动 SQL Rewrite] --> D[自动 Index Advisor]
-        D --> E[自动 Plan Analysis] --> F[DBA Review]
+        A[慢 SQL] --> B[PawSQL 自动分析] --> C[查询重写优化] --> D[智能索引推荐]
+        D --> E[执行计划分析] --> F[DBA Review]
     ```
   </Tab>
 </Tabs>
@@ -1005,7 +1005,7 @@ SQL 优化决策者。
 - 数据分布设计
 - 数据库迁移
 - 生产故障分析
-- 高风险 SQL 审核
+- 高风险 SQL质量检查
 
 也就是说：
 
@@ -1042,7 +1042,7 @@ Top SQL Optimization
 
 其中：
 
-SQL Rewrite：72 条
+查询重写优化：72 条
 Index Optimization：96 条
 Rewrite + Index：18 条
 ```
@@ -1139,11 +1139,11 @@ PawSQL 的价值之一，就是建立统一的：
 ```text
 SQL Analysis
 +
-SQL Rewrite
+查询重写优化
 +
-Index Advisor
+智能索引推荐
 +
-Plan Analysis
+执行计划分析
 ```
 
 能力层。

@@ -17,14 +17,14 @@ capabilities:
 - sql-audit
 ---
 
-PawSQL SQL Review 用于在 SQL 生命周期的早期阶段发现问题，包括语法与兼容性问题、企业规范违规、高风险 DDL/DML，以及可能导致性能退化的 SQL 写法。
+PawSQL SQL质量检查用于在 SQL 生命周期的早期阶段发现问题，包括语法与兼容性问题、企业规范违规、高风险 DDL/DML，以及可能导致性能退化的 SQL 写法。
 
 它不仅对 SQL 文本进行规则匹配，还结合 SQL 解析、语义分析、数据库元数据与数据库专项规则，对 SQL 进行结构化审核。
 
 
 ## 概览
 
-传统 SQL 审核通常依赖人工 DBA 评审、正则表达式或简单规则匹配。这类方式很难准确理解 SQL 的结构、对象关系和数据库语义，也难以覆盖复杂 SQL、存储过程以及多数据库环境。
+传统 SQL质量检查通常依赖人工 DBA 评审、正则表达式或简单规则匹配。这类方式很难准确理解 SQL 的结构、对象关系和数据库语义，也难以覆盖复杂 SQL、存储过程以及多数据库环境。
 
 PawSQL 通过统一 SQL 分析引擎，将审核过程拆分为多个阶段：
 
@@ -36,13 +36,13 @@ flowchart LR
     D --> E["Risk Report"]
 ```
 
-## 为什么 SQL 审核很重要
+## 为什么 SQL质量检查很重要
 
 SQL 问题越晚被发现，修复成本通常越高。
 
 在开发阶段发现一条全表扫描 SQL，开发者可以直接修改；如果同一条 SQL 已进入生产环境，则可能进一步引发 CPU 抖动、IO 压力、锁等待或发布回滚。
 
-因此，SQL Review 的目标不是“找错误”，而是把 SQL 质量控制前移到研发和交付流程中。
+因此，SQL质量检查的目标不是“找错误”，而是把 SQL 质量控制前移到研发和交付流程中。
 
 ## 核心能力
 
@@ -95,7 +95,7 @@ SQL 问题越晚被发现，修复成本通常越高。
 
 ### 存储过程分析
 
-PawSQL 可以进一步分析存储过程中的 SQL，而不仅限于单条 SQL 文本，从而把 SQL Review 扩展到 T-SQL、PL/pgSQL 等过程化代码场景。
+PawSQL 可以进一步分析存储过程中的 SQL，而不仅限于单条 SQL 文本，从而把 SQL质量检查扩展到 T-SQL、PL/pgSQL 等过程化代码场景。
 
 ## 示例
 
@@ -122,18 +122,18 @@ PawSQL 可以识别：
 
 ## 开发周期中的审核
 
-SQL Review 可以运行在多个入口：
+SQL质量检查可以运行在多个入口：
 
 - IDE：开发者编写 SQL 时即时检查
-- Web Console：手工提交 SQL 审核
+- Web Console：手工提交 SQL质量检查
 - CI/CD：作为 SQL Quality Gate
 - API：集成企业数据库平台
 - Webhook：接入 DevOps 流程
-- MCP：供 AI Agent 调用 SQL 审核能力
+- MCP：供 AI Agent 调用 SQL质量检查能力
 
-## SQL 审核与简单 SQL Lint 的差异
+## SQL质量检查与简单 SQL Lint 的差异
 
-| Capability | Simple SQL Lint | PawSQL SQL Review |
+| Capability | Simple SQL Lint | PawSQL SQL质量检查 |
 |---|---|---|
 | Syntax check | ✓ | ✓ |
 | AST analysis | Limited | ✓ |
@@ -147,10 +147,10 @@ SQL Review 可以运行在多个入口：
 ## 相关能力
 
 <CardGroup cols={2}>
-<Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
-<Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
-<Card title="Performance Validation" icon="chart-line" href="/features/performance-validation" />
-<Card title="Execution Plan Analysis" icon="list-tree" href="/features/execution-plan-visualization" />
+<Card title="查询重写优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+<Card title="智能索引推荐" icon="layers" href="/features/index-recommendation" />
+<Card title="自动化性能验证" icon="chart-line" href="/features/performance-validation" />
+<Card title="执行计划分析" icon="list-tree" href="/features/execution-plan-visualization" />
 <Card title="SQL Quality Gate" icon="git-merge" href="/use-cases/sql-quality-gate-cicd" />
 <Card title="Supported Databases" icon="database" href="/getting-started/supported-databases" />
 </CardGroup>

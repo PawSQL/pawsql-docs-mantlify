@@ -1,0 +1,72 @@
+---
+id: en-user-guide-sql-audit-configure-review-context
+title: Workspace and Review Context
+description: Understand how workspace metadata improves SQL review, and choose a matching workspace when creating a review ticket.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-sql-audit-configure-review-context
+---
+
+Review context describes the environment in which the submitted SQL is expected to run. On the create-ticket page, the database engine, version, and schema are separate fields; the "configure review context (workspace)" field selects a workspace, which supplies tables, columns, constraints, and indexes for object recognition and rule evaluation. Workspaces are created and maintained centrally in [Workspaces and Database Context](/en/user-guide/workspaces/)—do not keep a second copy of the schema inside individual review tickets.
+
+## Select a workspace
+
+<Steps>
+  <Step title="Identify the target environment">
+    Confirm the database instance, database or schema, and whether the SQL targets development, test, or production.
+  </Step>
+  <Step title="Choose the closest workspace">
+    Prefer a workspace whose engine, version, schema scope, and object definitions match the target.
+  </Step>
+  <Step title="Check metadata coverage">
+    Confirm that referenced tables, views, columns, constraints, and indexes are present.
+  </Step>
+  <Step title="Check freshness">
+    Refresh the workspace after recent DDL or index changes.
+  </Step>
+  <Step title="Set schema resolution">
+    If the SQL uses unqualified names, align the default database or schema with the runtime session.
+  </Step>
+</Steps>
+
+## Reviews that benefit from metadata
+
+Workspace metadata is especially important for:
+
+- validating tables, columns, and data types;
+- checking primary keys, uniqueness, and nullability;
+- recognizing existing indexes and evaluating index candidates;
+- analyzing `SELECT *`, implicit conversions, and join predicates;
+- resolving dependencies, ambiguous columns, and schema-qualified names;
+- generating rewrite or optimization guidance based on object definitions.
+
+Without a workspace, PawSQL can still run syntax and other context-independent rules. Findings that require database objects may be reduced or unavailable.
+
+## Keep context aligned
+
+| Mismatch | Possible result | Corrective action |
+| --- | --- | --- |
+| Stale workspace | New columns are unresolved or index findings are inaccurate | Refresh or resynchronize metadata |
+| Wrong default schema | Objects appear missing or resolve to a namesake table | Set the runtime-equivalent schema |
+| Wrong database version | Valid syntax is flagged or irrelevant rules run | Select the actual target version |
+| Non-production structure used for production SQL | Review conclusions do not match release conditions | Label environments clearly and reconcile schema differences |
+
+<Warning>
+When creating a workspace from a database connection, use a dedicated read-only account with least privilege and follow your organization’s credential, network, and production-access controls.
+</Warning>
+
+## Context checklist
+
+- [ ] Engine and version match the deployment target.
+- [ ] Default database or schema reflects runtime resolution.
+- [ ] The workspace contains the main referenced objects.
+- [ ] Metadata includes recent structural changes.
+- [ ] Any missing context is documented in the ticket description.
+
+## Related resources
+
+After configuring the workspace, return to [Create a Review Ticket](/en/user-guide/sql-audit/create-review-task). See [Workspaces and Database Context](/en/user-guide/workspaces/) for workspace setup.

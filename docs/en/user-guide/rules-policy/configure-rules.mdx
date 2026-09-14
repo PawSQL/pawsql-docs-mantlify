@@ -1,0 +1,72 @@
+---
+id: en-user-guide-rules-policy-configure-rules
+title: Manage Rules
+description: Browse the built-in audit rules by category tree, severity filter, and search, and inspect each rule's enable state, category, severity, threshold, and parent node.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-rules-policy-configure-rules
+---
+
+The Manage Rules page shows the Audit platform's built-in default rule template: 260 audit rules in total. It is separate from the "Rule configuration" step when creating a review policy — the former lets you browse the whole rule catalog, the latter lets you pick rules within one template.
+
+<Frame caption="Manage Rules: category tree and severity filter on the left, rule table on the right">
+  ![Manage Rules](/images/rules-policy/en/configure-rules.png)
+</Frame>
+
+## Page layout
+
+- **Left**: category tree (top-level category → subcategory), severity filter (notice / warning / critical / Disable), and search box;
+- **Right**: rule table with the columns Enable, Rule Name, Category, Level, Threshold, and Parent Node.
+
+## Rule categories
+
+Rules are organized into three top-level categories — Object Design, Object Operation, and Data Operation — each divided into subcategories:
+
+| Top-level | Subcategories |
+| --- | --- |
+| Object Design | Naming Specification, Data Distribution, Table/View Definition, Constraints, Index, Other, Comment, Column Definition, Character Set/Collation |
+| Object Operation | Syntax Error, Update Object, Delete Object, Add Constraint |
+| Data Operation | Performance, Maintainability, Distributed, Correctness, Security |
+
+## Locate rules
+
+- **Category tree**: click a category or subcategory to filter rules in it;
+- **Severity filter**: filter by notice / warning / critical / Disable;
+- **Search**: type a rule-name keyword in the search box.
+
+## Rule severity
+
+Each audit rule has a severity that marks how serious its findings are, in three levels from lightest to most severe: notice, warning, critical.
+
+## Rule table columns
+
+| Column | Description |
+| --- | --- |
+| Enable | Whether the rule is enabled |
+| Rule Name | The rule name |
+| Category | The category the rule belongs to |
+| Level | The rule severity (notice / warning / critical) |
+| Threshold | The rule parameter; a regular expression for naming-convention rules |
+| Parent Node | The parent rule in the hierarchy (rules are hierarchical, and a child rule refines its parent) |
+
+## Thresholds
+
+The form of a rule's threshold depends on the rule. Naming-convention rules use a regular expression to constrain object-name format:
+
+| Rule | Default threshold |
+| --- | --- |
+| Table naming convention | `^[a-z]+(_[a-z]+)*$` |
+| Column naming convention | `^[a-z]+(_[a-z]+)*$` |
+| Unique key naming convention | `^uk_{table}_{columns}$` |
+| Primary key naming convention | `^pk_{table}_{columns}$` |
+| Foreign key naming convention | `^fk_{c_table}_{c_columns}_{p_table}_{p_columns}$` |
+| Index naming convention | `^idx_{table}_{columns}$` |
+| Auto-increment column naming convention | `^id$` |
+| Database naming convention | `^[a-z]+(-[a-z]+)*$` |
+| Schema naming convention | `^[a-z]+(-[a-z]+)*$` |
+
+Rules and thresholds in the built-in default template are read-only. To customize them, first create a local template from a global template (see [Manage Review Policies](/en/user-guide/rules-policy/rule-sets)), then enable, disable, or adjust rules on the local template.

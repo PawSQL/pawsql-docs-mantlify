@@ -41,10 +41,10 @@ flowchart TD
 当开发团队规模扩大、发布频率提高之后，这种模式很容易产生三个问题：
 
 1. DBA 成为交付瓶颈
-2. SQL 审核标准难以统一
+2. SQL质量检查标准难以统一
 3. SQL 性能问题发现得太晚
 
-**PawSQL SQL Quality Gate 将 SQL 审核和性能分析嵌入 CI/CD 流程，让 SQL 像应用代码一样，在上线前经过自动质量检查。**
+**PawSQL SQL Quality Gate 将 SQL质量检查和性能分析嵌入 CI/CD 流程，让 SQL 像应用代码一样，在上线前经过自动质量检查。**
 
 ---
 
@@ -93,13 +93,13 @@ flowchart TD
 ```mermaid
 flowchart TD
     A[Developer Commit] --> B[Pull Request] --> C[CI/CD Pipeline]
-    C --> D[PawSQL SQL Review] --> E[SQL Policy Evaluation]
+    C --> D[PawSQL SQL 审核] --> E[SQL 策略评估]
     E --> F{PASS / BLOCK}
     F -->|PASS| G[Merge]
     F -->|BLOCK| H[Fix SQL]
 ```
 
-SQL 审核从：
+SQL质量检查从：
 
 > 人工检查
 
@@ -305,10 +305,10 @@ SQL Quality Gate 因此不只是：
 
 ## Pull Request 中直接获得反馈
 
-一个典型的 SQL Review 结果可以是：
+一个典型的 SQL质量检查结果可以是：
 
 ```text
-PawSQL SQL Review
+PawSQL SQL 审核
 
 Files analyzed:          4
 SQL statements:         37
@@ -582,7 +582,7 @@ CI/CD
 
 数据库 SQL 也应该拥有同样的工程质量控制。
 
-PawSQL 帮助企业把 SQL Review 从 Manual Approval 升级为：
+PawSQL 帮助企业把 SQL质量检查从人工审批升级为：
 
 ```mermaid
 flowchart LR
@@ -594,10 +594,10 @@ flowchart LR
 </Note>
 
 <CardGroup cols={2}>
-  <Card title="了解 PawSQL SQL Review" icon="list-check" href="/features/sql-review">
+  <Card title="了解 PawSQL SQL质量检查" icon="list-check" href="/features/sql-review">
     在 CI/CD 中审核 SQL 规范、安全与性能风险。
   </Card>
-  <Card title="了解 SQL Optimization" icon="wand-sparkles" href="/features/automatic-sql-rewrite">
+  <Card title="了解 SQL 优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite">
     自动生成等价的 SQL 重写与索引建议。
   </Card>
   <Card title="了解 Developer SQL Copilot" icon="code" href="/use-cases/developer-sql-copilot">

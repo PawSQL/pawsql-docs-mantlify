@@ -1,6 +1,6 @@
 ---
 id: en-feature-automatic-sql-rewrite
-title: Query rewrite
+title: Query Rewrite
 description: Automatically transform inefficient SQL into semantically equivalent
   forms that are more optimizer-friendly and performance-oriented.
 type: explanation
@@ -18,7 +18,7 @@ capabilities:
 - sql-rewrite
 ---
 
-PawSQL Automatic SQL Rewrite uses SQL parsing, semantic analysis, and optimization rules to transform inefficient SQL into semantically equivalent forms that give the database optimizer better opportunities to produce efficient execution plans.
+PawSQL Query Rewrite uses SQL parsing, semantic analysis, and optimization rules to transform inefficient SQL into semantically equivalent forms that give the database optimizer better opportunities to produce efficient execution plans.
 
 Instead of only returning textual recommendations, PawSQL aims to generate executable optimized SQL and then validate whether the rewrite actually improves performance.
 
@@ -36,20 +36,20 @@ Common examples include:
 - Deep pagination that scans and sorts excessive rows
 - Cross-shard data movement in distributed databases
 
-Automatic SQL Rewrite targets these structural issues with equivalent transformations.
+Query Rewrite targets these structural issues with equivalent transformations.
 
 ```mermaid
 flowchart LR
     A["Original SQL"] --> B["Parse & Analyze"] --> C["Rewrite Rules"] --> D["Candidate SQL"] --> E["Cost Validation"] --> F["Optimized SQL"]
 ```
 
-## Why SQL Rewrite Matters
+## Why Query Rewrite Matters
 
 A database optimizer searches for the best execution plan within the structure of the SQL statement it receives. It does not always transform the business expression of that SQL into an entirely different but equivalent form.
 
 Semantically equivalent SQL expressions can expose very different optimization opportunities.
 
-PawSQL SQL Rewrite expands the search space available to the optimizer.
+PawSQL Query Rewrite expands the search space available to the optimizer.
 
 ## Key Capabilities
 
@@ -162,7 +162,7 @@ If semantic equivalence cannot be established reliably, a rewrite should not be 
 ## Related Capabilities
 
 <CardGroup cols={2}>
-<Card title="SQL Review" icon="list-check" href="/en/features/sql-review" />
+<Card title="SQL Quality Check" icon="list-check" href="/en/features/sql-review" />
 <Card title="Index Recommendation" icon="layers" href="/en/features/index-recommendation" />
 <Card title="Performance Validation" icon="gauge" href="/en/features/performance-validation" />
 <Card title="Execution Plan Analysis" icon="route" href="/en/features/execution-plan-visualization" />

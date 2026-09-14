@@ -42,7 +42,7 @@ PawSQL 可以在一个工作流中分析 SQL，发现潜在问题，并给出可
 
 - 创建或选择一个工作空间；
 - 提交一条待优化 SQL；
-- 查看 SQL 审核、自动重写和索引推荐；
+- 查看 SQL质量检查、自动重写和智能索引推荐；
 - 在具备数据库连接时，对优化前后的性能进行验证。
 
 ## 开始之前
@@ -140,16 +140,16 @@ LIMIT 20;
 优化完成后，先查看结果摘要，再逐项检查建议。不同 SQL 和工作空间可能展示不同结果。
 
 <CardGroup cols={2}>
-  <Card title="SQL 审核" icon="list-check">
+  <Card title="SQL质量检查" icon="list-check">
     识别正确性、性能、安全性和可维护性风险，并说明命中的规则与修改方向。
   </Card>
   <Card title="自动重写" icon="wand-sparkles">
     在保持语义等价的前提下，提供更利于数据库优化器执行的候选 SQL。
   </Card>
-  <Card title="索引推荐" icon="layers">
+  <Card title="智能索引推荐" icon="layers">
     结合过滤、连接、排序和分组字段，给出候选索引及对应的建索引语句。
   </Card>
-  <Card title="性能验证" icon="gauge">
+  <Card title="自动化性能验证" icon="gauge">
     在可连接数据库时，对优化前后的执行计划或实际执行表现进行比较。
   </Card>
 </CardGroup>
@@ -201,10 +201,10 @@ LIMIT 20;
   <Card title="支持的数据库" icon="database" href="/getting-started/supported-databases">
     查看数据库、版本和能力兼容范围。
   </Card>
-  <Card title="SQL 重写" icon="git-compare" href="/features/automatic-sql-rewrite">
+  <Card title="查询重写优化" icon="git-compare" href="/features/automatic-sql-rewrite">
     了解自动重写的工作方式和使用边界。
   </Card>
-  <Card title="性能验证" icon="chart-line" href="/features/performance-validation">
+  <Card title="自动化性能验证" icon="chart-line" href="/features/performance-validation">
     了解如何用执行证据选择优化方案。
   </Card>
 </CardGroup>

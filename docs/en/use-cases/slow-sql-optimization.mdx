@@ -230,7 +230,7 @@ PawSQL turns slow SQL optimization into an end-to-end workflow:
 ```mermaid
 flowchart TD
     A[Production Database] --> B[Slow Query Collection] --> C[SQL Normalization] --> D[SQL Pattern Grouping]
-    D --> E[Performance Analysis] --> F["SQL Rewrite<br/>Index Advisor<br/>Plan Analysis"]
+    D --> E[Performance Analysis] --> F["Query Rewrite<br/>Index Recommendation<br/>Execution Plan Analysis"]
     F --> G[Performance Validation] --> H[DBA Review] --> I[Optimization Deployment] --> J[Continuous Monitoring]
 ```
 
@@ -663,7 +663,7 @@ Instead, the team can answer:
     - predicate selectivity
     - execution plan
 
-    That is why SQL Rewrite should ideally be combined with:
+    That is why Query Rewrite should ideally be combined with:
 
     <Note>
     **Execution Plan Validation**
@@ -979,7 +979,7 @@ not just one-time query tuning.
 
     ```mermaid
     flowchart TD
-        A[Slow SQL] --> B[PawSQL Analysis] --> C[Automated SQL Rewrite] --> D[Automated Index Advisor]
+        A[Slow SQL] --> B[PawSQL Analysis] --> C[Query Rewrite] --> D[Index Recommendation]
         D --> E[Execution Plan Analysis] --> F[DBA Review]
     ```
   </Tab>
@@ -1008,7 +1008,7 @@ By reducing repetitive slow SQL analysis, DBAs can focus more on:
 - data distribution
 - database migration
 - production troubleshooting
-- high-risk SQL review
+- high-risk SQL Quality Check
 
 In short:
 
@@ -1134,11 +1134,11 @@ PawSQL provides a more unified layer for:
 ```text
 SQL Analysis
 +
-SQL Rewrite
+Query Rewrite
 +
-Index Advisor
+Index Recommendation
 +
-Plan Analysis
+Execution Plan Analysis
 ```
 
 helping organizations establish a more consistent SQL performance governance process across heterogeneous database environments.

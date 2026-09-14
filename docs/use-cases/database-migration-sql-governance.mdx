@@ -49,7 +49,7 @@ Syntax Compatibility
 Performance Compatibility
 ```
 
-**PawSQL 帮助企业在数据库迁移和信创改造过程中，对大规模 SQL 进行批量解析、兼容性检查、性能风险分析、SQL 重写、索引推荐以及执行计划验证，让迁移从“能运行”进一步走向“能稳定、高效运行”。**
+**PawSQL 帮助企业在数据库迁移和信创改造过程中，对大规模 SQL 进行批量解析、兼容性检查、性能风险分析、查询重写优化、智能索引推荐以及执行计划验证，让迁移从“能运行”进一步走向“能稳定、高效运行”。**
 
 ---
 
@@ -264,8 +264,8 @@ PawSQL 可以将迁移 SQL 治理划分为几个阶段：
 ```mermaid
 flowchart TD
     A[Application Source Code] --> B[SQL Extraction] --> C[SQL Parsing] --> D[Compatibility Analysis]
-    D --> E[Performance Risk Analysis] --> F[Target Database Metadata] --> G["SQL Rewrite / Index Advisor"]
-    G --> H[Execution Plan Analysis] --> I[Migration Validation] --> J[Release]
+    D --> E[Performance Risk Analysis] --> F[Target Database Metadata] --> G["查询重写优化 / 智能索引推荐"]
+    G --> H[执行计划分析] --> I[Migration Validation] --> J[Release]
 ```
 
 这使迁移项目从单纯的：
@@ -536,7 +536,7 @@ Estimated Rows: 2,800,000
 SQL 语法迁移成功，但性能迁移失败。
 </Note>
 
-经过 SQL 重写和索引调整后：
+经过查询重写优化和索引调整后：
 
 ```text
 INDEX RANGE SCAN
@@ -881,7 +881,7 @@ flowchart TD
 | Syntax Compatible | 11,482 | Pass |
 | Syntax Conversion Required | 698 | Review |
 | Performance Risk | 327 | Warning |
-| Index Recommendation | 186 | Action |
+| 智能索引推荐 | 186 | Action |
 | Execution Plan Regression | 93 | Critical |
 | Manual DBA Review | 47 | Pending |
 
@@ -966,7 +966,7 @@ flowchart TD
   <Step title="Gate 2 — Performance">
     检查：
 
-    - SQL Rewrite
+    - 查询重写优化
     - Index
     - Execution Plan
     - Cost
@@ -1013,7 +1013,7 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A[Migration] --> B[PawSQL Analysis] --> C[Performance Validation] --> D[Fix] --> E[Production]
+    A[Migration] --> B[PawSQL Analysis] --> C[自动化性能验证] --> D[Fix] --> E[Production]
 ```
 
 即：
@@ -1148,7 +1148,7 @@ Manual Review Completion
   <Accordion title="DBA">
     关注：
 
-    - SQL Rewrite
+    - 查询重写优化
     - Index
     - Execution Plan
   </Accordion>
@@ -1222,7 +1222,7 @@ flowchart TD
         A1[SQL Inventory] --> A2[Compatibility Assessment] --> A3[Performance Risk Assessment]
     end
     subgraph P2["Migration"]
-        B1[SQL Conversion] --> B2[SQL Rewrite] --> B3[Index Redesign] --> B4[Plan Validation]
+        B1[SQL Conversion] --> B2[查询重写优化] --> B3[Index Redesign] --> B4[Plan Validation]
     end
     subgraph P3["After Migration"]
         C1[Production Monitoring] --> C2[Slow SQL Detection] --> C3[Continuous Optimization]
@@ -1314,9 +1314,9 @@ Compatibility Analysis
 +
 Performance Analysis
 +
-SQL Rewrite
+查询重写优化
 +
-Index Advisor
+智能索引推荐
 +
 Execution Plan Validation
 ```

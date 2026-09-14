@@ -1,0 +1,74 @@
+---
+id: en-user-guide-optimization-explain-output
+title: Read Optimization Results
+description: Read the optimization summary and per-SQL details, and compare the original and optimized SQL and execution plans.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-optimization-explain-output
+---
+
+The optimization detail page presents recommendations in two levels: the optimization summary and per-SQL details. These results describe the same SQL from different angles and should be read together, not adopted mechanically.
+
+## Optimization summary
+
+The summary aggregates the overall task, including:
+
+- number of executed SQL statements;
+- number of rewrites;
+- number of SQL audit rule violations;
+- number of recommended indexes;
+- an overview of each SQL optimization.
+
+## Optimization details
+
+For each SQL, the detail page shows what and how it is tuned, with the following sections:
+
+| Section | Content |
+| --- | --- |
+| Original SQL | The original statement being optimized |
+| Rewritten SQL | The rewritten SQL, applied strategies, and the affected SQL fragment |
+| Audit violations | Violated audit rules and the offending SQL fragments |
+| Index recommendation | Recommended indexes and their rationale |
+| Index analysis | Per-table index list and redundancy, how existing indexes help this SQL, and per-table index-count warnings |
+| Validation | Performance improvement percentage, recommended indexes confirmed by validation, and execution plans before and after |
+
+{/* SCREENSHOT: /images/optimization/03-result-summary.png
+    Recommended frame: the optimization result page showing the task summary at top and the per-SQL detail (rewrite, audit, index, validation) below.
+    Suggested video moment: the result screen after optimization finishes, with the most important recommendation expanded. */}
+<Frame caption="The result page: task summary on top, per-SQL detail below">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/optimization/03-result-summary.png
+  </div>
+</Frame>
+
+## Reading order
+
+<Steps>
+  <Step title="Confirm context">Verify engine, version, schema, workspace, and SQL.</Step>
+  <Step title="Confirm parse completeness">Check that SQL and objects resolved and no skip or partial failure remains.</Step>
+  <Step title="Prioritize high risk">Review blocking, critical, and data-safety issues first.</Step>
+  <Step title="Evaluate rewrites">Compare original and rewritten SQL, and read rule rationale and conditions.</Step>
+  <Step title="Evaluate indexes">Inspect recommended indexes, existing indexes, write cost, and query coverage.</Step>
+  <Step title="Check validation evidence">Compare plans, cost, or measured metrics to judge actual benefit.</Step>
+</Steps>
+
+## Compare SQL and execution plans
+
+- **Compare SQL**: click the "Compare SQL" button at the top right of the optimization page to show the text change before and after rewriting.
+- **Compare execution plans**: click the "Compare execution plans" button to show the plans before and after optimization.
+
+<Tip>
+A rule not firing does not mean the SQL has no performance problem; audit rules and optimization suggestions address different concerns. Estimated cost and performance gain are decision inputs, not automatic deployment instructions.
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Evaluate and apply suggestions" href="/en/user-guide/optimization/apply-suggestions" />
+  <Card title="Audit rules" href="/en/reference/audit-rules/index" />
+  <Card title="Optimizer rules" href="/en/reference/optimizer-rules/index" />
+</CardGroup>

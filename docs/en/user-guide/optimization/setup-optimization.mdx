@@ -1,0 +1,73 @@
+---
+id: en-user-guide-optimization-setup-optimization
+title: Create and Configure an Optimization Task
+description: Configure input, validation, index recommendation, and rule options to control how rewrites and index suggestions are produced.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-optimization-setup-optimization
+---
+
+An optimization is a performance diagnosis performed on a set of SQL within a workspace, typically including SQL audit, rewrite, and index recommendation. When creating an optimization task you can configure its input, output, data source, and execution.
+
+## Basic configuration
+
+- **Optimization ID**: identifies this optimization task.
+- **Index recommendation only**: controls whether rewrite is enabled. When the SQL is already in production and changes cannot be applied immediately, enable this option — PawSQL will not rewrite the SQL and will only recommend indexes based on the original SQL.
+
+## Validation
+
+- **Update DDL information**: whether to connect to the verification database to fetch the latest DDL.
+- **Perform What-If verification**: controls whether recommendations are performance-validated. When enabled, the optimization details provide execution plans and cost estimates before and after optimization.
+- **Enable Analyze**: during What-If verification, obtain the real parse and execution time so cost estimates are more accurate.
+
+<Warning>
+Avoid the validation options on production databases. For databases without built-in virtual indexes (such as MySQL and PostgreSQL), performance validation works by creating the recommended index, running `EXPLAIN`, and dropping the index. This consumes resources and can be slow on production.
+</Warning>
+
+## Index recommendation configuration
+
+- **Dedup with existing indexes**: whether to exclude recommendations that duplicate existing indexes. Enable this when the input SQL represents only part of the database queries and you do not intend to drop existing indexes.
+- **Recommend covering indexes**: whether to consider covering indexes. Covering indexes avoid table lookups and can substantially improve performance, but include columns not used in the query and increase disk usage.
+- **Maximum covering index columns**: limits the column count of a covering index to bound its space usage.
+- **Maximum index columns**: limits the column count of an index to avoid a wide index deepening the index tree.
+- **Maximum indexes per table**: audits the index count per table and warns, since indexes add disk usage and slow down DML.
+
+## Rule configuration
+
+Enable or disable individual optimization rules and adjust their thresholds.
+
+{/* SCREENSHOT: /images/optimization/02-setup-optimization.png
+    Recommended frame: the optimization task configuration form showing the basic, validation, index recommendation, and rule sections.
+    Suggested video moment: the configuration form immediately before submitting the task. */}
+<Frame caption="Configure the basic, validation, index recommendation, and rule options">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/optimization/02-setup-optimization.png
+  </div>
+</Frame>
+
+## Submit and confirm success
+
+After submitting, once the task completes, at least check that:
+
+- [ ] Parsing completed.
+- [ ] Engine and version are correct.
+- [ ] Schemas, tables, and columns resolved correctly.
+- [ ] Statement boundaries were detected correctly.
+- [ ] Expected analysis modules ran.
+- [ ] No unexplained partial failure remains.
+
+<Tip>
+A completed task is not a claim that the SQL is optimal or that every recommendation is safe to apply.
+</Tip>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Read the results" href="/en/user-guide/optimization/explain-output" />
+  <Card title="Evaluate and apply suggestions" href="/en/user-guide/optimization/apply-suggestions" />
+  <Card title="Input SQL to optimize" href="/en/user-guide/optimization/create-workload" />
+</CardGroup>

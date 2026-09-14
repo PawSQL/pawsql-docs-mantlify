@@ -1,7 +1,7 @@
 ---
 id: feature-automatic-sql-rewrite
 title: 查询重写优化
-description: 使用 PawSQL 自动识别低效 SQL 写法，并生成语义等价且更高效的 SQL 重写方案。
+description: 使用 PawSQL 自动识别低效 SQL 写法，并生成语义等价且更高效的查询重写优化方案。
 type: explanation
 icon: git-compare
 product: pawsql
@@ -17,9 +17,9 @@ capabilities:
 - sql-rewrite
 ---
 
-PawSQL 自动化重新优化通过 SQL 解析、语义分析与优化规则，将低效 SQL 自动转换为语义等价、但更有利于数据库优化器生成高效执行计划的形式。
+PawSQL 查询重写优化通过 SQL 解析、语义分析与优化规则，将低效 SQL 自动转换为语义等价、但更有利于数据库优化器生成高效执行计划的形式。
 
-与仅输出文字建议不同，PawSQL 的目标是直接生成可执行的优化 SQL，并进一步通过性能验证判断重写是否有效。
+与仅输出文字建议不同，PawSQL 的目标是直接生成可执行的优化 SQL，并进一步通过自动化性能验证判断重写是否有效。
 
 
 ## 概览
@@ -35,20 +35,20 @@ SQL 性能问题往往并不是“数据库没有索引”，而是 SQL 结构�
 - 深分页产生大量扫描与排序
 - 分布式数据库中发生跨分片数据移动
 
-Automatic SQL Rewrite 针对这些结构性问题自动寻找等价改写方案。
+查询重写优化针对这些结构性问题自动寻找等价改写方案。
 
 ```mermaid
 flowchart LR
     A["Original SQL"] --> B["Parse & Analyze"] --> C["Rewrite Rules"] --> D["Candidate SQL"] --> E["Cost Validation"] --> F["Optimized SQL"]
 ```
 
-## 为什么 SQL 重写很重要
+## 为什么查询重写优化很重要
 
 数据库优化器能够在给定 SQL 表达式范围内寻找最优执行计划，但不会总是主动改变 SQL 的业务表达形式。
 
 某些 SQL 写法从语义上等价，却会产生完全不同的优化空间。
 
-PawSQL 的 SQL Rewrite 用于扩展优化器可利用的搜索空间。
+PawSQL 的查询重写优化用于扩展优化器可利用的搜索空间。
 
 ## 核心能力
 
@@ -132,7 +132,7 @@ WHERE customer_id IN (100, 200, 300);
 
 ## 语义安全性
 
-SQL 重写首先必须保证语义正确。
+查询重写优化首先必须保证语义正确。
 
 因此，PawSQL 在应用重写规则时需要考虑：
 
@@ -161,10 +161,10 @@ SQL 重写首先必须保证语义正确。
 ## 相关能力
 
 <CardGroup cols={2}>
-<Card title="SQL Review" icon="list-check" href="/features/sql-review" />
-<Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
-<Card title="Performance Validation" icon="gauge" href="/features/performance-validation" />
-<Card title="Execution Plan Analysis" icon="route" href="/features/execution-plan-visualization" />
+<Card title="SQL质量检查" icon="list-check" href="/features/sql-review" />
+<Card title="智能索引推荐" icon="layers" href="/features/index-recommendation" />
+<Card title="自动化性能验证" icon="gauge" href="/features/performance-validation" />
+<Card title="执行计划分析" icon="route" href="/features/execution-plan-visualization" />
 </CardGroup>
 
 ## 相关场景

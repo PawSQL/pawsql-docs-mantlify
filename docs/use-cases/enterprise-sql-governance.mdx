@@ -267,11 +267,11 @@ flowchart TD
     F --> I["PawSQL Analysis Engine"]
     G --> I
     H --> I
-    I --> J["SQL Review"]
-    I --> K["SQL Rewrite"]
-    I --> L["Index Advisor"]
-    K --> M["Execution Plan Analysis"]
-    M --> N["Performance Validation"]
+    I --> J["SQL质量检查"]
+    I --> K["查询重写优化"]
+    I --> L["智能索引推荐"]
+    K --> M["执行计划分析"]
+    M --> N["自动化性能验证"]
 ```
 
 这个架构的核心不是某一个功能。
@@ -328,7 +328,7 @@ DATE(create_time)
 并给出：
 
 - 问题解释
-- SQL 重写
+- 查询重写优化
 - 索引建议
 - 执行计划分析
 
@@ -356,7 +356,7 @@ DATE(create_time)
 
 ```mermaid
 flowchart TD
-    A["Developer Commit"] --> B["Pull Request"] --> C["CI/CD Pipeline"] --> D["PawSQL Review"] --> E["SQL Policy Evaluation"] --> F{"PASS / BLOCK"}
+    A["Developer Commit"] --> B["Pull Request"] --> C["CI/CD Pipeline"] --> D["PawSQL 审核"] --> E["SQL Policy Evaluation"] --> F{"PASS / BLOCK"}
     F -->|PASS| G["Merge"]
     F -->|BLOCK| H["Fix SQL"]
 ```
@@ -433,9 +433,9 @@ PawSQL 可以从慢查询中：
 - SQL 归一化
 - SQL Pattern 聚类
 - 优先级排序
-- SQL Rewrite
-- Index Advisor
-- Execution Plan Analysis
+- 查询重写优化
+- 智能索引推荐
+- 执行计划分析
 - Optimization Validation
 
 将：
@@ -581,11 +581,11 @@ flowchart TD
 不同数据库可能使用：
 
 ```text
-MySQL SQL Review Rules
+MySQL SQL 审核规则
 
-Oracle SQL Review Rules
+Oracle SQL 审核规则
 
-PostgreSQL SQL Review Rules
+PostgreSQL SQL 审核规则
 
 TDSQL Distributed Rules
 
@@ -1014,11 +1014,11 @@ flowchart TD
 
 ---
 
-## 从 SQL Audit 升级到 SQL Governance
+## 从 SQL 审核升级到 SQL 治理
 
 <Tabs>
-  <Tab title="SQL Audit">
-    SQL Audit 通常关注：
+  <Tab title="SQL 审核">
+    SQL 审核通常关注：
 
     ```text
     Does this SQL violate a rule?
@@ -1051,13 +1051,13 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    A["SQL Audit"] --> B["Rule Checking"]
+    A["SQL 审核"] --> B["规则检查"]
     C["SQL Governance"] --> D["Policy + Performance + Workflow + Lifecycle + Metrics"]
 ```
 
 ---
 
-## 从 SQL Optimization 升级到 SQL Engineering
+## 从 SQL 优化升级到 SQL 工程
 
 单点优化通常是：
 
@@ -1105,7 +1105,7 @@ PawSQL 的长期价值不应该只定义为：
 可以分阶段实施。
 
 <Steps>
-  <Step title="Phase 1 — Unified SQL Review">
+  <Step title="Phase 1 — 统一 SQL质量检查">
     首先统一：
 
     ```text
@@ -1119,7 +1119,7 @@ PawSQL 的长期价值不应该只定义为：
     目标：
 
     <Note>
-    建立统一 SQL 审核平台。
+    建立统一 SQL质量检查平台。
     </Note>
   </Step>
   <Step title="Phase 2 — CI/CD Quality Gate">
@@ -1231,13 +1231,13 @@ flowchart TD
 最终，企业获得的不是：
 
 ```text
-SQL Review Tool
+SQL 审核工具
 ```
 
 也不是：
 
 ```text
-SQL Optimization Tool
+SQL 优化工具
 ```
 
 而是一套：
@@ -1249,7 +1249,7 @@ SQL Policy
 +
 SQL Analysis
 +
-SQL Optimization
+SQL 优化
 +
 SQL Workflow
 +
@@ -1333,7 +1333,7 @@ Lower Database Performance Cost
 ```text
 IDE Plugin
 +
-SQL Audit Tool
+SQL 审核工具
 +
 CI/CD Script
 +
@@ -1374,7 +1374,7 @@ flowchart LR
     A["Write"] --> B["Analyze"] --> C["Review"] --> D["Release"] --> E["Monitor"] --> F["Optimize"] --> G["Improve"]
 ```
 
-PawSQL 帮助企业把 SQL 审核、SQL 优化和数据库性能治理从分散工具和人工流程中抽离出来，沉淀成一个统一、可执行、可度量的 SQL Governance 平台。
+PawSQL 帮助企业把 SQL质量检查、SQL 优化和数据库性能治理从分散工具和人工流程中抽离出来，沉淀成一个统一、可执行、可度量的 SQL Governance 平台。
 
 <Note>
 **One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**

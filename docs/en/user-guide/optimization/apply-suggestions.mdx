@@ -1,0 +1,88 @@
+---
+id: en-user-guide-optimization-apply-suggestions
+title: Evaluate and Apply Suggestions
+description: Evaluate the semantics, compatibility, benefit, and cost of rewrite and index suggestions, then apply them safely after testing and review.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-optimization-apply-suggestions
+---
+
+Optimization suggestions are candidates, not deployment instructions. Whether a rewrite or an index recommendation, evaluate semantics, compatibility, benefit, and cost under one framework before applying.
+
+## Decision framework
+
+| Dimension | Question |
+| --- | --- |
+| Semantic correctness | Does the candidate preserve the required result and behavior? |
+| Compatibility | Does the target engine and version support it? |
+| Performance | Do plans, cost, or measured metrics improve? |
+| Operational cost | What changes in writes, storage, locking, and maintenance? |
+| Release risk | Are testing, review, rollout, observation, and rollback ready? |
+
+<Warning>
+Generated SQL and index DDL are candidates, not production deployment instructions. Validate every change through your organization's engineering and release controls.
+</Warning>
+
+## Evaluating rewrites
+
+When comparing the original and rewritten SQL, focus on:
+
+- returned columns, data types, and column order;
+- `NULL` semantics;
+- duplicate-row and deduplication behavior;
+- filter and join conditions;
+- aggregation, ordering, pagination, and window functions;
+- data-modification scope;
+- target database compatibility.
+
+Apply stricter consistency checks for `NULL`, outer joins, duplicate rows, non-deterministic functions, implicit casts, and DML. Do not adopt a rewrite just because it is shorter or has a lower estimated cost.
+
+## Evaluating index recommendations
+
+A recommended index is candidate DDL. When reading its definition, confirm the target table and schema, index type, key columns and order, included columns, filter conditions, uniqueness, and online-creation options.
+
+Check its relationship to existing indexes:
+
+| Relationship | What to check | Possible handling |
+| --- | --- | --- |
+| Identical | Same key columns, order, and attributes | Usually do not duplicate |
+| Existing index covers it | Recommended columns are a prefix of an existing index | Verify the existing index already suffices |
+| It covers an existing index | The new index may replace a shorter one | Consider merging after evaluating other SQL |
+| Same columns, different order | Different selectivity, ordering, and join needs | Verify separately, not by column set alone |
+| Partial overlap | Each serves different workloads | Assess against the global SQL load |
+
+Weigh benefit (fewer full scans, fewer rows read, better joins, less sorting, covering queries) against cost (slower writes, storage, creation time, lock impact, maintenance, distributed overhead).
+
+## Applying suggestions
+
+<Steps>
+  <Step title="Validate in a test environment">For rewrites, compare result consistency and check plans; for indexes, create the candidate and compare plans, time, and scan volume.</Step>
+  <Step title="Run performance validation">Use the same environment, data, parameters, and session conditions to compare plans, cost, time, and resources.</Step>
+  <Step title="Submit for review">Attach the original SQL, rationale, test evidence, capacity estimate, window, and rollback plan.</Step>
+  <Step title="Deploy and observe">Apply in the approved window and observe locks, load, space, write latency, and plan changes.</Step>
+</Steps>
+
+## When not to adopt
+
+- SQL or objects did not fully parse;
+- workspace does not match the target database;
+- the rule rationale or conditions cannot be explained;
+- result-consistency testing failed;
+- the recommended index duplicates an existing one, or the table has high write pressure with benefit not justifying maintenance cost;
+- the database did not actually use the index in the test environment;
+- only estimated benefit exists without adequate validation.
+
+## Recording decisions
+
+For each suggestion, record adopted, adjusted, rejected, or pending, plus the owner, rationale, test environment and parameters, plan or performance data, planned rollout time, and rollback path.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Read the results" href="/en/user-guide/optimization/explain-output" />
+  <Card title="Index recommendation capability" href="/en/features/index-recommendation" />
+</CardGroup>

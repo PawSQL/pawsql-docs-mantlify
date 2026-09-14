@@ -18,11 +18,7 @@ documentation:
     - documentId: optimizer-rule-opt-or-union
       language: zh
   userGuide:
-    required: true
-    paths: []
-    documents:
-    - documentId: user-guide-optimization-or-union
-      language: en
+    required: false
   releaseNote:
     required: true
   blog:

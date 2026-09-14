@@ -1,0 +1,73 @@
+---
+id: user-guide-sql-audit-configure-review-context
+title: 工作空间与审核上下文
+description: 理解工作空间如何为 SQL 审核提供对象元数据，并在创建审核工单时选择匹配的工作空间。
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-sql-audit-configure-review-context
+localeOf: en-user-guide-sql-audit-configure-review-context
+---
+
+审核上下文描述 SQL 将在哪个数据库环境中运行。在创建审核工单页面，数据库类型、版本、默认 Schema 是独立字段；“配置审核上下文（工作空间）”字段则用于选择工作空间，为对象识别和规则判断提供表、列、约束和索引等元数据。工作空间在[工作空间与上下文](/user-guide/workspaces/)中集中创建和管理，不要在审核工单中重复维护另一份表结构。
+
+## 选择工作空间
+
+<Steps>
+  <Step title="确认 SQL 的目标环境">
+    确定 SQL 面向的数据库实例、数据库或 Schema，以及开发、测试或生产环境。
+  </Step>
+  <Step title="选择匹配的工作空间">
+    优先选择数据库类型、版本和对象结构均与目标环境一致的工作空间。
+  </Step>
+  <Step title="检查元数据范围">
+    确认 SQL 引用的表、视图、列、约束和索引已经包含在工作空间中。
+  </Step>
+  <Step title="确认更新时间">
+    如果近期发生过 DDL 变更或索引调整，应先更新工作空间元数据。
+  </Step>
+  <Step title="设置默认 Schema">
+    SQL 中使用未限定对象名时，确保默认 Schema 与实际会话配置一致。
+  </Step>
+</Steps>
+
+## 何时必须关注工作空间
+
+以下分析通常依赖或受益于数据库元数据：
+
+- 表、列或数据类型是否存在；
+- 主键、唯一约束和非空约束检查；
+- 已有索引识别和索引建议；
+- `SELECT *`、隐式类型转换及连接条件分析；
+- 对象依赖、字段歧义和 Schema 解析；
+- 基于表结构的 SQL 重写或优化建议。
+
+未配置工作空间时，PawSQL 仍可执行不依赖对象元数据的语法和静态规则，但结果覆盖范围可能受限。
+
+## 保证上下文一致
+
+| 风险 | 可能表现 | 建议 |
+| --- | --- | --- |
+| 工作空间过期 | 新列无法识别、索引判断不准确 | 更新或重新同步元数据 |
+| Schema 选择错误 | 对象不存在或解析到同名表 | 设置正确的默认 Schema |
+| 数据库版本错误 | 语法误报或版本规则不适用 | 使用实际运行版本 |
+| 使用生产以外的结构 | 结果与上线环境不一致 | 标注环境并核对结构差异 |
+
+<Warning>
+连接数据库创建工作空间时，应使用满足最小权限原则的只读账号，并遵守组织对凭据、网络和生产访问的管理要求。
+</Warning>
+
+## 提交前检查
+
+- [ ] 数据库类型和版本与目标环境一致。
+- [ ] 默认数据库或 Schema 设置正确。
+- [ ] 工作空间包含 SQL 引用的主要对象。
+- [ ] 元数据已覆盖最近的结构变更。
+- [ ] 无法提供的上下文已在工单说明中记录。
+
+## 延伸阅读
+
+完成工作空间配置后，返回[创建审核工单](/user-guide/sql-audit/create-review-task)。工作空间的创建与管理参阅[工作空间与上下文](/user-guide/workspaces/)。

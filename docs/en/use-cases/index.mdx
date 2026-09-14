@@ -52,7 +52,7 @@ flowchart LR
     A[Development] --> B[Delivery] --> C[Production] --> D[Governance]
 ```
 
-through a shared intelligence layer: **SQL Review · SQL Rewrite · Index Advisor · Execution Plan Analysis · Performance Validation** — helping organizations build scalable SQL Engineering and SQL Governance capabilities.
+through a shared intelligence layer: **SQL Quality Check · Query Rewrite · Index Recommendation · Execution Plan Analysis · Performance Validation** — helping organizations build scalable SQL Engineering and SQL Governance capabilities.
 
 ## Choose the Use Case That Matches Your Challenge
 
@@ -79,18 +79,18 @@ PawSQL Developer SQL Copilot helps developers with: SQL performance risk detecti
 
 ### SQL Quality Gate for CI/CD
 
-Application code already has unit tests, code review, security scanning, and CI/CD. Database SQL should have the same level of engineering control. PawSQL can integrate SQL review and performance analysis into CI/CD:
+Application code already has unit tests, code review, security scanning, and CI/CD. Database SQL should have the same level of engineering control. PawSQL can integrate SQL quality check and performance analysis into CI/CD:
 
 ```mermaid
 flowchart LR
     A[Developer Commit] --> B[Pull Request] --> C[CI/CD]
-    C --> D[SQL Review] --> E[Policy Evaluation] --> F{PASS / BLOCK}
+    C --> D[SQL Quality Check] --> E[Policy Evaluation] --> F{PASS / BLOCK}
 ```
 
 Teams can automatically detect risky DML / DDL, standards violations, performance risks, missing indexes, deep pagination, inefficient subqueries, and problematic joins — then decide between PASS, WARNING, DBA REVIEW, or BLOCK.
 
 <Note>
-**Turn SQL review from a manual approval process into an automated quality gate.**
+**Turn SQL quality checking from a manual approval process into an automated quality gate.**
 </Note>
 
 [Explore SQL Quality Gate →](/en/use-cases/sql-quality-gate-cicd)
@@ -99,7 +99,7 @@ Teams can automatically detect risky DML / DDL, standards violations, performanc
 
 Monitoring platforms can tell DBAs which SQL is slow. The harder questions are why it is slow, how it should be rewritten, which index is needed, and whether the optimized plan is actually better.
 
-PawSQL connects slow-query collection, SQL normalization, pattern grouping, performance analysis, SQL rewrite, index advice, and plan validation into one flow:
+PawSQL connects slow-query collection, SQL normalization, pattern grouping, performance analysis, query rewrite, index advice, and plan validation into one flow:
 
 ```mermaid
 flowchart TD
@@ -124,7 +124,7 @@ A migration project should answer not only whether SQL runs on the target databa
 flowchart TD
     A[SQL Inventory] --> B[Compatibility Analysis]
     B --> C[Performance Risk Analysis]
-    C --> D[SQL Rewrite]
+    C --> D[Query Rewrite]
     D --> E[Index Redesign]
     E --> F[Execution Plan Validation]
 ```
@@ -141,7 +141,7 @@ moving database migration from Syntax Migration to **Performance-Aware SQL Migra
 
 Large organizations often have multiple development teams, DBA teams, database platforms, release processes, and SQL standards.
 
-PawSQL unifies Development Governance, Delivery Governance, and Production Governance through Developer SQL Copilot, SQL Quality Gate, Performance Patroller, SQL Review, SQL Rewrite, Index Advisor, Execution Plan Analysis, and Governance Metrics.
+PawSQL unifies Development Governance, Delivery Governance, and Production Governance through Developer SQL Copilot, SQL Quality Gate, Performance Patroller, SQL Quality Check, Query Rewrite, Index Recommendation, Execution Plan Analysis, and Governance Metrics.
 
 <Note>
 **Build a unified, executable, and measurable SQL Governance Platform.**
@@ -201,9 +201,9 @@ PawSQL unifies Development Governance, Delivery Governance, and Production Gover
 
 | Capability | Purpose |
 |---|---|
-| SQL Review | Detect standards, safety, and potential risks |
-| SQL Rewrite | Generate equivalent optimization alternatives |
-| Index Advisor | Recommend indexes based on query access patterns |
+| SQL Quality Check | Detect standards, safety, and potential risks |
+| Query Rewrite | Generate equivalent optimization alternatives |
+| Index Recommendation | Recommend indexes based on query access patterns |
 | Execution Plan Analysis | Understand database execution strategy |
 | Performance Validation | Verify that optimization actually improves the plan |
 | Multi-Database Support | Apply governance across heterogeneous database environments |
@@ -219,7 +219,7 @@ flowchart TD
     E --> F[Production]
     F --> G[Performance Patroller]
     G --> H[Slow SQL Analysis]
-    H --> I[SQL Rewrite / Index Advisor]
+    H --> I[Query Rewrite / Index Recommendation]
     I --> J[Performance Validation]
     J --> K[Feed back to development]
     K -.-> A
@@ -251,7 +251,7 @@ This is not simply a collection of independent tools. It is a complete **SQL Lif
 
 A mature SQL engineering model should cover the full loop: **Write → Review → Release → Monitor → Optimize → Improve**.
 
-PawSQL connects SQL review, performance optimization, CI/CD quality gates, production governance, and multi-database standards into a unified SQL Engineering and SQL Governance capability.
+PawSQL connects SQL Quality Check, performance optimization, CI/CD quality gates, production governance, and multi-database standards into a unified SQL Engineering and SQL Governance capability.
 
 <Note>
 **From the first line of SQL to production, PawSQL keeps SQL quality and performance under continuous governance.**

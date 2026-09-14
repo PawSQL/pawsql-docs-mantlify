@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-rules-policy-rule-sets
-title: Create and Manage Rule Sets
-description: Create and Manage Rule Sets — PawSQL User Guide (draft).
+title: Manage Review Policies
+description: "Create a review policy from a built-in global template: pick a database type and a base template, configure rules in three steps, and manage templates from the list and detail pages."
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,46 @@ language: en
 translationKey: user-guide-rules-policy-rule-sets
 ---
 
-# Create and Manage Rule Sets
+Review policies are managed through the "Policy" entry in the sidebar: the list page shows all templates and provides a "Create a Policy" button.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Template list
 
-## What this page will cover
+The list page has these columns: Name, Enabled, Description, Global, Creation time, Operations.
 
-- To be added
+PawSQL ships 11 global templates by database type, for example MySQL (172 enabled rules), PostgreSQL (163), Oracle (157), openGauss (147), DB2 (155), GaussDB for DWS (173), DM (156), and KingbaseES (166). Global templates have the "Global" flag set, and their rules and thresholds are read-only.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Frame caption="Policy list: 11 built-in global templates by database type">
+  ![Policy list](/images/rules-policy/en/template-list.png)
+</Frame>
+
+## Create a review policy
+
+Creating a review policy has three steps: choose a database type, enter basic information, and configure rules.
+
+<Frame caption="Create a Policy: three-step wizard, starting with the database type">
+  ![Create a Policy](/images/rules-policy/en/create-policy.png)
+</Frame>
+
+<Steps>
+  <Step title="Choose a database type">
+    The database type determines the available audit rules. MySQL, PostgreSQL, and openGauss are generally available; the rest (Oracle, DB2, DM, KingbaseES, GaussDB, TDSQL, OceanBase, and others) are marked beta.
+  </Step>
+  <Step title="Enter basic information">
+    Enter a template name (default `RT_+timestamp`), confirm the database type, choose a base template, and optionally add a description. The base template presets the enabled rules and thresholds for that database type as a starting point.
+  </Step>
+  <Step title="Rule configuration">
+    In the category tree and rule table, enable or disable rules, filter by severity, and adjust thresholds. Click the add button to save the policy.
+  </Step>
+</Steps>
+
+## View template details
+
+Click a template in the list to open its detail page. Built-in global templates have read-only rules and thresholds; create a local template from one to make changes. The detail page provides an "+ Add" entry that opens the creation flow directly.
+
+## Customize a review policy
+
+Built-in global templates are read-only. To customize, create a "local template": copy a global template (or another visible template), then enable or disable rules and adjust thresholds on the copy. A local template is visible only to its creator and their team members. See "Create a review policy" above for the flow, and [Manage Rules](/en/user-guide/rules-policy/configure-rules) for the rule adjustments.
+
+<Note>
+Review policy import, export, and versioning have no entry in the current preview release (global templates are read-only and the Operations column is empty); they are subject to the official release.
+</Note>

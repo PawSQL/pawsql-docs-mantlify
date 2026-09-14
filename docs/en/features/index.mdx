@@ -78,7 +78,7 @@ PawSQL performs structured SQL analysis using parsing, semantic analysis, databa
 Developer self-review, code review, release checks, database change review, and enterprise SQL policy enforcement.
 
 <CardGroup cols={2}>
-  <Card title="SQL Review" icon="list-check" href="/en/features/sql-review">
+  <Card title="SQL Quality Check" icon="list-check" href="/en/features/sql-review">
     Identify standards, safety, and performance risks before release.
   </Card>
 </CardGroup>
@@ -93,13 +93,13 @@ PawSQL combines SQL parsing, semantic equivalence analysis, rewrite rules, index
 
 ### Key capabilities
 
-- Automatic SQL rewrite
+- Query Rewrite
 - Subquery optimization
 - Join optimization
 - Predicate pushdown
 - Aggregation and sorting optimization
 - Deep pagination optimization
-- Intelligent index recommendation
+- Index Recommendation
 - Distributed SQL optimization
 - Big data SQL optimization
 
@@ -117,7 +117,7 @@ flowchart LR
 ```
 
 <CardGroup cols={2}>
-  <Card title="Automatic SQL Rewrite" icon="git-compare" href="/en/features/automatic-sql-rewrite">
+  <Card title="Query Rewrite" icon="git-compare" href="/en/features/automatic-sql-rewrite">
     Generate semantically equivalent rewrites automatically.
   </Card>
   <Card title="Index Recommendation" icon="scan-search" href="/en/features/index-recommendation">
@@ -144,7 +144,7 @@ SQL optimization should not rely only on heuristic rules. PawSQL uses database o
 - Before-and-after execution plan comparison
 - SQL cost comparison
 - Index effectiveness validation
-- Execution plan analysis
+- Execution Plan Analysis
 - High-cost operator detection
 - Full-scan and large-volume operation detection
 - Slow SQL analysis
@@ -190,7 +190,7 @@ PawSQL integrates SQL analysis, risk control, and performance optimization into 
 ### Key capabilities
 
 - CI/CD SQL Quality Gate
-- Batch SQL review and optimization
+- Batch SQL quality checks and optimization
 - SQL fingerprinting
 - Slow SQL governance
 - Database migration SQL governance
@@ -238,11 +238,11 @@ PawSQL can run inside development, DevOps, internal database platforms, and AI a
 
 | Integration | Typical use |
 |---|---|
-| IDE | Development-time SQL review and optimization |
+| IDE | Development-time SQL quality checks and optimization |
 | CI/CD | Pre-release SQL quality gates |
 | REST API | Enterprise platform and automation integration |
 | Webhook | DevOps workflow triggers |
-| MCP | SQL review and optimization for AI agents |
+| MCP | SQL quality checks and optimization for AI agents |
 | Web Console | DBA and enterprise SQL governance |
 
 Typical integrations include:
@@ -264,7 +264,7 @@ Typical integrations include:
     Enforce SQL quality gates in your pipeline.
   </Card>
   <Card title="PawSQL MCP" icon="bot" href="/en/user-guide/installation/pawsql-mcp">
-    Let AI coding assistants call SQL review and optimization.
+    Let AI coding assistants call SQL quality checks and optimization.
   </Card>
   <Card title="API Reference" icon="plug" href="/api-reference/list-workspaces">
     Integrate with enterprise platforms and automation.
@@ -300,12 +300,12 @@ Different roles can enter PawSQL through different workflows.
 
 | Role | Typical need | Recommended capabilities |
 |---|---|---|
-| Developer | Detect and optimize SQL while coding | SQL Review, SQL Rewrite, IDE Integration |
+| Developer | Detect and optimize SQL while coding | SQL Quality Check, Query Rewrite, Developer Tool Integration |
 | DBA | Remediate slow SQL and index issues at scale | Batch SQL Governance, Index Recommendation, Performance Validation |
 | DevOps | Block risky SQL before deployment | SQL Quality Gate, CI/CD Integration |
 | Migration Team | Validate compatibility and performance after migration | Database Migration Governance |
 | Database Platform Team | Build a unified SQL governance platform | API, Policy, Dashboard, Multi-Database Support |
-| AI Agent | Validate and optimize generated SQL | MCP, SQL Review, SQL Optimization |
+| AI Agent | Validate and optimize generated SQL | MCP, SQL Quality Check, SQL Optimization |
 
 ---
 

@@ -74,13 +74,10 @@
                     "group": "SQL 优化",
                     "pages": [
                       "user-guide/optimization/index",
-                      "user-guide/optimization/submit-sql",
-                      "user-guide/optimization/review-suggestions",
-                      "user-guide/optimization/apply-rewrite",
-                      "user-guide/optimization/apply-index",
-                      "user-guide/optimization/verify-result",
-                      "user-guide/optimization/compare-plans",
-                      "user-guide/optimization/history-export"
+                      "user-guide/optimization/create-workload",
+                      "user-guide/optimization/setup-optimization",
+                      "user-guide/optimization/explain-output",
+                      "user-guide/optimization/apply-suggestions"
                     ],
                     "icon": "wand-sparkles",
                     "root": "user-guide/optimization/index"
@@ -89,19 +86,20 @@
                     "group": "SQL 审核",
                     "pages": [
                       "user-guide/sql-audit/index",
-                      "user-guide/sql-audit/create-task",
-                      "user-guide/sql-audit/submit-sql",
-                      "user-guide/sql-audit/environment",
-                      "user-guide/sql-audit/results",
-                      "user-guide/sql-audit/manual-review",
-                      "user-guide/sql-audit/high-risk-control",
-                      "user-guide/sql-audit/reports-export"
+                      "user-guide/sql-audit/create-review-task",
+                      "user-guide/sql-audit/read-audit-results",
+                      "user-guide/sql-audit/resolve-findings",
+                      "user-guide/sql-audit/manual-review-and-approval",
+                      "user-guide/sql-audit/history-reports-and-export",
+                      "user-guide/sql-audit/select-audit-policy",
+                      "user-guide/sql-audit/configure-review-context",
+                      "user-guide/sql-audit/high-risk-sql-control"
                     ],
                     "icon": "shield-check",
                     "root": "user-guide/sql-audit/index"
                   },
                   {
-                    "group": "批量优化与性能巡检",
+                    "group": "巡检与慢查询治理",
                     "pages": [
                       "user-guide/performance/index",
                       "user-guide/performance/connect-instance",
@@ -116,15 +114,12 @@
                     "root": "user-guide/performance/index"
                   },
                   {
-                    "group": "规则与质量策略",
+                    "group": "规则与审核策略",
                     "pages": [
                       "user-guide/rules-policy/index",
                       "user-guide/rules-policy/rule-sets",
-                      "user-guide/rules-policy/severity",
-                      "user-guide/rules-policy/parameters",
-                      "user-guide/rules-policy/custom-rules",
-                      "user-guide/rules-policy/quality-gate",
-                      "user-guide/rules-policy/import-export-versioning"
+                      "user-guide/rules-policy/configure-rules",
+                      "user-guide/rules-policy/quality-gate"
                     ],
                     "icon": "sliders-horizontal",
                     "root": "user-guide/rules-policy/index"
@@ -249,6 +244,7 @@
         "tabs": [
           {
             "tab": "Documentation",
+            "icon": "folder-open",
             "groups": [
               {
                 "group": "Getting Started",
@@ -298,29 +294,26 @@
                     "group": "SQL Optimization",
                     "pages": [
                       "en/user-guide/optimization/index",
-                      "en/user-guide/optimization/submit-sql",
-                      "en/user-guide/optimization/review-suggestions",
-                      "en/user-guide/optimization/apply-rewrite",
-                      "en/user-guide/optimization/apply-index",
-                      "en/user-guide/optimization/verify-result",
-                      "en/user-guide/optimization/compare-plans",
-                      "en/user-guide/optimization/history-export",
-                      "en/user-guide/optimization/or-union"
+                      "en/user-guide/optimization/create-workload",
+                      "en/user-guide/optimization/setup-optimization",
+                      "en/user-guide/optimization/explain-output",
+                      "en/user-guide/optimization/apply-suggestions"
                     ],
                     "icon": "wand-sparkles",
                     "root": "en/user-guide/optimization/index"
                   },
                   {
-                    "group": "SQL Quality review",
+                    "group": "SQL Review",
                     "pages": [
                       "en/user-guide/sql-audit/index",
-                      "en/user-guide/sql-audit/create-task",
-                      "en/user-guide/sql-audit/submit-sql",
-                      "en/user-guide/sql-audit/environment",
-                      "en/user-guide/sql-audit/results",
-                      "en/user-guide/sql-audit/manual-review",
-                      "en/user-guide/sql-audit/high-risk-control",
-                      "en/user-guide/sql-audit/reports-export"
+                      "en/user-guide/sql-audit/create-review-task",
+                      "en/user-guide/sql-audit/read-audit-results",
+                      "en/user-guide/sql-audit/resolve-findings",
+                      "en/user-guide/sql-audit/manual-review-and-approval",
+                      "en/user-guide/sql-audit/history-reports-and-export",
+                      "en/user-guide/sql-audit/select-audit-policy",
+                      "en/user-guide/sql-audit/configure-review-context",
+                      "en/user-guide/sql-audit/high-risk-sql-control"
                     ],
                     "icon": "shield-check",
                     "root": "en/user-guide/sql-audit/index"
@@ -345,11 +338,8 @@
                     "pages": [
                       "en/user-guide/rules-policy/index",
                       "en/user-guide/rules-policy/rule-sets",
-                      "en/user-guide/rules-policy/severity",
-                      "en/user-guide/rules-policy/parameters",
-                      "en/user-guide/rules-policy/custom-rules",
-                      "en/user-guide/rules-policy/quality-gate",
-                      "en/user-guide/rules-policy/import-export-versioning"
+                      "en/user-guide/rules-policy/configure-rules",
+                      "en/user-guide/rules-policy/quality-gate"
                     ],
                     "icon": "sliders-horizontal",
                     "root": "en/user-guide/rules-policy/index"
@@ -404,7 +394,7 @@
               },
               {
                 "group": "Reference",
-                "icon": "book",
+                "icon": "file-text",
                 "directory": "accordion",
                 "expanded": true,
                 "root": "en/reference/audit-rules/index",
@@ -418,7 +408,7 @@
               },
               {
                 "group": "Help and Troubleshooting",
-                "icon": "help-circle",
+                "icon": "flag",
                 "directory": "accordion",
                 "expanded": true,
                 "root": "en/faq/index",
@@ -430,6 +420,7 @@
           },
           {
             "tab": "Use Cases",
+            "icon": "layers",
             "pages": [
               "en/use-cases/index",
               "en/use-cases/developer-sql-copilot",
@@ -439,11 +430,13 @@
             ]
           },
           {
-            "tab": "API Reference",
+            "tab": "API",
+            "icon": "code",
             "openapi": "openapi/pawsql-openapi.yaml"
           },
           {
             "tab": "Blog",
+            "icon": "book-open",
             "groups": [
               {
                 "group": "Posts",
@@ -456,6 +449,7 @@
           },
           {
             "tab": "ChangeLog",
+            "icon": "clock",
             "groups": [
               {
                 "group": "Releases",

@@ -18,7 +18,7 @@ documentation:
     required: true
     paths: []
     documents:
-    - documentId: user-guide-sql-audit
+    - documentId: en-user-guide-sql-audit-index
       language: en
   releaseNote:
     required: true

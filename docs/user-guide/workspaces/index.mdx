@@ -1,6 +1,6 @@
 ---
 id: user-guide-workspaces-index
-title: 工作空间与数据库上下文
+title: 工作空间概述
 description: 了解 PawSQL 工作空间，并通过 DDL 或数据库连接为 SQL 审核和优化提供数据库上下文。
 type: guide
 subtype: operation
@@ -12,7 +12,7 @@ translationKey: user-guide-workspaces-index
 localeOf: en-user-guide-workspaces-index
 ---
 
-工作空间是 PawSQL 组织 SQL 分析上下文的基本单位。它记录目标数据库类型、版本、Schema 以及可用的表、列、约束和索引等元数据，供 SQL 审核、自动重写、索引推荐、执行计划分析和性能验证使用。
+工作空间是 PawSQL 组织 SQL 分析上下文的基本单位。它记录目标数据库类型、版本、Schema 以及可用的表、列、约束和索引等元数据，供 SQL 审核、查询重写优化、智能索引推荐、执行计划分析和自动化性能验证使用。
 
 <Note>
 工作空间不是业务数据库，也不会因为被创建而修改目标数据库。它保存的是 PawSQL 分析 SQL 时需要使用的上下文。
@@ -56,7 +56,7 @@ flowchart TD
 | 需要同步新增表和索引 | 数据库连接 |
 | 需要执行计划或在线性能验证 | 数据库连接，且账户具备必要权限 |
 
-如果只是快速分析一条 SQL，可以先通过 DDL 创建工作空间；如果需要长期审核、批量治理或性能验证，优先考虑数据库连接方式。具体步骤见[通过 DDL 创建](/user-guide/workspaces/create-from-ddl)和[通过数据库连接创建](/user-guide/workspaces/create-from-database)。
+如果只是快速分析一条 SQL，可以先通过 DDL 创建工作空间；如果需要长期审核、批量治理或自动化性能验证，优先考虑数据库连接方式。具体步骤见[通过 DDL 创建](/user-guide/workspaces/create-from-ddl)和[通过数据库连接创建](/user-guide/workspaces/create-from-database)。
 
 ## 基本信息建议
 

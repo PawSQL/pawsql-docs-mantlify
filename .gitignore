@@ -21,3 +21,6 @@ Thumbs.db
 # Secrets
 .env
 .env.*
+
+# Playwright MCP artifacts
+.playwright-mcp/

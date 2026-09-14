@@ -1,6 +1,6 @@
 ---
 id: en-index
-title: PawSQL Documentation
+title: What is PawSQL?
 description: Learn how PawSQL brings SQL review, query rewrite, index recommendation, performance validation, and execution plan analysis into the SQL lifecycle.
 type: explanation
 status: draft
@@ -18,7 +18,7 @@ capabilities:
 
 SQL performance problems rarely appear out of nowhere in production. Inefficient query patterns, missing or unsuitable indexes, and execution-plan changes after a database migration are usually introduced during development and only surface later as production incidents.
 
-PawSQL is a **SQL engineering and governance platform** for developers, testers, database administrators, and enterprise governance teams. It brings SQL review, query rewriting, index recommendation, performance validation, and execution plan analysis into one platform covering the full SQL lifecycle.
+PawSQL is a **SQL engineering and governance platform** for developers, testers, database administrators, and enterprise governance teams. It brings SQL quality check, query rewriting, index recommendation, performance validation, and execution plan analysis into one platform covering the full SQL lifecycle.
 
 > **Make SQL quality and performance part of the software engineering lifecycle.**
 
@@ -74,7 +74,7 @@ flowchart LR
 PawSQL does not only detect SQL problems — it produces actionable optimization plans.
 
 <CardGroup cols={2}>
-  <Card title="SQL Review" icon="list-check" href="/en/reference/audit-rules/index">
+  <Card title="SQL Quality Check" icon="list-check" href="/en/reference/audit-rules/index">
     Detect risks against development standards and database best practices before release.
   </Card>
   <Card title="Query Rewrite" icon="git-compare" href="/en/reference/optimizer-rules/index">
@@ -116,7 +116,7 @@ For more complex queries, PawSQL also analyzes subqueries, joins, aggregation, a
 ### What each capability checks
 
 <AccordionGroup>
-  <Accordion title="SQL Review">
+  <Accordion title="SQL Quality Check">
     - SQL coding standards
     - DDL and DML risks
     - Query performance risks
@@ -277,7 +277,7 @@ SQL is therefore no longer just a string in an application, but an engineering a
     Decide where the service runs and how your team connects to it. See [Choose How to Use PawSQL](/en/getting-started/choose-access).
   </Step>
   <Step title="Create a workspace">
-    Specify the database engine and version, then provide context through DDL or a database connection. See [Workspaces and Database Context](/en/user-guide/workspaces/index).
+    Specify the database engine and version, then provide context through DDL or a database connection. See [Workspaces & Context](/en/user-guide/workspaces/index).
   </Step>
   <Step title="Run your first optimization">
     Submit a query and review findings, rewrite suggestions, index recommendations, and validation results. See [Quickstart](/en/getting-started/quickstart).

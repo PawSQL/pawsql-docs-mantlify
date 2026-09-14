@@ -1,0 +1,87 @@
+---
+id: user-guide-optimization-explain-output
+title: 查看优化结果
+description: 从优化摘要进入每条 SQL 的详情，阅读重写、审查、索引推荐和性能验证结果，并对比优化前后的 SQL 与执行计划。
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-optimization-explain-output
+localeOf: en-user-guide-optimization-explain-output
+---
+
+优化详情页展示优化任务的推荐结果，分「优化摘要」与「优化详情」两层。这些结果从不同角度描述同一条 SQL，应结合阅读，而不是分别机械采用。
+
+## 优化摘要
+
+摘要汇总本次任务的整体情况，包括：
+
+- 执行的 SQL 数量；
+- 重写优化的数量；
+- SQL 审查违规的数量；
+- 推荐索引的数量；
+- 每条 SQL 的优化概览。
+
+## 优化详情
+
+对每条 SQL，详情页展示它的优化方式与收益，包含以下区块：
+
+| 区块 | 展示内容 |
+| --- | --- |
+| 原始 SQL | 正在优化的原始语句 |
+| 重写优化 | 重写后的 SQL、所应用的优化策略、对应的 SQL 片段 |
+| 规则审查 | 违反的审查规则及违反规则的 SQL 片段 |
+| 索引推荐 | 推荐的索引及推荐依据 |
+| 索引分析 | 各表索引列表与是否冗余、现有索引如何帮助该 SQL、单表索引数量超阈值提示 |
+| 性能验证 | 性能提升比、验证生效的推荐索引、优化前后的执行计划 |
+
+{/* SCREENSHOT: /images/optimization/03-result-summary.png
+    Recommended frame: the optimization result page showing the task summary at top and the per-SQL detail (rewrite, audit, index, validation) below.
+    Suggested video moment: the result screen after optimization finishes, with the most important recommendation expanded. */}
+<Frame caption="优化结果页：上半部为任务摘要，下半部为每条 SQL 的详情">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/optimization/03-result-summary.png
+  </div>
+</Frame>
+
+## 阅读顺序
+
+<Steps>
+  <Step title="确认分析上下文">
+    检查数据库类型、版本、Schema、工作空间和 SQL 是否正确。
+  </Step>
+  <Step title="确认解析完整性">
+    查看 SQL 和对象是否全部识别，是否存在跳过或部分失败。
+  </Step>
+  <Step title="先处理高风险问题">
+    优先查看阻断、严重以及可能影响数据安全和稳定性的审查问题。
+  </Step>
+  <Step title="评估重写建议">
+    比较原始 SQL 与重写 SQL，阅读规则依据和适用条件。
+  </Step>
+  <Step title="评估索引建议">
+    检查推荐索引、现有索引、写入成本和适用查询范围。
+  </Step>
+  <Step title="查看验证证据">
+    对比执行计划、预估代价或实测指标，判断建议是否带来实际收益。
+  </Step>
+</Steps>
+
+## 对比 SQL 与执行计划
+
+- **对比 SQL**：点击优化页右上方的「对比 SQL」按钮，展示重写前后的 SQL 文本变化。
+- **对比执行计划**：点击「对比执行计划」按钮，展示优化前后的执行计划。
+
+<Tip>
+规则未触发不代表 SQL 没有性能问题；审查规范与优化建议解决的问题并不完全相同。预估代价和性能收益是决策依据，不是自动发布指令。
+</Tip>
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="评估与落地建议" href="/user-guide/optimization/apply-suggestions" />
+  <Card title="审核规范" href="/reference/audit-rules/index" />
+  <Card title="优化算法" href="/reference/optimizer-rules/index" />
+</CardGroup>

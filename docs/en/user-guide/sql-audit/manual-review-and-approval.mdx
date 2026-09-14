@@ -1,0 +1,115 @@
+---
+id: en-user-guide-sql-audit-manual-review-and-approval
+title: Manual Review and Approval
+description: Add human judgment, exception approval, and an auditable release decision to automated SQL review.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-sql-audit-manual-review-and-approval
+---
+
+Manual review covers business semantics, environmental impact, and exception conditions that automated rules cannot determine completely. The approval decision should be grounded in review results and validation evidence, not used as a substitute for them.
+
+<Note>
+A typical flow in the interface is: after automated review completes, the submitter clicks **Submit for review** to route the ticket to approvers; the approver reviews the approval timeline on the "Approval history" tab and makes the final decision; execution after approval is recorded on the "Execution records" tab. Built-in approval, separation of duties, and workflow states depend on PawSQL edition, licensing, and organization configuration. If these capabilities are not available, complete the approval in your ticketing system and link the PawSQL ticket or report.
+</Note>
+
+## Roles and responsibilities
+
+| Role | Responsibility |
+| --- | --- |
+| Submitter | Supplies the SQL, target environment, change rationale, and test evidence |
+| Engineering owner | Confirms business behavior, impact scope, and test coverage |
+| DBA or reviewer | Evaluates database risk, execution approach, and rollback readiness |
+| Approver | Authorizes a high-risk exception or final release decision |
+| Project administrator | Maintains permissions, policies, and audit requirements |
+
+Roles may overlap in smaller teams. For a high-risk production change, avoid allowing the submitter to provide the only approval.
+
+## Evidence package
+
+Prepare the following before requesting manual review:
+
+- the PawSQL review ticket or report;
+- target database, version, schema, and environment;
+- SQL changes and their business purpose;
+- unresolved findings and acceptance rationale;
+- expected impact, data volume, and deployment window;
+- test results and relevant performance evidence;
+- backup, monitoring, stop conditions, and rollback plan;
+- related requirement, defect, or change ticket.
+
+## Review workflow
+
+<Steps>
+  <Step title="Verify review completeness">
+    Confirm that all statements were parsed and that the policy and workspace represent the target environment.
+  </Step>
+  <Step title="Evaluate unresolved findings">
+    Decide whether each risk was removed, is acceptable with controls, or requires more evidence.
+  </Step>
+  <Step title="Check release readiness">
+    Review execution identity, timing, backups, monitoring, rollback, and communication arrangements.
+  </Step>
+  <Step title="Issue a decision">
+    Approve, return for changes, or approve with conditions according to the reviewer’s authority. State the rationale.
+  </Step>
+  <Step title="Preserve the record">
+    Capture the reviewer, timestamp, decision, comments, attachments, and linked work item.
+  </Step>
+</Steps>
+
+## Decision model
+
+| Decision | Use when | Follow-up |
+| --- | --- | --- |
+| Approve | Risks are addressed and release controls are complete | Continue to the next release stage |
+| Return for changes | Risk remains or evidence is incomplete | Revise, test, and run the review again |
+| Approve with conditions | Authorized risk acceptance has explicit safeguards | Release only under the approved conditions and perform follow-up review |
+| Cancel | The SQL or change will no longer be deployed | Close the work item and record the reason |
+
+Actual state names depend on the PawSQL version or external workflow.
+
+## Write a useful approval record
+
+A defensible approval explains **why** the decision was made and **under what conditions**. Include:
+
+- which findings were resolved or accepted;
+- the SQL, environment, and validity period covered by an exception;
+- prerequisites that must be completed before execution;
+- monitoring signals, stop conditions, and rollback owner;
+- whether post-deployment verification is required.
+
+Avoid comments such as “approved” or “confirmed” with no decision rationale.
+
+## Exceptions and exemptions
+
+When you accept a finding without remediation, keep the exception as narrow as possible (specific SQL, rule, project, environment, and validity period) and record:
+
+- the rationale and business necessity;
+- the risk owner and approver;
+- affected objects and expected data volume;
+- compensating controls such as throttling, monitoring, backup, or rollback;
+- deployment window, monitoring signals, and stop conditions;
+- an expiration date to prevent permanent bypasses.
+
+Do not weaken a global policy to accommodate a single case. If your PawSQL edition supports suppression, exemption, or approval, apply it to the narrowest scope and retain the audit trail.
+
+<Warning>
+If the SQL, review policy, workspace, or execution environment changes materially after approval, the previous decision may no longer apply. Run the review again and repeat the required approval process.
+</Warning>
+
+## Permission and audit guidance
+
+- Separate submission, review, approval, and policy-administration permissions by role.
+- Prevent approvers from silently changing the submitted SQL or generated results.
+- Record workflow transitions, actors, and timestamps.
+- Revisit long-lived exceptions on a defined schedule.
+- Apply stronger authorization to high-risk production changes.
+
+## Next step
+
+After disposition, use [History, Reports, and Export](/en/user-guide/sql-audit/history-reports-and-export) to retain and retrieve the decision record.

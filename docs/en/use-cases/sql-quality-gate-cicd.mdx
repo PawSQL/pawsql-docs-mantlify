@@ -26,7 +26,7 @@ A developer submits a database change, a DBA reviews the SQL, comments on potent
 
 As development teams scale, this process quickly becomes a bottleneck.
 
-**PawSQL brings automated SQL review and performance analysis into your CI/CD pipeline, allowing teams to detect risky and inefficient SQL before it reaches production.**
+**PawSQL brings automated SQL Quality Check and performance analysis into your CI/CD pipeline, allowing teams to detect risky and inefficient SQL before it reaches production.**
 
 ---
 
@@ -63,11 +63,11 @@ DBAs must manually inspect large numbers of SQL statements, including:
 - data migration scripts
 - schema modifications
 
-Routine SQL reviews consume significant DBA capacity that could otherwise be spent on architecture, capacity planning, and production performance engineering.
+Routine SQL Quality Checks consume significant DBA capacity that could otherwise be spent on architecture, capacity planning, and production performance engineering.
 
 ---
 
-### SQL Review Standards Are Difficult to Enforce Consistently
+### SQL Quality Check Standards Are Difficult to Enforce Consistently
 
 Different DBAs may apply different standards.
 
@@ -95,7 +95,7 @@ As a result, SQL quality increasingly depends on individual experience rather th
 
 ### Performance Problems Are Often Found Too Late
 
-Traditional SQL audit tools mainly check coding conventions.
+Traditional SQL quality review tools mainly check coding conventions.
 
 They may detect:
 
@@ -242,7 +242,7 @@ The analysis can include:
 ```mermaid
 flowchart TD
     A[SQL] --> B[Syntax Analysis]
-    A --> C[SQL Review Rules]
+    A --> C[SQL Quality Check]
     A --> D[Query Rewrite]
     A --> E[Index Recommendation]
     A --> F[Schema Metadata]
@@ -365,7 +365,7 @@ PawSQL analysis results can be incorporated into the development workflow.
 A pull request may receive feedback such as:
 
 ```text
-PawSQL SQL Review
+PawSQL SQL Quality Review
 
 Files analyzed:          4
 SQL statements:          37
@@ -436,7 +436,7 @@ This creates a measurable and repeatable SQL governance process.
 
 ---
 
-## Integrate SQL Review Into the Development Lifecycle
+## Integrate SQL Quality Check Into the Development Lifecycle
 
 PawSQL can be integrated into different stages of software development.
 
@@ -445,7 +445,7 @@ flowchart TD
     A[Developer] --> B[IDE]
     B -->|PawSQL Developer Feedback| C[Git Repository]
     C --> D[Pull Request]
-    D -->|PawSQL SQL Review| E[CI/CD Pipeline]
+    D -->|PawSQL SQL Quality Review| E[CI/CD Pipeline]
     E -->|SQL Quality Gate| F[Deployment]
     F --> G[Production]
     G -->|Slow Query Monitoring| H[PawSQL Performance Analysis]
@@ -518,7 +518,7 @@ The gate produces a CI/CD-ready report containing:
 
 The goal is not to remove DBAs from the development process.
 
-It is to automate repetitive SQL review so DBAs can focus on higher-value problems.
+It is to automate repetitive SQL Quality Check so DBAs can focus on higher-value problems.
 
 ### Traditional Model
 
@@ -627,9 +627,9 @@ PawSQL combines several capabilities in the same platform.
 | Capability | Purpose |
 |---|---|
 | SQL Parsing | Understand complex SQL syntax |
-| SQL Review | Detect coding and safety violations |
+| SQL Quality Check | Detect coding and safety violations |
 | Query Rewrite | Generate optimization alternatives |
-| Index Advisor | Recommend appropriate indexes |
+| Index Recommendation | Recommend appropriate indexes |
 | Execution Plan Analysis | Understand database execution strategies |
 | Performance Validation | Evaluate whether optimization is beneficial |
 | Multi-Database Support | Apply governance across heterogeneous databases |
@@ -684,7 +684,7 @@ Typical roles include:
     Receive SQL feedback before code review is complete.
   </Accordion>
   <Accordion title="DBAs">
-    Reduce repetitive manual SQL review.
+    Reduce repetitive manual SQL Quality Check.
   </Accordion>
   <Accordion title="DevOps Teams">
     Add database quality controls to CI/CD pipelines.
@@ -701,7 +701,7 @@ Typical roles include:
 
 ## A Better SQL Release Process
 
-Without automated SQL review:
+Without automated SQL Quality Check:
 
 ```mermaid
 flowchart TD
@@ -739,10 +739,10 @@ Applications already have:
 
 Database SQL should have the same level of automated quality control.
 
-**PawSQL helps development teams make SQL review and optimization a standard part of the software delivery lifecycle.**
+**PawSQL helps development teams make SQL Quality Check and optimization a standard part of the software delivery lifecycle.**
 
 <CardGroup cols={2}>
-  <Card title="Explore PawSQL SQL Review" icon="list-check" href="/en/features/sql-review">
+  <Card title="Explore PawSQL SQL Quality Check" icon="list-check" href="/en/features/sql-review">
     Review SQL standards, safety, and performance risks in CI/CD.
   </Card>
   <Card title="Learn About SQL Optimization" icon="wand-sparkles" href="/en/features/automatic-sql-rewrite">

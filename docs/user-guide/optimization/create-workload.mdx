@@ -1,0 +1,106 @@
+---
+id: user-guide-optimization-create-workload
+title: 输入待优化 SQL
+description: 从文本框、SQL 文件、数据库日志或 MyBatis Mapper 文件输入待优化的 SQL，构成优化任务的工作负载。
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-optimization-create-workload
+localeOf: en-user-guide-optimization-create-workload
+---
+
+工作负载是你要优化的 SQL：可以是单个 DML 语句，也可以是由 `;` 分隔的多条语句。PawSQL 支持从以下来源输入待优化的 SQL。
+
+## 前提条件
+
+- 已创建或获得一个可用工作空间；
+- 工作空间的数据库类型、版本和 Schema 与目标 SQL 一致；
+- SQL 引用的表、视图和列存在于工作空间；
+- SQL 已移除密码、令牌和不必要的敏感数据。
+
+## 输入方式
+
+PawSQL 支持多种 SQL 输入来源，选择与你工作流匹配的一种。
+
+<Tabs>
+  <Tab title="SQL 文本">
+    在文本框直接粘贴或输入合法 SQL，支持以 `;` 分隔多条语句。适合临时分析、单条问题 SQL 或快速验证。
+  </Tab>
+  <Tab title="SQL 文件">
+    上传一个 SQL 文件，PawSQL 提取其中的 SQL 语句，支持以 `;` 分隔多条语句。
+  </Tab>
+  <Tab title="慢查询日志">
+    从数据库的慢日志或通用日志提取 SQL。
+
+    **MySQL**
+
+    慢日志记录执行时间达到 `long_query_time`（秒）且扫描行数达到 `min_examined_row_limit` 的语句；需要记录未使用索引的查询时，可另开 `log_queries_not_using_indexes`；通用日志记录客户端连接期间执行的每条语句。
+
+    ```sql
+    set global log_output='file';
+    set global slow_query_log='on';
+    set global slow_query_log_file = '/tmp/localhost-slow.log';
+    set global long_query_time = 5;
+    ```
+
+    **PostgreSQL**
+
+    在 `postgresql.conf` 中启用 SQL 日志，并用 `log_min_duration_statement`（毫秒）只记录超过阈值的慢 SQL：
+
+    ```text
+    log_statement = 'all'
+    log_directory = 'pg_log'
+    log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+    logging_collector = on
+    log_min_duration_statement = 5000
+    ```
+
+    **openGauss**
+
+    配置方式与 PostgreSQL 类似，通过 `postgresql.conf` 设置 `log_statement` 与 `log_min_duration_statement`。
+  </Tab>
+  <Tab title="MyBatis Mapper 文件">
+    PawSQL 遍历 Mapper 文件中的所有 SQL 元素节点，组合出所有可能的 SQL 结构作为优化输入。这种方式可能产生真实生产中不会出现的 SQL，从而影响优化（例如推荐出无用的索引或列）。因此需要在 SQL 预览这一步排除掉永远不会出现的 SQL。
+  </Tab>
+</Tabs>
+
+{/* SCREENSHOT: /images/optimization/01-input-sql.png
+    Recommended frame: the SQL input page with the text editor, the input-source tabs (SQL text / SQL file / database log / MyBatis Mapper), and the optimize entry visible.
+    Redact any pasted business data, connection strings, and credentials before publishing. */}
+<Frame caption="从文本、文件、日志或 Mapper 文件输入待优化 SQL">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/optimization/01-input-sql.png
+  </div>
+</Frame>
+
+## 支持的 SQL 类型
+
+`select`、`update`、`delete`、`insert ... select`、`merge`、`replace`。
+
+## 参数化与脱敏
+
+- 使用 PawSQL 当前版本支持的参数形式，必要时提供代表性参数值；
+- 参数值会影响选择率和执行计划，性能验证时应覆盖常见与边界场景；
+- 不使用真实身份证号、手机号、账户号等业务数据；
+- 模板 SQL 无法解析时，先转换为一条可执行的代表性 SQL。
+
+## 常见问题
+
+### SQL 无法解析
+
+检查数据库方言、版本、语句完整性、参数占位符、引号和分隔符。可以先构造最小复现 SQL。
+
+### 表或列无法识别
+
+检查工作空间、默认 Schema、对象大小写以及元数据是否已更新。
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="优化任务创建与配置" href="/user-guide/optimization/setup-optimization" />
+  <Card title="工作空间和上下文" href="/user-guide/workspaces" />
+  <Card title="查看优化结果" href="/user-guide/optimization/explain-output" />
+</CardGroup>

@@ -47,7 +47,7 @@
   `use-cases/sql-quality-gate → sql-quality-gate-cicd`、`use-cases/dba-slow-sql-governance → slow-sql-optimization`
 - en 页内部链接统一补 `/en` 前缀
 
-**工作空间与数据库上下文**（`pawsql-user-guide-group-03-workspaces`，9 页 × 中英）
+**工作空间与上下文**（`pawsql-user-guide-group-03-workspaces`，9 页 × 中英）
 - 同批规范化；中文「常见问题」共 20 条改为 `<AccordionGroup>` 折叠展示
 - 组件实测结论：Markdown `- [ ]` 已原生渲染为复选框列表，保持原样；`<Check>` 在 Mintlify 中是提示框（callout）而非清单组件，未用于待办清单
 

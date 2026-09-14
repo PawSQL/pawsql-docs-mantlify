@@ -17,12 +17,12 @@ capabilities:
 - plan-visualization
 ---
 
-PawSQL Execution Plan Analysis 将数据库原生执行计划转换为更直观的图形结构，帮助开发者和 DBA 更快理解 SQL 的执行路径。
+PawSQL 执行计划分析将数据库原生执行计划转换为更直观的图形结构，帮助开发者和 DBA 更快理解 SQL 的执行路径。
 
 它不仅展示“有哪些算子”，还用于辅助识别 SQL 性能瓶颈、解释优化结果，并比较优化前后的执行计划差异。
 
 <Note>
-本页关注**计划的呈现与瓶颈定位**。优化前后的**代价验证与判定**见 [Performance Validation](/features/performance-validation)。
+本页关注**计划的呈现与瓶颈定位**。优化前后的**代价验证与判定**见 [自动化性能验证](/features/performance-validation)。
 </Note>
 
 ## 概览
@@ -98,11 +98,11 @@ SQL 性能优化本质上是在理解数据库“准备如何执行 SQL”。
 
 ### 优化前后对比
 
-与 Performance Validation 配合，可比较：
+与自动化性能验证配合，可比较：
 
 - 原始执行计划
-- SQL Rewrite 后执行计划
-- Index Recommendation 后执行计划
+- 查询重写优化后执行计划
+- 智能索引推荐后执行计划
 
 从而直观看到访问路径发生了什么变化。
 
@@ -166,10 +166,10 @@ PawSQL 需要将不同数据库执行计划映射到统一模型，同时保留�
 ## 相关能力
 
 <CardGroup cols={2}>
-<Card title="SQL Review" icon="list-check" href="/features/sql-review" />
-<Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
-<Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
-<Card title="Performance Validation" icon="gauge" href="/features/performance-validation" />
+<Card title="SQL质量检查" icon="list-check" href="/features/sql-review" />
+<Card title="查询重写优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+<Card title="智能索引推荐" icon="layers" href="/features/index-recommendation" />
+<Card title="自动化性能验证" icon="gauge" href="/features/performance-validation" />
 <Card title="Supported Databases" icon="database" href="/getting-started/supported-databases" />
 </CardGroup>
 

@@ -1,7 +1,7 @@
 ---
 id: feature-performance-validation
 title: 自动化性能验证
-description: 使用目标数据库优化器、执行计划与 Cost 对比验证 SQL 重写和索引优化是否真正有效。
+description: 使用目标数据库优化器、执行计划与 Cost 对比验证查询重写优化和索引优化是否真正有效。
 type: explanation
 icon: gauge
 product: pawsql
@@ -17,12 +17,12 @@ capabilities:
 - performance-validation
 ---
 
-PawSQL Performance Validation 用于验证 SQL 优化是否真正改善执行计划，而不是仅依赖静态规则、经验判断或语言模型推测。
+PawSQL 自动化性能验证用于验证 SQL 优化是否真正改善执行计划，而不是仅依赖静态规则、经验判断或语言模型推测。
 
 它把 SQL 优化从“推荐”推进到“验证”。
 
 <Note>
-本页关注**比较与判定**——优化前后是否真的更好。执行计划的**可视化呈现与瓶颈定位**见 [Execution Plan Analysis](/features/execution-plan-visualization)。
+本页关注**比较与判定**——优化前后是否真的更好。执行计划的**可视化呈现与瓶颈定位**见 [执行计划分析](/features/execution-plan-visualization)。
 </Note>
 
 ## 概览
@@ -31,7 +31,7 @@ PawSQL Performance Validation 用于验证 SQL 优化是否真正改善执行计
 
 一个索引看起来合理，也不代表数据库优化器一定会使用它。
 
-因此，PawSQL 在生成 SQL Rewrite 或 Index Recommendation 后，可以进一步比较优化前后的执行计划与 Cost，以判断候选方案是否真正带来收益。
+因此，PawSQL 在生成查询重写优化或智能索引推荐后，可以进一步比较优化前后的执行计划与 Cost，以判断候选方案是否真正带来收益。
 
 ```mermaid
 flowchart LR
@@ -55,7 +55,7 @@ SQL 优化中最常见的问题之一，是把“理论上可能更快”误认�
 - 数据库版本或统计信息改变优化结果
 - 分布式数据库产生额外数据移动
 
-Performance Validation 用真实数据库优化器的信息降低这种不确定性。
+自动化性能验证用真实数据库优化器的信息降低这种不确定性。
 
 ## 核心能力
 
@@ -89,7 +89,7 @@ Cost 并不等同于真实执行时间，但可以作为优化候选筛选与自
 
 ### 重写验证
 
-判断 SQL Rewrite 是否真正改善执行策略，而不仅仅是代码形式变化。
+判断查询重写优化是否真正改善执行策略，而不仅仅是代码形式变化。
 
 ### 优化评分
 
@@ -155,10 +155,10 @@ flowchart LR
 ## 相关能力
 
 <CardGroup cols={2}>
-<Card title="SQL Review" icon="list-check" href="/features/sql-review" />
-<Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
-<Card title="Index Recommendation" icon="layers" href="/features/index-recommendation" />
-<Card title="Execution Plan Analysis" icon="list-tree" href="/features/execution-plan-visualization" />
+<Card title="SQL质量检查" icon="list-check" href="/features/sql-review" />
+<Card title="查询重写优化" icon="wand-sparkles" href="/features/automatic-sql-rewrite" />
+<Card title="智能索引推荐" icon="layers" href="/features/index-recommendation" />
+<Card title="执行计划分析" icon="list-tree" href="/features/execution-plan-visualization" />
 <Card title="Supported Databases" icon="database" href="/getting-started/supported-databases" />
 </CardGroup>
 

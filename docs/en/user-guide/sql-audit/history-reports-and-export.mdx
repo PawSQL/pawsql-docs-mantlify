@@ -1,0 +1,116 @@
+---
+id: en-user-guide-sql-audit-history-reports-and-export
+title: History, Reports, and Export
+description: Locate previous SQL reviews, reconstruct their configuration, and preserve review evidence for governance and audit.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-sql-audit-history-reports-and-export
+---
+
+Review history makes each SQL assessment reproducible and explainable. Teams can use it to support change review, remediation programs, compliance evidence, and long-term quality improvement.
+
+## Find a previous ticket
+
+The ticket list groups work through filter tabs—My tickets, Pending my approval, Pending my execution, and History—with an additional workspace dropdown. List columns are: title, status, priority, ticket type, statement count, data source, risk grade, creator, current owner, and creation time.
+
+<Frame caption="Ticket list: filter tabs and columns">
+  ![Ticket list](/images/sql-audit/ticket-list.png)
+</Frame>
+
+Available filters vary by PawSQL version, but may include:
+
+- ticket title or identifier;
+- project, organization, or workspace;
+- database engine and version;
+- creator, assignee, reviewer, or approver;
+- ticket status and severity;
+- creation or completion time;
+- review policy or rule.
+
+After opening a result, confirm that it contains the intended SQL and target environment. Similar ticket names are not enough to establish identity.
+
+## Reconstruct the review
+
+| Record | Why it matters |
+| --- | --- |
+| Submitted SQL or source file | Establishes exactly what PawSQL reviewed |
+| Database engine and version | Explains parsing and rule applicability |
+| Review policy | Establishes active rules, severity, and thresholds |
+| Workspace | Shows which object metadata informed the analysis |
+| Task status | Confirms whether the full review completed |
+| Findings and dispositions | Shows whether identified risks were closed |
+| Activity and approval trail | Identifies who acted and why the change proceeded |
+
+## Generate or export a report
+
+<Steps>
+  <Step title="Select the authoritative ticket">
+    Verify its name, SQL, project, environment, and completion time.
+  </Step>
+  <Step title="Review active filters">
+    Clear temporary filters for a complete report, or document the intended filtered scope.
+  </Step>
+  <Step title="Check report coverage">
+    Confirm that the summary, findings, dispositions, and ticket configuration support the report’s purpose.
+  </Step>
+  <Step title="Export in an available format">
+    Use the report, download, or export capability provided by your PawSQL version.
+  </Step>
+  <Step title="Retain it securely">
+    Attach the evidence to the appropriate release, change, or audit record with suitable access and retention controls.
+  </Step>
+</Steps>
+
+<Note>
+Report formats, fields, and export actions vary by PawSQL edition, licensing, and deployment model. If built-in export is unavailable, retain the ticket link and record the necessary summary and decision in the system of record.
+</Note>
+
+## Recommended report contents
+
+A formal review or audit report should capture:
+
+- ticket identifier, creator, and timestamps;
+- SQL source, database engine, version, and target environment;
+- review policy and any available revision identifier;
+- workspace and metadata freshness;
+- completion status, statement count, and risk summary;
+- findings, remediation, and accepted exceptions;
+- reviewer or approver decision;
+- related change ticket, validation evidence, and attachments.
+
+## Compare two review runs
+
+First verify that the database version, policy, and workspace are comparable. Then evaluate:
+
+- changes in severity distribution;
+- resolved, newly introduced, and accepted findings;
+- changes in parse failures or uncovered statements;
+- activity for critical rules;
+- test and performance-validation evidence.
+
+If policy or metadata changed, call that out explicitly. Do not attribute every difference to the SQL revision.
+
+## Protect exported data
+
+- Check SQL, object names, comments, and parameters for sensitive content.
+- Grant report access only to people who need it.
+- Do not distribute production SQL or schema details through uncontrolled channels.
+- Apply organizational encryption, retention, and disposal requirements.
+- Use a sanitized report for external sharing.
+
+## Improve governance with review history
+
+Trends such as frequently triggered rules, recurring patterns, remediation time, and exception volume can guide policy design, engineering standards, and training. Interpret metrics in the context of system criticality and workload size; avoid using raw counts as a simplistic team ranking.
+
+## Related pages
+
+<CardGroup cols={2}>
+  <Card title="Read review results" href="/en/user-guide/sql-audit/read-audit-results" />
+  <Card title="Resolve findings" href="/en/user-guide/sql-audit/resolve-findings" />
+  <Card title="Manual review and approval" href="/en/user-guide/sql-audit/manual-review-and-approval" />
+  <Card title="Review rules" href="/en/reference/audit-rules/" />
+</CardGroup>

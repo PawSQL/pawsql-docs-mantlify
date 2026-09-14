@@ -1,0 +1,87 @@
+---
+id: en-user-guide-sql-audit-high-risk-sql-control
+title: Control High-Risk SQL
+description: Govern high-risk database changes through policy enforcement, validation, release gates, and time-bounded exceptions.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-sql-audit-high-risk-sql-control
+---
+
+High-risk SQL controls prevent significant, unverified database risk from moving silently into a release. Effective control combines policy-based detection with human judgment, representative testing, and the organization’s change-management process.
+
+<Note>
+Blocking, exception, approval, and quality-gate features depend on PawSQL edition, licensing, and integration configuration. Where an in-product workflow is unavailable, use the PawSQL review report as evidence in an external ticketing or CI/CD gate.
+</Note>
+
+## Typical risk categories
+
+| Category | Example exposure | Primary controls |
+| --- | --- | --- |
+| Data integrity | Broad updates or deletes without adequate predicates | Scope validation, backup, rollback, and independent review |
+| Schema change | DDL that may block application traffic | Lock impact, duration, compatibility, and maintenance window |
+| Query performance | Full scans, Cartesian joins, or oversized result sets | Data scale, execution plan, indexing, and resource limits |
+| Transactions and concurrency | Long transactions, hot-row updates, or lock contention | Transaction boundaries, concurrency, timeout, and observability |
+| Access and compliance | Privileged operations or sensitive-object access | Execution identity, least privilege, authorization, and audit trail |
+
+Your organization’s review policies define which cases are high risk.
+
+## Recommended control flow
+
+<Steps>
+  <Step title="Detect automatically">
+    Use a production-ready policy and assign blocking or high severity to critical rules.
+  </Step>
+  <Step title="Establish the operating context">
+    Confirm the target environment, affected objects, data volume, execution duration, and maintenance window.
+  </Step>
+  <Step title="Reduce risk first">
+    Correct the SQL, split the operation, narrow predicates, or choose a safer execution approach.
+  </Step>
+  <Step title="Validate under controlled conditions">
+    Test semantics, plans, runtime, locking behavior, stop conditions, and rollback readiness.
+  </Step>
+  <Step title="Handle unavoidable exceptions">
+    Submit the rationale, compensating controls, and expiration date for authorized review.
+  </Step>
+  <Step title="Release with evidence">
+    Continue only after the gate is satisfied, and retain the review, approval, and execution record.
+  </Step>
+</Steps>
+
+## Suggested gate decisions
+
+| Condition | Recommended outcome |
+| --- | --- |
+| An unresolved blocking finding exists | Stop the workflow |
+| High-risk findings were remediated and re-reviewed | Continue through the standard release process |
+| A valid exception covers the high-risk finding | Continue only within the approved scope and conditions |
+| Review coverage is incomplete | Pause, correct the input or context, and run the review again |
+| Policy or workspace changed | Repeat the review before making a decision |
+
+## Handle exceptions
+
+When a risk cannot be removed, use the exception process in [Manual Review and Approval](/en/user-guide/sql-audit/manual-review-and-approval): submit the rationale, compensating controls, and an expiration date for authorized review, and bind the exception to a specific SQL statement, rule, project, environment, and validity period.
+
+<Warning>
+Urgency does not remove the need for risk assessment. An emergency change should still retain the minimum necessary review, authorization, backup, monitoring, and rollback controls.
+</Warning>
+
+## Integrate with CI/CD or ticketing
+
+An automated workflow can evaluate ticket status, highest severity, unresolved finding counts, or a report outcome. Design the integration to:
+
+- pin or record the review-policy revision;
+- define safe behavior for failures, timeouts, and incomplete analysis;
+- prevent unauthorized users from bypassing the gate;
+- retain the ticket link, report, and pipeline evidence;
+- provide a controlled manual fallback for service incidents.
+
+See [SQL Quality Gate](/en/features/sql-quality-gate) and [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd) for related patterns.
+
+## Next step
+
+When an authorized person must decide whether the change can proceed, see [Manual Review and Approval](/en/user-guide/sql-audit/manual-review-and-approval).

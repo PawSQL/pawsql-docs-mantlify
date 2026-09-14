@@ -1,0 +1,74 @@
+---
+id: user-guide-optimization-setup-optimization
+title: 优化任务创建与配置
+description: 配置优化任务的输入、验证、索引推荐和优化规则选项，控制重写与索引建议的产生方式。
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-optimization-setup-optimization
+localeOf: en-user-guide-optimization-setup-optimization
+---
+
+查询优化是在工作空间内对一组 SQL 进行的性能优化诊断，一般包括 SQL 审查、重写优化、索引推荐等。创建优化任务时，可以配置输入、输出、数据源以及执行过程。
+
+## 基础配置
+
+- **优化 ID**：标识本次优化任务。
+- **是否仅索引推荐**：控制是否启用重写优化。当 SQL 已经上线、修改 SQL 无法立即实施时，可启用此选项——PawSQL 将不重写 SQL，只基于原 SQL 做索引推荐。
+
+## 优化验证
+
+- **是否更新 DDL 信息**：是否连接到验证数据库获取最新的 DDL。
+- **是否启用 What-If 性能验证**：控制是否对推荐建议做性能验证。启用后，优化详情会提供 SQL 优化前后的执行计划及代价信息，用于确认重写与索引建议能真实提升性能。
+- **是否启用 Analyze**：在 What-If 性能验证时获取 SQL 的真实解析与执行时间，使代价估算更精确。
+
+<Warning>
+性能验证的两个选项应避免在生产库上使用。对于没有内置虚拟索引的数据库（如 MySQL、PostgreSQL），性能验证通过「创建推荐索引 → explain 分析执行计划 → 删除推荐索引」完成，在生产库上会消耗资源且耗时较长。
+</Warning>
+
+## 索引推荐配置
+
+- **是否和现有索引去重**：推荐索引时是否排除与现有索引重复的建议。当输入 SQL 只代表数据库的一部分查询、不打算删除现有索引时，应启用此选项。
+- **是否推荐覆盖索引**：是否考虑覆盖索引策略。覆盖索引可避免回表、显著提升性能，但会包含查询条件未使用的列，增加磁盘占用。
+- **覆盖索引的最大列数**：限制覆盖索引的最大列数，控制其空间占用。
+- **索引的最大列数**：限制索引的最大列数，避免过宽的索引加深索引树层级。
+- **单表最大索引数目**：审查单表的索引数量并给出警告，因为索引会增加磁盘占用并对 DML 产生负面影响。
+
+## 优化规则配置
+
+逐项启用或禁用优化规则，并修改相应阈值。
+
+{/* SCREENSHOT: /images/optimization/02-setup-optimization.png
+    Recommended frame: the optimization task configuration form showing the basic, validation, index recommendation, and rule sections.
+    Suggested video moment: the configuration form immediately before submitting the task. */}
+<Frame caption="创建优化任务时配置基础、验证、索引推荐与规则选项">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    截图占位符 · /images/optimization/02-setup-optimization.png
+  </div>
+</Frame>
+
+## 提交并确认任务成功
+
+配置完成后提交任务，任务完成后至少检查：
+
+- [ ] SQL 解析成功。
+- [ ] 数据库类型和版本正确。
+- [ ] 表、列和 Schema 识别正确。
+- [ ] 任务没有被错误截断为多条或少条语句。
+- [ ] 审查、重写、索引或计划模块按预期执行。
+- [ ] 结果页面没有未处理的部分失败。
+
+<Tip>
+任务状态为「已完成」表示分析结束，不表示 SQL 已经最优，也不表示所有建议都适合直接采用。
+</Tip>
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="查看优化结果" href="/user-guide/optimization/explain-output" />
+  <Card title="评估与落地建议" href="/user-guide/optimization/apply-suggestions" />
+  <Card title="输入待优化 SQL" href="/user-guide/optimization/create-workload" />
+</CardGroup>

@@ -1,7 +1,7 @@
 ---
 id: index
 title: 什么是 PawSQL?
-description: PawSQL 是一个面向开发人员、测试人员、数据库管理员与企业治理团队的 **SQL 工程与治理平台**，把规范审核、重写优化、索引推荐、性能验证与执行计划分析整合到统一平台，覆盖 SQL 从开发到生产的全生命周期。
+description: PawSQL 是一个面向开发人员、测试人员、数据库管理员与企业治理团队的 **SQL 工程与治理平台**，把 SQL质量检查、查询重写优化、智能索引推荐、自动化性能验证与执行计划分析整合到统一平台，覆盖 SQL 从开发到生产的全生命周期。
 type: explanation
 icon: wifi
 status: draft
@@ -25,7 +25,7 @@ SQL 性能问题通常并不是在生产环境中突然出现的。低效的写�
     按开发、CI/CD、DBA 与企业治理场景查看完整流程。
   </Card>
   <Card title="快速开始" icon="bolt" href="/getting-started/quickstart">
-    用一条 SQL 完成第一次审核、重写与索引推荐。
+    用一条 SQL 完成第一次 SQL质量检查、查询重写优化与智能索引推荐。
   </Card>
   <Card title="支持的数据库" icon="database" href="/getting-started/supported-databases">
     查看数据库、版本与能力支持矩阵。
@@ -63,7 +63,7 @@ flowchart LR
 PawSQL 不仅帮助团队发现 SQL 问题，还进一步给出可执行的优化方案。
 
 <CardGroup cols={2}>
-  <Card title="SQL 规范审核" icon="list-check" href="/reference/audit-rules/index">
+  <Card title="SQL质量检查" icon="list-check" href="/reference/audit-rules/index">
     在 SQL 上线前，按开发规范与数据库最佳实践自动识别风险。
   </Card>
   <Card title="查询重写优化" icon="git-compare" href="/reference/optimizer-rules/index">
@@ -72,7 +72,7 @@ PawSQL 不仅帮助团队发现 SQL 问题，还进一步给出可执行的优�
   <Card title="智能索引推荐" icon="layers" href="/features/index-recommendation">
     结合过滤、关联、排序与统计信息，设计候选索引方案。
   </Card>
-  <Card title="性能验证" icon="chart-line" href="/features/performance-validation">
+  <Card title="自动化性能验证" icon="chart-line" href="/features/performance-validation">
     借助数据库优化器比较优化前后的代价、访问路径与执行计划。
   </Card>
   <Card title="执行计划分析" icon="list-tree" href="/features/execution-plan-visualization">
@@ -84,7 +84,7 @@ PawSQL 不仅帮助团队发现 SQL 问题，还进一步给出可执行的优�
 ### 各项能力的关键检查项
 
 <AccordionGroup>
-  <Accordion title="SQL 规范审核">
+  <Accordion title="SQL质量检查">
     - SQL 编写规范
     - DDL 与 DML 风险
     - 查询性能风险
@@ -107,7 +107,7 @@ PawSQL 不仅帮助团队发现 SQL 问题，还进一步给出可执行的优�
     - 联合索引设计
     - 数据库优化器行为
   </Accordion>
-  <Accordion title="性能验证">
+  <Accordion title="自动化性能验证">
     - 优化器代价
     - 访问路径与关联方式
     - 预估行数
@@ -245,7 +245,7 @@ SQL 因此不再只是应用中的一段字符串，而是可以被**分析、�
     确定服务部署在哪里、如何接入日常工作流。参见[选择使用方式](/getting-started/choose-access)。
   </Step>
   <Step title="创建工作空间">
-    指定数据库类型与版本，通过 DDL 或数据库连接，为 SQL 分析提供所需的数据库上下文。参见[工作空间与数据库上下文](/user-guide/workspaces/index)。
+    指定数据库类型与版本，通过 DDL 或数据库连接，为 SQL 分析提供所需的数据库上下文。参见[工作空间和上下文](/user-guide/workspaces/index)。
   </Step>
   <Step title="完成第一次优化">
     提交一条 SQL，查看审核问题、重写建议、索引推荐与性能验证结果。参见[快速开始](/getting-started/quickstart)。

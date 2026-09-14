@@ -20,7 +20,7 @@ localeOf: en-user-guide-index
   <Card title="安装与接入" href="/user-guide/installation" icon="download">
     登录 PawSQL Cloud，部署 PawSQL Server，或配置 IDE 与 MCP。
   </Card>
-  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" icon="layers">
+  <Card title="工作空间和上下文" href="/user-guide/workspaces" icon="layers">
     通过 DDL 或数据库连接建立 SQL 分析所需的上下文。
   </Card>
 </CardGroup>
@@ -38,10 +38,10 @@ localeOf: en-user-guide-index
     指定数据库类型和版本，通过 DDL 或数据库连接导入表、列和索引等元数据。
   </Step>
   <Step title="完成第一项任务">
-    提交一条 SQL，查看审核问题、重写结果、索引建议和性能验证信息。
+    提交一条 SQL，查看审核问题、重写结果、索引建议和自动化性能验证信息。
   </Step>
   <Step title="进入团队工作流">
-    根据职责继续配置审核任务、质量门禁、性能巡检、权限或系统管理。
+    根据职责继续配置审核工单、质量门禁、性能巡检、权限或系统管理。
   </Step>
 </Steps>
 
@@ -49,10 +49,10 @@ localeOf: en-user-guide-index
 
 | 角色 | 建议阅读顺序 | 主要目标 |
 | --- | --- | --- |
-| 开发人员 | 工作空间 → SQL 优化 → 开发工具 | 在编码阶段发现并修复 SQL 问题 |
+| 开发人员 | 工作空间 → SQL 优化 → 开发工具插件 | 在编码阶段发现并修复 SQL 问题 |
 | DBA | 工作空间 → SQL 审核 → 性能巡检 | 控制上线风险并治理生产慢 SQL |
-| 审核人员 | SQL 审核 → 规则与质量策略 | 复核风险、管理例外并跟踪处理结果 |
-| DevOps 工程师 | 规则与质量策略 → CI/CD 集成 | 建立自动化 SQL 质量门禁 |
+| 审核人员 | SQL 审核 → 规则与审核策略 | 复核风险、管理例外并跟踪处理结果 |
+| DevOps 工程师 | 规则与审核策略 → CI/CD 集成 | 建立自动化 SQL 质量门禁 |
 | 项目管理员 | 工作空间 → 组织、项目与权限 | 配置项目资源及成员权限 |
 | 系统管理员 | 安装与接入 → 权限 → 系统管理 | 维护服务、授权、连接和运行状态 |
 
@@ -63,9 +63,9 @@ localeOf: en-user-guide-index
 | 组织与项目 | 定义用户、工作空间、任务和权限的管理边界 |
 | 工作空间 | 保存目标数据库类型、版本和元数据，为 SQL 分析提供上下文 |
 | 数据库连接 | 从目标数据库获取表、列、索引及其他允许访问的元数据 |
-| 规则集 | 定义需要检查的 SQL 规范、风险级别和参数阈值 |
+| 审核策略 | 定义需要检查的 SQL 规范、规则级别和参数阈值 |
 | 优化任务 | 记录 SQL 输入、重写建议、索引建议及验证结果 |
-| 审核任务 | 记录待审核脚本、规则问题、处理状态和审批结论 |
+| 审核工单 | 记录待审核脚本、规则问题、处理状态和审批结论 |
 | 巡检任务 | 组织慢 SQL 采集、批量分析、优化建议和治理进度 |
 
 <Note>
@@ -76,12 +76,12 @@ localeOf: en-user-guide-index
 
 <CardGroup cols={2}>
   <Card title="安装与接入" href="/user-guide/installation" />
-  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" />
+  <Card title="工作空间和上下文" href="/user-guide/workspaces" />
   <Card title="SQL 优化" href="/user-guide/optimization" />
   <Card title="SQL 审核" href="/user-guide/sql-audit" />
-  <Card title="批量优化与性能巡检" href="/user-guide/performance" />
-  <Card title="规则与质量策略" href="/user-guide/rules-policy" />
-  <Card title="开发工具" href="/user-guide/dev-tools" />
+  <Card title="巡检与慢查询治理" href="/user-guide/performance" />
+  <Card title="规则与审核策略" href="/user-guide/rules-policy" />
+  <Card title="开发工具插件" href="/user-guide/dev-tools" />
   <Card title="CI/CD 与平台集成" href="/user-guide/cicd" />
 </CardGroup>
 

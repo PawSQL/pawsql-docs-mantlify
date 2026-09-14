@@ -260,9 +260,9 @@ flowchart TD
     F --> I["PawSQL Analysis Engine"]
     G --> I
     H --> I
-    I --> J["SQL Review"]
-    I --> K["SQL Rewrite"]
-    I --> L["Index Advisor"]
+    I --> J["SQL Quality Check"]
+    I --> K["Query Rewrite"]
+    I --> L["Index Recommendation"]
     K --> M["Execution Plan Analysis"]
     M --> N["Performance Validation"]
 ```
@@ -321,9 +321,9 @@ DATE(create_time)
 and provide:
 
 - risk explanation
-- SQL rewrite
-- index recommendation
-- execution-plan analysis
+- Query Rewrite
+- Index Recommendation
+- Execution Plan Analysis
 
 The objective of development governance is simple:
 
@@ -422,9 +422,9 @@ PawSQL can help process production slow SQL through:
 - SQL normalization
 - SQL pattern grouping
 - priority ranking
-- SQL rewrite
-- index recommendation
-- execution-plan analysis
+- Query Rewrite
+- Index Recommendation
+- Execution Plan Analysis
 - optimization validation
 
 Instead of asking DBAs to inspect:
@@ -961,10 +961,10 @@ Not create another disconnected tool.
 
 ---
 
-## From SQL Audit to SQL Governance
+## From SQL Quality Review to SQL Governance
 
 <Tabs>
-  <Tab title="SQL Audit">
+  <Tab title="SQL Quality Review">
     Traditional SQL auditing usually asks:
 
     > Does this SQL violate a rule?
@@ -996,7 +996,7 @@ The distinction can be summarized as:
 
 ```mermaid
 flowchart TD
-    A["SQL Audit"] --> B["Rule Checking"]
+    A["SQL Quality Review"] --> B["Rule Checking"]
     C["SQL Governance"] --> D["Policy + Performance + Workflow + Lifecycle + Metrics"]
 ```
 
@@ -1046,7 +1046,7 @@ Large organizations do not need to deploy every governance capability at once.
 A staged rollout is often more effective.
 
 <Steps>
-  <Step title="Phase 1 — Unified SQL Review">
+  <Step title="Phase 1 — Unified SQL Quality Check">
     Standardize:
 
     ```text
@@ -1060,7 +1060,7 @@ A staged rollout is often more effective.
     Goal:
 
     <Note>
-    Establish a common SQL review platform.
+    Establish a common SQL quality check platform.
     </Note>
   </Step>
   <Step title="Phase 2 — CI/CD Quality Gate">
@@ -1314,7 +1314,7 @@ flowchart LR
     A["Write"] --> B["Analyze"] --> C["Review"] --> D["Release"] --> E["Monitor"] --> F["Optimize"] --> G["Improve"]
 ```
 
-PawSQL helps enterprises turn SQL review, optimization, and production performance management from disconnected tools and manual processes into a unified, executable, and measurable governance system.
+PawSQL helps enterprises turn SQL Quality Check, optimization, and production performance management from disconnected tools and manual processes into a unified, executable, and measurable governance system.
 
 <Note>
 **One platform. One SQL governance standard. Across every team, every database, and every stage of the software lifecycle.**

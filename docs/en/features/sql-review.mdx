@@ -18,16 +18,16 @@ capabilities:
 - sql-audit
 ---
 
-PawSQL SQL Review helps teams detect SQL issues early in the lifecycle, including syntax and compatibility problems, policy violations, risky DDL/DML, and patterns that may lead to performance degradation.
+PawSQL SQL Quality Check helps teams detect SQL issues early in the lifecycle, including syntax and compatibility problems, policy violations, risky DDL/DML, and patterns that may lead to performance degradation.
 
-Instead of relying only on text matching or regular expressions, PawSQL combines SQL parsing, semantic analysis, database metadata, and database-specific rules to perform structured SQL review.
+Instead of relying only on text matching or regular expressions, PawSQL combines SQL parsing, semantic analysis, database metadata, and database-specific rules to perform structured SQL quality checks.
 
 
 ## Overview
 
-Traditional SQL review often depends on manual DBA checks, regular expressions, or lightweight linting. These approaches have difficulty understanding complex SQL structures, object relationships, database semantics, stored procedures, and heterogeneous database environments.
+Traditional SQL quality checking often depends on manual DBA checks, regular expressions, or lightweight linting. These approaches have difficulty understanding complex SQL structures, object relationships, database semantics, stored procedures, and heterogeneous database environments.
 
-PawSQL separates SQL review into multiple analysis stages:
+PawSQL separates SQL quality checks into multiple analysis stages:
 
 ```mermaid
 flowchart LR
@@ -37,13 +37,13 @@ flowchart LR
     D --> E["Risk Report"]
 ```
 
-## Why SQL Review Matters
+## Why SQL Quality Check Matters
 
 The later a SQL issue is discovered, the more expensive it usually becomes to fix.
 
 A full-table scan discovered while coding can be corrected immediately. The same SQL discovered after production deployment may cause CPU pressure, excessive I/O, lock contention, or release rollback.
 
-The purpose of SQL Review is therefore not simply to find mistakes, but to shift SQL quality control earlier into engineering and delivery workflows.
+The purpose of SQL Quality Check is therefore not simply to find mistakes, but to shift SQL quality control earlier into engineering and delivery workflows.
 
 ## Key Capabilities
 
@@ -96,7 +96,7 @@ This is especially important across Oracle, MySQL, PostgreSQL, SQL Server, DB2, 
 
 ### Stored procedure analysis
 
-PawSQL can analyze SQL embedded inside stored procedures, extending SQL Review beyond standalone SQL statements into procedural SQL such as T-SQL and PL/pgSQL.
+PawSQL can analyze SQL embedded inside stored procedures, extending SQL Quality Check beyond standalone SQL statements into procedural SQL such as T-SQL and PL/pgSQL.
 
 ## Example
 
@@ -123,18 +123,18 @@ Review results can be mapped to severity levels such as:
 
 ## Review in the Development Lifecycle
 
-SQL Review can be used through multiple entry points:
+SQL Quality Check can be used through multiple entry points:
 
 - IDE: instant developer feedback
-- Web Console: manual SQL review
+- Web Console: manual SQL quality checks
 - CI/CD: SQL Quality Gate
 - API: enterprise platform integration
 - Webhook: DevOps workflow integration
-- MCP: SQL review capability for AI agents
+- MCP: SQL Quality Check capability for AI agents
 
-## SQL Review vs. Simple SQL Lint
+## SQL Quality Check vs. Simple SQL Lint
 
-| Capability | Simple SQL Lint | PawSQL SQL Review |
+| Capability | Simple SQL Lint | PawSQL SQL Quality Check |
 |---|---|---|
 | Syntax check | ✓ | ✓ |
 | AST analysis | Limited | ✓ |
@@ -148,7 +148,7 @@ SQL Review can be used through multiple entry points:
 ## Related Capabilities
 
 <CardGroup cols={2}>
-<Card title="Automatic SQL Rewrite" icon="wand-sparkles" href="/en/features/automatic-sql-rewrite" />
+<Card title="Query Rewrite" icon="wand-sparkles" href="/en/features/automatic-sql-rewrite" />
 <Card title="Index Recommendation" icon="layers" href="/en/features/index-recommendation" />
 <Card title="Performance Validation" icon="chart-line" href="/en/features/performance-validation" />
 <Card title="Execution Plan Analysis" icon="list-tree" href="/en/features/execution-plan-visualization" />

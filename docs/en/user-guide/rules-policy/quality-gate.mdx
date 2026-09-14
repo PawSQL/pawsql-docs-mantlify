@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-rules-policy-quality-gate
 title: Configure the SQL Quality Gate
-description: Configure the SQL Quality Gate — PawSQL User Guide (draft).
+description: Configure the approval workflow and the risk-level threshold (Notice, Warning, Critical) to set the maximum risk level for ticket creation and establish a SQL quality gate.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,47 @@ language: en
 translationKey: user-guide-rules-policy-quality-gate
 ---
 
-# Configure the SQL Quality Gate
+The SQL quality gate is implemented through the approval workflow configuration: in "Settings → Personal Approval Template", set the maximum risk level allowed for ticket creation; the system determines the approval process accordingly.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+<Frame caption="Approval workflow: the nodes from risk level configuration to execute deployment">
+  ![Approval workflow](/images/rules-policy/en/quality-gate.png)
+</Frame>
 
-## What this page will cover
+## Risk level
 
-- To be added
+Risk level applies to the whole ticket, with three levels from lightest to most severe:
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+| Risk level | Relative weight |
+| --- | --- |
+| Notice | Lightest |
+| Warning | Medium |
+| Critical | Most severe |
+
+"Risk Level Configuration" sets the maximum risk level for ticket creation; tickets above that level require a stricter approval flow.
+
+## Rule severity vs. risk level
+
+"Rule severity" and "risk level" are two different dimensions; do not confuse them:
+
+| Dimension | Applies to | Values |
+| --- | --- | --- |
+| Rule severity | A single rule | notice / warning / critical |
+| Risk level | The whole ticket | Notice / Warning / Critical |
+
+Rule severity marks how serious a single finding is, see [Manage Rules](/en/user-guide/rules-policy/configure-rules); risk level decides whether a ticket needs a stricter approval flow, configured on this page.
+
+## Approval workflow nodes
+
+The approval workflow proceeds through these nodes:
+
+| Node | Description |
+| --- | --- |
+| Risk Level Configuration | Set the maximum risk level for ticket creation |
+| Ticket Creation | System node; the ticket is created, or rejected and waiting for SQL modification |
+| Submit for Review | The ticket creator submits for review, triggering the approval workflow |
+| Review Node | Configure reviewers; you can add multiple review nodes |
+| Execute Deployment | Configure executors to complete the ticket process |
+
+## Configuration steps
+
+The approval workflow configuration is a multi-step wizard: configure the risk level first, then the review submission, review nodes, and deployment. Click "Save Configuration" when done. You can click "Reset Configuration" at any time to restore defaults.

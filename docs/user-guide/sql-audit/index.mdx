@@ -1,7 +1,7 @@
 ---
 id: user-guide-sql-audit-index
-title: SQL 审核工作流
-description: SQL 审核工作流——PawSQL 用户手册（草稿）。
+title: SQL 审核概述
+description: 创建审核工单，识别质量、性能与安全风险，并推动修改、复核和放行。
 type: guide
 subtype: operation
 layout: index
@@ -9,15 +9,106 @@ product: pawsql
 status: draft
 language: zh
 translationKey: user-guide-sql-audit-index
-localeOf: user-guide-sql-audit
+localeOf: en-user-guide-sql-audit-index
 ---
 
-# SQL 审核工作流
+PawSQL SQL 审核通过静态分析和规则检查，在 SQL 进入目标环境之前识别规范、质量、性能及安全问题。审核结果包含风险级别、触发规则、相关对象和处理建议，可用于开发自查、人工复核和发布门禁。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 审核工作流
 
-## 本节将覆盖
+按以下操作步骤进行（前三步是创建工单前的输入准备）：
 
-- 待补充
+<Steps>
+  <Step title="确定审核目标">
+    明确 SQL 将运行的数据库、版本、项目和环境。
+  </Step>
+  <Step title="选择审核策略">
+    使用与数据库匹配的审核策略，确认规则、级别和阈值。
+  </Step>
+  <Step title="准备 SQL 与上下文">
+    粘贴 SQL 文本或上传脚本，并按需选择工作空间提供对象元数据。
+  </Step>
+  <Step title="创建审核工单">
+    填写标题、优先级并提交，等待自动审核完成。
+  </Step>
+  <Step title="处理审核结果">
+    优先修复高风险问题，重新审核，并对保留项记录依据。
+  </Step>
+  <Step title="提交复核与审批">
+    确认结果后提交人工复核，由审批人决策；审批通过后按执行记录跟踪执行情况。
+  </Step>
+</Steps>
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+工单从创建到执行经历以下状态流转：
+
+```mermaid
+flowchart LR
+    A["创建工单"] --> B["自动审核"]
+    B --> C["查看结果与处理问题"]
+    C --> D["提交复核"]
+    D --> E["审批"]
+    E --> F["执行"]
+```
+
+## 核心对象
+
+| 对象 | 作用 |
+| --- | --- |
+| 审核工单 | 保存输入 SQL、审核配置、状态和结果 |
+| 审核策略 | 定义启用的规则、风险级别和参数阈值 |
+| 工作空间 | 提供数据库类型、版本、Schema 和对象元数据 |
+| 审核问题 | 描述触发规则、风险、位置和相关对象 |
+| 审核报告 | 汇总 SQL 类型、风险分布、规则分布和处理结果 |
+
+<Note>
+本文档统一使用“审核策略”。界面中导航与表单显示“审核模板”，模板页创建按钮为“创建规则模板”，均指同一对象：一组启用的规则及其风险级别、阈值和例外配置。
+</Note>
+
+## 本分组包含
+
+### 执行审核
+
+<CardGroup cols={2}>
+  <Card title="创建审核工单" href="/user-guide/sql-audit/create-review-task" />
+  <Card title="查看审核结果" href="/user-guide/sql-audit/read-audit-results" />
+  <Card title="处理审核问题" href="/user-guide/sql-audit/resolve-findings" />
+  <Card title="人工复核与审批" href="/user-guide/sql-audit/manual-review-and-approval" />
+  <Card title="审核历史、报告与导出" href="/user-guide/sql-audit/history-reports-and-export" />
+</CardGroup>
+
+### 配置与治理
+
+<CardGroup cols={2}>
+  <Card title="审核策略" href="/user-guide/sql-audit/select-audit-policy" />
+  <Card title="工作空间与审核上下文" href="/user-guide/sql-audit/configure-review-context" />
+  <Card title="高风险 SQL 管控" href="/user-guide/sql-audit/high-risk-sql-control" />
+</CardGroup>
+
+## 按角色开始
+
+| 角色 | 推荐页面 | 主要职责 |
+| --- | --- | --- |
+| 开发人员 | 创建工单、提交 SQL、处理问题 | 在提交代码或变更前完成自查 |
+| DBA | 审核策略、上下文、审核结果 | 判断数据库风险和修改方案 |
+| 审核人员 | 高风险管控、人工复核 | 处理例外并形成放行结论 |
+| 项目管理员 | 策略、权限、报告 | 维护项目审核标准和审计记录 |
+
+## 开始前检查
+
+- 数据库类型和版本正确；
+- 审核策略适用于目标数据库；
+- SQL 文件编码、方言和分隔符明确；
+- 需要对象级分析时已准备工作空间；
+- SQL、DDL 和日志已经脱敏；
+- 当前用户具备创建和查看工单的权限。
+
+<Warning>
+自动审核提高检查覆盖率和一致性，但不替代业务评审、测试验证、备份、发布审批和回退准备。
+</Warning>
+
+## 延伸阅读
+
+- 能力说明：[SQL 审核](/features/sql-review)
+- 规则定义：[审核规范](/reference/audit-rules/)
+- 数据库上下文：[工作空间与上下文](/user-guide/workspaces/)
+- 自动化门禁：[CI/CD SQL 质量门禁](/use-cases/sql-quality-gate-cicd)

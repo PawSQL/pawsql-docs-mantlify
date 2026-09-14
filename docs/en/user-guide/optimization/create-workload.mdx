@@ -1,0 +1,102 @@
+---
+id: en-user-guide-optimization-create-workload
+title: Input SQL to Optimize
+description: Input SQL to optimize from a text box, a SQL file, database logs, or a MyBatis Mapper file to build the task workload.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-optimization-create-workload
+---
+
+A workload is the SQL you want to optimize: a single DML statement or multiple statements separated by `;`. PawSQL supports the following sources for SQL input.
+
+## Prerequisites
+
+- A workspace is available.
+- The workspace engine, version, and schema match the target SQL.
+- Referenced tables, views, and columns exist in the workspace.
+- SQL has no embedded credentials or sensitive data.
+
+## Input sources
+
+PawSQL supports several SQL input sources; choose the one that matches your workflow.
+
+<Tabs>
+  <Tab title="SQL text">
+    Paste or type valid SQL in the text box. Multiple statements can be separated by `;`. Best for ad hoc analysis or a single problematic statement.
+  </Tab>
+  <Tab title="SQL file">
+    Upload a SQL file. PawSQL extracts the statements, with multiple statements separated by `;`.
+  </Tab>
+  <Tab title="Slow query log">
+    Extract SQL from a database slow log or general log.
+
+    **MySQL**
+
+    The slow log records statements whose execution time reaches `long_query_time` (seconds) and rows examined reach `min_examined_row_limit`; enable `log_queries_not_using_indexes` to also record queries that do not use an index; the general log records every statement executed during a client session.
+
+    ```sql
+    set global log_output='file';
+    set global slow_query_log='on';
+    set global slow_query_log_file = '/tmp/localhost-slow.log';
+    set global long_query_time = 5;
+    ```
+
+    **PostgreSQL**
+
+    Enable SQL logging in `postgresql.conf`, and use `log_min_duration_statement` (milliseconds) to record only slow statements:
+
+    ```text
+    log_statement = 'all'
+    log_directory = 'pg_log'
+    log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+    logging_collector = on
+    log_min_duration_statement = 5000
+    ```
+
+    **openGauss**
+
+    Configured like PostgreSQL, via `log_statement` and `log_min_duration_statement` in `postgresql.conf`.
+  </Tab>
+  <Tab title="MyBatis Mapper file">
+    PawSQL walks every SQL element node in the Mapper file and combines all possible SQL structures as optimization input. This may produce SQL that never appears in production, which can skew results (for example, suggesting a useless index or a column that is never used). Exclude SQL that will never appear during the SQL preview step.
+  </Tab>
+</Tabs>
+
+{/* SCREENSHOT: /images/optimization/01-input-sql.png
+    Recommended frame: the SQL input page with the text editor, the input-source tabs (SQL text / SQL file / database log / MyBatis Mapper), and the optimize entry visible.
+    Redact any pasted business data, connection strings, and credentials before publishing. */}
+<Frame caption="Input SQL to optimize from text, a file, logs, or a Mapper file">
+  <div style={{border: '1px dashed #94a3b8', borderRadius: '12px', padding: '42px 24px', textAlign: 'center', color: '#64748b', background: '#f8fafc'}}>
+    Screenshot placeholder · /images/optimization/01-input-sql.png
+  </div>
+</Frame>
+
+## Supported SQL types
+
+`select`, `update`, `delete`, `insert ... select`, `merge`, `replace`.
+
+## Parameters and sanitization
+
+- Use a placeholder syntax supported by the current PawSQL release, and provide representative values when needed;
+- parameter values affect selectivity and execution plans, so performance validation should cover common and boundary scenarios;
+- replace sensitive literals with safe representative values;
+- convert a template SQL that cannot be parsed into a representative executable statement.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Parsing fails | Dialect, version, statement completeness, placeholders, delimiters |
+| Object unresolved | Workspace, default schema, identifier case, metadata freshness |
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Create and configure an optimization task" href="/en/user-guide/optimization/setup-optimization" />
+  <Card title="Workspaces" href="/en/user-guide/workspaces" />
+  <Card title="Read the results" href="/en/user-guide/optimization/explain-output" />
+</CardGroup>

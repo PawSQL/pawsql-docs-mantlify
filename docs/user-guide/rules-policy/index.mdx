@@ -1,7 +1,7 @@
 ---
 id: user-guide-rules-policy-index
-title: 规则配置概述
-description: 规则配置概述——PawSQL 用户手册（草稿）。
+title: 审核策略概述
+description: 审核策略定义需要检查的 SQL 规范、规则级别与参数阈值。本文概述全局与局部模板、规则分类与级别体系，并链接到具体配置操作。
 type: guide
 subtype: operation
 layout: index
@@ -12,12 +12,35 @@ translationKey: user-guide-rules-policy-index
 localeOf: en-user-guide-rules-policy-index
 ---
 
-# 规则配置概述
+审核策略是 SQL 审核的依据：它定义一组启用的审核规则，以及每条规则的级别和参数阈值。PawSQL 优化平台和审核平台共享同一套规则配置模板。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+<Note>
+同一对象在界面中有多个叫法：导航与创建表单显示「审核模板」、创建按钮叫「创建规则模板」、提示语叫「规则配置模板」、个别描述叫「审核规则集」。本文档统一称「审核策略」。
+</Note>
 
-## 本节将覆盖
+## 全局模板与局部模板
 
-- 待补充
+- **全局模板**：审核平台安装时预设，对全局所有用户可见，按数据库类型内置（MySQL、Oracle、PostgreSQL、openGauss、DB2、达梦等），每种包含 135–173 条启用规则。全局模板只读，不能直接修改。
+- **局部模板**：基于全局模板（或用户可见的模板）创建，只有创建者及所在团队成员可见。局部模板可启用或禁用规则，并调整规则阈值。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+## 规则分类
+
+规则按「对象设计」「对象操作」「数据操作」三大类组织，大类下再分子类：
+
+| 大类 | 子类 |
+| --- | --- |
+| 对象设计 | 命名规范、数据分布、表/视图定义、约束、索引、注释、列定义、字符集/排序规则、其他 |
+| 对象操作 | 语法错误、更新对象、删除对象、添加约束 |
+| 数据操作 | 性能、可维护性、分布式、正确性、安全性 |
+
+## 规则级别
+
+每条审核规则有一个级别，标记该规则检出问题的严重程度，从轻到重为「提示」「警告」「严重」三档。详见[规则管理](/user-guide/rules-policy/configure-rules)。
+
+## 本节内容
+
+<CardGroup cols={2}>
+  <Card title="审核策略管理" href="/user-guide/rules-policy/rule-sets" />
+  <Card title="规则管理" href="/user-guide/rules-policy/configure-rules" />
+  <Card title="配置 SQL 质量门禁" href="/user-guide/rules-policy/quality-gate" />
+</CardGroup>
