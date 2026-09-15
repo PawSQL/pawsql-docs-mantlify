@@ -1,7 +1,7 @@
 ---
 id: user-guide-performance-aggregate-dedup
 title: SQL 聚合与去重
-description: SQL 聚合与去重——PawSQL 用户手册（草稿）。
+description: 慢查询采集后按 SQL 结构自动聚合去重，用「只展示业务SQL」过滤内部 SQL，从概要、SQL 类型、优化状态与平均耗时了解治理清单。
 type: guide
 subtype: operation
 layout: detail
@@ -12,12 +12,65 @@ translationKey: user-guide-performance-aggregate-dedup
 localeOf: en-user-guide-performance-aggregate-dedup
 ---
 
-# SQL 聚合与去重
+慢查询日志里同一个 SQL 会被反复执行成千上万次，逐条展示没有治理价值。PawSQL 在采集后按 SQL 结构自动聚合去重，把相同结构的 SQL 合并为一条，并用执行次数、平均耗时、最大耗时等指标刻画它的整体影响。慢查询页的概要、图表与表格都基于聚合后的结果。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+<Frame caption="慢查询页：概要、近七天慢 SQL、SQL 类型、优化状态与平均耗时">
+  ![慢查询聚合结果](/images/performance/patrol-slow-queries-data.png)
+</Frame>
 
-## 本节将覆盖
+## 只展示业务 SQL
 
-- 待补充
+概要区右上角的「只展示业务SQL」开关用于过滤采集结果中的内部/系统 SQL。开启（默认）时只保留业务 SQL，关闭时展示全部慢 SQL。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+实测示例：某实例采集到慢SQL数 `27`，其中业务SQL数 `23`，即 `4` 条为内部/系统 SQL（如 `pawsql_internal.*`、`pawsql_foreign.*` 等表上的查询）。
+
+## 概要指标
+
+| 指标 | 说明 |
+| --- | --- |
+| 慢查询阈值 | 采集使用的慢查询判定阈值（秒） |
+| 慢SQL数 | 采集到的慢 SQL 总数（含非业务 SQL） |
+| 业务SQL数 | 过滤内部/系统 SQL 后的数量 |
+| 最新采集时间 | 最近一次采集完成时间 |
+
+## 分布图表
+
+慢查询页用四个图表概括聚合后的治理清单：
+
+- **近七天慢SQL**：按天统计的慢 SQL 数量趋势；
+- **SQL类型**：按 SQL 类型（如 `query`）统计的数量分布；
+- **优化状态**：按「未优化 / 已优化」等状态统计的数量分布；
+- **平均耗时**：平均耗时最高的若干条 SQL 及其耗时，用于优先定位。
+
+实测示例中，采集到的 23 条业务 SQL 均为 `query` 类型、优化状态均为「未优化」，平均耗时最高的一条达 `119110.03` 秒。
+
+## 表格字段
+
+聚合后的慢查询表格列出每条 SQL 及其聚合指标：
+
+| 列 | 说明 |
+| --- | --- |
+| 编号 | SQL 的唯一标识 |
+| 文本 | SQL 语句（参数化展示） |
+| 类型 | SQL 类型（如 `query`） |
+| 表 | 涉及的表的数量 |
+| 最近执行 | 最近一次执行时间 |
+| 平均耗时(s) | 聚合后的平均执行耗时 |
+| 执行次数 | 聚合周期内的执行次数 |
+| 最大耗时(s) | 单次执行的最大耗时 |
+| 性能提升(%) | 优化后相对原 SQL 的性能提升，未优化时显示 `N/A` |
+| 优化状态 | 未优化 / 已优化 |
+| 最近优化 | 最近一次优化时间 |
+| 处置阶段 | 未处置 / 处置中 / 已处置 |
+
+## 筛选与排序
+
+表格上方提供筛选条件：搜索慢查询 SQL 或编号、优化状态、SQL 类型、处置阶段、平均耗时区间、执行时间区间。列头支持排序，便于按平均耗时、执行次数等维度定位重点 SQL。
+
+## 延伸阅读
+
+<CardGroup cols={2}>
+  <Card title="采集慢 SQL" href="/user-guide/performance/collect-slow-sql" />
+  <Card title="批量分析与优化" href="/user-guide/performance/batch-optimize" />
+  <Card title="跟踪治理进度" href="/user-guide/performance/track-progress" />
+</CardGroup>

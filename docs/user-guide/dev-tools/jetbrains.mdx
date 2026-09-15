@@ -1,7 +1,7 @@
 ---
 id: user-guide-dev-tools-jetbrains
-title: JetBrains 插件
-description: JetBrains 插件——PawSQL 用户手册（草稿）。
+title: 在 JetBrains IDE 中优化 SQL
+description: 安装和配置 PawSQL Client for JetBrains，优化选中的 SQL、SQL 文件、目录或 MyBatis Mapper。
 type: guide
 subtype: integration
 layout: detail
@@ -12,12 +12,145 @@ translationKey: user-guide-dev-tools-jetbrains
 localeOf: en-user-guide-dev-tools-jetbrains
 ---
 
-# JetBrains 插件
+PawSQL Client for JetBrains 将 SQL 审核、查询重写、索引推荐和性能验证集成到 IntelliJ Platform。它既适合开发人员优化当前语句，也适合对 SQL 文件、目录或 MyBatis Mapper 进行批量分析。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+<Note>
+插件在部分界面和历史文档中称为 **PawSQL Advisor**。因此，安装时可能需要搜索 PawSQL Client 或 PawSQL Advisor，操作菜单通常仍显示 PawSQL Advisor。
+</Note>
 
-## 本节将覆盖
+## 支持的 IDE
 
-- 待补充
+插件适用于 IntelliJ IDEA、DataGrip、PyCharm、GoLand、WebStorm、PhpStorm、DataSpell、Android Studio 等 IntelliJ Platform 产品。具体 IDE 和版本兼容性以 JetBrains Marketplace 当前发布信息为准。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+## 安装插件
+
+<Steps>
+  <Step title="打开插件设置">
+    在 JetBrains IDE 设置中进入 **Plugins**。
+  </Step>
+  <Step title="搜索 PawSQL">
+    搜索 **PawSQL Client** 或 **PawSQL Advisor**，并核对 PawSQL 发布者信息。
+  </Step>
+  <Step title="安装并重启">
+    完成安装；如果 IDE 提示需要重启，保存工作后重新启动。
+  </Step>
+  <Step title="确认菜单">
+    打开 SQL 文件或项目目录，确认右键菜单中出现 PawSQL Advisor 操作。
+  </Step>
+</Steps>
+
+企业网络无法访问 Marketplace 时，只使用 PawSQL 官方或企业可信软件仓库提供的离线包，并核对 IDE、插件与 PawSQL Server 的版本兼容性。
+
+## 配置输入和优化选项
+
+PawSQL Advisor 提供项目级配置。常用选项包括：
+
+| 配置 | 说明 |
+| --- | --- |
+| 输入类型 | 选择普通 SQL 文件或 MyBatis Mapper 文件 |
+| 输出语言 | 设置优化建议使用中文或英文 |
+| SQL 重写 | 控制是否生成语义等价的重写候选 |
+| What-If 验证 | 比较优化前后的执行计划和代价 |
+| 实际执行验证 | 在允许时使用实际执行耗时，而不只依赖 EXPLAIN |
+
+Mapper 输入会解析动态分支并生成可能的 SQL 组合。编写不规范的 Mapper 可能产生不会实际执行的组合，进而形成无效的索引建议，应在批量优化前检查动态条件。
+
+## 配置数据库上下文
+
+数据库连接可用于获取表、视图、列、索引及统计信息，也可用于性能验证。配置时通常需要数据库类型、地址、端口、用户名、密码、默认数据库以及数据库或 Schema 范围。
+
+<Warning>
+启用 What-If 或实际执行验证后，PawSQL 可能连接目标数据库，并根据数据库能力创建和删除用于评估的推荐索引。不要未经评估就在生产数据库启用；应检查账号权限、资源、锁和业务影响。
+</Warning>
+
+## 配置索引推荐
+
+根据治理目标设置：
+
+- 是否与现有索引去重；
+- 是否生成覆盖索引；
+- 覆盖索引允许包含的最大列数；
+- 普通推荐索引的最大列数；
+- 单表索引数量告警阈值。
+
+覆盖索引可能减少回表，但也会增加索引大小和写入维护成本。不要把“覆盖更多列”直接等同于“性能更好”。
+
+## 优化选中的 SQL
+
+<Steps>
+  <Step title="选择完整语句">
+    在编辑器中选中一条完整 SQL，避免包含相邻语句、日志或 Markdown 围栏。
+  </Step>
+  <Step title="发起优化">
+    右键选择 **PawSQL Advisor > Optimize Selected**。
+  </Step>
+  <Step title="按需调整本次配置">
+    如需临时更改参数，选择 **Optimize Selected Config...**。
+  </Step>
+  <Step title="检查运行日志">
+    在 IDE 控制台查看解析、连接和优化过程。
+  </Step>
+  <Step title="打开优化结果">
+    处理完成后检查自动生成的汇总和 SQL 明细。
+  </Step>
+</Steps>
+
+<Frame caption="右键菜单中的 PawSQL Advisor 操作">
+  截图占位符 · /images/dev-tools/jetbrains-optimize.png
+</Frame>
+
+## 优化 SQL 文件或目录
+
+在 SQL 文件或目录上右键选择 **PawSQL Advisor > Optimize**，即可处理其中的 SQL。使用 **Optimize Config...** 可以在执行前调整配置。
+
+批量运行前确认：
+
+- 输入类型与文件内容一致；
+- 文件编码和 SQL 分隔符正确；
+- 目录中不包含备份文件、生成文件和无关日志；
+- 工作空间或数据库连接对应目标环境；
+- 批量输入规模符合当前服务限制。
+
+## 查看优化结果
+
+任务完成后，插件生成并打开 `pawTuningSummary` Markdown 文件，通常包含：
+
+- 优化概览和已处理 SQL 清单；
+- 推荐索引汇总；
+- 原始 SQL、重写 SQL 和使用的重写策略；
+- 审核规则问题及对应 SQL 片段；
+- 现有索引、冗余索引和索引数量提示；
+- 启用验证后的性能改进和前后执行计划。
+
+<Frame caption="优化结果汇总文件 pawTuningSummary">
+  截图占位符 · /images/dev-tools/jetbrains-summary.png
+</Frame>
+
+从汇总中的 SQL 名称进入详情，并按“审核问题 → 重写候选 → 索引建议 → 性能证据”的顺序阅读。
+
+## 应用建议前
+
+- 确认重写 SQL 保持结果、参数和事务语义；
+- 检查推荐索引是否与现有索引重复或冲突；
+- 评估索引对写入、存储和维护的影响；
+- 使用代表性数据和参数验证执行计划；
+- 通过代码评审、测试和数据库变更流程发布。
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| Marketplace 搜索不到插件 | IDE 版本、网络代理和企业插件策略 |
+| 右键菜单没有 PawSQL Advisor | 插件状态、文件类型和 IDE 是否已重启 |
+| 只识别部分 SQL | 选区、分隔符、方言、编码和参数占位符 |
+| Mapper 产生无效建议 | 动态条件、不可达分支和生成的 SQL 组合 |
+| 数据库对象无法识别 | 数据库连接、默认 Schema、权限和元数据 |
+| 没有验证结果 | 验证开关、连接权限和目标数据库能力 |
+
+## 相关文档
+
+<CardGroup cols={2}>
+  <Card title="输入待优化 SQL" href="/user-guide/optimization/create-workload" />
+  <Card title="查看优化结果" href="/user-guide/optimization/explain-output" />
+  <Card title="评估与落地建议" href="/user-guide/optimization/apply-suggestions" />
+</CardGroup>

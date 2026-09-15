@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-performance-patrol-task
 title: Create a Patrol Task
-description: Create a Patrol Task — PawSQL User Guide (draft).
+description: Select a patrol template in the patrol config step to complete instance patrol setup, then check database objects for structural risks via manual or scheduled patrol.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,60 @@ language: en
 translationKey: user-guide-performance-patrol-task
 ---
 
-# Create a Patrol Task
+Performance patrol (database object patrol) applies the audit rules in a patrol template to the instance's database objects (tables), identifying structural defects, naming violations, missing comments, and other risks. It is configured in the "Patrol config" step of the add-instance wizard, and can be triggered manually or on a schedule from the Database objects page after onboarding.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Patrol config step
 
-## What this page will cover
+After slow query config passes, the wizard enters "Patrol config". This step selects the patrol template (rule set) used for patrol.
 
-- To be added
+<Frame caption="Patrol config: select a database patrol template">
+  ![Patrol config](/images/performance/en/patrol-db-patrol-config.png)
+</Frame>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+The patrol template determines the audit rules and severities applied during patrol. Templates are provided per database type (such as "MySQL database patrol template") and share the same rule system as the Audit platform's rule templates.
+
+## Manual patrol
+
+After onboarding, click "Patrol" on the Database objects page to trigger a patrol immediately. Patrol runs server-side, and the summary and object list update when it finishes.
+
+<Frame caption="Database objects page: summary, risk distribution, and the manual patrol entry">
+  ![Database object patrol](/images/performance/en/patrol-db-objects-data.png)
+</Frame>
+
+After patrol, the summary shows the result (from a real sample):
+
+| Metric | Sample value | Meaning |
+| --- | --- | --- |
+| Patrol template | MySQL database patrol template | The rule set used |
+| Database object count | `779` | Number of database objects (tables) covered |
+| Latest patrol time | `2026-09-15 11:19:00` | When the most recent patrol finished |
+
+## Scheduled patrol
+
+At the top of the Database objects page, turn on "Scheduled patrol", set the interval (every N days) and time (at HH:MM), then click "Update". The platform then patrols automatically on schedule.
+
+## Interpreting results
+
+Patrol results are summarized by severity and rule — see [View Patrol Reports](/en/user-guide/performance/reports).
+
+## Before you submit
+
+- [ ] The patrol template matches the target database type;
+- [ ] The rules enabled in the template match the governance goal;
+- [ ] The summary updates after manual patrol;
+- [ ] Scheduled patrol avoids business peak hours if needed.
+
+## FAQ
+
+| Symptom | Check first |
+| --- | --- |
+| No patrol template available | Database type, template visibility |
+| Zero objects patrolled | Database/schema selection, metadata read permission |
+| Results differ from expectations | Rules enabled in the template, rule thresholds |
+
+## Related reading
+
+<CardGroup cols={2}>
+  <Card title="View Patrol Reports" href="/en/user-guide/performance/reports" />
+  <Card title="Connect Database Instances" href="/en/user-guide/performance/connect-instance" />
+</CardGroup>

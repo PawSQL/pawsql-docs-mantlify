@@ -53,7 +53,6 @@
                       "user-guide/installation/pawsql-cloud",
                       "user-guide/installation/pawsql-server",
                       "user-guide/installation/ide-plugins",
-                      "user-guide/installation/pawsql-mcp",
                       "user-guide/installation/authentication",
                       "user-guide/installation/verify-installation"
                     ],
@@ -125,14 +124,13 @@
                     "root": "user-guide/rules-policy/index"
                   },
                   {
-                    "group": "开发工具插件",
+                    "group": "开发工具集成",
                     "pages": [
                       "user-guide/dev-tools/index",
+                      "user-guide/dev-tools/dbeaver",
                       "user-guide/dev-tools/jetbrains",
                       "user-guide/dev-tools/vscode",
-                      "user-guide/dev-tools/mcp",
-                      "user-guide/dev-tools/use-workspace",
-                      "user-guide/dev-tools/audit-and-optimize"
+                      "user-guide/dev-tools/mcp"
                     ],
                     "icon": "code",
                     "root": "user-guide/dev-tools/index"
@@ -273,7 +271,6 @@
                       "en/user-guide/installation/pawsql-cloud",
                       "en/user-guide/installation/pawsql-server",
                       "en/user-guide/installation/ide-plugins",
-                      "en/user-guide/installation/pawsql-mcp",
                       "en/user-guide/installation/authentication",
                       "en/user-guide/installation/verify-installation"
                     ],
@@ -348,11 +345,10 @@
                     "group": "Developer Tool Integration",
                     "pages": [
                       "en/user-guide/dev-tools/index",
+                      "en/user-guide/dev-tools/dbeaver",
                       "en/user-guide/dev-tools/jetbrains",
                       "en/user-guide/dev-tools/vscode",
-                      "en/user-guide/dev-tools/mcp",
-                      "en/user-guide/dev-tools/use-workspace",
-                      "en/user-guide/dev-tools/audit-and-optimize"
+                      "en/user-guide/dev-tools/mcp"
                     ],
                     "icon": "code",
                     "root": "en/user-guide/dev-tools/index"
@@ -426,6 +422,7 @@
               "en/use-cases/developer-sql-copilot",
               "en/use-cases/sql-quality-gate-cicd",
               "en/use-cases/slow-sql-optimization",
+              "en/use-cases/database-migration-sql-governance",
               "en/use-cases/enterprise-sql-governance"
             ]
           },

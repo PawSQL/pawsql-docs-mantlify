@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-performance-collect-slow-sql
 title: Collect Slow SQL
-description: Collect Slow SQL — PawSQL User Guide (draft).
+description: Test the database slow query log and finish collection config in the slow query config step, then bring slow SQL into the platform via manual or scheduled collection.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,77 @@ language: en
 translationKey: user-guide-performance-collect-slow-sql
 ---
 
-# Collect Slow SQL
+Slow SQL collection is the key step that brings slow queries from the database slow query log into the platform to form the governance backlog. Collection happens in the "Slow query config" step of the add-instance wizard, and can also be triggered manually or on a schedule from the Slow queries page after onboarding.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Slow query config step
 
-## What this page will cover
+After the connection passes, the wizard enters "Slow query config". This step first tests the target database's slow query log configuration, then sets collection parameters once it passes.
 
-- To be added
+<Frame caption="Slow query config: test the database slow query log configuration first">
+  ![Slow query config](/images/performance/en/patrol-slow-query-config.png)
+</Frame>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Frame caption="After a successful test, the page shows the slow query log status and collection settings">
+  ![Slow query config verified](/images/performance/en/patrol-slow-query-config-verified.png)
+</Frame>
+
+### MySQL slow query log requirements
+
+For MySQL, collection depends on the `slow_query_log` settings. On a successful test the page shows the parameters (from a real sample):
+
+| Parameter | Sample value | Meaning |
+| --- | --- | --- |
+| `slow_query_log` | `ON` | The slow query log is enabled |
+| `log_output` | `TABLE` | Slow queries are written to a table (`mysql.slow_log`) that PawSQL can read |
+| `long_query_time` | `1.0` | Slow query threshold in seconds |
+
+If the test fails, enable the slow query log per the page's "Instance setup guide", or confirm the account has permission to read the slow query log.
+
+## Manual collection
+
+Click "Collect" on the Slow queries page to trigger a collection immediately. Collection runs server-side, and the summary updates when it finishes.
+
+<Frame caption="Slow queries page: summary, charts, filters, and Collect / Batch operation">
+  ![Slow queries page](/images/performance/en/patrol-slow-queries-data.png)
+</Frame>
+
+After collection, the summary shows the result (from a real sample):
+
+| Metric | Sample value | Meaning |
+| --- | --- | --- |
+| Slow query threshold | `1.000s` | The threshold used for this collection |
+| Slow SQL count | `27` | Total slow SQL collected, including non-business SQL |
+| Business SQL count | `23` | Count after filtering out non-business SQL |
+| Latest collection time | `2026-09-15 11:16:30` | When the most recent collection finished |
+
+## Scheduled collection
+
+At the top of the Slow queries page, turn on "Scheduled collection", set the interval (every N days) and the time (at HH:MM), then click "Update". The platform then collects automatically on schedule.
+
+## Scope and semantics
+
+- Collected SQL comes from the database slow query log, so SQL below the threshold or from a disabled log is not collected;
+- The difference between "Slow SQL count" and "Business SQL count" is whether internal/system SQL is filtered — see [SQL Aggregation and Deduplication](/en/user-guide/performance/aggregate-dedup);
+- Collection accumulates incrementally; re-collecting refreshes the latest collection time and updates the list.
+
+## Before you submit
+
+- [ ] The database slow query log is enabled;
+- [ ] The threshold matches the governance goal (too low introduces noise);
+- [ ] The account can read the slow query log;
+- [ ] The summary updates after manual collection.
+
+## FAQ
+
+| Symptom | Check first |
+| --- | --- |
+| Test failed | Slow query log disabled, `log_output` not `TABLE`, account permissions |
+| No data after collection | No SQL above threshold, empty log, collection task not finished |
+| Slow SQL and business SQL counts differ | The "Show business SQL only" filter — see SQL Aggregation and Deduplication |
+
+## Related reading
+
+<CardGroup cols={2}>
+  <Card title="SQL Aggregation and Deduplication" href="/en/user-guide/performance/aggregate-dedup" />
+  <Card title="Batch Analysis and Optimization" href="/en/user-guide/performance/batch-optimize" />
+</CardGroup>

@@ -19,6 +19,7 @@ PawSQL can be used through a web console, an IDE extension, an MCP-compatible AI
 | --- | --- | --- | --- |
 | PawSQL Cloud | Managed by PawSQL | Modern browser | Evaluation, individuals, and small teams |
 | PawSQL Server | Private deployment | Server-side components and browser | Enterprise governance and controlled environments |
+| DBeaver extension | Connects to Cloud or Server | Compatible DBeaver client | Pre-execution SQL review and risk confirmation |
 | JetBrains extension | Connects to Cloud or Server | Compatible JetBrains IDE | SQL work inside DataGrip or a development IDE |
 | VS Code extension | Connects to Cloud or Server | Visual Studio Code | Repository and editor-based SQL work |
 | PawSQL MCP | Connects to Cloud or Server | MCP runtime and client configuration | Tool-based SQL analysis from AI coding clients |
@@ -27,8 +28,10 @@ PawSQL can be used through a web console, an IDE extension, an MCP-compatible AI
 <CardGroup cols={2}>
   <Card title="Use PawSQL Cloud" href="/en/user-guide/installation/pawsql-cloud" icon="cloud" />
   <Card title="Deploy PawSQL Server" href="/en/user-guide/installation/pawsql-server" icon="server" />
-  <Card title="Install an IDE extension" href="/en/user-guide/installation/ide-plugins" icon="plug" />
-  <Card title="Configure PawSQL MCP" href="/en/user-guide/installation/pawsql-mcp" icon="bot" />
+  <Card title="Install an IDE extension" href="/en/user-guide/installation/ide-plugins" icon="plug">
+    For DBeaver, JetBrains IDEs, or Visual Studio Code.
+  </Card>
+  <Card title="Configure PawSQL MCP" href="/en/user-guide/dev-tools/mcp" icon="bot" />
 </CardGroup>
 
 ## Standard access flow

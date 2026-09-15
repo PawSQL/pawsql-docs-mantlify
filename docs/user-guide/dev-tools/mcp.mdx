@@ -1,7 +1,7 @@
 ---
 id: user-guide-dev-tools-mcp
-title: PawSQL MCP
-description: PawSQL MCP——PawSQL 用户手册（草稿）。
+title: 使用 PawSQL MCP 优化 SQL
+description: 在支持 MCP 的 AI 编程工具中连接 PawSQL，选择合适的数据库上下文，并安全地获取 SQL 重写、索引推荐和性能验证结果。
 type: guide
 subtype: integration
 layout: detail
@@ -12,12 +12,252 @@ translationKey: user-guide-dev-tools-mcp
 localeOf: en-user-guide-dev-tools-mcp
 ---
 
-# PawSQL MCP
+PawSQL MCP 将 PawSQL 的 SQL 优化能力以 MCP 工具的形式提供给 AI 编程客户端。开发人员可以在对话中提交 SQL、补充 DDL 或指定工作空间，并获得查询重写、索引推荐、执行计划分析和性能评估结果。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+PawSQL MCP 不是 IDE 插件，也不替代 PawSQL Cloud 或 PawSQL Server。它以远程 SSE 服务的形式启用，是 MCP 客户端与 PawSQL 服务之间的集成层。
 
-## 本节将覆盖
+## 工作方式
 
-- 待补充
+```mermaid
+flowchart LR
+    A["AI 编程工具"] -->|"SSE"| B["PawSQL MCP"]
+    B --> C["PawSQL Cloud 或 Server"]
+    C --> D["审核与优化报告"]
+    D --> A
+```
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+| 组件 | 主要职责 |
+| --- | --- |
+| AI 编程工具 | 收集请求和上下文，选择并调用 MCP 工具，呈现结果 |
+| PawSQL MCP | 将客户端调用转换为 PawSQL 可处理的优化请求 |
+| PawSQL Cloud 或 Server | 解析 SQL，执行重写和索引分析，并在条件允许时完成性能验证 |
+| 用户 | 核对上下文、审阅建议，并决定是否将变更应用到代码或数据库 |
+
+<Warning>
+PawSQL MCP 返回的是分析与优化建议。不要授权 AI 客户端自动执行重写后的 SQL、`CREATE INDEX` 或其他数据库变更。
+</Warning>
+
+## 可以完成什么
+
+- 查询可用的 PawSQL 工作空间；
+- 在不使用工作空间时，按数据库类型快速分析 SQL；
+- 结合 DDL、索引和约束信息进行更准确的优化；
+- 使用现有工作空间的数据库上下文进行优化；
+- 获取 SQL 重写和索引优化建议；
+- 在连接数据库且允许验证的工作空间中分析执行计划；
+- 返回详细报告链接、分析环境和性能评估信息。
+
+当前公开版本列出的数据库包括 MySQL、PostgreSQL、Oracle、KingbaseES、openGauss、MogDB、GaussDB 和 DWS。最终支持范围取决于 PawSQL MCP 与所连接 PawSQL 服务的版本。
+
+## 选择优化模式
+
+| 模式 | 需要提供 | 适合场景 | 结果边界 |
+| --- | --- | --- | --- |
+| 快速优化 | 数据库类型和 SQL | 早期开发、语法级检查 | 缺少真实表结构和已有索引信息 |
+| DDL 上下文优化 | 数据库类型、DDL 和 SQL | 无法连接数据库，但可以提供结构定义 | 准确性取决于 DDL 的完整度和时效性 |
+| 工作空间优化 | 工作空间名称或 ID、SQL | 需要结合真实元数据、执行计划或性能验证 | 受工作空间权限、连接状态和验证能力限制 |
+
+<Tip>
+能使用正确的工作空间时，优先使用工作空间优化。无法访问数据库时，至少提供数据库类型、版本以及相关表的完整 DDL。
+</Tip>
+
+## 前提条件
+
+- 已有可访问的 PawSQL Cloud、PawSQL Server 或 PawSQL Community Edition；
+- 使用支持远程 SSE MCP 服务的 AI 编程工具；
+- 已从 PawSQL 管理员或服务提供方取得 MCP SSE 地址；
+- 已准备当前部署要求的认证信息；
+- 账号具有目标组织、项目和工作空间的访问权限；
+- 企业网络允许客户端通过 HTTPS 访问 PawSQL MCP SSE 服务。
+
+## 配置 PawSQL MCP
+
+### 1. 获取 SSE 连接信息
+
+PawSQL MCP 只通过 SSE 形式提供服务。配置前，从管理员或 PawSQL 服务提供方取得以下信息：
+
+| 配置项 | 说明 | 是否敏感 |
+| --- | --- | --- |
+| 服务名称 | MCP 客户端中显示的名称，建议使用 `pawsql` | 否 |
+| SSE 地址 | PawSQL MCP 的完整 HTTPS SSE URL | 通常否 |
+| 认证信息 | 当前部署要求的访问凭据或请求头 | 是 |
+| 网络要求 | 内网、VPN、代理、证书或访问控制要求 | 否 |
+
+<Note>
+不同 PawSQL Cloud、Server 和 Community Edition 部署的 SSE 地址可能不同。请使用实际环境提供的完整地址，不要根据示例推测端口或路径。
+</Note>
+
+### 2. 在 MCP 客户端中添加远程服务
+
+不同客户端的设置入口和字段名称不同。对于使用 `mcpServers` 配置远程 SSE 服务的客户端，结构通常如下：
+
+```json
+{
+  "mcpServers": {
+    "pawsql": {
+      "url": "<pawsql-mcp-sse-url>"
+    }
+  }
+}
+```
+
+将 `<pawsql-mcp-sse-url>` 替换为实际 SSE 地址。如果部署要求认证，请按照 PawSQL 管理员和目标客户端的说明配置凭据或请求头。
+
+<Warning>
+不要把包含真实 SSE 凭据、访问令牌或认证请求头的 MCP 配置提交到 Git、共享到聊天记录或写入项目模板。应使用客户端密钥存储或企业批准的秘密管理方案保护认证信息。
+</Warning>
+
+### 3. 重新加载客户端
+
+<Steps>
+  <Step title="保存配置">
+    检查 JSON 语法、SSE 地址和认证配置。
+  </Step>
+  <Step title="重启或重新加载 MCP">
+    让客户端重新读取配置并连接 PawSQL MCP SSE 服务。
+  </Step>
+  <Step title="检查工具发现结果">
+    在客户端的 MCP 状态或工具列表中确认 PawSQL 已连接且工具可用。
+  </Step>
+  <Step title="执行脱敏测试">
+    先使用非生产 SQL 验证数据库类型、工作空间识别和报告返回是否正常。
+  </Step>
+</Steps>
+
+## 第一次优化 SQL
+
+### 方式一：仅提供 SQL 和数据库类型
+
+适用于快速检查。提示中应明确数据库产品，必要时补充版本。
+
+```text
+请使用 PawSQL 优化下面的 MySQL 8.0 查询。
+先说明使用的数据库上下文，再分别返回 SQL 重写建议、索引建议和风险说明。
+
+SELECT order_id, customer_id, order_date
+FROM orders
+WHERE customer_id = 1001
+ORDER BY order_date DESC;
+```
+
+### 方式二：同时提供 DDL
+
+当无法使用工作空间时，提供相关表、索引和约束的完整定义。
+
+```text
+请根据以下 MySQL 8.0 DDL 优化查询。不要执行任何 DDL；只返回建议并解释依据。
+
+CREATE TABLE orders (
+  order_id BIGINT PRIMARY KEY,
+  customer_id BIGINT NOT NULL,
+  order_date DATETIME NOT NULL
+);
+
+SELECT order_id, customer_id, order_date
+FROM orders
+WHERE customer_id = 1001
+ORDER BY order_date DESC;
+```
+
+### 方式三：指定工作空间
+
+先让客户端列出可用工作空间，再通过名称或 ID 指定目标环境。
+
+```text
+请使用工作空间 <workspace-name-or-id> 优化下面的 SQL。
+调用前确认数据库类型和工作空间；返回重写 SQL、索引建议、执行计划变化和性能验证结论。
+
+SELECT order_id, customer_id, order_date
+FROM orders
+WHERE customer_id = 1001
+ORDER BY order_date DESC;
+```
+
+<Note>
+工作空间名称相似时，应使用工作空间 ID，并在调用前核对组织、项目、数据库类型和环境。不要根据名称猜测生产或测试环境。
+</Note>
+
+## 阅读优化结果
+
+建议按以下顺序审阅：
+
+1. **分析环境**：确认数据库类型、版本、工作空间和 Schema；
+2. **对象识别**：确认表、列、索引和约束没有被错误解析；
+3. **SQL 重写**：比较过滤条件、连接关系、聚合、排序、空值和重复行语义；
+4. **索引建议**：检查与已有索引的重叠、列顺序、写入成本和存储成本；
+5. **执行计划**：比较访问路径、连接方式、估算行数和代价；
+6. **性能评估**：确认结果来自真实验证还是估算，并检查测试参数是否具有代表性；
+7. **详细报告**：保留报告链接或导出结果，作为评审和回溯依据。
+
+## 安全采用建议
+
+<Steps>
+  <Step title="验证语义等价性">
+    使用边界值、空值、重复值和代表性业务数据比较原 SQL 与重写 SQL 的结果。
+  </Step>
+  <Step title="评估索引影响">
+    检查重复索引、DML 开销、磁盘空间、锁等待和数据库特定的在线创建方式。
+  </Step>
+  <Step title="在非生产环境验证">
+    使用接近生产的数据规模、参数分布和统计信息执行多轮测试。
+  </Step>
+  <Step title="完成变更评审">
+    将 SQL 和索引变更纳入代码评审、数据库变更审批及回退计划。
+  </Step>
+  <Step title="受控发布并观察">
+    发布后关注延迟、吞吐量、资源使用和执行计划是否出现回退。
+  </Step>
+</Steps>
+
+## 常见问题
+
+### 客户端没有发现 PawSQL 工具
+
+检查 JSON 格式、配置文件位置、客户端是否支持远程 SSE MCP，以及配置保存后是否已经重新加载。
+
+### SSE 连接无法建立或频繁断开
+
+确认 SSE URL 完整且使用正确协议，并检查 DNS、HTTPS 证书、代理、VPN、网关空闲超时和企业防火墙策略。不要用普通 PawSQL Web 地址替代 MCP SSE 地址。
+
+### 无法连接 PawSQL 服务
+
+核对 SSE 地址、HTTPS 证书、代理和网络访问策略。企业版还需确认客户端能够解析并访问内部域名。
+
+### 认证失败
+
+确认认证信息与 SSE 服务要求一致，并检查凭据有效期、账号状态和工作空间权限。不要在日志或支持工单中粘贴真实凭据。
+
+### 找不到目标工作空间
+
+检查账号的组织和项目成员关系、工作空间权限及工作空间状态。确认客户端连接的是创建该工作空间的 PawSQL 环境。
+
+### 有优化建议，但没有执行计划或性能验证
+
+执行计划分析和性能验证通常要求使用已连接数据库且启用了相应能力的工作空间。仅提供 SQL 或 DDL 时，结果主要来自静态分析。
+
+### 建议使用了错误的数据库语法
+
+重新提交请求并明确数据库产品、版本、Schema 或工作空间。若使用 DDL 模式，检查 DDL 是否完整且与当前环境一致。
+
+## 与 IDE 插件的区别
+
+| 对比项 | PawSQL MCP | IDE 与数据库客户端插件 |
+| --- | --- | --- |
+| 交互方式 | 通过自然语言和 MCP 工具调用 | 通过编辑器命令、菜单或执行前拦截 |
+| 适用工具 | 支持 MCP 的 AI 编程客户端 | DBeaver、JetBrains IDE、Visual Studio Code |
+| 上下文提供方式 | 提示词、DDL 或 PawSQL 工作空间 | 编辑器选区、文件、项目或数据源 |
+| 自动化程度 | 客户端可规划并组合工具调用 | 通常由用户显式触发固定操作 |
+| 共同边界 | 优化结果必须由用户审阅；不应自动执行 SQL 或索引变更 | 优化结果必须由用户审阅；不应绕过变更流程 |
+
+## 下一步
+
+<CardGroup cols={2}>
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" icon="database" />
+  <Card title="查看优化建议" href="/user-guide/optimization/explain-output" icon="list-check" />
+  <Card title="验证优化效果" href="/user-guide/optimization/apply-suggestions" icon="gauge-high" />
+  <Card title="IDE 与数据库客户端集成" href="/user-guide/dev-tools" icon="code" />
+</CardGroup>
+
+## 相关资源
+
+- [PawSQL MCP 源代码仓库](https://github.com/PawSQL/pawsql-mcp)

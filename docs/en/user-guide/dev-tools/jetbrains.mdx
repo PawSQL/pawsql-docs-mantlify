@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-dev-tools-jetbrains
-title: JetBrains Plugin
-description: JetBrains Plugin — PawSQL User Guide (draft).
+title: Optimize SQL in JetBrains IDEs
+description: Install and configure PawSQL Client for JetBrains to optimize selected SQL, files, folders, and MyBatis Mapper input.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,145 @@ language: en
 translationKey: user-guide-dev-tools-jetbrains
 ---
 
-# JetBrains Plugin
+PawSQL Client for JetBrains integrates SQL review, query rewrite, index recommendation, and performance validation with the IntelliJ Platform. Developers can tune the current statement or analyze SQL files, directories, and MyBatis Mapper input in a batch.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+<Note>
+Some interfaces and earlier documentation use the name **PawSQL Advisor**. Search for either PawSQL Client or PawSQL Advisor during installation, and expect existing context-menu commands to retain the PawSQL Advisor name.
+</Note>
 
-## What this page will cover
+## Supported IDEs
 
-- To be added
+The plugin supports IntelliJ Platform products including IntelliJ IDEA, DataGrip, PyCharm, GoLand, WebStorm, PhpStorm, DataSpell, and Android Studio. Check JetBrains Marketplace for current product and version compatibility.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Install the plugin
+
+<Steps>
+  <Step title="Open plugin settings">
+    Open **Plugins** from the JetBrains IDE settings.
+  </Step>
+  <Step title="Find PawSQL">
+    Search for **PawSQL Client** or **PawSQL Advisor** and verify the PawSQL publisher.
+  </Step>
+  <Step title="Install and restart">
+    Install the plugin, save open work, and restart the IDE if requested.
+  </Step>
+  <Step title="Verify the commands">
+    Open a SQL file or project directory and confirm that PawSQL Advisor actions appear in the context menu.
+  </Step>
+</Steps>
+
+If your network cannot reach Marketplace, use only an offline package supplied by PawSQL or an approved internal repository. Verify compatibility across the IDE, plugin, and PawSQL Server versions.
+
+## Configure input and optimization
+
+PawSQL Advisor provides project-level settings. Common options include:
+
+| Setting | Purpose |
+| --- | --- |
+| Input type | Choose native SQL files or MyBatis Mapper files |
+| Output language | Produce recommendations in English or Chinese |
+| SQL rewrite | Enable semantically equivalent rewrite candidates |
+| What-If validation | Compare plans and estimated cost before and after optimization |
+| Live execution validation | Use measured runtime where permitted instead of relying only on EXPLAIN |
+
+Mapper analysis expands dynamic branches into possible SQL combinations. Poorly constrained Mapper logic can generate statements that never run in the application and lead to irrelevant index recommendations. Review dynamic conditions before a batch task.
+
+## Configure database context
+
+A database connection can supply tables, views, columns, indexes, and statistics, and it can support performance validation. Configuration typically includes the engine, host, port, username, password, default database, and database or schema scope.
+
+<Warning>
+What-If or live execution validation connects to the target database and, when supported, may create and remove candidate indexes for evaluation. Do not enable it against production without reviewing permissions, resource use, locking, and application impact.
+</Warning>
+
+## Configure index recommendations
+
+Align these controls with your engineering policy:
+
+- deduplication against existing indexes;
+- whether covering indexes may be recommended;
+- maximum columns in a covering index;
+- maximum columns in a standard candidate index;
+- the warning threshold for indexes per table.
+
+A covering index can reduce table access, but it also increases storage and write-maintenance cost. More included columns do not automatically produce a better design.
+
+## Optimize selected SQL
+
+<Steps>
+  <Step title="Select a complete statement">
+    Select one complete SQL statement without adjacent statements, logs, or Markdown fences.
+  </Step>
+  <Step title="Start optimization">
+    Right-click and choose **PawSQL Advisor > Optimize Selected**.
+  </Step>
+  <Step title="Adjust this run if needed">
+    Choose **Optimize Selected Config...** to change settings before submission.
+  </Step>
+  <Step title="Monitor execution">
+    Use the IDE console to inspect parsing, connectivity, and optimization progress.
+  </Step>
+  <Step title="Open the result">
+    Review the generated summary and statement-level details when processing completes.
+  </Step>
+</Steps>
+
+<Frame caption="PawSQL Advisor actions in the context menu">
+  Screenshot placeholder · /images/dev-tools/jetbrains-optimize.png
+</Frame>
+
+## Optimize a file or folder
+
+Right-click a SQL file or directory and choose **PawSQL Advisor > Optimize**. Use **Optimize Config...** to change settings before the run.
+
+Before batch optimization, confirm:
+
+- the input type matches the files;
+- encoding and SQL delimiters are correct;
+- generated files, backups, and unrelated logs are excluded;
+- the workspace or connection represents the target environment;
+- the batch size fits current service limits.
+
+## Read the result
+
+After completion, the plugin generates and opens a `pawTuningSummary` Markdown file. It commonly contains:
+
+- task overview and processed SQL inventory;
+- recommended-index summary;
+- original and rewritten SQL with applied rewrite strategies;
+- rule findings and affected SQL fragments;
+- existing-index, redundant-index, and index-count observations;
+- performance improvement and before-and-after plans when validation is enabled.
+
+<Frame caption="Optimization summary file pawTuningSummary">
+  Screenshot placeholder · /images/dev-tools/jetbrains-summary.png
+</Frame>
+
+Open a statement from the summary, then review findings, rewrite candidates, index recommendations, and performance evidence in that order.
+
+## Before applying a recommendation
+
+- Verify result, parameter, and transaction semantics.
+- Check candidate indexes for overlap or conflict with existing indexes.
+- Account for write, storage, and maintenance costs.
+- Validate plans with representative data and parameter values.
+- Use code review, testing, and database change control for deployment.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Plugin is missing from Marketplace | IDE version, proxy, and corporate plugin policy |
+| PawSQL Advisor is missing from the context menu | Plugin status, file type, and whether the IDE restarted |
+| Only part of the SQL is detected | Selection, delimiters, dialect, encoding, and placeholders |
+| Mapper analysis produces irrelevant advice | Dynamic conditions, unreachable branches, and generated combinations |
+| Database objects are unresolved | Connection, default schema, permissions, and metadata |
+| Validation results are absent | Validation settings, connection permissions, and engine capability |
+
+## Related documentation
+
+<CardGroup cols={2}>
+  <Card title="Input SQL to Optimize" href="/en/user-guide/optimization/create-workload" />
+  <Card title="Read Optimization Results" href="/en/user-guide/optimization/explain-output" />
+  <Card title="Evaluate and Apply Suggestions" href="/en/user-guide/optimization/apply-suggestions" />
+</CardGroup>

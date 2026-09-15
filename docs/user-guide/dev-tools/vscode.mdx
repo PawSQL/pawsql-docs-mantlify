@@ -1,7 +1,7 @@
 ---
 id: user-guide-dev-tools-vscode
-title: Visual Studio Code 插件
-description: Visual Studio Code 插件——PawSQL 用户手册（草稿）。
+title: 在 Visual Studio Code 中优化 SQL
+description: 安装和配置 PawSQL Client for VS Code，在代码或 SQL 文件中快速优化选中的 SQL。
 type: guide
 subtype: integration
 layout: detail
@@ -12,12 +12,111 @@ translationKey: user-guide-dev-tools-vscode
 localeOf: en-user-guide-dev-tools-vscode
 ---
 
-# Visual Studio Code 插件
+PawSQL Client for VS Code 将 PawSQL 的 SQL 审核、查询重写、索引推荐和性能验证能力带入 Visual Studio Code，适合在多语言代码仓库和 SQL 文件中快速分析当前语句。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 安装扩展
 
-## 本节将覆盖
+<Steps>
+  <Step title="打开扩展视图">
+    在 Visual Studio Code 中打开 **Extensions**。
+  </Step>
+  <Step title="搜索 PawSQL Client">
+    搜索扩展名称，并核对 PawSQL 发布者和扩展信息。
+  </Step>
+  <Step title="完成安装">
+    安装扩展；如果出现提示，重新加载编辑器窗口。
+  </Step>
+  <Step title="确认扩展生效">
+    打开包含 SQL 的文件，确认目标语句附近出现 PawSQL 优化入口。
+  </Step>
+</Steps>
 
-- 待补充
+受限网络环境中，只使用 PawSQL 官方或企业可信软件仓库提供的离线扩展包。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+## 连接 PawSQL 服务
+
+<Steps>
+  <Step title="打开 PawSQL 配置">
+    从扩展设置或命令面板进入 PawSQL Client 配置。
+  </Step>
+  <Step title="配置服务地址">
+    输入 PawSQL Cloud 或 PawSQL Server 的完整地址。
+  </Step>
+  <Step title="完成认证">
+    按部署方式登录或配置所需凭据，不要把密码或令牌写入项目文件。
+  </Step>
+  <Step title="选择默认工作空间">
+    选择与目标数据库类型、版本和 Schema 一致的工作空间。
+  </Step>
+</Steps>
+
+## 优化 SQL
+
+<Steps>
+  <Step title="定位完整 SQL">
+    在代码或 SQL 文件中定位目标语句，确认扩展能够正确识别语句边界。
+  </Step>
+  <Step title="使用默认工作空间">
+    点击 SQL 提示中的 **Optimize**，使用当前默认工作空间运行优化。
+  </Step>
+  <Step title="指定其他工作空间">
+    点击 **Optimize...**，从列表中选择本次任务使用的工作空间。
+  </Step>
+  <Step title="查看结果">
+    打开 PawSQL 返回的审核问题、重写候选、索引建议和性能证据。
+  </Step>
+</Steps>
+
+<Frame caption="SQL 语句旁的 Optimize 优化入口">
+  截图占位符 · /images/dev-tools/vscode-optimize.png
+</Frame>
+
+<Tip>
+同一仓库包含多个数据库或环境时，不要长期依赖一个默认工作空间。使用 **Optimize...** 明确选择与当前 SQL 匹配的上下文。
+</Tip>
+
+## 阅读优化结果
+
+结果的具体展示形式可能随扩展版本变化，建议按以下顺序检查：
+
+1. 原始 SQL 和识别出的数据库方言；
+2. 使用的工作空间和对象解析情况；
+3. 审核问题、严重级别和触发位置；
+4. 重写 SQL 及其优化依据；
+5. 推荐索引及与现有索引的关系；
+6. 启用验证时的执行计划或性能对比。
+
+## 应用重写或索引
+
+插件输出是优化候选，不是直接发布指令。应用前应：
+
+- 验证查询结果和业务语义；
+- 检查参数类型、空值和边界数据；
+- 确认数据库版本支持相关语法；
+- 评估索引的写入和存储成本；
+- 在代表性环境验证执行计划和性能；
+- 通过代码评审和数据库变更审批。
+
+<Warning>
+如果性能验证需要连接数据库或实际执行 SQL，应先确认账号权限、目标环境和语句安全性。不要使用未经确认的数据修改语句进行首次连接测试。
+</Warning>
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| 扩展市场搜索不到插件 | VS Code 版本、Marketplace 连接、代理和企业策略 |
+| SQL 附近没有 Optimize | 文件语言模式、SQL 完整性和扩展状态 |
+| 无法连接 PawSQL | 服务地址、TLS、代理、认证和服务状态 |
+| 没有可选工作空间 | 项目成员关系和工作空间权限 |
+| 表或索引无法识别 | 工作空间、数据库版本、Schema 和元数据更新时间 |
+| 建议与目标环境不符 | 默认工作空间或本次选择的工作空间 |
+
+## 相关文档
+
+<CardGroup cols={2}>
+  <Card title="工作空间与数据库上下文" href="/user-guide/workspaces" />
+  <Card title="输入待优化 SQL" href="/user-guide/optimization/create-workload" />
+  <Card title="查看优化结果" href="/user-guide/optimization/explain-output" />
+  <Card title="评估与落地建议" href="/user-guide/optimization/apply-suggestions" />
+</CardGroup>

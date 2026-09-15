@@ -1,7 +1,7 @@
 ---
 id: user-guide-performance-collect-slow-sql
 title: 采集慢 SQL
-description: 采集慢 SQL——PawSQL 用户手册（草稿）。
+description: 在慢查询配置步骤检测数据库慢查询日志并完成采集配置，通过手动采集或定时采集把慢 SQL 汇聚到巡检平台。
 type: guide
 subtype: operation
 layout: detail
@@ -12,12 +12,77 @@ translationKey: user-guide-performance-collect-slow-sql
 localeOf: en-user-guide-performance-collect-slow-sql
 ---
 
-# 采集慢 SQL
+慢 SQL 采集是把数据库慢查询日志中的 SQL 汇聚到巡检平台、形成治理清单的关键步骤。采集发生在接入实例向导的「慢查询配置」步骤，接入完成后也可在慢查询页随时手动采集或配置定时采集。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 慢查询配置步骤
 
-## 本节将覆盖
+数据库连接通过后，向导进入「慢查询配置」。该步骤先检测目标数据库的慢查询日志配置，通过后再设置采集参数。
 
-- 待补充
+<Frame caption="慢查询配置：先检测数据库慢查询日志配置">
+  ![慢查询配置](/images/performance/patrol-slow-query-config.png)
+</Frame>
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<Frame caption="检测成功后展示慢查询日志状态与采集配置项">
+  ![慢查询检测成功](/images/performance/patrol-slow-query-config-verified.png)
+</Frame>
+
+### MySQL 慢查询日志要求
+
+以 MySQL 为例，采集依赖 `slow_query_log` 相关配置。检测通过时页面展示的参数（实测示例）包括：
+
+| 参数 | 示例值 | 说明 |
+| --- | --- | --- |
+| `slow_query_log` | `ON` | 慢查询日志已开启 |
+| `log_output` | `TABLE` | 慢查询写入表（`mysql.slow_log`），便于 PawSQL 读取 |
+| `long_query_time` | `1.0` | 慢查询阈值（秒） |
+
+若检测失败，按页面「实例设置指南」开启慢查询日志，或确认账号具备读取慢查询日志的权限。
+
+## 手动采集
+
+在慢查询页点击「手动采集」立即触发一次采集。采集由服务端执行，完成后页面更新概要数据。
+
+<Frame caption="慢查询页：概要、图表、筛选与「手动采集」「批量操作」">
+  ![慢查询页](/images/performance/patrol-slow-queries-data.png)
+</Frame>
+
+采集完成后，概要区展示本次采集结果（实测示例）：
+
+| 指标 | 示例值 | 说明 |
+| --- | --- | --- |
+| 慢查询阈值 | `1.000s` | 采集使用的慢查询判定阈值 |
+| 慢SQL数 | `27` | 采集到的慢 SQL 总数（含非业务 SQL） |
+| 业务SQL数 | `23` | 过滤非业务 SQL 后的数量 |
+| 最新采集时间 | `2026-09-15 11:16:30` | 最近一次采集完成时间 |
+
+## 定时采集
+
+在慢查询页顶部开启「定时采集」开关，设置采集周期（每 N 天）与执行时间（在 HH:MM），点击「更新」保存。开启后平台按计划自动采集，无需手动触发。
+
+## 采集范围与口径
+
+- 采集的 SQL 来自数据库慢查询日志，因此日志未开启或阈值过高的 SQL 不会被采集；
+- 「慢SQL数」与「业务SQL数」的差异来自是否过滤内部/系统 SQL，详见[SQL 聚合与去重](/user-guide/performance/aggregate-dedup)；
+- 采集是增量汇聚，重复采集会刷新「最新采集时间」并更新清单。
+
+## 提交前检查
+
+- [ ] 数据库慢查询日志已开启；
+- [ ] 慢查询阈值符合治理目标（阈值过低会引入大量噪音）；
+- [ ] 账号具备读取慢查询日志的权限；
+- [ ] 手动采集完成后概要数据已更新。
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| 检测失败 | 慢查询日志未开启、`log_output` 非 `TABLE`、账号权限 |
+| 采集后无数据 | 慢查询阈值内无 SQL、日志为空、采集任务是否完成 |
+| 慢SQL数与业务SQL数不一致 | 「只展示业务SQL」过滤开关，见 SQL 聚合与去重 |
+
+## 延伸阅读
+
+<CardGroup cols={2}>
+  <Card title="SQL 聚合与去重" href="/user-guide/performance/aggregate-dedup" />
+  <Card title="批量分析与优化" href="/user-guide/performance/batch-optimize" />
+</CardGroup>

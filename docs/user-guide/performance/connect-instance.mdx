@@ -1,7 +1,7 @@
 ---
 id: user-guide-performance-connect-instance
 title: 接入数据库实例
-description: 接入数据库实例——PawSQL 用户手册（草稿）。
+description: 在性能巡检平台添加实例，按选择实例类型、数据库连接、慢查询配置、库巡检配置四步完成接入，连接校验由服务端执行。
 type: guide
 subtype: operation
 layout: detail
@@ -12,12 +12,100 @@ translationKey: user-guide-performance-connect-instance
 localeOf: en-user-guide-performance-connect-instance
 ---
 
-# 接入数据库实例
+接入数据库实例是性能巡检的第一步：PawSQL 需要能访问目标数据库，才能采集慢查询并巡检数据库对象。接入在实例概览页的「+ 添加实例」入口启动，按向导分四步完成。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+<Frame caption="实例概览页：查询实例与「+ 添加实例」入口">
+  ![实例概览](/images/performance/patrol-instance-list.png)
+</Frame>
 
-## 本节将覆盖
+## 第一步：选择实例类型
 
-- 待补充
+选择目标数据库的类型。类型决定连接协议、慢查询日志的采集方式，以及可用的巡检模板与审核规则。
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<Frame caption="选择实例类型：共 19 种数据库，部分类型标注 beta">
+  ![选择实例类型](/images/performance/patrol-select-instance-type.png)
+</Frame>
+
+支持 19 种数据库类型，其中 MySQL、PostgreSQL、OpenGauss、TDSQL PostgreSQL（分布式/集中式）为正式版本，其余标注 beta：
+
+| 类型 | 状态 |
+| --- | --- |
+| MySQL | 正式 |
+| PostgreSQL | 正式 |
+| OpenGauss | 正式 |
+| TDSQL PostgreSQL（分布式） | 正式 |
+| TDSQL PostgreSQL（集中式） | 正式 |
+| Oracle | beta |
+| SQL Server | beta |
+| 达梦（Dameng） | beta |
+| GaussDB（分布式） | beta |
+| GaussDB for DWS | beta |
+| 电科金仓（Kingbase） | beta |
+| MogDB | beta |
+| OceanBase（MySQL） | beta |
+| OceanBase（Oracle） | beta |
+| PolarDB-X 2.0 | beta |
+| RDS MySQL | beta |
+| TDSQL MySQL 集中式（私有云） | beta |
+| TDSQL MySQL 分布式（公有云） | beta |
+| TDSQL MySQL 分布式（私有云） | beta |
+
+## 第二步：数据库连接
+
+填写实例名称与连接信息：主机、端口、用户名、密码、目标数据库（或 Schema）。页面上方同时展示「实例设置指南」，按目标数据库类型给出开启慢查询日志、授权等前置要求。
+
+<Frame caption="数据库连接步骤：连接信息表单与实例设置指南">
+  ![数据库连接](/images/performance/patrol-add-instance.png)
+</Frame>
+
+<Steps>
+  <Step title="实例名称">
+    用于在实例清单中标识该实例，建议包含数据库类型与业务含义。
+  </Step>
+  <Step title="主机与端口">
+    目标数据库的地址与端口。该地址由 PawSQL 服务端访问，而非浏览器。
+  </Step>
+  <Step title="用户名与密码">
+    用于连接数据库的账号，需具备采集慢查询与读取元数据所需的权限。
+  </Step>
+  <Step title="数据库">
+    目标库名（或 Schema），决定采集与巡检的范围。
+  </Step>
+</Steps>
+
+### 连接校验在服务端执行
+
+「检测」或「完成」触发的连接校验在 PawSQL 服务端执行，即 PawSQL 后端去连接目标数据库，而不是浏览器直接连接。因此：
+
+- `127.0.0.1` 或 `localhost` 指 PawSQL 服务端自身的回环地址，通常无法访问到你的数据库；
+- 目标数据库需对 PawSQL 服务端的网络出口开放（防火墙、安全组、白名单）；
+- 校验失败时，优先检查网络连通性与账号权限，而不是浏览器所在机器。
+
+## 第三步与第四步
+
+数据库连接通过后，向导继续进入「慢查询配置」与「库巡检配置」，分别见[采集慢 SQL](/user-guide/performance/collect-slow-sql)与[创建性能巡检任务](/user-guide/performance/patrol-task)。
+
+## 提交前检查
+
+- [ ] 实例类型与目标数据库一致；
+- [ ] 主机、端口、用户名、密码、数据库填写正确；
+- [ ] 数据库已开启慢查询日志（MySQL 为 `slow_query_log`）；
+- [ ] 账号具备读取慢查询与元数据的权限；
+- [ ] 数据库对 PawSQL 服务端网络可达；
+- [ ] 连接信息已脱敏，未在共享文档中暴露密码。
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| 数据库连接验证失败 | 服务端网络可达性、防火墙/安全组、账号权限、地址是否误填为回环地址 |
+| 慢查询配置检测失败 | 慢查询日志是否开启、`log_output` 是否为 `TABLE`、账号是否有读取权限 |
+| 实例列表无实例 | 是否提交完成、当前团队/账号的可见范围 |
+| 连接长时间等待 | 目标数据库响应、服务端任务队列状态 |
+
+## 延伸阅读
+
+<CardGroup cols={2}>
+  <Card title="采集慢 SQL" href="/user-guide/performance/collect-slow-sql" />
+  <Card title="创建性能巡检任务" href="/user-guide/performance/patrol-task" />
+</CardGroup>

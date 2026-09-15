@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-dev-tools-vscode
-title: VS Code Plugin
-description: VS Code Plugin — PawSQL User Guide (draft).
+title: Optimize SQL in Visual Studio Code
+description: Install and configure PawSQL Client for VS Code to optimize SQL within source files and SQL scripts.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,111 @@ language: en
 translationKey: user-guide-dev-tools-vscode
 ---
 
-# VS Code Plugin
+PawSQL Client for VS Code brings SQL review, query rewrite, index recommendation, and performance validation into Visual Studio Code. It is designed for quick analysis of a current statement in a polyglot repository or standalone SQL file.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Install the extension
 
-## What this page will cover
+<Steps>
+  <Step title="Open Extensions">
+    Open the **Extensions** view in Visual Studio Code.
+  </Step>
+  <Step title="Find PawSQL Client">
+    Search for the extension and verify its name, publisher, and listing details.
+  </Step>
+  <Step title="Install it">
+    Install the extension and reload the editor window if requested.
+  </Step>
+  <Step title="Verify activation">
+    Open a file containing SQL and confirm that a PawSQL optimization action appears near the detected statement.
+  </Step>
+</Steps>
 
-- To be added
+In a restricted network, use only an offline extension package supplied by PawSQL or an approved internal software repository.
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Connect to PawSQL
+
+<Steps>
+  <Step title="Open PawSQL configuration">
+    Use the extension settings or command palette to open PawSQL Client configuration.
+  </Step>
+  <Step title="Set the endpoint">
+    Enter the complete PawSQL Cloud or PawSQL Server URL.
+  </Step>
+  <Step title="Authenticate">
+    Sign in or provide the credential required by your deployment. Keep passwords and tokens out of project files.
+  </Step>
+  <Step title="Choose a default workspace">
+    Select a workspace that matches the target database engine, version, and schema.
+  </Step>
+</Steps>
+
+## Optimize a statement
+
+<Steps>
+  <Step title="Locate complete SQL">
+    Open the source or SQL file and make sure the extension recognizes the full statement boundary.
+  </Step>
+  <Step title="Use the default workspace">
+    Select **Optimize** from the SQL prompt to run the task with the configured default workspace.
+  </Step>
+  <Step title="Choose another workspace">
+    Select **Optimize...** and choose the workspace for this task.
+  </Step>
+  <Step title="Open the result">
+    Review the PawSQL findings, rewrite candidates, index recommendations, and performance evidence.
+  </Step>
+</Steps>
+
+<Frame caption="Optimize action next to a SQL statement">
+  Screenshot placeholder · /images/dev-tools/vscode-optimize.png
+</Frame>
+
+<Tip>
+If one repository targets several engines or environments, do not rely on one default workspace for every statement. Use **Optimize...** to select the context that matches the current SQL.
+</Tip>
+
+## Read optimization results
+
+The presentation may change between extension releases. Use this review order:
+
+1. Verify the original SQL and detected database dialect.
+2. Confirm the workspace and object resolution.
+3. Read findings, severity, and affected fragments.
+4. Evaluate rewritten SQL and the optimization rationale.
+5. Inspect candidate indexes and their relationship to existing indexes.
+6. Review plan or performance comparisons when validation is enabled.
+
+## Apply a rewrite or index
+
+Extension output is an optimization candidate, not a deployment instruction. Before applying it:
+
+- verify query results and business semantics;
+- test parameter types, null handling, and boundary values;
+- confirm target-version syntax support;
+- account for index write and storage cost;
+- validate plans under representative conditions;
+- follow code review and database change approval.
+
+<Warning>
+When validation requires database access or SQL execution, confirm the account permissions, target environment, and statement safety first. Do not use an unreviewed data-changing statement for the initial connection test.
+</Warning>
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Extension is not listed | VS Code version, Marketplace access, proxy, and corporate policy |
+| No Optimize action appears | File language mode, SQL completeness, and extension status |
+| PawSQL is unreachable | Endpoint, TLS trust, proxy, authentication, and service health |
+| No workspace is available | Project membership and workspace permissions |
+| Tables or indexes are unresolved | Workspace, engine version, schema, and metadata freshness |
+| Recommendations target the wrong environment | Default workspace or the workspace selected for this task |
+
+## Related documentation
+
+<CardGroup cols={2}>
+  <Card title="Workspaces and Database Context" href="/en/user-guide/workspaces" />
+  <Card title="Input SQL to Optimize" href="/en/user-guide/optimization/create-workload" />
+  <Card title="Read Optimization Results" href="/en/user-guide/optimization/explain-output" />
+  <Card title="Evaluate and Apply Suggestions" href="/en/user-guide/optimization/apply-suggestions" />
+</CardGroup>

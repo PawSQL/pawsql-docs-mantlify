@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-performance-batch-optimize
 title: Batch Analysis and Optimization
-description: Batch Analysis and Optimization — PawSQL User Guide (draft).
+description: Select slow SQL on the Slow queries page and run optimize, batch AI optimization, or ignore via batch operation, then configure basic, validation, index, and rule settings on the optimization task page.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,85 @@ language: en
 translationKey: user-guide-performance-batch-optimize
 ---
 
-# Batch Analysis and Optimization
+Once aggregation and deduplication produce a governance backlog, the next step is to optimize its slow SQL. The Slow queries page offers both per-row and batch entry points; batch operation can optimize multiple slow SQL at once.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Batch operation
 
-## What this page will cover
+Select slow SQL in the table (across pages), then click "Batch operation" to open the menu:
 
-- To be added
+<Frame caption="Batch operation menu: Optimize, Batch AI optimization, Ignore">
+  ![Batch operation menu](/images/performance/en/patrol-batch-operate-menu.png)
+</Frame>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+| Operation | Meaning |
+| --- | --- |
+| Optimize | Create an optimization task for the selected slow SQL, generating SQL rewrite and index recommendations |
+| Batch AI optimization | Run AI-powered optimization on the selected slow SQL |
+| Ignore | Mark the selected slow SQL as ignored, excluding it from the backlog |
+
+## Per-row operations
+
+Each slow SQL's "Operations" column also offers three actions:
+
+| Button | Meaning |
+| --- | --- |
+| Optimize | Create an optimization task for that slow SQL |
+| AI intelligent optimization | Run AI-powered optimization analysis on that slow SQL |
+| Mark ignored | Mark the SQL as ignored |
+
+## Create an optimization task
+
+Clicking "Optimize" opens the "New query optimization" page, where you configure optimization settings for the selected queries (the title shows the count, e.g. "Create optimization for 1 query"):
+
+<Frame caption="New query optimization: basic config, validation, index optimization, and rule config">
+  ![New query optimization](/images/performance/en/patrol-new-analysis.png)
+</Frame>
+
+### Basic configuration
+
+| Setting | Meaning |
+| --- | --- |
+| Optimization ID | Unique identifier for this optimization; auto-generated from the time, editable |
+| Index recommendation only | When checked, PawSQL does not rewrite SQL and only recommends indexes on the original SQL |
+
+### Validation
+
+| Setting | Meaning |
+| --- | --- |
+| What-If validation | Connect to the validation database for What-If performance validation (on by default) |
+| Update statistics | Whether to update statistics before What-If validation |
+| Analyze | Whether to actually execute the SQL during `explain` |
+
+### Index optimization
+
+| Setting | Default | Meaning |
+| --- | --- | --- |
+| Deduplicate with existing indexes | on | Whether to deduplicate against existing workspace indexes |
+| Covering index recommendation | on | Whether to recommend covering indexes (avoids table lookups, may use extra disk) |
+| Covering index max columns | `4` | Do not recommend covering indexes beyond this many columns |
+| Index max columns | `4` | Maximum columns in a recommended index |
+| Indexes per table | `5` | Maximum indexes per table; prompt cleanup when exceeded |
+| Max space | `1000` | Maximum space (MB) occupied by all recommended indexes |
+
+### Rule configuration
+
+Select a rule template (such as "MySQL database audit template"), or enable/disable rules and adjust thresholds inline. Rules are organized into three top-level categories — Object Design, Object Operation, and Data Operation — and can be filtered by severity (notice / warning / critical / disabled). Selecting a template uses its rules and ignores the inline configuration.
+
+## Submit
+
+Review the settings and click "Create optimization task". Optimization runs server-side; results appear in the "Optimization status", "Last optimization", and "Performance gain" columns on the Slow queries page.
+
+## FAQ
+
+| Symptom | Check first |
+| --- | --- |
+| No action in batch operation | Whether slow SQL rows are selected |
+| Optimization task hangs | Task queue, concurrency limits, analysis service status |
+| Performance gain shows N/A | Whether optimization ran and completed |
+
+## Related reading
+
+<CardGroup cols={2}>
+  <Card title="SQL Aggregation and Deduplication" href="/en/user-guide/performance/aggregate-dedup" />
+  <Card title="Track Governance Progress" href="/en/user-guide/performance/track-progress" />
+</CardGroup>

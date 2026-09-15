@@ -1,7 +1,7 @@
 ---
 id: user-guide-performance-track-progress
 title: 跟踪治理进度
-description: 跟踪治理进度——PawSQL 用户手册（草稿）。
+description: 通过慢查询页的优化状态、处置阶段与性能提升，以及实例概览的状态列，跟踪每条慢 SQL 和每个实例的治理进展。
 type: guide
 subtype: operation
 layout: detail
@@ -12,12 +12,67 @@ translationKey: user-guide-performance-track-progress
 localeOf: en-user-guide-performance-track-progress
 ---
 
-# 跟踪治理进度
+慢查询治理是一个持续过程。PawSQL 用「优化状态 + 处置阶段 + 性能提升」三个维度跟踪每条慢 SQL 的治理进展，并在实例概览页汇总各实例的采集与巡检状态。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 治理状态字段
 
-## 本节将覆盖
+慢查询页表格中的每条慢 SQL 都有治理相关字段：
 
-- 待补充
+<Frame caption="慢查询页：优化状态、最近优化、处置阶段与性能提升">
+  ![慢查询治理状态](/images/performance/patrol-slow-queries-data.png)
+</Frame>
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+| 字段 | 取值 | 说明 |
+| --- | --- | --- |
+| 优化状态 | 未优化 / 已优化 | 是否已对该 SQL 生成优化结果 |
+| 最近优化 | 时间或 `/` | 最近一次优化时间，未优化时为空 |
+| 处置阶段 | 未处置 / 处置中 / 已处置 | 治理处置的阶段 |
+| 性能提升(%) | 百分比或 `N/A` | 优化后相对原 SQL 的性能提升，未优化时为 `N/A` |
+
+## 处置阶段流转
+
+每条慢 SQL 的「处置阶段」是一个下拉选择，按治理生命周期在三档之间流转：
+
+```
+未处置 → 处置中 → 已处置
+```
+
+- **未处置**：采集后尚未开始处理的默认状态；
+- **处置中**：已开始分析、优化或整改；
+- **已处置**：治理完成（如已完成优化或标记忽略）。
+
+处置阶段由用户手动更新，用于在团队内同步治理节奏。
+
+## 按状态过滤
+
+慢查询页筛选区提供「优化状态」「处置阶段」等过滤条件，可聚焦于「未优化」或「未处置」的慢 SQL。图表区的「优化状态」环图也按状态统计数量，点击可过滤。
+
+实测示例：某实例 23 条业务 SQL 初始状态均为「优化状态：未优化、处置阶段：未处置、性能提升：N/A」，表示治理尚未开始。
+
+## 实例概览状态
+
+实例概览页按实例汇总采集与巡检状态：
+
+<Frame caption="实例概览：慢查询与对象巡检状态列">
+  ![实例概览](/images/performance/patrol-instance-list.png)
+</Frame>
+
+| 列 | 说明 |
+| --- | --- |
+| 慢查询 | 慢查询配置是否已验证 |
+| 慢查询阈值 | 该实例采集使用的慢查询阈值 |
+| 对象巡检 | 库巡检配置是否已验证 |
+
+## 治理节奏建议
+
+1. 先按「平均耗时」排序，优先处理耗时最高、执行次数最多的慢 SQL；
+2. 用「批量操作」对一批慢 SQL 统一发起优化，见[批量分析与优化](/user-guide/performance/batch-optimize)；
+3. 优化完成后核对「性能提升」，将确认有效的 SQL 处置阶段推进到「已处置」；
+4. 定期触发采集与巡检，让治理清单保持更新。
+
+## 延伸阅读
+
+<CardGroup cols={2}>
+  <Card title="SQL 聚合与去重" href="/user-guide/performance/aggregate-dedup" />
+  <Card title="批量分析与优化" href="/user-guide/performance/batch-optimize" />
+</CardGroup>

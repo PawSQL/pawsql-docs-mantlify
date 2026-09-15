@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-performance-track-progress
 title: Track Governance Progress
-description: Track Governance Progress — PawSQL User Guide (draft).
+description: Track each slow SQL and each instance via the optimization status, disposition stage, and performance gain on the Slow queries page and the status columns on the Instance overview page.
 type: guide
 subtype: operation
 layout: detail
@@ -11,12 +11,67 @@ language: en
 translationKey: user-guide-performance-track-progress
 ---
 
-# Track Governance Progress
+Slow query governance is an ongoing process. PawSQL tracks each slow SQL's progress across three dimensions — optimization status, disposition stage, and performance gain — and summarizes collection and patrol status per instance on the Instance overview page.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Governance status fields
 
-## What this page will cover
+Each slow SQL in the Slow queries page table has governance-related fields:
 
-- To be added
+<Frame caption="Slow queries page: optimization status, last optimization, disposition stage, and performance gain">
+  ![Slow query governance status](/images/performance/en/patrol-slow-queries-data.png)
+</Frame>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+| Field | Values | Meaning |
+| --- | --- | --- |
+| Optimization status | Not optimized / optimized | Whether an optimization result has been generated for the SQL |
+| Last optimization | Time or `/` | The most recent optimization time; empty when not optimized |
+| Disposition stage | Not disposed / disposing / disposed | The governance disposition stage |
+| Performance gain (%) | Percentage or `N/A` | Improvement relative to the original SQL; `N/A` when not optimized |
+
+## Disposition stage flow
+
+Each slow SQL's "Disposition stage" is a dropdown that moves through three stages over the governance lifecycle:
+
+```
+Not disposed → Disposing → Disposed
+```
+
+- **Not disposed**: the default state after collection, before handling begins;
+- **Disposing**: analysis, optimization, or remediation has started;
+- **Disposed**: governance is complete (e.g. optimized or marked ignored).
+
+The disposition stage is updated manually to sync governance progress within the team.
+
+## Filter by status
+
+The Slow queries page filters include "Optimization status" and "Disposition stage", to focus on "not optimized" or "not disposed" slow SQL. The "Optimization status" chart also counts by status and is clickable to filter.
+
+Real sample: an instance's 23 business SQL were all initially "optimization status: not optimized, disposition stage: not disposed, performance gain: N/A", meaning governance had not started.
+
+## Instance overview status
+
+The Instance overview page summarizes collection and patrol status per instance:
+
+<Frame caption="Instance overview: slow query and object patrol status columns">
+  ![Instance overview](/images/performance/en/patrol-instance-list.png)
+</Frame>
+
+| Column | Meaning |
+| --- | --- |
+| Slow queries | Whether slow query config has been verified |
+| Slow query threshold | The threshold used for collection on this instance |
+| Object patrol | Whether patrol config has been verified |
+
+## Suggested cadence
+
+1. Sort by "Avg latency" first and handle the slowest, most-executed slow SQL;
+2. Use "Batch operation" to optimize a batch of slow SQL together — see [Batch Analysis and Optimization](/en/user-guide/performance/batch-optimize);
+3. After optimization, review "Performance gain" and advance confirmed SQL to "Disposed";
+4. Trigger collection and patrol periodically to keep the backlog current.
+
+## Related reading
+
+<CardGroup cols={2}>
+  <Card title="SQL Aggregation and Deduplication" href="/en/user-guide/performance/aggregate-dedup" />
+  <Card title="Batch Analysis and Optimization" href="/en/user-guide/performance/batch-optimize" />
+</CardGroup>
