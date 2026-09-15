@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-coding
-title: Integrate with Coding
-description: Integrate with Coding — PawSQL User Guide (draft).
+title: Integrate Tencent CODING
+description: Use the prebuilt PawSQL repository connector to review SQL on Tencent CODING commits and merge requests.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,52 @@ language: en
 translationKey: user-guide-cicd-coding
 ---
 
-# Integrate with Coding
+The prebuilt PawSQL CODING connector turns repository events into SQL review jobs and returns the resulting decision to code review and release governance.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Before you begin
 
-## What this page will cover
+- Confirm that your PawSQL release includes the CODING webhook integration.
+- Prepare a PawSQL project, workspace, and review policy.
+- Obtain permission to manage webhooks in the CODING project.
+- Verify that CODING can reach the PawSQL webhook endpoint.
+- Select a non-production repository and branch for acceptance testing.
 
-- To be added
+## Configuration
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Steps>
+  <Step title="Create the PawSQL integration">
+    Select the organization, project, default workspace, and policy. Retain the generated webhook URL and secret.
+  </Step>
+  <Step title="Add the webhook in CODING">
+    Open the target repository settings and add the URL and secret supplied by PawSQL.
+  </Step>
+  <Step title="Select events">
+    Enable the push and merge-request actions required by your workflow. Avoid unrelated events.
+  </Step>
+  <Step title="Configure mapping and filters">
+    Restrict repositories, target branches, SQL paths, and file types, then verify the workspace mapping.
+  </Step>
+  <Step title="Test delivery">
+    Send a CODING test event or update a test branch and confirm that PawSQL creates the expected job.
+  </Step>
+  <Step title="Validate the gate">
+    Exercise both a passing change and a predictable blocking violation.
+  </Step>
+</Steps>
+
+## Acceptance criteria
+
+- CODING reports successful event delivery.
+- The PawSQL job references the correct repository, revision, and branch.
+- The expected SQL, locations, workspace, and policy are used.
+- Authorized users can open the report.
+- A blocking finding prevents the protected workflow from proceeding.
+- Duplicate delivery does not create conflicting statuses or comments.
+
+<Note>
+  Menu labels and feedback options can differ by PawSQL release. If the CODING integration is not visible, ask the PawSQL administrator to confirm the installed version and license scope.
+</Note>
+
+## FAQ
+
+If CODING reports successful delivery but PawSQL does not create a review, check the event action, repository allowlist, signature secret, and workspace mapping. For details, see [Troubleshoot CI/CD Integrations](/en/user-guide/cicd/logs-troubleshooting).

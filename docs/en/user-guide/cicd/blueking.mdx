@@ -1,0 +1,50 @@
+---
+id: en-user-guide-cicd-blueking
+title: Integrate a BlueKing Pipeline
+description: Use the prebuilt PawSQL connector to review SQL and enforce a quality gate in a BlueKing pipeline.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-blueking
+---
+
+The PawSQL BlueKing pipeline connector adds an SQL review stage to a BlueKing pipeline. The stage collects the changed SQL, submits it to PawSQL, and enforces the quality gate as a pipeline decision.
+
+## Before you begin
+
+- Confirm that PawSQL supports the BlueKing version and pipeline engine in use.
+- Prepare the PawSQL project, workspace, and review policy.
+- Issue a least-privilege identity for the connector.
+- Identify the SQL locations, database type, and pipeline stage where review runs.
+- Ensure the pipeline agent can reach the PawSQL endpoint.
+
+## Configuration
+
+<Steps>
+  <Step title="Install or add the connector">Add the PawSQL pipeline connector to the BlueKing pipeline as a stage or plugin step.</Step>
+  <Step title="Configure the connector">Provide the PawSQL endpoint, identity, project, workspace, policy, and report settings.</Step>
+  <Step title="Set the SQL scope">Point to the SQL directories and file patterns changed in the build.</Step>
+  <Step title="Define the gate">Choose the failure criteria, thresholds, and behavior on service error or timeout.</Step>
+  <Step title="Configure feedback">Publish the summary, finding counts, and report link to the pipeline result.</Step>
+  <Step title="Run acceptance tests">Exercise pass, block, no-SQL, parse-error, and service-failure cases.</Step>
+</Steps>
+
+## Gate behavior
+
+The connector reads the review result and maps the decision to the pipeline. See [SQL Quality Gates and Feedback](/en/user-guide/cicd/pipeline-gate) for the recommended decision table and status mapping.
+
+## Acceptance criteria
+
+- The pipeline references the current build revision.
+- The correct workspace and policy are applied.
+- Only SQL within the declared scope is collected.
+- A blocking finding fails the stage with an explanatory message.
+- A system failure follows the configured failure policy and leaves an audit record.
+- The report link is accessible to authorized pipeline viewers.
+
+<Note>
+  For pipelines other than BlueKing that are not covered by a prebuilt connector, evaluate the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).
+</Note>

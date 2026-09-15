@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-gitlab
-title: Integrate with GitLab CI/CD
-description: Integrate with GitLab CI/CD — PawSQL User Guide (draft).
+title: Integrate GitLab
+description: Use the prebuilt PawSQL repository connector to review SQL on GitLab pushes and merge requests.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,40 @@ language: en
 translationKey: user-guide-cicd-gitlab
 ---
 
-# Integrate with GitLab CI/CD
+The prebuilt PawSQL GitLab connector links GitLab projects and repositories to PawSQL, listens for push or merge-request events, and submits changed SQL for review automatically.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Before you begin
 
-## What this page will cover
+- Verify connectivity to GitLab SaaS or the enterprise GitLab service.
+- Prepare a GitLab credential that can read the target project and publish status.
+- Create the PawSQL project, workspace, and review policy.
+- Identify the projects, repositories, branches, and SQL paths in scope.
+- For self-managed GitLab, prepare the service URL and enterprise CA chain.
 
-- To be added
+## Configuration
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Steps>
+  <Step title="Create the GitLab connection">Choose GitLab in the PawSQL repository connectors, enter the service URL when required, and authenticate.</Step>
+  <Step title="Select projects and repositories">Limit the GitLab groups, projects, or repositories available to the connection.</Step>
+  <Step title="Choose trigger events">Select the required push, merge-request creation, update, or reopen events.</Step>
+  <Step title="Define the SQL scope">Set target branches, directories, file extensions, and exclusions.</Step>
+  <Step title="Map review context">Choose the PawSQL workspace, policy, and gate thresholds for each repository or branch.</Step>
+  <Step title="Validate the connector">Send a test event and confirm job correlation, findings, and merge-request status.</Step>
+</Steps>
+
+## Self-managed GitLab
+
+Validate DNS, proxy, firewall, and TLS between PawSQL and GitLab. Do not disable TLS verification as a permanent workaround for certificate errors.
+
+## Acceptance criteria
+
+- Only approved GitLab projects and events are processed.
+- SQL files and locations are identified correctly.
+- The workspace matches the target database.
+- The latest revision receives the correct gate status.
+- Duplicate events do not create conflicting feedback.
+- Credentials and sensitive SQL are absent from logs.
+
+<Note>
+  The prebuilt GitLab repository connector is distinct from calling PawSQL in GitLab CI. For a pipeline-controlled workflow, use the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).
+</Note>

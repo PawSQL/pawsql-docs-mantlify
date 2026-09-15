@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-index
-title: Integration Overview
-description: Integration Overview — PawSQL User Guide (draft).
+title: CI/CD and Platform Integrations Overview
+description: Use prebuilt connectors or PawSQL OpenAPI to review SQL in commits, code reviews, and delivery pipelines.
 type: guide
 subtype: integration
 layout: index
@@ -11,12 +11,60 @@ language: en
 translationKey: user-guide-cicd-index
 ---
 
-# Integration Overview
+PawSQL can review SQL before a change is merged or released and return a pass, warning, or block decision to the engineering platform. Start by distinguishing a **prebuilt connector** from a **custom API integration**.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Support matrix
 
-## What this page will cover
+| Integration type | Platform | Delivery model | Availability |
+| --- | --- | --- | --- |
+| Source repository | Tencent CODING | Prebuilt PawSQL connector | Ready to configure |
+| Source repository | GitHub | Prebuilt PawSQL connector | Ready to configure |
+| Source repository | GitLab | Prebuilt PawSQL connector | Ready to configure |
+| CI/CD pipeline | BlueKing | Prebuilt PawSQL connector | Ready to configure |
+| Other repositories or pipelines | Jenkins, GitHub Actions, GitLab CI, Azure Pipelines, and others | OpenAPI or custom adapter | No prebuilt connector |
+| Internal engineering platforms | Developer portals, approval systems, and release platforms | OpenAPI, webhook, or custom adapter | No prebuilt connector |
 
-- To be added
+<Info>
+  “No prebuilt connector” does not mean the platform cannot integrate with PawSQL. It means your pipeline or integration service must orchestrate the OpenAPI workflow.
+</Info>
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+## Choose a path
+
+<CardGroup cols={2}>
+  <Card title="Repository connectors" href="/en/user-guide/cicd/repositories" icon="code-branch">
+    Connect CODING, GitHub, or GitLab and review SQL on repository events.
+  </Card>
+  <Card title="BlueKing pipeline connector" href="/en/user-guide/cicd/blueking" icon="diagram-project">
+    Add PawSQL review and a quality gate to a BlueKing pipeline.
+  </Card>
+  <Card title="OpenAPI pipeline integration" href="/en/user-guide/cicd/openapi-pipeline" icon="code">
+    Build a review stage for a CI/CD system without a prebuilt connector.
+  </Card>
+  <Card title="Custom platform integration" href="/en/user-guide/cicd/unsupported-platforms" icon="puzzle-piece">
+    Choose OpenAPI, webhooks, or an integration service for Jenkins, Gitee, CodeArts, and internal platforms.
+  </Card>
+</CardGroup>
+
+## Standard flow
+
+```mermaid
+flowchart TD
+    A["Commit, review, or pipeline"] --> B["Identify SQL changes"]
+    B --> C["Create PawSQL review"]
+    C --> D["Run rules and analysis"]
+    D --> E{"Quality gate"}
+    E -->|Pass| F["Continue merge or release"]
+    E -->|Block| G["Return actionable findings"]
+```
+
+## Before you begin
+
+Prepare the PawSQL endpoint, an integration identity, the target project, a review workspace, and an approved policy. The workspace must match the database engine and version used by the SQL. Add DDL or a database connection when schema context is required.
+
+<Warning>
+  Automated review does not execute SQL or replace business validation, database authorization, change approval, backup, and rollback controls. Complete acceptance testing with sanitized SQL and a non-production environment first.
+</Warning>
+
+## Next step
+
+Read the [integration model and core concepts](/en/user-guide/cicd/concepts) and [prerequisites and security](/en/user-guide/cicd/prerequisites), then choose a connector.

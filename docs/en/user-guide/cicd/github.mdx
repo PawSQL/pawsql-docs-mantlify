@@ -1,0 +1,49 @@
+---
+id: en-user-guide-cicd-github
+title: Integrate GitHub
+description: Use the prebuilt PawSQL repository connector to review SQL on GitHub pushes and pull requests.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-github
+---
+
+The prebuilt PawSQL GitHub connector links selected repositories to PawSQL, listens for configured push or pull-request events, and creates a review for relevant SQL changes.
+
+## Before you begin
+
+- Verify connectivity from PawSQL to GitHub or your GitHub Enterprise instance.
+- Prepare a GitHub identity or credential with access to the target repositories.
+- Create the PawSQL project, workspace, and review policy.
+- Identify the organizations, repositories, branches, and SQL paths in scope.
+- Define pull-request gate and feedback behavior.
+
+## Configuration
+
+<Steps>
+  <Step title="Create the GitHub connection">Choose GitHub in the PawSQL repository connectors and complete endpoint and identity configuration.</Step>
+  <Step title="Select organizations and repositories">Authorize only the repositories that PawSQL must review.</Step>
+  <Step title="Choose trigger events">Enable the required push, pull-request creation, synchronization, or reopen events.</Step>
+  <Step title="Map review context">Set target branches, SQL paths, extensions, workspace, and review policy.</Step>
+  <Step title="Configure the gate">Define blocking severity, failure behavior, check status, and report feedback.</Step>
+  <Step title="Run acceptance tests">Open a test pull request and exercise pass, block, no-SQL, and duplicate-event cases.</Step>
+</Steps>
+
+## Feedback
+
+The result should reference the current revision and expose the gate decision, finding count, and PawSQL report link. When a pull request changes, a result for an older revision must not satisfy the merge requirement.
+
+## Permission guidance
+
+- Grant only the repository-read and check-status permissions required.
+- Limit organization-level authorization to approved repositories.
+- Rotate credentials and review stale authorizations.
+- Keep tokens out of logs and exported configuration.
+- Handle pull requests from forks without exposing privileged credentials.
+
+<Note>
+  The prebuilt GitHub repository connector is distinct from a GitHub Actions OpenAPI workflow. If the pipeline must control the review stage directly, use the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).
+</Note>

@@ -1,7 +1,7 @@
 ---
 id: user-guide-cicd-gitlab
-title: 集成 GitLab CI/CD
-description: 集成 GitLab CI/CD——PawSQL 用户手册（草稿）。
+title: 集成 GitLab
+description: 使用 PawSQL 预置代码仓库连接器，在 GitLab Push 和 Merge Request 阶段审核 SQL。
 type: guide
 subtype: integration
 layout: detail
@@ -12,12 +12,40 @@ translationKey: user-guide-cicd-gitlab
 localeOf: en-user-guide-cicd-gitlab
 ---
 
-# 集成 GitLab CI/CD
+PawSQL GitLab 预置连接器用于关联 GitLab 项目和代码仓库，监听 Push 或 Merge Request 事件，并将变更 SQL 自动提交到 PawSQL 审核。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 开始之前
 
-## 本节将覆盖
+- 确认 PawSQL 可以访问 GitLab SaaS 或企业 GitLab 服务；
+- 准备能够读取目标项目并回传状态的 GitLab 凭据；
+- 在 PawSQL 中准备项目、工作空间和审核策略；
+- 明确目标项目、仓库、分支和 SQL 路径；
+- 自托管 GitLab 应准备服务地址和企业 CA 证书。
 
-- 待补充
+## 配置流程
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<Steps>
+  <Step title="创建 GitLab 连接">在 PawSQL 代码仓库连接器中选择 GitLab，配置服务地址并完成身份认证。</Step>
+  <Step title="选择项目和仓库">限定允许连接的 GitLab Group、Project 或 Repository。</Step>
+  <Step title="选择触发事件">配置 Push、Merge Request 创建、更新或重新打开等需要审核的事件。</Step>
+  <Step title="配置 SQL 范围">设置目标分支、目录、文件扩展名和忽略规则。</Step>
+  <Step title="映射审核上下文">为仓库或分支选择 PawSQL 工作空间、审核策略和门禁阈值。</Step>
+  <Step title="验证连接器">发送测试事件，并检查工单关联、审核结果和 Merge Request 状态。</Step>
+</Steps>
+
+## 自托管 GitLab
+
+确保 PawSQL 和 GitLab 之间的 DNS、代理、防火墙及 TLS 证书配置正确。不要通过关闭 TLS 验证长期规避证书问题。
+
+## 验收标准
+
+- 只处理允许的 GitLab 项目和事件；
+- 变更 SQL 的文件和行号能够正确定位；
+- 工作空间与目标数据库类型匹配；
+- 最新提交的门禁结论能够正确回传；
+- 重复事件不会生成冲突状态；
+- 凭据和敏感 SQL 不会出现在日志中。
+
+<Note>
+  GitLab 预置代码仓库连接器与 GitLab CI 中调用 OpenAPI 是两种接入方式。需要自行编排 Pipeline 时，请参阅 [OpenAPI 流水线集成](/user-guide/cicd/openapi-pipeline)。
+</Note>

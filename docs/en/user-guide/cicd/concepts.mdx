@@ -1,0 +1,52 @@
+---
+id: en-user-guide-cicd-concepts
+title: Integration Model and Core Concepts
+description: Learn how events, SQL change sets, workspaces, review policies, and quality gates fit together.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-concepts
+---
+
+A PawSQL integration begins with a repository change and ends with a traceable SQL quality decision. The following objects form the contract between the source platform, the pipeline, and PawSQL.
+
+## Core objects
+
+| Object | Purpose |
+| --- | --- |
+| Trigger event | A push, pull request, merge request, or manual pipeline run |
+| SQL change set | SQL files and statements added or modified by the change |
+| Integration configuration | Maps repositories and branches to PawSQL projects |
+| Workspace | Supplies the database engine, version, schema, indexes, and optional statistics |
+| Review policy | Selects rules, parameters, and severities |
+| Review job | Stores input SQL, findings, recommendations, and processing state |
+| Quality gate | Converts review evidence into pass, warn, or block |
+| External run identity | Links the PawSQL job to a commit, review, or pipeline execution |
+
+## Review scope
+
+| Mode | Best for | Consideration |
+| --- | --- | --- |
+| Incremental | Routine pull requests | Requires a reliable comparison baseline |
+| Full repository | Initial onboarding or scheduled baselines | More complete but slower |
+| Selected paths | Centralized migration directories | Keep path rules under change control |
+| Selected files | Manual verification and diagnostics | Should not replace the automated gate |
+
+## Idempotency and freshness
+
+Treat repeated delivery of the same repository event as one logical run. Use the platform event ID when available. A new head commit must invalidate the previous decision, and only the latest commit may satisfy a merge requirement.
+
+<Note>
+  A passing review means the SQL satisfies the active policy. It does not execute the SQL or replace business validation, change approval, or database release controls.
+</Note>
+
+## Related documents
+
+<CardGroup cols={2}>
+  <Card title="Prerequisites and Security" href="/en/user-guide/cicd/prerequisites" />
+  <Card title="SQL Quality Gates and Feedback" href="/en/user-guide/cicd/pipeline-gate" />
+  <Card title="Workspaces" href="/en/user-guide/workspaces" />
+</CardGroup>

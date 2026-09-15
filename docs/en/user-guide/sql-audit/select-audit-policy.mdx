@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-sql-audit-select-audit-policy
-title: Review Policy
-description: Understand a review policy's rules, severities, and thresholds, and choose a matching policy when creating a review ticket.
+title: Select a Review Policy
+description: "Choose a matching review policy when creating a review ticket: match the database engine, environment, and workflow, then verify rules, severities, and thresholds."
 type: guide
 subtype: operation
 layout: detail
@@ -11,15 +11,7 @@ language: en
 translationKey: user-guide-sql-audit-select-audit-policy
 ---
 
-A review policy is a reusable set of SQL rules and configuration values, selected from the "review policy" dropdown when creating a review ticket. PawSQL ships default review policies per database engine (MySQL, Oracle, PostgreSQL, DB2, openGauss, GaussDB, TDSQL, Dameng, and others, each with roughly a hundred or more enabled rules), and the optimization and review platforms share the same rule templates; you normally just select the default that matches the target database. The right policy gives comparable work a consistent standard and keeps irrelevant database or environment checks out of the result set.
-
-<Note>
-This guide uses **review policy**. The interface uses several names for the same object—the navigation and creation form display **review template**, the template page's create button reads **create rule template**, and some descriptions say **review rule set**—all meaning an enabled set of rules with their severity, thresholds, and exceptions. Creating and maintaining policies is covered in [Rules and Quality Policy](/en/user-guide/rules-policy/).
-</Note>
-
-<Frame caption="Review template list: default policies per database engine">
-  ![Review template list](/images/sql-audit/review-templates.png)
-</Frame>
+When creating a review ticket, pick a matching policy from the "review policy" dropdown (the interface may label it "review template"). The right policy gives comparable work a consistent standard and keeps irrelevant database or environment checks out of the result set. The definition of a policy, default and custom templates, and rule and threshold management are covered in [Rules and Quality Policy](/en/user-guide/rules-policy/).
 
 ## Selection order
 
@@ -30,17 +22,6 @@ Evaluate candidate policies in this order:
 3. Match the workflow, such as developer feedback, release review, or remediation.
 4. Verify ownership, visibility, and the responsible maintainer.
 5. Review rule severities, parameters, and thresholds.
-
-## Default vs. custom policies
-
-Default policies ship with each database engine and cover that engine's common review conventions. Organizations can also maintain custom policies for release review, production remediation, migration readiness, and other specialized workflows:
-
-| Policy type | Typical use | Notes |
-| --- | --- | --- |
-| Default policy | Routine review | Shipped per database engine, roughly a hundred or more enabled rules |
-| Custom policy | Release review, production remediation, migration readiness | Built on a default policy by adjusting enabled rules, severities, and thresholds |
-
-When choosing a custom policy, confirm it is based on the same engine and version as the target environment, and verify that its enabled rules and thresholds fit the current project.
 
 ## Inspect the policy before use
 
@@ -57,8 +38,6 @@ Verify at least the following:
 <Warning>
 Policies with the same display name can still differ by project, revision, or update date. For a formal review, verify the policy identity rather than relying on its name alone.
 </Warning>
-
-Rule severity, thresholds, and exceptions, together with policy creation and maintenance, are covered in [Rules and Quality Policy](/en/user-guide/rules-policy/).
 
 ## If a policy is unavailable
 

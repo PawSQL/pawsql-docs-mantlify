@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-logs-troubleshooting
-title: Integration Logs and Troubleshooting
-description: Integration Logs and Troubleshooting — PawSQL User Guide (draft).
+title: Troubleshoot CI/CD Integrations
+description: Diagnose webhook delivery, SQL collection, authentication, processing, gate, and feedback failures by symptom.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,59 @@ language: en
 translationKey: user-guide-cicd-logs-troubleshooting
 ---
 
-# Integration Logs and Troubleshooting
+Start from the observed symptom, confirm the failure stage, and apply the matching remedy. A consistent stage-first diagnosis avoids chasing the wrong component.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Symptom reference
 
-## What this page will cover
+| Symptom | Likely stage | First checks |
+| --- | --- | --- |
+| Source reports delivery failure or timeout | Webhook delivery | Endpoint reachability, TLS, DNS, signature secret |
+| No review job is created | Filtering | Repository, branch, path, and event scope |
+| Job uses the wrong SQL | SQL collection | Diff selection, file extensions, removed files |
+| 401 or 403 during submission | Authentication | Credential scope, expiry, allowlist |
+| Job stays queued or times out | Processing | Queue depth, service availability, context completeness |
+| Gate blocks unexpectedly | Gate | Policy version, thresholds, failure policy |
+| Result does not appear in the platform | Feedback | Permissions, status mapping, duplicate delivery |
 
-- To be added
+## Stage-by-stage diagnosis
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+### Webhook delivery
+
+- Confirm the endpoint is reachable and accepts only the expected sources.
+- Verify the shared secret or signing key matches on both sides.
+- Check DNS, proxy, firewall, and TLS certificate validity.
+- Inspect retries and delivery logs on the source platform.
+
+### SQL collection
+
+- Confirm the diff includes only new and modified SQL files.
+- Verify path and extension filters, and that removed files are ignored.
+- Check that the workspace dialect matches the SQL being reviewed.
+
+### Authentication
+
+- Confirm the credential is valid, unexpired, and scoped to the target.
+- Verify that the endpoint allowlist includes the calling platform.
+- Rotate the credential and re-run if the error persists.
+
+### Processing
+
+- Check that the workspace has the DDL or connection needed by the policy.
+- Confirm the review policy is published and applicable.
+- Look for parse errors caused by a dialect or script mismatch.
+
+### Gate
+
+- Confirm the applied policy version and blocking criteria are correct.
+- Review the failure policy for timeout and unavailability cases.
+- Inspect manual exceptions for scope, approver, and expiration.
+
+### Feedback
+
+- Verify the status or comment permissions on the source platform.
+- Confirm the result targets the current revision.
+- Check that duplicate delivery is not creating conflicting feedback.
+
+## Related
+
+- [Webhook Integration Model](/en/user-guide/cicd/webhook)

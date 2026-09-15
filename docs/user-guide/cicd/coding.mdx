@@ -1,7 +1,7 @@
 ---
 id: user-guide-cicd-coding
-title: 集成 Coding
-description: 集成 Coding——PawSQL 用户手册（草稿）。
+title: 集成腾讯 CODING
+description: 使用 PawSQL 预置代码仓库连接器，在腾讯 CODING 提交和合并请求阶段审核 SQL。
 type: guide
 subtype: integration
 layout: detail
@@ -12,12 +12,60 @@ translationKey: user-guide-cicd-coding
 localeOf: en-user-guide-cicd-coding
 ---
 
-# 集成 Coding
+PawSQL CODING 预置连接器接收代码仓库事件，将变更 SQL 转换为审核工单，并把结果纳入代码评审和发布流程。
 
-> **草稿占位。** 本页内容将随《用户手册》撰写/迁移批次补齐；发布前状态为 `draft`。
+## 开始之前
 
-## 本节将覆盖
+- 确认当前 PawSQL 版本包含 CODING Webhook 集成；
+- 在 PawSQL 中准备项目、工作空间和审核策略；
+- 获得 CODING 项目中配置 Webhook 的权限；
+- 确认 CODING 能够访问 PawSQL Webhook 地址；
+- 准备一个用于试运行的仓库和分支。
 
-- 待补充
+## 配置流程
 
-> 相关：参见[用户手册概述](user-guide/index)与对应功能说明。
+<Steps>
+  <Step title="在 PawSQL 中创建集成">
+    新建 CODING 集成，选择组织、项目、默认工作空间和审核策略。记录系统生成的 Webhook 地址和密钥。
+  </Step>
+  <Step title="在 CODING 中添加 Webhook">
+    打开目标项目的代码仓库设置，添加 Webhook，并填写 PawSQL 提供的地址和密钥。
+  </Step>
+  <Step title="选择事件">
+    根据流程选择代码推送、合并请求创建和合并请求更新等事件。避免订阅与 SQL 审核无关的事件。
+  </Step>
+  <Step title="配置映射和过滤">
+    在 PawSQL 中限定仓库、目标分支、SQL 目录和文件类型，并确认工作空间映射。
+  </Step>
+  <Step title="测试连接">
+    使用 CODING 的测试功能或提交测试分支，确认 PawSQL 收到事件并创建审核工单。
+  </Step>
+  <Step title="验证门禁">
+    分别提交可通过和应阻断的 SQL，检查工单结果是否正确影响合并或发布流程。
+  </Step>
+</Steps>
+
+## 建议的事件范围
+
+| 目标 | 事件建议 |
+| --- | --- |
+| 提交后尽早反馈 | Push |
+| 合并前强制检查 | 合并请求创建、更新或重新打开 |
+| 发布前复核 | 受控分支 Push 或发布流水线事件 |
+
+## 验证成功标准
+
+- CODING 事件记录显示投递成功；
+- PawSQL 工单能够关联到正确仓库、分支和提交；
+- SQL 文件、行号和审核策略正确；
+- 审核摘要和报告链接可由授权人员访问；
+- 阻断规则能阻止不合规变更继续流转；
+- 重复事件不会产生重复评论或相互冲突的状态。
+
+<Note>
+  不同交付版本中的菜单名称和结果回传方式可能不同。若界面中没有 CODING 集成入口，请联系 PawSQL 管理员确认产品版本和许可证范围。
+</Note>
+
+## 常见问题
+
+若 CODING 显示投递成功但 PawSQL 未创建工单，检查事件类型、仓库白名单、签名密钥和工作空间映射。更多信息参阅[CI/CD 集成故障排查](/user-guide/cicd/logs-troubleshooting)。

@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "palm",
   "name": "PawSQL",
   "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
   "colors": {
@@ -139,13 +139,17 @@
                     "group": "CI/CD 与平台集成",
                     "pages": [
                       "user-guide/cicd/index",
-                      "user-guide/cicd/access-token",
-                      "user-guide/cicd/webhook",
-                      "user-guide/cicd/coding",
-                      "user-guide/cicd/jenkins",
-                      "user-guide/cicd/gitlab",
-                      "user-guide/cicd/github-actions",
+                      "user-guide/cicd/concepts",
+                      "user-guide/cicd/prerequisites",
                       "user-guide/cicd/pipeline-gate",
+                      "user-guide/cicd/repositories",
+                      "user-guide/cicd/coding",
+                      "user-guide/cicd/github",
+                      "user-guide/cicd/gitlab",
+                      "user-guide/cicd/blueking",
+                      "user-guide/cicd/openapi-pipeline",
+                      "user-guide/cicd/unsupported-platforms",
+                      "user-guide/cicd/webhook",
                       "user-guide/cicd/logs-troubleshooting"
                     ],
                     "icon": "git-merge",
@@ -217,6 +221,7 @@
             "groups": [
               {
                 "group": "文章",
+                "icon": "newspaper",
                 "pages": [
                   "blog/index"
                 ]
@@ -229,6 +234,7 @@
             "groups": [
               {
                 "group": "版本",
+                "icon": "tag",
                 "pages": [
                   "changelog/index"
                 ]
@@ -357,13 +363,17 @@
                     "group": "CI/CD & Platform Integration",
                     "pages": [
                       "en/user-guide/cicd/index",
-                      "en/user-guide/cicd/access-token",
-                      "en/user-guide/cicd/webhook",
-                      "en/user-guide/cicd/coding",
-                      "en/user-guide/cicd/jenkins",
-                      "en/user-guide/cicd/gitlab",
-                      "en/user-guide/cicd/github-actions",
+                      "en/user-guide/cicd/concepts",
+                      "en/user-guide/cicd/prerequisites",
                       "en/user-guide/cicd/pipeline-gate",
+                      "en/user-guide/cicd/repositories",
+                      "en/user-guide/cicd/coding",
+                      "en/user-guide/cicd/github",
+                      "en/user-guide/cicd/gitlab",
+                      "en/user-guide/cicd/blueking",
+                      "en/user-guide/cicd/openapi-pipeline",
+                      "en/user-guide/cicd/unsupported-platforms",
+                      "en/user-guide/cicd/webhook",
                       "en/user-guide/cicd/logs-troubleshooting"
                     ],
                     "icon": "git-merge",
@@ -437,6 +447,7 @@
             "groups": [
               {
                 "group": "Posts",
+                "icon": "newspaper",
                 "pages": [
                   "en/blog/index",
                   "en/blog/engineering/or-to-union"
@@ -450,6 +461,7 @@
             "groups": [
               {
                 "group": "Releases",
+                "icon": "tag",
                 "pages": [
                   "en/release-notes/index",
                   "en/release-notes/8.5.0"

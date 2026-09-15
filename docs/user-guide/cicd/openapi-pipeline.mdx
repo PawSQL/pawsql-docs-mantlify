@@ -1,0 +1,80 @@
+---
+id: user-guide-cicd-openapi-pipeline
+title: OpenAPI 流水线集成
+description: 在任意 CI/CD 流水线中调用 PawSQL，提交变更 SQL、等待审核结果并设置构建状态。
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-cicd-openapi-pipeline
+localeOf: en-user-guide-cicd-openapi-pipeline
+---
+
+当平台没有 PawSQL 预置连接器，或组织希望完全控制 SQL 提取和门禁逻辑时，可在流水线中调用 PawSQL OpenAPI。
+
+## 推荐流水线阶段
+
+```mermaid
+flowchart LR
+    A["检出代码"] --> B["提取变更 SQL"]
+    B --> C["提交审核工单"]
+    C --> D["等待工单完成"]
+    D --> E["计算门禁结论"]
+    E --> F["归档报告"]
+```
+
+## 实施步骤
+
+<Steps>
+  <Step title="确定比较基线">
+    合并请求使用目标分支的共同祖先；普通构建使用组织定义的稳定提交或上一次成功构建。
+  </Step>
+  <Step title="提取 SQL">
+    仅收集受支持的 SQL 文件和迁移脚本，并保持文件名、行号和语句顺序等定位信息。
+  </Step>
+  <Step title="创建工单">
+    按 OpenAPI 参考文档传入工作空间、审核策略、SQL 内容和外部运行标识。
+  </Step>
+  <Step title="等待完成">
+    使用有限次数的轮询或回调获取工单状态；采用退避策略，避免高频请求。
+  </Step>
+  <Step title="读取结果">
+    获取工单摘要和详细问题，并区分业务违规、语法错误、系统错误和超时。
+  </Step>
+  <Step title="执行门禁">
+    将 PawSQL 结果映射为成功、警告或失败退出码，并归档报告。
+  </Step>
+</Steps>
+
+## 建议的环境变量
+
+```text
+PAWSQL_BASE_URL
+PAWSQL_ACCESS_TOKEN
+PAWSQL_WORKSPACE_ID
+PAWSQL_POLICY_ID
+PAWSQL_TIMEOUT_SECONDS
+```
+
+变量名称可以根据组织规范调整。访问令牌必须由流水线 Secret 存储注入，不应写入脚本或配置仓库。
+
+## 结果处理原则
+
+| 结果 | 流水线建议 |
+| --- | --- |
+| 无 SQL 变更 | 标记为跳过并正常结束 |
+| 审核完成且通过 | 构建成功，归档摘要 |
+| 存在阻断问题 | 构建失败，提供问题和报告链接 |
+| 语法或上下文错误 | 根据策略阻断并要求修复配置或 SQL |
+| PawSQL 服务异常 | 按预先批准的失败策略处理 |
+| 等待超时 | 终止轮询，保留工单 ID 并输出排障信息 |
+
+<Note>
+  本页说明调用模式，不重复列出接口字段。请求路径、参数、响应结构和错误码以对应版本的 [PawSQL OpenAPI](/api-reference) 文档为准。
+</Note>
+
+## 下一步
+
+完成[SQL 质量门禁与结果回传](/user-guide/cicd/pipeline-gate)，再根据平台流水线语法实现调用脚本。Jenkins、GitHub Actions、GitLab CI 和 Azure Pipelines 均属于此类非预置集成。

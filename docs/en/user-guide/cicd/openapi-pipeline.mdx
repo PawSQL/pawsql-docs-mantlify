@@ -1,0 +1,61 @@
+---
+id: en-user-guide-cicd-openapi-pipeline
+title: OpenAPI Pipeline Integration
+description: Submit changed SQL from any CI/CD runner, wait for PawSQL analysis, and convert the result into a build decision.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-openapi-pipeline
+---
+
+When no prebuilt connector matches the pipeline, use PawSQL OpenAPI to submit SQL, poll for the analysis result, and apply the quality gate in the runner. This is the recommended pattern for Jenkins, GitHub Actions, GitLab CI, and other pipeline engines.
+
+See [API reference](/api-reference) for the full endpoint definitions.
+
+## Pipeline pattern
+
+<Steps>
+  <Step title="Detect SQL changes">Compute the changed SQL files from the version-control diff, ignoring removed files.</Step>
+  <Step title="Submit the review">Call the OpenAPI to create a review job for the workspace and policy, attaching the SQL and optional context.</Step>
+  <Step title="Wait for the result">Poll the job until it reaches a terminal state, respecting the configured timeout.</Step>
+  <Step title="Read the decision">Retrieve the gate decision, finding counts, and report link.</Step>
+  <Step title="Apply the gate">Map the decision to a build result using the status mapping in [SQL Quality Gates and Feedback](/en/user-guide/cicd/pipeline-gate).</Step>
+  <Step title="Handle failure">Apply the configured failure policy on timeout, authentication error, or service unavailability.</Step>
+</Steps>
+
+## Example script
+
+<CodeGroup>
+  <CodeGroup.Tab title="Bash">
+    ```bash
+    #!/usr/bin/env bash
+    set -euo pipefail
+    # Locate changed SQL relative to the merge base
+    changed=$(git diff --name-only "origin/${BASE_BRANCH:-main}"..HEAD \
+      | grep -E '\.sql$' || true)
+    if [ -z "$changed" ]; then
+      echo "No SQL changes; skipping review."
+      exit 0
+    fi
+    # Submit and poll via PawSQL OpenAPI (see API reference for exact endpoints)
+    echo "Reviewing: $changed"
+    ```
+  </CodeGroup.Tab>
+</CodeGroup>
+
+## Practical guidance
+
+- Send database dialect and a version identifier with each review.
+- Attach the DDL required by the review policy when the workspace cannot provide it.
+- Select only new and modified SQL files, not the whole repository.
+- Use a per-run identity with the least privilege required.
+- Keep the PawSQL token out of logs and exported environment.
+- Make the timeout and failure policy explicit in the pipeline.
+- Store the report link and job ID in the build artifacts for traceability.
+
+## Next step
+
+To turn the review evidence into pass, warning, or block decisions, see [SQL Quality Gates and Feedback](/en/user-guide/cicd/pipeline-gate).

@@ -1,0 +1,46 @@
+---
+id: en-user-guide-cicd-repositories
+title: Repository Connectors
+description: Use prebuilt PawSQL connectors for Tencent CODING, GitHub, and GitLab to review SQL on commits and code reviews.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-repositories
+---
+
+PawSQL provides prebuilt repository connectors for Tencent CODING, GitHub, and GitLab. A connector receives repository events, identifies relevant SQL changes, creates a PawSQL review, and links the result to the corresponding revision or code review.
+
+## Available connectors
+
+<CardGroup cols={3}>
+  <Card title="Tencent CODING" href="/en/user-guide/cicd/coding" icon="code-branch">Connect a CODING project and repository.</Card>
+  <Card title="GitHub" href="/en/user-guide/cicd/github" icon="github">Review SQL on pushes and pull requests.</Card>
+  <Card title="GitLab" href="/en/user-guide/cicd/gitlab" icon="gitlab">Review SQL on pushes and merge requests.</Card>
+</CardGroup>
+
+## Connector responsibilities
+
+- Maintain the connection between the source platform and PawSQL.
+- Map organizations, repositories, branches, workspaces, and policies.
+- Listen for supported repository events.
+- Select SQL changes that match path and file rules.
+- Create and correlate PawSQL review jobs.
+- Return gate status and a secure report link.
+
+## Repository connector versus pipeline connector
+
+Repository connectors center on push, pull-request, and merge-request events. The BlueKing connector runs as a pipeline step. To control review from Jenkins, GitHub Actions, or another pipeline without a prebuilt connector, use the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).
+
+## Common setup sequence
+
+<Steps>
+  <Step title="Prepare PawSQL context">Create the workspace and review policy and issue a least-privilege identity.</Step>
+  <Step title="Create the repository connection">Choose the platform and complete authentication or authorization.</Step>
+  <Step title="Select repositories and events">Limit repositories, target branches, and push or code-review events.</Step>
+  <Step title="Define the SQL scope">Configure paths, extensions, and exclusions.</Step>
+  <Step title="Configure the gate">Choose blocking thresholds, failure behavior, and feedback.</Step>
+  <Step title="Run acceptance tests">Exercise pass, block, no-change, and duplicate-event cases.</Step>
+</Steps>

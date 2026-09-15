@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-pipeline-gate
-title: Configure the Pipeline Quality Gate
-description: Configure the Pipeline Quality Gate — PawSQL User Guide (draft).
+title: SQL Quality Gates and Feedback
+description: Convert PawSQL review evidence into pass, warning, or block decisions and publish the result to the source platform.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,56 @@ language: en
 translationKey: user-guide-cicd-pipeline-gate
 ---
 
-# Configure the Pipeline Quality Gate
+The review policy defines what PawSQL checks. The quality gate defines how those findings affect delivery. Feedback then returns the decision, summary, and secure report link to the developer's current workflow.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Recommended decisions
 
-## What this page will cover
+| Condition | Default decision | Action |
+| --- | --- | --- |
+| No SQL changes | Skip | Finish successfully and record the reason |
+| No violations or informational findings only | Pass | Publish a summary |
+| Warning-level findings | Warn or block | Apply the team's risk standard |
+| Critical findings | Block | Require remediation and a new review |
+| SQL parse failure | Block | Correct the dialect, script, or workspace |
+| Required context missing | Block | Add DDL or repair the database connection |
+| PawSQL unavailable | Failure policy | Block, retry within limits, or request approval |
 
-- To be added
+## Configuration workflow
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Steps>
+  <Step title="Set the scope">Identify repositories, branches, paths, database types, and delivery stages.</Step>
+  <Step title="Choose a validated policy">Use a published ruleset and retain the policy version with every run.</Step>
+  <Step title="Define blocking criteria">Use severity, selected rules, parse errors, or approved count thresholds.</Step>
+  <Step title="Define failure behavior">Choose fail-closed, fail-open, or manual approval for timeout, authentication failure, and service unavailability.</Step>
+  <Step title="Control exceptions">Require a justification, approver, scope, and expiration.</Step>
+  <Step title="Publish feedback">Select commit status, review comments, pipeline results, and report links.</Step>
+</Steps>
+
+## Feedback fields
+
+| Field | Purpose |
+| --- | --- |
+| Gate decision | Pass, warning, block, or system error |
+| Job state | Queued, running, completed, failed, or timed out |
+| Finding counts | Summary by severity or rule category |
+| SQL location | File, statement, and line information |
+| Policy version | Reproduce the original decision |
+| PawSQL job ID | Support cross-system tracing |
+| Report link | Open complete findings and remediation evidence |
+
+## Status mapping
+
+| PawSQL outcome | Repository or pipeline status |
+| --- | --- |
+| Queued or running | Pending / Running |
+| Review passes | Success |
+| Non-blocking findings only | Success with warnings or Neutral |
+| Blocking criteria met | Failed |
+| System failure or timeout | Error, subject to the failure policy |
+| No SQL changes | Skipped or Success |
+
+A new head revision must make the previous decision stale. Only the job for the current revision may satisfy a merge requirement. Repeated runs should update an existing check or bot-owned comment rather than create duplicate feedback.
+
+<Warning>
+  Fail-open requires an alert and an audit record. Every manual exception should identify its approver, justification, scope, and expiration.
+</Warning>

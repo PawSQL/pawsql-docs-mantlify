@@ -1,0 +1,76 @@
+---
+id: en-user-guide-cicd-prerequisites
+title: Prerequisites and Security
+description: Prepare PawSQL, review context, platform permissions, network paths, credentials, and data controls before connecting a repository or pipeline.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-cicd-prerequisites
+---
+
+Before a production rollout, the PawSQL administrator, DevOps owner, and database owner should approve service access, authorization, data boundaries, and acceptance criteria.
+
+## PawSQL resources
+
+- A reachable PawSQL Cloud or PawSQL Server endpoint
+- A dedicated integration identity rather than a personal administrator account
+- The target organization and project
+- A workspace that matches the target database engine and version
+- A published review policy and gate thresholds
+- Least-privilege access to create reviews, query status, and open reports
+
+## Engineering-platform resources
+
+- Permission to configure connectors, webhooks, pipelines, or repository variables
+- A defined set of repositories, branches, and events
+- Rules for SQL paths, extensions, encoding, and migration formats
+- Secret storage that masks credentials in logs
+- A destination for commit status, review checks, pipeline status, or reports
+
+## Network paths
+
+| Direction | Validate |
+| --- | --- |
+| Repository to PawSQL | Connector access, webhook endpoint, port, and TLS |
+| Pipeline runner to PawSQL | DNS, proxy, firewall, timeout, and request size |
+| User browser to PawSQL | Report access, authentication, and project authorization |
+| PawSQL to database | Connectivity required for live metadata, plans, or validation |
+
+## Identity and least privilege
+
+- Use independently revocable credentials for each platform, environment, or project.
+- Limit PawSQL credentials to the intended project and review operations.
+- Grant repository credentials only the source-read and status-write scopes required.
+- Prefer read-only database access where live context is necessary.
+- Separate test and production identities and define expiration, rotation, and emergency revocation.
+- Never store plaintext credentials in source, pipeline definitions, logs, screenshots, or tickets.
+
+## Data handling
+
+| Data | Recommended control |
+| --- | --- |
+| SQL and migration scripts | Apply source-code and business-data classification |
+| DDL and metadata | Restrict movement across network boundaries |
+| Database connection details | Use secure storage and redact complete connection strings |
+| Review reports | Inherit PawSQL project access and apply a retention period |
+| Pipeline logs | Redact tokens, passwords, literals, and sensitive error context |
+
+## Acceptance cases
+
+Test a passing change, a predictable blocking violation, a commit with no SQL, an invalid workspace or credential, a timeout or service failure, and a duplicate event or retry.
+
+## Readiness checklist
+
+- [ ] The connector or runner can reach PawSQL.
+- [ ] Repository, branch, workspace, and policy mappings are correct.
+- [ ] Secret masking, rotation, and revocation are operational.
+- [ ] Pass, block, skip, timeout, and failure behavior are verified.
+- [ ] Reports are restricted to authorized users.
+- [ ] Owners are assigned for the integration and review policy.
+
+## Next step
+
+Configure the [SQL quality gate and feedback](/en/user-guide/cicd/pipeline-gate), then set up a prebuilt connector or OpenAPI workflow.

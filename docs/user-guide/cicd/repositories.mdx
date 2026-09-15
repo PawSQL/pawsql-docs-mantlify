@@ -1,0 +1,47 @@
+---
+id: user-guide-cicd-repositories
+title: 代码仓库连接器
+description: 使用 PawSQL 预置连接器接入腾讯 CODING、GitHub 和 GitLab，在提交与合并请求阶段审核 SQL。
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-cicd-repositories
+localeOf: en-user-guide-cicd-repositories
+---
+
+PawSQL 为腾讯 CODING、GitHub 和 GitLab 提供预置代码仓库连接器。连接器负责接收仓库事件、定位变更 SQL、创建审核工单，并将结果关联到对应提交或合并请求。
+
+## 支持的平台
+
+<CardGroup cols={3}>
+  <Card title="腾讯 CODING" href="/user-guide/cicd/coding" icon="code-branch">连接 CODING 项目和代码仓库。</Card>
+  <Card title="GitHub" href="/user-guide/cicd/github" icon="github">在 Push 和 Pull Request 中审核 SQL。</Card>
+  <Card title="GitLab" href="/user-guide/cicd/gitlab" icon="gitlab">在 Push 和 Merge Request 中审核 SQL。</Card>
+</CardGroup>
+
+## 连接器负责什么
+
+- 保存代码平台与 PawSQL 项目的连接配置；
+- 映射组织、仓库、分支、工作空间和审核策略；
+- 监听支持的仓库事件；
+- 识别符合路径和文件规则的 SQL 变更；
+- 创建并关联 PawSQL 审核工单；
+- 返回门禁状态和完整报告入口。
+
+## 与流水线连接器的区别
+
+代码仓库连接器以 Push、Pull Request 或 Merge Request 为中心；蓝鲸连接器作为流水线步骤运行。需要在 Jenkins、GitHub Actions 或其他未预置的流水线中自行控制执行阶段时，请使用[OpenAPI 流水线集成](/user-guide/cicd/openapi-pipeline)。
+
+## 通用配置顺序
+
+<Steps>
+  <Step title="准备 PawSQL 上下文">创建工作空间和审核策略，并准备最小权限账号。</Step>
+  <Step title="创建代码仓库连接">选择平台并完成认证或访问授权。</Step>
+  <Step title="选择仓库与事件">限定仓库、目标分支和提交或合并请求事件。</Step>
+  <Step title="配置 SQL 范围">指定目录、扩展名和需要忽略的文件。</Step>
+  <Step title="配置门禁">选择阻断阈值、异常策略和结果反馈。</Step>
+  <Step title="完成验收">分别验证通过、阻断、无变更和重复事件。</Step>
+</Steps>

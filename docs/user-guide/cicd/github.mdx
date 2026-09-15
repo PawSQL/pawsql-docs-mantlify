@@ -1,0 +1,50 @@
+---
+id: user-guide-cicd-github
+title: 集成 GitHub
+description: 使用 PawSQL 预置代码仓库连接器，在 GitHub Push 和 Pull Request 阶段审核 SQL。
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-cicd-github
+localeOf: en-user-guide-cicd-github
+---
+
+PawSQL GitHub 预置连接器用于关联 GitHub 代码仓库，监听配置范围内的 Push 或 Pull Request 事件，并为其中的 SQL 变更创建审核工单。
+
+## 开始之前
+
+- 确认 PawSQL 可以访问 GitHub 或企业内部 GitHub 实例；
+- 准备具有目标仓库访问权限的 GitHub 身份或访问凭据；
+- 在 PawSQL 中创建项目、工作空间和审核策略；
+- 确定目标组织、仓库、分支和 SQL 文件范围；
+- 明确 Pull Request 的门禁和结果反馈要求。
+
+## 配置流程
+
+<Steps>
+  <Step title="创建 GitHub 连接">在 PawSQL 的代码仓库连接器中选择 GitHub，并按界面要求完成服务地址和身份认证。</Step>
+  <Step title="选择组织和仓库">仅授权需要纳管的组织和仓库，避免使用无关的广泛权限。</Step>
+  <Step title="选择触发事件">根据流程启用 Push、Pull Request 创建、更新或重新打开等事件。</Step>
+  <Step title="配置审核映射">设置目标分支、SQL 路径、文件扩展名、PawSQL 工作空间和审核策略。</Step>
+  <Step title="配置质量门禁">确定严重级别阈值、异常策略、检查状态和报告反馈。</Step>
+  <Step title="完成验收">提交测试 Pull Request，验证通过、阻断、无 SQL 和重复事件场景。</Step>
+</Steps>
+
+## 结果反馈
+
+审核结果应关联到当前提交，并显示门禁结论、问题数量和 PawSQL 报告入口。Pull Request 更新后，旧提交的审核结果不得继续满足合并条件。
+
+## 权限建议
+
+- 仅授予读取目标仓库内容和回传检查状态所需的权限；
+- 组织级连接应限制允许纳管的仓库；
+- 定期轮换凭据并检查失效授权；
+- 不在日志或配置导出中显示 Token；
+- 对来自 Fork 的 Pull Request 采用不会暴露高权限凭据的流程。
+
+<Note>
+  GitHub 预置代码仓库连接器与 GitHub Actions OpenAPI 集成是两种不同方式。需要在 Actions 中自行控制审核阶段时，请参阅 [OpenAPI 流水线集成](/user-guide/cicd/openapi-pipeline)。
+</Note>

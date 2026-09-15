@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-cicd-webhook
-title: Configure Webhooks
-description: Configure Webhooks — PawSQL User Guide (draft).
+title: Webhook Integration Model
+description: Understand signature validation, filtering, asynchronous processing, retries, and duplicate delivery in event-driven integrations.
 type: guide
 subtype: integration
 layout: detail
@@ -11,12 +11,51 @@ language: en
 translationKey: user-guide-cicd-webhook
 ---
 
-# Configure Webhooks
+Webhooks let a repository or CI/CD system notify PawSQL when a relevant event occurs. PawSQL validates the event, filters irrelevant payloads, and processes the review asynchronously.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Delivery flow
 
-## What this page will cover
+<Steps>
+  <Step title="Event is produced">The source platform emits an event such as a push or merge request.</Step>
+  <Step title="Signature is validated">PawSQL verifies the payload signature or shared secret and rejects invalid deliveries.</Step>
+  <Step title="Payload is filtered">PawSQL ignores events outside the repository, branch, path, and event scope.</Step>
+  <Step title="Job is created">A review job is queued with the workspace and policy mapped from the event.</Step>
+  <Step title="Result is returned">The gate decision and report link are published to the source platform.</Step>
+</Steps>
 
-- To be added
+## Security model
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+- **Signature validation** — verify the shared secret or signing key on every delivery.
+- **Replay protection** — record processed event identifiers and timestamps.
+- **TLS** — require HTTPS and validate certificates.
+- **Source allowlist** — accept deliveries only from expected sources and networks.
+- **Secret handling** — store secrets in a managed vault; never log them.
+
+## Retries and duplicate delivery
+
+Source platforms may retry a delivery when the endpoint is unavailable or slow. PawSQL treats these as the same logical event:
+
+- Duplicate deliveries are idempotent and do not create duplicate reviews or feedback.
+- Retries are bounded; an event is recorded as failed after the platform's retry window.
+- Endpoint errors follow the platform's retry policy and backoff.
+
+## Filtering and processing
+
+The review scope reduces noise and cost by limiting what the integration processes:
+
+- Restrict repositories, branches, and event actions.
+- Select SQL paths, file extensions, and database dialects.
+- Ignore removed files and non-SQL changes.
+- Map the event to the correct workspace and review policy.
+
+## Operation notes
+
+- Monitor delivery latency and the queue depth.
+- Alert when the failure rate exceeds a threshold.
+- Keep endpoint availability high to avoid triggering retries.
+- Review processed event logs to confirm correct scope.
+
+## Related
+
+- [Repository Connectors](/en/user-guide/cicd/repositories)
+- [Troubleshoot CI/CD Integrations](/en/user-guide/cicd/logs-troubleshooting)

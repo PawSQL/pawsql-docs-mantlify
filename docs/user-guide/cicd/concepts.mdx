@@ -1,0 +1,53 @@
+---
+id: user-guide-cicd-concepts
+title: 集成流程与核心概念
+description: 了解 PawSQL CI/CD 集成中的事件、SQL 变更集、工作空间、审核策略和门禁结果。
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-cicd-concepts
+localeOf: en-user-guide-cicd-concepts
+---
+
+PawSQL 集成以一次代码变更为起点，以可审计的 SQL 质量结论为终点。理解下列对象有助于正确设计平台配置和流水线行为。
+
+## 核心对象
+
+| 对象 | 作用 |
+| --- | --- |
+| 触发事件 | Push、Pull Request、Merge Request 或人工流水线运行 |
+| SQL 变更集 | 本次提交中新增或修改的 SQL 文件和语句 |
+| 集成配置 | 保存平台、仓库、分支和 PawSQL 项目之间的映射 |
+| 工作空间 | 提供数据库类型、版本、对象定义和统计信息等审核上下文 |
+| 审核策略 | 定义启用的规则、参数和严重级别 |
+| 审核工单 | 保存输入 SQL、问题、优化建议和执行状态 |
+| 质量门禁 | 将审核结果转换为通过、警告或阻断结论 |
+| 外部运行标识 | 将 PawSQL 工单关联到仓库提交、合并请求或流水线运行 |
+
+## 增量审核与全量审核
+
+| 模式 | 适用场景 | 注意事项 |
+| --- | --- | --- |
+| 增量审核 | 日常提交和合并请求 | 速度快，应确保基线提交准确 |
+| 全量审核 | 首次接入、定期基线扫描 | 覆盖完整，但需要控制工单规模和超时 |
+| 指定目录审核 | 数据库迁移脚本集中存放 | 目录规则应纳入版本管理 |
+| 指定文件审核 | 人工补充检查 | 适合排障，不应替代自动门禁 |
+
+## 状态与幂等
+
+同一仓库、提交和策略产生的重复事件应关联到同一次逻辑运行，避免重复评论和重复工单。重新执行时应保留运行序号，并明确最新结果是否覆盖旧状态。
+
+<Note>
+  “审核通过”表示 SQL 满足当前策略，并不代表 SQL 已经在目标数据库执行，也不替代业务正确性验证和数据库变更审批。
+</Note>
+
+## 相关文档
+
+<CardGroup cols={2}>
+  <Card title="接入前准备与安全要求" href="/user-guide/cicd/prerequisites" />
+  <Card title="SQL 质量门禁与结果回传" href="/user-guide/cicd/pipeline-gate" />
+  <Card title="工作空间" href="/user-guide/workspaces" />
+</CardGroup>
