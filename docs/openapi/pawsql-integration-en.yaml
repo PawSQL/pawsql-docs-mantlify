@@ -1,0 +1,762 @@
+openapi: 3.0.3
+info:
+  title: CI/CD Integration
+  description: |
+    CI/CD Integration APIs for external platforms (BlueKing, Coding, GitLab, etc.) to integrate SQL audit capabilities.
+
+    ## Endpoint Categories
+
+    - **SQL Audit Tasks**: create audit tasks, query audit results, look up workspaces
+    - **Webhook Callbacks**: receive code change events pushed by GitLab/Coding/GitHub platforms to automatically trigger SQL audits
+
+    ## Authentication
+
+    SQL audit task endpoints do not require a userKey; the source platform is identified by `platformCode`.
+    Webhook endpoints are verified through the `webhookToken` in the URL.
+
+    ## Typical Integration Flow
+
+    1. Create a workspace and audit rule template in the PawSQL admin console
+    2. Call `/sql-audits/workspace-lookup` to look up the workspaceId and ruleTemplateId
+    3. Call `POST /sql-audits` to create an audit task (passing SQL text or code change info)
+    4. Poll `GET /sql-audits/{taskId}` for the audit result
+    5. Or configure a Webhook to trigger audits automatically on code push
+  version: 1.0.0
+  contact:
+    name: PawSQL Team
+    url: https://pawsql.com
+  license:
+    name: PawSQL
+    url: https://pawsql.com
+servers:
+  - url: /api/v1
+    description: PawSQL Server
+tags:
+  - name: SQL Audit Tasks
+    description: Creation and query of SQL audit tasks
+  - name: GitLab Webhook
+    description: GitLab Webhook callback
+  - name: Coding Webhook
+    description: Coding Webhook callback
+  - name: GitHub Webhook
+    description: GitHub Webhook callback
+
+paths:
+  /sql-audits:
+    post:
+      tags:
+        - SQL Audit Tasks
+      summary: Create audit task
+      description: |
+        Called by external integration platforms to create a SQL audit task.
+        Supports idempotency (via requestId) and multiple SQL sources (text, deployment package, commit, merge request, directory).
+      operationId: createSqlAuditTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SqlAuditTaskCreate'
+            examples:
+              text-source:
+                summary: SQL text audit
+                value:
+                  requestId: "req-001"
+                  sqlSource:
+                    sourceType: text
+                    content: "SELECT * FROM users WHERE id = 1;"
+                  workspaceId: "1730411624641736706"
+                  ruleTemplateId: "100"
+                  platformCode: "blueking-prod"
+                  enableIndexRecommendation: true
+              commit-source:
+                summary: Code commit audit
+                value:
+                  requestId: "req-002"
+                  sqlSource:
+                    sourceType: commit
+                    commitSource:
+                      depotPath: "project/repo"
+                      commitSha: "abc123def456"
+                  workspaceId: "1730411624641736706"
+                  ruleTemplateId: "100"
+                  platformCode: "coding-prod"
+      responses:
+        '200':
+          description: Audit task created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SqlAuditTaskRead'
+              examples:
+                accepted:
+                  summary: Task accepted
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: accepted
+                      result: null
+        '400':
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResult'
+              example:
+                code: 400
+                message: "Workspace ID cannot be empty"
+                data: null
+
+  /sql-audits/{taskId}:
+    get:
+      tags:
+        - SQL Audit Tasks
+      summary: Query audit result
+      description: Query the status and result of a SQL audit task by task ID.
+      operationId: getSqlAuditTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Audit task ID
+          example: audit-001
+      responses:
+        '200':
+          description: Audit task details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SqlAuditTaskRead'
+              examples:
+                finished:
+                  summary: Audit finished
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: finished
+                      result: allow
+                      riskLevel: 2
+                      riskLevelDesc: notice
+                      summary: "## Audit Result\n\n- Total SQL: 1\n- Violations: 0\n- Risk level: notice"
+                      reportUrl: "https://pawsql.com/report/audit-001"
+                running:
+                  summary: Audit in progress
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: running
+                      result: null
+
+  /sql-audits/workspace-lookup:
+    get:
+      tags:
+        - SQL Audit Tasks
+      summary: Query workspace ID
+      description: |
+        Query the workspace ID and recommended rule templates by workspace name and environment.
+        No authentication required; used by integration platforms to query configuration.
+      operationId: lookupWorkspace
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Workspace name
+          example: my-workspace
+        - name: env
+          in: query
+          required: false
+          schema:
+            type: string
+          description: Environment identifier (optional)
+          example: production
+      responses:
+        '200':
+          description: Workspace lookup result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceLookupResult'
+              example:
+                code: 200
+                message: Success
+                data:
+                  workspaceId: "1730411624641736706"
+                  workspaceName: my-workspace
+                  env: production
+                  dbType: mysql
+                  orgId: "1"
+                  recommendedDbObjectRuleTemplateId: "100"
+                  recommendedAuditRuleTemplateId: "200"
+
+  /integrations/gitlab/webhook/{webhookToken}:
+    post:
+      tags:
+        - GitLab Webhook
+      summary: GitLab Webhook callback
+      description: |
+        Receive GitLab Push/Merge Request events, automatically extract changed SQL and trigger an audit.
+
+        **GitLab configuration**:
+        1. Create an SCM monitoring configuration in the PawSQL admin console to obtain the webhookToken
+        2. In GitLab project → Settings → Webhooks, fill in the URL:
+           `{PAWSQL_SERVER}/api/v1/integrations/gitlab/webhook/{webhookToken}`
+        3. Check Push events and Merge request events
+
+        **Expected HTTP Headers**:
+        - `X-Gitlab-Event`: event type (push / merge_request)
+        - `X-Gitlab-Token`: secret token (optional)
+        - `X-Gitlab-Event-UUID`: unique event identifier
+
+        **Request Body**: GitLab Webhook Payload (JSON format), see the [GitLab Webhook documentation](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)
+      operationId: gitlabWebhook
+      parameters:
+        - name: webhookToken
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook verification token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: GitLab Webhook Payload, format per the official GitLab documentation
+      responses:
+        '200':
+          description: Webhook processing result
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+  /integrations/coding/webhook/{webhookToken}:
+    post:
+      tags:
+        - Coding Webhook
+      summary: Coding Webhook callback
+      description: |
+        Receive Coding Push/Merge Request events, automatically extract changed SQL and trigger an audit.
+
+        **Coding configuration**:
+        1. Create an SCM monitoring configuration in the PawSQL admin console to obtain the webhookToken
+        2. In Coding project → Project settings → Developer options → Webhook, fill in the URL:
+           `{PAWSQL_SERVER}/api/v1/integrations/coding/webhook/{webhookToken}`
+        3. Check Push and Merge Request events
+
+        **Expected HTTP Headers**:
+        - `X-Coding-Event`: event type (push / merge_request)
+        - `X-Coding-Signature`: signature (optional)
+        - `X-Coding-Delivery`: event delivery ID
+
+        **Request Body**: Coding Webhook Payload (JSON format)
+      operationId: codingWebhook
+      parameters:
+        - name: webhookToken
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook verification token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Coding Webhook Payload, format per the official Coding documentation
+      responses:
+        '200':
+          description: Webhook processing result
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+  /integrations/scm/webhook/{token}:
+    post:
+      tags:
+        - GitHub Webhook
+      summary: GitHub Webhook callback
+      description: |
+        Receive GitHub Push/Pull Request events, automatically extract changed SQL and trigger an audit.
+
+        **GitHub configuration**:
+        1. Create an SCM monitoring configuration in the PawSQL admin console to obtain the webhook token
+        2. In GitHub project → Settings → Webhooks, fill in the URL:
+           `{PAWSQL_SERVER}/api/v1/integrations/scm/webhook/{token}`
+        3. Set Content type to `application/json`
+        4. Check Push events and Pull request events
+
+        **Expected HTTP Headers**:
+        - `X-GitHub-Event`: event type (push / pull_request)
+
+        **Request Body**: GitHub Webhook Payload (JSON format), see the [GitHub Webhook documentation](https://docs.github.com/en/webhooks/webhook-events-and-payloads)
+      operationId: githubWebhook
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook verification token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: GitHub Webhook Payload, format per the official GitHub documentation
+      responses:
+        '200':
+          description: Webhook processing result
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+components:
+  schemas:
+    ApiResult:
+      type: object
+      description: Unified response body
+      properties:
+        code:
+          type: integer
+          description: Status code, 200 indicates success
+          example: 200
+        message:
+          type: string
+          description: Description message
+          example: Success
+        data:
+          description: Response data
+
+    SqlAuditTaskCreate:
+      type: object
+      description: Create SQL audit task request
+      required:
+        - sqlSource
+        - workspaceId
+        - ruleTemplateId
+        - platformCode
+      properties:
+        requestId:
+          type: string
+          description: Idempotency key (external request ID, optional. When empty, idempotency is not checked and the audit runs every time)
+        sqlSource:
+          $ref: '#/components/schemas/SqlSourceDTO'
+        dbVersion:
+          type: string
+          description: Database version
+        workspaceId:
+          type: string
+          description: Workspace ID
+          example: "1730411624641736706"
+        ruleTemplateId:
+          type: string
+          description: Audit template ID
+          example: "100"
+        operatorEmail:
+          type: string
+          description: Operator email (optional. When provided, the audit task is created as this user)
+        enableIndexRecommendation:
+          type: boolean
+          description: Whether to run index recommendation, default true; when false, only audits without index recommendation
+          default: true
+        platformType:
+          type: string
+          description: "Platform type: blueking/coding (optional, used to explicitly specify the source platform)"
+        platformCode:
+          type: string
+          description: Platform instance identifier (e.g. blueking-prod, coding-prod)
+          example: blueking-prod
+        extra:
+          type: object
+          additionalProperties: true
+          description: Extended data (passed through to the result)
+
+    SqlSourceDTO:
+      type: object
+      description: SQL source configuration
+      required:
+        - sourceType
+      properties:
+        sourceType:
+          type: string
+          description: "SQL source type: text/package/commit/merge_request/directory"
+          enum:
+            - text
+            - package
+            - commit
+            - merge_request
+            - directory
+          example: text
+        content:
+          type: string
+          description: SQL text content (used when sourceType=text)
+          example: "SELECT * FROM users WHERE id = 1;"
+        packageSource:
+          $ref: '#/components/schemas/PackageSourceDTO'
+        commitSource:
+          $ref: '#/components/schemas/CommitSourceDTO'
+        mergeRequestSource:
+          $ref: '#/components/schemas/MergeRequestSourceDTO'
+        directorySource:
+          $ref: '#/components/schemas/DirectorySourceDTO'
+
+    PackageSourceDTO:
+      type: object
+      description: Deployment package source configuration
+      required:
+        - url
+        - contentType
+      properties:
+        url:
+          type: string
+          description: Deployment package download URL
+        contentType:
+          type: string
+          description: "Content type: full/incremental"
+          enum:
+            - full
+            - incremental
+
+    CommitSourceDTO:
+      type: object
+      description: Commit source configuration
+      required:
+        - commitSha
+      properties:
+        depotPath:
+          type: string
+          description: Code repository path
+        depotId:
+          type: string
+          description: Code repository ID
+        commitSha:
+          type: string
+          description: Commit SHA
+          example: "abc123def456"
+        monitorPath:
+          type: string
+          description: Monitored directory path (optional, only audit changed files under this directory)
+        comment:
+          type: boolean
+          description: Whether to write back a comment
+
+    MergeRequestSourceDTO:
+      type: object
+      description: Merge request source configuration
+      required:
+        - mergeId
+      properties:
+        depotPath:
+          type: string
+          description: Code repository path
+        depotId:
+          type: string
+          description: Code repository ID
+        mergeId:
+          type: string
+          description: Merge request ID
+        monitorPath:
+          type: string
+          description: Monitored directory path (optional, only audit changed files under this directory)
+        comment:
+          type: boolean
+          description: Whether to write back a comment
+
+    DirectorySourceDTO:
+      type: object
+      description: Directory source configuration
+      required:
+        - branch
+        - directory
+      properties:
+        depotPath:
+          type: string
+          description: Code repository path
+        depotId:
+          type: string
+          description: Code repository ID
+        branch:
+          type: string
+          description: Branch name
+          example: main
+        directory:
+          type: string
+          description: Directory path
+          example: /sql
+        recursion:
+          type: boolean
+          description: Whether to search recursively
+
+    SqlAuditTaskRead:
+      type: object
+      description: SQL audit task response
+      properties:
+        taskId:
+          type: string
+          description: Task ID
+        requestId:
+          type: string
+          description: Idempotency key (external request ID)
+        status:
+          type: string
+          description: "Task status: accepted/running/finished"
+          enum:
+            - accepted
+            - running
+            - finished
+        result:
+          type: string
+          description: "Decision result: allow/deny/timeout/failed"
+          enum:
+            - allow
+            - deny
+            - timeout
+            - failed
+        errorCode:
+          type: integer
+          description: Error code (only present when result=failed)
+        errorMessage:
+          type: string
+          description: Error message (only present when result=failed)
+        riskLevel:
+          type: integer
+          description: "Risk level: 0-critical 1-warning 2-notice"
+          enum:
+            - 0
+            - 1
+            - 2
+        riskLevelDesc:
+          type: string
+          description: "Risk level description: critical/warning/notice"
+          enum:
+            - critical
+            - warning
+            - notice
+        statistics:
+          type: object
+          additionalProperties: true
+          description: Statistics information
+        summary:
+          type: string
+          description: Audit summary (Markdown format, suitable for display)
+        summaryData:
+          $ref: '#/components/schemas/SummaryData'
+        reportUrl:
+          type: string
+          description: Report detail page URL
+        reportHtml:
+          type: string
+          description: Report HTML content
+        callbackStatus:
+          type: string
+          description: "Callback status: pending/success/failed/skipped"
+        callbackMessage:
+          type: string
+          description: Callback result message
+        finishedAt:
+          type: string
+          format: date-time
+          description: Completion time
+        extra:
+          type: object
+          additionalProperties: true
+          description: Extended data (passed through)
+        ticketId:
+          type: string
+          description: Associated ticket ID
+        ticketTitle:
+          type: string
+          description: Ticket title (usable for platform search)
+        auditId:
+          type: string
+          description: Associated audit ID
+        workspaceInfo:
+          $ref: '#/components/schemas/WorkspaceInfo'
+        env:
+          type: string
+          description: Environment information
+        orgInfo:
+          $ref: '#/components/schemas/OrgInfo'
+        ruleTemplateInfo:
+          $ref: '#/components/schemas/RuleTemplateInfo'
+        operatorEmail:
+          type: string
+          description: Operator email
+        enableIndexRecommendation:
+          type: boolean
+          description: Whether to run index recommendation
+
+    WorkspaceInfo:
+      type: object
+      description: Workspace information
+      properties:
+        id:
+          type: string
+          description: Workspace ID
+        name:
+          type: string
+          description: Workspace name
+
+    OrgInfo:
+      type: object
+      description: Organization information
+      properties:
+        id:
+          type: string
+          description: Organization ID
+        name:
+          type: string
+          description: Organization name
+        code:
+          type: string
+          description: Organization code
+
+    RuleTemplateInfo:
+      type: object
+      description: Rule template information
+      properties:
+        id:
+          type: string
+          description: Template ID
+        name:
+          type: string
+          description: Template name
+
+    SummaryData:
+      type: object
+      description: Audit summary (structured JSON, suitable for metrics analysis)
+      properties:
+        result:
+          type: string
+          description: "Audit result: allow/deny/timeout/failed"
+        riskLevel:
+          type: integer
+          description: "Risk level: 0-critical 1-warning 2-notice"
+        riskLevelDesc:
+          type: string
+          description: "Risk level description: critical/warning/notice"
+        sqlTotal:
+          type: integer
+          description: Total number of SQL statements
+        violationCount:
+          type: integer
+          description: Number of violating SQL statements
+        levelStats:
+          $ref: '#/components/schemas/LevelStats'
+        files:
+          type: array
+          items:
+            type: string
+          description: List of audited files
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ViolationItem'
+          description: List of violating SQL statements
+
+    LevelStats:
+      type: object
+      description: Problem count by level
+      properties:
+        critical:
+          type: integer
+          description: Number of critical-level problems
+        warning:
+          type: integer
+          description: Number of warning-level problems
+        notice:
+          type: integer
+          description: Number of notice-level problems
+
+    ViolationItem:
+      type: object
+      description: Violating SQL entry
+      properties:
+        sourceFile:
+          type: string
+          description: Source file path
+        lineNumber:
+          type: integer
+          description: Line number (may be null)
+        sql:
+          type: string
+          description: SQL snippet (max 300 characters)
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleRef'
+          description: List of violated rules
+
+    RuleRef:
+      type: object
+      description: Rule reference
+      properties:
+        level:
+          type: string
+          description: "Rule level: critical/warning/notice"
+          enum:
+            - critical
+            - warning
+            - notice
+        ruleName:
+          type: string
+          description: Rule name
+
+    WorkspaceLookupResult:
+      type: object
+      description: Workspace lookup result
+      properties:
+        workspaceId:
+          type: string
+          description: Workspace ID
+          example: "1730411624641736706"
+        workspaceName:
+          type: string
+          description: Workspace name
+        env:
+          type: string
+          description: Environment identifier
+        dbType:
+          type: string
+          description: Database type (displayCode)
+          example: mysql
+        orgId:
+          type: string
+          description: Owning organization ID
+        recommendedDbObjectRuleTemplateId:
+          type: string
+          description: Recommended inspection rule template ID (global template auto-matched by database type, 0 indicates the default template)
+        recommendedAuditRuleTemplateId:
+          type: string
+          description: Recommended audit rule template ID (global template auto-matched by database type, 0 indicates the default template)

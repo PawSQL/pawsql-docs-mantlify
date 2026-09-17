@@ -1,0 +1,1062 @@
+openapi: 3.0.3
+info:
+  title: PawSQL 优化服务
+  description: |
+    PawSQL SQL 优化服务对外接口。
+
+    PawSQL 优化引擎是为开发者和 DBA 开发的查询优化引擎，集成了数据库行业的查询优化最佳实践，
+    提供强大的 SQL 审核和重写优化功能，并集成 Paw Index Advisor 索引推荐引擎为慢查询提供基于成本的索引推荐。
+
+    ## 认证方式
+
+    大部分接口需要通过 `userKey`（激活码）进行身份认证。
+    `userKey` 可通过 `/getUserKey` 接口（邮箱密码登录）获取。
+
+    ## 接口调用流程
+
+    1. 调用 `/getUserKey` 获取 userKey
+    2. 调用 `/createWorkspace` 创建工作空间（或直接在 `/createAnalysis` 中传入 DDL）
+    3. 调用 `/createAnalysis` 或 `/createAnalysisAsync` 创建优化任务
+    4. 调用 `/getAnalysisSummary` 获取优化汇总
+    5. 调用 `/getStatementDetails` 获取单条 SQL 优化详情
+  version: 1.0.0
+  contact:
+    name: PawSQL Team
+    url: https://pawsql.com
+  license:
+    name: PawSQL
+    url: https://pawsql.com
+servers:
+  - url: /api/v1
+    description: PawSQL Server
+security:
+  - userKey: []
+tags:
+  - name: 身份认证
+    description: 身份认证接口
+  - name: 工作空间
+    description: 工作空间管理接口
+  - name: SQL优化
+    description: SQL 优化任务接口
+paths:
+  /getUserKey:
+    post:
+      tags:
+        - 身份认证
+      summary: 获取 UserKey
+      description: 通过邮箱和密码登录，获取 userKey（激活码），用于后续 API 调用的身份认证。
+      operationId: getUserKey
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestBody'
+            examples:
+              example:
+                value:
+                  email: user@example.com
+                  password: yourpassword
+      responses:
+        '200':
+          description: 成功返回 userKey
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        type: string
+                        description: userKey 字符串
+                        example: CB698418-88B25371-67F15F01-XXXXXXXX
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data: CB698418-88B25371-67F15F01-XXXXXXXX
+                failure:
+                  value:
+                    code: 400
+                    message: 邮箱或密码错误
+                    data: null
+
+  /validateUserKey:
+    post:
+      tags:
+        - 身份认证
+      summary: 校验 UserKey
+      description: 校验 userKey 是否有效，可用于客户端启动时验证激活码可用性。
+      operationId: validateUserKey
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserKeyRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+      responses:
+        '200':
+          description: 校验结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        type: boolean
+                        description: true 表示有效
+              examples:
+                valid:
+                  value:
+                    code: 200
+                    message: Success
+                    data: true
+                invalid:
+                  value:
+                    code: 400
+                    message: userKey 无效
+                    data: null
+
+  /createWorkspace:
+    post:
+      tags:
+        - 工作空间
+      summary: 创建工作空间
+      description: |
+        创建工作空间并返回 workspaceId，支持离线模式（DDL 文本）和在线模式（数据库连接）。
+
+        ### 支持的 dbType 值
+
+        | dbType | Database |
+        |--------|----------|
+        | mysql | MySQL |
+        | mysql-rds | RDS MySQL |
+        | gaussdb-mysql | GaussDB for MySQL |
+        | goldendb | GoldenDB |
+        | tdsqlx-mysql | TDSQL MySQL (Distributed) |
+        | tdsql-mysql | TDSQL MySQL (Centralized) |
+        | oceanbase-mysql | OceanBase (MySQL Mode) |
+        | oceanbase-oracle | OceanBase (Oracle Mode) |
+        | polardbx | PolarDB-X 2.0 |
+        | postgresql | PostgreSQL |
+        | opengauss | OpenGauss |
+        | kingbase-es | Kingbase |
+        | mogdb | MogDB |
+        | gaussdbx | GaussDB (Distributed) |
+        | gaussdb-dws | GaussDB for DWS |
+        | oracle | Oracle |
+        | tdsqlx-pg | TDSQL PostgreSQL (Distributed) |
+        | tdsql-pg | TDSQL PostgreSQL (Centralized) |
+        | mssql | SQLServer |
+        | db2 | DB2 |
+        | dameng | Dameng |
+      operationId: createWorkspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiWorkspaceCreate'
+            examples:
+              offline:
+                summary: 离线模式
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  mode: offline
+                  dbType: mysql
+                  ddlText: "CREATE TABLE `organization` (`org_id` bigint(20) NOT NULL);"
+              online:
+                summary: 在线模式
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  mode: online
+                  dbType: mysql
+                  host: localhost
+                  port: "3306"
+                  database: pawsql
+                  dbUser: root
+                  dbPassword: password
+      responses:
+        '200':
+          description: 工作空间创建结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/WorkspaceCreateResponse'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      workspaceId: "1730508173442965506"
+                failure:
+                  value:
+                    code: 400
+                    message: server.validate.failed
+                    data: null
+
+  /listWorkspaces:
+    post:
+      tags:
+        - 工作空间
+      summary: 查询工作空间列表
+      description: |
+        获取当前用户的所有工作空间列表（分页）。
+
+        **注意**：匿名用户不支持查询工作空间列表。
+      operationId: listWorkspaces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  pageNumber: 1
+                  pageSize: 10
+      responses:
+        '200':
+          description: 工作空间列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/PageResponse_WorkspaceInfo'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      records:
+                        - workspaceId: "1730411624641736706"
+                          workspaceName: my-workspace
+                          dbType: mysql
+                          createTime: "2026-09-01 10:00:00"
+                          numberOfAnalysis: 5
+                          latestAnalysisTime: "2026-09-05 14:30:00"
+                          status: success
+                      total: 1
+                      size: 10
+                      current: 1
+                      pages: 1
+
+  /createAnalysis:
+    post:
+      tags:
+        - 优化任务
+      summary: 创建优化任务（同步）
+      description: |
+        创建 SQL 优化任务，**同步等待优化完成后返回结果**。适用于短查询或客户端可以长时间等待的场景。
+
+        如果优化耗时较长（超过 HTTP 超时），建议使用异步接口 `/createAnalysisAsync`。
+
+        ### 默认值优先级
+
+        请求参数 > 用户配置（UserConfig） > 全局配置（PawsqlConfig） > 系统硬编码默认值
+
+        硬编码默认值：`analyzeFlag=true`, `closeRewrite=true`, `deduplicateFlag=false`,
+        `indexOnly=false`, `maxMembers=3`, `maxMembersForIndexOnly=2`, `maxPerTable=2`, `maxSpace=1`
+      operationId: createAnalysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisCreate'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspace: "1730508173442965506"
+                  workload: "select * from organization where adm_id = 100 and adm_name = null;"
+                  queryMode: plain_sql
+                  validateFlag: false
+                  singleQueryFlag: true
+      responses:
+        '200':
+          description: 优化任务创建结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisCreateResponse'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730505660018876418"
+                      status: success1
+                cached:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730505660018876418"
+                      status: success0
+                failure:
+                  value:
+                    code: 400
+                    message: 创建分析失败
+                    data: null
+
+  /createAnalysisAsync:
+    post:
+      tags:
+        - 优化任务
+      summary: 创建优化任务（异步）
+      description: |
+        创建 SQL 优化任务后立即返回，通过 `/getAnalysisSummary` 轮询优化结果。
+        适用于长查询或需要避免 HTTP 超时的场景。
+      operationId: createAnalysisAsync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisCreate'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspace: "1730508173442965506"
+                  workload: "select * from organization where adm_id = 100;"
+                  queryMode: plain_sql
+      responses:
+        '200':
+          description: 异步优化任务创建结果
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisCreateResponse'
+
+  /getAnalysisSummary:
+    post:
+      tags:
+        - 优化任务
+      summary: 查询优化汇总
+      description: |
+        通过优化任务 ID 或名称查询优化汇总信息。
+
+        `analysisId` 和 `analysisName` 至少传一个。如果只传 `analysisName`，将按名称模糊查询最近一条匹配记录。
+
+        当优化仍在进行中时，仅返回 `status` 和 `analysisName`。
+      operationId: getAnalysisSummary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisRequestId'
+            examples:
+              byId:
+                summary: 按 ID 查询
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisId: "1730503067658043394"
+              byName:
+                summary: 按名称查询
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisName: API-ANA-20260901143022
+      responses:
+        '200':
+          description: 优化汇总信息
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisSummary'
+              examples:
+                completed:
+                  summary: 优化完成
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      status: success1
+                      analysisName: API-ANA-20260901143022
+                      basicSummary:
+                        numberOfQuery: 1
+                        numberOfRewrite: 2
+                        numberOfIndex: 1
+                        performanceImprove: 85.5
+                        summaryMarkdown: "..."
+                      summaryStatementInfo:
+                        - analysisStmtId: "1730503078953304065"
+                          stmtName: Query-1
+                          stmtText: "select * from organization where adm_id = 100"
+                          costBefore: 120.5
+                          costAfter: 18.3
+                          performance: 84.8
+                running:
+                  summary: 优化进行中
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      status: running
+                      analysisName: API-ANA-20260901143022
+
+  /listAnalyses:
+    post:
+      tags:
+        - 优化任务
+      summary: 查询优化任务列表
+      description: 获取当前用户（指定工作空间）的优化任务列表（分页）。
+      operationId: listAnalyses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspaceId: 1730187810133712898
+                  pageNumber: 1
+                  pageSize: 10
+      responses:
+        '200':
+          description: 优化任务列表
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/PageResponse_AnalysisInfo'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      records:
+                        - analysisId: "1730505660018876418"
+                          analysisName: API-ANA-20260901143022
+                          workspaceId: "1730187810133712898"
+                          workspaceName: my-workspace
+                          status: success1
+                          numberOfQuery: 1
+                          numberOfIndex: 1
+                          numberOfRewrite: 2
+                          performanceImprove: 85.5
+                          createTime: "2026-09-01 14:30:22"
+                      total: 1
+                      size: 10
+                      current: 1
+                      pages: 1
+
+  /getStatementDetails:
+    post:
+      tags:
+        - 优化任务
+      summary: 查询语句优化详情
+      description: |
+        通过语句 ID（`analysisStmtId`）查询单条 SQL 的优化详情，
+        包括重写建议、索引推荐、执行计划对比等。
+
+        `analysisStmtId` 从 `/getAnalysisSummary` 的 `summaryStatementInfo[].analysisStmtId` 获取。
+      operationId: getStatementDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiStatementRequestId'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisStmtId: "1730503078953304065"
+      responses:
+        '200':
+          description: 语句优化详情
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/StatementDetail'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730522723395497986"
+                      analysisName: API-ANA-20260901143022
+                      statementName: Query-1
+                      stmtText: "select * from organization where adm_id = 100"
+                      detailMarkdown: "..."
+                      indexRecommended:
+                        - "CREATE INDEX idx_org_adm_id ON organization(adm_id)"
+                      rewrittenQuery:
+                        - "SELECT * FROM organization WHERE adm_id = 100 AND adm_name IS NOT NULL"
+                      beforeCost: 120.5
+                      afterCost: 18.3
+                      performImprovePer: "84.8%"
+
+components:
+  securitySchemes:
+    userKey:
+      type: apiKey
+      in: header
+      name: userKey
+      description: 激活码，通过 /getUserKey 接口获取
+  schemas:
+    ApiResult:
+      type: object
+      description: 统一响应体
+      properties:
+        code:
+          type: integer
+          description: 状态码，200 表示成功
+          example: 200
+        message:
+          type: string
+          description: 描述信息
+          example: Success
+        data:
+          description: 响应数据
+
+    LoginRequestBody:
+      type: object
+      description: 登录请求
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: 注册邮箱
+          example: user@example.com
+        password:
+          type: string
+          description: 登录密码
+          example: yourpassword
+
+    ApiUserKeyRequestBody:
+      type: object
+      description: UserKey 校验请求
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+
+    ApiWorkspaceCreate:
+      type: object
+      description: 创建工作空间请求
+      required:
+        - userKey
+        - mode
+        - dbType
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        mode:
+          type: string
+          description: "工作空间模式: online（在线）/ offline（离线）"
+          enum:
+            - online
+            - offline
+          example: offline
+        dbType:
+          type: string
+          description: "数据库类型 displayCode，支持的值见上方 dbType 表格"
+          example: mysql
+        host:
+          type: string
+          description: 数据库地址（在线模式必填）
+          example: localhost
+        port:
+          type: string
+          description: 数据库端口（在线模式必填）
+          example: "3306"
+        schemas:
+          type: string
+          description: "Schema 列表，逗号分隔，大小写敏感（pg/opengauss/oracle 必填）"
+        database:
+          type: string
+          description: 数据库名（在线模式必填）
+          example: pawsql
+        dbUser:
+          type: string
+          description: 数据库用户名（在线模式必填）
+          example: root
+        dbPassword:
+          type: string
+          description: 数据库密码（在线模式必填）
+          example: password
+        ddlText:
+          type: string
+          description: DDL 文本（离线模式必填）
+          example: "CREATE TABLE `organization` (`org_id` bigint(20) NOT NULL);"
+
+    WorkspaceCreateResponse:
+      type: object
+      description: 创建工作空间响应
+      properties:
+        workspaceId:
+          type: string
+          description: 工作空间 ID
+          example: "1730508173442965506"
+
+    ApiUserRequestBody:
+      type: object
+      description: 用户请求（含分页参数）
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        workspaceId:
+          type: integer
+          format: int64
+          description: 工作空间 ID，不填则返回所有
+        pageNumber:
+          type: integer
+          description: 页码，默认 1
+          example: 1
+          default: 1
+        pageSize:
+          type: integer
+          description: 每页条数，默认 10
+          example: 10
+          default: 10
+
+    ApiAnalysisCreate:
+      type: object
+      description: 创建优化任务请求
+      required:
+        - userKey
+        - workspace
+        - workload
+        - queryMode
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        workspace:
+          type: string
+          description: 工作空间 ID 或 DDL 文本（传入 DDL 时自动创建离线工作空间）
+        dbType:
+          type: string
+          description: |
+            数据库类型（displayCode），当 workspace 为 DDL 时必填，默认 mysql。
+            支持的 dbType 值见 /createWorkspace 接口的 dbType 表格。
+        workload:
+          type: string
+          description: 待优化的 SQL 文本
+        queryMode:
+          type: string
+          description: "SQL 类型: plain_sql / mysql_query_log / postgresql_query_log"
+          enum:
+            - plain_sql
+            - mysql_query_log
+            - postgresql_query_log
+          example: plain_sql
+        validateFlag:
+          type: boolean
+          description: 是否执行 validate 校验（仅在线工作空间生效），默认 false
+          default: false
+        singleQueryFlag:
+          type: boolean
+          description: 是否校验仅单条 SQL
+        analysisName:
+          type: string
+          description: 优化任务名称，不填则自动生成
+        analyzeFlag:
+          type: boolean
+          description: 是否执行分析
+        closeRewrite:
+          type: boolean
+          description: 是否关闭查询重写
+        deduplicateFlag:
+          type: boolean
+          description: 是否去重索引
+        updateStatsBeforeValidationFlag:
+          type: boolean
+          description: validate 前是否更新统计信息
+        indexOnly:
+          type: boolean
+          description: 是否仅推荐索引（不重写）
+        maxMembers:
+          type: integer
+          description: 复合索引最大列数
+        maxMembersForIndexOnly:
+          type: integer
+          description: index-only 模式复合索引最大列数
+        maxPerTable:
+          type: integer
+          description: 每张表最大推荐索引数
+        maxSpace:
+          type: integer
+          description: 最大索引空间倍数
+        rules:
+          type: array
+          description: 自定义规则列表，不填则使用默认审计规则
+          items:
+            $ref: '#/components/schemas/RuleBasicRead'
+
+    RuleBasicRead:
+      type: object
+      description: 规则定义
+      properties:
+        ruleCode:
+          type: string
+          description: 规则编码
+        rewrite:
+          type: boolean
+          description: 是否重写规则
+        threshold:
+          type: string
+          description: 规则阈值
+
+    AnalysisCreateResponse:
+      type: object
+      description: 创建优化任务响应
+      properties:
+        analysisId:
+          type: string
+          description: 优化任务 ID
+          example: "1730505660018876418"
+        status:
+          type: string
+          description: "优化状态: success / success0 / success1 / failed"
+          example: success1
+
+    ApiAnalysisRequestId:
+      type: object
+      description: 优化任务查询请求
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        analysisId:
+          type: string
+          description: 优化任务 ID
+        analysisName:
+          type: string
+          description: 优化任务名称（当 analysisId 未提供时使用，按名称模糊查询最近一条匹配记录）
+
+    ApiStatementRequestId:
+      type: object
+      description: 语句优化详情查询请求
+      required:
+        - analysisStmtId
+      properties:
+        userKey:
+          type: string
+          description: 激活码
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        analysisStmtId:
+          type: string
+          description: 语句 ID，从 getAnalysisSummary 的 summaryStatementInfo[].analysisStmtId 获取
+          example: "1730503078953304065"
+
+    AnalysisSummary:
+      type: object
+      description: 优化汇总信息
+      properties:
+        status:
+          type: string
+          description: "优化状态: success0 / success1 / failed / running"
+        analysisName:
+          type: string
+          description: 优化任务名称
+        basicSummary:
+          type: object
+          description: 基础汇总信息
+          properties:
+            numberOfQuery:
+              type: integer
+              description: SQL 语句数量
+            numberOfSyntaxError:
+              type: integer
+              description: 语法错误数量
+            numberOfRewrite:
+              type: integer
+              description: 重写优化数量
+            numberOfRewrittenQuery:
+              type: integer
+              description: 被重写的 SQL 数量
+            numberOfViolations:
+              type: integer
+              description: 违反规则数量
+            numberOfViolatedQuery:
+              type: integer
+              description: 违反规则的 SQL 数量
+            numberOfIndex:
+              type: integer
+              description: 推荐索引数量
+            numberOfQueryIndex:
+              type: integer
+              description: 使用推荐索引的 SQL 数量
+            performanceImprove:
+              type: number
+              format: double
+              description: 性能提升百分比
+            summaryMarkdown:
+              type: string
+              description: 汇总 Markdown 报告
+            summaryMarkdownZh:
+              type: string
+              description: 中文汇总 Markdown 报告
+        summaryStatementInfo:
+          type: array
+          description: 语句信息列表
+          items:
+            $ref: '#/components/schemas/SummaryStatementInfo'
+
+    SummaryStatementInfo:
+      type: object
+      description: 语句汇总信息
+      properties:
+        analysisStmtId:
+          type: string
+          description: 语句 ID（用于查询详情）
+        stmtName:
+          type: string
+          description: 语句名称
+        stmtText:
+          type: string
+          description: 语句 SQL 文本
+        costBefore:
+          type: number
+          format: double
+          description: 优化前成本
+        costAfter:
+          type: number
+          format: double
+          description: 优化后成本
+        performance:
+          type: number
+          format: double
+          description: 语句性能提升百分比
+
+    StatementDetail:
+      type: object
+      description: 语句优化详情
+      properties:
+        analysisId:
+          type: string
+          description: 所属优化任务 ID
+        analysisName:
+          type: string
+          description: 所属优化任务名称
+        statementName:
+          type: string
+          description: 语句名称
+        stmtText:
+          type: string
+          description: 原始 SQL 文本
+        detailMarkdown:
+          type: string
+          description: 语句优化详情 Markdown
+        indexRecommended:
+          type: array
+          description: 推荐索引列表
+          items:
+            type: string
+        rewrittenQuery:
+          type: array
+          description: 重写后的 SQL 列表
+          items:
+            type: string
+        beforeCost:
+          type: number
+          format: double
+          description: 优化前成本
+        afterCost:
+          type: number
+          format: double
+          description: 优化后成本
+        beforePlan:
+          type: string
+          description: 优化前执行计划
+        afterPlan:
+          type: string
+          description: 优化后执行计划
+        performImprovePer:
+          type: string
+          description: 性能提升百分比
+          example: "84.8%"
+
+    PageResponse_WorkspaceInfo:
+      type: object
+      description: 工作空间分页响应
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceInfo'
+        total:
+          type: integer
+          format: int64
+          description: 总记录数
+        size:
+          type: integer
+          format: int64
+          description: 每页条数
+        current:
+          type: integer
+          format: int64
+          description: 当前页码
+        pages:
+          type: integer
+          format: int64
+          description: 总页数
+
+    WorkspaceInfo:
+      type: object
+      description: 工作空间信息
+      properties:
+        workspaceId:
+          type: string
+          description: 工作空间 ID
+        workspaceName:
+          type: string
+          description: 工作空间名称
+        dbType:
+          type: string
+          description: 数据库类型
+        createTime:
+          type: string
+          description: 创建时间
+        numberOfAnalysis:
+          type: integer
+          description: 优化任务数量
+        latestAnalysisTime:
+          type: string
+          description: 最近优化时间
+        status:
+          type: string
+          description: 工作空间状态
+
+    PageResponse_AnalysisInfo:
+      type: object
+      description: 优化任务分页响应
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalysisInfo'
+        total:
+          type: integer
+          format: int64
+          description: 总记录数
+        size:
+          type: integer
+          format: int64
+          description: 每页条数
+        current:
+          type: integer
+          format: int64
+          description: 当前页码
+        pages:
+          type: integer
+          format: int64
+          description: 总页数
+
+    AnalysisInfo:
+      type: object
+      description: 优化任务信息
+      properties:
+        analysisId:
+          type: string
+          description: 优化任务 ID
+        analysisName:
+          type: string
+          description: 优化任务名称
+        workspaceId:
+          type: string
+          description: 工作空间 ID
+        workspaceName:
+          type: string
+          description: 工作空间名称
+        status:
+          type: string
+          description: 优化状态
+        numberOfQuery:
+          type: integer
+          description: SQL 语句数量
+        numberOfSyntaxError:
+          type: integer
+          description: 语法错误数量
+        numberOfIndex:
+          type: integer
+          description: 推荐索引数量
+        numberOfRewrite:
+          type: integer
+          description: 重写数量
+        numberOfViolations:
+          type: integer
+          description: 违反规则数量
+        numberOfViolatedQuery:
+          type: integer
+          description: 违反规则的 SQL 数量
+        performanceImprove:
+          type: number
+          format: double
+          description: 性能提升百分比
+        createUserId:
+          type: string
+          description: 创建者 ID
+        createUserName:
+          type: string
+          description: 创建者名称
+        createTime:
+          type: string
+          description: 创建时间

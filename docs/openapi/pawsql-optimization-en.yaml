@@ -1,0 +1,1062 @@
+openapi: 3.0.3
+info:
+  title: PawSQL Optimization
+  description: |
+    PawSQL SQL optimization service external interfaces.
+
+    The PawSQL optimization engine is a query optimization engine built for developers and DBAs, integrating database industry best practices for query optimization,
+    providing powerful SQL auditing and rewrite optimization capabilities, and integrating the Paw Index Advisor index recommendation engine for cost-based index recommendations for slow queries.
+
+    ## Authentication
+
+    Most endpoints require authentication via `userKey` (activation code).
+    The `userKey` can be obtained through the `/getUserKey` endpoint (email/password login).
+
+    ## API Call Flow
+
+    1. Call `/getUserKey` to obtain a userKey
+    2. Call `/createWorkspace` to create a workspace (or pass DDL directly in `/createAnalysis`)
+    3. Call `/createAnalysis` or `/createAnalysisAsync` to create an optimization task
+    4. Call `/getAnalysisSummary` to obtain the optimization summary
+    5. Call `/getStatementDetails` to obtain details for a single SQL statement
+  version: 1.0.0
+  contact:
+    name: PawSQL Team
+    url: https://pawsql.com
+  license:
+    name: PawSQL
+    url: https://pawsql.com
+servers:
+  - url: /api/v1
+    description: PawSQL Server
+security:
+  - userKey: []
+tags:
+  - name: Authentication
+    description: Authentication endpoints
+  - name: Workspace
+    description: Workspace management endpoints
+  - name: Optimization
+    description: SQL optimization task endpoints
+paths:
+  /getUserKey:
+    post:
+      tags:
+        - Authentication
+      summary: Get UserKey
+      description: Log in with email and password to obtain the userKey (activation code) used for authentication in subsequent API calls.
+      operationId: getUserKey
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequestBody'
+            examples:
+              example:
+                value:
+                  email: user@example.com
+                  password: yourpassword
+      responses:
+        '200':
+          description: Successfully returns the userKey
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        type: string
+                        description: userKey string
+                        example: CB698418-88B25371-67F15F01-XXXXXXXX
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data: CB698418-88B25371-67F15F01-XXXXXXXX
+                failure:
+                  value:
+                    code: 400
+                    message: Invalid email or password
+                    data: null
+
+  /validateUserKey:
+    post:
+      tags:
+        - Authentication
+      summary: Validate UserKey
+      description: Validates whether a userKey is valid; can be used to verify activation code availability at client startup.
+      operationId: validateUserKey
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserKeyRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+      responses:
+        '200':
+          description: Validation result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        type: boolean
+                        description: true indicates valid
+              examples:
+                valid:
+                  value:
+                    code: 200
+                    message: Success
+                    data: true
+                invalid:
+                  value:
+                    code: 400
+                    message: Invalid userKey
+                    data: null
+
+  /createWorkspace:
+    post:
+      tags:
+        - Workspace
+      summary: Create workspace
+      description: |
+        Creates a workspace and returns the workspaceId, supporting offline mode (DDL text) and online mode (database connection).
+
+        ### Supported dbType values
+
+        | dbType | Database |
+        |--------|----------|
+        | mysql | MySQL |
+        | mysql-rds | RDS MySQL |
+        | gaussdb-mysql | GaussDB for MySQL |
+        | goldendb | GoldenDB |
+        | tdsqlx-mysql | TDSQL MySQL (Distributed) |
+        | tdsql-mysql | TDSQL MySQL (Centralized) |
+        | oceanbase-mysql | OceanBase (MySQL Mode) |
+        | oceanbase-oracle | OceanBase (Oracle Mode) |
+        | polardbx | PolarDB-X 2.0 |
+        | postgresql | PostgreSQL |
+        | opengauss | OpenGauss |
+        | kingbase-es | Kingbase |
+        | mogdb | MogDB |
+        | gaussdbx | GaussDB (Distributed) |
+        | gaussdb-dws | GaussDB for DWS |
+        | oracle | Oracle |
+        | tdsqlx-pg | TDSQL PostgreSQL (Distributed) |
+        | tdsql-pg | TDSQL PostgreSQL (Centralized) |
+        | mssql | SQLServer |
+        | db2 | DB2 |
+        | dameng | Dameng |
+      operationId: createWorkspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiWorkspaceCreate'
+            examples:
+              offline:
+                summary: Offline mode
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  mode: offline
+                  dbType: mysql
+                  ddlText: "CREATE TABLE `organization` (`org_id` bigint(20) NOT NULL);"
+              online:
+                summary: Online mode
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  mode: online
+                  dbType: mysql
+                  host: localhost
+                  port: "3306"
+                  database: pawsql
+                  dbUser: root
+                  dbPassword: password
+      responses:
+        '200':
+          description: Workspace creation result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/WorkspaceCreateResponse'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      workspaceId: "1730508173442965506"
+                failure:
+                  value:
+                    code: 400
+                    message: server.validate.failed
+                    data: null
+
+  /listWorkspaces:
+    post:
+      tags:
+        - Workspace
+      summary: List workspaces
+      description: |
+        Gets a paginated list of all workspaces for the current user.
+
+        **Note**: anonymous users cannot query the workspace list.
+      operationId: listWorkspaces
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  pageNumber: 1
+                  pageSize: 10
+      responses:
+        '200':
+          description: Workspace list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/PageResponse_WorkspaceInfo'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      records:
+                        - workspaceId: "1730411624641736706"
+                          workspaceName: my-workspace
+                          dbType: mysql
+                          createTime: "2026-09-01 10:00:00"
+                          numberOfAnalysis: 5
+                          latestAnalysisTime: "2026-09-05 14:30:00"
+                          status: success
+                      total: 1
+                      size: 10
+                      current: 1
+                      pages: 1
+
+  /createAnalysis:
+    post:
+      tags:
+        - Optimization
+      summary: Create optimization task (synchronous)
+      description: |
+        Creates a SQL optimization task and **waits synchronously for the optimization to complete before returning the result**. Suitable for short queries or scenarios where the client can wait for a long time.
+
+        If optimization takes a long time (exceeding the HTTP timeout), use the asynchronous endpoint `/createAnalysisAsync` instead.
+
+        ### Default value priority
+
+        Request parameters > user configuration (UserConfig) > global configuration (PawsqlConfig) > system hardcoded defaults
+
+        Hardcoded defaults: `analyzeFlag=true`, `closeRewrite=true`, `deduplicateFlag=false`,
+        `indexOnly=false`, `maxMembers=3`, `maxMembersForIndexOnly=2`, `maxPerTable=2`, `maxSpace=1`
+      operationId: createAnalysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisCreate'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspace: "1730508173442965506"
+                  workload: "select * from organization where adm_id = 100 and adm_name = null;"
+                  queryMode: plain_sql
+                  validateFlag: false
+                  singleQueryFlag: true
+      responses:
+        '200':
+          description: Optimization task creation result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisCreateResponse'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730505660018876418"
+                      status: success1
+                cached:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730505660018876418"
+                      status: success0
+                failure:
+                  value:
+                    code: 400
+                    message: Failed to create analysis
+                    data: null
+
+  /createAnalysisAsync:
+    post:
+      tags:
+        - Optimization
+      summary: Create optimization task (asynchronous)
+      description: |
+        Creates a SQL optimization task and returns immediately, polling for results via `/getAnalysisSummary`.
+        Suitable for long queries or scenarios where HTTP timeouts should be avoided.
+      operationId: createAnalysisAsync
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisCreate'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspace: "1730508173442965506"
+                  workload: "select * from organization where adm_id = 100;"
+                  queryMode: plain_sql
+      responses:
+        '200':
+          description: Asynchronous optimization task creation result
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisCreateResponse'
+
+  /getAnalysisSummary:
+    post:
+      tags:
+        - Optimization
+      summary: Get optimization summary
+      description: |
+        Queries optimization summary information by optimization task ID or name.
+
+        At least one of `analysisId` and `analysisName` must be provided. If only `analysisName` is provided, it will fuzzy-match the most recent record by name.
+
+        While optimization is still in progress, only `status` and `analysisName` are returned.
+      operationId: getAnalysisSummary
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiAnalysisRequestId'
+            examples:
+              byId:
+                summary: Query by ID
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisId: "1730503067658043394"
+              byName:
+                summary: Query by name
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisName: API-ANA-20260901143022
+      responses:
+        '200':
+          description: Optimization summary information
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/AnalysisSummary'
+              examples:
+                completed:
+                  summary: Optimization completed
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      status: success1
+                      analysisName: API-ANA-20260901143022
+                      basicSummary:
+                        numberOfQuery: 1
+                        numberOfRewrite: 2
+                        numberOfIndex: 1
+                        performanceImprove: 85.5
+                        summaryMarkdown: "..."
+                      summaryStatementInfo:
+                        - analysisStmtId: "1730503078953304065"
+                          stmtName: Query-1
+                          stmtText: "select * from organization where adm_id = 100"
+                          costBefore: 120.5
+                          costAfter: 18.3
+                          performance: 84.8
+                running:
+                  summary: Optimization in progress
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      status: running
+                      analysisName: API-ANA-20260901143022
+
+  /listAnalyses:
+    post:
+      tags:
+        - Optimization
+      summary: List optimization tasks
+      description: Gets a paginated list of optimization tasks for the current user (within a specified workspace).
+      operationId: listAnalyses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiUserRequestBody'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  workspaceId: 1730187810133712898
+                  pageNumber: 1
+                  pageSize: 10
+      responses:
+        '200':
+          description: Optimization task list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/PageResponse_AnalysisInfo'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      records:
+                        - analysisId: "1730505660018876418"
+                          analysisName: API-ANA-20260901143022
+                          workspaceId: "1730187810133712898"
+                          workspaceName: my-workspace
+                          status: success1
+                          numberOfQuery: 1
+                          numberOfIndex: 1
+                          numberOfRewrite: 2
+                          performanceImprove: 85.5
+                          createTime: "2026-09-01 14:30:22"
+                      total: 1
+                      size: 10
+                      current: 1
+                      pages: 1
+
+  /getStatementDetails:
+    post:
+      tags:
+        - Optimization
+      summary: Get statement optimization details
+      description: |
+        Queries optimization details for a single SQL statement by statement ID (`analysisStmtId`),
+        including rewrite suggestions, index recommendations, and execution plan comparison.
+
+        The `analysisStmtId` is obtained from `summaryStatementInfo[].analysisStmtId` in `/getAnalysisSummary`.
+      operationId: getStatementDetails
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ApiStatementRequestId'
+            examples:
+              example:
+                value:
+                  userKey: CB698418-88B25371-67F15F01-XXXXXXXX
+                  analysisStmtId: "1730503078953304065"
+      responses:
+        '200':
+          description: Statement optimization details
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ApiResult'
+                  - type: object
+                    properties:
+                      data:
+                        $ref: '#/components/schemas/StatementDetail'
+              examples:
+                success:
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      analysisId: "1730522723395497986"
+                      analysisName: API-ANA-20260901143022
+                      statementName: Query-1
+                      stmtText: "select * from organization where adm_id = 100"
+                      detailMarkdown: "..."
+                      indexRecommended:
+                        - "CREATE INDEX idx_org_adm_id ON organization(adm_id)"
+                      rewrittenQuery:
+                        - "SELECT * FROM organization WHERE adm_id = 100 AND adm_name IS NOT NULL"
+                      beforeCost: 120.5
+                      afterCost: 18.3
+                      performImprovePer: "84.8%"
+
+components:
+  securitySchemes:
+    userKey:
+      type: apiKey
+      in: header
+      name: userKey
+      description: Activation code, obtained via the /getUserKey endpoint
+  schemas:
+    ApiResult:
+      type: object
+      description: Unified response body
+      properties:
+        code:
+          type: integer
+          description: Status code, 200 indicates success
+          example: 200
+        message:
+          type: string
+          description: Description message
+          example: Success
+        data:
+          description: Response data
+
+    LoginRequestBody:
+      type: object
+      description: Login request
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: Registered email
+          example: user@example.com
+        password:
+          type: string
+          description: Login password
+          example: yourpassword
+
+    ApiUserKeyRequestBody:
+      type: object
+      description: UserKey validation request
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+
+    ApiWorkspaceCreate:
+      type: object
+      description: Create workspace request
+      required:
+        - userKey
+        - mode
+        - dbType
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        mode:
+          type: string
+          description: "Workspace mode: online / offline"
+          enum:
+            - online
+            - offline
+          example: offline
+        dbType:
+          type: string
+          description: "Database type displayCode, see the dbType table above for supported values"
+          example: mysql
+        host:
+          type: string
+          description: Database host (required in online mode)
+          example: localhost
+        port:
+          type: string
+          description: Database port (required in online mode)
+          example: "3306"
+        schemas:
+          type: string
+          description: "Schema list, comma-separated, case-sensitive (required for pg/opengauss/oracle)"
+        database:
+          type: string
+          description: Database name (required in online mode)
+          example: pawsql
+        dbUser:
+          type: string
+          description: Database username (required in online mode)
+          example: root
+        dbPassword:
+          type: string
+          description: Database password (required in online mode)
+          example: password
+        ddlText:
+          type: string
+          description: DDL text (required in offline mode)
+          example: "CREATE TABLE `organization` (`org_id` bigint(20) NOT NULL);"
+
+    WorkspaceCreateResponse:
+      type: object
+      description: Create workspace response
+      properties:
+        workspaceId:
+          type: string
+          description: Workspace ID
+          example: "1730508173442965506"
+
+    ApiUserRequestBody:
+      type: object
+      description: User request (with pagination parameters)
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        workspaceId:
+          type: integer
+          format: int64
+          description: Workspace ID; returns all when omitted
+        pageNumber:
+          type: integer
+          description: Page number, default 1
+          example: 1
+          default: 1
+        pageSize:
+          type: integer
+          description: Items per page, default 10
+          example: 10
+          default: 10
+
+    ApiAnalysisCreate:
+      type: object
+      description: Create optimization task request
+      required:
+        - userKey
+        - workspace
+        - workload
+        - queryMode
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        workspace:
+          type: string
+          description: Workspace ID or DDL text (an offline workspace is auto-created when DDL is passed)
+        dbType:
+          type: string
+          description: |
+            Database type (displayCode); required when workspace is DDL, default mysql.
+            See the dbType table in the /createWorkspace endpoint for supported values.
+        workload:
+          type: string
+          description: SQL text to optimize
+        queryMode:
+          type: string
+          description: "SQL type: plain_sql / mysql_query_log / postgresql_query_log"
+          enum:
+            - plain_sql
+            - mysql_query_log
+            - postgresql_query_log
+          example: plain_sql
+        validateFlag:
+          type: boolean
+          description: Whether to run validate checks (only effective for online workspaces), default false
+          default: false
+        singleQueryFlag:
+          type: boolean
+          description: Whether to validate as a single SQL statement only
+        analysisName:
+          type: string
+          description: Optimization task name; auto-generated when omitted
+        analyzeFlag:
+          type: boolean
+          description: Whether to run analysis
+        closeRewrite:
+          type: boolean
+          description: Whether to disable query rewriting
+        deduplicateFlag:
+          type: boolean
+          description: Whether to deduplicate indexes
+        updateStatsBeforeValidationFlag:
+          type: boolean
+          description: Whether to update statistics before validation
+        indexOnly:
+          type: boolean
+          description: Whether to recommend indexes only (no rewriting)
+        maxMembers:
+          type: integer
+          description: Maximum number of columns in a composite index
+        maxMembersForIndexOnly:
+          type: integer
+          description: Maximum number of columns in a composite index in index-only mode
+        maxPerTable:
+          type: integer
+          description: Maximum number of recommended indexes per table
+        maxSpace:
+          type: integer
+          description: Maximum index space multiplier
+        rules:
+          type: array
+          description: Custom rule list; the default audit rules are used when omitted
+          items:
+            $ref: '#/components/schemas/RuleBasicRead'
+
+    RuleBasicRead:
+      type: object
+      description: Rule definition
+      properties:
+        ruleCode:
+          type: string
+          description: Rule code
+        rewrite:
+          type: boolean
+          description: Whether to rewrite the rule
+        threshold:
+          type: string
+          description: Rule threshold
+
+    AnalysisCreateResponse:
+      type: object
+      description: Create optimization task response
+      properties:
+        analysisId:
+          type: string
+          description: Optimization task ID
+          example: "1730505660018876418"
+        status:
+          type: string
+          description: "Optimization status: success / success0 / success1 / failed"
+          example: success1
+
+    ApiAnalysisRequestId:
+      type: object
+      description: Optimization task query request
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        analysisId:
+          type: string
+          description: Optimization task ID
+        analysisName:
+          type: string
+          description: Optimization task name (used when analysisId is not provided; fuzzy-matches the most recent record by name)
+
+    ApiStatementRequestId:
+      type: object
+      description: Statement optimization details query request
+      required:
+        - analysisStmtId
+      properties:
+        userKey:
+          type: string
+          description: Activation code
+          example: CB698418-88B25371-67F15F01-XXXXXXXX
+        analysisStmtId:
+          type: string
+          description: Statement ID, obtained from summaryStatementInfo[].analysisStmtId in getAnalysisSummary
+          example: "1730503078953304065"
+
+    AnalysisSummary:
+      type: object
+      description: Optimization summary information
+      properties:
+        status:
+          type: string
+          description: "Optimization status: success0 / success1 / failed / running"
+        analysisName:
+          type: string
+          description: Optimization task name
+        basicSummary:
+          type: object
+          description: Basic summary information
+          properties:
+            numberOfQuery:
+              type: integer
+              description: Number of SQL statements
+            numberOfSyntaxError:
+              type: integer
+              description: Number of syntax errors
+            numberOfRewrite:
+              type: integer
+              description: Number of rewrite optimizations
+            numberOfRewrittenQuery:
+              type: integer
+              description: Number of rewritten SQL statements
+            numberOfViolations:
+              type: integer
+              description: Number of rule violations
+            numberOfViolatedQuery:
+              type: integer
+              description: Number of SQL statements violating rules
+            numberOfIndex:
+              type: integer
+              description: Number of recommended indexes
+            numberOfQueryIndex:
+              type: integer
+              description: Number of SQL statements using recommended indexes
+            performanceImprove:
+              type: number
+              format: double
+              description: Performance improvement percentage
+            summaryMarkdown:
+              type: string
+              description: Summary Markdown report
+            summaryMarkdownZh:
+              type: string
+              description: Chinese summary Markdown report
+        summaryStatementInfo:
+          type: array
+          description: List of statement information
+          items:
+            $ref: '#/components/schemas/SummaryStatementInfo'
+
+    SummaryStatementInfo:
+      type: object
+      description: Statement summary information
+      properties:
+        analysisStmtId:
+          type: string
+          description: Statement ID (used to query details)
+        stmtName:
+          type: string
+          description: Statement name
+        stmtText:
+          type: string
+          description: Statement SQL text
+        costBefore:
+          type: number
+          format: double
+          description: Cost before optimization
+        costAfter:
+          type: number
+          format: double
+          description: Cost after optimization
+        performance:
+          type: number
+          format: double
+          description: Statement performance improvement percentage
+
+    StatementDetail:
+      type: object
+      description: Statement optimization details
+      properties:
+        analysisId:
+          type: string
+          description: Owning optimization task ID
+        analysisName:
+          type: string
+          description: Owning optimization task name
+        statementName:
+          type: string
+          description: Statement name
+        stmtText:
+          type: string
+          description: Original SQL text
+        detailMarkdown:
+          type: string
+          description: Statement optimization details Markdown
+        indexRecommended:
+          type: array
+          description: List of recommended indexes
+          items:
+            type: string
+        rewrittenQuery:
+          type: array
+          description: List of rewritten SQL statements
+          items:
+            type: string
+        beforeCost:
+          type: number
+          format: double
+          description: Cost before optimization
+        afterCost:
+          type: number
+          format: double
+          description: Cost after optimization
+        beforePlan:
+          type: string
+          description: Execution plan before optimization
+        afterPlan:
+          type: string
+          description: Execution plan after optimization
+        performImprovePer:
+          type: string
+          description: Performance improvement percentage
+          example: "84.8%"
+
+    PageResponse_WorkspaceInfo:
+      type: object
+      description: Workspace paginated response
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceInfo'
+        total:
+          type: integer
+          format: int64
+          description: Total number of records
+        size:
+          type: integer
+          format: int64
+          description: Items per page
+        current:
+          type: integer
+          format: int64
+          description: Current page number
+        pages:
+          type: integer
+          format: int64
+          description: Total number of pages
+
+    WorkspaceInfo:
+      type: object
+      description: Workspace information
+      properties:
+        workspaceId:
+          type: string
+          description: Workspace ID
+        workspaceName:
+          type: string
+          description: Workspace name
+        dbType:
+          type: string
+          description: Database type
+        createTime:
+          type: string
+          description: Creation time
+        numberOfAnalysis:
+          type: integer
+          description: Number of optimization tasks
+        latestAnalysisTime:
+          type: string
+          description: Latest optimization time
+        status:
+          type: string
+          description: Workspace status
+
+    PageResponse_AnalysisInfo:
+      type: object
+      description: Optimization task paginated response
+      properties:
+        records:
+          type: array
+          items:
+            $ref: '#/components/schemas/AnalysisInfo'
+        total:
+          type: integer
+          format: int64
+          description: Total number of records
+        size:
+          type: integer
+          format: int64
+          description: Items per page
+        current:
+          type: integer
+          format: int64
+          description: Current page number
+        pages:
+          type: integer
+          format: int64
+          description: Total number of pages
+
+    AnalysisInfo:
+      type: object
+      description: Optimization task information
+      properties:
+        analysisId:
+          type: string
+          description: Optimization task ID
+        analysisName:
+          type: string
+          description: Optimization task name
+        workspaceId:
+          type: string
+          description: Workspace ID
+        workspaceName:
+          type: string
+          description: Workspace name
+        status:
+          type: string
+          description: Optimization status
+        numberOfQuery:
+          type: integer
+          description: Number of SQL statements
+        numberOfSyntaxError:
+          type: integer
+          description: Number of syntax errors
+        numberOfIndex:
+          type: integer
+          description: Number of recommended indexes
+        numberOfRewrite:
+          type: integer
+          description: Number of rewrites
+        numberOfViolations:
+          type: integer
+          description: Number of rule violations
+        numberOfViolatedQuery:
+          type: integer
+          description: Number of SQL statements violating rules
+        performanceImprove:
+          type: number
+          format: double
+          description: Performance improvement percentage
+        createUserId:
+          type: string
+          description: Creator ID
+        createUserName:
+          type: string
+          description: Creator name
+        createTime:
+          type: string
+          description: Creation time

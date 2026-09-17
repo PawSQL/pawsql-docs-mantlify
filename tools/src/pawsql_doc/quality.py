@@ -139,9 +139,13 @@ def quality_report(root: Path, publication=False):
             req = getattr(feature.documentation, name)
             if req.required and not req.paths:
                 report["completeness"].append(f"feature:{feature.id}: required {name} has no document reference")
-    api = root / "docs/openapi/pawsql-openapi.yaml"
-    if api.exists() and "placeholder" in api.read_text(encoding="utf-8").lower():
-        report["release"].append("openapi: placeholder contract must be replaced or removed before publication")
+    for spec in ("docs/openapi/pawsql-integration.yaml", "docs/openapi/pawsql-optimization.yaml"):
+        api = root / spec
+        if not api.exists():
+            report["release"].append(f"openapi: {spec} missing")
+            continue
+        if "placeholder" in api.read_text(encoding="utf-8").lower():
+            report["release"].append(f"openapi: {spec} still contains a placeholder contract")
     return {key: sorted(set(values)) for key, values in report.items()}
 
 

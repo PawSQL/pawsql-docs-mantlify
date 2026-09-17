@@ -1,8 +1,9 @@
 ---
 id: en-user-guide-index
 title: User Guide Overview
-description: User Guide Overview — PawSQL User Guide (draft).
+description: The PawSQL User Guide provides task-oriented instructions to help developers, DBAs, reviewers, DevOps engineers, and platform administrators configure the analysis environment and use PawSQL across development, testing, release, and production governance.
 type: guide
+icon: book-open
 subtype: operation
 layout: index
 product: pawsql
@@ -11,12 +12,83 @@ language: en
 translationKey: user-guide-index
 ---
 
-# User Guide Overview
+If you are new to PawSQL, start with [Optimize Your First SQL Query](/en/getting-started/quickstart), then use this guide to learn about workspaces, database context, and the complete workflow.
 
-> **Draft placeholder.** Content will be filled in with the User Guide writing/migration batches; status stays `draft` until reviewed.
+## Start here
 
-## What this page will cover
+<CardGroup cols={2}>
+  <Card title="Installation & Access" href="/en/user-guide/installation" icon="download">
+    Sign in to PawSQL Cloud, deploy PawSQL Server, or configure the IDE plugin and MCP.
+  </Card>
+  <Card title="Workspaces & Context" href="/en/user-guide/workspaces" icon="layers">
+    Build the context SQL analysis needs through DDL or a database connection.
+  </Card>
+</CardGroup>
 
-- To be added
+## Recommended learning path
 
-> Related: see the [User Guide overview](en/user-guide/index) and the matching feature pages.
+<Steps>
+  <Step title="Choose how to use PawSQL">
+    Pick PawSQL Cloud, PawSQL Server, the IDE plugin, PawSQL MCP, or the API based on your use case. See [Choose How to Use PawSQL](/en/getting-started/choose-access).
+  </Step>
+  <Step title="Complete installation or sign in">
+    Connect to the PawSQL service and confirm the account can access the target organization or project.
+  </Step>
+  <Step title="Create a workspace">
+    Specify the database type and version, and import metadata such as tables, columns, and indexes via DDL or a database connection.
+  </Step>
+  <Step title="Complete your first task">
+    Submit a SQL statement and review the findings, rewrite result, index suggestions, and automated performance validation.
+  </Step>
+  <Step title="Enter the team workflow">
+    Continue to configure review tickets, quality gates, performance patrol, permissions, or system administration based on your role.
+  </Step>
+</Steps>
+
+## Read by role
+
+| Role | Suggested reading order | Primary goal |
+| --- | --- | --- |
+| Developer | Workspaces → SQL optimization → Developer tools | Find and fix SQL issues during development |
+| DBA | Workspaces → SQL review → Batch optimization & patrol | Control release risk and govern slow SQL in production |
+| Reviewer | SQL review → Rules & quality policy | Review risk, manage exceptions, and track resolution |
+| DevOps engineer | Rules & quality policy → CI/CD integration | Build an automated SQL quality gate |
+| Project administrator | Workspaces → Organizations, projects, and permissions | Configure project resources and member permissions |
+| System administrator | Installation & access → Permissions → System administration | Maintain services, authorization, connections, and runtime status |
+
+## Core objects
+
+| Object | Purpose |
+| --- | --- |
+| Organizations and projects | Define the management boundary for users, workspaces, tasks, and permissions |
+| Workspace | Store the target database type, version, and metadata to provide context for SQL analysis |
+| Database connection | Pull tables, columns, indexes, and other accessible metadata from the target database |
+| Review policy | Define the SQL standards to check, rule levels, and parameter thresholds |
+| Optimization task | Record the SQL input, rewrite suggestions, index suggestions, and validation results |
+| Review ticket | Record the script under review, rule findings, handling status, and approval outcome |
+| Patrol task | Organize slow SQL collection, batch analysis, optimization suggestions, and governance progress |
+
+<Note>
+A workspace does not create or modify business databases. It stores the database context needed for SQL analysis; the target database only changes when you explicitly run SQL or index changes.
+</Note>
+
+## User Guide sections
+
+<CardGroup cols={2}>
+  <Card title="Installation & Access" href="/en/user-guide/installation" />
+  <Card title="Workspaces & Context" href="/en/user-guide/workspaces" />
+  <Card title="SQL Optimization" href="/en/user-guide/optimization" />
+  <Card title="SQL Review" href="/en/user-guide/sql-audit" />
+  <Card title="Batch Optimization & Patrol" href="/en/user-guide/performance" />
+  <Card title="Rules & Quality Policy" href="/en/user-guide/rules-policy" />
+  <Card title="Developer Tool Integration" href="/en/user-guide/dev-tools" />
+  <Card title="CI/CD & Platform Integration" href="/en/user-guide/cicd" />
+</CardGroup>
+
+## Using this guide
+
+Guides typically include prerequisites, steps, result explanations, notes, and related documents. Available features vary by version and license; refer to the product UI, your license, and [Supported Databases](/en/getting-started/supported-databases) for the exact scope.
+
+## Getting help
+
+When you hit an issue, note the PawSQL version, access method, database type and version, workspace, task ID, full error message, and a minimal SQL or DDL that reproduces the problem. Remove passwords, tokens, connection strings, and sensitive business data before submitting.

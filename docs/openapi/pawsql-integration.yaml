@@ -1,0 +1,762 @@
+openapi: 3.0.3
+info:
+  title: CI/CD 集成
+  description: |
+    CI/CD 集成 API，供外部平台（蓝鲸、Coding、GitLab 等）对接 SQL 审核能力。
+
+    ## 接口分类
+
+    - **SQL 审核任务**：创建审核任务、查询审核结果、查询工作空间
+    - **Webhook 回调**：接收 GitLab/Coding/GitHub 平台推送的代码变更事件，自动触发 SQL 审核
+
+    ## 认证方式
+
+    SQL 审核任务接口无需 userKey，通过 `platformCode` 标识来源平台。
+    Webhook 接口通过 URL 中的 `webhookToken` 进行验证。
+
+    ## 典型集成流程
+
+    1. 在 PawSQL 管理后台创建工作空间和审核规则模板
+    2. 调用 `/sql-audits/workspace-lookup` 查询 workspaceId 和 ruleTemplateId
+    3. 调用 `POST /sql-audits` 创建审核任务（传入 SQL 文本或代码变更信息）
+    4. 轮询 `GET /sql-audits/{taskId}` 获取审核结果
+    5. 或配置 Webhook，代码推送时自动触发审核
+  version: 1.0.0
+  contact:
+    name: PawSQL Team
+    url: https://pawsql.com
+  license:
+    name: PawSQL
+    url: https://pawsql.com
+servers:
+  - url: /api/v1
+    description: PawSQL Server
+tags:
+  - name: SQL审核任务
+    description: SQL审核任务的创建和查询
+  - name: GitLab Webhook
+    description: GitLab Webhook 回调
+  - name: Coding Webhook
+    description: Coding Webhook 回调
+  - name: GitHub Webhook
+    description: GitHub Webhook 回调
+
+paths:
+  /sql-audits:
+    post:
+      tags:
+        - SQL审核任务
+      summary: 创建审核任务
+      description: |
+        外部集成平台调用此接口创建 SQL 审核任务。
+        支持幂等（通过 requestId），支持多种 SQL 来源（文本、部署包、提交、合并请求、目录）。
+      operationId: createSqlAuditTask
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SqlAuditTaskCreate'
+            examples:
+              text-source:
+                summary: SQL文本审核
+                value:
+                  requestId: "req-001"
+                  sqlSource:
+                    sourceType: text
+                    content: "SELECT * FROM users WHERE id = 1;"
+                  workspaceId: "1730411624641736706"
+                  ruleTemplateId: "100"
+                  platformCode: "blueking-prod"
+                  enableIndexRecommendation: true
+              commit-source:
+                summary: 代码提交审核
+                value:
+                  requestId: "req-002"
+                  sqlSource:
+                    sourceType: commit
+                    commitSource:
+                      depotPath: "project/repo"
+                      commitSha: "abc123def456"
+                  workspaceId: "1730411624641736706"
+                  ruleTemplateId: "100"
+                  platformCode: "coding-prod"
+      responses:
+        '200':
+          description: 审核任务创建成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SqlAuditTaskRead'
+              examples:
+                accepted:
+                  summary: 任务已接受
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: accepted
+                      result: null
+        '400':
+          description: 请求参数错误
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResult'
+              example:
+                code: 400
+                message: "工作空间ID不能为空"
+                data: null
+
+  /sql-audits/{taskId}:
+    get:
+      tags:
+        - SQL审核任务
+      summary: 查询审核结果
+      description: 通过任务ID查询SQL审核任务的状态和结果。
+      operationId: getSqlAuditTask
+      parameters:
+        - name: taskId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: 审核任务ID
+          example: audit-001
+      responses:
+        '200':
+          description: 审核任务详情
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SqlAuditTaskRead'
+              examples:
+                finished:
+                  summary: 审核完成
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: finished
+                      result: allow
+                      riskLevel: 2
+                      riskLevelDesc: notice
+                      summary: "## 审核结果\n\n- SQL 总数: 1\n- 违规数量: 0\n- 风险等级: notice"
+                      reportUrl: "https://pawsql.com/report/audit-001"
+                running:
+                  summary: 审核进行中
+                  value:
+                    code: 200
+                    message: Success
+                    data:
+                      taskId: "audit-001"
+                      status: running
+                      result: null
+
+  /sql-audits/workspace-lookup:
+    get:
+      tags:
+        - SQL审核任务
+      summary: 查询工作空间ID
+      description: |
+        根据工作空间名称和环境查询工作空间ID及推荐规则模板。
+        无需登录认证，供集成平台查询配置使用。
+      operationId: lookupWorkspace
+      parameters:
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+          description: 工作空间名称
+          example: my-workspace
+        - name: env
+          in: query
+          required: false
+          schema:
+            type: string
+          description: 环境标识（可选）
+          example: production
+      responses:
+        '200':
+          description: 工作空间查询结果
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceLookupResult'
+              example:
+                code: 200
+                message: Success
+                data:
+                  workspaceId: "1730411624641736706"
+                  workspaceName: my-workspace
+                  env: production
+                  dbType: mysql
+                  orgId: "1"
+                  recommendedDbObjectRuleTemplateId: "100"
+                  recommendedAuditRuleTemplateId: "200"
+
+  /integrations/gitlab/webhook/{webhookToken}:
+    post:
+      tags:
+        - GitLab Webhook
+      summary: GitLab Webhook回调
+      description: |
+        接收 GitLab Push/Merge Request 事件，自动提取变更 SQL 并触发审核。
+
+        **GitLab 配置方式**：
+        1. 在 PawSQL 管理后台创建 SCM 监控配置，获取 webhookToken
+        2. 在 GitLab 项目 → Settings → Webhooks 中填写 URL：
+           `{PAWSQL_SERVER}/api/v1/integrations/gitlab/webhook/{webhookToken}`
+        3. 勾选 Push events 和 Merge request events
+
+        **期望的 HTTP Header**：
+        - `X-Gitlab-Event`: 事件类型（push / merge_request）
+        - `X-Gitlab-Token`: Secret token（可选）
+        - `X-Gitlab-Event-UUID`: 事件唯一标识
+
+        **请求 Body**：GitLab Webhook Payload（JSON 格式），参考 [GitLab Webhook 文档](https://docs.gitlab.com/ee/user/project/integrations/webhooks.html)
+      operationId: gitlabWebhook
+      parameters:
+        - name: webhookToken
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook 验证 token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: GitLab Webhook Payload，格式参考 GitLab 官方文档
+      responses:
+        '200':
+          description: Webhook 处理结果
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+  /integrations/coding/webhook/{webhookToken}:
+    post:
+      tags:
+        - Coding Webhook
+      summary: Coding Webhook回调
+      description: |
+        接收 Coding Push/Merge Request 事件，自动提取变更 SQL 并触发审核。
+
+        **Coding 配置方式**：
+        1. 在 PawSQL 管理后台创建 SCM 监控配置，获取 webhookToken
+        2. 在 Coding 项目 → 项目设置 → 开发者选项 → Webhook 中填写 URL：
+           `{PAWSQL_SERVER}/api/v1/integrations/coding/webhook/{webhookToken}`
+        3. 勾选 Push 和 Merge Request 事件
+
+        **期望的 HTTP Header**：
+        - `X-Coding-Event`: 事件类型（push / merge_request）
+        - `X-Coding-Signature`: 签名（可选）
+        - `X-Coding-Delivery`: 事件投递 ID
+
+        **请求 Body**：Coding Webhook Payload（JSON 格式）
+      operationId: codingWebhook
+      parameters:
+        - name: webhookToken
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook 验证 token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: Coding Webhook Payload，格式参考 Coding 官方文档
+      responses:
+        '200':
+          description: Webhook 处理结果
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+  /integrations/scm/webhook/{token}:
+    post:
+      tags:
+        - GitHub Webhook
+      summary: GitHub Webhook回调
+      description: |
+        接收 GitHub Push/Pull Request 事件，自动提取变更 SQL 并触发审核。
+
+        **GitHub 配置方式**：
+        1. 在 PawSQL 管理后台创建 SCM 监控配置，获取 webhook token
+        2. 在 GitHub 项目 → Settings → Webhooks 中填写 URL：
+           `{PAWSQL_SERVER}/api/v1/integrations/scm/webhook/{token}`
+        3. Content type 选 `application/json`
+        4. 勾选 Push events 和 Pull request events
+
+        **期望的 HTTP Header**：
+        - `X-GitHub-Event`: 事件类型（push / pull_request）
+
+        **请求 Body**：GitHub Webhook Payload（JSON 格式），参考 [GitHub Webhook 文档](https://docs.github.com/en/webhooks/webhook-events-and-payloads)
+      operationId: githubWebhook
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Webhook 验证 token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              description: GitHub Webhook Payload，格式参考 GitHub 官方文档
+      responses:
+        '200':
+          description: Webhook 处理结果
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                success:
+                  value: "Webhook processed successfully"
+                skipped:
+                  value: "No SQL changes detected"
+
+components:
+  schemas:
+    ApiResult:
+      type: object
+      description: 统一响应体
+      properties:
+        code:
+          type: integer
+          description: 状态码，200 表示成功
+          example: 200
+        message:
+          type: string
+          description: 描述信息
+          example: Success
+        data:
+          description: 响应数据
+
+    SqlAuditTaskCreate:
+      type: object
+      description: 创建SQL审核任务请求
+      required:
+        - sqlSource
+        - workspaceId
+        - ruleTemplateId
+        - platformCode
+      properties:
+        requestId:
+          type: string
+          description: 幂等键（外部请求ID，可选。为空时不检查幂等性，每次都执行审核）
+        sqlSource:
+          $ref: '#/components/schemas/SqlSourceDTO'
+        dbVersion:
+          type: string
+          description: 数据库版本
+        workspaceId:
+          type: string
+          description: 工作空间ID
+          example: "1730411624641736706"
+        ruleTemplateId:
+          type: string
+          description: 审核模板ID
+          example: "100"
+        operatorEmail:
+          type: string
+          description: 操作人邮箱（可选。传入时以该用户身份创建审核任务）
+        enableIndexRecommendation:
+          type: boolean
+          description: 是否执行索引推荐，默认true；传false时仅审核不做索引推荐
+          default: true
+        platformType:
+          type: string
+          description: "平台类型: blueking/coding（可选，用于明确指定来源平台）"
+        platformCode:
+          type: string
+          description: 平台实例标识（如 blueking-prod, coding-prod）
+          example: blueking-prod
+        extra:
+          type: object
+          additionalProperties: true
+          description: 扩展数据（透传到结果中）
+
+    SqlSourceDTO:
+      type: object
+      description: SQL来源配置
+      required:
+        - sourceType
+      properties:
+        sourceType:
+          type: string
+          description: "SQL来源类型: text/package/commit/merge_request/directory"
+          enum:
+            - text
+            - package
+            - commit
+            - merge_request
+            - directory
+          example: text
+        content:
+          type: string
+          description: SQL文本内容（sourceType=text时使用）
+          example: "SELECT * FROM users WHERE id = 1;"
+        packageSource:
+          $ref: '#/components/schemas/PackageSourceDTO'
+        commitSource:
+          $ref: '#/components/schemas/CommitSourceDTO'
+        mergeRequestSource:
+          $ref: '#/components/schemas/MergeRequestSourceDTO'
+        directorySource:
+          $ref: '#/components/schemas/DirectorySourceDTO'
+
+    PackageSourceDTO:
+      type: object
+      description: 部署包来源配置
+      required:
+        - url
+        - contentType
+      properties:
+        url:
+          type: string
+          description: 部署包下载地址
+        contentType:
+          type: string
+          description: "内容类型: full/incremental"
+          enum:
+            - full
+            - incremental
+
+    CommitSourceDTO:
+      type: object
+      description: 提交来源配置
+      required:
+        - commitSha
+      properties:
+        depotPath:
+          type: string
+          description: 代码仓库路径
+        depotId:
+          type: string
+          description: 代码仓库ID
+        commitSha:
+          type: string
+          description: 提交SHA
+          example: "abc123def456"
+        monitorPath:
+          type: string
+          description: 监控目录路径（可选，仅审核该目录下的变更文件）
+        comment:
+          type: boolean
+          description: 是否回写评论
+
+    MergeRequestSourceDTO:
+      type: object
+      description: 合并请求来源配置
+      required:
+        - mergeId
+      properties:
+        depotPath:
+          type: string
+          description: 代码仓库路径
+        depotId:
+          type: string
+          description: 代码仓库ID
+        mergeId:
+          type: string
+          description: 合并请求ID
+        monitorPath:
+          type: string
+          description: 监控目录路径（可选，仅审核该目录下的变更文件）
+        comment:
+          type: boolean
+          description: 是否回写评论
+
+    DirectorySourceDTO:
+      type: object
+      description: 目录来源配置
+      required:
+        - branch
+        - directory
+      properties:
+        depotPath:
+          type: string
+          description: 代码仓库路径
+        depotId:
+          type: string
+          description: 代码仓库ID
+        branch:
+          type: string
+          description: 分支名称
+          example: main
+        directory:
+          type: string
+          description: 目录路径
+          example: /sql
+        recursion:
+          type: boolean
+          description: 是否递归查找
+
+    SqlAuditTaskRead:
+      type: object
+      description: SQL审核任务响应
+      properties:
+        taskId:
+          type: string
+          description: 任务ID
+        requestId:
+          type: string
+          description: 幂等键（外部请求ID）
+        status:
+          type: string
+          description: "任务状态: accepted/running/finished"
+          enum:
+            - accepted
+            - running
+            - finished
+        result:
+          type: string
+          description: "判定结果: allow/deny/timeout/failed"
+          enum:
+            - allow
+            - deny
+            - timeout
+            - failed
+        errorCode:
+          type: integer
+          description: 错误码（仅当result=failed时有值）
+        errorMessage:
+          type: string
+          description: 错误信息（仅当result=failed时有值）
+        riskLevel:
+          type: integer
+          description: "风险等级: 0-critical 1-warning 2-notice"
+          enum:
+            - 0
+            - 1
+            - 2
+        riskLevelDesc:
+          type: string
+          description: "风险等级描述: critical/warning/notice"
+          enum:
+            - critical
+            - warning
+            - notice
+        statistics:
+          type: object
+          additionalProperties: true
+          description: 统计信息
+        summary:
+          type: string
+          description: 审核摘要（Markdown格式，适合展示）
+        summaryData:
+          $ref: '#/components/schemas/SummaryData'
+        reportUrl:
+          type: string
+          description: 报告详情页URL
+        reportHtml:
+          type: string
+          description: 报告HTML内容
+        callbackStatus:
+          type: string
+          description: "回调状态: pending/success/failed/skipped"
+        callbackMessage:
+          type: string
+          description: 回调结果信息
+        finishedAt:
+          type: string
+          format: date-time
+          description: 完成时间
+        extra:
+          type: object
+          additionalProperties: true
+          description: 扩展数据（透传）
+        ticketId:
+          type: string
+          description: 关联的工单ID
+        ticketTitle:
+          type: string
+          description: 工单标题（可用于平台搜索）
+        auditId:
+          type: string
+          description: 关联的审核ID
+        workspaceInfo:
+          $ref: '#/components/schemas/WorkspaceInfo'
+        env:
+          type: string
+          description: 环境信息
+        orgInfo:
+          $ref: '#/components/schemas/OrgInfo'
+        ruleTemplateInfo:
+          $ref: '#/components/schemas/RuleTemplateInfo'
+        operatorEmail:
+          type: string
+          description: 操作人邮箱
+        enableIndexRecommendation:
+          type: boolean
+          description: 是否执行索引推荐
+
+    WorkspaceInfo:
+      type: object
+      description: 工作空间信息
+      properties:
+        id:
+          type: string
+          description: 工作空间ID
+        name:
+          type: string
+          description: 工作空间名称
+
+    OrgInfo:
+      type: object
+      description: 机构信息
+      properties:
+        id:
+          type: string
+          description: 机构ID
+        name:
+          type: string
+          description: 机构名称
+        code:
+          type: string
+          description: 机构代码
+
+    RuleTemplateInfo:
+      type: object
+      description: 规则模板信息
+      properties:
+        id:
+          type: string
+          description: 模板ID
+        name:
+          type: string
+          description: 模板名称
+
+    SummaryData:
+      type: object
+      description: 审核摘要（结构化JSON，适合度量分析）
+      properties:
+        result:
+          type: string
+          description: "审核结果: allow/deny/timeout/failed"
+        riskLevel:
+          type: integer
+          description: "风险等级: 0-critical 1-warning 2-notice"
+        riskLevelDesc:
+          type: string
+          description: "风险等级描述: critical/warning/notice"
+        sqlTotal:
+          type: integer
+          description: SQL语句总数
+        violationCount:
+          type: integer
+          description: 违规SQL数量
+        levelStats:
+          $ref: '#/components/schemas/LevelStats'
+        files:
+          type: array
+          items:
+            type: string
+          description: 审核文件列表
+        violations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ViolationItem'
+          description: 违规SQL列表
+
+    LevelStats:
+      type: object
+      description: 各级别问题统计
+      properties:
+        critical:
+          type: integer
+          description: 严重级别问题数量
+        warning:
+          type: integer
+          description: 警告级别问题数量
+        notice:
+          type: integer
+          description: 提示级别问题数量
+
+    ViolationItem:
+      type: object
+      description: 违规SQL条目
+      properties:
+        sourceFile:
+          type: string
+          description: 来源文件路径
+        lineNumber:
+          type: integer
+          description: 行号（可为null）
+        sql:
+          type: string
+          description: SQL片段（最多300字符）
+        rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/RuleRef'
+          description: 违反的规则列表
+
+    RuleRef:
+      type: object
+      description: 规则引用
+      properties:
+        level:
+          type: string
+          description: "规则级别: critical/warning/notice"
+          enum:
+            - critical
+            - warning
+            - notice
+        ruleName:
+          type: string
+          description: 规则名称
+
+    WorkspaceLookupResult:
+      type: object
+      description: 工作空间查询结果
+      properties:
+        workspaceId:
+          type: string
+          description: 工作空间ID
+          example: "1730411624641736706"
+        workspaceName:
+          type: string
+          description: 工作空间名称
+        env:
+          type: string
+          description: 环境标识
+        dbType:
+          type: string
+          description: 数据库类型（displayCode）
+          example: mysql
+        orgId:
+          type: string
+          description: 所属机构ID
+        recommendedDbObjectRuleTemplateId:
+          type: string
+          description: 推荐巡检规则模板ID（根据数据库类型自动匹配的全局模板，0表示使用默认模板）
+        recommendedAuditRuleTemplateId:
+          type: string
+          description: 推荐审核规则模板ID（根据数据库类型自动匹配的全局模板，0表示使用默认模板）

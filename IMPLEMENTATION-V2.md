@@ -93,6 +93,52 @@
 
 以上需真实产品信息及编辑复核，不能由生成脚本代替。当前实现不是“全部内容已完成”的声明。
 
+## 参考资料分组重组（规划 · 2026-09-17 待执行）
+
+参考资料（Reference）组内容框架与组织方式的实施规划。本轮范围：`rule` + `database` 落地；`configuration` 暂缓；`api` 完全由 openapi tab 承担；`glossary` / `cli` / `error-code` 暂缓。
+
+### 已裁定决策
+
+1. **database 归入 `reference/database/`**——URL 从顶层 `databases/` 迁移到 `reference/database/`，使 7 个 subtype 路径统一在 `reference/` 下。
+2. **api 完全由 openapi tab 承担**——参考资料组内不建 api 页，`openapi/pawsql-integration.yaml` 与 `pawsql-optimization.yaml` 继续挂「API」tab。
+3. **glossary 本轮暂缓**——术语沉淀后再建，与 `contributing/terminology`（贡献者写作规范）分离，不做迁移。
+
+### 目标导航结构（中文「参考资料」group，英文镜像）
+
+```
+参考资料 (group)
+├── 审核规则        → reference/audit-rules/index      目录页按 category 分组聚合
+├── 优化规则        → reference/optimizer-rules/index  同上
+└── 数据库兼容性    → reference/database/index         16 库 landing + 各库详情
+```
+
+configuration 暂缓，不挂导航。
+
+### 组织方式
+
+**rule 子组**
+- `rule_index.py` 当前只生成扁平表格（`| 规则 | ID |`），需增强为按 `metadata/rules/*/*.yaml` 的 `category` 字段分组聚合，分类树取自 `metadata/taxonomies`。
+- 补齐 PLACEMENT §D 剩余约 202 条规则（D.2 已裁定 audit 221 / optimizer 40）到 `metadata/rules/`，再 `build-references` 重建。
+
+**database 子组**
+- `structured.py::database_pages` 输出路径从 `databases/{db}/index.md` 改为 `reference/database/{db}/index.md`（zh/en 双语）。
+- 新增 `reference/database/index.md` landing 页聚合 16 库（名 / 版本 / 能力状态），替代旧 `generate_compatibility_index` 的 `reference/compatibility/` 输出。
+- 能力矩阵继续由 `sync_database_matrix` splice 进 `getting-started/supported-databases`（能力总览），与 landing 页分工：landing 是查阅入口，supported-databases 是「开始使用」里的能力总览。
+- metadata 16 个 yaml 全 SAMPLE draft，正文需产品核稿后 release 门禁才放行；SAMPLE 里的 legacy claims 一律标 `unknown`，不自动升格为支持承诺。
+
+**清理项（随本轮）**
+1. 从参考资料组移除 `contributing/terminology`（贡献者规范，非用户参考项；当前英文组无对应镜像，本身不一致）。
+2. 废弃旧 `database_generator.py` / `config_generator.py`（只输出英文 `docs/en/`，与 v2 双语模型冲突），统一走 `structured.py`。
+3. 中英文导航页面列表对齐（当前中文 3 页 vs 英文 5 页，路径混杂）。
+
+### 实施步骤
+
+1. 改 `structured.py` database 输出路径 → `reference/database/`，新增 landing 页；移除旧生成器调用。
+2. 增强 `rule_index.py` 按 category 分组聚合。
+3. 逐批补齐 `metadata/rules/` 至 261 条，`build-references` 重建。
+4. 更新 `docs.json` 两语言「参考资料」组：移除 terminology、挂 database 组、对齐页面。
+5. 跑 `validate-nav` / `validate-frontmatter` / `gate` 全绿。
+
 ## 工作区保护
 
 `docs/getting-started/overview.mdx` 原有用户正文改动保留在工作区。本次提交仅纳入该页针对 HEAD 的分类迁移，不代为提交已有正文编辑。原内容库 `.agents/` 未纳入提交。

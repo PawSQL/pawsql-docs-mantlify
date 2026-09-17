@@ -17,8 +17,8 @@ DESCRIPTION_MAX = 320
 # Canonical six nav groups -> allowed (type, subtype) where subtype is None
 # (type must carry no subtype), '*' (any subtype), or a specific subtype.
 NAV_GROUP_TYPES = {
-    "开始使用": [("explanation", None), ("guide", "quickstart")],
-    "Getting Started": [("explanation", None), ("guide", "quickstart")],
+    "快速开始": [("explanation", None), ("guide", "quickstart")],
+    "Quickstart": [("explanation", None), ("guide", "quickstart")],
     "安装与接入": [("guide", "installation"), ("guide", "integration"), ("guide", "operation")],
     "Installation and Access": [("guide", "installation"), ("guide", "integration"), ("guide", "operation")],
     "使用 PawSQL": [("guide", "*")],
@@ -27,8 +27,6 @@ NAV_GROUP_TYPES = {
     "Capabilities and Concepts": [("explanation", None)],
     "参考资料": [("reference", "*")],
     "Reference": [("reference", "*")],
-    "帮助与排障": [("support", "*")],
-    "Help and Troubleshooting": [("support", "*")],
 }
 
 # Section slots a published detail page must provide per type (release gate).
