@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
+  "theme": "palm",
   "name": "PawSQL",
   "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
   "colors": {
