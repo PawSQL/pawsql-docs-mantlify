@@ -258,11 +258,13 @@
             "groups": [
               {
                 "group": "CI/CD 集成接口",
+                "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-integration.yaml"
               },
               {
                 "group": "优化服务接口",
+                "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-optimization.yaml"
               }
@@ -535,11 +537,13 @@
             "groups": [
               {
                 "group": "CD/CD Integration",
+                "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-integration-en.yaml"
               },
               {
                 "group": "SQL Optimization",
+                "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-optimization-en.yaml"
               }
