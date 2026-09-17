@@ -1,6 +1,6 @@
 ---
 id: user-guide-performance-index
-title: 性能治理工作流
+title: 巡检与治理工作流
 description: 性能巡检平台通过接入数据库实例、采集慢 SQL、巡检数据库对象，识别性能与结构风险，并支持批量优化和治理进度跟踪。
 type: guide
 subtype: operation
@@ -20,17 +20,19 @@ localeOf: en-user-guide-performance-index
 
 ## 治理工作流
 
-按以下顺序推进（前四步是接入与数据准备，后三步是治理动作）：
+接入数据库实例是起点，随后沿「慢查询治理」与「对象巡检」两条线推进，最终通过治理进度跟踪收敛：
 
 <Steps>
   <Step title="接入数据库实例">
     添加实例，填写连接信息并完成慢查询与巡检配置。
   </Step>
-  <Step title="采集慢 SQL">
+</Steps>
+
+### 慢查询治理
+
+<Steps>
+  <Step title="慢查询采集">
     从数据库慢查询日志采集慢 SQL，可手动触发或按计划定时采集。
-  </Step>
-  <Step title="创建性能巡检任务">
-    为实例配置巡检模板，手动或定时巡检数据库对象。
   </Step>
   <Step title="SQL 聚合与去重">
     对采集结果按 SQL 结构聚合去重，过滤出业务 SQL，形成治理清单。
@@ -38,22 +40,38 @@ localeOf: en-user-guide-performance-index
   <Step title="批量分析与优化">
     对选中的慢 SQL 批量发起优化或 AI 优化，生成重写与索引建议。
   </Step>
-  <Step title="查看巡检报告">
-    从数据库对象维度查看巡检发现的风险分布与 Top 问题。
-  </Step>
-  <Step title="跟踪治理进度">
-    通过优化状态、处置阶段和性能提升跟踪每条 SQL 的治理进展。
+  <Step title="创建优化任务工单">
+    把选中的慢 SQL 打包成优化任务工单，配置参数并提交跟踪。
   </Step>
 </Steps>
 
+### 对象巡检
+
+<Steps>
+  <Step title="创建对象巡检任务">
+    为实例配置巡检模板，手动或定时巡检数据库对象。
+  </Step>
+  <Step title="巡检任务报告">
+    从数据库对象维度查看巡检发现的风险分布与 Top 问题。
+  </Step>
+  <Step title="创建巡检问题工单">
+    把存在异常的对象打包成整改工单。
+  </Step>
+</Steps>
+
+跟踪治理进度贯穿全程：通过优化状态、处置阶段和性能提升跟踪每条 SQL 与每个对象的治理进展。
+
 ```mermaid
 flowchart LR
-    A["接入实例"] --> B["采集慢 SQL"]
-    A --> C["巡检数据库对象"]
+    A["接入实例"] --> B["慢查询采集"]
+    A --> C["对象巡检任务"]
     B --> D["聚合与去重"]
     D --> E["批量分析与优化"]
-    C --> F["查看巡检报告"]
-    E --> G["跟踪治理进度"]
+    E --> F["优化任务工单"]
+    C --> G["巡检报告"]
+    G --> H["巡检问题工单"]
+    F --> I["跟踪治理进度"]
+    H --> I
 ```
 
 ## 核心对象
@@ -65,24 +83,33 @@ flowchart LR
 | 巡检模板 | 定义巡检时启用的审核规则与风险级别 |
 | 数据库对象 | 实例中的表，带列数、行数、索引数与巡查异常数 |
 | 巡检报告 | 汇总数据库对象数、风险级别分布与 Top 规则、Top 对象 |
+| 优化任务工单 | 把一批慢 SQL 与优化配置打包成的可跟踪优化记录 |
+| 巡检问题工单 | 把巡检发现的问题对象打包成的可跟踪整改记录 |
 
 ## 本分组包含
 
-### 接入与采集
+### 接入与跟踪
 
 <CardGroup cols={2}>
   <Card title="接入数据库实例" href="/user-guide/performance/connect-instance" />
-  <Card title="采集慢 SQL" href="/user-guide/performance/collect-slow-sql" />
-  <Card title="创建性能巡检任务" href="/user-guide/performance/patrol-task" />
+  <Card title="跟踪治理进度" href="/user-guide/performance/track-progress" />
 </CardGroup>
 
-### 分析与治理
+### 慢查询治理
 
 <CardGroup cols={2}>
+  <Card title="慢查询采集" href="/user-guide/performance/collect-slow-sql" />
   <Card title="SQL 聚合与去重" href="/user-guide/performance/aggregate-dedup" />
   <Card title="批量分析与优化" href="/user-guide/performance/batch-optimize" />
-  <Card title="查看巡检报告" href="/user-guide/performance/reports" />
-  <Card title="跟踪治理进度" href="/user-guide/performance/track-progress" />
+  <Card title="创建优化任务工单" href="/user-guide/performance/create-optimize-ticket" />
+</CardGroup>
+
+### 对象巡检
+
+<CardGroup cols={2}>
+  <Card title="创建对象巡检任务" href="/user-guide/performance/patrol-task" />
+  <Card title="巡检任务报告" href="/user-guide/performance/reports" />
+  <Card title="创建巡检问题工单" href="/user-guide/performance/create-patrol-ticket" />
 </CardGroup>
 
 ## 按角色开始

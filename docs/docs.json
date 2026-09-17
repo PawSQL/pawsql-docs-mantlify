@@ -102,12 +102,24 @@
                     "pages": [
                       "user-guide/performance/index",
                       "user-guide/performance/connect-instance",
-                      "user-guide/performance/collect-slow-sql",
-                      "user-guide/performance/patrol-task",
-                      "user-guide/performance/aggregate-dedup",
-                      "user-guide/performance/batch-optimize",
-                      "user-guide/performance/reports",
-                      "user-guide/performance/track-progress"
+                      {
+                        "group": "慢查询治理",
+                        "pages": [
+                          "user-guide/performance/collect-slow-sql",
+                          "user-guide/performance/aggregate-dedup",
+                          "user-guide/performance/batch-optimize",
+                          "user-guide/performance/create-optimize-ticket",
+                          "user-guide/performance/track-progress"
+                        ]
+                      },
+                      {
+                        "group": "数据库对象巡检",
+                        "pages": [
+                          "user-guide/performance/patrol-task",
+                          "user-guide/performance/reports",
+                          "user-guide/performance/create-patrol-ticket"
+                        ]
+                      }
                     ],
                     "icon": "activity",
                     "root": "user-guide/performance/index"
@@ -326,12 +338,24 @@
                     "pages": [
                       "en/user-guide/performance/index",
                       "en/user-guide/performance/connect-instance",
-                      "en/user-guide/performance/collect-slow-sql",
-                      "en/user-guide/performance/patrol-task",
-                      "en/user-guide/performance/aggregate-dedup",
-                      "en/user-guide/performance/batch-optimize",
-                      "en/user-guide/performance/reports",
-                      "en/user-guide/performance/track-progress"
+                      {
+                        "group": "Slow Query Governance",
+                        "pages": [
+                          "en/user-guide/performance/collect-slow-sql",
+                          "en/user-guide/performance/aggregate-dedup",
+                          "en/user-guide/performance/batch-optimize",
+                          "en/user-guide/performance/create-optimize-ticket",
+                          "en/user-guide/performance/track-progress"
+                        ]
+                      },
+                      {
+                        "group": "Database Object Patrol",
+                        "pages": [
+                          "en/user-guide/performance/patrol-task",
+                          "en/user-guide/performance/reports",
+                          "en/user-guide/performance/create-patrol-ticket"
+                        ]
+                      }
                     ],
                     "icon": "activity",
                     "root": "en/user-guide/performance/index"

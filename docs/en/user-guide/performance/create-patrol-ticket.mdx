@@ -1,0 +1,50 @@
+---
+id: en-user-guide-performance-create-patrol-ticket
+title: Create a Patrol Issue Ticket
+description: Bundle objects with anomalies from the patrol report into a patrol issue ticket, confirm the title, priority, and associated objects, then submit for remediation tracking.
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: en
+translationKey: user-guide-performance-create-patrol-ticket
+---
+
+The patrol report answers "which objects have problems"; a patrol issue ticket turns those problems into a trackable, reviewable remediation task. It starts from the object list in the [Patrol Task Report](/en/user-guide/performance/reports), bundling objects with anomalies into a single ticket to synchronize remediation ownership and progress across the team.
+
+## Start from the object list
+
+After patrol completes, locate objects with anomalies in the object list on the Database objects page — filter by "Violated rules" or by severity (critical / warning / notice). Select the objects to remediate and create a ticket that includes those objects and their anomalies.
+
+<Frame caption="Object list: locate objects to remediate by anomaly and severity">
+  ![Database object patrol](/images/performance/en/patrol-db-objects-data.png)
+</Frame>
+
+## Ticket information
+
+When creating a patrol issue ticket, confirm the following:
+
+| Item | Meaning |
+| --- | --- |
+| Title | Ticket name; include the instance, database, and issue scope for easy lookup |
+| Priority | Remediation priority (low, medium, high, urgent), used for ordering and handling |
+| Associated objects | The problem objects (tables) covered, with their severity and anomaly count |
+
+## Submit and track
+
+After submission, the ticket enters the remediation flow. Remediation progress follows the governance "pending → in progress → resolved" stages — see [Track Governance Progress](/en/user-guide/performance/track-progress).
+
+## FAQ
+
+| Symptom | Check first |
+| --- | --- |
+| No objects with anomalies in the list | Whether a patrol has completed, whether "Violated rules" filter is on |
+| Unable to create a ticket | Whether the account has ticket-creation permission |
+
+## Related reading
+
+<CardGroup cols={2}>
+  <Card title="Patrol Task Report" href="/en/user-guide/performance/reports" />
+  <Card title="Track Governance Progress" href="/en/user-guide/performance/track-progress" />
+</CardGroup>

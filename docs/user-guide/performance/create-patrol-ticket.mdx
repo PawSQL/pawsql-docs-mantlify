@@ -1,0 +1,51 @@
+---
+id: user-guide-performance-create-patrol-ticket
+title: 创建巡检问题工单
+description: 把巡检报告中存在异常的对象打包成巡检问题工单，确认标题、优先级与关联对象后提交，进入整改跟踪。
+type: guide
+subtype: operation
+layout: detail
+product: pawsql
+status: draft
+language: zh
+translationKey: user-guide-performance-create-patrol-ticket
+localeOf: en-user-guide-performance-create-patrol-ticket
+---
+
+巡检报告回答「哪些对象有问题」，巡检问题工单则把这些问题收敛为可跟踪、可复核的整改任务。它从[巡检任务报告](/user-guide/performance/reports)的对象清单发起，把存在「巡查异常」的对象打包成一条工单，用于在团队内同步整改责任与进度。
+
+## 从对象清单发起
+
+巡检完成后，在数据库对象页的对象清单中定位存在「巡查异常」的对象——按「违反规则」筛选，或按风险级别（严重 / 警告 / 提示）过滤。勾选需要整改的对象后创建工单，把选中的对象及其异常一并纳入工单。
+
+<Frame caption="对象清单：按巡查异常与风险级别定位待整改对象">
+  ![数据库对象巡检](/images/performance/patrol-db-objects-data.png)
+</Frame>
+
+## 工单信息
+
+创建巡检问题工单时需确认：
+
+| 项 | 说明 |
+| --- | --- |
+| 标题 | 工单名称，建议包含实例、库与问题范围，便于检索 |
+| 优先级 | 整改优先级（低、中、高、紧急），用于排序与处理顺序 |
+| 关联对象 | 本次工单覆盖的问题对象（表），带各自的风险级别与巡查异常数 |
+
+## 提交与跟踪
+
+提交后，工单进入整改流程。整改进度沿用治理的「未处置 → 处置中 → 已处置」三档，详见[跟踪治理进度](/user-guide/performance/track-progress)。
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| 对象清单无「巡查异常」对象 | 是否已完成一次巡检、是否启用「违反规则」筛选 |
+| 无法创建工单 | 当前账号是否有创建工单的权限 |
+
+## 延伸阅读
+
+<CardGroup cols={2}>
+  <Card title="巡检任务报告" href="/user-guide/performance/reports" />
+  <Card title="跟踪治理进度" href="/user-guide/performance/track-progress" />
+</CardGroup>

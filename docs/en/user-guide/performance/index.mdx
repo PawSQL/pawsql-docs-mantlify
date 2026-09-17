@@ -19,17 +19,19 @@ The Performance Patroller continuously collects slow queries and patrols databas
 
 ## Governance workflow
 
-Proceed in the following order (the first four steps are onboarding and data preparation; the rest are governance actions):
+Connecting database instances is the starting point, followed by two tracks — Slow query governance and Object patrol — converging on progress tracking:
 
 <Steps>
   <Step title="Connect database instances">
     Add an instance, fill in connection details, and complete slow query and patrol configuration.
   </Step>
-  <Step title="Collect slow SQL">
+</Steps>
+
+### Slow query governance
+
+<Steps>
+  <Step title="Collect slow queries">
     Collect slow SQL from the database slow query log, manually or on a schedule.
-  </Step>
-  <Step title="Create a patrol task">
-    Assign a patrol template to the instance and patrol database objects manually or on a schedule.
   </Step>
   <Step title="Aggregate and deduplicate SQL">
     Aggregate collected SQL by structure, filter to business SQL, and form the governance backlog.
@@ -37,22 +39,38 @@ Proceed in the following order (the first four steps are onboarding and data pre
   <Step title="Batch analyze and optimize">
     Run optimization or AI optimization on selected slow SQL to generate rewrite and index recommendations.
   </Step>
-  <Step title="View patrol reports">
-    Review risk distribution and top issues from the database-object perspective.
-  </Step>
-  <Step title="Track governance progress">
-    Track each SQL via optimization status, disposition stage, and performance improvement.
+  <Step title="Create an optimization ticket">
+    Bundle selected slow SQL into an optimization ticket, configure settings, and submit for tracking.
   </Step>
 </Steps>
 
+### Object patrol
+
+<Steps>
+  <Step title="Object patrol task">
+    Assign a patrol template to the instance and patrol database objects manually or on a schedule.
+  </Step>
+  <Step title="Patrol task report">
+    Review risk distribution and top issues from the database-object perspective.
+  </Step>
+  <Step title="Create a patrol issue ticket">
+    Bundle objects with anomalies into a remediation ticket.
+  </Step>
+</Steps>
+
+Track governance progress runs throughout: track each SQL and object via optimization status, disposition stage, and performance improvement.
+
 ```mermaid
 flowchart LR
-    A["Connect instances"] --> B["Collect slow SQL"]
-    A --> C["Patrol database objects"]
+    A["Connect instances"] --> B["Collect slow queries"]
+    A --> C["Object patrol task"]
     B --> D["Aggregate & deduplicate"]
     D --> E["Batch optimize"]
-    C --> F["View patrol reports"]
-    E --> G["Track progress"]
+    E --> F["Optimization ticket"]
+    C --> G["Patrol report"]
+    G --> H["Patrol issue ticket"]
+    F --> I["Track progress"]
+    H --> I
 ```
 
 ## Core objects
@@ -64,24 +82,33 @@ flowchart LR
 | Patrol template | Defines the audit rules and severities applied during patrol |
 | Database object | Tables in the instance, with column count, row count, index count, and patrol anomalies |
 | Patrol report | Summarizes object count, severity distribution, and top rules/objects |
+| Optimization ticket | A trackable optimization record bundling a batch of slow SQL with optimization settings |
+| Patrol issue ticket | A trackable remediation record bundling objects with patrol findings |
 
 ## In this section
 
-### Onboarding and collection
+### Onboarding and tracking
 
 <CardGroup cols={2}>
   <Card title="Connect Database Instances" href="/en/user-guide/performance/connect-instance" />
-  <Card title="Collect Slow SQL" href="/en/user-guide/performance/collect-slow-sql" />
-  <Card title="Create a Patrol Task" href="/en/user-guide/performance/patrol-task" />
+  <Card title="Track Governance Progress" href="/en/user-guide/performance/track-progress" />
 </CardGroup>
 
-### Analysis and governance
+### Slow query governance
 
 <CardGroup cols={2}>
+  <Card title="Collect Slow Queries" href="/en/user-guide/performance/collect-slow-sql" />
   <Card title="SQL Aggregation and Deduplication" href="/en/user-guide/performance/aggregate-dedup" />
   <Card title="Batch Analysis and Optimization" href="/en/user-guide/performance/batch-optimize" />
-  <Card title="View Patrol Reports" href="/en/user-guide/performance/reports" />
-  <Card title="Track Governance Progress" href="/en/user-guide/performance/track-progress" />
+  <Card title="Create an Optimization Ticket" href="/en/user-guide/performance/create-optimize-ticket" />
+</CardGroup>
+
+### Object patrol
+
+<CardGroup cols={2}>
+  <Card title="Object Patrol Task" href="/en/user-guide/performance/patrol-task" />
+  <Card title="Patrol Task Report" href="/en/user-guide/performance/reports" />
+  <Card title="Create a Patrol Issue Ticket" href="/en/user-guide/performance/create-patrol-ticket" />
 </CardGroup>
 
 ## Start by role
