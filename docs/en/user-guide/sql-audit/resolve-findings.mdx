@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-resolve-findings
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Work through a finding"
+  expectedResult: "Expected Result"
+  verification: "Validate remediated SQL"
 ---
 
 The goal of remediation is not merely to reduce the number of findings. Each decision should remove or consciously accept the underlying risk, preserve required SQL behavior, and leave enough evidence for another reviewer to understand the outcome.
+
+## Goal
+
+Investigate, remediate, re-review, and document SQL findings so that each risk is removed or consciously accepted with evidence.
+
+## Prerequisites
+
+A review ticket with findings to resolve, and access to modify and re-review the SQL.
 
 ## Remediation loop
 
@@ -87,6 +101,10 @@ When remediation is not appropriate, use the exception process in [Manual Review
 - Change SQL in small batches with regression coverage.
 - Compare risk distribution and performance evidence before and after remediation.
 - Feed proven patterns back into engineering standards and review policies.
+
+## Expected Result
+
+After remediation and re-review, the resolved findings no longer trigger, no new high-risk finding appears, and the outcome is recorded with evidence.
 
 ## Next steps
 

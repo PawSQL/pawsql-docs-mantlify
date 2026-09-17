@@ -6,13 +6,27 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-dev-tools-vscode
 localeOf: en-user-guide-dev-tools-vscode
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 优化 SQL
+  expectedResult: 阅读优化结果
+  verification: 验证
 ---
 
 PawSQL Client for VS Code 将 PawSQL 的 SQL 审核、查询重写、索引推荐和性能验证能力带入 Visual Studio Code，适合在多语言代码仓库和 SQL 文件中快速分析当前语句。
+
+## 目标
+
+安装并配置 PawSQL Client for VS Code，在代码或 SQL 文件中快速优化选中的 SQL。
+
+## 准备工作
+
+需要一个兼容的 Visual Studio Code 安装，以及访问 VS Code 扩展市场（或 PawSQL 官方 / 企业可信仓库提供的离线扩展包）的权限。
 
 ## 安装扩展
 
@@ -72,6 +86,10 @@ PawSQL Client for VS Code 将 PawSQL 的 SQL 审核、查询重写、索引推�
 4. 重写 SQL 及其优化依据；
 5. 推荐索引及与现有索引的关系；
 6. 启用验证时的执行计划或性能对比。
+
+## 验证
+
+运行一次优化，确认原始 SQL、识别出的数据库方言、工作空间、审核问题、重写候选、索引建议以及验证证据均正常返回。
 
 ## 应用重写或索引
 

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-create-patrol-ticket
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Start from the object list"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 The patrol report answers "which objects have problems"; a patrol issue ticket turns those problems into a trackable, reviewable remediation task. It starts from the object list in the [Patrol Task Report](/en/user-guide/performance/reports), bundling objects with anomalies into a single ticket to synchronize remediation ownership and progress across the team.
+
+## Goal
+
+Turn patrol report anomalies into a trackable, reviewable remediation ticket.
+
+## Prerequisites
+
+A patrol has completed and produced objects with anomalies on the Database objects page.
 
 ## Start from the object list
 
@@ -34,6 +48,14 @@ When creating a patrol issue ticket, confirm the following:
 ## Submit and track
 
 After submission, the ticket enters the remediation flow. Remediation progress follows the governance "pending → in progress → resolved" stages — see [Track Governance Progress](/en/user-guide/performance/track-progress).
+
+## Expected Result
+
+After submission, the patrol issue ticket enters the remediation flow with its title, priority, and associated objects recorded.
+
+## Verification
+
+Confirm the ticket appears in the remediation flow and its progress follows the pending → in progress → resolved stages.
 
 ## FAQ
 

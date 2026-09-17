@@ -6,10 +6,16 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-aggregate-dedup
 localeOf: en-user-guide-performance-aggregate-dedup
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "操作步骤"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 慢查询日志里同一个 SQL 会被反复执行成千上万次，逐条展示没有治理价值。PawSQL 在采集后按 SQL 结构自动聚合去重，把相同结构的 SQL 合并为一条，并用执行次数、平均耗时、最大耗时等指标刻画它的整体影响。慢查询页的概要、图表与表格都基于聚合后的结果。
@@ -17,6 +23,18 @@ localeOf: en-user-guide-performance-aggregate-dedup
 <Frame caption="慢查询页：概要、近七天慢 SQL、SQL 类型、优化状态与平均耗时">
   ![慢查询聚合结果](/images/performance/patrol-slow-queries-data.png)
 </Frame>
+
+## 目标
+
+按 SQL 结构对采集到的慢 SQL 聚合去重，使相同结构的 SQL 在治理清单中只保留一条。
+
+## 准备工作
+
+慢 SQL 已采集进入平台，聚合在采集结果之上进行。
+
+## 操作步骤
+
+采集完成后平台自动聚合去重；用「只展示业务SQL」开关、概要指标、分布图表、表格与筛选条件查看治理清单。
 
 ## 只展示业务 SQL
 
@@ -66,6 +84,14 @@ localeOf: en-user-guide-performance-aggregate-dedup
 ## 筛选与排序
 
 表格上方提供筛选条件：搜索慢查询 SQL 或编号、优化状态、SQL 类型、处置阶段、平均耗时区间、执行时间区间。列头支持排序，便于按平均耗时、执行次数等维度定位重点 SQL。
+
+## 预期结果
+
+慢查询页展示聚合后的治理清单：概要计数、四个分布图表，以及按 SQL 结构去重后的表格。
+
+## 验证
+
+确认概要、图表与表格均基于聚合结果，且切换「只展示业务SQL」会改变业务 SQL 数量。
 
 ## 延伸阅读
 

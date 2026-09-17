@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-rules-policy-rule-sets
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Create a review policy
+  expectedResult: Expected Result
+  verification: Verification
 ---
 
 Review policies are managed through the "Policy" entry in the sidebar: the list page shows all templates and provides a "Create a Policy" button.
+
+## Goal
+
+Create a review policy from a built-in global template by choosing a database type and base template, configure rules in three steps, and manage templates from the list and detail pages.
+
+## Prerequisites
+
+Access to the Audit platform's Policy entry and the built-in global templates it provides.
 
 ## Template list
 
@@ -50,6 +64,14 @@ Click a template in the list to open its detail page. Built-in global templates 
 ## Customize a review policy
 
 Built-in global templates are read-only. To customize, create a "local template": copy a global template (or another visible template), then enable or disable rules and adjust thresholds on the copy. A local template is visible only to its creator and their team members. See "Create a review policy" above for the flow, and [Manage Rules](/en/user-guide/rules-policy/configure-rules) for the rule adjustments.
+
+## Expected Result
+
+After saving, a new local template appears in the policy list; clicking it opens its detail page where you can review its enabled rules and thresholds.
+
+## Verification
+
+Confirm the policy was created by finding it in the list, opening its detail page, and checking that the selected database type, base template, and rule configuration are applied.
 
 <Note>
 Review policy import, export, and versioning have no entry in the current preview release (global templates are read-only and the Operations column is empty); they are subject to the official release.

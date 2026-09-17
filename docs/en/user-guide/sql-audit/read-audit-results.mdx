@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-read-audit-results
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Recommended review order"
+  expectedResult: "Result page layout"
+  verification: "Verification"
 ---
 
 Begin by confirming that PawSQL completed the review for the full input. Then move from the overall risk profile to individual findings. A low finding count alone is not evidence that SQL is ready for release.
+
+## Goal
+
+Interpret review coverage, severity summaries, and individual findings to support a release decision.
+
+## Prerequisites
+
+A review ticket that has completed (or partially completed) and is available to open.
 
 ## Result page layout
 
@@ -112,6 +126,10 @@ Do not treat a ticket as passed when:
 ## Separate findings from the release decision
 
 Automated findings are one input to the decision. Business semantics, test results, data volume, execution plans, deployment timing, and rollback readiness also matter. For critical SQL, use [Performance Validation](/en/features/performance-validation) or equivalent database testing to establish runtime evidence.
+
+## Verification
+
+Confirm the ticket completed fully, no parse failures or missing context remain, and blocking findings have been assessed before making a release decision.
 
 ## Next steps
 

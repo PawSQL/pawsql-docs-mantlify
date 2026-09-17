@@ -5,7 +5,7 @@ description: Databases PawSQL supports (relational, Chinese enterprise, distribu
 type: explanation
 icon: database
 product: pawsql
-status: draft
+status: published
 tags:
 - databases
 - compatibility
@@ -21,6 +21,7 @@ capabilities:
 - performance-validation
 - plan-visualization
 sections:
+  definition: Definition
   relational: Relational Databases
   distributed: Distributed Databases
   bigData: Big Data
@@ -31,11 +32,16 @@ sections:
   variants: Compatible Database Variants
   availability: Feature Availability
   notFound: Need Support for Another Database?
+  nextSteps: Next steps
 ---
 
 PawSQL supports a wide range of mainstream relational databases, Chinese enterprise databases, distributed databases, and big-data SQL engines.
 
 Support varies by database and capability. In addition to SQL parsing, PawSQL may provide SQL quality check, query rewrite, index recommendation, execution plan analysis, performance validation, and production SQL governance depending on the target database.
+
+## Definition
+
+Database support in PawSQL means both the ability to parse a database's SQL dialect and the depth of database-aware analysis available, which varies by database, version, and deployment mode.
 
 ---
 
@@ -292,3 +298,9 @@ Typical cases include:
 - Enterprise-customized database distributions
 
 Contact the PawSQL team to evaluate compatibility and adaptation requirements.
+
+---
+
+## Next steps
+
+After confirming your database and version are supported, follow [Choose How to Use PawSQL](/en/getting-started/choose-access) or the [quickstart](/en/getting-started/quickstart) to start optimizing SQL.

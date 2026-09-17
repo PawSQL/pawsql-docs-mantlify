@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-logs-troubleshooting
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Stage-by-stage diagnosis"
+  expectedResult: "Expected Result"
+  verification: "Feedback"
 ---
 
 Start from the observed symptom, confirm the failure stage, and apply the matching remedy. A consistent stage-first diagnosis avoids chasing the wrong component.
+
+## Goal
+
+Diagnose webhook delivery, SQL collection, authentication, processing, gate, and feedback failures by symptom.
+
+## Prerequisites
+
+Start from the observed symptom and confirm which integration stage failed.
 
 ## Symptom reference
 
@@ -63,6 +77,10 @@ Start from the observed symptom, confirm the failure stage, and apply the matchi
 - Verify the status or comment permissions on the source platform.
 - Confirm the result targets the current revision.
 - Check that duplicate delivery is not creating conflicting feedback.
+
+## Expected Result
+
+The failure is traced to a specific stage and the matching remedy from the stage-by-stage diagnosis is applied.
 
 ## Related
 

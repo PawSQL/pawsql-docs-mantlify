@@ -6,13 +6,23 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-prerequisites
 localeOf: en-user-guide-cicd-prerequisites
+sections:
+  goal: "目标"
+  prerequisites: "PawSQL 侧准备"
+  steps: "操作步骤"
+  expectedResult: "验收用例"
+  verification: "验收用例"
 ---
 
 生产接入前，建议由 PawSQL 管理员、DevOps 管理员和数据库负责人共同确认服务、权限、数据边界和验收策略。
+
+## 目标
+
+在连接代码仓库或流水线前，准备 PawSQL 服务、账号权限、工作空间、网络和安全控制。
 
 ## PawSQL 侧准备
 
@@ -58,6 +68,10 @@ localeOf: en-user-guide-cicd-prerequisites
 | 数据库连接信息 | 使用安全存储，不输出完整连接串 |
 | 审核报告 | 继承 PawSQL 项目权限并设置保留周期 |
 | 流水线日志 | 脱敏令牌、密码、SQL 常量和错误上下文 |
+
+## 操作步骤
+
+依次完成 PawSQL 侧准备、研发平台侧准备、网络路径验证、凭据与最小权限和数据安全配置。
 
 ## 验收用例
 

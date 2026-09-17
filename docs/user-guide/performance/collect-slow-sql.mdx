@@ -6,13 +6,23 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-collect-slow-sql
 localeOf: en-user-guide-performance-collect-slow-sql
+sections:
+  goal: "目标"
+  prerequisites: "MySQL 慢查询日志要求"
+  steps: "慢查询配置步骤"
+  expectedResult: "预期结果"
+  verification: "提交前检查"
 ---
 
 慢 SQL 采集是把数据库慢查询日志中的 SQL 汇聚到巡检平台、形成治理清单的关键步骤。采集发生在接入实例向导的「慢查询配置」步骤，接入完成后也可在慢查询页随时手动采集或配置定时采集。
+
+## 目标
+
+把数据库慢查询日志中的慢 SQL 汇聚到巡检平台，形成治理清单。
 
 ## 慢查询配置步骤
 
@@ -64,6 +74,10 @@ localeOf: en-user-guide-performance-collect-slow-sql
 - 采集的 SQL 来自数据库慢查询日志，因此日志未开启或阈值过高的 SQL 不会被采集；
 - 「慢SQL数」与「业务SQL数」的差异来自是否过滤内部/系统 SQL，详见[SQL 聚合与去重](/user-guide/performance/aggregate-dedup)；
 - 采集是增量汇聚，重复采集会刷新「最新采集时间」并更新清单。
+
+## 预期结果
+
+采集完成后，慢查询页概要区展示慢查询阈值、慢SQL数、业务SQL数与最新采集时间。
 
 ## 提交前检查
 

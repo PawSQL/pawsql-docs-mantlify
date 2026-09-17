@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-rules-policy-configure-rules
 localeOf: en-user-guide-rules-policy-configure-rules
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 定位规则
+  expectedResult: 规则表格列
+  verification: 验证
 ---
 
 规则管理页展示审核平台内置的默认规则模板，共 260 条审核规则。它独立于创建审核策略时的「规则配置」步骤：前者用于浏览整套规则目录，后者用于在某个模板内挑选规则。
+
+## 目标
+
+在规则管理页按分类树、级别筛选与搜索浏览内置审核规则，查看每条规则的启用状态、类别、级别、阈值与父级节点。
+
+## 准备工作
+
+无特殊前置条件，只需能够访问审核平台的规则管理页。
 
 <Frame caption="规则管理：左侧分类树与级别筛选，右侧规则表格">
   ![规则管理](/images/rules-policy/configure-rules.png)
@@ -71,3 +85,7 @@ localeOf: en-user-guide-rules-policy-configure-rules
 | 模式命名规范 | `^[a-z]+(-[a-z]+)*$` |
 
 内置默认模板的规则与阈值只读；如需自定义，先基于全局模板创建局部模板（见[审核策略管理](/user-guide/rules-policy/rule-sets)），再在局部模板上启用、禁用或调整规则。
+
+## 验证
+
+点击某个分类或子类、应用级别筛选或搜索规则名，确认右侧规则表格更新为匹配规则，并显示启用状态、类别、级别、阈值与父级节点。

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-rules-policy-quality-gate
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Configuration steps
+  expectedResult: Approval workflow nodes
+  verification: Verification
 ---
 
 The SQL quality gate is implemented through the approval workflow configuration: in "Settings → Personal Approval Template", set the maximum risk level allowed for ticket creation; the system determines the approval process accordingly.
+
+## Goal
+
+Configure the approval workflow and the risk-level threshold (Notice, Warning, Critical) to set the maximum risk level for ticket creation and establish a SQL quality gate.
+
+## Prerequisites
+
+Access to the "Settings → Personal Approval Template" configuration page and permission to save the approval workflow.
 
 <Frame caption="Approval workflow: the nodes from risk level configuration to execute deployment">
   ![Approval workflow](/images/rules-policy/en/quality-gate.png)
@@ -55,3 +69,7 @@ The approval workflow proceeds through these nodes:
 ## Configuration steps
 
 The approval workflow configuration is a multi-step wizard: configure the risk level first, then the review submission, review nodes, and deployment. Click "Save Configuration" when done. You can click "Reset Configuration" at any time to restore defaults.
+
+## Verification
+
+After saving, confirm that the approval workflow shows the configured nodes and that a ticket whose risk level exceeds the threshold requires the stricter approval flow you defined.

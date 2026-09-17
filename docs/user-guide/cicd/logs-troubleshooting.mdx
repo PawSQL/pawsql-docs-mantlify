@@ -6,13 +6,31 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-logs-troubleshooting
 localeOf: en-user-guide-cicd-logs-troubleshooting
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "操作步骤"
+  expectedResult: "结果与流水线不一致"
+  verification: "验证"
 ---
 
 排障时先记录代码平台运行 ID、仓库、提交、事件 ID、PawSQL 工单 ID 和发生时间。分享日志前应删除令牌、密码、连接串和敏感 SQL 常量。
+
+## 目标
+
+根据现象排查 Webhook、SQL 提取、认证、工单处理、质量门禁和结果回传问题。
+
+## 准备工作
+
+先记录代码平台运行 ID、仓库、提交、事件 ID、PawSQL 工单 ID 和发生时间。
+
+## 操作步骤
+
+从观察到的现象出发，确定失败阶段并应用对应的检查项。
 
 ## Webhook 未触发
 
@@ -55,6 +73,10 @@ localeOf: en-user-guide-cicd-logs-troubleshooting
 - 工单 ID、运行 ID、时间和完整错误码；
 - 最小可复现步骤；
 - 已完成的检查和结果。
+
+## 验证
+
+确认问题已定位到正确阶段并解决，且共享的支持信息已脱敏。
 
 <Warning>
   支持材料不得包含访问令牌、数据库密码、生产连接串或未经批准的完整业务 SQL。

@@ -6,12 +6,22 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-optimization-create-workload
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Input sources"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 A workload is the SQL you want to optimize: a single DML statement or multiple statements separated by `;`. PawSQL supports the following sources for SQL input.
+
+## Goal
+
+Input SQL to optimize from a text box, a SQL file, database logs, or a MyBatis Mapper file to build the task workload.
 
 ## Prerequisites
 
@@ -87,6 +97,14 @@ PawSQL supports several SQL input sources; choose the one that matches your work
 | --- | --- |
 | Parsing fails | Dialect, version, statement completeness, placeholders, delimiters |
 | Object unresolved | Workspace, default schema, identifier case, metadata freshness |
+
+## Expected Result
+
+The chosen source is parsed into the workload SQL that appears in the optimization task.
+
+## Verification
+
+Confirm the SQL parses, referenced tables and columns resolve in the workspace, and no credentials or sensitive data remain.
 
 ## Next steps
 

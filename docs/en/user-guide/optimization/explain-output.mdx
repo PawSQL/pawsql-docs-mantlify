@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-optimization-explain-output
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Reading order"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 The optimization detail page presents recommendations in two levels: the optimization summary and per-SQL details. These results describe the same SQL from different angles and should be read together, not adopted mechanically.
+
+## Goal
+
+Read the optimization summary and per-SQL details, and compare the original and optimized SQL and execution plans.
+
+## Prerequisites
+
+You have a completed optimization task whose results you can open.
 
 ## Optimization summary
 
@@ -59,6 +73,14 @@ For each SQL, the detail page shows what and how it is tuned, with the following
 <Tip>
 A rule not firing does not mean the SQL has no performance problem; audit rules and optimization suggestions address different concerns. Estimated cost and performance gain are decision inputs, not automatic deployment instructions.
 </Tip>
+
+## Expected Result
+
+You see the optimization summary and, for each SQL, its rewrite, audit violations, index recommendation, index analysis, and validation details.
+
+## Verification
+
+Use the reading order to confirm context and parse completeness, and click Compare SQL and Compare execution plans to review the before-and-after differences.
 
 ## Next steps
 

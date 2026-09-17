@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-rules-policy-configure-rules
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Locate rules
+  expectedResult: Rule table columns
+  verification: Verification
 ---
 
 The Manage Rules page shows the Audit platform's built-in default rule template: 260 audit rules in total. It is separate from the "Rule configuration" step when creating a review policy — the former lets you browse the whole rule catalog, the latter lets you pick rules within one template.
+
+## Goal
+
+Browse the built-in audit rules by category tree, severity filter, and search, and inspect each rule's enable state, category, severity, threshold, and parent node.
+
+## Prerequisites
+
+No special prerequisites beyond access to the Audit platform's Manage Rules page.
 
 <Frame caption="Manage Rules: category tree and severity filter on the left, rule table on the right">
   ![Manage Rules](/images/rules-policy/en/configure-rules.png)
@@ -70,3 +84,7 @@ The form of a rule's threshold depends on the rule. Naming-convention rules use 
 | Schema naming convention | `^[a-z]+(-[a-z]+)*$` |
 
 Rules and thresholds in the built-in default template are read-only. To customize them, first create a local template from a global template (see [Manage Review Policies](/en/user-guide/rules-policy/rule-sets)), then enable, disable, or adjust rules on the local template.
+
+## Verification
+
+Confirm the page works by selecting a category, applying a severity filter, or searching a rule name, and checking that the rule table updates to show the matching rules with their enable state, category, level, threshold, and parent node.

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-track-progress
+sections:
+  goal: "Instance overview status"
+  prerequisites: "Prerequisites"
+  steps: "Steps"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Slow query governance is an ongoing process. PawSQL tracks each slow SQL's progress across three dimensions — optimization status, disposition stage, and performance gain — and summarizes collection and patrol status per instance on the Instance overview page.
+
+## Prerequisites
+
+Slow SQL has been collected and appears on the Slow queries page with governance status fields.
+
+## Steps
+
+Track progress by reading the governance status fields, following the disposition stage flow, and filtering by optimization status or disposition stage.
 
 ## Governance status fields
 
@@ -68,6 +82,14 @@ The Instance overview page summarizes collection and patrol status per instance:
 2. Use "Batch operation" to optimize a batch of slow SQL together — see [Batch Analysis and Optimization](/en/user-guide/performance/batch-optimize);
 3. After optimization, review "Performance gain" and advance confirmed SQL to "Disposed";
 4. Trigger collection and patrol periodically to keep the backlog current.
+
+## Expected Result
+
+Each slow SQL shows its optimization status, disposition stage, and performance gain; the Instance overview page summarizes collection and patrol status per instance.
+
+## Verification
+
+Confirm the status fields update as optimization completes and the disposition stage advances through not disposed → disposing → disposed.
 
 ## Related reading
 

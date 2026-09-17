@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-manual-review-and-approval
+sections:
+  goal: "Goal"
+  prerequisites: "Evidence package"
+  steps: "Review workflow"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Manual review covers business semantics, environmental impact, and exception conditions that automated rules cannot determine completely. The approval decision should be grounded in review results and validation evidence, not used as a substitute for them.
@@ -16,6 +22,10 @@ Manual review covers business semantics, environmental impact, and exception con
 <Note>
 A typical flow in the interface is: after automated review completes, the submitter clicks **Submit for review** to route the ticket to approvers; the approver reviews the approval timeline on the "Approval history" tab and makes the final decision; execution after approval is recorded on the "Execution records" tab. Built-in approval, separation of duties, and workflow states depend on PawSQL edition, licensing, and organization configuration. If these capabilities are not available, complete the approval in your ticketing system and link the PawSQL ticket or report.
 </Note>
+
+## Goal
+
+Add human judgment, exception approval, and an auditable release decision on top of automated SQL review.
 
 ## Roles and responsibilities
 
@@ -109,6 +119,14 @@ If the SQL, review policy, workspace, or execution environment changes materiall
 - Record workflow transitions, actors, and timestamps.
 - Revisit long-lived exceptions on a defined schedule.
 - Apply stronger authorization to high-risk production changes.
+
+## Expected Result
+
+The ticket records a grounded approve, return, or conditional decision with rationale, evidence, and an audit trail.
+
+## Verification
+
+Confirm the approval record states the decision rationale and covered scope, and that the approval timeline and execution records reflect the outcome.
 
 ## Next step
 

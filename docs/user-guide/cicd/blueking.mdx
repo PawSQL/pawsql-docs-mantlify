@@ -6,10 +6,16 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-blueking
 localeOf: en-user-guide-cicd-blueking
+sections:
+  goal: "目标"
+  prerequisites: "开始之前"
+  steps: "配置流程"
+  expectedResult: "结果检查"
+  verification: "结果检查"
 ---
 
 PawSQL 蓝鲸预置连接器将 SQL 审核作为流水线步骤运行。该步骤接收待审核 SQL 和 PawSQL 上下文，等待分析完成，并将门禁结论返回给蓝鲸流水线。
@@ -23,6 +29,10 @@ flowchart TD
     E -->|通过| F["继续后续步骤"]
     E -->|未通过| G["阻断并输出报告"]
 ```
+
+## 目标
+
+使用 PawSQL 预置连接器在蓝鲸流水线中审核 SQL，并根据质量门禁控制后续步骤。
 
 ## 开始之前
 

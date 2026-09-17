@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-pipeline-gate
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Configuration workflow"
+  expectedResult: "Expected Result"
+  verification: "Feedback fields"
 ---
 
 The review policy defines what PawSQL checks. The quality gate defines how those findings affect delivery. Feedback then returns the decision, summary, and secure report link to the developer's current workflow.
+
+## Goal
+
+Convert PawSQL review evidence into pass, warning, or block decisions and publish the result to the source platform.
+
+## Prerequisites
+
+Prepare a review policy that defines what PawSQL checks, including blocking criteria and failure behavior.
 
 ## Recommended decisions
 
@@ -60,6 +74,10 @@ The review policy defines what PawSQL checks. The quality gate defines how those
 | No SQL changes | Skipped or Success |
 
 A new head revision must make the previous decision stale. Only the job for the current revision may satisfy a merge requirement. Repeated runs should update an existing check or bot-owned comment rather than create duplicate feedback.
+
+## Expected Result
+
+Each PawSQL outcome maps to a repository or pipeline status, and feedback publishes the decision, finding counts, policy version, and report link.
 
 <Warning>
   Fail-open requires an alert and an audit record. Every manual exception should identify its approver, justification, scope, and expiration.

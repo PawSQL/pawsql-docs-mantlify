@@ -6,13 +6,23 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-installation-ide-plugins
 localeOf: en-user-guide-installation-ide-plugins
+sections:
+  goal: "目标"
+  prerequisites: "支持的开发环境"
+  steps: "安装前准备"
+  expectedResult: "预期结果"
+  verification: "验证插件"
 ---
 
 PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能力。插件需要连接 PawSQL Cloud 或企业部署的 PawSQL Server，并使用有效的认证信息访问用户有权使用的项目和工作空间。
+
+## 目标
+
+在 DBeaver、JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
 
 ## 支持的开发环境
 
@@ -139,6 +149,10 @@ PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能�
 - 共享电脑上不要启用不受保护的长期登录。
 - 生产工作空间应与开发、测试工作空间清晰区分。
 - 应用重写 SQL 前检查语义，并在测试环境验证。
+
+## 预期结果
+
+插件安装并连接后，可从 IDE 发起分析并收到 PawSQL 返回的结果。
 
 ## 常见问题
 

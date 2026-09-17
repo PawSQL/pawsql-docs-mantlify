@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-rules-policy-quality-gate
 localeOf: en-user-guide-rules-policy-quality-gate
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 配置步骤
+  expectedResult: 审批流节点
+  verification: 验证
 ---
 
 SQL 质量门禁通过审批流配置实现：在「配置 → 审批流」中设置允许创建工单的最高风险等级，系统据此决定审批流程。
+
+## 目标
+
+配置审批流与风险等级门槛（通知、警告、严重），决定允许创建工单的最高风险等级，建立 SQL 质量门禁。
+
+## 准备工作
+
+需要访问「配置 → 审批流」配置页，并具备保存审批流配置的权限。
 
 <Frame caption="审批流配置：从风险等级配置到执行上线的节点流程">
   ![审批流配置](/images/rules-policy/quality-gate.png)
@@ -56,3 +70,7 @@ SQL 质量门禁通过审批流配置实现：在「配置 → 审批流」中�
 ## 配置步骤
 
 审批流配置为多步向导：先配置风险等级，再依次配置提交复核、审核节点与执行上线，最后点击「保存配置」。配置过程中可随时「重置配置」恢复默认。
+
+## 验证
+
+保存后，确认审批流展示已配置的节点，且风险等级高于门槛的工单需要你定义的更严格审批流程。

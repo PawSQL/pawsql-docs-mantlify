@@ -6,10 +6,16 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-reports
 localeOf: en-user-guide-performance-reports
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "操作步骤"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 巡检完成后，数据库对象页汇总本次巡检发现，形成可下钻的巡检报告。报告从「概览 + 风险分布 + Top 问题 + 对象清单」四个层次呈现，用于判断实例整体健康度并定位最需要处理的对象。
@@ -17,6 +23,18 @@ localeOf: en-user-guide-performance-reports
 <Frame caption="数据库对象巡检报告：概要、风险级别、审核规则与对象清单">
   ![巡检报告](/images/performance/patrol-db-objects-data.png)
 </Frame>
+
+## 目标
+
+在数据库对象页查看巡检报告，判断实例健康度并定位待处理对象。
+
+## 准备工作
+
+已完成一次巡检，数据库对象页已有巡检发现。
+
+## 操作步骤
+
+自上而下阅读报告：概要概览、风险级别分布、Top 审核规则、Top 数据库对象，最后下钻对象清单。
 
 ## 概要
 
@@ -62,6 +80,14 @@ localeOf: en-user-guide-performance-reports
 | 操作列表 | 下钻查看该表的巡检明细 |
 
 表格上方提供筛选条件：搜索数据库对象、数据库/模式、违反规则，以及「违反规则」「新增」开关，用于只看存在问题的对象或新增对象。
+
+## 预期结果
+
+数据库对象页展示巡检概要、风险级别图、审核规则图、数据库对象图，以及带各表巡查异常的对象清单。
+
+## 验证
+
+确认概要反映最近一次巡检，点击某风险级别或规则能过滤对象清单。
 
 ## 相关页面
 

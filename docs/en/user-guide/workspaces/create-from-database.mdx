@@ -6,12 +6,22 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-workspaces-create-from-database
+sections:
+  goal: Goal
+  prerequisites: "Prerequisites"
+  steps: Create the workspace
+  expectedResult: Expected Result
+  verification: Verification
 ---
 
 A connected workspace retrieves metadata from the target database through a dedicated account. This approach is designed for recurring team use, evolving schemas, production query governance, and features that depend on plans or runtime information.
+
+## Goal
+
+Connect PawSQL to a database and synchronize the authorized schemas, tables, columns, constraints, and indexes into a workspace.
 
 ## Prerequisites
 
@@ -58,6 +68,14 @@ With the database connection as the source, create the workspace in these steps:
 ## Scope guidance
 
 A focused schema scope reduces synchronization time, limits metadata exposure, and makes object selection easier. Include multiple schemas only when the target SQL genuinely crosses those boundaries.
+
+## Expected Result
+
+After synchronization completes, the workspace contains the authorized schemas, tables, columns, constraints, and indexes, ready for SQL review and optimization.
+
+## Verification
+
+Confirm the workspace was created correctly by checking that the target schema is visible, tables, columns, and indexes can be read, the database version is recognized, and metadata synchronization completed without widespread failures.
 
 ## Troubleshooting
 

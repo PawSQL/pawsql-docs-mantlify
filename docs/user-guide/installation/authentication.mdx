@@ -6,13 +6,28 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-installation-authentication
 localeOf: en-user-guide-installation-authentication
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "使用访问令牌"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 PawSQL 使用身份认证确认“谁在访问”，再通过组织、项目、角色和工作空间权限决定“可以访问什么”。能够成功登录并不表示用户自动拥有全部功能权限。
+
+## 目标
+
+了解 PawSQL Web、IDE、MCP 和 API 的认证方式，安全管理账号、密码和访问令牌。
+
+## 准备工作
+
+- 已拥有 PawSQL 账号或管理员发放的凭据；
+- 知晓所连接 PawSQL 环境的服务地址。
 
 ## 认证与授权的区别
 
@@ -83,6 +98,14 @@ PawSQL 使用身份认证确认“谁在访问”，再通过组织、项目、�
 - 定期检查高权限账号、长期未使用账号和活动令牌。
 - 离职、转岗或项目结束后及时回收权限和吊销令牌。
 - 发现凭据可能泄露时，立即吊销并创建新凭据，同时检查相关审计日志。
+
+## 预期结果
+
+登录成功后看到账号、组织和项目，所需菜单与工作空间也可见。
+
+## 验证
+
+登录后确认账号、组织和项目与预期一致，并检查所需功能与工作空间是否可见。
 
 ## 常见问题
 

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-optimization-apply-suggestions
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Applying suggestions"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Optimization suggestions are candidates, not deployment instructions. Whether a rewrite or an index recommendation, evaluate semantics, compatibility, benefit, and cost under one framework before applying.
+
+## Goal
+
+Evaluate the semantics, compatibility, benefit, and cost of rewrite and index suggestions, then apply them safely after testing and review.
+
+## Prerequisites
+
+You have completed optimization results with rewrite or index suggestions to evaluate.
 
 ## Decision framework
 
@@ -79,6 +93,14 @@ Weigh benefit (fewer full scans, fewer rows read, better joins, less sorting, co
 ## Recording decisions
 
 For each suggestion, record adopted, adjusted, rejected, or pending, plus the owner, rationale, test environment and parameters, plan or performance data, planned rollout time, and rollback path.
+
+## Expected Result
+
+Suggestions that pass evaluation are applied in a test environment and then in production, with each decision recorded.
+
+## Verification
+
+Compare results and plans in a test environment, confirm the database actually uses a recommended index, and record each decision as adopted, adjusted, rejected, or pending.
 
 ## Next steps
 

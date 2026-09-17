@@ -6,12 +6,31 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-installation-verify-installation
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Steps"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 A successful page load is not a complete installation test. Validate the chain in order: service, identity, permissions, workspace context, and SQL task processing.
+
+## Goal
+
+Validate service reachability, authentication, authorization, workspace access, and SQL analysis as one end-to-end path.
+
+## Prerequisites
+
+- A deployed PawSQL service (Cloud or Server).
+- A non-production workspace and a sanitized, read-only test query.
+
+## Steps
+
+Validate the chain in order: service access, authentication, authorization, workspace context, and SQL task processing.
 
 ```mermaid
 flowchart TD
@@ -105,6 +124,14 @@ Successful sign-in with missing resources is usually an authorization issue. A c
 <Warning>
 Acceptance records must not include passwords, complete tokens, connection strings, or unsanitized production SQL.
 </Warning>
+
+## Expected Result
+
+The service is reachable, sign-in succeeds, permissions are correct, the workspace is usable, and a SQL analysis task completes.
+
+## Verification
+
+Complete each checklist item in the numbered order and record version, workspace, task ID, date, and outcome as acceptance evidence.
 
 ## Next steps
 

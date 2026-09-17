@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-batch-optimize
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Batch operation"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Once aggregation and deduplication produce a governance backlog, the next step is to optimize its slow SQL. The Slow queries page offers both per-row and batch entry points; batch operation can optimize multiple slow SQL at once.
+
+## Goal
+
+Optimize the aggregated slow SQL backlog by selecting slow SQL and running optimize, batch AI optimization, or ignore.
+
+## Prerequisites
+
+Slow SQL must already be collected and appear on the Slow queries page.
 
 ## Batch operation
 
@@ -40,6 +54,14 @@ Each slow SQL's "Operations" column also offers three actions:
 ## Create an optimization task
 
 Clicking "Optimize" opens the "New query optimization" page, bundling the selected queries into an optimization ticket. For the full optimization settings (basic, validation, index, rule) and submission tracking, see [Create an Optimization Ticket](/en/user-guide/performance/create-optimize-ticket).
+
+## Expected Result
+
+The selected slow SQL are turned into an optimization task that generates SQL rewrite and index recommendations, shown on the optimization task page.
+
+## Verification
+
+Confirm the optimization task was created and its results appear in the "Optimization status", "Last optimization", and "Performance gain" columns on the Slow queries page.
 
 ## FAQ
 

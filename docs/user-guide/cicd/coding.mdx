@@ -6,13 +6,23 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-coding
 localeOf: en-user-guide-cicd-coding
+sections:
+  goal: "目标"
+  prerequisites: "开始之前"
+  steps: "配置流程"
+  expectedResult: "预期结果"
+  verification: "验证成功标准"
 ---
 
 PawSQL CODING 预置连接器接收代码仓库事件，将变更 SQL 转换为审核工单，并把结果纳入代码评审和发布流程。
+
+## 目标
+
+使用 PawSQL 预置代码仓库连接器，在腾讯 CODING 提交和合并请求阶段审核 SQL。
 
 ## 开始之前
 
@@ -65,6 +75,10 @@ PawSQL CODING 预置连接器接收代码仓库事件，将变更 SQL 转换为�
 <Note>
   不同交付版本中的菜单名称和结果回传方式可能不同。若界面中没有 CODING 集成入口，请联系 PawSQL 管理员确认产品版本和许可证范围。
 </Note>
+
+## 预期结果
+
+CODING 事件投递成功，PawSQL 工单关联到正确仓库、分支和提交，阻断规则阻止不合规变更继续流转。
 
 ## 常见问题
 

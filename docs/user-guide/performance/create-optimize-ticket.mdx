@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-create-optimize-ticket
 localeOf: en-user-guide-performance-create-optimize-ticket
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "基础配置"
+  expectedResult: "预期结果"
+  verification: "优化验证"
 ---
 
 优化任务工单把一批慢 SQL 连同优化配置打包成一条可跟踪的优化记录：一次提交生成一个工单号，用于在慢查询页跟踪优化状态、性能提升与处置阶段。它对应[批量分析与优化](/user-guide/performance/batch-optimize)中「优化」动作打开的「新建查询优化」表单。
+
+## 目标
+
+把一批慢 SQL 打包成一条可跟踪的优化任务工单，配置基础、验证、索引与规则参数。
+
+## 准备工作
+
+已在慢查询页勾选一条或多条慢 SQL，再打开「新建查询优化」表单。
 
 ## 从慢查询发起
 
@@ -55,6 +69,10 @@ localeOf: en-user-guide-performance-create-optimize-ticket
 ## 提交优化
 
 核对配置后点击「创建优化任务」。优化由服务端执行，完成后在慢查询页的「优化状态」「最近优化」「性能提升」列看到结果。
+
+## 预期结果
+
+提交后优化由服务端执行，结果出现在慢查询页的「优化状态」「最近优化」「性能提升」列。
 
 ## 常见问题
 

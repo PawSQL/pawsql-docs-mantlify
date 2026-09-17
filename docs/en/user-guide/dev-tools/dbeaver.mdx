@@ -6,9 +6,15 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-dev-tools-dbeaver
+sections:
+  goal: "When to use it"
+  prerequisites: "Prerequisites"
+  steps: Execute and review
+  expectedResult: Expected Result
+  verification: Verification
 ---
 
 PawSQL Client for DBeaver inserts a review step into the SQL execution path. Before DBeaver sends a statement to the database, the extension requests a static PawSQL review and uses the configured mode and severity threshold to decide whether to proceed, request confirmation, or stop.
@@ -116,6 +122,14 @@ Before adding an exclusion:
 </Frame>
 
 Proceeding acknowledges the current prompt; it is not a substitute for formal change approval in a controlled environment.
+
+## Expected Result
+
+With review enabled, the extension returns rule findings with severity and, when the configured threshold is reached, shows a risk prompt where you can revise the SQL, cancel, or proceed.
+
+## Verification
+
+Confirm the integration by running a read-only statement on a non-production datasource and checking that expected findings or the risk prompt appear, and that risky SQL is intercepted according to the configured threshold.
 
 ## Pre-execution review versus deep optimization
 

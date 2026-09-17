@@ -6,9 +6,15 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-installation-authentication
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Web sign-in"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Authentication establishes who is connecting to PawSQL. Authorization then determines which organizations, projects, workspaces, and operations that identity can access.
@@ -19,6 +25,15 @@ Authentication establishes who is connecting to PawSQL. Authorization then deter
 | Authorization | What may you do? | View a workspace, create a review, manage rules |
 
 If sign-in succeeds but a resource is missing, investigate authorization before resetting credentials.
+
+## Goal
+
+Learn how to authenticate web, IDE, MCP, and API clients and manage credentials and access tokens securely.
+
+## Prerequisites
+
+- A PawSQL account or the credentials issued by your administrator.
+- The service endpoint for the PawSQL environment you connect to.
 
 ## Authentication by client
 
@@ -74,6 +89,14 @@ Tokens may be shown in full only once. Never paste them into source code, ordina
 | Token rejected | Expiration, revocation, incomplete copy, wrong PawSQL environment |
 | Authentication succeeds but access fails | Organization membership, project role, workspace permission, license |
 | SSO returns to the login page | Cookies, callback URL, domain, system time, identity-provider settings |
+
+## Expected Result
+
+After sign-in you see your account, organization, and project, and the features and workspaces your role permits are visible.
+
+## Verification
+
+Confirm the displayed account, organization, and project match your expectations, and that the required features and workspaces are visible before proceeding.
 
 ## Next steps
 

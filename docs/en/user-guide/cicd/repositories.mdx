@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-repositories
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Common setup sequence"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 PawSQL provides prebuilt repository connectors for Tencent CODING, GitHub, and GitLab. A connector receives repository events, identifies relevant SQL changes, creates a PawSQL review, and links the result to the corresponding revision or code review.
+
+## Goal
+
+Use prebuilt PawSQL connectors for Tencent CODING, GitHub, and GitLab to review SQL on commits and code reviews.
+
+## Prerequisites
+
+Prepare a PawSQL workspace, review policy, and a least-privilege identity before configuring a connector.
 
 ## Available connectors
 
@@ -44,3 +58,11 @@ Repository connectors center on push, pull-request, and merge-request events. Th
   <Step title="Configure the gate">Choose blocking thresholds, failure behavior, and feedback.</Step>
   <Step title="Run acceptance tests">Exercise pass, block, no-change, and duplicate-event cases.</Step>
 </Steps>
+
+## Expected Result
+
+A connector receives repository events, identifies relevant SQL changes, creates a PawSQL review, and links the result to the corresponding revision or code review.
+
+## Verification
+
+Confirm the connector returns the gate status and a secure report link for the relevant SQL changes.

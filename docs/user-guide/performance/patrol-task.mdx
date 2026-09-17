@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-patrol-task
 localeOf: en-user-guide-performance-patrol-task
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "库巡检配置步骤"
+  expectedResult: "巡检结果解读"
+  verification: "提交前检查"
 ---
 
 性能巡检（数据库对象巡检）用巡检模板中的审核规则检查实例内的数据库对象（表），识别结构缺陷、命名不规范、缺少注释等风险。巡检在接入实例向导的「库巡检配置」步骤配置，接入完成后可在数据库对象页手动或定时触发。
+
+## 目标
+
+用巡检模板中的审核规则检查数据库对象，识别结构缺陷、命名不规范、缺少注释等风险。
+
+## 准备工作
+
+慢查询配置已通过，且已有与目标数据库类型匹配的巡检模板。
 
 ## 库巡检配置步骤
 

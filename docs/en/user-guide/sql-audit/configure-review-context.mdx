@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-configure-review-context
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Select a workspace"
+  expectedResult: "Expected Result"
+  verification: "Context checklist"
 ---
 
 Review context describes the environment in which the submitted SQL is expected to run. On the create-ticket page, the database engine, version, and schema are separate fields; the "configure review context (workspace)" field selects a workspace, which supplies tables, columns, constraints, and indexes for object recognition and rule evaluation. Workspaces are created and maintained centrally in [Workspaces and Database Context](/en/user-guide/workspaces/)—do not keep a second copy of the schema inside individual review tickets.
+
+## Goal
+
+Choose a workspace whose engine, version, schema scope, and object definitions match the target environment, so review can recognize the objects the SQL depends on.
+
+## Prerequisites
+
+Before choosing a workspace, confirm the target database engine, version, and default schema, and identify the tables, columns, constraints, and indexes the SQL references.
 
 ## Select a workspace
 
@@ -58,6 +72,10 @@ Without a workspace, PawSQL can still run syntax and other context-independent r
 <Warning>
 When creating a workspace from a database connection, use a dedicated read-only account with least privilege and follow your organization’s credential, network, and production-access controls.
 </Warning>
+
+## Expected Result
+
+With a matching workspace selected, review recognizes the referenced objects, and metadata-dependent findings such as index candidates become available.
 
 ## Context checklist
 

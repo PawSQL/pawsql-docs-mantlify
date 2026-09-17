@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-patrol-task
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Patrol config step"
+  expectedResult: "Interpreting results"
+  verification: "Before you submit"
 ---
 
 Performance patrol (database object patrol) applies the audit rules in a patrol template to the instance's database objects (tables), identifying structural defects, naming violations, missing comments, and other risks. It is configured in the "Patrol config" step of the add-instance wizard, and can be triggered manually or on a schedule from the Database objects page after onboarding.
+
+## Goal
+
+Check database objects for structural risks by applying the audit rules from a patrol template.
+
+## Prerequisites
+
+Slow query config has passed and a patrol template matching the target database type is available.
 
 ## Patrol config step
 

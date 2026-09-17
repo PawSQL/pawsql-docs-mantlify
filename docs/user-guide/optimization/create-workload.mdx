@@ -6,13 +6,23 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-optimization-create-workload
 localeOf: en-user-guide-optimization-create-workload
+sections:
+  goal: "目标"
+  prerequisites: "前提条件"
+  steps: "输入方式"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 工作负载是你要优化的 SQL：可以是单个 DML 语句，也可以是由 `;` 分隔的多条语句。PawSQL 支持从以下来源输入待优化的 SQL。
+
+## 目标
+
+从文本框、SQL 文件、数据库日志或 MyBatis Mapper 文件输入待优化的 SQL，构成优化任务的工作负载。
 
 ## 前提条件
 
@@ -81,6 +91,14 @@ PawSQL 支持多种 SQL 输入来源，选择与你工作流匹配的一种。
 - 参数值会影响选择率和执行计划，性能验证时应覆盖常见与边界场景；
 - 不使用真实身份证号、手机号、账户号等业务数据；
 - 模板 SQL 无法解析时，先转换为一条可执行的代表性 SQL。
+
+## 预期结果
+
+所选来源的 SQL 被解析为工作负载，进入优化任务。
+
+## 验证
+
+确认 SQL 解析成功、引用的表与列在工作空间中可识别，且已移除密码、令牌等敏感数据。
 
 ## 常见问题
 

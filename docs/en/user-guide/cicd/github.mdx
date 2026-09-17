@@ -6,12 +6,22 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-github
+sections:
+  goal: "Goal"
+  prerequisites: "Before you begin"
+  steps: "Configuration"
+  expectedResult: "Expected Result"
+  verification: "Feedback"
 ---
 
 The prebuilt PawSQL GitHub connector links selected repositories to PawSQL, listens for configured push or pull-request events, and creates a review for relevant SQL changes.
+
+## Goal
+
+Use the prebuilt PawSQL repository connector to review SQL on GitHub pushes and pull requests.
 
 ## Before you begin
 
@@ -43,6 +53,10 @@ The result should reference the current revision and expose the gate decision, f
 - Rotate credentials and review stale authorizations.
 - Keep tokens out of logs and exported configuration.
 - Handle pull requests from forks without exposing privileged credentials.
+
+## Expected Result
+
+A review job is created for relevant SQL changes, and the result references the current revision with the gate decision, finding count, and report link.
 
 <Note>
   The prebuilt GitHub repository connector is distinct from a GitHub Actions OpenAPI workflow. If the pipeline must control the review stage directly, use the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).

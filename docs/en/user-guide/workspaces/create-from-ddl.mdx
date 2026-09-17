@@ -6,12 +6,22 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-workspaces-create-from-ddl
+sections:
+  goal: Goal
+  prerequisites: What to include
+  steps: Create the workspace
+  expectedResult: Expected Result
+  verification: Verification
 ---
 
 A DDL-based workspace derives database context from object definitions you provide. It is useful when the target database is unreachable, credentials cannot be shared, or the analysis scope is small and well defined.
+
+## Goal
+
+Build a self-contained PawSQL workspace from table, view, constraint, and index definitions without a live database connection.
 
 ## What to include
 
@@ -64,6 +74,14 @@ When identical object names exist in multiple schemas:
 - set the appropriate default schema;
 - preserve the schema relationships used in production SQL;
 - test unqualified names explicitly.
+
+## Expected Result
+
+After parsing completes, the workspace contains the recognized schemas, tables, columns, constraints, and indexes defined in the DDL, ready for SQL review and optimization.
+
+## Verification
+
+Confirm the workspace was created correctly by checking that the DDL parsed without failures, referenced objects are resolved, and the recognized objects match the supplied definitions.
 
 ## Limitations
 

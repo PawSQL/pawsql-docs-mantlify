@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-unsupported-platforms
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Choose an integration path"
+  expectedResult: "Expected Result"
+  verification: "Platform capability checklist"
 ---
 
 PawSQL does not ship prebuilt connectors for Jenkins, GitHub Actions, GitLab CI, Azure Pipelines, Gitee, Bitbucket, or CodeArts. Any platform that can check out code, protect secrets, issue HTTP requests, and set run status can perform SQL review through PawSQL OpenAPI or an enterprise adapter. Internal engineering portals, approval systems, and release platforms can connect through an integration service.
+
+## Goal
+
+Evaluate CI/CD systems and internal engineering platforms that lack a prebuilt connector, and choose OpenAPI, webhooks, or an enterprise integration service.
+
+## Prerequisites
+
+Confirm the platform can check out code, protect secrets, issue HTTP requests, and set run status.
 
 ## Common platform examples
 
@@ -98,6 +112,10 @@ The integration service must not execute SQL with a high-privilege database acco
 <Warning>
   If the platform allows automatic execution of reviewed SQL, keep review and execute as two separate permission domains, and retain manual approval, backup, and rollback controls.
 </Warning>
+
+## Expected Result
+
+You select the right integration path — OpenAPI, webhook, or an enterprise integration service — for your platform.
 
 ## When to split into a dedicated page
 

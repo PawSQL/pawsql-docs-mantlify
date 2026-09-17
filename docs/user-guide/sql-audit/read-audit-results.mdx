@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-read-audit-results
 localeOf: en-user-guide-sql-audit-read-audit-results
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "阅读顺序"
+  expectedResult: "结果页面结构"
+  verification: "验证"
 ---
 
 审核完成后，先确认工单是否完整执行，再从风险摘要进入问题明细。不要只根据问题数量判断 SQL 是否可以发布。
+
+## 目标
+
+阅读 SQL 审核摘要和问题明细，定位触发规则、风险语句及处理建议。
+
+## 准备工作
+
+有一张已完成（或部分完成）且可打开的审核工单。
 
 ## 结果页面结构
 
@@ -115,6 +129,10 @@ localeOf: en-user-guide-sql-audit-read-audit-results
 ## 区分规则结果与最终结论
 
 自动审核结果是技术检查输入，最终结论还应考虑业务语义、测试结果、数据规模、执行计划、发布窗口和回退方案。对于关键 SQL，可继续使用[性能验证](/features/performance-validation)等能力确认实际影响。
+
+## 验证
+
+确认工单完整执行、无解析失败或上下文缺失，并在形成结论前完成对阻断问题的评估。
 
 ## 下一步
 

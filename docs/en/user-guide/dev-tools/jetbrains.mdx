@@ -6,9 +6,15 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-dev-tools-jetbrains
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Optimize selected SQL
+  expectedResult: Read the result
+  verification: Verification
 ---
 
 PawSQL Client for JetBrains integrates SQL review, query rewrite, index recommendation, and performance validation with the IntelliJ Platform. Developers can tune the current statement or analyze SQL files, directories, and MyBatis Mapper input in a batch.
@@ -16,6 +22,14 @@ PawSQL Client for JetBrains integrates SQL review, query rewrite, index recommen
 <Note>
 Some interfaces and earlier documentation use the name **PawSQL Advisor**. Search for either PawSQL Client or PawSQL Advisor during installation, and expect existing context-menu commands to retain the PawSQL Advisor name.
 </Note>
+
+## Goal
+
+Install and configure PawSQL Client for JetBrains so you can optimize the current SQL statement or batch-analyze SQL files, directories, and MyBatis Mapper input.
+
+## Prerequisites
+
+A compatible IntelliJ Platform IDE and access to the JetBrains Marketplace (or an offline plugin package supplied by PawSQL or an approved internal repository) are required before installing the plugin and running optimization.
 
 ## Supported IDEs
 
@@ -113,6 +127,10 @@ After completion, the plugin generates and opens a `pawTuningSummary` Markdown f
 </Frame>
 
 Open a statement from the summary, then review findings, rewrite candidates, index recommendations, and performance evidence in that order.
+
+## Verification
+
+After a run, confirm that the `pawTuningSummary` file opened and that the task overview, rewrite candidates, index recommendations, and any validation evidence appear as expected.
 
 ## Before applying a recommendation
 

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-select-audit-policy
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Selection order"
+  expectedResult: "Expected Result"
+  verification: "Inspect the policy before use"
 ---
 
 When creating a review ticket, pick a matching policy from the "review policy" dropdown (the interface may label it "review template"). The right policy gives comparable work a consistent standard and keeps irrelevant database or environment checks out of the result set. The definition of a policy, default and custom templates, and rule and threshold management are covered in [Rules and Quality Policy](/en/user-guide/rules-policy/).
+
+## Goal
+
+Choose a review policy that matches the target database engine, environment, and workflow, so comparable SQL uses a consistent standard.
+
+## Prerequisites
+
+Know the target database engine, version, environment, and intended review purpose before selecting a policy.
 
 ## Selection order
 
@@ -47,6 +61,10 @@ Policies with the same display name can still differ by project, revision, or up
 | Expected policy is hidden | Organization context and policy visibility |
 | Rules differ from expectations | Policy revision, update date, and database version |
 | Policy cannot be edited | Project administrator or policy-owner permissions |
+
+## Expected Result
+
+The selected policy's rules, severities, and thresholds match the target database and workflow, avoiding irrelevant checks in the result set.
 
 ## Related resources
 

@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-aggregate-dedup
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Steps"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 The same SQL is executed thousands of times in a slow query log, and listing each execution has no governance value. PawSQL aggregates and deduplicates collected SQL by structure, merging identical-structure SQL into a single row described by execution count, average latency, and max latency. The Slow queries page summary, charts, and table are all based on the aggregated result.
@@ -16,6 +22,18 @@ The same SQL is executed thousands of times in a slow query log, and listing eac
 <Frame caption="Slow queries page: summary, 7-day slow SQL, SQL type, optimization status, and average latency">
   ![Aggregated slow queries](/images/performance/en/patrol-slow-queries-data.png)
 </Frame>
+
+## Goal
+
+Represent each distinct SQL structure once in the governance backlog by aggregating and deduplicating collected slow SQL.
+
+## Prerequisites
+
+Slow SQL must already be collected into the platform; aggregation runs on the collection result.
+
+## Steps
+
+After collection, PawSQL aggregates the slow SQL automatically. Review the backlog with the "Show business SQL only" toggle, the summary metrics, the distribution charts, the table, and the filters.
 
 ## Show business SQL only
 
@@ -65,6 +83,14 @@ The aggregated slow query table lists each SQL with its aggregate metrics:
 ## Filtering and sorting
 
 Above the table there are filters: search slow SQL or ID, optimization status, SQL type, disposition stage, average latency range, and execution time range. Column headers support sorting to locate priority SQL by average latency or execution count.
+
+## Expected Result
+
+The Slow queries page shows the aggregated backlog: a summary of counts, four distribution charts, and one table row per distinct SQL structure.
+
+## Verification
+
+Confirm the summary, charts, and table reflect the aggregated result, and that toggling "Show business SQL only" changes the business SQL count.
 
 ## Related reading
 

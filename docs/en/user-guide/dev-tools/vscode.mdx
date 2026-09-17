@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-dev-tools-vscode
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Optimize a statement
+  expectedResult: Read optimization results
+  verification: Verification
 ---
 
 PawSQL Client for VS Code brings SQL review, query rewrite, index recommendation, and performance validation into Visual Studio Code. It is designed for quick analysis of a current statement in a polyglot repository or standalone SQL file.
+
+## Goal
+
+Install and configure PawSQL Client for VS Code to optimize SQL within source files and SQL scripts.
+
+## Prerequisites
+
+A compatible Visual Studio Code installation and access to the Visual Studio Code Marketplace (or an offline extension package supplied by PawSQL or an approved internal repository).
 
 ## Install the extension
 
@@ -71,6 +85,10 @@ The presentation may change between extension releases. Use this review order:
 4. Evaluate rewritten SQL and the optimization rationale.
 5. Inspect candidate indexes and their relationship to existing indexes.
 6. Review plan or performance comparisons when validation is enabled.
+
+## Verification
+
+Confirm the extension works by running an optimization and checking that the original SQL, detected dialect, workspace, findings, rewrite candidates, index recommendations, and any validation evidence are returned.
 
 ## Apply a rewrite or index
 

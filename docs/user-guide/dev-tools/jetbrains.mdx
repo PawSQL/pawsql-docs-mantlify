@@ -6,10 +6,16 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-dev-tools-jetbrains
 localeOf: en-user-guide-dev-tools-jetbrains
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 优化选中的 SQL
+  expectedResult: 查看优化结果
+  verification: 验证
 ---
 
 PawSQL Client for JetBrains 将 SQL 审核、查询重写、索引推荐和性能验证集成到 IntelliJ Platform。它既适合开发人员优化当前语句，也适合对 SQL 文件、目录或 MyBatis Mapper 进行批量分析。
@@ -17,6 +23,14 @@ PawSQL Client for JetBrains 将 SQL 审核、查询重写、索引推荐和性�
 <Note>
 插件在部分界面和历史文档中称为 **PawSQL Advisor**。因此，安装时可能需要搜索 PawSQL Client 或 PawSQL Advisor，操作菜单通常仍显示 PawSQL Advisor。
 </Note>
+
+## 目标
+
+安装并配置 PawSQL Client for JetBrains，优化选中的 SQL、SQL 文件、目录或 MyBatis Mapper。
+
+## 准备工作
+
+需要一个兼容的 IntelliJ Platform IDE，以及访问 JetBrains 插件市场（或 PawSQL 官方 / 企业可信仓库提供的离线包）的权限。
 
 ## 支持的 IDE
 
@@ -114,6 +128,10 @@ Mapper 输入会解析动态分支并生成可能的 SQL 组合。编写不规�
 </Frame>
 
 从汇总中的 SQL 名称进入详情，并按“审核问题 → 重写候选 → 索引建议 → 性能证据”的顺序阅读。
+
+## 验证
+
+优化完成后，确认插件打开了 `pawTuningSummary` 文件，且任务概览、重写候选、索引建议以及启用的验证证据均正常显示。
 
 ## 应用建议前
 

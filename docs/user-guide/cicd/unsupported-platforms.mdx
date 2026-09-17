@@ -6,13 +6,23 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-unsupported-platforms
 localeOf: en-user-guide-cicd-unsupported-platforms
+sections:
+  goal: "接入路径选择"
+  prerequisites: "准备工作"
+  steps: "接入路径选择"
+  expectedResult: "预期结果"
+  verification: "平台能力检查"
 ---
 
 PawSQL 未为 Jenkins、GitHub Actions、GitLab CI、Azure Pipelines、Gitee、Bitbucket、CodeArts 等平台提供预置连接器。只要平台能够检出代码、保护密钥、执行 HTTP 请求并设置运行状态，就可以通过 PawSQL OpenAPI 或企业适配器实现 SQL 审核。企业自研的研发门户、审批与发布平台同样可以通过集成服务接入。
+
+## 准备工作
+
+确认平台具备检出代码、保护密钥、执行 HTTP 请求并设置运行状态的能力。
 
 ## 常见平台示例
 
@@ -99,6 +109,10 @@ flowchart TD
 <Warning>
   如果自研平台允许自动执行审核后的 SQL，应将「审核」和「执行」设计成两个独立权限域，并保留人工审批、备份和回退控制。
 </Warning>
+
+## 预期结果
+
+为平台选定 OpenAPI、Webhook 或企业集成服务等合适的接入方式。
 
 ## 何时拆分专用文档
 

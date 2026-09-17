@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-optimization-explain-output
 localeOf: en-user-guide-optimization-explain-output
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "阅读顺序"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 优化详情页展示优化任务的推荐结果，分「优化摘要」与「优化详情」两层。这些结果从不同角度描述同一条 SQL，应结合阅读，而不是分别机械采用。
+
+## 目标
+
+从优化摘要进入每条 SQL 的详情，阅读重写、审查、索引推荐和性能验证结果，并对比优化前后的 SQL 与执行计划。
+
+## 准备工作
+
+已有一个可以打开结果的已完成优化任务。
 
 ## 优化摘要
 
@@ -72,6 +86,14 @@ localeOf: en-user-guide-optimization-explain-output
 <Tip>
 规则未触发不代表 SQL 没有性能问题；审查规范与优化建议解决的问题并不完全相同。预估代价和性能收益是决策依据，不是自动发布指令。
 </Tip>
+
+## 预期结果
+
+可以看到优化摘要，以及每条 SQL 的重写、规则审查、索引推荐、索引分析和性能验证详情。
+
+## 验证
+
+按阅读顺序确认上下文与解析完整性，并点击「对比 SQL」「对比执行计划」查看优化前后的差异。
 
 ## 下一步
 

@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-track-progress
 localeOf: en-user-guide-performance-track-progress
+sections:
+  goal: "实例概览状态"
+  prerequisites: "准备工作"
+  steps: "操作步骤"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 慢查询治理是一个持续过程。PawSQL 用「优化状态 + 处置阶段 + 性能提升」三个维度跟踪每条慢 SQL 的治理进展，并在实例概览页汇总各实例的采集与巡检状态。
+
+## 准备工作
+
+慢 SQL 已采集并显示在慢查询页，具备治理状态字段。
+
+## 操作步骤
+
+通过治理状态字段、处置阶段流转与状态过滤跟踪每条慢 SQL 的治理进展。
 
 ## 治理状态字段
 
@@ -69,6 +83,14 @@ localeOf: en-user-guide-performance-track-progress
 2. 用「批量操作」对一批慢 SQL 统一发起优化，见[批量分析与优化](/user-guide/performance/batch-optimize)；
 3. 优化完成后核对「性能提升」，将确认有效的 SQL 处置阶段推进到「已处置」；
 4. 定期触发采集与巡检，让治理清单保持更新。
+
+## 预期结果
+
+每条慢 SQL 展示优化状态、处置阶段与性能提升，实例概览页汇总各实例的采集与巡检状态。
+
+## 验证
+
+确认状态字段随优化完成而更新，处置阶段按「未处置 → 处置中 → 已处置」推进。
 
 ## 延伸阅读
 

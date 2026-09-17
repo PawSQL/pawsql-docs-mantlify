@@ -6,12 +6,22 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-collect-slow-sql
+sections:
+  goal: "Goal"
+  prerequisites: "MySQL slow query log requirements"
+  steps: "Slow query config step"
+  expectedResult: "Expected Result"
+  verification: "Before you submit"
 ---
 
 Slow SQL collection is the key step that brings slow queries from the database slow query log into the platform to form the governance backlog. Collection happens in the "Slow query config" step of the add-instance wizard, and can also be triggered manually or on a schedule from the Slow queries page after onboarding.
+
+## Goal
+
+Bring slow queries from the database slow query log into the platform to form the governance backlog.
 
 ## Slow query config step
 
@@ -63,6 +73,10 @@ At the top of the Slow queries page, turn on "Scheduled collection", set the int
 - Collected SQL comes from the database slow query log, so SQL below the threshold or from a disabled log is not collected;
 - The difference between "Slow SQL count" and "Business SQL count" is whether internal/system SQL is filtered — see [SQL Aggregation and Deduplication](/en/user-guide/performance/aggregate-dedup);
 - Collection accumulates incrementally; re-collecting refreshes the latest collection time and updates the list.
+
+## Expected Result
+
+After collection, the Slow queries page summary shows the slow query threshold, slow SQL count, business SQL count, and latest collection time for the collected data.
 
 ## Before you submit
 

@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-create-optimize-ticket
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Basic configuration"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 An optimization ticket bundles a batch of slow SQL together with optimization settings into a single trackable optimization record: one submission produces a ticket number used to track optimization status, performance gain, and disposition stage on the Slow queries page. It corresponds to the "New query optimization" form opened by the "Optimize" action in [Batch Analysis and Optimization](/en/user-guide/performance/batch-optimize).
+
+## Goal
+
+Bundle a batch of slow SQL into a single trackable optimization ticket with basic, validation, index, and rule settings.
+
+## Prerequisites
+
+One or more slow SQL have been selected on the Slow queries page before opening the New query optimization form.
 
 ## Start from slow queries
 
@@ -54,6 +68,14 @@ Select a rule template (such as "MySQL database audit template"), or enable/disa
 ## Submit
 
 Review the settings and click "Create optimization task". Optimization runs server-side; results appear in the "Optimization status", "Last optimization", and "Performance gain" columns on the Slow queries page.
+
+## Expected Result
+
+After submission, the optimization runs server-side and its results appear in the "Optimization status", "Last optimization", and "Performance gain" columns on the Slow queries page.
+
+## Verification
+
+Confirm the optimization ticket number was created and the ticket is tracked on the Slow queries page.
 
 ## FAQ
 

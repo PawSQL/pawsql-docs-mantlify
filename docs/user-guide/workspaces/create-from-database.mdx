@@ -6,13 +6,23 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-workspaces-create-from-database
 localeOf: en-user-guide-workspaces-create-from-database
+sections:
+  goal: 目标
+  prerequisites: "前提条件"
+  steps: "创建步骤"
+  expectedResult: 预期结果
+  verification: "连接测试成功意味着什么"
 ---
 
 通过数据库连接创建工作空间时，PawSQL 使用授权账户读取目标数据库中允许访问的元数据。这种方式适合团队长期使用、结构持续变化、生产慢 SQL 治理以及需要执行计划或自动化性能验证的场景。
+
+## 目标
+
+连接目标数据库并同步允许访问的 Schema、表、列、约束和索引，创建 PawSQL 工作空间。
 
 ## 前提条件
 
@@ -96,6 +106,10 @@ localeOf: en-user-guide-workspaces-create-from-database
 - 便于按业务、环境和责任团队管理工作空间。
 
 如果 SQL 跨多个 Schema 查询，应将涉及的 Schema 纳入同一工作空间，并确认跨 Schema 对象权限。
+
+## 预期结果
+
+同步完成后，工作空间包含允许访问的 Schema、表、列、约束和索引，可用于 SQL 审核与优化。
 
 ## 连接测试成功意味着什么
 

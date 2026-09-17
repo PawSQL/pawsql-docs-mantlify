@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-resolve-findings
 localeOf: en-user-guide-sql-audit-resolve-findings
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "逐项处理"
+  expectedResult: "预期结果"
+  verification: "修改后的验证"
 ---
 
 处理审核问题的目标不仅是减少告警数量，还要确认风险得到消除、业务语义保持一致，并留下可复核的处理记录。
+
+## 目标
+
+对 SQL 审核问题进行确认、修改、复核和例外记录，形成可追踪的闭环。
+
+## 准备工作
+
+有一张包含待处理问题的审核工单，并具备修改 SQL 和重新审核的权限。
 
 ## 处理流程
 
@@ -88,6 +102,10 @@ flowchart TD
 - 小批量修改并进行回归验证；
 - 对比修复前后的问题分布和性能数据；
 - 将成熟做法沉淀到开发规范和审核策略。
+
+## 预期结果
+
+修复并重新审核后，已解决的问题不再触发、无新增高风险问题，处理结果和证据被记录。
 
 ## 下一步
 

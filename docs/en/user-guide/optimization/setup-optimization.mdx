@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-optimization-setup-optimization
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Basic configuration"
+  expectedResult: "Expected Result"
+  verification: "Submit and confirm success"
 ---
 
 An optimization is a performance diagnosis performed on a set of SQL within a workspace, typically including SQL audit, rewrite, and index recommendation. When creating an optimization task you can configure its input, output, data source, and execution.
+
+## Goal
+
+Configure input, validation, index recommendation, and rule options to control how rewrites and index suggestions are produced.
+
+## Prerequisites
+
+A workspace and the SQL you want to optimize within that workspace.
 
 ## Basic configuration
 
@@ -58,6 +72,10 @@ After submitting, once the task completes, at least check that:
 <Tip>
 A completed task is not a claim that the SQL is optimal or that every recommendation is safe to apply.
 </Tip>
+
+## Expected Result
+
+After submitting, the task runs with the configured options and produces optimization results for review.
 
 ## Next steps
 

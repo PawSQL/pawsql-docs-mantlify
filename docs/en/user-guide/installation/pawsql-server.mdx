@@ -6,9 +6,15 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-installation-pawsql-server
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Deployment workflow"
+  expectedResult: "Acceptance checklist"
+  verification: "Acceptance checklist"
 ---
 
 PawSQL Server provides SQL analysis and governance inside an organization-controlled environment. This page defines the stable deployment lifecycle. Package names, commands, ports, and component versions must come from the release-specific delivery bundle.
@@ -16,6 +22,15 @@ PawSQL Server provides SQL analysis and governance inside an organization-contro
 <Note>
 Use installation media and deployment instructions that match the exact PawSQL Server version. Do not reuse commands from another release without verification.
 </Note>
+
+## Goal
+
+Plan, deploy, initialize, and validate a private PawSQL Server environment.
+
+## Prerequisites
+
+- Installation media and deployment instructions that match the exact PawSQL Server version.
+- A separate, non-production environment to validate the release and rollback process before production.
 
 ## Plan the environment
 

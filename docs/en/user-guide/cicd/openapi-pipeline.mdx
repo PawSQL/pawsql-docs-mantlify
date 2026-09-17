@@ -6,14 +6,28 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-openapi-pipeline
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Pipeline pattern"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 When no prebuilt connector matches the pipeline, use PawSQL OpenAPI to submit SQL, poll for the analysis result, and apply the quality gate in the runner. This is the recommended pattern for Jenkins, GitHub Actions, GitLab CI, and other pipeline engines.
 
 See [API reference](/api-reference) for the full endpoint definitions.
+
+## Goal
+
+Submit changed SQL from any CI/CD runner, wait for PawSQL analysis, and convert the result into a build decision.
+
+## Prerequisites
+
+Use PawSQL OpenAPI with a configured workspace, review policy, and identity, referring to the API reference for endpoint definitions.
 
 ## Pipeline pattern
 
@@ -55,6 +69,14 @@ See [API reference](/api-reference) for the full endpoint definitions.
 - Keep the PawSQL token out of logs and exported environment.
 - Make the timeout and failure policy explicit in the pipeline.
 - Store the report link and job ID in the build artifacts for traceability.
+
+## Expected Result
+
+The runner produces a build decision based on the PawSQL gate result and stores the report link and job ID.
+
+## Verification
+
+Confirm the pipeline applies the correct status mapping and failure policy on timeout, authentication error, or service unavailability.
 
 ## Next step
 

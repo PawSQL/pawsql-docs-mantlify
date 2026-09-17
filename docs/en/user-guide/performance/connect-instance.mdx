@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-connect-instance
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Step 1: Select instance type"
+  expectedResult: "Expected Result"
+  verification: "Before you submit"
 ---
 
 Connecting a database instance is the first step of performance governance: PawSQL must be able to reach the target database to collect slow queries and patrol database objects. Start from the "+ Add instance" button on the Instance overview page and complete a four-step wizard.
@@ -16,6 +22,14 @@ Connecting a database instance is the first step of performance governance: PawS
 <Frame caption="Instance overview: search and the + Add instance entry">
   ![Instance overview](/images/performance/en/patrol-instance-list.png)
 </Frame>
+
+## Goal
+
+Add a database instance on the Performance Patroller so PawSQL can collect slow queries and patrol its objects.
+
+## Prerequisites
+
+The target database is reachable from the PawSQL server, the slow query log is enabled, and the connecting account has the required permissions.
 
 ## Step 1: Select instance type
 
@@ -83,6 +97,10 @@ The "Test" or "Finish" connection validation runs on the PawSQL server — the b
 ## Steps 3 and 4
 
 After the connection passes, the wizard continues to "Slow query config" and "Patrol config" — see [Collect Slow Queries](/en/user-guide/performance/collect-slow-sql) and [Object Patrol Task](/en/user-guide/performance/patrol-task).
+
+## Expected Result
+
+After completing the four-step wizard, the instance appears on the Instance overview page and its slow query and patrol configuration are verified.
 
 ## Before you submit
 

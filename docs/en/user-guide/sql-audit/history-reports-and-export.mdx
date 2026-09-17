@@ -6,12 +6,26 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-history-reports-and-export
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Generate or export a report"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Review history makes each SQL assessment reproducible and explainable. Teams can use it to support change review, remediation programs, compliance evidence, and long-term quality improvement.
+
+## Goal
+
+Locate previous SQL reviews, reconstruct their configuration, and preserve review evidence for governance and audit.
+
+## Prerequisites
+
+Access to previously created review tickets and to the report or export capability provided by your PawSQL version.
 
 ## Find a previous ticket
 
@@ -105,6 +119,14 @@ If policy or metadata changed, call that out explicitly. Do not attribute every 
 ## Improve governance with review history
 
 Trends such as frequently triggered rules, recurring patterns, remediation time, and exception volume can guide policy design, engineering standards, and training. Interpret metrics in the context of system criticality and workload size; avoid using raw counts as a simplistic team ranking.
+
+## Expected Result
+
+You obtain a report or export that captures the ticket configuration, findings, dispositions, and approval decision, ready to retain as evidence.
+
+## Verification
+
+Confirm the exported report includes the intended SQL, environment, policy, and decision, and that it is stored with appropriate access and retention controls.
 
 ## Related pages
 

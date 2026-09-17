@@ -6,10 +6,16 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-workspaces-index
 localeOf: en-user-guide-workspaces-index
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 两种创建方式
+  expectedResult: 预期结果
+  verification: 验证
 ---
 
 工作空间是 PawSQL 组织 SQL 分析上下文的基本单位。它记录目标数据库类型、版本、Schema 以及可用的表、列、约束和索引等元数据，供 SQL 审核、查询重写优化、智能索引推荐、执行计划分析和自动化性能验证使用。
@@ -17,6 +23,14 @@ localeOf: en-user-guide-workspaces-index
 <Note>
 工作空间不是业务数据库，也不会因为被创建而修改目标数据库。它保存的是 PawSQL 分析 SQL 时需要使用的上下文。
 </Note>
+
+## 目标
+
+了解 PawSQL 工作空间，并通过 DDL 或数据库连接为 SQL 审核和优化提供数据库上下文。
+
+## 准备工作
+
+创建工作空间需要提供 DDL 定义或数据库连接，以获取数据库类型、版本、Schema 及对象元数据。
 
 ## 工作空间如何参与 SQL 分析
 
@@ -78,6 +92,14 @@ flowchart TD
 | 数据库版本 | 使用真实版本，不默认选择最新版本 |
 | 默认 Schema | 选择未限定表名应优先解析的 Schema |
 | 元数据范围 | 只导入当前业务和团队需要的对象 |
+
+## 预期结果
+
+一个配置了正确数据库类型、版本、Schema 和元数据的工作空间，供 SQL 审核、重写、索引和计划分析使用。
+
+## 验证
+
+确认工作空间的数据库类型、版本、Schema 和元数据与 SQL 真实运行环境一致；创建步骤见通过 DDL 创建和通过数据库连接创建的文档。
 
 ## 使用原则
 

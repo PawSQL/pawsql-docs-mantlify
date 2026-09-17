@@ -6,12 +6,22 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-gitlab
+sections:
+  goal: "Goal"
+  prerequisites: "Before you begin"
+  steps: "Configuration"
+  expectedResult: "Acceptance criteria"
+  verification: "Verification"
 ---
 
 The prebuilt PawSQL GitLab connector links GitLab projects and repositories to PawSQL, listens for push or merge-request events, and submits changed SQL for review automatically.
+
+## Goal
+
+Use the prebuilt PawSQL repository connector to review SQL on GitLab pushes and merge requests.
 
 ## Before you begin
 
@@ -44,6 +54,10 @@ Validate DNS, proxy, firewall, and TLS between PawSQL and GitLab. Do not disable
 - The latest revision receives the correct gate status.
 - Duplicate events do not create conflicting feedback.
 - Credentials and sensitive SQL are absent from logs.
+
+## Verification
+
+Confirm a test event creates a correlated job with correct findings and merge-request status.
 
 <Note>
   The prebuilt GitLab repository connector is distinct from calling PawSQL in GitLab CI. For a pipeline-controlled workflow, use the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).

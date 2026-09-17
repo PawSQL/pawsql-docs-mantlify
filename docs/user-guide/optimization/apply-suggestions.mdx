@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-optimization-apply-suggestions
 localeOf: en-user-guide-optimization-apply-suggestions
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "落地建议"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 优化建议是候选方案，不是自动发布指令。无论是重写 SQL 还是推荐索引，落地前都应按同一套框架评估语义、兼容性、收益和成本。
+
+## 目标
+
+用统一的决策框架评估重写与索引建议的语义、兼容性、收益和成本，并在测试、审核后安全落地。
+
+## 准备工作
+
+已有包含重写或索引建议的优化结果可供评估。
 
 ## 决策框架
 
@@ -88,6 +102,14 @@ localeOf: en-user-guide-optimization-apply-suggestions
 ## 记录处理结论
 
 为每项建议记录采用、调整、拒绝或待验证的结论，并保留负责人、判断依据、测试环境与参数、执行计划或性能数据、计划上线时间和回退方式。
+
+## 预期结果
+
+通过评估的建议先在测试环境验证、再在审核后落地到生产，每项处理结论都被记录。
+
+## 验证
+
+在测试环境对比结果与执行计划，确认数据库实际使用了推荐索引，并为每项建议记录采用、调整、拒绝或待验证的结论。
 
 ## 下一步
 

@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-workspaces-index
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Two ways to create a workspace
+  expectedResult: Expected Result
+  verification: Verification
 ---
 
 A workspace is the primary container for SQL analysis context in PawSQL. It records the database engine, version, schema scope, and available metadata—such as tables, columns, constraints, and indexes—used by review, rewrite, index recommendation, plan analysis, and validation features.
@@ -16,6 +22,14 @@ A workspace is the primary container for SQL analysis context in PawSQL. It reco
 <Note>
 A workspace is not a business database. Creating one does not create, modify, or delete objects in the target database.
 </Note>
+
+## Goal
+
+Build the database context PawSQL needs for SQL review and optimization using DDL or a live database connection.
+
+## Prerequisites
+
+To create a workspace you need either the DDL definitions or a database connection that provides the engine, version, schema, and object metadata used for analysis.
 
 ## How a workspace participates in analysis
 
@@ -76,6 +90,14 @@ Avoid generic names such as `database-1` or `test`.
 | Version | Use the deployed version, not a default latest version |
 | Default schema | Select the schema for unqualified names |
 | Metadata scope | Include only what the project needs |
+
+## Expected Result
+
+A workspace configured with the correct engine, version, schema, and imported metadata that PawSQL uses for review, rewrite, index, and plan analysis.
+
+## Verification
+
+Confirm the workspace matches the target environment by checking that the engine, version, schema, and imported metadata reflect where the SQL actually runs; creation steps are in the create-from-ddl and create-from-database guides.
 
 ## Operating principles
 

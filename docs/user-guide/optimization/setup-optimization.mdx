@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-optimization-setup-optimization
 localeOf: en-user-guide-optimization-setup-optimization
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "基础配置"
+  expectedResult: "预期结果"
+  verification: "优化验证"
 ---
 
 查询优化是在工作空间内对一组 SQL 进行的性能优化诊断，一般包括 SQL 审查、重写优化、索引推荐等。创建优化任务时，可以配置输入、输出、数据源以及执行过程。
+
+## 目标
+
+配置优化任务的输入、验证、索引推荐和优化规则选项，控制重写与索引建议的产生方式。
+
+## 准备工作
+
+已有工作空间和需要在该工作空间内优化的 SQL。
 
 ## 基础配置
 
@@ -59,6 +73,10 @@ localeOf: en-user-guide-optimization-setup-optimization
 <Tip>
 任务状态为「已完成」表示分析结束，不表示 SQL 已经最优，也不表示所有建议都适合直接采用。
 </Tip>
+
+## 预期结果
+
+提交后任务按配置选项执行，并产出可供查看的优化结果。
 
 ## 下一步
 

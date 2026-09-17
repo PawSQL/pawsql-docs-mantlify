@@ -6,12 +6,26 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-webhook
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Delivery flow"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 Webhooks let a repository or CI/CD system notify PawSQL when a relevant event occurs. PawSQL validates the event, filters irrelevant payloads, and processes the review asynchronously.
+
+## Goal
+
+Understand signature validation, filtering, asynchronous processing, retries, and duplicate delivery in event-driven integrations.
+
+## Prerequisites
+
+No special prerequisites.
 
 ## Delivery flow
 
@@ -54,6 +68,14 @@ The review scope reduces noise and cost by limiting what the integration process
 - Alert when the failure rate exceeds a threshold.
 - Keep endpoint availability high to avoid triggering retries.
 - Review processed event logs to confirm correct scope.
+
+## Expected Result
+
+A relevant event is validated, filtered, and processed into a review, with the gate decision and report link returned to the source platform.
+
+## Verification
+
+Confirm each delivery is signature-validated, replay-protected, and idempotent so duplicates do not create duplicate reviews.
 
 ## Related
 

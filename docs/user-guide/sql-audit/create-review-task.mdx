@@ -6,13 +6,23 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-create-review-task
 localeOf: en-user-guide-sql-audit-create-review-task
+sections:
+  goal: "目标"
+  prerequisites: "SQL 文本要求"
+  steps: "填写工单字段"
+  expectedResult: "预期结果"
+  verification: "提交前检查"
 ---
 
 审核工单将一组 SQL、数据库类型与版本、审核策略、优先级及可选工作空间组合在一起，形成一条可跟踪、可复核的审核记录。
+
+## 目标
+
+创建一张将 SQL 与数据库类型、版本、审核策略、优先级及可选工作空间绑定的审核工单，形成可跟踪、可复核的记录。
 
 ## 填写工单字段
 
@@ -122,6 +132,10 @@ MyBatis XML 文件与压缩包同样适用上述文件类要求；具体支持�
 4. 检查变量、批次命令和存储过程语法。
 5. 确认文件编码和不可见字符。
 6. 记录 PawSQL 版本、工单号、行号和完整错误信息。
+
+## 预期结果
+
+提交后工单进入等待、执行或完成状态，显示识别出的 SQL 数量，并可跟踪审核结果。
 
 ## 提交前检查
 

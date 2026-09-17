@@ -6,13 +6,23 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-gitlab
 localeOf: en-user-guide-cicd-gitlab
+sections:
+  goal: "目标"
+  prerequisites: "开始之前"
+  steps: "配置流程"
+  expectedResult: "验收标准"
+  verification: "验收标准"
 ---
 
 PawSQL GitLab 预置连接器用于关联 GitLab 项目和代码仓库，监听 Push 或 Merge Request 事件，并将变更 SQL 自动提交到 PawSQL 审核。
+
+## 目标
+
+使用 PawSQL 预置代码仓库连接器，在 GitLab Push 和 Merge Request 阶段审核 SQL。
 
 ## 开始之前
 

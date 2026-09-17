@@ -6,12 +6,22 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-blueking
+sections:
+  goal: "Goal"
+  prerequisites: "Before you begin"
+  steps: "Configuration"
+  expectedResult: "Acceptance criteria"
+  verification: "Verification"
 ---
 
 The PawSQL BlueKing pipeline connector adds an SQL review stage to a BlueKing pipeline. The stage collects the changed SQL, submits it to PawSQL, and enforces the quality gate as a pipeline decision.
+
+## Goal
+
+Use the prebuilt PawSQL connector to review SQL and enforce a quality gate in a BlueKing pipeline.
 
 ## Before you begin
 
@@ -44,6 +54,10 @@ The connector reads the review result and maps the decision to the pipeline. See
 - A blocking finding fails the stage with an explanatory message.
 - A system failure follows the configured failure policy and leaves an audit record.
 - The report link is accessible to authorized pipeline viewers.
+
+## Verification
+
+Confirm the pipeline references the current revision and that a blocking finding fails the stage with an explanatory message.
 
 <Note>
   For pipelines other than BlueKing that are not covered by a prebuilt connector, evaluate the [OpenAPI pipeline pattern](/en/user-guide/cicd/openapi-pipeline).

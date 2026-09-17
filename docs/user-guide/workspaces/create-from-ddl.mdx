@@ -6,10 +6,16 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-workspaces-create-from-ddl
 localeOf: en-user-guide-workspaces-create-from-ddl
+sections:
+  goal: "适用场景"
+  prerequisites: "准备 DDL"
+  steps: "创建步骤"
+  expectedResult: 预期结果
+  verification: 验证
 ---
 
 通过 DDL 创建工作空间时，PawSQL 从用户提供的对象定义中构建数据库上下文，不需要访问目标数据库。这种方式适合网络隔离、快速验证、有限对象分析或不允许保存数据库凭据的场景。
@@ -113,6 +119,14 @@ DDL 工作空间通常无法直接提供：
 <Warning>
 不要为了让 SQL 通过分析而编造主键、唯一约束或索引。这些信息可能改变重写安全性和智能索引推荐结论。
 </Warning>
+
+## 预期结果
+
+解析完成后，工作空间包含 DDL 中识别的 Schema、表、列、约束和索引，可用于 SQL 审核与优化。
+
+## 验证
+
+确认 DDL 解析无失败、引用的对象均已解析，且识别出的对象与提供的定义一致，即可验证工作空间创建正确。
 
 ## 常见问题
 

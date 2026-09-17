@@ -6,12 +6,22 @@ type: guide
 subtype: installation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-installation-ide-plugins
+sections:
+  goal: "Goal"
+  prerequisites: "Before you install"
+  steps: "Install the extension"
+  expectedResult: "Expected Result"
+  verification: "Validate the extension"
 ---
 
 PawSQL IDE extensions bring SQL review and optimization into the editor. Each extension connects to PawSQL Cloud or PawSQL Server and operates within the projects and workspaces available to the authenticated user.
+
+## Goal
+
+Learn how to install the PawSQL extension for DBeaver, JetBrains IDEs, or Visual Studio Code and connect it to a PawSQL service.
 
 ## Before you install
 
@@ -124,6 +134,10 @@ If connectivity works but recommendations are unexpected, inspect the selected w
 | Connection test fails | Endpoint, TLS certificate, proxy, token, service status |
 | No workspace is available | Project membership and workspace permissions |
 | SQL is only partially parsed | Selection boundaries, dialect, placeholders, delimiters |
+
+## Expected Result
+
+After installation and connection, the extension appears in the IDE, and a PawSQL analysis command can create a task and return results.
 
 ## Next steps
 

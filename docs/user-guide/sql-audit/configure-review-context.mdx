@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-configure-review-context
 localeOf: en-user-guide-sql-audit-configure-review-context
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "选择工作空间"
+  expectedResult: "预期结果"
+  verification: "提交前检查"
 ---
 
 审核上下文描述 SQL 将在哪个数据库环境中运行。在创建审核工单页面，数据库类型、版本、默认 Schema 是独立字段；“配置审核上下文（工作空间）”字段则用于选择工作空间，为对象识别和规则判断提供表、列、约束和索引等元数据。工作空间在[工作空间与上下文](/user-guide/workspaces/)中集中创建和管理，不要在审核工单中重复维护另一份表结构。
+
+## 目标
+
+选择数据库类型、版本、Schema 范围与对象定义均与目标环境一致的工作空间，使审核能识别 SQL 依赖的对象。
+
+## 准备工作
+
+选择工作空间前，先确认目标数据库类型、版本和默认 Schema，并明确 SQL 引用的表、列、约束和索引。
 
 ## 选择工作空间
 
@@ -59,6 +73,10 @@ localeOf: en-user-guide-sql-audit-configure-review-context
 <Warning>
 连接数据库创建工作空间时，应使用满足最小权限原则的只读账号，并遵守组织对凭据、网络和生产访问的管理要求。
 </Warning>
+
+## 预期结果
+
+选择匹配的工作空间后，审核能够识别引用的对象，索引建议等依赖元数据的分析结果可用。
 
 ## 提交前检查
 

@@ -6,14 +6,24 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-dev-tools-mcp
+sections:
+  goal: Goal
+  prerequisites: "Prerequisites"
+  steps: Configure PawSQL MCP
+  expectedResult: Review the response
+  verification: "3. Reload and verify the connection"
 ---
 
 PawSQL MCP makes PawSQL optimization capabilities available as tools inside MCP-compatible coding assistants. From a conversation, a developer can submit a query, attach schema definitions, or select an existing PawSQL workspace and receive query rewrites, index recommendations, execution-plan analysis, and performance findings.
 
 PawSQL MCP is neither an IDE extension nor a replacement for PawSQL Cloud or PawSQL Server. It is enabled exclusively as a remote SSE service and acts as the integration layer between an MCP client and PawSQL.
+
+## Goal
+
+Connect PawSQL to an MCP-compatible coding assistant so you can submit SQL from a conversation and receive query rewrites, index recommendations, and performance findings, with reliable database context.
 
 ## How the integration works
 

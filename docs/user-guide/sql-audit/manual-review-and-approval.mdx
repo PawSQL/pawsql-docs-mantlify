@@ -6,10 +6,16 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-manual-review-and-approval
 localeOf: en-user-guide-sql-audit-manual-review-and-approval
+sections:
+  goal: "目标"
+  prerequisites: "复核材料"
+  steps: "复核流程"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 人工复核用于确认自动规则无法完整判断的业务语义、环境影响和例外条件。审批结论应以审核结果和验证证据为依据，而不是替代技术检查。
@@ -17,6 +23,10 @@ localeOf: en-user-guide-sql-audit-manual-review-and-approval
 <Note>
 界面中的典型流转是：自动审核完成后，提交人点击“提交复核”将工单提交给审批人；审批人在“审批历史”标签页查看审批时间线并作出最终决策；审批通过后的执行情况记录在“执行记录”标签页。内置审批、角色分离和状态流转取决于 PawSQL 版本、License 及组织配置。若当前版本未提供，可在外部工单系统中完成审批，并关联 PawSQL 审核工单或报告。
 </Note>
+
+## 目标
+
+在自动审核基础上完成人工复核、例外审批和放行记录。
 
 ## 角色与职责
 
@@ -110,6 +120,14 @@ SQL、审核策略、工作空间或执行环境在批准后发生实质变化�
 - 记录状态变化、操作人和时间；
 - 定期复查长期有效的例外；
 - 对生产高风险变更设置更严格的授权要求。
+
+## 预期结果
+
+工单记录有据可依的通过、退回或有条件通过结论，并保存理由、证据和审计轨迹。
+
+## 验证
+
+确认审批意见包含决策理由和适用范围，且审批时间线与执行记录反映最终结论。
 
 ## 下一步
 

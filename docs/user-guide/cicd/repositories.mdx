@@ -6,13 +6,27 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-repositories
 localeOf: en-user-guide-cicd-repositories
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "通用配置顺序"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 PawSQL 为腾讯 CODING、GitHub 和 GitLab 提供预置代码仓库连接器。连接器负责接收仓库事件、定位变更 SQL、创建审核工单，并将结果关联到对应提交或合并请求。
+
+## 目标
+
+使用 PawSQL 预置连接器接入腾讯 CODING、GitHub 和 GitLab，在提交与合并请求阶段审核 SQL。
+
+## 准备工作
+
+准备工作空间、审核策略和最小权限账号。
 
 ## 支持的平台
 
@@ -45,3 +59,11 @@ PawSQL 为腾讯 CODING、GitHub 和 GitLab 提供预置代码仓库连接器。
   <Step title="配置门禁">选择阻断阈值、异常策略和结果反馈。</Step>
   <Step title="完成验收">分别验证通过、阻断、无变更和重复事件。</Step>
 </Steps>
+
+## 预期结果
+
+连接器接收仓库事件、定位变更 SQL、创建审核工单，并将结果关联到对应提交或合并请求。
+
+## 验证
+
+确认连接器返回门禁状态和完整报告入口。

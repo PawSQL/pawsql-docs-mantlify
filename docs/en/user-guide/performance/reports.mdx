@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-performance-reports
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Steps"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 After patrol completes, the Database objects page summarizes the findings into a drillable patrol report. The report presents four layers — overview, risk distribution, top issues, and object list — to judge overall instance health and locate the objects most in need of attention.
@@ -16,6 +22,18 @@ After patrol completes, the Database objects page summarizes the findings into a
 <Frame caption="Database object patrol report: summary, severity, audit rules, and object list">
   ![Patrol report](/images/performance/en/patrol-db-objects-data.png)
 </Frame>
+
+## Goal
+
+Review the patrol report on the Database objects page to judge instance health and locate the objects needing remediation.
+
+## Prerequisites
+
+A patrol has completed so the Database objects page has findings to summarize.
+
+## Steps
+
+Read the report top-down: the summary overview, the severity distribution, the top audit rules, the top database objects, and finally the drillable object list.
 
 ## Summary
 
@@ -61,6 +79,14 @@ The object table lists each table with structural information and patrol results
 | Operations | Drill into the table's patrol details |
 
 Above the table are filters: search database objects, database/schema, violated rules, and "Violated rules" and "New" toggles to show only objects with issues or newly added objects.
+
+## Expected Result
+
+The Database objects page shows the patrol summary, the severity chart, the audit rules chart, the database objects chart, and a filterable object list with each table's anomalies.
+
+## Verification
+
+Confirm the summary reflects the latest patrol, and that clicking a severity level or rule filters the object list accordingly.
 
 ## Related pages
 

@@ -6,12 +6,22 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-coding
+sections:
+  goal: "Goal"
+  prerequisites: "Before you begin"
+  steps: "Configuration"
+  expectedResult: "Acceptance criteria"
+  verification: "Verification"
 ---
 
 The prebuilt PawSQL CODING connector turns repository events into SQL review jobs and returns the resulting decision to code review and release governance.
+
+## Goal
+
+Use the prebuilt PawSQL repository connector to review SQL on Tencent CODING commits and merge requests.
 
 ## Before you begin
 
@@ -56,6 +66,10 @@ The prebuilt PawSQL CODING connector turns repository events into SQL review job
 <Note>
   Menu labels and feedback options can differ by PawSQL release. If the CODING integration is not visible, ask the PawSQL administrator to confirm the installed version and license scope.
 </Note>
+
+## Verification
+
+Confirm CODING reports successful event delivery and that a blocking finding prevents the protected workflow from proceeding.
 
 ## FAQ
 

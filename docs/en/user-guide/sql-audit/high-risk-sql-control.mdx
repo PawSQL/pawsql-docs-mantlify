@@ -6,9 +6,15 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-sql-audit-high-risk-sql-control
+sections:
+  goal: "Goal"
+  prerequisites: "Prerequisites"
+  steps: "Recommended control flow"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 High-risk SQL controls prevent significant, unverified database risk from moving silently into a release. Effective control combines policy-based detection with human judgment, representative testing, and the organization’s change-management process.
@@ -16,6 +22,14 @@ High-risk SQL controls prevent significant, unverified database risk from moving
 <Note>
 Blocking, exception, approval, and quality-gate features depend on PawSQL edition, licensing, and integration configuration. Where an in-product workflow is unavailable, use the PawSQL review report as evidence in an external ticketing or CI/CD gate.
 </Note>
+
+## Goal
+
+Control high-risk database changes by combining policy-based detection with human judgment, representative testing, and the organization's change-management process.
+
+## Prerequisites
+
+A production-ready review policy with blocking or high severity assigned to critical rules, and an established change-management and exception process.
 
 ## Typical risk categories
 
@@ -81,6 +95,14 @@ An automated workflow can evaluate ticket status, highest severity, unresolved f
 - provide a controlled manual fallback for service incidents.
 
 See [SQL Quality Gate](/en/features/sql-quality-gate) and [SQL Quality Gate for CI/CD](/en/use-cases/sql-quality-gate-cicd) for related patterns.
+
+## Expected Result
+
+Each high-risk change is detected, remediated or covered by a time-bounded exception, and released only after the gate is satisfied with retained evidence.
+
+## Verification
+
+Confirm that no unresolved blocking finding remains and that the gate decision matches the recommended outcome before proceeding.
 
 ## Next step
 

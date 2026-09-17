@@ -6,9 +6,15 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: en
 translationKey: user-guide-cicd-concepts
+sections:
+  goal: "Core Concepts"
+  prerequisites: "Prerequisites"
+  steps: "Steps"
+  expectedResult: "Expected Result"
+  verification: "Verification"
 ---
 
 A PawSQL integration begins with a repository change and ends with a traceable SQL quality decision. The following objects form the contract between the source platform, the pipeline, and PawSQL.
@@ -26,6 +32,14 @@ A PawSQL integration begins with a repository change and ends with a traceable S
 | Quality gate | Converts review evidence into pass, warn, or block |
 | External run identity | Links the PawSQL job to a commit, review, or pipeline execution |
 
+## Prerequisites
+
+No special prerequisites.
+
+## Steps
+
+Understand how the trigger event, SQL change set, integration configuration, workspace, review policy, review job, quality gate, and external run identity form the contract between the source platform, the pipeline, and PawSQL.
+
 ## Review scope
 
 | Mode | Best for | Consideration |
@@ -42,6 +56,14 @@ Treat repeated delivery of the same repository event as one logical run. Use the
 <Note>
   A passing review means the SQL satisfies the active policy. It does not execute the SQL or replace business validation, change approval, or database release controls.
 </Note>
+
+## Expected Result
+
+You can map any repository change to a traceable SQL quality decision through the objects described on this page.
+
+## Verification
+
+Confirm each concept on this page maps to your platform, pipeline, and PawSQL configuration.
 
 ## Related documents
 

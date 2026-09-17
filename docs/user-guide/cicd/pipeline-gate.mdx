@@ -6,13 +6,27 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-pipeline-gate
 localeOf: en-user-guide-cicd-pipeline-gate
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "配置流程"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 审核策略决定 PawSQL 检查什么，质量门禁决定检查结果如何影响交付。结果回传则把门禁结论、问题摘要和完整报告入口带回开发人员当前使用的平台。
+
+## 目标
+
+将 PawSQL 审核结果转换为通过、警告或阻断结论，并反馈到代码仓库和流水线。
+
+## 准备工作
+
+准备一份已发布的审核策略，明确阻断条件和异常行为。
 
 ## 推荐决策表
 
@@ -61,6 +75,14 @@ localeOf: en-user-guide-cicd-pipeline-gate
 | 无 SQL 变更 | Skipped 或 Success |
 
 新的提交到达后，旧工单结果应标记为过期，只有最新提交对应的工单可以满足合并条件。重复运行同一提交时，应更新既有检查或机器人评论，避免重复消息。
+
+## 预期结果
+
+审核结果被转换为通过、警告或阻断结论，并回传门禁结论、问题摘要和报告入口。
+
+## 验证
+
+确认状态映射正确，且重复运行更新既有检查而非产生重复消息。
 
 <Warning>
   失败开放必须同时产生告警和审计记录。任何人工豁免都应有明确审批人、原因、范围和有效期。

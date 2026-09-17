@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-sql-audit-history-reports-and-export
 localeOf: en-user-guide-sql-audit-history-reports-and-export
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "生成或导出报告"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 审核历史用于回溯一次 SQL 检查使用的输入、策略、工作空间和处理结论。报告可用于变更评审、问题治理、合规审计和团队质量分析。
+
+## 目标
+
+查询 SQL 审核历史、复核工单配置，并导出和留存审核报告。
+
+## 准备工作
+
+能够访问已创建的审核工单，以及当前 PawSQL 版本提供的报告或导出能力。
 
 ## 查询审核历史
 
@@ -106,6 +120,14 @@ localeOf: en-user-guide-sql-audit-history-reports-and-export
 ## 用历史数据改进治理
 
 定期汇总高频规则、重复问题、平均修复时间和例外数量，可以帮助团队调整开发规范、培训重点和审核策略。指标应服务于质量改进，不应脱离项目规模和风险背景进行简单排名。
+
+## 预期结果
+
+获得包含工单配置、问题明细、处理结论和审批决策的报告或导出文件，可用于留存取证。
+
+## 验证
+
+确认导出的报告包含目标 SQL、环境、策略和结论，并按权限与保留要求安全保存。
 
 ## 相关页面
 

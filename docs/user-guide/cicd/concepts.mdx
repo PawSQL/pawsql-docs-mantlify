@@ -6,10 +6,16 @@ type: guide
 subtype: integration
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-cicd-concepts
 localeOf: en-user-guide-cicd-concepts
+sections:
+  goal: "核心对象"
+  prerequisites: "准备工作"
+  steps: "操作步骤"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 PawSQL 集成以一次代码变更为起点，以可审计的 SQL 质量结论为终点。理解下列对象有助于正确设计平台配置和流水线行为。
@@ -27,6 +33,14 @@ PawSQL 集成以一次代码变更为起点，以可审计的 SQL 质量结论�
 | 质量门禁 | 将审核结果转换为通过、警告或阻断结论 |
 | 外部运行标识 | 将 PawSQL 工单关联到仓库提交、合并请求或流水线运行 |
 
+## 准备工作
+
+无特殊前置条件。
+
+## 操作步骤
+
+理解核心对象，再结合增量或全量审核模式与状态幂等规则设计集成。
+
 ## 增量审核与全量审核
 
 | 模式 | 适用场景 | 注意事项 |
@@ -43,6 +57,14 @@ PawSQL 集成以一次代码变更为起点，以可审计的 SQL 质量结论�
 <Note>
   “审核通过”表示 SQL 满足当前策略，并不代表 SQL 已经在目标数据库执行，也不替代业务正确性验证和数据库变更审批。
 </Note>
+
+## 预期结果
+
+能够将一次代码变更对应到可审计的 SQL 质量结论。
+
+## 验证
+
+确认本页列出的对象能够映射到你的平台、流水线和 PawSQL 配置。
 
 ## 相关文档
 

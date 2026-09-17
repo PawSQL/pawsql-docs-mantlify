@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-rules-policy-rule-sets
 localeOf: en-user-guide-rules-policy-rule-sets
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 创建审核策略
+  expectedResult: 预期结果
+  verification: 验证
 ---
 
 审核策略通过导航左侧的「审核模板」入口管理：列表页列出全部模板，并提供「创建规则模板」按钮。
+
+## 目标
+
+从内置全局模板创建审核策略：选择数据库类型与基础模板，三步完成规则配置，并在列表与详情页管理模板。
+
+## 准备工作
+
+需要访问审核平台的「审核模板」入口及其提供的内置全局模板。
 
 ## 模板列表
 
@@ -51,6 +65,14 @@ PawSQL 按数据库类型内置 11 个全局模板，例如 MySQL（172 条启�
 ## 自定义审核策略
 
 内置全局模板只读，自定义的方式是创建「局部模板」：基于全局模板（或用户可见的模板）复制一份，再在副本上启用/禁用规则、调整阈值。局部模板只有创建者及所在团队成员可见。创建流程见上文「创建审核策略」，具体调整规则的操作见[规则管理](/user-guide/rules-policy/configure-rules)。
+
+## 预期结果
+
+保存后，新的局部模板出现在审核策略列表中；点击它可打开详情页查看已启用的规则与阈值。
+
+## 验证
+
+在列表中找到新建的模板，打开详情页，确认所选数据库类型、基础模板和规则配置均已生效。
 
 <Note>
 审核策略的导入、导出与版本管理在当前预览版本中无独立入口（全局模板只读、列表操作列为空），以正式发布版为准。

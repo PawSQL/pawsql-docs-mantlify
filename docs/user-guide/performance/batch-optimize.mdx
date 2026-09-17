@@ -6,13 +6,27 @@ type: guide
 subtype: operation
 layout: detail
 product: pawsql
-status: draft
+status: published
 language: zh
 translationKey: user-guide-performance-batch-optimize
 localeOf: en-user-guide-performance-batch-optimize
+sections:
+  goal: "目标"
+  prerequisites: "准备工作"
+  steps: "批量操作"
+  expectedResult: "预期结果"
+  verification: "验证"
 ---
 
 聚合去重后得到治理清单，下一步是对其中的慢 SQL 发起优化。慢查询页提供行级与批量两种入口，批量操作可一次对多条慢 SQL 发起优化。
+
+## 目标
+
+对聚合后的慢 SQL 清单发起优化，通过批量操作或行级操作进行优化、批量 AI 优化或忽略。
+
+## 准备工作
+
+慢 SQL 已采集并显示在慢查询页。
 
 ## 批量操作
 
@@ -41,6 +55,14 @@ localeOf: en-user-guide-performance-batch-optimize
 ## 创建优化任务
 
 点击「优化」后进入「新建查询优化」页，把选中的查询打包成一条优化任务工单。优化参数的完整配置（基础、验证、索引、规则）与提交跟踪见[创建优化任务工单](/user-guide/performance/create-optimize-ticket)。
+
+## 预期结果
+
+选中的慢 SQL 被打包成优化任务，生成 SQL 重写与索引推荐，并在优化任务页展示。
+
+## 验证
+
+确认优化任务已创建，慢查询页的「优化状态」「最近优化」「性能提升」列出现优化结果。
 
 ## 常见问题
 
