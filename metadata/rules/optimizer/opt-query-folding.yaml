@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/查询折叠(QUERY FOLDING).md
+# TODO(产品核对): opt-query-folding → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-query-folding
+category: rewrite
+severity: info
+tags:
+- review:SELECT`（包含视图
+- review:CTE或派生表子查询的语句）
+content:
+  zh:
+    name: 查询折叠(QUERY FOLDING)
+    description: |-
+      查询折叠（Query Folding）指的是把视图、CTE或派生表（Derived Table）子查询展开，并与引用它的外层查询语句合并的优化技术。通过消除不必要的子查询层次，查询折叠可以减少序列化中间结果集的开销，同时为优化器提供更全面的查询上下文，从而触发更优的表连接规划和索引选择。
+      PawSQL优化引擎支持两种查询折叠策略：类型I适用于视图本身不含DISTINCT、聚集函数、窗口函数、LIMIT和UNION的场景；类型II适用于外部查询块中视图是唯一表引用、且外部无分组和聚合的场景。MySQL 5.7及PostgreSQL 14.0以上版本已支持类型I的查询折叠，但类型II在最新的MySQL及PostgreSQL中仍未原生支持。
+    badExample: ''
+    goodExample: |-
+      -- ✅ 优化前：无意义的派生表包裹，增加不必要的查询层次
+      SELECT * FROM (SELECT c_custkey, c_name FROM customer) AS derived_t1;
+
+      -- ✅ 优化后：查询折叠消除派生表，直接查询基表
+      SELECT c_custkey, c_name FROM customer;
+  en:
+    name: Query Folding

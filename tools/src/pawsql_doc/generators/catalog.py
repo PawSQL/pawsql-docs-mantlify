@@ -1,6 +1,23 @@
 """Rule catalogs from active metadata rather than existing files."""
+from collections import defaultdict
 from pathlib import Path
 from pawsql_doc.generators.base import render_page, slug, write_page
+
+# Display order and labels for the controlled RuleCategory vocabulary.
+CATEGORY_ORDER = ("ddl", "dml", "index", "rewrite", "join", "subquery", "null", "union", "predicate", "constant", "unknown")
+CATEGORY_LABELS = {
+    "ddl": {"zh": "对象设计（DDL）", "en": "Schema & Object Design (DDL)"},
+    "dml": {"zh": "数据操作（DML）", "en": "Data Manipulation (DML)"},
+    "index": {"zh": "索引", "en": "Index"},
+    "rewrite": {"zh": "查询重写", "en": "Query Rewrite"},
+    "join": {"zh": "表关联", "en": "Joins"},
+    "subquery": {"zh": "子查询", "en": "Subqueries"},
+    "null": {"zh": "NULL 处理", "en": "NULL Handling"},
+    "union": {"zh": "UNION", "en": "UNION"},
+    "predicate": {"zh": "谓词", "en": "Predicates"},
+    "constant": {"zh": "常量", "en": "Constants"},
+    "unknown": {"zh": "待分类", "en": "Unclassified"},
+}
 
 
 def build_rule_indexes(root: Path, bundle=None):
@@ -22,11 +39,20 @@ def build_rule_indexes(root: Path, bundle=None):
                   "type": "reference", "subtype": "rule", "layout": "index", "status": status,
                   "translationKey": base, "language": lang,
                   "localeOf": ("en-" if lang == "zh" else "") + base}
-            body = [f"{len(entries)} rules.\n" if lang == "en" else f"共 {len(entries)} 条规则。\n",
-                    "| 规则 | ID | 分类 | 严重级别 |" if lang == "zh" else "| Rule | ID | Category | Severity |", "|---|---|---|---|"]
+            zh = lang == "zh"
+            groups: dict = defaultdict(list)
             for rule, content in entries:
-                name = (content.name or rule.id).replace("|", "\\|").replace("\n", " ")
-                body.append(f"| [{name}](/{prefix}reference/{kind}-rules/{slug(rule.id)}) | `{rule.id}` | {rule.category.value} | {rule.severity.value} |")
+                groups[rule.category.value].append((rule, content))
+            ordered = [c for c in CATEGORY_ORDER if c in groups] + sorted(set(groups) - set(CATEGORY_ORDER))
+            body = [f"{len(entries)} rules.\n" if lang == "en" else f"共 {len(entries)} 条规则。\n"]
+            for cat in ordered:
+                label = CATEGORY_LABELS.get(cat, {}).get("zh" if zh else "en", cat)
+                body.append(f"\n## {label}\n")
+                body.append("| 规则 | ID | 严重级别 |" if zh else "| Rule | ID | Severity |")
+                body.append("|---|---|---|")
+                for rule, content in groups[cat]:
+                    name = (content.name or rule.id).replace("|", "\\|").replace("\n", " ")
+                    body.append(f"| [{name}](/{prefix}reference/{kind}-rules/{slug(rule.id)}) | `{rule.id}` | {rule.severity.value} |")
             path = root / "docs" / prefix / "reference" / f"{kind}-rules" / "index.md"
             write_page(path, render_page(fm, "\n".join(body)))
             written.append(path)

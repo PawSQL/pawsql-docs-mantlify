@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/子查询的嵌套层次超过阈值.md
+# TODO(产品核对): aud-subquery-nesting-depth-exceeds-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-subquery-nesting-depth-exceeds-threshold
+category: dml
+severity: warning
+tags:
+- review:SELECT`（包含多层嵌套子查询的语句）
+content:
+  zh:
+    name: 子查询的嵌套层次超过阈值
+    description: |-
+      子查询的嵌套会让SQL逻辑变得复杂，而过于复杂的SQL会导致数据库优化器在生成执行计划时需要搜索更大的解空间，使得计划生成时间变长，且容易生成性能较差的执行计划。在PawSQL中，子查询嵌套层次的默认阈值为2，用户可以在创建优化任务时修改此阈值。
+      当子查询嵌套层次超过阈值时，建议将部分子查询抽取为临时表、CTE（公共表表达式）或视图，以简化SQL结构，使优化器能够更高效地生成执行计划。
+    badExample: |-
+      -- ❌ 不推荐：子查询嵌套层次过深（3层），优化器难以生成最优计划
+      SELECT * FROM (SELECT * FROM (SELECT * FROM t) a) b;
+    goodExample: |-
+      -- ✅ 推荐：将子查询抽取为CTE，降低嵌套深度
+      WITH a AS (SELECT * FROM t)
+      SELECT * FROM a;
+  en:
+    name: Subquery Nesting Depth Exceeds Threshold

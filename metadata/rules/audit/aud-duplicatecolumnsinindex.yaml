@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引中不应该有重复列.md
+# TODO(产品核对): aud-duplicatecolumnsinindex → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-duplicatecolumnsinindex
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 索引中不应该有重复列
+    description: |-
+      索引中包含重复的列是不必要的，它不会提高查询性能，反而会浪费存储空间、增加索引维护开销，并可能导致索引效率降低。每个索引列在查找和排序中只起一次作用，重复列不会提供额外的优化帮助。
+      在创建复合索引时，应确保每一列在该索引中只出现一次，避免无意中重复添加相同字段。
+    badExample: |-
+      -- ❌ 不推荐：索引中有重复的字段名
+      CREATE INDEX idx_dup ON user(name, age, name);
+    goodExample: |-
+      -- ✅ 推荐：索引中每列只出现一次
+      CREATE INDEX idx_user ON user(name, age, email);
+  en:
+    name: DuplicateColumnsInIndex

@@ -1,0 +1,17 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引失效或不可见.md
+# TODO(产品核对): aud-index-invalid-or-invisible → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-index-invalid-or-invisible
+category: index
+severity: warning
+tags:
+- review:索引状态（周期性巡检）
+content:
+  zh:
+    name: 索引失效或不可见
+    description: |-
+      检测到索引处于失效（INVALID / UNUSABLE）或不可见（INVISIBLE）状态时，该索引无法被优化器使用，但仍在磁盘上占据存储空间，并可能在 DML 操作时仍消耗维护资源，影响系统整体性能。
+      索引的失效/不可见状态可能是由于维护操作（如分区 DDL、大量数据导入）导致的，也可能是人为手动设置的。应及时排查原因并恢复索引可用性，或直接删除不再需要的索引。
+  en:
+    name: Index Invalid or Invisible

@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/排序字段方向不同导致索引失效.md
+# TODO(产品核对): aud-mixed-sort-directions-cause-index-inefficiency → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-mixed-sort-directions-cause-index-inefficiency
+category: index
+severity: info
+tags:
+- review:SELECT`（包含ORDER BY多字段排序的语句）
+content:
+  zh:
+    name: 排序字段方向不同导致索引失效
+    description: |-
+      ORDER BY 子句中的所有表达式需要按统一的ASC或DESC方向排序，才能利用索引来避免显式排序操作。如果ORDER BY语句对多个字段使用了不同方向的排序（如`ORDER BY col1 ASC, col2 DESC`），数据库无法直接使用单方向的B-Tree索引来满足排序需求，必须执行额外的排序操作（FileSort），这在大数据量场景下会导致严重的性能问题。
+      当索引的排序方向与ORDER BY一致时，数据库可以沿索引顺序直接读取数据，完全跳过排序步骤，显著提升查询效率。
+    badExample: |-
+      -- ❌ 不推荐：col1升序、col2降序，方向不一致，导致索引(col1, col2)无法利用
+      SELECT * FROM t ORDER BY col1 ASC, col2 DESC;
+    goodExample: |-
+      -- ✅ 推荐：排序方向与索引一致，可直接利用索引避免额外排序
+      SELECT * FROM t ORDER BY col1 ASC, col2 ASC;
+  en:
+    name: Mixed Sort Directions Cause Index Inefficiency

@@ -1,0 +1,66 @@
+---
+id: optimizer-rule-opt-in-subquery-rewrite-optimization
+title: IN子查询优化
+type: reference
+status: draft
+owners: []
+entityRef:
+  type: rule
+  id: opt-in-subquery-rewrite-optimization
+tags:
+- optimizer-rule
+- rewrite
+description: '`IN` 子查询是指符合 `(expr1, expr2...) [NOT] IN (SELECT expr3, expr4, ...)`
+  形式的查询结构。IN 子查询可以改写成等价的相关 EXISTS 子查询或内连接（JOIN），从而产生一个新的过滤条件。如果该过滤条件上有合适的索引，或通过 PawSQL
+  索引推荐引擎推荐合适的索引，可以获得更好的性能。'
+localeOf: en-optimizer-rule-opt-in-subquery-rewrite-optimization
+subtype: rule
+language: zh
+translationKey: optimizer-rule-opt-in-subquery-rewrite-optimization
+layout: detail
+product: pawsql
+---
+
+> **生成文件，请勿手改。** 如需修改请更新源元数据 (`metadata/rules/optimizer/*.yaml`) 并重新运行生成器。
+
+| 字段 | 值 |
+|---|---|
+| 规则 ID | opt-in-subquery-rewrite-optimization |
+| 规则名称 | IN子查询优化 |
+| 类别 | rewrite（重写） |
+| 预警级别 | 提示 |
+| 适用数据库 | 待验证（尚未声明数据库范围） |
+
+## 说明
+
+`IN` 子查询是指符合 `(expr1, expr2...) [NOT] IN (SELECT expr3, expr4, ...)` 形式的查询结构。IN 子查询可以改写成等价的相关 EXISTS 子查询或内连接（JOIN），从而产生一个新的过滤条件。如果该过滤条件上有合适的索引，或通过 PawSQL 索引推荐引擎推荐合适的索引，可以获得更好的性能。
+PawSQL 支持两种重写策略：将 IN 子查询重写为 EXISTS 子查询（产生等值关联条件，便于索引利用）；或将 IN 子查询重写为内连接（当子查询结果不重复时，让优化器灵活选择驱动表）。
+
+## 反例
+
+```sql
+-- ❌ 不推荐：IN 子查询未产生显式等值条件，优化器选择受限
+SELECT * FROM customer
+WHERE c_custkey IN (
+    SELECT o_custkey FROM orders
+    WHERE o_orderdate >= CURRENT_DATE - INTERVAL 1 YEAR
+);
+```
+
+## 正例
+
+```sql
+-- ✅ 推荐：重写为 EXISTS，产生等值条件（c_custkey = o_custkey）
+SELECT * FROM customer
+WHERE EXISTS (
+    SELECT * FROM orders
+    WHERE c_custkey = o_custkey
+      AND o_orderdate >= CURRENT_DATE - INTERVAL 1 YEAR
+);
+
+-- ✅ 推荐：重写为内连接（当子查询结果唯一时，如 c_custkey 是主键）
+SELECT orders.*
+FROM orders, customer
+WHERE o_custkey = c_custkey
+  AND c_phone LIKE '139%';
+```

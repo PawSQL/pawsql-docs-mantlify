@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/长度大于阈值的字段建立索引时使用前缀.md
+# TODO(产品核对): aud-use-prefix-index-for-long-varchar-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-prefix-index-for-long-varchar-columns
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+content:
+  zh:
+    name: 长度大于阈值的字段建立索引时使用前缀
+    description: |-
+      对于长度较长的 VARCHAR 字段（默认阈值 50 字符），如果对其整个字段建立索引，会导致索引体积庞大、索引维护成本高、索引扫描效率低下。使用前缀索引（仅索引字段的前 N 个字符）可以在保证较好区分度的前提下，大幅减小索引体积，提高索引的创建速度和扫描效率。
+      在创建前缀索引时，需要根据数据的实际分布选择合适的索引长度。索引长度过短可能导致区分度不足，索引长度过长则失去前缀索引的意义。可以通过 `SELECT COUNT(DISTINCT LEFT(col, N)) / COUNT(*)` 来评估不同前缀长度的区分度。
+    badExample: |-
+      -- ❌ 不推荐：对长 VARCHAR 字段建立全字段索引，索引体积大、效率低
+      CREATE INDEX idx_article_content ON article(content);
+    goodExample: |-
+      -- ✅ 推荐：使用前缀索引，在区分度和索引体积之间取得平衡
+      CREATE INDEX idx_article_content ON article(content(20));
+  en:
+    name: Use Prefix Index for Long VARCHAR Columns

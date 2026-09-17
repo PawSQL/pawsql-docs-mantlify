@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/对象名称长度不得超过阈值.md
+# TODO(产品核对): aud-object-name-length-must-not-exceed-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-object-name-length-must-not-exceed-threshold
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE INDEX
+- review:CREATE PROCEDURE
+- review:CREATE FUNCTION
+- review:CREATE VIEW` 等所有DDL对象创建语句
+content:
+  zh:
+    name: 对象名称长度不得超过阈值
+    description: |-
+      限制数据库对象名称的长度是为了确保符合数据库的命名规则，同时便于代码维护和阅读。过长的对象名称（如表名、索引名、视图名等）不仅会降低代码可读性，还可能导致一些数据库系统因内部限制而截断名称，引发难以排查的问题。此外，过长的索引名和约束名在某些数据库中可能突破系统长度限制，导致DDL执行失败。
+      该规则检查所有DDL语句中创建或修改的对象名称长度是否超过预设阈值（默认64个字符）。
+    badExample: |-
+      -- ❌ 不推荐：对象名称超长，可读性差且可能突破数据库限制
+      CREATE TABLE this_is_a_very_long_table_name_that_exceeds_limit (id INT);
+    goodExample: |-
+      -- ✅ 推荐：对象名称简洁明确，符合长度规范
+      CREATE TABLE user_profile (id INT);
+  en:
+    name: Object Name Length Must Not Exceed Threshold

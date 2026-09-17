@@ -1,0 +1,38 @@
+# Canonical source: vault 20-engine/rules/规则文档/SATTC重写优化.md
+# TODO(产品核对): opt-sattc-rewrite-optimization → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-sattc-rewrite-optimization
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: SATTC重写优化
+    description: |-
+      SAT-TC（SATisfiability-Transitive Closure）重写优化是指对一组相关的查询条件进行逻辑分析，发现其中自相矛盾的条件、可简化的表达式，或推断出新的过滤条件，从而帮助数据库优化器选择更好的执行计划。
+      具体包括三种场景：第一，条件自相矛盾（如 `c_name = 'John' AND c_name = 'Jessey'`），可直接简化为 `WHERE 1=0` 避免无效扫描；第二，条件可简化（如 `c_custkey <> c_custkey OR c_name = 'b'` 简化为 `c_name = 'b'`）；第三，从谓词集中推断新条件（如 `c_custkey=1 AND c_custkey=o_custkey` 意味着 `o_custkey=1`），新增的过滤条件可进一步缩小数据范围。
+    badExample: |-
+      -- ❌ 不推荐：条件自相矛盾，但未优化
+      SELECT c.c_name FROM customer c
+      WHERE c.c_name = 'John' AND c.c_name = 'Jessey';
+
+      -- ❌ 不推荐：条件可简化但未简化
+      SELECT * FROM customer WHERE c_custkey <> c_custkey OR c_name = 'b';
+
+      -- ❌ 不推荐：缺少传递闭包推断的新条件
+      SELECT * FROM customer c, orders o
+      WHERE c_custkey = 1 AND c_custkey = o_custkey;
+    goodExample: |-
+      -- ✅ 推荐：SATTC 识别矛盾后简化为 1=0，避免无效扫描
+      SELECT c.c_name FROM customer c WHERE 1 = 0;
+
+      -- ✅ 推荐：简化冗余条件
+      SELECT * FROM customer WHERE c_name = 'b';
+
+      -- ✅ 推荐：SATTC 推断出 o_custkey = 1，增加过滤条件
+      SELECT * FROM customer c, orders o
+      WHERE c_custkey = 1 AND c_custkey = o_custkey AND o_custkey = 1;
+  en:
+    name: SATTC Rewrite Optimization

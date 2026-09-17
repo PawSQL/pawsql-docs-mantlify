@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/外连接优化.md
+# TODO(产品核对): aud-outer-join-to-inner-join-conversion → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-outer-join-to-inner-join-conversion
+category: dml
+severity: info
+tags:
+- review:SELECT`（包含LEFT/RIGHT OUTER JOIN的语句）
+content:
+  zh:
+    name: 外连接优化
+    description: |-
+      外连接优化指的是当外表（OUTER JOIN中可为NULL的一侧）的WHERE条件中包含NULL拒绝条件（Null-Rejecting Condition）时，该外连接可以安全地转化为内连接。这一转化使得数据库优化器在选择执行计划时拥有更大的自由度：优化器可以更灵活地选择驱动表，并可以先应用过滤条件获取较小的结果集，再进行表关联，从而显著提升SQL查询的性能。
+      例如，当LEFT JOIN的右表上存在`WHERE`过滤条件（如`col < 20`、`col IS NOT NULL`等）时，该条件隐含地拒绝了NULL行，因此外连接退化为内连接，优化器可以利用这一特性生成更优的执行计划。
+    badExample: ''
+    goodExample: |-
+      -- ✅ 优化前：LEFT JOIN 的右表 WHERE 条件隐含非空约束
+      SELECT c_custkey
+      FROM orders
+      LEFT JOIN customer ON c_custkey = o_custkey
+      WHERE C_NATIONKEY < 20;
+
+      -- ✅ 优化后：外连接退化为内连接，优化器可选择更优连接顺序
+      SELECT c_custkey
+      FROM orders
+      INNER JOIN customer ON c_custkey = o_custkey
+      WHERE C_NATIONKEY < 20;
+  en:
+    name: Outer Join to Inner Join Conversion

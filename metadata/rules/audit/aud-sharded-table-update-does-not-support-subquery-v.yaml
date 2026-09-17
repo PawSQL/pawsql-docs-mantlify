@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/分片表不支持UPDATE更新的值为子查询.md
+# TODO(产品核对): aud-sharded-table-update-does-not-support-subquery-v → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-sharded-table-update-does-not-support-subquery-v
+category: dml
+severity: error
+tags:
+- review:UPDATE
+content:
+  zh:
+    name: 分片表不支持 UPDATE 更新的值为子查询
+    description: |-
+      在 TDSQL 等分布式数据库中，`UPDATE` 语句的 `SET` 子句的值部分不支持使用子查询。这是分布式数据库在语法层面的实现限制，如果违反会导致 SQL 执行直接报错。
+      如果需要基于另一张表的数据来更新本表，建议通过应用程序分步查询和更新，或使用多表 `UPDATE ... JOIN` 语法（如果数据库支持）来实现。
+    badExample: |-
+      -- ❌ 不推荐：分片表 UPDATE 的 SET 子句使用了子查询（不支持）
+      UPDATE t_order
+      SET total = (SELECT MAX(amount) FROM t_payment)
+      WHERE id = 1;
+    goodExample: |-
+      -- ✅ 推荐：在应用层分步执行，先查询再更新
+      -- 步骤一：SELECT MAX(amount) INTO @max_amount FROM t_payment;
+      -- 步骤二：UPDATE t_order SET total = @max_amount WHERE id = 1;
+  en:
+    name: Sharded Table UPDATE Does Not Support Subquery Values

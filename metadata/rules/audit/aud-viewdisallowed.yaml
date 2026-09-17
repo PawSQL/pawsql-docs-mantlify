@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用视图.md
+# TODO(产品核对): aud-viewdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-viewdisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE VIEW
+content:
+  zh:
+    name: 禁止使用视图
+    description: |-
+      禁止在 MySQL 核心业务中大量使用视图。视图难以建立有效索引，MySQL 在执行涉及视图的查询时通常会将其展开为复杂子查询，这会使得优化器失去谓词下推与索引利用的机会，带来不可控的性能退化和执行计划不稳定。此外，嵌套视图和多层视图依赖关系使得问题排查和性能调优异常困难。
+      推荐将关键查询逻辑下沉为可控的物化结果表，或在应用侧/SQL 中显式展开查询并针对性地建立索引优化。如果仅用于封装查询权限，可通过应用层的查询接口封装替代。
+    badExample: |-
+      -- ❌ 不推荐：视图难以建立索引，性能不可控
+      CREATE VIEW v_active_orders AS
+      SELECT * FROM orders WHERE status = 'active';
+
+      -- ❌ 不推荐：嵌套视图导致执行计划复杂
+      CREATE VIEW v_summary AS
+      SELECT * FROM v_active_orders WHERE amount > 100;
+    goodExample: |-
+      -- ✅ 推荐：直接使用基表查询，配合合理索引
+      SELECT * FROM orders WHERE status = 'active' AND amount > 100;
+  en:
+    name: ViewDisallowed

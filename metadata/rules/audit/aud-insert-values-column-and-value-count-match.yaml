@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/INSERT...VALUES列和值数量一致.md
+# TODO(产品核对): aud-insert-values-column-and-value-count-match → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-insert-values-column-and-value-count-match
+category: dml
+severity: error
+tags:
+- review:INSERT
+content:
+  zh:
+    name: INSERT...VALUES列和值数量一致
+    description: |-
+      `INSERT INTO ... VALUES` 语句根据列的声明顺序与值的排列顺序建立对应关系。如果显式指定的列数量与 VALUES 中提供的值的数量不一致，说明 SQL 语句存在语法错误或逻辑错误，将无法正确执行。这是一种基本的 SQL 正确性约束。
+      此规则在 PawSQL 中被归类为禁止级别规则，检测到列值数量不匹配时直接拦截，防止错误 SQL 进入生产环境。
+    badExample: |-
+      -- ❌ 禁止：列数（2）与值数（1）不匹配
+      INSERT INTO t (a, b) VALUES (1);
+    goodExample: |-
+      -- ✅ 推荐：列数与值数一致
+      INSERT INTO t (a, b) VALUES (1, 2);
+  en:
+    name: INSERT VALUES Column and Value Count Match

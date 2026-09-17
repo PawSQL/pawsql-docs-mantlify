@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免使用STRAIGHT JOIN.md
+# TODO(产品核对): aud-avoid-straight-join → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoid-straight-join
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免使用STRAIGHT JOIN
+    description: |-
+      STRAIGHT JOIN 是 MySQL 特有的一种表连接方式，它会强制优化器按照 FROM 子句中表的书写顺序来进行表连接，在结果上等价于内连接。它给予了开发人员对数据库执行计划的一定的控制能力，但也因此剥夺了优化器进行表连接顺序优化的机会。
+      MySQL 优化器的连接顺序优化是提升多表 JOIN 性能的关键手段之一。使用 STRAIGHT JOIN 意味着绕过了这一优化，极易导致选择非最优的连接顺序，引发严重的性能问题。除非你对其影响有充分把握，否则不应使用。PawSQL 对使用 STRAIGHT_JOIN 的语句进行风险提示。
+    badExample: |-
+      -- ❌ 不推荐：STRAIGHT JOIN 强制连接顺序，绕过优化器
+      SELECT * FROM large_table STRAIGHT_JOIN small_table ON large_table.id = small_table.id;
+    goodExample: |-
+      -- ✅ 推荐：使用普通的 JOIN，让优化器选择最优连接顺序
+      SELECT * FROM large_table JOIN small_table ON large_table.id = small_table.id;
+  en:
+    name: Avoid STRAIGHT JOIN

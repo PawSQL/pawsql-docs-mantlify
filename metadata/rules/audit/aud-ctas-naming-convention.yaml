@@ -1,0 +1,21 @@
+# Canonical source: vault 20-engine/rules/规则文档/CTAS 命名规范.md
+# TODO(产品核对): aud-ctas-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-ctas-naming-convention
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE AS SELECT
+content:
+  zh:
+    name: CTAS 命名规范
+    description: '`CREATE TABLE AS SELECT`（CTAS）语句创建的数据库对象名称应遵循统一的命名规范。规范的命名有助于团队协作和代码维护，不规范的命名会增加沟通成本、降低代码可读性，在跨团队协作时尤其容易引发误解。此规则要求 CTAS 创建的表名符合配置的正则表达式模式，确保数据库对象命名的一致性与可追溯性。'
+    badExample: |-
+      -- ❌ 不推荐：CTAS 创建的表名不符合命名规范
+      CREATE TABLE MyDatabase (id INT) AS SELECT * FROM t;
+    goodExample: |-
+      -- ✅ 推荐：表名符合命名规范（如模式 ^{table}_ts$）
+      CREATE TABLE t_ts (id INT) AS SELECT * FROM t;
+  en:
+    name: CTAS Naming Convention

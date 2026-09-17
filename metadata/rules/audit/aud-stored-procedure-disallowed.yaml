@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用存储过程.md
+# TODO(产品核对): aud-stored-procedure-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-stored-procedure-disallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE PROCEDURE
+content:
+  zh:
+    name: 禁止使用存储过程
+    description: |-
+      禁止创建和使用存储过程。存储过程将业务逻辑固化在数据库中，导致应用与数据库高度耦合，不利于系统扩展、维护和分布式改造。在分布式数据库中，存储过程的跨节点执行和事务处理非常复杂，且慢查询日志难以定位存储过程内部的具体问题，故障排查难度极大。存储过程中的逻辑也不便于版本控制和代码审查，脱离了应用的标准 CI/CD 流程。
+      实时交易处理中的业务逻辑应严格在应用层实现，保持数据库作为纯粹的数据存储和检索引擎的角色，以此确保架构的清晰分层和可维护性。
+    badExample: |-
+      -- ❌ 不推荐：存储过程耦合业务逻辑，难以维护和调试
+      DELIMITER //
+      CREATE PROCEDURE GetUserOrders(IN userId INT)
+      BEGIN
+          SELECT * FROM orders WHERE user_id = userId;
+      END //
+      DELIMITER ;
+    goodExample: |-
+      -- ✅ 推荐：业务逻辑在应用层实现
+      -- 应用代码示例：
+      -- const orders = db.query('SELECT * FROM orders WHERE user_id = ?', [userId]);
+  en:
+    name: Stored Procedure Disallowed

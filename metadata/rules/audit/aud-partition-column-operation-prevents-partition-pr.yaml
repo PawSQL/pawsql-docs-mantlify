@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/分区字段上有运算导致无法进行分区裁剪.md
+# TODO(产品核对): aud-partition-column-operation-prevents-partition-pr → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-partition-column-operation-prevents-partition-pr
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 分区字段上有运算导致无法进行分区裁剪
+    description: |-
+      当 `WHERE` 子句中的分区字段参与算术运算、函数调用或类型转换时，查询优化器无法识别分区过滤条件，导致分区裁剪功能失效。这意味着查询将扫描所有分区而非仅扫描目标分区，严重降低查询性能。
+      分区裁剪是大数据查询优化的核心手段之一。确保分区字段在过滤条件中"干净"地参与比较——不包裹任何函数或运算——是保障分区裁剪生效的基本前提。常见的问题模式包括对日期分区字段使用 `YEAR()`、`TO_DATE()` 等函数。
+    badExample: |-
+      -- ❌ 不推荐：分区字段上使用了函数，无法进行分区裁剪
+      SELECT * FROM sales_table
+      WHERE YEAR(dt) >= 2024;
+    goodExample: |-
+      -- ✅ 推荐：直接对分区字段进行比较，分区裁剪生效
+      SELECT * FROM sales_table
+      WHERE dt >= '2024-01-01';
+  en:
+    name: Partition Column Operation Prevents Partition Pruning

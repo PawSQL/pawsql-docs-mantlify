@@ -1,0 +1,36 @@
+# Canonical source: vault 20-engine/rules/规则文档/主外键的数据类型不一致.md
+# TODO(产品核对): aud-diffdatatypesofricolumns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-diffdatatypesofricolumns
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD CONSTRAINT
+content:
+  zh:
+    name: 主外键的数据类型不一致
+    description: |-
+      主外键的数据类型必须保持一致，这是保障数据完整性和查询性能的重要约束。当主键和外键的数据类型不一致时，数据库在表关联（JOIN）操作中可能无法使用索引，导致全表扫描，严重降低查询性能。此外，类型不一致还可能导致隐式类型转换，引发数据截断、精度丢失或错误的比较结果。
+      合理的字段定义可以保证数据一致性、节省存储空间、避免隐式转换导致的性能问题。违反此规则的表结构可能在数据插入、更新或查询时出现意外行为。
+    badExample: |-
+      -- ❌ 不推荐：主外键数据类型不一致，可能导致索引失效
+      CREATE TABLE parent (
+          id BIGINT PRIMARY KEY
+      );
+      CREATE TABLE child (
+          parent_id INT,
+          FOREIGN KEY (parent_id) REFERENCES parent(id)
+      );
+    goodExample: |-
+      -- ✅ 推荐：主外键数据类型保持一致
+      CREATE TABLE parent (
+          id BIGINT PRIMARY KEY
+      );
+      CREATE TABLE child (
+          parent_id BIGINT,
+          FOREIGN KEY (parent_id) REFERENCES parent(id)
+      );
+  en:
+    name: DiffDataTypesOfRIColumns

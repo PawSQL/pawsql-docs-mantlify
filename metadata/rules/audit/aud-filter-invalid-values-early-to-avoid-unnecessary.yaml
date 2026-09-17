@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/提前过滤不合法的值避免多余计算.md
+# TODO(产品核对): aud-filter-invalid-values-early-to-avoid-unnecessary → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-filter-invalid-values-early-to-avoid-unnecessary
+category: dml
+severity: info
+tags:
+- review:SELECT`（Hive环境中包含JOIN的查询）
+content:
+  zh:
+    name: 提前过滤不合法的值避免多余计算
+    description: |-
+      在Hive关联查询中，应该在Map阶段就尽早过滤掉NULL值、空字符串或其他不合法的数据，避免这些无效数据参与后续的Shuffle、计算和关联操作。未提前过滤的无效数据不仅浪费集群的计算资源和网络带宽，还可能导致数据倾斜——大量NULL值被路由到同一个Reducer，造成该节点处理时间远超其他节点。
+      PawSQL for Hive引擎提供针对此问题的自动重写优化建议，能够在关联查询中自动检测关联字段的可空性，并在子查询中预先添加过滤条件，将无效数据在Map阶段即排除。
+    badExample: |-
+      -- ❌ 不推荐：关联字段可能包含NULL和空字符串，无效数据参与Shuffle和计算
+      SELECT *
+      FROM customer, orders
+      WHERE c_custkey = o_custkey;
+    goodExample: |-
+      -- ✅ 推荐：在子查询中提前过滤空值和空字符串，减少Shuffle数据量
+      SELECT *
+      FROM (SELECT * FROM customer WHERE c_custkey <> '') AS c,
+           (SELECT * FROM orders WHERE o_custkey <> '') AS o
+      WHERE c.c_custkey = o.o_custkey;
+  en:
+    name: Filter Invalid Values Early to Avoid Unnecessary Computation

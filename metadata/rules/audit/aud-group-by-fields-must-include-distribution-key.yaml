@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/分组字段不包含分布键.md
+# TODO(产品核对): aud-group-by-fields-must-include-distribution-key → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-group-by-fields-must-include-distribution-key
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 分组字段不包含分布键
+    description: |-
+      当对分片表进行 `GROUP BY` 分组操作时，如果分组字段不包含分布键，则需要在各个分片上分别完成分组计算，然后将各分片的结果集拉取到协调节点再进行一轮全局分组和聚合。这个"数据重分布"过程会产生大量的网络传输开销和额外的 CPU 计算，严重影响查询性能。
+      应尽量使 `GROUP BY` 的字段包含分布键，这样每个分片可以独立完成分组聚合而无需跨节点传输中间结果，实现分片本地化的高效聚合计算。
+    badExample: |-
+      -- ❌ 不推荐：GROUP BY 字段不包含分布键，需要全局聚合
+      SELECT status, COUNT(*)
+      FROM t_order
+      GROUP BY status;
+    goodExample: |-
+      -- ✅ 推荐：GROUP BY 字段包含分布键，分片本地化聚合
+      SELECT id, status, COUNT(*)
+      FROM t_order
+      GROUP BY id, status;
+  en:
+    name: GROUP BY Fields Must Include Distribution Key

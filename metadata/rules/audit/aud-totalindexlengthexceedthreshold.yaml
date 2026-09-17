@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引长度不得超过阈值.md
+# TODO(产品核对): aud-totalindexlengthexceedthreshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-totalindexlengthexceedthreshold
+category: index
+severity: info
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 索引长度不得超过阈值
+    description: |-
+      InnoDB 引擎对索引的最大长度有严格限制：单列索引最大长度为 3072 字节（utf8mb4 字符集下 VARCHAR(768)），复合索引中所有列的总长度也不能超过此限制。如果索引字段过长，可能导致索引创建失败或索引效率严重低下。
+      建议通过创建前缀索引来避免此问题，仅对字段的前 N 个字符建立索引，在满足查询需求的前提下尽可能减小索引体积。默认阈值为 3072 字节。
+    badExample: |-
+      -- ❌ 不推荐：索引总长度超过阈值（utf8mb4 下 VARCHAR(1000) 索引约 4000 字节）
+      CREATE INDEX idx_content ON article(content VARCHAR(1000));
+    goodExample: |-
+      -- ✅ 推荐：使用前缀索引控制索引大小
+      CREATE INDEX idx_content ON article(content(100));
+  en:
+    name: TotalIndexLengthExceedThreshold

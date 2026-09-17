@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/深分页优化.md
+# TODO(产品核对): opt-deep-pagination-optimization → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-deep-pagination-optimization
+category: rewrite
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 深分页优化
+    description: |-
+      深分页指的是翻页请求中的页码数非常大、OFFSET 数值非常大的情况。如果直接使用 `LIMIT offset, limit` 的方式进行分页，当 OFFSET 超过阈值（如 10000）时性能会明显下降。原因是数据库会先获取符合条件的 `offset + n` 行数据，然后再丢弃前 `offset` 行，返回后 `n` 行——这意味着 `LIMIT 10000, 10` 需要扫描并回表 10010 次，大量时间消耗在回表操作上。
+      优化的核心思路是减少回表次数：通过子查询先定位主键（利用覆盖索引避免回表），再通过主键关联回表获取完整行数据。当查询涉及的字段数较少（<=4）时，直接创建覆盖索引即可；当字段较多时，推荐采用"延迟关联"的重写策略。
+    badExample: |-
+      -- ❌ 不推荐：大 OFFSET 导致大量无效回表
+      SELECT * FROM orders WHERE O_ORDERSTATUS = '1' ORDER BY O_ORDERKEY LIMIT 10000, 10;
+    goodExample: |-
+      -- ✅ 推荐：子查询 + 覆盖索引 减少回表（延迟关联）
+      SELECT o.*
+      FROM orders AS o
+      INNER JOIN (
+          SELECT O_ORDERKEY
+          FROM orders
+          WHERE O_ORDERSTATUS = '1'
+          ORDER BY O_ORDERKEY
+          LIMIT 10 OFFSET 10000
+      ) AS orders_dt ON o.O_ORDERKEY = orders_dt.O_ORDERKEY;
+  en:
+    name: Deep Pagination Optimization

@@ -1,0 +1,32 @@
+# Canonical source: vault 20-engine/rules/规则文档/非空列需指定带默认值.md
+# TODO(产品核对): aud-default-value-required-for-not-null-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-default-value-required-for-not-null-columns
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 非空列需指定带默认值
+    description: |-
+      对于定义为 NOT NULL 的列，如果在 INSERT 语句中未显式指定该列的值且该列没有默认值，数据库将抛出错误，导致插入操作失败。这不仅增加了应用程序的异常处理复杂度，也可能在批量数据导入或数据迁移场景中造成大面积的插入失败。
+      为所有 NOT NULL 列指定默认值是一种防御性的数据库设计实践。它确保了即使在 INSERT 语句中遗漏了某些列，数据库也能通过默认值来生成合法数据，而非直接拒绝操作。默认值的选择应符合业务语义（如状态字段默认 0、布尔字段默认 false、时间字段默认当前时间戳等）。
+    badExample: |-
+      -- ❌ 不推荐：NOT NULL 列缺少 DEFAULT 值，INSERT 不指定该列会报错
+      CREATE TABLE user (
+          id INT NOT NULL,
+          status TINYINT NOT NULL,
+          created_at DATETIME NOT NULL
+      );
+    goodExample: |-
+      -- ✅ 推荐：为 NOT NULL 列指定合理的默认值
+      CREATE TABLE user (
+          id INT NOT NULL AUTO_INCREMENT,
+          status TINYINT NOT NULL DEFAULT 0,
+          created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+      );
+  en:
+    name: Default Value Required for NOT NULL Columns

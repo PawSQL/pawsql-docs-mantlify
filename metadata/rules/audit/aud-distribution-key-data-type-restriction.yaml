@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布键的数据类型限制.md
+# TODO(产品核对): aud-distribution-key-data-type-restriction → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-distribution-key-data-type-restriction
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 分布键的数据类型限制
+    description: |-
+      分布键（Shardkey）的数据类型有明确的限制，只能为 `int`、`bigint`、`smallint`、`char`、`varchar` 这五种类型。使用不兼容的数据类型（如 `DATE`、`FLOAT`、`TEXT`、`BLOB` 等）作为分布键会导致建表失败或路由异常。
+      选择正确且简洁的分布键数据类型，可以减少哈希计算和路由判定的开销，确保分布式数据库的高效运行。
+    badExample: |-
+      -- ❌ 不推荐：使用不兼容的数据类型（如 DATE）作为分布键
+      CREATE TABLE t_order (
+          date_col DATE,
+          amount   DECIMAL(10, 2)
+      ) shardkey = date_col;
+    goodExample: |-
+      -- ✅ 推荐：使用兼容的数据类型（如 BIGINT）作为分布键
+      CREATE TABLE t_order (
+          id       BIGINT,
+          date_col DATE,
+          amount   DECIMAL(10, 2)
+      ) shardkey = id;
+  en:
+    name: Distribution Key Data Type Restriction

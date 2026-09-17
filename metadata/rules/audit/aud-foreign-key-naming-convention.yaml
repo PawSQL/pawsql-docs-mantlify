@@ -1,0 +1,33 @@
+# Canonical source: vault 20-engine/rules/规则文档/外键命名规范.md
+# TODO(产品核对): aud-foreign-key-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-foreign-key-naming-convention
+category: index
+severity: info
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD CONSTRAINT
+content:
+  zh:
+    name: 外键命名规范
+    description: |-
+      外键命名规范要求为外键约束指定统一、可辨识的名称，通常格式为包含引用表名、引用列名、被引用表名和被引用列名的组合（如`fk_引用表_引用列_被引用表_被引用列`）。规范的命名便于团队成员快速理解表之间的依赖关系，在排查数据完整性问题和进行数据库变更时尤为重要。
+      不规范的命名会增加沟通成本，降低代码可读性。在跨团队协作或大型项目中，混乱的外键命名可能导致误删约束或错误的级联操作，引发数据不一致。
+    badExample: |-
+      -- ❌ 不推荐：外键名称无意义，无法识别引用关系
+      CREATE TABLE orders (
+          order_id INT PRIMARY KEY,
+          customer_id INT,
+          CONSTRAINT fk_1 FOREIGN KEY (customer_id) REFERENCES customers(id)
+      );
+    goodExample: |-
+      -- ✅ 推荐：外键名称清晰反映引用关系
+      CREATE TABLE orders (
+          order_id INT PRIMARY KEY,
+          customer_id INT,
+          CONSTRAINT fk_orders_customer_id_customers_id
+              FOREIGN KEY (customer_id) REFERENCES customers(id)
+      );
+  en:
+    name: Foreign Key Naming Convention

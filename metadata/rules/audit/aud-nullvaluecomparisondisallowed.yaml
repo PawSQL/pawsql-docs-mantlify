@@ -1,0 +1,32 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用=NULL判断空值.md
+# TODO(产品核对): aud-nullvaluecomparisondisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-nullvaluecomparisondisallowed
+category: dml
+severity: warning
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+- review:INSERT...SELECT
+content:
+  zh:
+    name: 禁止使用=NULL判断空值
+    description: |-
+      在 SQL 中，`= NULL` 并不能正确判断表达式是否为空——`= NULL` 的比较结果始终为 `UNKNOWN`（等价于假），因此永远无法匹配到 NULL 行。正确的空值判断应使用 `IS NULL` 或 `IS NOT NULL`。同样，`CASE expr WHEN NULL` 也无法正确判断空值，应改为 `CASE WHEN expr IS NULL`。
+      在 `WHERE`/`HAVING` 筛选条件中的错误写法相对容易发现和纠正，而隐藏在 `CASE` 语句中的 NULL 值判断错误则更为隐蔽，可能导致业务逻辑静默出错，排查成本极高。该规则是 SQL 正确性的基础保障。
+    badExample: |-
+      -- ❌ 不推荐：= NULL 永远为假，无法匹配空值行
+      SELECT * FROM t WHERE nullable_col = NULL;
+
+      -- ❌ 不推荐：CASE WHEN NULL 判断不可靠
+      SELECT CASE col WHEN NULL THEN 'empty' ELSE 'has value' END FROM t;
+    goodExample: |-
+      -- ✅ 推荐：使用 IS NULL 正确判断空值
+      SELECT * FROM t WHERE nullable_col IS NULL;
+
+      -- ✅ 推荐：CASE 中正确判断空值
+      SELECT CASE WHEN col IS NULL THEN 'empty' ELSE 'has value' END FROM t;
+  en:
+    name: NullValueComparisonDisallowed

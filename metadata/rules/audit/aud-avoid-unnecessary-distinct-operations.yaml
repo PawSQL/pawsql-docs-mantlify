@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免不必要的去重操作.md
+# TODO(产品核对): aud-avoid-unnecessary-distinct-operations → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoid-unnecessary-distinct-operations
+category: dml
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 避免不必要的去重操作
+    description: |-
+      `SELECT DISTINCT` 会引入昂贵的去重操作（通常需要排序或哈希聚合），消耗额外的 CPU 和内存资源。如果查询逻辑本身能保证结果的唯一性--例如 SELECT 列表中已包含主键或唯一索引的所有列，或者外层查询已执行去重--那么内部的 DISTINCT 就是多余的，应当予以去除。
+      移除不必要的去重操作可以避免数据库执行无意义的排序或哈希聚合，直接降低查询的资源消耗和执行时间。
+    badExample: |-
+      -- ❌ 不推荐：id 是主键，结果本身唯一，DISTINCT 是多余的
+      SELECT DISTINCT id, name FROM user;
+    goodExample: |-
+      -- ✅ 推荐：去除多余的 DISTINCT
+      SELECT id, name FROM user;
+  en:
+    name: Avoid Unnecessary DISTINCT Operations

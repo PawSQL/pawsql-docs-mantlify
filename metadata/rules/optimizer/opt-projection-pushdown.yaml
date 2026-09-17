@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/投影下推(PROJECTION PUSHDOWN).md
+# TODO(产品核对): opt-projection-pushdown → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-projection-pushdown
+category: rewrite
+severity: info
+tags:
+- review:SELECT`（包含派生表
+- review:CTE或视图子查询的语句）
+content:
+  zh:
+    name: 投影下推(PROJECTION PUSHDOWN)
+    description: |-
+      投影下推（Projection Pushdown）指的是通过删除派生表（Derived Table）、CTE或视图子查询中外层查询未使用的列，来减少不必要的IO和网络传输代价。同时，删除无用列后，优化器在进行表访问规划时，有更大概率选择"无需回表"的覆盖索引扫描（Index-Only Scan），进一步提升查询性能。
+      该优化是查询重写的关键技术之一。许多数据库（如MySQL 5.7+、PostgreSQL 14.0+）已在优化器内部支持部分投影下推优化；但PawSQL的投影下推覆盖更广泛的场景，包括跨查询块的列级分析。
+    badExample: ''
+    goodExample: |-
+      -- ✅ 优化前：派生表中计算了avg(age)，但外层未使用，造成不必要的计算和IO
+      SELECT count(1) FROM (SELECT c_custkey, avg(age) FROM customer GROUP BY c_custkey) AS derived_t1;
+
+      -- ✅ 优化后：投影下推，消除无用列，减少数据访问量
+      SELECT count(1) FROM (SELECT 1 FROM customer GROUP BY c_custkey) AS derived_t1;
+  en:
+    name: Projection Pushdown

@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免对条件字段使用负向查询.md
+# TODO(产品核对): aud-avoid-negative-queries-on-filter-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoid-negative-queries-on-filter-columns
+category: index
+severity: warning
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 避免对条件字段使用负向查询
+    description: |-
+      负向查询指的是使用否定条件的查询，包括 `<>`（不等于）、`!=`、`NOT IN`、`NOT EXISTS`、`NOT LIKE`、`IS NOT NULL` 等否定谓词。此类查询通常无法利用索引进行快速数据定位，因为索引擅长的是"找到符合某值的行"，而非"排除不符合某值的行"。数据库往往需要对大量数据进行全索引扫描甚至全表扫描才能完成负向条件的评估。
+      在业务允许的情况下，建议将负向查询改写为正向查询，或通过其他方式（如将 NULL 替换为默认值来避免 `IS NOT NULL`）来提升查询性能。
+    badExample: |-
+      -- ❌ 不推荐：负向查询 <> 无法有效利用索引
+      SELECT * FROM t WHERE status <> 1;
+    goodExample: |-
+      -- ✅ 推荐：改写为正向查询，可利用索引
+      SELECT * FROM t WHERE status IN (0, 2, 3);
+  en:
+    name: Avoid Negative Queries on Filter Columns

@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/OR条件的UPDELETE重写.md
+# TODO(产品核对): opt-or-condition-updatedelete-rewrite → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-or-condition-updatedelete-rewrite
+category: rewrite
+severity: info
+tags:
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: OR条件的UPDELETE重写
+    description: |-
+      当 UPDATE 或 DELETE 语句的 WHERE 条件使用 `OR` 连接不同字段时，数据库优化器可能无法有效利用索引来完成数据定位。OR 条件可能导致全表扫描执行 UPDATE/DELETE，在大数据量下锁表时间极长，严重影响并发性能。
+      PawSQL 自动检测此类模式，将包含 OR 条件的 UPDATE/DELETE 语句拆分为多条独立的语句，使每条语句可以独立利用对应字段上的索引，缩小锁范围并提升执行效率。
+    badExample: |-
+      -- ❌ 不推荐：OR 连接不同字段，UPDATE 可能全表扫描
+      DELETE FROM lineitem
+      WHERE l_shipdate = DATE '2010-12-01' OR l_partkey < 100;
+    goodExample: |-
+      -- ✅ 推荐：拆分为多条语句，各分支可独立利用索引
+      DELETE FROM lineitem WHERE l_shipdate = DATE '2010-12-01';
+      DELETE FROM lineitem WHERE l_partkey < 100;
+  en:
+    name: OR Condition UPDATE/DELETE Rewrite

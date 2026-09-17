@@ -1,0 +1,40 @@
+# Canonical source: vault 20-engine/rules/规则文档/IN子查询中没有LIMIT的排序消除.md
+# TODO(产品核对): opt-order-elimination-in-subquery-without-limit → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-order-elimination-in-subquery-without-limit
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: IN子查询中没有LIMIT的排序消除
+    description: |-
+      如果子查询没有 LIMIT 子句，那么子查询内部的 ORDER BY 排序操作就没有任何意义，因为外部查询不会依赖于子查询结果的排序顺序。多余的排序操作会消耗额外的 CPU 和内存资源，可以将其安全删除而不影响最终的结果。
+      此规则适用于所有包含 ORDER BY 但没有 LIMIT 的子查询场景，包括 EXISTS 子查询、IN 子查询以及派生表（DT）子查询等。PawSQL 自动识别并消除无意义的排序操作。
+    badExample: |-
+      -- ❌ 不推荐：EXISTS 子查询中的 ORDER BY 无意义（无 LIMIT）
+      SELECT * FROM lineitem l
+      WHERE EXISTS (
+          SELECT * FROM part p
+          WHERE p.p_partkey = l.l_partkey AND p.p_name = 'a'
+          ORDER BY p_name
+      );
+
+      -- ❌ 不推荐：IN 子查询中的 ORDER BY 无意义（无 LIMIT）
+      SELECT * FROM orders
+      WHERE o_custkey IN (SELECT c_custkey FROM customer ORDER BY c_name);
+    goodExample: |-
+      -- ✅ 推荐：消除无意义的排序
+      SELECT * FROM lineitem l
+      WHERE EXISTS (
+          SELECT * FROM part p
+          WHERE p.p_partkey = l.l_partkey AND p.p_name = 'a'
+      );
+
+      -- ✅ 推荐：消除排序
+      SELECT * FROM orders
+      WHERE o_custkey IN (SELECT c_custkey FROM customer);
+  en:
+    name: Order Elimination in Subquery Without LIMIT

@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止索引创建时指定collation.md
+# TODO(产品核对): aud-collation4indexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-collation4indexdisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 禁止索引创建时指定collation
+    description: |-
+      禁止在创建索引时指定排序规则（collation），因为这会导致索引排序规则与列或数据库默认规则不一致，从而引发比较语义变化、索引无法被等值/范围查询正确利用及跨环境执行计划不稳定。
+      合理做法是统一在列定义层确定字符集与排序规则，并保持索引继承一致。当索引的 collation 与列定义不一致时，数据库可能会放弃使用索引而退化为全表扫描。
+    badExample: |-
+      -- ❌ 不推荐：索引创建时指定 COLLATION
+      CREATE INDEX idx ON t(name COLLATE utf8mb4_general_ci);
+    goodExample: |-
+      -- ✅ 推荐：索引继承列定义的默认排序规则
+      CREATE INDEX idx ON t(name);
+  en:
+    name: Collation4IndexDisallowed

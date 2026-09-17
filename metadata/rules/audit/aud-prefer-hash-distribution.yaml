@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布方式建议使用hash分布.md
+# TODO(产品核对): aud-prefer-hash-distribution → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-prefer-hash-distribution
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE`（分布式环境）
+content:
+  zh:
+    name: 分布方式建议使用 HASH 分布
+    description: |-
+      哈希分布（HASH distribution）通过哈希函数将数据均匀分散到各个节点，避免数据倾斜，是分布式数据库最推荐的分布方式。相较于 RANGE 分布可能导致数据的冷热不均、LIST 分布依赖于有限枚举值、以及 ROUND-ROBIN 分布完全不考虑数据亲和性，HASH 分布能够在数据均匀性、查询路由效率、以及关联操作的本地化之间取得最佳平衡。
+      选择 HASH 分布可以确保数据在各节点间均匀分布，减少跨节点数据重分布，提升查询性能并实现负载均衡。
+    badExample: |-
+      -- ❌ 不推荐：使用 ROUND-ROBIN 分布，关联操作无法本地化
+      CREATE TABLE t_orders (
+          order_id    BIGINT,
+          customer_id BIGINT
+      ) DISTRIBUTED BY ROUNDROBIN;
+    goodExample: |-
+      -- ✅ 推荐：使用 HASH 分布，确保数据均匀分散和关联本地化
+      CREATE TABLE t_orders (
+          order_id    BIGINT,
+          customer_id BIGINT
+      ) DISTRIBUTED BY HASH (order_id);
+  en:
+    name: Prefer Hash Distribution

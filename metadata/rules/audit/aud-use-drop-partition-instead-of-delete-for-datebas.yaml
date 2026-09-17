@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/使用日期时间字段删除建议改为分区表删除分区.md
+# TODO(产品核对): aud-use-drop-partition-instead-of-delete-for-datebas → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-drop-partition-instead-of-delete-for-datebas
+category: dml
+severity: warning
+tags:
+- review:DELETE
+content:
+  zh:
+    name: 使用日期时间字段删除建议改为分区表删除分区
+    description: |-
+      对于基于日期字段进行数据清理的场景，使用 `DELETE` 语句逐行删除数据效率极低，会产生大量的事务日志和锁开销，在数据量大的情况下还可能导致事务超时或表锁定。如果目标表是按日期范围分区的分区表，使用 `DROP PARTITION` 或 `TRUNCATE PARTITION` 是更加高效和安全的方式。
+      `DROP PARTITION` 是 DDL 操作，直接删除分区对应的物理存储文件，几乎瞬间完成，不会产生逐行的日志记录，对系统性能影响极小。这是日期范围数据清理的最佳实践。
+    badExample: |-
+      -- ❌ 不推荐：日期字段范围 DELETE，效率低且可能造成大事务
+      DELETE FROM order_history WHERE order_date < '2022-01-01';
+    goodExample: |-
+      -- ✅ 推荐：对于按日期分区的表，直接删除分区
+      ALTER TABLE order_history DROP PARTITION p202112;
+  en:
+    name: Use DROP PARTITION Instead of DELETE for Date-Based Cleanup

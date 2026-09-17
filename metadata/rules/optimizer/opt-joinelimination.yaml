@@ -1,0 +1,35 @@
+# Canonical source: vault 20-engine/rules/规则文档/表连接消除.md
+# TODO(产品核对): opt-joinelimination → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-joinelimination
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 表连接消除
+    description: |-
+      连接消除（Join Elimination）通过在不影响最终结果的情况下从查询中删除不必要的表，来简化 SQL 以提高查询性能。通常，当查询包含主键-外键连接且查询中仅引用主表的主键列时，被引用的外表（维度表）可以被消除，从而减少扫描和连接开销。
+      内连接和外连接均可应用此优化。PawSQL 优化引擎会自动检测并执行连接消除重写。
+    badExample: |-
+      -- ❌ 可优化：内连接的内表仅用于验证外键存在，可被消除
+      SELECT o.*
+      FROM orders o
+      INNER JOIN customer c ON c.c_custkey = o.o_custkey;
+
+      -- ❌ 可优化：外连接中仅引用主表列
+      SELECT o_custkey
+      FROM orders
+      LEFT JOIN customer ON c_custkey = o_custkey;
+    goodExample: |-
+      -- ✅ 优化后：消除不必要的客户表连接
+      SELECT *
+      FROM orders
+      WHERE o_custkey IS NOT NULL;
+
+      -- ✅ 优化后：消除外部连接
+      SELECT orders.o_custkey FROM orders;
+  en:
+    name: JoinElimination

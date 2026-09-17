@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止为列表中的列设置非空约束.md
+# TODO(产品核对): aud-nonnullconstraint4columnsinlistdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-nonnullconstraint4columnsinlistdisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止为列表中的列设置非空约束
+    description: |-
+      禁止为 BLOB、CLOB、TEXT 等大对象类型的列设置非空约束。大对象类型的列通常存储体积较大的数据，强制要求非空意味着每次插入都必须提供完整的大对象值，这不仅增加了存储和网络开销，还可能在批量导入或数据迁移场景中导致插入失败。此外，大对象类型的列在部分数据库中无法高效地进行 NULL 检查和索引优化，强制非空约束还可能引发锁竞争和性能退化。
+      合理的做法是在应用层通过业务逻辑保证大对象字段的有值校验，而非依赖数据库层的非空约束。
+    badExample: |-
+      -- ❌ 不推荐：为大对象类型列设置非空约束
+      CREATE TABLE t (
+          id INT NOT NULL,
+          content TEXT NOT NULL
+      );
+    goodExample: |-
+      -- ✅ 推荐：大对象列允许 NULL，通过应用层校验
+      CREATE TABLE t (
+          id INT NOT NULL,
+          content TEXT
+      );
+  en:
+    name: NonNullConstraint4ColumnsInListDisallowed

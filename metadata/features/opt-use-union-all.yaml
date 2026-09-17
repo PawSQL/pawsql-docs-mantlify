@@ -9,7 +9,7 @@ documentation:
     required: true
     paths: []
     documents:
-    - documentId: optimizer-rule-opt-use-union-all
+    - documentId: optimizer-rule-opt-use-union-all-instead-of-union
       language: zh
 components:
 - optimizer

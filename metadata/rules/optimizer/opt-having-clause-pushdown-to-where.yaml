@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/HAVING条件下推.md
+# TODO(产品核对): opt-having-clause-pushdown-to-where → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-having-clause-pushdown-to-where
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: HAVING条件下推
+    description: |-
+      从逻辑上看，HAVING 条件是在分组之后执行的，而 WHERE 子句上的条件可以在表访问时（索引访问）或表访问之后、分组之前执行。在分组之前过滤数据的代价远小于分组之后。因此，当 HAVING 子句中不包含聚集函数的条件时，应将其"下推"到 WHERE 子句中提前过滤，减少参与分组计算的数据量，从而提升 SQL 性能。
+      PawSQL 自动识别此类模式，将 HAVING 中不含聚集函数的过滤条件下推到 WHERE 子句，在数据到达 GROUP BY 之前就完成过滤。
+    badExample: |-
+      -- ❌ 不推荐：HAVING 中不含聚集函数的条件，在分组后才过滤
+      SELECT c_custkey, COUNT(*) FROM customer GROUP BY c_custkey HAVING c_custkey < 100;
+    goodExample: |-
+      -- ✅ 推荐：条件下推到 WHERE，在分组前过滤，减少分组数据量
+      SELECT c_custkey, COUNT(*) FROM customer WHERE c_custkey < 100 GROUP BY c_custkey;
+  en:
+    name: HAVING Clause Pushdown to WHERE

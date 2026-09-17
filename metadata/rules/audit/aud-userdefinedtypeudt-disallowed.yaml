@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止创建自定义类型.md
+# TODO(产品核对): aud-userdefinedtypeudt-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-userdefinedtypeudt-disallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TYPE
+content:
+  zh:
+    name: 禁止创建自定义类型
+    description: |-
+      禁止创建自定义数据类型（UDT）。自定义类型维护性较差，依赖关系复杂且不透明，会导致 SQL 无法跨数据库无缝迁移，增加了数据库操作的复杂性和潜在的安全风险。自定义类型一旦被多个表引用，后续修改或删除将涉及大量下游对象的级联变更，风险极高。
+      应使用 SQL 标准支持的内置数据类型来建模业务数据，将复杂类型抽象封装在应用层而非数据库层，以确保系统的可移植性和可维护性。
+    badExample: |-
+      -- ❌ 不推荐：自定义类型，迁移和维护困难
+      CREATE TYPE my_type AS ENUM ('a', 'b');
+    goodExample: |-
+      -- ✅ 推荐：使用标准内置类型
+      CREATE TABLE t (
+          category VARCHAR(20) NOT NULL
+      );
+      -- 枚举校验在应用层实现
+  en:
+    name: UserDefinedType(UDT) Disallowed

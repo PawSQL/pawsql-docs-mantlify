@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免使用不必要的内置函数.md
+# TODO(产品核对): aud-avoid-unnecessary-builtin-functions → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoid-unnecessary-builtin-functions
+category: dml
+severity: info
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+- review:WHERE` 子句
+content:
+  zh:
+    name: 避免使用不必要的内置函数
+    description: |-
+      某些内置函数可能不满足业务或计算上的某些规范要求，或者在对索引列使用时会导致索引失效。通过配置该规则，可以指定业务中需要禁止使用的内置函数列表，当 SQL 中出现这些函数时进行预警。
+      常见的不必要函数使用场景包括：在 WHERE 条件中对索引列使用函数（如 `WHERE ABS(col) > 0`），这会导致索引失效；或者在可以简单运算替代的场景下使用了复杂的函数调用。
+    badExample: |-
+      -- ❌ 不推荐：在索引列上使用函数，导致索引失效
+      SELECT * FROM t WHERE ABS(col) > 0;
+    goodExample: |-
+      -- ✅ 推荐：将函数应用于常量侧，保留索引可用性
+      SELECT * FROM t WHERE col > 0 OR col < 0;
+  en:
+    name: Avoid Unnecessary Built-in Functions

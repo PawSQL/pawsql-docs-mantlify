@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用全文索引.md
+# TODO(产品核对): aud-fulltextindexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-fulltextindexdisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE INDEX
+content:
+  zh:
+    name: 禁止使用全文索引
+    description: |-
+      禁止使用全文索引（`FULLTEXT INDEX`）。MySQL 的全文索引稳定性较差，容易出现 `FTS query exceeds result cache limit` 等运行时报错，且对中文分词的支持普遍不佳，查询结果往往不符合预期。在分布式数据库中，全文索引的跨节点协调更为复杂，性能和稳定性难以保障。
+      如果业务中有模糊查询或全文搜索的性能需求，应优先考虑使用专业的全文检索引擎（如 Elasticsearch、Meilisearch），或将业务改造为合理的索引设计配合前缀匹配查询，利用数据库自身的 B-Tree 索引能力。
+    badExample: |-
+      -- ❌ 不推荐：全文索引稳定性差，中文支持弱
+      CREATE FULLTEXT INDEX idx_article_content ON article(content);
+      SELECT * FROM article WHERE MATCH(content) AGAINST('关键词');
+    goodExample: |-
+      -- ✅ 推荐：使用专业全文检索引擎（Elasticsearch / Meilisearch）
+      -- 或通过合理的 B-Tree 索引 + 前缀匹配满足查询需求
+      CREATE INDEX idx_content ON article(content(100));
+      SELECT * FROM article WHERE content LIKE '关键词%';
+  en:
+    name: FulltextIndexDisallowed

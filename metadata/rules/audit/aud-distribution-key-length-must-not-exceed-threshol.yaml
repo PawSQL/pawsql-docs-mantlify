@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布键的长度不得超过阈值.md
+# TODO(产品核对): aud-distribution-key-length-must-not-exceed-threshol → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-distribution-key-length-must-not-exceed-threshol
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 分布键的长度不得超过阈值
+    description: |-
+      如果分布键为字符类型（`CHAR` / `VARCHAR`），其字段长度不宜超过 255 个字符。过长的分布键值会增加哈希计算和路由判定的 CPU 开销，同时也会增大分布相关的元数据占用。
+      建议将字符类型分布键的长度控制在合理范围内，对于需要更长字符串的业务场景，可考虑使用字符串的哈希摘要值或更短的业务标识作为分布键。
+    badExample: |-
+      -- ❌ 不推荐：分布键字段长度超过 255 字符
+      CREATE TABLE t_log (
+          long_code VARCHAR(1000),
+          log_data  TEXT
+      ) shardkey = long_code;
+    goodExample: |-
+      -- ✅ 推荐：分布键字段长度在阈值以内
+      CREATE TABLE t_log (
+          short_code VARCHAR(100),
+          log_data   TEXT
+      ) shardkey = short_code;
+  en:
+    name: Distribution Key Length Must Not Exceed Threshold

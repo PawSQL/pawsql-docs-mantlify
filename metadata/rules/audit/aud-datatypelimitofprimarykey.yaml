@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/主键列的数据类型限制.md
+# TODO(产品核对): aud-datatypelimitofprimarykey → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-datatypelimitofprimarykey
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 主键列的数据类型限制
+    description: |-
+      主键列的数据类型应当受到限制，通常推荐使用整数类型（如 `unsigned int` 或 `unsigned bigint`），以优化索引效率和查询性能。过大的数据类型（如字符串或复合类型）会增加主键索引的存储空间，降低索引扫描速度，并影响基于主键的关联操作性能。
+      选择合适的主键数据类型可以减少存储空间，提高索引效率，避免不必要的类型转换和性能开销。
+    badExample: |-
+      -- ❌ 不推荐：主键使用非推荐的数据类型
+      CREATE TABLE orders (
+          order_id VARCHAR(64) PRIMARY KEY,
+          details  TEXT
+      );
+    goodExample: |-
+      -- ✅ 推荐：主键使用无符号整数类型
+      CREATE TABLE orders (
+          order_id BIGINT UNSIGNED PRIMARY KEY,
+          details  TEXT
+      );
+  en:
+    name: DataTypeLimitOfPrimaryKey

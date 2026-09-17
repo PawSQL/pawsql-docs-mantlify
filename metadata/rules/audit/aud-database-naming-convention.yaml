@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/数据库命名规范.md
+# TODO(产品核对): aud-database-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-database-naming-convention
+category: ddl
+severity: info
+tags:
+- review:CREATE DATABASE
+content:
+  zh:
+    name: 数据库命名规范
+    description: |-
+      数据库命名规范定义了数据库本身名称的命名规则，通常要求数据库名使用小写字母和连字符（kebab-case）或下划线（snake_case），以保持团队内部的一致性和可读性。不规范的命名会增加沟通成本，降低代码可读性，在跨团队协作和多环境部署时尤其容易引发混淆。
+      该规则通过正则表达式来验证数据库名称是否符合团队约定的规范。默认的正则模式要求数据库名称全部使用小写字母，单词之间以连字符分隔。
+    badExample: |-
+      -- ❌ 不推荐：使用了大写字母，命名不规范
+      CREATE DATABASE MyDatabase;
+    goodExample: |-
+      -- ✅ 推荐：全部小写+连字符，符合命名规范
+      CREATE DATABASE my_database;
+  en:
+    name: Database Naming Convention

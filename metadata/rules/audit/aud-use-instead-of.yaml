@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/建议使用'__'代替'!='.md
+# TODO(产品核对): aud-use-instead-of → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-instead-of
+category: dml
+severity: warning
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE`（所有使用不等比较的语句）
+content:
+  zh:
+    name: 建议使用'<>'代替'!='
+    description: |-
+      `!=` 是非标准的SQL运算符，`<>` 才是SQL标准中定义的不等于运算符。虽然大多数数据库同时支持两种写法，但为了提升SQL代码的可移植性和规范程度，建议统一使用`<>`代替`!=`。
+      在某些数据库系统或特定的SQL模式中，`!=`可能不被支持或具有不同的语义。统一使用标准运算符可以避免在不同数据库之间迁移时出现兼容性问题。
+    badExample: |-
+      -- ❌ 不推荐：使用非标准的 != 运算符
+      SELECT * FROM t WHERE col != 1;
+    goodExample: |-
+      -- ✅ 推荐：使用标准的 <> 不等于运算符
+      SELECT * FROM t WHERE col <> 1;
+  en:
+    name: Use '<>' Instead of '!='

@@ -12,7 +12,7 @@ documentation:
     required: true
     paths: []
     documents:
-    - documentId: audit-rule-sql-index-023
+    - documentId: audit-rule-aud-redundantindexdisallowed
       language: zh
   userGuide:
     required: true

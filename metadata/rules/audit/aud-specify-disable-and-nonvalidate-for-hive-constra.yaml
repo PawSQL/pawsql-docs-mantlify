@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/定义约束时需指定DISABLE和NONVALIDATE.md
+# TODO(产品核对): aud-specify-disable-and-nonvalidate-for-hive-constra → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specify-disable-and-nonvalidate-for-hive-constra
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD CONSTRAINT`（Hive环境）
+content:
+  zh:
+    name: 定义约束时需指定DISABLE和NONVALIDATE
+    description: |-
+      在Hive中定义表约束（如PRIMARY KEY、FOREIGN KEY、UNIQUE等）时，应该显式指定`DISABLE`和`NONVALIDATE`选项。这样做的目的是：让Hive仅将约束信息作为元数据提供给查询优化器（用于生成更优的执行计划），而不实际执行约束检查，从而避免约束验证带来的性能开销。
+      如果未指定`DISABLE NOVALIDATE`，Hive会在数据写入时验证约束，这对于大数据量场景会造成严重的性能影响。因此，在Hive中定义约束时应始终携带这两个选项，在保证优化器可用的前提下避免运行时负担。
+    badExample: |-
+      -- ❌ 不推荐：未指定DISABLE NOVALIDATE，Hive将进行约束验证，严重影响写入性能
+      ALTER TABLE customer_table
+      ADD CONSTRAINT pk_customer PRIMARY KEY(customer_id);
+    goodExample: |-
+      -- ✅ 推荐：显式指定DISABLE NOVALIDATE，提供元信息但不验证
+      ALTER TABLE customer_table
+      ADD CONSTRAINT pk_customer PRIMARY KEY(customer_id)
+      DISABLE NOVALIDATE;
+  en:
+    name: Specify DISABLE and NONVALIDATE for Hive Constraints

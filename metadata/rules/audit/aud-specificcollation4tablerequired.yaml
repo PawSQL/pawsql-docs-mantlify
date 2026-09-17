@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/表上应使用指定的排序规则.md
+# TODO(产品核对): aud-specificcollation4tablerequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specificcollation4tablerequired
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表上应使用指定的排序规则
+    description: |-
+      要求表必须使用指定的排序规则（如 `utf8mb4_0900_ai_ci`），以确保数据的比较和排序行为符合预期。排序规则不一致会导致查询结果在不同环境中出现差异，例如大小写敏感/不敏感的排序差异可能影响业务逻辑。
+      默认配置为 `utf8mb4_0900_ai_ci`（MySQL 推荐的 Unicode 排序规则），可通过配置调整。
+    badExample: |-
+      -- ❌ 不推荐：表排序规则不符合规范
+      CREATE TABLE t (id INT) COLLATE = utf8mb4_general_ci;
+    goodExample: |-
+      -- ✅ 推荐：使用指定的标准排序规则
+      CREATE TABLE t (id INT) COLLATE = utf8mb4_0900_ai_ci;
+  en:
+    name: SpecificCollation4TableRequired

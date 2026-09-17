@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/大的Hive应该使用分区表.md
+# TODO(产品核对): aud-use-partitioned-tables-for-large-hive-tables → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-partitioned-tables-for-large-hive-tables
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE`（Hive环境）
+content:
+  zh:
+    name: 大的Hive应该使用分区表
+    description: |-
+      对于数据量较大的Hive表，分区是最基本的性能优化手段。合理的分区策略能够实现数据的物理隔离，使查询只需要扫描相关分区的数据，大幅减少I/O开销。不进行分区意味着每次查询都需要全表扫描，当表数据增长到TB级别时，查询性能将严重恶化，同时数据管理和清理也会变得困难。
+      该规则适用于Hive数据仓库环境，要求数据量超过阈值（默认100,000行）的表必须采用分区策略。常见的分区字段包括日期（dt）、小时（hr）等具有明显时间维度的字段。
+    badExample: |-
+      -- ❌ 不推荐：大数据量表未分区，查询需全表扫描
+      CREATE TABLE transaction_log (
+          transaction_id BIGINT,
+          user_id BIGINT,
+          transaction_time TIMESTAMP
+      ) STORED AS ORC;
+    goodExample: |-
+      -- ✅ 推荐：按日期分区，查询仅扫描相关分区
+      CREATE TABLE transaction_log (
+          transaction_id BIGINT,
+          user_id BIGINT,
+          transaction_time TIMESTAMP
+      ) PARTITIONED BY (dt STRING) STORED AS ORC;
+  en:
+    name: Use Partitioned Tables for Large Hive Tables

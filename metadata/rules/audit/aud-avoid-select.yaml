@@ -1,0 +1,62 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免在查询中使用SELECT _.md
+# TODO(产品核对): Rule ID、引入版本、category/severity 与规则注册表对齐后再发布。
+
+id: aud-avoid-select
+category: dml
+severity: info
+database:
+- mysql
+- postgresql
+- oracle
+introducedVersion: 8.0.0
+relatedRules:
+- AUD-EXPLICIT-COLUMNS
+content:
+  en:
+    name: SELECT * Detection
+    description: Flags explicit SELECT * against wide tables. Reading unneeded columns
+      forces table or index lookups that a covering index could avoid.
+    whyItMatters: Explicit column lists make intent explicit, keep the result stable
+      across schema changes, and allow the optimizer to use covering indexes.
+    howToFix: List only the columns actually needed. If the full row is genuinely
+      required, document why the audit rule should be suppressed for that query.
+    badExample: '-- bad: SELECT * fetches unneeded columns, wasting IO and bandwidth
+
+      SELECT * FROM user WHERE id = 1;
+
+      '
+    goodExample: '-- good: only fetch the columns you need
+
+      SELECT id, name, email FROM user WHERE id = 1;
+
+      '
+    summary: 'Flags SELECT * on wide tables: unneeded columns cost IO and bandwidth
+      and block covering-index optimization; list only the columns you need.'
+    editorial:
+      status: draft
+      owners: []
+  zh:
+    name: 避免在查询中使用 SELECT *
+    description: 在查询中使用 SELECT * 存在多方面的弊端：可能包含无用的大字段（尤其 TEXT/CLOB 类型），造成不必要的磁盘 IO
+      与网络传输开销； 表结构增减字段后容易与 ResultMap 不一致，或在 INSERT INTO ... SELECT * 时字段映射出错； 数据库优化器无法进行覆盖索引规划，PawSQL
+      也无法推荐覆盖索引来优化此类查询；返回不必要的列还会增加内存占用与结果集传输时间。
+    whyItMatters: SELECT * 获取了不需要的列，浪费 IO 与网络带宽，并让优化器无法规划覆盖索引。
+    howToFix: 始终显式列出查询实际所需的列名。
+    badExample: '-- 不推荐：SELECT * 获取了不需要的列，浪费 IO 和网络带宽
+
+      SELECT * FROM user WHERE id = 1;
+
+      '
+    goodExample: '-- 推荐：只查询需要的列
+
+      SELECT id, name, email FROM user WHERE id = 1;
+
+      '
+    summary: 识别查询中的 SELECT *：无用列浪费 IO 与带宽，且阻碍覆盖索引优化；应只列出所需列。
+    editorial:
+      status: draft
+      owners: []
+kind: audit
+product: pawsql
+applicability:
+  status: pending

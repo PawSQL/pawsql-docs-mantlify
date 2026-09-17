@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/批量删除建议使用分区表删除分区.md
+# TODO(产品核对): aud-use-drop-partition-instead-of-batch-delete → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-drop-partition-instead-of-batch-delete
+category: dml
+severity: info
+tags:
+- review:DELETE`（目标为分区表时）
+content:
+  zh:
+    name: 批量删除建议使用分区表删除分区
+    description: |-
+      对于需要定期清理历史数据的表，应将其设计为分区表。使用`DROP PARTITION`删除一个分区的效率远高于使用`DELETE`逐条删除数据：`DROP PARTITION`是DDL操作，直接回收存储空间，速度极快且几乎不产生日志；而`DELETE`是DML操作，需要逐行记录日志以便回滚和主备同步，对于大表而言可能耗时数小时甚至数天，并在此期间持有大量行锁。
+      该规则检测针对分区表的、以日期等分区字段为条件的DELETE操作，建议用户评估是否可以使用`DROP PARTITION`代替。
+    badExample: |-
+      -- ❌ 不推荐：使用DELETE逐行删除历史数据，效率低且产生大量日志
+      DELETE FROM t_log WHERE log_date < '2023-01-01';
+    goodExample: |-
+      -- ✅ 推荐：按分区直接DROP，瞬间完成且不产生行级日志
+      ALTER TABLE t_log DROP PARTITION p202212;
+  en:
+    name: Use DROP PARTITION Instead of Batch DELETE

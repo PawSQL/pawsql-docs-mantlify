@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止为列修改默认值.md
+# TODO(产品核对): aud-modifyingcolumnchangedefaultdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-modifyingcolumnchangedefaultdisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止为列修改默认值
+    description: |-
+      禁止随意修改列的默认值，因为这会在无感知情况下改变后续写入数据的语义，导致多版本应用行为不一致，并可能引发数据质量与审计问题。例如，旧版本应用可能依赖原有默认值逻辑生成数据，一旦默认值被修改，新旧应用写入的数据将产生分歧，追溯和修复成本极高。
+      正确做法是通过版本化字段或应用层显式赋值灰度过渡，完成数据校验后再统一调整默认策略。
+    badExample: |-
+      -- ❌ 不推荐：直接修改列的默认值，影响后续写入语义
+      ALTER TABLE t ALTER COLUMN col SET DEFAULT 'new_default';
+    goodExample: |-
+      -- ✅ 推荐：通过应用层显式赋值过渡，确认后再统一调整
+      -- 1. 应用层代码显式设置新默认值
+      -- 2. 灰度验证数据一致性
+      -- 3. 统一修改列默认值
+  en:
+    name: ModifyingColumnChangeDefaultDisallowed

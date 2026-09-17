@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/主键禁止使用自增.md
+# TODO(产品核对): aud-inccolumn4primarykeydisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-inccolumn4primarykeydisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 主键禁止使用自增
+    description: |-
+      在分布式数据库场景下，使用自增主键可能导致全局唯一性冲突。由于数据分布在多个节点上，各节点独立生成自增值，不同节点可能产生相同的自增值，从而导致主键重复。此外，全局自增锁会成为分布式写入的性能瓶颈。
+      分布式数据库建议使用全局有序的唯一 ID 生成策略（如 Snowflake 算法、UUID、或数据库内置的全局序列），以确保主键在全局范围内的唯一性。
+    badExample: |-
+      -- ❌ 不推荐：分布式场景下使用自增主键
+      CREATE TABLE t_order (
+          id   BIGINT AUTO_INCREMENT,
+          PRIMARY KEY (id)
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用全局有序的主键生成策略（如雪花算法生成唯一ID）
+      CREATE TABLE t_order (
+          id   BIGINT,
+          PRIMARY KEY (id)
+      );
+  en:
+    name: IncColumn4PrimaryKeyDisallowed

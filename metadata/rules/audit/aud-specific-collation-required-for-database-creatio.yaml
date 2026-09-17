@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/创建库或模式时使用规定的排序规则.md
+# TODO(产品核对): aud-specific-collation-required-for-database-creatio → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specific-collation-required-for-database-creatio
+category: ddl
+severity: error
+tags:
+- review:CREATE DATABASE
+- review:CREATE SCHEMA
+content:
+  zh:
+    name: 创建库或模式时使用规定的排序规则
+    description: |-
+      要求在创建数据库或模式时使用规定的排序规则（Collation），以确保数据的比较和排序行为与业务预期一致。排序规则决定字符比较时的大小写敏感性、重音符号处理等行为，不一致的排序规则会导致查询结果不符合预期，特别是在多语言环境或分布式部署中需要特别注意。
+      统一使用规定的排序规则（如 `utf8mb4_0900_ai_ci`）可以确保跨环境查询结果的一致性，避免因排序规则差异造成的索引失效和隐式转换问题。
+    badExample: |-
+      -- ❌ 不推荐：未使用规定的排序规则
+      CREATE DATABASE mydb COLLATE utf8mb4_general_ci;
+    goodExample: |-
+      -- ✅ 推荐：使用规定的排序规则
+      CREATE DATABASE mydb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+  en:
+    name: Specific Collation Required for Database Creation

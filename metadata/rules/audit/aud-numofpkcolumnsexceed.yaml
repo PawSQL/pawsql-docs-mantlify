@@ -1,0 +1,35 @@
+# Canonical source: vault 20-engine/rules/规则文档/主键的列数目不得超过阈值.md
+# TODO(产品核对): aud-numofpkcolumnsexceed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-numofpkcolumnsexceed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 主键的列数目不得超过阈值
+    description: |-
+      过多的主键列会增加主键索引的大小，降低插入和查询性能。主键索引通常是聚簇索引，其大小直接影响数据页的存储密度和扫描效率。主键中包含的列越多，每次插入时维护索引的开销就越大，同时基于主键的关联查询也会更慢。
+      主键应当保持简洁，只包含必要的唯一标识字段。复合主键通常可以用一个自增代理键替代，从而在保持业务唯一性的同时获得最佳的性能。
+    badExample: |-
+      -- ❌ 不推荐：主键包含多个列（超过阈值）
+      CREATE TABLE order_items (
+          order_id   BIGINT,
+          product_id BIGINT,
+          quantity   INT,
+          PRIMARY KEY (order_id, product_id)
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用自增代理键作为主键，业务唯一性通过唯一约束保障
+      CREATE TABLE order_items (
+          id         BIGINT AUTO_INCREMENT,
+          order_id   BIGINT,
+          product_id BIGINT,
+          quantity   INT,
+          PRIMARY KEY (id),
+          UNIQUE KEY uk_order_product (order_id, product_id)
+      );
+  en:
+    name: NumOfPKColumnsExceed

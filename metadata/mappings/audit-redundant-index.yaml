@@ -4,7 +4,7 @@ feature: AUDIT-REDUNDANT-INDEX
 documents:
 - relation: reference
   required: true
-  documentId: audit-rule-sql-index-023
+  documentId: audit-rule-aud-redundantindexdisallowed
   language: zh
 - relation: user-guide
   required: true

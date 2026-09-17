@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止修改降低字段精度.md
+# TODO(产品核对): aud-decreasingprecisiondisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-decreasingprecisiondisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止修改降低字段精度
+    description: |-
+      禁止降低字段的精度（如 `DECIMAL(18,6)` 降为 `DECIMAL(10,2)`）。降低精度会造成不可逆的数据舍入或截断，引发财务与统计口径错误。例如，金额数据从小数点后 6 位降到 2 位，后续的计算和汇总将产生累积误差。此外，精度变更可能触发表重写与索引失效，在高并发环境下带来严重的性能冲击。
+      正确做法是先评估影响范围并在应用侧与报表口径完成切换后，通过新增新精度列、分批回填校验、灰度迁移的方式完成调整。
+    badExample: |-
+      -- ❌ 不推荐：降低精度导致数据截断，财务数据不可逆损毁
+      ALTER TABLE t MODIFY amount DECIMAL(10,2);  -- 原 DECIMAL(18,6)
+    goodExample: |-
+      -- ✅ 推荐：新增列 + 灰度迁移
+      -- 1. ALTER TABLE t ADD COLUMN amount_new DECIMAL(10,2);
+      -- 2. UPDATE t SET amount_new = ROUND(amount, 2);
+      -- 3. 验证切换
+  en:
+    name: DecreasingPrecisionDisallowed

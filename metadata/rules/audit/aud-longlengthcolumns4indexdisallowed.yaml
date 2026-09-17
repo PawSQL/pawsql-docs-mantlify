@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引的字段长度不应超过阈值.md
+# TODO(产品核对): aud-longlengthcolumns4indexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-longlengthcolumns4indexdisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 索引的字段长度不应超过阈值
+    description: |-
+      限制索引中单个字段的字节长度，以避免索引过大导致的维护开销和性能问题。MySQL 建立索引时默认采用字段的完整长度，而 VARCHAR 类型定义长度越长，索引占用的存储空间越大，扫描效率越低。
+      对于长字段，建议使用前缀索引（指定前缀长度）来减小索引体积，或将该字段从索引中移除。默认阈值为 32 个字符（或 1024 字节），可根据业务需求调整。
+    badExample: |-
+      -- ❌ 不推荐：索引字段长度过长（如 VARCHAR(1024) 全部作为索引）
+      CREATE INDEX idx_long ON article(content VARCHAR(1024));
+    goodExample: |-
+      -- ✅ 推荐：使用前缀索引限制索引字段长度
+      CREATE INDEX idx_prefix ON article(content(100));
+  en:
+    name: LongLengthColumns4IndexDisallowed

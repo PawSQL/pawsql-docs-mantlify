@@ -1,0 +1,37 @@
+# Canonical source: vault 20-engine/rules/规则文档/派生表转换为Lateral表关联.md
+# TODO(产品核对): opt-derived-table-to-lateral-join-conversion → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-derived-table-to-lateral-join-conversion
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 派生表转换为Lateral表关联
+    description: |-
+      当派生表（Derived Table）中包含窗口函数（如 `ROW_NUMBER()` + `PARTITION BY`）或分组聚合后再通过外层条件过滤时，传统写法会先生成完整的中间结果集再进行过滤，导致大量不必要的计算。例如对全表先计算窗口函数生成百万级的临时结果集，然后取前 N 条记录——绝大多数计算都是无效的。
+      通过 `LATERAL JOIN` 改写，可以将外层过滤条件"下压"到派生表内部按需逐行计算，数据库仅处理与当前驱动行相关的数据。在 Top-N 查询场景中，LATERAL JOIN 配合 `ORDER BY + LIMIT` 可实现 10-60 倍的性能提升。
+    badExample: |-
+      -- ❌ 不推荐：窗口函数 + 派生表全量计算，再过滤 Top-N
+      SELECT *
+      FROM (
+          SELECT *,
+              ROW_NUMBER() OVER (PARTITION BY dept_id ORDER BY salary DESC) AS rn
+          FROM employee
+      ) t
+      WHERE t.rn <= 3;
+    goodExample: |-
+      -- ✅ 推荐：LATERAL JOIN 按需计算，仅处理每个部门的前 3 条
+      SELECT d.dept_name, t.*
+      FROM department d,
+           LATERAL (
+               SELECT *
+               FROM employee
+               WHERE dept_id = d.id
+               ORDER BY salary DESC
+               LIMIT 3
+           ) t;
+  en:
+    name: Derived Table to LATERAL Join Conversion

@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/子查询中的DISTINCT消除.md
+# TODO(产品核对): opt-eliminate-unnecessary-distinct-in-subqueries → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-eliminate-unnecessary-distinct-in-subqueries
+category: rewrite
+severity: info
+tags:
+- review:SELECT`（包含IN/EXISTS子查询的语句）
+content:
+  zh:
+    name: 子查询中的DISTINCT消除
+    description: |-
+      对于仅进行存在性测试的子查询（如`IN`、`EXISTS`子查询），如果子查询中使用了`DISTINCT`关键字，那么这个去重操作通常是多余的——因为`IN`/`EXISTS`只关心值是否存在，而不关心值出现的次数。消除不必要的`DISTINCT`可以避免一次代价高昂的去重操作（排序或哈希聚合），从而提升查询性能。
+      该优化适用于所有使用`IN`或`EXISTS`子查询进行存在性判断的场景。PawSQL优化引擎会自动检测并建议消除此类冗余的`DISTINCT`关键字。
+    badExample: |-
+      -- ❌ 不推荐：IN子查询中的DISTINCT多余，仅存在性判断无需去重
+      SELECT * FROM customer WHERE c_custkey IN (SELECT DISTINCT o_custkey FROM orders);
+    goodExample: |-
+      -- ✅ 推荐：消除DISTINCT，避免不必要的去重操作
+      SELECT * FROM customer WHERE c_custkey IN (SELECT o_custkey FROM orders);
+  en:
+    name: Eliminate Unnecessary DISTINCT in Subqueries

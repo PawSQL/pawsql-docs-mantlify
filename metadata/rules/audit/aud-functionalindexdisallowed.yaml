@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用函数索引.md
+# TODO(产品核对): aud-functionalindexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-functionalindexdisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+content:
+  zh:
+    name: 禁止使用函数索引
+    description: |-
+      禁止使用函数索引。函数索引虽然可以解决对字段使用函数时无法走索引的问题，但本质上是对业务 SQL 写法不规范的一种妥协。函数索引的维护成本高，数据变更时需要重新计算函数结果并更新索引，增加写入开销。更重要的是，函数索引的语义与列定义强绑定，在不同数据库间的兼容性差，增加了数据库迁移的难度。
+      更好的做法是规范 SQL 写法，避免在查询条件中对字段使用函数。如果业务确实需要频繁地对多列计算结果进行查询和过滤，应考虑在表中新增一个冗余列，通过应用层或触发器实时维护该列的值，并为其创建普通索引。
+    badExample: |-
+      -- ❌ 不推荐：函数索引，维护成本高，兼容性差
+      CREATE INDEX idx_month ON order_table (MONTH(order_date));
+    goodExample: |-
+      -- ✅ 推荐：新增冗余列 + 普通索引
+      -- ALTER TABLE order_table ADD COLUMN order_month TINYINT;
+      -- 在插入或更新时维护该字段的值
+      CREATE INDEX idx_order_month ON order_table(order_month);
+  en:
+    name: FunctionalIndexDisallowed

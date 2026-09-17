@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止修改分布键字段类型.md
+# TODO(产品核对): aud-modifyingdistributionkeytypedisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-modifyingdistributionkeytypedisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止修改分布键字段类型
+    description: |-
+      分布键（Shardkey / Distribution Key）是分布式表中数据路由的核心依据，其值决定了数据行所在的物理分片。修改分布键的字段类型或长度将导致现有数据的哈希路由规则失效，数据无法被正确路由到目标分片，造成查询不到数据或数据分布异常。因此，该操作在分布式数据库中应被严格禁止。
+      如果确实需要修改分布键的字段类型，只能通过重建表（创建新结构表→数据迁移→切换应用→下线旧表）的方式实现。
+    badExample: |-
+      -- ❌ 不推荐：修改分布键字段类型，破坏数据路由
+      ALTER TABLE t MODIFY shardkey_col VARCHAR(50);
+    goodExample: |-
+      -- ✅ 推荐：如需变更，通过重建表实现
+      -- 1. CREATE TABLE t_new (...) shardkey=new_col;
+      -- 2. INSERT INTO t_new SELECT * FROM t;
+      -- 3. 切换应用读写指向 t_new
+      -- 4. DROP TABLE t;
+  en:
+    name: ModifyingDistributionKeyTypeDisallowed

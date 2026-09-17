@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止为列新增非空约束.md
+# TODO(产品核对): aud-modifyingcolumnaddnotnulldisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-modifyingcolumnaddnotnulldisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止为列新增非空约束
+    description: |-
+      禁止直接为已有数据的列新增 `NOT NULL` 约束，因为这会触发表数据全量校验甚至重写，导致长时间锁表与阻塞。此外，如果历史数据中存在 NULL 值，变更将直接失败。即使当前数据满足约束，在高并发环境下，全表扫描期间的锁竞争也可能引发雪崩式的性能退化。
+      正确做法是先补齐可能存在的空值数据，通过默认值与应用校验灰度收敛，确保所有路径写入的数据均非空后，再在低峰期以在线 DDL 方式添加约束。
+    badExample: |-
+      -- ❌ 不推荐：直接为已有数据的列新增 NOT NULL，触发全表扫描
+      ALTER TABLE t MODIFY col INT NOT NULL;
+    goodExample: |-
+      -- ✅ 推荐：先补齐空值，再以在线 DDL 方式添加约束
+      -- 1. UPDATE t SET col = 0 WHERE col IS NULL;
+      -- 2. ALTER TABLE t ALTER COLUMN col SET NOT NULL;  -- 在线 DDL
+  en:
+    name: ModifyingColumnAddNotNullDisallowed

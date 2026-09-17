@@ -1,0 +1,17 @@
+# Canonical source: vault 20-engine/rules/规则文档/脏页率超过阈值，建议进行回收.md
+# TODO(产品核对): aud-high-dirty-page-ratio → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-high-dirty-page-ratio
+category: ddl
+severity: warning
+tags:
+- review:数据库缓冲区（巡检）
+content:
+  zh:
+    name: 脏页率超过阈值，建议进行回收
+    description: |-
+      当数据库缓冲池中脏页（已修改但未刷入磁盘的数据页）的比率超过配置阈值时，可能引发磁盘空间紧张、I/O 性能瓶颈和事务延迟。过高的脏页率意味着数据库积压了大量待刷盘的修改，一旦发生故障恢复时间将显著延长。
+      建议及时执行 `CHECKPOINT`（PostgreSQL）或调整 InnoDB 的刷盘策略参数（如 `innodb_max_dirty_pages_pct`），将脏页率控制在合理范围内。默认阈值为 0.3（30%），可通过配置调整。
+  en:
+    name: High dirty page ratio

@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/使用 = 替代 IN（单值）.md
+# TODO(产品核对): opt-use-equals-instead-of-in-with-single-value → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-use-equals-instead-of-in-with-single-value
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 使用 = 替代 IN（单值）
+    description: |-
+      当 `IN` 列表中只包含单个值时，使用 `IN` 和 `=` 在语义上完全等价。但使用 `=` 语义更清晰，代码可读性更强，同时可以避免某些数据库优化器对 `IN` 操作符的特殊处理带来的潜在性能差异。
+      在索引利用方面，`=` 是等值比较，优化器能够更精确地估算选择率并选择最优的索引访问路径。养成使用 `=` 替代单值 `IN` 的编码习惯，有助于编写更清晰、更高效的 SQL 语句。
+    badExample: |-
+      -- ❌ 不推荐：IN 列表只有单个值
+      SELECT * FROM t_user WHERE id IN (100);
+    goodExample: |-
+      -- ✅ 推荐：使用 = 替代单值 IN
+      SELECT * FROM t_user WHERE id = 100;
+  en:
+    name: Use Equals Instead of IN with Single Value

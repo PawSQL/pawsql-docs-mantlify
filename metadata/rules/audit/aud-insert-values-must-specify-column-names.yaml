@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/INSERT...VALUES应该指定列名.md
+# TODO(产品核对): aud-insert-values-must-specify-column-names → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-insert-values-must-specify-column-names
+category: dml
+severity: error
+tags:
+- review:INSERT
+content:
+  zh:
+    name: INSERT...VALUES应该指定列名
+    description: |-
+      `INSERT INTO ... VALUES` 语句应当显式指定列名列表。如果不指定列名，则值的顺序必须与表中列的物理顺序完全一致。当表结构发生变更（如添加、删除或重排列）时，未指定列名的 INSERT 语句可能将数据写入错误的列，造成严重的数据错误且难以排查。
+      显式指定列名可以提高代码的可维护性和健壮性，使插入语句不依赖于表结构的列顺序，即使表结构发生变化，只要列名不变，插入逻辑就不会出错。
+    badExample: |-
+      -- ❌ 不推荐：未指定列名，依赖表中列的顺序
+      INSERT INTO customer VALUES (1, 'Dan', 'Mike');
+    goodExample: |-
+      -- ✅ 推荐：显式指定列名，不依赖列的顺序
+      INSERT INTO customer (c_custkey, lastname, firstName) VALUES (1, 'Dan', 'Mike');
+  en:
+    name: INSERT VALUES Must Specify Column Names

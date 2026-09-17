@@ -1,0 +1,41 @@
+# Canonical source: vault 20-engine/rules/规则文档/无分组的聚集函数导致的数据倾斜优化.md
+# TODO(产品核对): opt-data-skew-optimization-for-aggregate-without-gro → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-data-skew-optimization-for-aggregate-without-gro
+category: rewrite
+severity: warning
+tags:
+- review:SELECT`（Hive环境中包含聚集函数但无GROUP BY的查询）
+content:
+  zh:
+    name: 无分组的聚集函数导致的数据倾斜优化
+    description: |-
+      在Hive中，不带GROUP BY的聚集函数（如COUNT、SUM、AVG等）会将所有数据汇聚到单个Reducer进行计算。当数据量较大时，单个Reducer需要处理海量数据，产生严重的性能瓶颈——其他Reducer处于空闲状态，而唯一的Reducer成为整个作业的堵点。
+      该优化通过两阶段聚合策略来解决此问题：第一阶段使用随机数分组（如`GROUP BY CAST(RAND() * 256 AS INT)`），将数据分散到多个Reducer进行局部聚合；第二阶段再进行全局聚合，汇总局部结果。PawSQL for Hive引擎提供针对此问题的自动重写优化建议。
+    badExample: |-
+      -- ❌ 不推荐：无GROUP BY的聚集函数，所有数据汇聚到单个Reducer
+      SELECT customer_type,
+             COUNT(*) AS order_count,
+             SUM(order_amount) AS total_amount,
+             AVG(order_amount) AS avg_amount,
+             MAX(order_amount) AS max_amount
+      FROM orders;
+    goodExample: |-
+      -- ✅ 推荐：两阶段聚合，先局部聚合再全局汇总，分散计算压力
+      SELECT customer_type,
+             SUM(count_) AS order_count,
+             SUM(sum_) AS total_amount,
+             SUM(sum_) / SUM(count_) AS avg_amount,
+             MAX(max_) AS max_amount
+      FROM (
+          SELECT customer_type,
+                 COUNT(*) AS count_,
+                 SUM(order_amount) AS sum_,
+                 MAX(order_amount) AS max_
+          FROM orders
+          GROUP BY CAST(RAND() * 256 AS INT)
+      ) DT_123
+      GROUP BY customer_type;
+  en:
+    name: Data Skew Optimization for Aggregate Without GROUP BY

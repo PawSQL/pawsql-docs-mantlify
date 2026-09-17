@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/使用不存在的列.md
+# TODO(产品核对): aud-column-with-this-name-does-not-exist → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-column-with-this-name-does-not-exist
+category: unknown
+severity: error
+tags:
+- review:SELECT
+- review:INSERT
+- review:UPDATE
+- review:DELETE
+- review:CREATE INDEX
+- review:ALTER TABLE
+content:
+  zh:
+    name: 使用不存在的列
+    description: |-
+      引用表中不存在的列是一个严重的语法错误，会导致 SQL 语句执行失败。此类问题通常由字段名拼写错误、数据库结构变更后未同步更新代码、或表结构与预期不一致等原因引起。
+      在开发阶段尽早发现并修正此类问题，可以避免在运行时出现不必要的错误中断，减少排查成本。该规则对所有类型的 SQL 语句生效，确保任何引用的列名在目标表中确实存在。
+    badExample: |-
+      -- ❌ 不推荐：引用了表中不存在的列
+      SELECT user_namme FROM t_user;
+    goodExample: |-
+      -- ✅ 推荐：确保列名拼写正确且存在
+      SELECT user_name FROM t_user;
+  en:
+    name: Column with this Name Does Not Exist

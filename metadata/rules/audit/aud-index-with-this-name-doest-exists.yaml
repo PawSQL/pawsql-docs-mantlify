@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引名不存在.md
+# TODO(产品核对): aud-index-with-this-name-doest-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-index-with-this-name-doest-exists
+category: ddl
+severity: error
+tags:
+- review:ALTER TABLE DROP INDEX` 等
+content:
+  zh:
+    name: 索引名不存在
+    description: |-
+      此规则确保在引用索引时（如 `DROP INDEX`、`ALTER TABLE DROP INDEX` 等操作），该索引确实存在于数据库中。引用不存在的索引会导致 SQL 执行失败，可能中断批处理任务或部署脚本。
+      如果 SQL 语句添加了 `IF EXISTS` 子句，则不会触发此规则告警。建议在执行 DDL 操作前先确认索引状态。
+    badExample: |-
+      -- ❌ 不推荐：删除不存在的索引，且未加 IF EXISTS
+      ALTER TABLE orders DROP INDEX idx_nonexistent;
+    goodExample: |-
+      -- ✅ 推荐：添加 IF EXISTS 避免报错
+      ALTER TABLE orders DROP INDEX IF EXISTS idx_nonexistent;
+  en:
+    name: Index with this Name Does't Exists

@@ -39,11 +39,11 @@ def test_gate_green_after_generation(repo):
 
 def test_delete_guide_fails_gate(repo):
     _build(repo)
-    target = repo / "docs/en/databases/postgresql/index.md"
+    target = repo / "docs/en/reference/database/postgresql/index.md"
     target.unlink()
     passed, _, missing = run_release_gate(repo)
     assert not passed
-    assert any("docs/en/databases/postgresql/index.md" in i.reason for i in missing)
+    assert any("docs/en/reference/database/postgresql/index.md" in i.reason for i in missing)
     assert any("DOC-DRIFT" in f for f in format_issues(missing))
 
 

@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/单表的索引个数超过阈值.md
+# TODO(产品核对): aud-number-of-indexes-exceeds-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-number-of-indexes-exceeds-threshold
+category: index
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 单表的索引个数超过阈值
+    description: |-
+      限制单个表的索引数量是为了避免索引过多带来的性能下降和复杂的索引维护开销。每个额外的索引都会增加 `INSERT`、`UPDATE`、`DELETE` 操作的写入成本，因为数据库需要在每次数据变更时同时维护所有相关索引。
+      过多的索引还会占用大量磁盘空间，增加优化器选择执行计划时的复杂度，反而可能导致查询性能下降。建议将单表索引数量控制在合理范围内（默认 5 个），仅为核心查询路径创建必要的索引。
+    badExample: |-
+      -- ❌ 不推荐：单表索引过多（超过 5 个），影响写入性能
+      CREATE INDEX idx_1 ON t_order (col1);
+      CREATE INDEX idx_2 ON t_order (col2);
+      CREATE INDEX idx_3 ON t_order (col3);
+      CREATE INDEX idx_4 ON t_order (col4);
+      CREATE INDEX idx_5 ON t_order (col5);
+      CREATE INDEX idx_6 ON t_order (col6);  -- 超过阈值
+    goodExample: |-
+      -- ✅ 推荐：控制索引数量，评估后合并冗余索引
+      -- 例如将 (col1) 和 (col1, col2) 合并为 (col1, col2)
+  en:
+    name: Number of Indexes Exceeds Threshold

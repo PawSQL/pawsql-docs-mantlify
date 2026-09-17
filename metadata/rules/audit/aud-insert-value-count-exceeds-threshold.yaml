@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/INSERT语句中值的数量超过阈值.md
+# TODO(产品核对): aud-insert-value-count-exceeds-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-insert-value-count-exceeds-threshold
+category: dml
+severity: info
+tags:
+- review:INSERT
+content:
+  zh:
+    name: INSERT语句中值的数量超过阈值
+    description: |-
+      批量插入值可以有效地提升数据插入的效率，但如果单条 INSERT 语句中插入的数据量过多，可能让数据库优化器选择低效的执行计划，导致性能问题。甚至可能超过数据库的内部限制（如 MySQL 的 `max_allowed_packet`），导致数据库端直接报错。
+      PawSQL 检测 INSERT 语句中 VALUES 列表的行数，对超过阈值（默认 500）的批量插入语句进行预警，引导开发者合理控制单次插入的数据量。
+    badExample: |-
+      -- ❌ 不推荐：单次插入值数量超过阈值（默认 500）
+      INSERT INTO customer(c_custkey, lastname, firstName)
+      VALUES (1, 'Dan', 'Mike'),
+             (2, 'Chaw', 'Tomas'),
+             (3, 'Wang', 'Nancy');
+      -- ...（超过阈值行数）
+    goodExample: ''
+  en:
+    name: INSERT Value Count Exceeds Threshold

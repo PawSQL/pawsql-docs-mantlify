@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/大的Hive表应该使用分桶策略.md
+# TODO(产品核对): aud-use-bucketing-strategy-for-large-hive-tables → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-bucketing-strategy-for-large-hive-tables
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE`（Hive环境）
+content:
+  zh:
+    name: 大的Hive表应该使用分桶策略
+    description: |-
+      对于数据量较大的Hive表，分桶（Bucketing）能够将数据按照指定字段的哈希值分散到多个文件中，避免产生过大的单个文件。分桶策略有助于提升查询并行度：在进行抽样查询、Map端JOIN等操作时，分桶可以使数据分布更加均匀，充分利用集群的并行计算能力。
+      分桶与分区可以配合使用——分区用于粗粒度的数据隔离，分桶用于细粒度的数据分布。对于频繁进行JOIN操作的大型表，合理的分桶策略能够显著减少Shuffle开销，提升查询效率。
+    badExample: |-
+      -- ❌ 不推荐：大表未分桶，可能产生过大文件，JOIN性能差
+      CREATE TABLE big_table (
+          id BIGINT,
+          name STRING
+      ) STORED AS ORC;
+    goodExample: |-
+      -- ✅ 推荐：按customer_id分桶为32个文件，提升并行度与JOIN效率
+      CREATE TABLE big_table (
+          id BIGINT,
+          name STRING
+      ) CLUSTERED BY (customer_id) INTO 32 BUCKETS STORED AS ORC;
+  en:
+    name: Use Bucketing Strategy for Large Hive Tables

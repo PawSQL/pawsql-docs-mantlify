@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/表_视图名不存在.md
+# TODO(产品核对): aud-tableview-with-this-name-doest-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-tableview-with-this-name-doest-exists
+category: ddl
+severity: error
+tags:
+- review:DROP TABLE
+- review:DROP VIEW
+content:
+  zh:
+    name: 表/视图名不存在
+    description: |-
+      此规则确保在删除或操作表/视图时，指定的对象确实存在于数据库中。尝试删除不存在的对象会导致 SQL 执行失败，可能中断批处理脚本或自动化部署流程。
+      如果 SQL 语句添加了 `IF EXISTS` 子句，则不会触发此规则告警。建议在 DDL 脚本中始终添加 `IF EXISTS` 以提高脚本的健壮性。
+    badExample: |-
+      -- ❌ 不推荐：删除不存在的表/视图，且未加 IF EXISTS
+      DROP TABLE nonexistent_table;
+    goodExample: |-
+      -- ✅ 推荐：添加 IF EXISTS 避免报错
+      DROP TABLE IF EXISTS nonexistent_table;
+  en:
+    name: Table/View with this Name Does't Exists

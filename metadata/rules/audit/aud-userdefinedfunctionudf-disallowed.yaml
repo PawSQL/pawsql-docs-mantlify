@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止创建自定义函数.md
+# TODO(产品核对): aud-userdefinedfunctionudf-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-userdefinedfunctionudf-disallowed
+category: ddl
+severity: error
+tags:
+- review:CREATE FUNCTION
+content:
+  zh:
+    name: 禁止创建自定义函数
+    description: |-
+      禁止创建自定义函数（UDF）。自定义函数将计算逻辑嵌入数据库层，其维护性差、依赖关系隐式复杂，且会导致 SQL 无法跨数据库无缝迁移。在生产环境中，自定义函数中的错误难以追踪和调试，且无法纳入标准的 CI/CD 流程进行版本管理。
+      此外，在分布式数据库中，自定义函数默认无法下推到数据节点执行，只能将数据拉取到协调节点处理，性能极差。即使配置为可下推，函数内 SQL 也只能访问当前节点数据，存在返回不完整结果的严重风险。业务逻辑应严格在应用层实现和复用。
+    badExample: |-
+      -- ❌ 不推荐：UDF 分布式环境兼容性差，难以维护
+      CREATE FUNCTION my_func() RETURNS INT
+      BEGIN
+          RETURN 1;
+      END;
+    goodExample: |-
+      -- ✅ 推荐：业务逻辑在应用层实现
+      -- 应用代码示例：
+      -- const result = someBusinessLogic();
+  en:
+    name: UserDefinedFunction(UDF) Disallowed

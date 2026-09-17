@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/表关联字段数据类型长度不一致.md
+# TODO(产品核对): aud-joincolumndatatypemismatch → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-joincolumndatatypemismatch
+category: dml
+severity: info
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE`（含 JOIN）
+content:
+  zh:
+    name: 表关联字段数据类型长度不一致
+    description: |-
+      进行表关联（`JOIN`）时，如果关联字段的数据类型或长度不一致，数据库无法直接使用索引进行匹配，需要进行隐式数据类型转换，这会导致该字段上的索引失效，从而引发全表扫描，严重影响查询性能。
+      必须确保关联字段的类型定义完全一致，包括数据类型、长度、精度和字符集。此规则适用于 SELECT、UPDATE、DELETE 语句中的 JOIN ON 条件。
+    badExample: |-
+      -- ❌ 不推荐：关联字段数据类型不一致
+      -- a.id 是 INT，b.parent_id 是 VARCHAR
+      SELECT * FROM a JOIN b ON a.id = b.parent_id;
+
+      -- ❌ 不推荐：关联字段长度不一致
+      -- a.code 是 VARCHAR(10)，b.code 是 VARCHAR(20)
+      SELECT * FROM a JOIN b ON a.code = b.code;
+    goodExample: |-
+      -- ✅ 推荐：关联字段类型和长度完全一致
+      -- 两表关联列均为 INT
+      SELECT * FROM a JOIN b ON a.id = b.parent_id;
+  en:
+    name: JoinColumnDataTypeMismatch

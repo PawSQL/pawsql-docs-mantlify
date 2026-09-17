@@ -1,0 +1,32 @@
+# Canonical source: vault 20-engine/rules/规则文档/表必须包含的列名及数据类型.md
+# TODO(产品核对): aud-specificcolumnsrequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specificcolumnsrequired
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表必须包含的列名及数据类型
+    description: |-
+      要求表必须包含特定的列及其数据类型，如 `id`（主键）、`created_ts`（创建时间戳）和 `updated_ts`（更新时间戳），以满足应用程序的标准需求和数据治理规范。统一的表结构有助于 ORM 框架集成、日志审计和数据生命周期管理。
+      此规则可配置，默认要求包含 `id:unsigned int, created_ts:timestamp, updated_ts:timestamp`，团队可根据业务规范调整必选列的列表。
+    badExample: |-
+      -- ❌ 不推荐：缺少必要的标准列（如创建时间和更新时间戳列）
+      CREATE TABLE orders (
+          order_id BIGINT PRIMARY KEY,
+          amount DECIMAL(10,2)
+      );
+    goodExample: |-
+      -- ✅ 推荐：包含完整的必选列
+      CREATE TABLE orders (
+          id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+          order_id BIGINT,
+          amount DECIMAL(10,2),
+          created_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
+  en:
+    name: SpecificColumnsRequired

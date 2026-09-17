@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/行数超过阈值的单表建议设计为分片表.md
+# TODO(产品核对): aud-largetableshouldbesharded → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-largetableshouldbesharded
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE`（巡检评估）
+content:
+  zh:
+    name: 行数超过阈值的单表建议设计为分片表
+    description: |-
+      对于分布式数据库实例（如 TDSQL），单表数据量过大（如超过千万级行数或数十 GB）时，应将表设计为分片表（Sharded Table），将数据水平拆分到多个数据节点上。这样可以突破单节点的性能瓶颈，利用多节点的计算和存储能力，实现高并发和大数据量的处理。
+      未分片的大表会导致单点成为性能瓶颈和故障风险点，且无法利用分布式并行计算能力。PawSQL 通过巡检评估表行数，对超过阈值的单表给出分片建议。
+    badExample: |-
+      -- ❌ 不推荐：大表使用单片表（行数远超阈值）
+      CREATE TABLE t_huge_log (
+          id BIGINT,
+          log_date DATE
+      ) shardkey=noshardkey_allset;
+    goodExample: |-
+      -- ✅ 推荐：大表设计为分片表
+      CREATE TABLE t_huge_log (
+          id BIGINT,
+          log_date DATE,
+          PRIMARY KEY (id)
+      ) shardkey=id;
+  en:
+    name: LargeTableShouldBeSharded

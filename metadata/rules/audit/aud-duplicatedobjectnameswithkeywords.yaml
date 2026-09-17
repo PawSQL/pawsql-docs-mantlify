@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止对象名称与关键字重名.md
+# TODO(产品核对): aud-duplicatedobjectnameswithkeywords → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-duplicatedobjectnameswithkeywords
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE INDEX
+- review:CREATE PROCEDURE
+- review:CREATE FUNCTION
+- review:CREATE VIEW` 等
+content:
+  zh:
+    name: 禁止对象名称与关键字重名
+    description: |-
+      禁止使用数据库关键字作为对象名称（如表名、列名、索引名、存储过程名、函数名、视图名等）。使用保留关键字作为对象名会导致潜在的 SQL 语法冲突和解析歧义——即使当前数据库版本允许通过反引号或双引号转义使用这些名称，后续数据库版本升级、迁移到其他数据库、或在新开发者编写 SQL 时忽略转义，都可能引发难以排查的语法错误或逻辑意外。
+      此外，关键字命名的对象在 ORM 框架和代码生成工具中通常需要额外的转义处理，增加了开发和维护的复杂度。应选择有业务语义且不与 SQL 关键字冲突的名称。
+    badExample: |-
+      -- ❌ 不推荐：使用保留关键字作为对象名，语法冲突风险
+      CREATE TABLE `order` (id INT);
+      CREATE TABLE `group` (id INT);
+    goodExample: |-
+      -- ✅ 推荐：使用有业务语义且非关键字的名称
+      CREATE TABLE orders (id INT);
+      CREATE TABLE user_groups (id INT);
+  en:
+    name: DuplicatedObjectNamesWithKeywords

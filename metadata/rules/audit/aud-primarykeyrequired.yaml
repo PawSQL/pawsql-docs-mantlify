@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/表必须建主键.md
+# TODO(产品核对): aud-primarykeyrequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-primarykeyrequired
+category: ddl
+severity: error
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表必须建主键
+    description: |-
+      要求每个表都必须定义一个主键，主键是关系数据库设计的核心原则。主键可以唯一标识每条记录，有助于确保数据的唯一性，同时作为聚簇索引（InnoDB）或默认索引来提升查询效率。缺少主键的表无法有效进行行级定位，在复制、备份和增量同步场景中也会带来困难。
+      创建表时未定义主键将触发严重级别告警。如果需要使用自增列作为主键，应结合自增列的命名和类型规范进行设计。
+    badExample: |-
+      -- ❌ 不推荐：表未定义主键
+      CREATE TABLE orders (
+          order_id BIGINT,
+          amount DECIMAL(10,2)
+      );
+    goodExample: |-
+      -- ✅ 推荐：明确定义主键
+      CREATE TABLE orders (
+          order_id BIGINT PRIMARY KEY,
+          amount DECIMAL(10,2)
+      );
+  en:
+    name: PrimaryKeyRequired

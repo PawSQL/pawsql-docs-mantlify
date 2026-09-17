@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引命名规范.md
+# TODO(产品核对): aud-index-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-index-naming-convention
+category: index
+severity: info
+tags:
+- review:CREATE INDEX
+content:
+  zh:
+    name: 索引命名规范
+    description: |-
+      此规则定义了索引的命名规范，要求索引名遵循统一的格式，通常包括表名和列名的组合，以便于识别和管理索引。规范的索引命名有助于 DBA 快速定位索引所属的表和功能，降低运维排查成本。
+      默认命名模式为 `idx_{table}_{columns}`，可通过正则表达式配置。不符合命名规范的索引会在审核时触发提示，但不会阻止操作。
+    badExample: |-
+      -- ❌ 不推荐：索引命名不符合规范
+      CREATE INDEX my_idx ON orders(status);
+    goodExample: |-
+      -- ✅ 推荐：遵循 idx_{table}_{columns} 命名格式
+      CREATE INDEX idx_orders_status ON orders(status);
+  en:
+    name: Index naming convention

@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用SYSDATE作为默认值.md
+# TODO(产品核对): aud-usesysdateasdefaultdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-usesysdateasdefaultdisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 禁止使用SYSDATE作为默认值
+    description: |-
+      禁止使用 `SYSDATE()` 作为列的默认值。`SYSDATE()` 属于非确定性函数，其返回值依赖于调用时刻的系统时间。在基于 STATEMENT 模式的主从复制环境下，主库执行语句的时间与备库重放日志的时间存在差异，导致同一 SQL 在主备库上产生不同的时间值，造成数据不一致。此外，`SYSDATE()` 的时间语义不可审计，影响数据重放与回滚的可控性。
+      正确做法是由应用层显式写入时间，或使用可控的 `CURRENT_TIMESTAMP`/`NOW()`（在基于 ROW 模式的复制中更为安全），并统一时区策略。
+    badExample: |-
+      -- ❌ 不推荐：SYSDATE() 非确定性，主从不一致风险
+      CREATE TABLE t (
+          id INT,
+          created_at DATETIME DEFAULT SYSDATE()
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用 CURRENT_TIMESTAMP 或应用层写入
+      CREATE TABLE t (
+          id INT,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+  en:
+    name: UseSysdateAsDefaultDisallowed

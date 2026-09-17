@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/Hive内部表需使用orc_parquet存储格式.md
+# TODO(产品核对): aud-hive-internal-tables-must-use-orcparquet-format → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-hive-internal-tables-must-use-orcparquet-format
+category: ddl
+severity: error
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: Hive内部表需使用orc/parquet存储格式
+    description: |-
+      ORC（Optimized Row Columnar）和 Parquet 是专为大数据分析优化的列式存储格式，相比传统的 TextFile 格式具有显著更高的压缩比和更好的查询性能。列式存储支持谓词下推、投影裁剪等优化技术，可以大幅减少 I/O 读取的数据量。内部表使用行式存储格式（如 TextFile、SequenceFile）会导致查询性能低下和存储空间浪费。
+      此规则检测 Hive 内部表的存储格式定义，对未使用 ORC/Parquet 等列式存储格式的内部表进行预警。
+      > 此规则适用于 Hive 数据仓库环境。Hive 基于 MapReduce/Spark 计算引擎，其执行机制与传统关系型数据库有本质区别。
+    badExample: |-
+      -- ❌ 不推荐：内部表使用 TEXTFILE 格式，查询性能低下
+      CREATE TABLE t (...) STORED AS TEXTFILE;
+    goodExample: |-
+      -- ✅ 推荐：内部表使用 ORC 列式存储格式
+      CREATE TABLE t (...) STORED AS ORC;
+
+      -- ✅ 推荐：内部表使用 Parquet 列式存储格式
+      CREATE TABLE t (...) STORED AS PARQUET;
+  en:
+    name: Hive Internal Tables Must Use ORC/Parquet Format

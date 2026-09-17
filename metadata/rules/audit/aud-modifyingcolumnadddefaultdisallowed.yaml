@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止为列新增默认值.md
+# TODO(产品核对): aud-modifyingcolumnadddefaultdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-modifyingcolumnadddefaultdisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止为列新增默认值
+    description: |-
+      禁止随意为已有列新增默认值，因为这会改变历史与未来写入语义、掩盖上游数据缺陷。新增默认值后，所有未显式指定该列的 INSERT 语句将自动填充新默认值，可能使原本应暴露的缺失数据问题被静默掩盖。在部分数据库中，为已有大表新增默认值还可能触发表重写或长时间锁表，带来性能与可用性风险。
+      正确做法是先在应用层显式赋值并完成数据回填校验，确认所有路径均正确提供字段值后，再审慎引入默认值。
+    badExample: |-
+      -- ❌ 不推荐：直接为已有列新增默认值，掩盖数据缺陷
+      ALTER TABLE t ALTER COLUMN col SET DEFAULT 0;
+    goodExample: |-
+      -- ✅ 推荐：先通过应用层回填数据，再统一引入默认值
+      -- 1. UPDATE t SET col = 0 WHERE col IS NULL;
+      -- 2. 应用层确保所有 INSERT 显式提供该列值
+      -- 3. 灰度验证后，ALTER TABLE 添加默认值
+  en:
+    name: ModifyingColumnAddDefaultDisallowed

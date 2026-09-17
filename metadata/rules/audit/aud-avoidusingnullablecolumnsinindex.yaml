@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引中避免使用可空列.md
+# TODO(产品核对): aud-avoidusingnullablecolumnsinindex → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoidusingnullablecolumnsinindex
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 索引中避免使用可空列
+    description: |-
+      索引中应尽量避免使用可空列。可空列上的 NULL 值在多数数据库中不会进入 B+Tree 索引，导致索引不完整——查询 `WHERE col IS NULL` 无法利用索引，且包含可空列的复合索引在某些场景下可能出现部分扫描问题，影响查询性能。
+      如果业务允许，建议为索引列添加 `NOT NULL` 约束，或者为 NULL 值设计默认值替代方案。这有助于提升索引的覆盖率和查询效率。
+    badExample: |-
+      -- ❌ 不推荐：索引字段未设置非空约束，NULL 值无法被索引
+      CREATE INDEX idx_user_email ON user(email);
+    goodExample: |-
+      -- ✅ 推荐：为索引列添加 NOT NULL 约束
+      CREATE TABLE user (
+          id INT PRIMARY KEY,
+          email VARCHAR(255) NOT NULL
+      );
+      CREATE INDEX idx_user_email ON user(email);
+  en:
+    name: AvoidUsingNullableColumnsInIndex

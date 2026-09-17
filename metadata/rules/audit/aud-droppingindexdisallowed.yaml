@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止删除索引.md
+# TODO(产品核对): aud-droppingindexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-droppingindexdisallowed
+category: ddl
+severity: warning
+tags:
+- review:DROP INDEX
+content:
+  zh:
+    name: 禁止删除索引
+    description: |-
+      禁止直接删除索引。删除索引可能使关键查询退化为全表扫描、引发执行计划突变与性能雪崩，且影响难以紧急回滚——索引被删除后如需重新创建，可能需要数小时甚至数天的时间（取决于表大小），期间业务性能将持续恶化。
+      正确做法是先通过监控与执行计划分析验证索引确实无用，然后灰度下线（如先在支持该功能的数据库中设为不可见索引），观察一段时期确认无性能退化后再正式删除。
+    badExample: |-
+      -- ❌ 不推荐：直接删除索引，可能导致性能雪崩
+      DROP INDEX idx_name ON t;
+    goodExample: |-
+      -- ✅ 推荐：灰度下线方案
+      -- 1. ALTER TABLE t ALTER INDEX idx_name INVISIBLE;  -- MySQL 8.0+
+      -- 2. 监控查询性能一段时间
+      -- 3. 确认无退化后，正式删除：DROP INDEX idx_name ON t;
+  en:
+    name: DroppingIndexDisallowed

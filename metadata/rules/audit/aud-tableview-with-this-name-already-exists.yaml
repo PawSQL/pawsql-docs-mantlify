@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/表_视图名已存在.md
+# TODO(产品核对): aud-tableview-with-this-name-already-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-tableview-with-this-name-already-exists
+category: ddl
+severity: error
+tags:
+- review:CREATE TABLE
+- review:CREATE VIEW
+content:
+  zh:
+    name: 表/视图名已存在
+    description: |-
+      此规则确保在创建新表或视图时，名称在数据库中（或模式内）是唯一的，避免与现有对象冲突。重复的对象名称会导致 `CREATE` 语句执行失败，可能中断部署流程或数据迁移任务。
+      如果 SQL 语句添加了 `IF NOT EXISTS` 子句，则不会触发此规则告警。建议在自动化脚本中始终添加 `IF NOT EXISTS` 以提高容错性。
+    badExample: |-
+      -- ❌ 不推荐：创建表/视图时名称与已存在的对象冲突
+      CREATE TABLE orders (id INT PRIMARY KEY);
+    goodExample: |-
+      -- ✅ 推荐：添加 IF NOT EXISTS 避免冲突
+      CREATE TABLE IF NOT EXISTS orders (id INT PRIMARY KEY);
+  en:
+    name: Table/View with this Name Already Exists

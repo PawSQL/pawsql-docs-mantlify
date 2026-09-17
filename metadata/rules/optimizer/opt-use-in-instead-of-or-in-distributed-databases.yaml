@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布式数据库中使用IN替代OR.md
+# TODO(产品核对): opt-use-in-instead-of-or-in-distributed-databases → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-use-in-instead-of-or-in-distributed-databases
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 分布式数据库中使用 IN 替代 OR
+    description: |-
+      在分布式数据库中，如果 `OR` 条件包含多个不同的分片键值，优化器可能无法准确定位到具体的分片，导致查询被广播到所有节点（SET）执行，造成严重的资源浪费和性能下降。使用 `IN` 列表可以将多个等值条件合并，有助于优化器进行更精确的分片裁剪。
+      特别是当 WHERE 条件中包含多列联合分片键的 `OR` 组合时，使用多列 `IN` 语法（如 `(col1, col2) IN ((v1, v2), (v3, v4))`）可以让数据库准确计算每个分片键值对应的目标分片，大幅减少不必要的网络传输。
+    badExample: |-
+      -- ❌ 不推荐：OR 条件导致查询广播到所有分片
+      SELECT * FROM t_bond
+      WHERE (bond_acct = 'A1' AND bond_code = 'B1' AND bond_subj_code = 'S1')
+         OR (bond_acct = 'A2' AND bond_code = 'B2' AND bond_subj_code = 'S2');
+    goodExample: |-
+      -- ✅ 推荐：使用 IN 让优化器精确路由到目标分片
+      SELECT * FROM t_bond
+      WHERE (bond_acct, bond_code, bond_subj_code) IN (
+          ('A1', 'B1', 'S1'),
+          ('A2', 'B2', 'S2')
+      );
+  en:
+    name: Use IN Instead of OR in Distributed Databases

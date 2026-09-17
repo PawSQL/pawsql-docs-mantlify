@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/主键应使用自增列.md
+# TODO(产品核对): aud-inccolumn4primarykeyrequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-inccolumn4primarykeyrequired
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 主键应使用自增列
+    description: |-
+      自增列可以简化主键的生成过程，保证主键值的唯一性，并且在大多数场景下能提供高效的插入性能。使用自增主键能够确保数据按插入顺序物理存储，减少页分裂，提升写入吞吐量。
+      对于单机数据库场景，尤其是使用 InnoDB 存储引擎的 MySQL，自增主键是最佳实践。但需要特别注意的是，在分布式数据库场景下，自增主键可能引发全局唯一性问题，应谨慎评估。
+    badExample: |-
+      -- ❌ 不推荐：主键未设置自增属性
+      CREATE TABLE t_user (
+          id    BIGINT,
+          name  VARCHAR(50),
+          PRIMARY KEY (id)
+      );
+    goodExample: |-
+      -- ✅ 推荐：主键使用自增列
+      CREATE TABLE t_user (
+          id    BIGINT AUTO_INCREMENT,
+          name  VARCHAR(50),
+          PRIMARY KEY (id)
+      );
+  en:
+    name: IncColumn4PrimaryKeyRequired

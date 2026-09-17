@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布键的需使用指定的排序规则.md
+# TODO(产品核对): aud-distribution-key-must-use-specified-collation → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-distribution-key-must-use-specified-collation
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 分布键的需使用指定的排序规则
+    description: |-
+      分布键字段应使用大小写敏感的排序规则（如 `utf8mb4_bin`），以确保大小写不同的值能被正确路由到不同的分片，避免因排序规则不一致导致的数据混淆。如果分布键使用大小写不敏感的排序规则（如 `utf8mb4_general_ci`），两个大小写不同但语义相同的值（如 'ABC' 和 'abc'）会被视为相等，可能导致路由结果不符合预期。
+      为保证分布键路由的一致性和可预测性，字符类型的分布键字段应指定大小写敏感的二进制排序规则。
+    badExample: |-
+      -- ❌ 不推荐：分布键使用大小写不敏感的排序规则
+      CREATE TABLE t_product (
+          code VARCHAR(50) COLLATE utf8mb4_general_ci,
+          name VARCHAR(100)
+      ) shardkey = code;
+    goodExample: |-
+      -- ✅ 推荐：分布键使用大小写敏感的排序规则
+      CREATE TABLE t_product (
+          code VARCHAR(50) COLLATE utf8mb4_bin,
+          name VARCHAR(100)
+      ) shardkey = code;
+  en:
+    name: Distribution Key Must Use Specified Collation

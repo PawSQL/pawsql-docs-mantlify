@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/只能删除指定命名规范的表和视图.md
+# TODO(产品核对): aud-drop-tablesviews-only-with-specified-naming-conv → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-drop-tablesviews-only-with-specified-naming-conv
+category: ddl
+severity: warning
+tags:
+- review:DROP TABLE
+- review:DROP VIEW
+content:
+  zh:
+    name: 只能删除指定命名规范的表和视图
+    description: |-
+      此规则限制只能删除符合特定命名规范的表和视图，目的是将清理范围限定在临时表、备份表、中间表等可识别对象上，避免误删核心业务数据并降低依赖断裂风险。
+      通过配置正则表达式（如 `.*_del$`），只有以特定后缀结尾的表和视图才允许被直接删除。对于需要下线的核心业务表，应通过重命名将其纳入删除白名单，待确认无影响后再进行删除操作。
+    badExample: |-
+      -- ❌ 不推荐：删除不符合命名规范的表（可能误删核心业务表）
+      DROP TABLE t_user;
+    goodExample: |-
+      -- ✅ 推荐：只删除符合删除命名规范的表（如以 _del 结尾）
+      DROP TABLE t_user_del;
+  en:
+    name: Drop Tables/Views Only with Specified Naming Convention

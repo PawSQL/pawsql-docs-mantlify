@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/分片表的分布键应设置非空约束.md
+# TODO(产品核对): aud-distribution-key-must-have-not-null-constraint → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-distribution-key-must-have-not-null-constraint
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 分片表的分布键应设置非空约束
+    description: |-
+      分布键的值用于计算数据所在的分片，其值不能为 `NULL`。如果分布键允许 `NULL` 值，插入 `NULL` 分布键的数据时会直接报错，导致业务中断。因此，应在表设计时为分布键字段明确添加 `NOT NULL` 约束，从数据库层面杜绝 `NULL` 值的产生。
+      设置非空约束不仅是技术层面的防护，也是业务语义的明确表达——分布键字段作为数据路由的锚点，其值必须是有意义的。
+    badExample: |-
+      -- ❌ 不推荐：分布键字段未设置非空约束，NULL 值会导致插入报错
+      CREATE TABLE t_order (
+          id   INT,
+          name VARCHAR(50)
+      ) shardkey = id;
+    goodExample: |-
+      -- ✅ 推荐：分布键字段设置 NOT NULL 约束
+      CREATE TABLE t_order (
+          id   INT NOT NULL,
+          name VARCHAR(50)
+      ) shardkey = id;
+  en:
+    name: Distribution Key Must Have NOT NULL Constraint

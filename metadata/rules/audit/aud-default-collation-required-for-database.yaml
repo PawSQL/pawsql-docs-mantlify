@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/数据库需指定默认排序规则（Collate）.md
+# TODO(产品核对): aud-default-collation-required-for-database → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-default-collation-required-for-database
+category: ddl
+severity: warning
+tags:
+- review:CREATE DATABASE
+content:
+  zh:
+    name: 数据库需指定默认排序规则（Collate）
+    description: |-
+      要求在创建数据库时显式指定默认的排序规则（Collation），以确保数据的字符串比较和排序行为符合业务预期。排序规则决定了字符集中的字符如何进行比较和排序，不同的排序规则可能导致相同的查询返回不同的结果顺序，这在多语言环境、跨平台迁移和分布式部署中尤其需要注意。
+      未指定排序规则时，数据库会使用系统默认值。当应用层期望特定的排序行为（如大小写不敏感比较`utf8mb4_general_ci`）而数据库使用了不同的默认排序规则时，可能导致业务逻辑错误或查询结果不符合预期。
+    badExample: |-
+      -- ❌ 不推荐：创建数据库时未指定排序规则，依赖系统默认值
+      CREATE DATABASE mydb;
+    goodExample: |-
+      -- ✅ 推荐：显式指定排序规则，确保字符串比较行为符合预期
+      CREATE DATABASE mydb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+  en:
+    name: Default Collation Required for Database

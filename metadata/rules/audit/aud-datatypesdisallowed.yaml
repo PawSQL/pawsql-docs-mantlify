@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用的数据类型.md
+# TODO(产品核对): aud-datatypesdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-datatypesdisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 禁止使用的数据类型
+    description: |-
+      禁止使用某些存在潜在正确性、安全性或性能问题的数据类型。某些数据类型（如 JSON、XML、BJSON）虽然在某些场景下提供了便利的存储方式，但它们的查询优化能力有限，索引支持不完善，且在不同数据库间的兼容性和移植性差。使用这些类型可能导致查询性能退化、数据一致性问题以及数据库迁移困难。
+      推荐使用标准的关系型数据类型（如 `VARCHAR`、`INT`、`DECIMAL` 等）存储结构化数据，将复杂嵌套数据的处理逻辑保留在应用层。
+    badExample: |-
+      -- ❌ 不推荐：使用 JSON/XML 等非标准数据类型
+      CREATE TABLE t (
+          id INT,
+          data JSON
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用标准关系型数据类型
+      CREATE TABLE t (
+          id INT,
+          data TEXT,
+          data_type VARCHAR(20)
+      );
+  en:
+    name: DataTypesDisallowed

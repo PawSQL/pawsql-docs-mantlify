@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/时间戳列需指定默认值.md
+# TODO(产品核对): aud-default-value-required-for-timestamp-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-default-value-required-for-timestamp-columns
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 时间戳列需指定默认值
+    description: |-
+      时间戳列（TIMESTAMP类型）必须指定默认值，以确保在没有显式插入时间戳值时，能够自动生成合理的默认时间（如`CURRENT_TIMESTAMP`）。未指定默认值的时间戳列在数据插入时可能被填入`NULL`或无效的零日期，导致后续的时间比较、排序和范围查询出现意外行为。
+      在MySQL中，TIMESTAMP类型的列还具有自动更新特性（`ON UPDATE CURRENT_TIMESTAMP`），合理利用这一特性可以减少应用层的代码复杂度。该规则要求所有TIMESTAMP列在定义时必须指定非空的默认值。
+    badExample: |-
+      -- ❌ 不推荐：时间戳列缺少默认值，插入时可能产生异常数据
+      CREATE TABLE t (created_at TIMESTAMP);
+    goodExample: |-
+      -- ✅ 推荐：显式指定时间戳默认值，自动填充当前时间
+      CREATE TABLE t (created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);
+  en:
+    name: Default Value Required for Timestamp Columns

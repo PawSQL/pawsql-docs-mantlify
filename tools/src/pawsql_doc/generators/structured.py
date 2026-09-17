@@ -50,7 +50,7 @@ def _page(root, route, identity, lang, title, description, body, editorial=None)
     path = root / "docs" / ("en" if lang == "en" else "") / route
     fm = {"id": identity, "translationKey": identity.removeprefix("en-").removeprefix("zh-"), "language": lang,
           "title": title, "type": "reference", "status": editorial.status if editorial else "draft"}
-    fm["entityRef"] = {"type": "database" if "databases/" in route else "configuration" if "configuration/" in route else "compatibility", "id": identity.removeprefix("zh-")}
+    fm["entityRef"] = {"type": "database" if "database/" in route else "configuration" if "configuration/" in route else "compatibility", "id": identity.removeprefix("zh-")}
     if editorial:
         fm["owners"] = editorial.owners
         if editorial.lastReviewed:
@@ -103,8 +103,48 @@ def database_pages(root, db):
         body.append("\nStatus: supported / partial (database- or version-limited) / unsupported." if not zh
                     else "\n状态：supported 完整支持 / partial 存在限制 / unsupported 不支持。")
         identity = ("zh-" if zh else "") + f"database-{db.database}"
-        written.append(_page(root, f"databases/{db.database}/index.md", identity, lang, name,
+        written.append(_page(root, f"reference/database/{db.database}/index.md", identity, lang, name,
                             content.summary if content else None, "\n".join(body), content.editorial if content else None))
+    return written
+
+
+def database_index_page(root, bundle):
+    """Landing page under reference/database aggregating every database guide."""
+    written = []
+    dbs = sorted(bundle.databases, key=lambda d: d.database)
+    for lang in ("zh", "en"):
+        zh = lang == "zh"
+        title = "数据库兼容性" if zh else "Database Compatibility"
+        desc = ("PawSQL 支持的数据库及能力矩阵（由 metadata/databases 生成）。" if zh
+                else "Databases PawSQL can optimize and audit, with supported versions.")
+        rows = []
+        for db in dbs:
+            name = _db_display(db, lang)
+            route = f"{'en/' if lang == 'en' else ''}reference/database/{db.database}/index"
+            versions = ", ".join(db.supportedVersions) or "—"
+            rows.append(f"| [{name}](/{route}) | {versions} |")
+        body = [
+            ("| 数据库 | 支持版本 |" if zh else "| Database | Supported versions |"),
+            "|---|---|",
+            *rows,
+            "",
+        ]
+        identity = ("en-" if lang == "en" else "") + "database-index"
+        fm = {
+            "id": identity,
+            "translationKey": "database-index",
+            "language": lang,
+            "title": title,
+            "type": "reference",
+            "subtype": "database",
+            "layout": "index",
+            "status": "draft",
+            "description": desc,
+            "localeOf": ("en-" if lang == "zh" else "") + "database-index",
+        }
+        path = root / "docs" / ("en" if lang == "en" else "") / "reference" / "database" / "index.md"
+        write_page(path, render_page(fm, "\n".join(body)))
+        written.append(path)
     return written
 
 

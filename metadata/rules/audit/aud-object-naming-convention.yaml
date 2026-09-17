@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/对象命名规范.md
+# TODO(产品核对): aud-object-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-object-naming-convention
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+- review:CREATE INDEX
+- review:ALTER TABLE ADD CONSTRAINT
+content:
+  zh:
+    name: 对象命名规范
+    description: |-
+      对象命名规范定义了数据库对象（包括表、列、索引、约束）的命名规则，通常要求对象名称使用小写字母和下划线（snake_case），以保持团队内部的一致性和代码可读性。不规范的命名会增加沟通成本，降低代码可读性，在跨团队协作时尤其容易引发误解。
+      该规则通过正则表达式来验证对象命名是否符合团队约定的规范。默认的正则模式要求对象名称全部使用小写字母，单词之间以下划线分隔，不包含特殊字符。
+    badExample: |-
+      -- ❌ 不推荐：使用了大写字母，命名不规范
+      CREATE TABLE MyDatabase (id INT);
+    goodExample: |-
+      -- ✅ 推荐：全部小写+下划线，符合命名规范
+      CREATE TABLE my_database (id INT);
+  en:
+    name: Object Naming Convention

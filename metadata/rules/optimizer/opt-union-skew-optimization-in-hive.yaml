@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/UNION导致的数据倾斜优化.md
+# TODO(产品核对): opt-union-skew-optimization-in-hive → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-union-skew-optimization-in-hive
+category: rewrite
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: UNION导致的数据倾斜优化
+    description: |-
+      在 Hive 等分布式计算平台中，`UNION` 操作在合并多个数据集的同时需要对结果进行全局去重。这个去重操作可能会被集中到单个 Reducer 执行，当数据量较大时容易产生数据倾斜，导致单个任务处理时间过长甚至无法完成。
+      PawSQL 建议使用 `UNION ALL` 代替 `UNION`，然后通过 `GROUP BY` 进行去重。`UNION ALL` 不进行去重操作，避免了单点瓶颈；后续的 `GROUP BY` 去重可以在多个 Reducer 上并行执行，有效缓解数据倾斜问题。
+      > 此规则适用于 Hive 数据仓库环境。Hive 基于 MapReduce/Spark 计算引擎，其执行机制与传统关系型数据库有本质区别。
+    badExample: |-
+      -- ❌ 不推荐：UNION 进行全局去重，可能产生单 Reducer 瓶颈
+      SELECT user_id FROM table_2024
+      UNION
+      SELECT user_id FROM table_2023;
+    goodExample: |-
+      -- ✅ 推荐：使用 UNION ALL + GROUP BY，去重操作可并行化
+      SELECT user_id FROM (
+          SELECT user_id FROM table_2024
+          UNION ALL
+          SELECT user_id FROM table_2023
+      ) t
+      GROUP BY user_id;
+  en:
+    name: UNION Skew Optimization in Hive

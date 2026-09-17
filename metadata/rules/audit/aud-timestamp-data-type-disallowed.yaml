@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/不允许使用时间戳类型.md
+# TODO(产品核对): aud-timestamp-data-type-disallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-timestamp-data-type-disallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 不允许使用时间戳类型
+    description: |-
+      TIMESTAMP 类型存在两大致命缺陷：第一，范围限制问题 -- TIMESTAMP 的最大值为 `'2038-01-19 03:14:07'` UTC，超过此时间点的数据将无法存储（即"2038 年问题"）；第二，时区转换问题 -- TIMESTAMP 在存储和读取时会自动进行时区转换，在不同时区环境或数据库迁移时可能导致数据不一致。
+      建议使用 DATETIME 类型替代 TIMESTAMP。DATETIME 的范围更大（`'1000-01-01'` 至 `'9999-12-31'`），且不受时区影响，存储和读取的值完全一致，更加可靠。
+    badExample: |-
+      -- ❌ 不推荐：TIMESTAMP 有 2038 年限制和时区转换问题
+      CREATE TABLE t (
+          ts TIMESTAMP
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用 DATETIME 类型替代
+      CREATE TABLE t (
+          dt DATETIME
+      );
+  en:
+    name: Timestamp Data Type Disallowed

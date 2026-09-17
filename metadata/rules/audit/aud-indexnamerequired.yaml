@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引必须要有名字.md
+# TODO(产品核对): aud-indexnamerequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-indexnamerequired
+category: index
+severity: info
+tags:
+- review:CREATE INDEX
+content:
+  zh:
+    name: 索引必须要有名字
+    description: |-
+      为索引指定一个有意义的名字，对于后续的数据库维护、性能分析和问题排查至关重要。通过索引名可以快速了解其所属表、包含的字段和用途（如普通索引、唯一索引等）。如果使用数据库自动生成的索引名，在日志和监控中将难以定位具体的索引，导致管理混乱。
+      显式命名索引也有助于团队协作——所有成员都能通过索引名称理解其设计意图。索引名应遵循统一的命名规范。
+    badExample: |-
+      -- ❌ 不推荐：创建索引时未指定名称
+      CREATE INDEX ON employee (last_name);
+      CREATE UNIQUE INDEX ON employee (emp_no);
+    goodExample: |-
+      -- ✅ 推荐：显式指定有意义的索引名称
+      CREATE INDEX idx_employee_last_name ON employee (last_name);
+      CREATE UNIQUE INDEX idx_employee_emp_no ON employee (emp_no);
+  en:
+    name: IndexNameRequired

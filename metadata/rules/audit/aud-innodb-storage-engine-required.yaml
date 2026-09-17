@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/必须使用INNODB存储引擎.md
+# TODO(产品核对): aud-innodb-storage-engine-required → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-innodb-storage-engine-required
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 必须使用INNODB存储引擎
+    description: |-
+      该规则要求所有创建表的操作必须指定InnoDB作为存储引擎。InnoDB是MySQL的默认存储引擎，支持事务（ACID）、行级锁定、外键约束和崩溃恢复等关键特性，能够提供更好的数据完整性和并发性能。相比之下，MyISAM等旧存储引擎不支持事务和行级锁，在高并发写入场景下容易出现表锁冲突，且不具备崩溃后的自动恢复能力。
+      在MySQL、PolarDB（InnoDB引擎）和TDSQL（InnoDB引擎）等基于MySQL的数据库中，创建表时应显式指定`ENGINE=InnoDB`或依赖数据库默认设置确保使用InnoDB。
+    badExample: |-
+      -- ❌ 不推荐：使用MyISAM引擎，不支持事务和行级锁
+      CREATE TABLE t (id INT) ENGINE=MyISAM;
+    goodExample: |-
+      -- ✅ 推荐：使用InnoDB引擎，支持事务、行级锁和崩溃恢复
+      CREATE TABLE t (id INT) ENGINE=InnoDB;
+  en:
+    name: InnoDB Storage Engine Required

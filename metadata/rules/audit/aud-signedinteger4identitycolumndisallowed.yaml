@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/自增列不得使用有符号整数.md
+# TODO(产品核对): aud-signedinteger4identitycolumndisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-signedinteger4identitycolumndisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 自增列不得使用有符号整数
+    description: |-
+      禁止在自增列中使用有符号整数类型（如 `INT`、`BIGINT` 未加 `UNSIGNED` 修饰），自增列的值永远是正数，使用有符号类型会浪费一半的取值空间。例如有符号 `INT` 的取值范围约为正负 21 亿，而 `INT UNSIGNED` 可提供约 42 亿的正数范围。
+      对于作为主键的自增列，更大的取值范围意味着更晚触发序列耗尽，有助于系统的长期稳定运行。建议自增列统一使用 `UNSIGNED` 修饰。
+    badExample: |-
+      -- ❌ 不推荐：自增列使用有符号整数，浪费一半取值范围
+      CREATE TABLE t (id INT AUTO_INCREMENT PRIMARY KEY);
+    goodExample: |-
+      -- ✅ 推荐：自增列使用无符号整数
+      CREATE TABLE t (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY);
+  en:
+    name: SignedInteger4IdentityColumnDisallowed

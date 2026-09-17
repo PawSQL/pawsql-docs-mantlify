@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止在分布式表上创建全局索引.md
+# TODO(产品核对): aud-globalindexondistributedtabledisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-globalindexondistributedtabledisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE INDEX
+content:
+  zh:
+    name: 禁止在分布式表上创建全局索引
+    description: |-
+      TDSQL 等分布式实例目前对全局索引的支持尚不成熟，且存在较多限制——如索引列不能有默认值、不能有 `TIMESTAMP` 类型、创建和维护全局索引需要在所有分片节点上协调元数据等。全局索引在分布式环境中会引入跨节点的数据一致性问题，且索引维护的复杂度随分片数线性增长。
+      在未与 DBA 充分确认前，禁止在分布式表上创建全局索引。推荐使用本地索引覆盖查询需求，并通过优化分片键选择来满足跨分片查询的性能要求。
+    badExample: |-
+      -- ❌ 不推荐：分布式表上创建全局索引，支持不成熟，限制多
+      CREATE UNIQUE GLOBAL INDEX idx_global ON t(col);
+    goodExample: |-
+      -- ✅ 推荐：使用本地索引 + 优化分片键选择
+      CREATE INDEX idx_local ON t(col);
+      -- 或调整分片键使查询落在单个分片
+  en:
+    name: GlobalIndexOnDistributedTableDisallowed

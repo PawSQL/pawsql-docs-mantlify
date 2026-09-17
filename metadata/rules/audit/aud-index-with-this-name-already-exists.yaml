@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引名已存在.md
+# TODO(产品核对): aud-index-with-this-name-already-exists → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-index-with-this-name-already-exists
+category: ddl
+severity: error
+tags:
+- review:CREATE INDEX
+content:
+  zh:
+    name: 索引名已存在
+    description: |-
+      此规则确保在创建新索引时，索引名称在数据库中是唯一的，避免与现有索引发生命名冲突。重复的索引名称会导致 SQL 执行失败，可能中断部署流程或造成预期之外的错误。
+      如果 SQL 语句添加了 `IF NOT EXISTS` 子句，则不会触发此规则告警。在生产环境中，建议始终显式管理索引名称。
+    badExample: |-
+      -- ❌ 不推荐：创建索引时名称与已存在的索引冲突
+      CREATE INDEX idx_orders_status ON orders(status);
+    goodExample: |-
+      -- ✅ 推荐：添加 IF NOT EXISTS 避免冲突
+      CREATE INDEX IF NOT EXISTS idx_orders_status_new ON orders(status);
+  en:
+    name: Index with this Name Already Exists

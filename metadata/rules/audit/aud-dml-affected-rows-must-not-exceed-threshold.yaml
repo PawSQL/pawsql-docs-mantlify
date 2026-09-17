@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/数据操作语句影响的行数不得超过阈值.md
+# TODO(产品核对): aud-dml-affected-rows-must-not-exceed-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-dml-affected-rows-must-not-exceed-threshold
+category: dml
+severity: error
+tags:
+- review:INSERT
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 数据操作语句影响的行数不得超过阈值
+    description: |-
+      单个事务中INSERT、UPDATE、DELETE等DML操作影响的行数过多（即"大事务"）会带来一系列严重问题：锁定大量记录，阻塞其他会话的正常操作；产生海量Binlog/WAL日志，导致主从同步延迟；事务回滚耗时极长，可能造成系统长时间不可用。应当通过将大事务拆分为小批次操作来控制每批影响的行数。
+      该规则对DML语句的影响行数进行预估，当预估影响行数超过预设阈值时触发告警。建议联机交易场景设置阈值5,000行，夜间批量作业可适当放宽至100,000行。
+    badExample: |-
+      -- ❌ 不推荐：一次性删除100万行，大事务可能锁表并产生海量日志
+      DELETE FROM log_table WHERE create_date < '2023-01-01';
+    goodExample: |-
+      -- ✅ 推荐：分批删除，控制每批影响行数在阈值内
+      DELETE FROM log_table WHERE create_date < '2023-01-01' LIMIT 5000;
+      -- 反复执行上述语句，直到受影响行数为0
+  en:
+    name: DML Affected Rows Must Not Exceed Threshold

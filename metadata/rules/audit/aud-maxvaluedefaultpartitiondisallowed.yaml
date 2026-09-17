@@ -1,0 +1,37 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止设置MAXVALUE默认分区.md
+# TODO(产品核对): aud-maxvaluedefaultpartitiondisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-maxvaluedefaultpartitiondisallowed
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE`（分区定义）
+content:
+  zh:
+    name: 禁止设置MAXVALUE默认分区
+    description: |-
+      使用 MAXVALUE 作为默认分区虽然可以避免数据无法落入分区的错误，但也会使得所有未预见的新数据全部涌入同一个分区，导致该分区数据量失控、查询性能恶化，并失去分区修剪的优势。
+      合理做法是预先规划好完整的分区键值范围，或者使用定期维护脚本自动创建新分区，而非依赖 MAXVALUE 兜底。此规则适用于 RANGE 分区表的定义。
+    badExample: |-
+      -- ❌ 不推荐：使用 MAXVALUE 默认分区
+      CREATE TABLE orders (
+          order_id BIGINT,
+          order_date DATE
+      ) PARTITION BY RANGE (YEAR(order_date)) (
+          PARTITION p2022 VALUES LESS THAN (2023),
+          PARTITION p2023 VALUES LESS THAN (2024),
+          PARTITION p_max VALUES LESS THAN (MAXVALUE)
+      );
+    goodExample: |-
+      -- ✅ 推荐：明确所有分区范围，不依赖 MAXVALUE
+      CREATE TABLE orders (
+          order_id BIGINT,
+          order_date DATE
+      ) PARTITION BY RANGE (YEAR(order_date)) (
+          PARTITION p2022 VALUES LESS THAN (2023),
+          PARTITION p2023 VALUES LESS THAN (2024),
+          PARTITION p2024 VALUES LESS THAN (2025)
+      );
+  en:
+    name: MaxValueDefaultPartitionDisallowed

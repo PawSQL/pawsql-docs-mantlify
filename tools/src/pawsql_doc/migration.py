@@ -23,7 +23,7 @@ def classify(data, route):
         ("reference/audit-rules/", "reference", "rule"),
         ("reference/optimizer-rules/", "reference", "rule"),
         ("reference/compatibility/", "reference", "database"),
-        ("databases/", "reference", "database"),
+        ("reference/database/", "reference", "database"),
         ("supported-databases", "reference", "database"),
         ("reference/configuration/", "reference", "configuration"),
         ("reference/api/", "reference", "api"),
@@ -56,7 +56,7 @@ def classify(data, route):
     if data["translationKey"].startswith("zh-"):
         data["translationKey"] = data["translationKey"][3:]
     # Only collection routes are indexes; cloud/index is an actual manual.
-    collections = ("reference/audit-rules/", "reference/optimizer-rules/", "reference/compatibility/", "blog/", "changelog/", "release-notes/", "use-cases/", "features/", "faq/", "tutorials/")
+    collections = ("reference/audit-rules/", "reference/optimizer-rules/", "reference/compatibility/", "reference/database/", "blog/", "changelog/", "release-notes/", "use-cases/", "features/", "faq/", "tutorials/")
     stem = route.removeprefix("en/")
     data["layout"] = "index" if any(stem == p + "index.md" or stem == p + "index.mdx" for p in collections) else "detail"
     if "supported-databases" in route:

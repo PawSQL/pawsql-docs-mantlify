@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/UPDATE_DELETE操作使用 LIMIT 子句.md
+# TODO(产品核对): aud-updatedelete-with-limit-warning → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-updatedelete-with-limit-warning
+category: dml
+severity: warning
+tags:
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: UPDATE/DELETE操作使用 LIMIT 子句
+    description: |-
+      在 `UPDATE` 或 `DELETE` 语句中使用 `LIMIT` 子句会导致不可预测的结果。由于缺少 `ORDER BY` 确定处理顺序，`LIMIT` 更新的具体行是随机的（取决于数据库内部的物理存储顺序），每次执行可能影响不同的行。这种行为使得数据库状态不可预测，难以调试和回滚。
+      PawSQL 检测此类写法并进行预警，引导开发者使用明确的 WHERE 条件来精确控制需要变更的数据行。
+    badExample: |-
+      -- ❌ 不推荐：LIMIT 导致不确定哪些行被更新/删除
+      UPDATE t SET status = 1 WHERE created_at < '2024-01-01' LIMIT 100;
+
+      -- ❌ 不推荐：DELETE + LIMIT 同样不确定
+      DELETE FROM t WHERE status = 0 LIMIT 50;
+    goodExample: |-
+      -- ✅ 推荐：使用明确的 WHERE 条件精确控制变更范围
+      UPDATE t SET status = 1 WHERE created_at < '2024-01-01' AND id IN (
+          SELECT id FROM t WHERE created_at < '2024-01-01' ORDER BY id LIMIT 100
+      );
+  en:
+    name: UPDATE/DELETE With LIMIT Warning

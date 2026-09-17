@@ -1,0 +1,32 @@
+# Canonical source: vault 20-engine/rules/规则文档/表需定义更新时间戳列.md
+# TODO(产品核对): aud-updatetimestampcolumnsrequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-updatetimestampcolumnsrequired
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 表需定义更新时间戳列
+    description: |-
+      要求表中包含更新时间戳列（如 `updated_at`、`modified_time`），以记录数据的最后更新时间，有助于数据变更追踪和问题排查。缺乏更新时间戳的表在数据审计、增量同步和数据生命周期管理中会增加额外的复杂度和开销。
+      建议使用 `TIMESTAMP` 或 `DATETIME` 类型，并配合 `ON UPDATE CURRENT_TIMESTAMP`（MySQL）或触发器（PostgreSQL）实现自动更新，确保时间戳的准确性和一致性。
+    badExample: |-
+      -- ❌ 不推荐：表缺少更新时间戳列
+      CREATE TABLE orders (
+          order_id BIGINT PRIMARY KEY,
+          amount DECIMAL(10,2)
+      );
+    goodExample: |-
+      -- ✅ 推荐：包含更新时间戳列，并设置自动更新
+      CREATE TABLE orders (
+          order_id BIGINT PRIMARY KEY,
+          amount DECIMAL(10,2),
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+      );
+  en:
+    name: UpdateTimeStampColumnsRequired

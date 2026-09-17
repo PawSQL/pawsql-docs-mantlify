@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/查询中表连接的个数超过阈值.md
+# TODO(产品核对): aud-number-of-joined-tables-exceeds-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-number-of-joined-tables-exceeds-threshold
+category: dml
+severity: warning
+tags:
+- review:SELECT`（涉及多表JOIN的查询）
+content:
+  zh:
+    name: 查询中表连接的个数超过阈值
+    description: |-
+      在单机版数据库中，执行计划的规划涉及表连接的顺序和连接方法的选择——这是优化器最重要的决策内容。表连接数目的增加会使优化器对于最优执行计划的搜寻空间呈几何级数增长：n个表的连接有(n-1)!种可能的连接顺序，每种顺序又有多种连接方法可选。这导致生成执行计划的时间变长，且在高连接数时优化器容易因搜索空间过大而生成性能较差的执行计划。
+      PawSQL检测单个查询块中表连接的数目是否超过阈值（默认为5），当超过时提醒用户可能存在性能风险。建议将多表连接拆分为多步查询，或使用临时表存储中间结果。
+    badExample: |-
+      -- ❌ 不推荐：单个查询块连接6张表，超过默认阈值5，优化器规划空间过大
+      SELECT *
+      FROM t1
+      JOIN t2 ON t1.id = t2.t1_id
+      JOIN t3 ON t2.id = t3.t2_id
+      JOIN t4 ON t3.id = t4.t3_id
+      JOIN t5 ON t4.id = t5.t4_id
+      JOIN t6 ON t5.id = t6.t5_id;
+    goodExample: |-
+      -- ✅ 推荐：拆分为多步查询或使用临时表减少单查询块的连接数
+      -- 将前3张表的连接结果存入临时表，再与其余表关联
+  en:
+    name: Number of Joined Tables Exceeds Threshold

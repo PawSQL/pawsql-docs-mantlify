@@ -1,0 +1,17 @@
+# Canonical source: vault 20-engine/rules/规则文档/关联字段不均匀导致数据倾斜优化.md
+# TODO(产品核对): opt-data-skew-optimization-for-uneven-join-keys → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-data-skew-optimization-for-uneven-join-keys
+category: rewrite
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 关联字段不均匀导致数据倾斜优化
+    description: |-
+      在分布式计算或大规模数据处理（如 Hive、Spark SQL）场景中，表关联（JOIN）操作的关联字段如果数据分布严重不均匀（即存在"热点值"），会导致大量数据集中到少数计算节点，造成数据倾斜。数据倾斜不仅使个别节点负载过高、处理时间过长，还会导致整体查询性能严重下降，甚至引发任务失败。
+      当检测到关联字段的数据分布不均匀时，应当采取分桶、加盐（salting）、Map 端 JOIN、或调整关联策略等措施来缓解数据倾斜问题。PawSQL 可自动识别此类场景并提供优化建议。
+  en:
+    name: Data Skew Optimization for Uneven Join Keys

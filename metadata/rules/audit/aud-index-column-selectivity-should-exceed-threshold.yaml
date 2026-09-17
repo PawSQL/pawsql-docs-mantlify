@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/建议索引字段对区分度大于阈值.md
+# TODO(产品核对): aud-index-column-selectivity-should-exceed-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-index-column-selectivity-should-exceed-threshold
+category: index
+severity: info
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 建议索引字段对区分度大于阈值
+    description: |-
+      选择区分度高的字段作为索引，可以利用索引快速定位数据，提升查询效率。区分度（Selectivity）指索引字段中不同值的数量占总行数的比例——区分度越接近1，索引越有效。如果字段区分度过低（如性别字段仅包含男/女两种值），索引无法有效过滤数据，数据库优化器可能放弃使用索引而转向全表扫描，索引不仅浪费了存储空间，还增加了写入时的维护负担。
+      该规则检查索引字段的区分度（基数/总行数）是否低于预设阈值（默认0.1，即10%）。建议选择区分度大于10%的字段创建索引，以确保索引发挥实际效用。
+    badExample: |-
+      -- ❌ 不推荐：gender字段只有M/F两种值，区分度极低，索引几乎无效
+      CREATE INDEX idx_gender ON user(gender);
+    goodExample: |-
+      -- ✅ 推荐：在区分度高的字段上创建索引，有效过滤数据
+      CREATE INDEX idx_user_id ON user(user_id);
+  en:
+    name: Index Column Selectivity Should Exceed Threshold

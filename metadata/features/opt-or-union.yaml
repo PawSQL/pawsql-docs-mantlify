@@ -15,7 +15,7 @@ documentation:
     required: true
     paths: []
     documents:
-    - documentId: optimizer-rule-opt-or-union
+    - documentId: optimizer-rule-opt-or-condition-select-rewrite
       language: zh
   userGuide:
     required: false

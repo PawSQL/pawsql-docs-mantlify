@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/表上应使用指定的字符集.md
+# TODO(产品核对): aud-specificcharset4tablerequired → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specificcharset4tablerequired
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表上应使用指定的字符集
+    description: |-
+      要求表必须使用指定的字符集（如 `utf8mb4`），以确保数据存储的一致性和国际化支持。字符集不一致会导致数据在各表之间迁移、关联或展示时出现乱码问题，特别是在多语言环境和分布式部署中需要特别关注。
+      默认配置为 `utf8mb4`（MySQL）或 `UTF8`（PostgreSQL），可通过配置调整为符合企业规范的其他字符集。
+    badExample: |-
+      -- ❌ 不推荐：表字符集不符合规范
+      CREATE TABLE t (id INT) CHARSET = latin1;
+    goodExample: |-
+      -- ✅ 推荐：使用指定的标准字符集
+      CREATE TABLE t (id INT) CHARSET = utf8mb4;
+  en:
+    name: SpecificCharSet4TableRequired

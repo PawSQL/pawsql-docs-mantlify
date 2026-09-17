@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/在一个查询块中引用多表应使用别名.md
+# TODO(产品核对): aud-use-table-aliases-in-multitable-queries → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-table-aliases-in-multitable-queries
+category: dml
+severity: info
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE`（涉及多表引用的语句）
+content:
+  zh:
+    name: 在一个查询块中引用多表应使用别名
+    description: |-
+      如果在一个查询块中存在多个表的引用，应当为每个表起一个简单易认的别名，并为所有的字段添加别名前缀。这样做可以显著提升SQL代码的可读性，方便开发人员进行代码阅读以及后续维护。缺少别名的多表查询在字段来源不明确时，容易引发歧义，增加调试和排错的成本。
+      该规则适用于所有包含多表引用的DML查询语句，是SQL编码规范中的基础要求。
+    badExample: |-
+      -- ❌ 不推荐：多表查询缺少别名，字段来源不明确
+      SELECT col1, col2 FROM table1, table2;
+    goodExample: |-
+      -- ✅ 推荐：为每个表起别名，并为字段添加别名前缀
+      SELECT t1.col1, t2.col2 FROM table1 t1, table2 t2;
+
+      -- ✅ 推荐：使用JOIN语法并添加别名
+      SELECT o.order_id, c.customer_name
+      FROM orders o
+      JOIN customers c ON o.customer_id = c.id;
+  en:
+    name: Use Table Aliases in Multi-Table Queries

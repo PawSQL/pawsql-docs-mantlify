@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/避免不同字段的OR条件.md
+# TODO(产品核对): aud-avoid-or-conditions-on-different-columns → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-avoid-or-conditions-on-different-columns
+category: index
+severity: warning
+tags:
+- review:SELECT
+- review:UPDATE
+- review:DELETE
+content:
+  zh:
+    name: 避免不同字段的OR条件
+    description: |-
+      对于同一字段上的多个 OR 条件（如 `WHERE col = 1 OR col = 2`），数据库优化器可以将其统一视为一个索引范围扫描的候选项，从而利用索引进行高效的数据定位。然而，当 OR 条件涉及不同字段时（如 `WHERE col_a = 1 OR col_b = 2`），优化器通常无法在单次索引扫描中同时覆盖两个不同的列，可能被迫选择全表扫描来评估条件。
+      如果确实需要在不同字段间使用 OR 条件，可以考虑将其重写为 UNION ALL 的形式，使每个分支都能独立利用各自的索引；或者在两个字段上建立复合索引来覆盖该查询模式。
+    badExample: |-
+      -- ❌ 不推荐：OR 条件跨不同字段，难以利用索引
+      SELECT * FROM t WHERE col_a = 1 OR col_b = 2;
+    goodExample: |-
+      -- ✅ 推荐：重写为 UNION ALL，每个分支各自利用索引
+      SELECT * FROM t WHERE col_a = 1
+      UNION ALL
+      SELECT * FROM t WHERE col_b = 2;
+  en:
+    name: Avoid OR Conditions on Different Columns

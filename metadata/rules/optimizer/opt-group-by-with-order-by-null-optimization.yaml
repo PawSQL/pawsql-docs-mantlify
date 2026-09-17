@@ -1,0 +1,17 @@
+# Canonical source: vault 20-engine/rules/规则文档/为分组显式添加空排序(_MYSQL 5.7).md
+# TODO(产品核对): opt-group-by-with-order-by-null-optimization → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-group-by-with-order-by-null-optimization
+category: rewrite
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 为分组显式添加空排序(MySQL 5.7)
+    description: |-
+      在 MySQL 5.7 及更早版本中，即使没有明确指定 `ORDER BY` 子句，`GROUP BY` 默认也会按分组字段进行隐式排序。这种隐式排序行为会触发额外的文件排序（filesort）操作，消耗不必要的计算资源，影响 SQL 查询的执行性能。
+      通过显式添加 `ORDER BY NULL` 可以强制取消 `GROUP BY` 的隐式排序，从而避免不必要的排序开销。PawSQL 能够自动识别此类场景并进行重写优化。
+  en:
+    name: GROUP BY with ORDER BY NULL Optimization

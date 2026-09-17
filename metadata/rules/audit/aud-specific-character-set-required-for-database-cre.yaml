@@ -1,0 +1,24 @@
+# Canonical source: vault 20-engine/rules/规则文档/创建库或模式时必须使用指定字符集.md
+# TODO(产品核对): aud-specific-character-set-required-for-database-cre → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-specific-character-set-required-for-database-cre
+category: ddl
+severity: warning
+tags:
+- review:CREATE DATABASE
+- review:CREATE SCHEMA
+content:
+  zh:
+    name: 创建库或模式时必须使用指定字符集
+    description: |-
+      要求在创建数据库或模式时使用指定的字符集，以确保数据的一致性和跨环境兼容性。如果未使用规定的字符集，可能导致不同环境之间的字符编码不一致，引发乱码、数据截断或索引失效等问题。
+      通过配置指定字符集（如 `utf8mb4`），可以强制所有环境使用统一的字符编码标准，从源头上杜绝字符集不一致带来的各类问题。
+    badExample: |-
+      -- ❌ 不推荐：未使用指定的字符集
+      CREATE DATABASE mydb CHARACTER SET latin1;
+    goodExample: |-
+      -- ✅ 推荐：使用指定的字符集 utf8mb4
+      CREATE DATABASE mydb DEFAULT CHARACTER SET utf8mb4;
+  en:
+    name: Specific Character Set Required for Database Creation

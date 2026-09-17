@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止删除字段.md
+# TODO(产品核对): aud-droppingcolumnsdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-droppingcolumnsdisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE DROP COLUMN
+content:
+  zh:
+    name: 禁止删除字段
+    description: |-
+      禁止直接删除表中的字段（`DROP COLUMN`）。删除字段会导致历史 SQL、报表、ETL 脚本与应用代码瞬间失效，且数据不可逆丢失。即使当前认为某个字段已无用途，也可能存在未被充分评估的下游依赖（如定时任务、数据导出、监控大盘等），直接删除将引发大面积故障。
+      正确做法是先做血缘与依赖分析，将字段标记为废弃并停止写入，经过充分的观察期确认无任何引用后，再在备份与变更窗口内安全下线。
+    badExample: |-
+      -- ❌ 不推荐：直接删除列，不可逆，可能破坏下游依赖
+      ALTER TABLE t DROP COLUMN some_col;
+    goodExample: |-
+      -- ✅ 推荐：标记废弃 → 观察期 → 灰度下线
+      -- 1. 停止应用写入该字段
+      -- 2. 观察 N 个业务周期，确认无查询引用
+      -- 3. 备份数据
+      -- 4. ALTER TABLE t DROP COLUMN some_col;
+  en:
+    name: DroppingColumnsDisallowed

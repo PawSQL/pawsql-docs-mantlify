@@ -1,0 +1,32 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止使用触发器.md
+# TODO(产品核对): aud-triggerdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-triggerdisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TRIGGER
+content:
+  zh:
+    name: 禁止使用触发器
+    description: |-
+      禁止使用触发器。触发器将业务逻辑与数据库深度耦合，增加了系统的复杂性，不利于扩展和维护。触发器在后台自动执行，出现问题（如死锁、性能瓶颈、级联触发导致的雪崩效应）时难以定位和排查，排查工具和日志通常无法穿透触发器的执行边界。此外，触发器可能导致主从复制异常，引发数据不一致的风险。
+      所有业务逻辑应在应用层显式实现，确保逻辑的可见性、可调试性和可版本管理性。对于数据审计、变更日志等需求，应通过应用层的切面或中间件实现，而非依赖数据库触发器。
+    badExample: |-
+      -- ❌ 不推荐：触发器隐式执行，难以排查和调试
+      CREATE TRIGGER trg_example
+      AFTER INSERT ON table1
+      FOR EACH ROW
+      BEGIN
+          UPDATE table2 SET count = count + 1 WHERE id = NEW.id;
+      END;
+    goodExample: |-
+      -- ✅ 推荐：在应用层显式实现业务联动逻辑
+      -- 应用代码示例：在事务中依次执行 INSERT 和 UPDATE
+      -- BEGIN;
+      -- INSERT INTO table1 ...;
+      -- UPDATE table2 SET count = count + 1 WHERE id = ?;
+      -- COMMIT;
+  en:
+    name: TriggerDisallowed

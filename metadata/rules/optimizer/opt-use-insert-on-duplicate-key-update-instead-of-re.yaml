@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/使用INSERT…UPDATE替代REPLACE语句.md
+# TODO(产品核对): opt-use-insert-on-duplicate-key-update-instead-of-re → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-use-insert-on-duplicate-key-update-instead-of-re
+category: rewrite
+severity: warning
+tags:
+- review:INSERT
+content:
+  zh:
+    name: 使用 INSERT...ON DUPLICATE KEY UPDATE 替代 REPLACE 语句
+    description: |-
+      `REPLACE INTO` 的语义是：当发生主键或唯一键冲突时，先删除旧记录，再插入新记录。这个过程除了执行 `INSERT` 之外，还会先执行一个 `DELETE` 操作，产生双倍的写入日志。更为严重的是，`DELETE` 操作会产生间隙锁（gap lock），容易引发死锁，在高并发场景下风险极高。
+      建议使用 `INSERT ... ON DUPLICATE KEY UPDATE` 替代 `REPLACE INTO`。后者在发生冲突时直接在原记录上执行更新操作，避免了先删后插的额外开销，更加高效和安全。
+    badExample: |-
+      -- ❌ 不推荐：REPLACE 先删后插，产生双倍日志和间隙锁
+      REPLACE INTO t_user (id, name, email)
+      VALUES (1, '张三', 'zhangsan@example.com');
+    goodExample: |-
+      -- ✅ 推荐：ON DUPLICATE KEY UPDATE 直接更新，高效安全
+      INSERT INTO t_user (id, name, email)
+      VALUES (1, '张三', 'zhangsan@example.com')
+      ON DUPLICATE KEY UPDATE name = VALUES(name), email = VALUES(email);
+  en:
+    name: Use INSERT ON DUPLICATE KEY UPDATE Instead of REPLACE

@@ -1,0 +1,33 @@
+# Canonical source: vault 20-engine/rules/规则文档/VARCHAR字段长度超过阈值.md
+# TODO(产品核对): aud-varchar-column-length-exceeds-threshold → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-varchar-column-length-exceeds-threshold
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: VARCHAR字段长度超过阈值
+    description: |-
+      VARCHAR 字段长度设置过大（如 `VARCHAR(65535)`）会造成行与索引膨胀，增加 I/O 与内存占用，降低缓存命中率，并削弱排序和连接操作的效率。过大的长度声明还会降低统计信息的估算精度，影响数据库优化器做出正确的执行计划选择。
+      合理做法是依据真实数据分布设定接近上限的长度，对确实可能超长的内容改用 TEXT 类型（配合前缀索引或哈希列索引），在应用层或数据库层加长度约束来控制数据尺寸。PawSQL 检测 VARCHAR 字段长度是否超过配置的阈值（默认 10000）并进行预警。
+    badExample: |-
+      -- ❌ 不推荐：VARCHAR 字段长度过大（>10000），导致行与索引膨胀
+      CREATE TABLE t (
+          content VARCHAR(65535)
+      );
+    goodExample: |-
+      -- ✅ 推荐：根据实际数据分布设定合理长度
+      CREATE TABLE t (
+          content VARCHAR(500)
+      );
+
+      -- ✅ 推荐：对超长内容使用 TEXT 类型
+      CREATE TABLE t (
+          content TEXT
+      );
+  en:
+    name: VARCHAR Column Length Exceeds Threshold

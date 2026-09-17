@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止对非整形常量进行GROUP BY.md
+# TODO(产品核对): aud-groupbyconstexprdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-groupbyconstexprdisallowed
+category: dml
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 禁止对非整形常量进行GROUP BY
+    description: |-
+      对非整数常量进行分组实际上没有意义——这种写法通常是开发者在编写 SQL 时误将列名或表达式写成了字符串常量。在 PostgreSQL 中，这种写法会导致语法报错，从而快速暴露问题；但在 MySQL 中却不会报错，静默执行后返回的结果看似正常但逻辑完全错误，排查难度极大。
+      该规则要求在 SQL 审计中检测并禁止在 `GROUP BY` 子句中使用常量值，确保分组字段始终为有效的列名或表达式。
+    badExample: |-
+      -- ❌ 不推荐：GROUP BY 常量无意义，MySQL 静默执行但不正确
+      SELECT l_orderkey, sum(l_quantity)
+      FROM lineitem
+      GROUP BY '1';
+    goodExample: |-
+      -- ✅ 推荐：GROUP BY 使用列名或有效表达式
+      SELECT l_orderkey, sum(l_quantity)
+      FROM lineitem
+      GROUP BY l_orderkey;
+  en:
+    name: GroupByConstExprDisallowed

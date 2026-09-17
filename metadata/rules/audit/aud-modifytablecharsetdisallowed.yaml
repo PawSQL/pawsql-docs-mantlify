@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止修改表的默认字符集.md
+# TODO(产品核对): aud-modifytablecharsetdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-modifytablecharsetdisallowed
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE MODIFY COLUMN
+content:
+  zh:
+    name: 禁止修改表的默认字符集
+    description: |-
+      禁止修改表的默认字符集。修改表的字符集会触发全表数据重新编码，这个过程极其消耗资源且持有元数据锁，可能导致长时间的业务阻塞。更严重的是，在字符集转换过程中，如果存在无法映射的字符，可能导致数据静默损坏（被替换为 `?` 或截断），且这一问题在转换完成后难以发现和恢复。
+      字符集应在建表时一次性确定，并在整个数据库实例中保持统一。如果确实需要变更，应通过创建新表并逐步迁移数据的方式实现。
+    badExample: |-
+      -- ❌ 不推荐：修改表字符集，触发全表重建，可能导致数据损坏
+      ALTER TABLE t CONVERT TO CHARACTER SET latin1;
+    goodExample: |-
+      -- ✅ 推荐：建表时指定统一字符集
+      CREATE TABLE t (
+          id INT
+      ) DEFAULT CHARSET=utf8mb4;
+  en:
+    name: ModifyTableCharSetDisallowed

@@ -1,0 +1,29 @@
+# Canonical source: vault 20-engine/rules/规则文档/每个表只能有一个自增列.md
+# TODO(产品核对): aud-oneidentitycolumnallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-oneidentitycolumnallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 每个表只能有一个自增列
+    description: |-
+      每个表只能包含一个自增列（`AUTO_INCREMENT` / `IDENTITY` / `SERIAL`），这是大多数关系数据库的硬性限制。自增列用于生成唯一、递增的数值型标识，如果在同一张表中定义多个自增列，会导致表创建失败或运行时数据异常——例如 MySQL InnoDB/MyISAM 引擎不允许存在多个自增字段，PostgreSQL 中一张表也只能有一个 `SERIAL` 类型列。
+      合理的自增列设计应当结合主键规范：每一张表只保留一个自增列作为物理行标识，其他需要递增编号的场景应通过序列（Sequence）或应用层逻辑实现。
+    badExample: |-
+      -- ❌ 不推荐：同一张表定义多个自增列，MySQL 会直接拒绝
+      CREATE TABLE t (
+          id1 INT AUTO_INCREMENT,
+          id2 INT AUTO_INCREMENT
+      );
+    goodExample: |-
+      -- ✅ 推荐：只保留一个自增列作为主键
+      CREATE TABLE t (
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          code VARCHAR(32) NOT NULL
+      );
+  en:
+    name: OneIdentityColumnAllowed

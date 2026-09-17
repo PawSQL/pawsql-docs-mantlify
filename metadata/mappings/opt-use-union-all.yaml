@@ -3,5 +3,5 @@ feature: OPT-USE-UNION-ALL
 documents:
 - relation: reference
   required: true
-  documentId: optimizer-rule-opt-use-union-all
+  documentId: optimizer-rule-opt-use-union-all-instead-of-union
   language: zh

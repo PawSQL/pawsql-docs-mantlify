@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/表连接缺少连接条件.md
+# TODO(产品核对): aud-missingjoincondition → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-missingjoincondition
+category: dml
+severity: info
+tags:
+- review:SELECT
+content:
+  zh:
+    name: 表连接缺少连接条件
+    description: |-
+      表连接缺少连接条件会导致结果集变成两个表的笛卡尔积，数据量随两表行数乘积增长，极易造成结果集膨胀失控，且极大概率不符合开发者的预期。
+      PawSQL 会检查此类写法并发出告警提醒。建议在所有 JOIN 语句中明确写出 ON 条件，或使用 INNER JOIN / LEFT JOIN 语法替代逗号分隔的隐式连接。
+    badExample: |-
+      -- ❌ 不推荐：表连接缺少连接条件，产生笛卡尔积
+      SELECT *
+      FROM orders o
+      JOIN customer c;
+
+      -- ❌ 不推荐：隐式连接缺少 WHERE 条件
+      SELECT * FROM orders, customer;
+    goodExample: |-
+      -- ✅ 推荐：明确指定连接条件
+      SELECT *
+      FROM orders o
+      JOIN customer c ON o.customer_id = c.id;
+  en:
+    name: MissingJoinCondition

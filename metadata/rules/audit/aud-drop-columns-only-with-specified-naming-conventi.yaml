@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/只能删除指定命名规范的列.md
+# TODO(产品核对): aud-drop-columns-only-with-specified-naming-conventi → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-drop-columns-only-with-specified-naming-conventi
+category: ddl
+severity: warning
+tags:
+- review:ALTER TABLE DROP COLUMN
+content:
+  zh:
+    name: 只能删除指定命名规范的列
+    description: |-
+      此规则限制只能删除符合特定命名规范的列，目的是将变更范围限定在明确标识为临时、冗余或过渡用途的字段上，避免误删核心业务数据并降低依赖断裂与历史任务失败的风险。
+      通过配置正则表达式（如 `.*_del$`），只有以特定后缀结尾的列才允许被删除，从流程上杜绝了误操作的可能性。在需要清理历史字段时，应先通过重命名将其纳入删除白名单，再进行删除操作。
+    badExample: |-
+      -- ❌ 不推荐：删除不符合命名规范的列（可能误删核心字段）
+      ALTER TABLE t_user DROP COLUMN user_name;
+    goodExample: |-
+      -- ✅ 推荐：只删除符合删除命名规范的列（如以 _del 结尾）
+      ALTER TABLE t_user DROP COLUMN user_name_del;
+  en:
+    name: Drop Columns Only with Specified Naming Convention

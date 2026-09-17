@@ -3,5 +3,5 @@ feature: AUDIT-EXPR-ORDER-BY
 documents:
 - relation: reference
   required: true
-  documentId: audit-rule-aud-expression-in-order-by
+  documentId: audit-rule-aud-expression-in-order-by-causes-index-invalidation
   language: zh

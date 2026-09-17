@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/分布键应使用区分度大的字段.md
+# TODO(产品核对): aud-use-high-cardinality-distribution-keys → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-use-high-cardinality-distribution-keys
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE`（分布式环境）
+content:
+  zh:
+    name: 分布键应使用区分度大的字段
+    description: |-
+      分布键的区分度（Cardinality）直接影响数据的分布均匀性。低区分度的字段（如性别、状态码、布尔值等）作为分布键时，数据将高度集中在少数几个节点上，引发严重的数据倾斜。数据倾斜会导致部分节点负载过高、存储不均、查询性能下降，甚至造成集群资源浪费。
+      选择高区分度字段（如订单ID、用户ID等业务主键）作为分布键，可以实现更均匀的数据分布，确保各节点负载均衡，充分发挥分布式数据库的并行计算优势。
+    badExample: |-
+      -- ❌ 不推荐：使用低区分度字段（如性别）作为分布键，数据严重倾斜
+      CREATE TABLE t_user (
+          gender CHAR(1),
+          name   VARCHAR(50)
+      ) DISTRIBUTED BY HASH (gender);
+    goodExample: |-
+      -- ✅ 推荐：使用高区分度字段（如唯一ID）作为分布键
+      CREATE TABLE t_user (
+          id     BIGINT,
+          gender CHAR(1),
+          name   VARCHAR(50)
+      ) DISTRIBUTED BY HASH (id);
+  en:
+    name: Use High Cardinality Distribution Keys

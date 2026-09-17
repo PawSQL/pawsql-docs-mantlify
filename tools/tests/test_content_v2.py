@@ -178,6 +178,15 @@ def test_invalid_navigation_frontmatter_blocks_release(repo):
 def test_release_success_excludes_unlisted_draft(tmp_path):
     root = tmp_path / "source"
     (root / "docs").mkdir(parents=True)
+    (root / "docs/openapi").mkdir(parents=True)
+    (root / "docs/openapi/pawsql-integration.yaml").write_text(
+        "openapi: 3.0.0\ninfo:\n  title: Integration API\n  version: 1.0.0\npaths: {}\n",
+        encoding="utf-8",
+    )
+    (root / "docs/openapi/pawsql-optimization.yaml").write_text(
+        "openapi: 3.0.0\ninfo:\n  title: Optimization API\n  version: 1.0.0\npaths: {}\n",
+        encoding="utf-8",
+    )
     (root / "metadata/products").mkdir(parents=True)
     (root / "metadata/products/pawsql.yaml").write_text("id: pawsql\nname: PawSQL\n", encoding="utf-8")
     approved = {"id": "home", "title": "Home", "type": "explanation", "product": "pawsql", "status": "approved", "description": "Intro", "owners": ["team"], "lastReviewed": "2026-09-08", "sections": {k: "Content" for k in ("definition", "purpose", "mechanism", "limitations", "nextSteps")}}

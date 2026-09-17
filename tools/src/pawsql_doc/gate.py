@@ -46,7 +46,7 @@ def rule_reference_path(rule: RuleMetadata, kind: str) -> str:
 def database_reference_path(db: DatabaseMetadata) -> str:
     # Database guides are English-only until P0.6 adds a zh generator,
     # so they still live in the secondary /en tree.
-    return f"docs/en/databases/{db.database}/index.md"
+    return f"docs/en/reference/database/{db.database}/index.md"
 
 
 def config_reference_path(cfg: ConfigMetadata) -> str:

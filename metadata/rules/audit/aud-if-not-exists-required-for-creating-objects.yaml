@@ -1,0 +1,31 @@
+# Canonical source: vault 20-engine/rules/规则文档/创建表_视图_索引时需指定ifNotExists.md
+# TODO(产品核对): aud-if-not-exists-required-for-creating-objects → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-if-not-exists-required-for-creating-objects
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:CREATE VIEW
+- review:CREATE INDEX
+content:
+  zh:
+    name: 创建表/视图/索引时需指定 IF NOT EXISTS
+    description: |-
+      创建表、视图或索引时要求使用 `IF NOT EXISTS` 子句，以避免在重复执行部署脚本或多环境回放时因对象已存在而报错中断变更流程。这是提升 DDL 脚本幂等性和自动化发布稳定性的重要实践。
+      如果不添加 `IF NOT EXISTS`，当对象已存在时 `CREATE` 语句会直接报错，导致整个部署流程失败。启用此规则可以确保脚本在多次执行时的行为一致，同时仍需配合结构一致性校验防止"存在但定义不一致"的隐性问题。
+    badExample: |-
+      -- ❌ 不推荐：未使用 IF NOT EXISTS，重复执行会报错
+      CREATE TABLE t_user (
+          id   BIGINT,
+          name VARCHAR(50)
+      );
+    goodExample: |-
+      -- ✅ 推荐：使用 IF NOT EXISTS，确保幂等性
+      CREATE TABLE IF NOT EXISTS t_user (
+          id   BIGINT,
+          name VARCHAR(50)
+      );
+  en:
+    name: IF NOT EXISTS Required for Creating Objects

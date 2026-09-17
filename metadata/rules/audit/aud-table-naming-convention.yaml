@@ -1,0 +1,25 @@
+# Canonical source: vault 20-engine/rules/规则文档/表名命名规范.md
+# TODO(产品核对): aud-table-naming-convention → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-table-naming-convention
+category: ddl
+severity: info
+tags:
+- review:CREATE TABLE
+content:
+  zh:
+    name: 表名命名规范
+    description: |-
+      此规则定义了表名的命名规范，通常要求表名使用小写字母和下划线（snake_case），以保持一致性和可读性。统一的表名规范便于团队协作、代码维护和自动化工具的集成。
+      默认命名模式为 `^[a-z]+(_[a-z]+)*$`（全小写，字母和下划线组成），可通过正则表达式配置。不符合规范的表名会在审核时触发提示。
+    badExample: |-
+      -- ❌ 不推荐：表名使用了大写字母（不符合 snake_case 规范）
+      CREATE TABLE MyTable (id INT);
+      CREATE TABLE OrderItems (id INT);
+    goodExample: |-
+      -- ✅ 推荐：全小写 + 下划线命名
+      CREATE TABLE my_table (id INT);
+      CREATE TABLE order_items (id INT);
+  en:
+    name: Table naming convention

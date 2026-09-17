@@ -1,0 +1,30 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止为列表中的列设置非空默认值.md
+# TODO(产品核对): aud-largeobjectdefaultnonnulldisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-largeobjectdefaultnonnulldisallowed
+category: ddl
+severity: warning
+tags:
+- review:CREATE TABLE
+- review:ALTER TABLE ADD COLUMN
+content:
+  zh:
+    name: 禁止为列表中的列设置非空默认值
+    description: |-
+      禁止为 BLOB、CLOB、TEXT 等大对象类型的列设置非空默认值。大对象类型的数据通常体积庞大，为这类列设置非空默认值意味着即使业务未显式提供该字段的值，数据库也会为每一行填充默认的大对象数据，这会导致存储空间的严重浪费和写入性能的显著下降。在批量操作场景下，这种隐式的数据膨胀尤其危险，可能导致磁盘空间快速耗尽。
+      正确做法是让大对象列允许 NULL（或设置合理的应用层默认值），由应用层在确实需要时显式写入数据。
+    badExample: |-
+      -- ❌ 不推荐：为大对象列设置非空默认值，导致存储膨胀
+      CREATE TABLE t (
+          id INT NOT NULL,
+          content TEXT NOT NULL DEFAULT 'placeholder content...'
+      );
+    goodExample: |-
+      -- ✅ 推荐：大对象列允许 NULL，业务需要时再写入
+      CREATE TABLE t (
+          id INT NOT NULL,
+          content TEXT
+      );
+  en:
+    name: LargeObjectDefaultNonNullDisallowed

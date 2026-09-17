@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/索引中的字段不可以为TEXT和LOB类型.md
+# TODO(产品核对): aud-textlobcolumnsinindexdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-textlobcolumnsinindexdisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 索引中的字段不可以为TEXT和LOB类型
+    description: |-
+      索引中不应包含 TEXT 和 LOB（如 BLOB、CLOB）类型的字段，因为这些类型的字段通常存储大体积数据，会导致索引节点膨胀、索引扫描效率低下，且部分数据库引擎对这些大对象类型根本不支持索引。
+      如果确实需要对大文本字段进行搜索，应考虑使用前缀索引（指定前缀长度）、全文索引（FULLTEXT），或将数据拆分至单独的表进行关联查询。
+    badExample: |-
+      -- ❌ 不推荐：TEXT/LOB 列不能用于普通索引
+      CREATE INDEX idx_content ON article(content TEXT);
+    goodExample: |-
+      -- ✅ 推荐：使用前缀索引或全文索引
+      CREATE INDEX idx_content ON article(content(100));
+      -- 或
+      CREATE FULLTEXT INDEX idx_content_ft ON article(content);
+  en:
+    name: Text&LobColumnsInIndexDisallowed

@@ -1,0 +1,23 @@
+# Canonical source: vault 20-engine/rules/规则文档/INSERT语句禁止使用SYSDATE函数.md
+# TODO(产品核对): aud-sysdate-function-forbidden-in-insert → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-sysdate-function-forbidden-in-insert
+category: dml
+severity: warning
+tags:
+- review:INSERT
+content:
+  zh:
+    name: INSERT语句禁止使用SYSDATE函数
+    description: |-
+      在基于 STATEMENT 模式的 MySQL 主从复制环境下，`SYSDATE()` 函数会返回语句实际执行时的时间点。由于主库执行语句与从库通过日志重放存在时间差，从库执行时 `SYSDATE()` 会返回不同的时间值，导致主从数据不一致。这是一个常见的 MySQL 数据一致性陷阱。
+      因此，在 MySQL 环境下，INSERT 语句中应避免使用 `SYSDATE()` 函数作为列的取值，改用 `NOW()` 或应用层传入固定的时间值。
+    badExample: |-
+      -- ❌ 不推荐：SYSDATE() 在主从复制下产生不一致的时间值
+      INSERT INTO t (ctime) VALUES (SYSDATE());
+    goodExample: |-
+      -- ✅ 推荐：使用 NOW() 替代 SYSDATE()，或由应用层传入固定时间
+      INSERT INTO t (ctime) VALUES (NOW());
+  en:
+    name: SYSDATE Function Forbidden in INSERT

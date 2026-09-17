@@ -1,0 +1,28 @@
+# Canonical source: vault 20-engine/rules/规则文档/HIVE中COUNT(DISTINCT...) 导致数据倾斜优化.md
+# TODO(产品核对): opt-countdistinct-skew-optimization-in-hive → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: opt-countdistinct-skew-optimization-in-hive
+category: rewrite
+severity: warning
+tags:
+- review:SELECT
+content:
+  zh:
+    name: HIVE中COUNT(DISTINCT...) 导致数据倾斜优化
+    description: |-
+      在 Hive 计算引擎中，`COUNT(DISTINCT column)` 操作需要将所有数据汇聚到单个 Reducer 进行去重计算。当去重字段的基数较大或数据分布不均匀时，该 Reducer 的处理时间会远超其他任务，形成数据倾斜。严重时可能导致单个任务执行时间过长甚至任务失败。
+      PawSQL 自动识别此类模式，将 `COUNT(DISTINCT column)` 重写为 `SELECT COUNT(*) FROM (SELECT column FROM table GROUP BY column) t` 的形式。重写后，去重操作被分解为两阶段：首先通过 GROUP BY 在多个 Reducer 上并行去重，再由最终的 COUNT 汇总结果，有效避免单点瓶颈。
+      > 此规则适用于 Hive 数据仓库环境。Hive 基于 MapReduce/Spark 计算引擎，其执行机制与传统关系型数据库有本质区别。遵循此规则可以显著减少作业执行时间，避免数据倾斜导致的任务失败。
+    badExample: |-
+      -- ❌ 不推荐：COUNT(DISTINCT) 将所有去重数据汇聚到单个 Reducer
+      SELECT COUNT(DISTINCT customer_id) FROM large_transaction_table;
+    goodExample: |-
+      -- ✅ 推荐：重写为两阶段去重，并行化计算
+      SELECT COUNT(*) FROM (
+          SELECT customer_id
+          FROM large_transaction_table
+          GROUP BY customer_id
+      ) t;
+  en:
+    name: COUNT(DISTINCT) Skew Optimization in Hive

@@ -1,0 +1,26 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止在分区表上创建全局索引.md
+# TODO(产品核对): aud-globalindexonpartitionedtabledisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-globalindexonpartitionedtabledisallowed
+category: index
+severity: warning
+tags:
+- review:CREATE INDEX
+- review:ALTER TABLE ADD INDEX
+content:
+  zh:
+    name: 禁止在分区表上创建全局索引
+    description: |-
+      禁止在分区表上创建全局索引。全局索引打破分区与索引的局部性，会导致分区裁剪失效——即使查询只涉及单个分区的数据，数据库也需要维护和查询一个横跨所有分区的全局索引结构。这显著增加了分区增删或重建时的维护成本与锁冲突风险，带来长时间的维护窗口和不可控的性能影响。
+      合理做法是优先使用本地（分区对齐）索引。本地索引与分区一一对应，增删分区时只需维护对应分区的索引，不影响其他分区的查询性能。
+    badExample: |-
+      -- ❌ 不推荐：分区表上创建全局索引，破坏分区局部性
+      CREATE GLOBAL INDEX idx_g ON partitioned_table(id);
+    goodExample: |-
+      -- ✅ 推荐：使用本地索引，与分区对齐
+      CREATE LOCAL INDEX idx_local ON partitioned_table(id);
+      -- 或
+      CREATE INDEX idx_local ON partitioned_table(id) LOCAL;
+  en:
+    name: GlobalIndexOnPartitionedTableDisallowed

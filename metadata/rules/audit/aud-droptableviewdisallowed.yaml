@@ -1,0 +1,27 @@
+# Canonical source: vault 20-engine/rules/规则文档/禁止删除表_视图.md
+# TODO(产品核对): aud-droptableviewdisallowed → 规则注册表 Rule ID / category / severity 定稿后再发布。
+# TODO(内容): 英文正文（description/whyItMatters/howToFix/示例注释）待人工补齐；zh 由源文档提取，需复核。
+
+id: aud-droptableviewdisallowed
+category: ddl
+severity: warning
+tags:
+- review:DROP TABLE
+- review:DROP VIEW
+content:
+  zh:
+    name: 禁止删除表/视图
+    description: |-
+      禁止直接删除表或视图。删除表或视图会造成所有依赖对象与线上查询瞬间失效，引发大面积故障且数据不可逆丢失。在高流量生产系统中，一条 `DROP TABLE` 语句可能在数秒内引发雪崩式的连锁故障，且即使有备份，恢复时间也往往以小时甚至天计。
+      正确做法是先做依赖分析与访问审计，确认无引用后将对象重命名，经过充分的观察期后，再通过备份与变更窗口审慎清理。
+    badExample: |-
+      -- ❌ 不推荐：直接删除表/视图，不可逆，可能引发大范围故障
+      DROP TABLE t;
+      DROP VIEW v;
+    goodExample: |-
+      -- ✅ 推荐：重命名 → 观察期 → 确认后删除
+      -- 1. RENAME TABLE t TO t_deprecated_20240101;
+      -- 2. 观察 N 个业务周期，确认无任何报错引用
+      -- 3. DROP TABLE t_deprecated_20240101;  -- 在变更窗口执行
+  en:
+    name: DropTable/ViewDisallowed
