@@ -278,7 +278,9 @@
                 "group": "文章",
                 "icon": "newspaper",
                 "pages": [
-                  "blog/index"
+                  "blog/index",
+                  "blog/tdsql-mysql-slow-query",
+                  "blog/opengauss-slow-query"
                 ]
               }
             ]
