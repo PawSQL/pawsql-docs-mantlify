@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "mint",
   "name": "PawSQL",
   "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
   "colors": {
@@ -40,8 +40,7 @@
               "header": "文档",
               "items": [
                 { "label": "快速开始", "href": "/getting-started" },
-                { "label": "用户手册", "href": "/user-guide" },
-                { "label": "参考资料", "href": "/reference/audit-rules" }
+                { "label": "用户手册", "href": "/user-guide" }
               ]
             },
             {
@@ -79,6 +78,7 @@
                   "user-guide/index",
                   {
                     "group": "安装与接入",
+                    "expanded": true,
                     "pages": [
                       "user-guide/installation/index",
                       "user-guide/installation/pawsql-cloud",
@@ -199,18 +199,6 @@
                     "root": "user-guide/cicd/index"
                   }
                 ]
-              },
-              {
-                "group": "参考资料",
-                "icon": "file-text",
-                "directory": "accordion",
-                "root": "reference/audit-rules/index",
-                "expanded": true,
-                "pages": [
-                  "reference/audit-rules/index",
-                  "reference/optimizer-rules/index",
-                  "reference/database/index"
-                ]
               }
             ]
           },
@@ -269,34 +257,6 @@
                 "openapi": "openapi/pawsql-optimization.yaml"
               }
             ]
-          },
-          {
-            "tab": "博客",
-            "icon": "book-open",
-            "groups": [
-              {
-                "group": "文章",
-                "icon": "newspaper",
-                "pages": [
-                  "blog/index",
-                  "blog/tdsql-mysql-slow-query",
-                  "blog/opengauss-slow-query"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "变更日志",
-            "icon": "clock",
-            "groups": [
-              {
-                "group": "版本",
-                "icon": "tag",
-                "pages": [
-                  "changelog/index"
-                ]
-              }
-            ]
           }
         ]
       },
@@ -320,8 +280,7 @@
               "header": "Documentation",
               "items": [
                 { "label": "Quickstart", "href": "/en/getting-started" },
-                { "label": "User Guide", "href": "/en/user-guide" },
-                { "label": "Reference", "href": "/en/reference/audit-rules" }
+                { "label": "User Guide", "href": "/en/user-guide" }
               ]
             },
             {
@@ -360,6 +319,7 @@
                   "en/user-guide/index",
                   {
                     "group": "Installation & Access",
+                    "expanded": true,
                     "pages": [
                       "en/user-guide/installation/index",
                       "en/user-guide/installation/pawsql-cloud",
@@ -480,18 +440,6 @@
                     "root": "en/user-guide/cicd/index"
                   }
                 ]
-              },
-              {
-                "group": "Reference",
-                "icon": "file-text",
-                "directory": "accordion",
-                "expanded": true,
-                "root": "en/reference/audit-rules/index",
-                "pages": [
-                  "en/reference/audit-rules/index",
-                  "en/reference/optimizer-rules/index",
-                  "en/reference/database/index"
-                ]
               }
             ]
           },
@@ -548,34 +496,6 @@
                 "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-optimization-en.yaml"
-              }
-            ]
-          },
-          {
-            "tab": "Blog",
-            "icon": "book-open",
-            "groups": [
-              {
-                "group": "Posts",
-                "icon": "newspaper",
-                "pages": [
-                  "en/blog/index",
-                  "en/blog/engineering/or-to-union"
-                ]
-              }
-            ]
-          },
-          {
-            "tab": "ChangeLog",
-            "icon": "clock",
-            "groups": [
-              {
-                "group": "Releases",
-                "icon": "tag",
-                "pages": [
-                  "en/release-notes/index",
-                  "en/release-notes/8.5.0"
-                ]
               }
             ]
           }
