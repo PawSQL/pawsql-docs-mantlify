@@ -43,20 +43,7 @@ flowchart TD
 
 ## Install the extension
 
-<Steps>
-  <Step title="Obtain the official release">
-    Download or access the extension through a PawSQL release channel and read the bundled `INSTALL.md` or version-specific instructions.
-  </Step>
-  <Step title="Install it in DBeaver">
-    Add the package or update site as instructed. Trust only verified PawSQL artifacts and signing information.
-  </Step>
-  <Step title="Restart DBeaver">
-    Save open work and restart the client when prompted.
-  </Step>
-  <Step title="Verify activation">
-    Open Preferences and confirm that **PawSQL Client** settings are available.
-  </Step>
-</Steps>
+Install PawSQL for DBeaver from a software repository; see [Install IDE Extensions](/en/user-guide/installation/ide-plugins) for steps. After installation, confirm that **PawSQL Client** settings appear under Preferences.
 
 <Note>
 Installation entry points and compatible versions can change with DBeaver and PawSQL releases. Follow the instructions shipped with the extension package you are installing.
@@ -67,7 +54,7 @@ Installation entry points and compatible versions can change with DBeaver and Pa
 Under **Preferences > PawSQL Client**, configure the endpoint and authentication required by your deployment. Select or verify the project, workspace, and review policy used for analysis. Test the integration with a read-only statement in a non-production environment before enabling enforcement on production datasources.
 
 <Frame caption="PawSQL Client settings in Preferences">
-  Screenshot placeholder · /images/dev-tools/dbeaver-preferences.png
+  <img src="\images\tools\dbeaver-plugin-preference-zh.png" />
 </Frame>
 
 ## Choose a review mode
@@ -125,7 +112,7 @@ Before adding an exclusion:
 </Steps>
 
 <Frame caption="Risk prompt from the pre-execution review">
-  Screenshot placeholder · /images/dev-tools/dbeaver-review.png
+  <img src="\images\tools\dbeaver-plugin-review-en.png" alt="Risk prompt from the pre-execution review" />
 </Frame>
 
 Proceeding acknowledges the current prompt; it is not a substitute for formal change approval in a controlled environment.

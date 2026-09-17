@@ -33,9 +33,34 @@ PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能�
 - 支持的 IDE 版本；
 - 可以访问插件市场，或已获得离线安装包。
 
-## 从插件市场安装
+## 安装插件
 
 <Tabs>
+  <Tab title="DBeaver">
+    DBeaver 通过软件仓库安装插件，而不是插件市场。可用的安装来源：
+
+    - 官方软件仓库 `https://www.pawsql.com/repository`；
+    - [Eclipse Marketplace](https://marketplace.eclipse.org/content/sql-optimizer-index-advisor-pawsql-dbeaver) 上的 PawSQL 插件页面。
+
+    <Steps>
+      <Step title="打开安装向导">
+        在 DBeaver 菜单中选择 **Help > Install New Software**。
+      </Step>
+      <Step title="添加 PawSQL 软件仓库">
+        在 **Work with** 输入框中填写仓库地址 `https://www.pawsql.com/repository`，并点击 **Add** 完成添加。
+      </Step>
+      <Step title="选择并安装插件">
+        在插件列表中选择 **PawSQL for DBeaver**，按向导提示完成安装。
+      </Step>
+      <Step title="重启 DBeaver">
+        保存未完成的编辑内容，按提示重启客户端。
+      </Step>
+    </Steps>
+
+    <Tip>
+    安装完成后，可在 **偏好设置** 中确认出现 **PawSQL Client** 配置项。DBeaver 插件的执行前审核与风险阈值配置详见[在 DBeaver 中进行 SQL 执行前审核](/user-guide/dev-tools/dbeaver)。
+    </Tip>
+  </Tab>
   <Tab title="JetBrains">
     <Steps>
       <Step title="打开插件设置">

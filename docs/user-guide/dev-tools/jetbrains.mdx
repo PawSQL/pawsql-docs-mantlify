@@ -24,20 +24,7 @@ PawSQL Client for JetBrains 将 SQL 审核、查询重写、索引推荐和性�
 
 ## 安装插件
 
-<Steps>
-  <Step title="打开插件设置">
-    在 JetBrains IDE 设置中进入 **Plugins**。
-  </Step>
-  <Step title="搜索 PawSQL">
-    搜索 **PawSQL Client** 或 **PawSQL Advisor**，并核对 PawSQL 发布者信息。
-  </Step>
-  <Step title="安装并重启">
-    完成安装；如果 IDE 提示需要重启，保存工作后重新启动。
-  </Step>
-  <Step title="确认菜单">
-    打开 SQL 文件或项目目录，确认右键菜单中出现 PawSQL Advisor 操作。
-  </Step>
-</Steps>
+从 JetBrains 插件市场安装，步骤详见[安装 IDE 插件](/user-guide/installation/ide-plugins)。安装后打开 SQL 文件或项目目录，确认右键菜单中出现 **PawSQL Advisor** 操作。
 
 企业网络无法访问 Marketplace 时，只使用 PawSQL 官方或企业可信软件仓库提供的离线包，并核对 IDE、插件与 PawSQL Server 的版本兼容性。
 
@@ -96,7 +83,7 @@ Mapper 输入会解析动态分支并生成可能的 SQL 组合。编写不规�
 </Steps>
 
 <Frame caption="右键菜单中的 PawSQL Advisor 操作">
-  截图占位符 · /images/dev-tools/jetbrains-optimize.png
+  <img src="\images\tools\jetbarins-optimize.png" alt="Optimize" />
 </Frame>
 
 ## 优化 SQL 文件或目录
@@ -122,8 +109,8 @@ Mapper 输入会解析动态分支并生成可能的 SQL 组合。编写不规�
 - 现有索引、冗余索引和索引数量提示；
 - 启用验证后的性能改进和前后执行计划。
 
-<Frame caption="优化结果汇总文件 pawTuningSummary">
-  截图占位符 · /images/dev-tools/jetbrains-summary.png
+<Frame caption="优化结果">
+  <img src="\images\tools\jetbarins-summary.png" alt="优化结果" />
 </Frame>
 
 从汇总中的 SQL 名称进入详情，并按“审核问题 → 重写候选 → 索引建议 → 性能证据”的顺序阅读。

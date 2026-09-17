@@ -237,7 +237,7 @@
               },
               {
                 "group": "使用场景",
-                "icon": "target",
+                "icon": "compass",
                 "expanded": true,
                 "root": "use-cases/index",
                 "pages": [
@@ -516,7 +516,7 @@
               },
               {
                 "group": "Use Cases",
-                "icon": "target",
+                "icon": "compass",
                 "expanded": true,
                 "root": "en/use-cases/index",
                 "pages": [

@@ -21,9 +21,34 @@ PawSQL IDE extensions bring SQL review and optimization into the editor. Each ex
 - access to the intended project and workspace;
 - marketplace connectivity or an approved offline package.
 
-## Install from the marketplace
+## Install the extension
 
 <Tabs>
+  <Tab title="DBeaver">
+    DBeaver installs extensions from a software repository rather than a marketplace. Available sources:
+
+    - the official repository `https://www.pawsql.com/repository`; and
+    - the [Eclipse Marketplace](https://marketplace.eclipse.org/content/sql-optimizer-index-advisor-pawsql-dbeaver) page for PawSQL.
+
+    <Steps>
+      <Step title="Open the install wizard">
+        Choose **Help > Install New Software** in DBeaver.
+      </Step>
+      <Step title="Add the PawSQL repository">
+        Enter the repository URL `https://www.pawsql.com/repository` in **Work with** and click **Add**.
+      </Step>
+      <Step title="Select and install">
+        Select **PawSQL for DBeaver** and complete the wizard.
+      </Step>
+      <Step title="Restart DBeaver">
+        Save open work and restart the client when prompted.
+      </Step>
+    </Steps>
+
+    <Tip>
+    After installation, confirm that **PawSQL Client** settings appear under Preferences. See [Review SQL Before Execution in DBeaver](/en/user-guide/dev-tools/dbeaver) for pre-execution review and threshold configuration.
+    </Tip>
+  </Tab>
   <Tab title="JetBrains">
     <Steps>
       <Step title="Open plugin settings">Open the IDE plugin-management page.</Step>
@@ -40,11 +65,16 @@ PawSQL IDE extensions bring SQL review and optimization into the editor. Each ex
   </Tab>
 </Tabs>
 
-For an offline installation, use only a package supplied by PawSQL or an approved internal software repository. Confirm compatibility with both the IDE and the PawSQL service version.
+## Offline installation
 
-<Note>
-DBeaver uses a separate extension package and setup flow. See [Review SQL Before Execution in DBeaver](/en/user-guide/dev-tools/dbeaver).
-</Note>
+When the IDE cannot reach the marketplace, use an offline package supplied by your administrator. Before installing, confirm:
+
+- the package comes from PawSQL or an approved internal software repository;
+- the version is compatible with both the IDE and the PawSQL service version;
+- the package has passed your organization's security review;
+- the upgrade and rollback path is defined.
+
+The offline installation entry point varies by IDE version; use the plugin-management page for that IDE.
 
 ## Connect the extension
 

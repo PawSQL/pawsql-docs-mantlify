@@ -44,20 +44,7 @@ flowchart TD
 
 ## 安装插件
 
-<Steps>
-  <Step title="获取官方插件">
-    从 PawSQL 官方发布渠道获取插件，并阅读随版本提供的 `INSTALL.md` 或安装说明。
-  </Step>
-  <Step title="在 DBeaver 中完成安装">
-    按安装说明添加插件或更新站点。只信任经过核验的 PawSQL 发布包和签名信息。
-  </Step>
-  <Step title="重启 DBeaver">
-    保存未完成的编辑内容，按提示重启客户端。
-  </Step>
-  <Step title="确认插件可用">
-    打开偏好设置，确认可以看到 **PawSQL Client** 配置项。
-  </Step>
-</Steps>
+通过软件仓库安装 PawSQL for DBeaver，步骤详见[安装 IDE 插件](/user-guide/installation/ide-plugins)。安装完成后，在 **偏好设置** 中确认可以看到 **PawSQL Client** 配置项。
 
 <Note>
 具体安装入口和兼容版本可能随 DBeaver 与插件版本变化，应以对应插件包内的安装说明为准。
@@ -68,7 +55,7 @@ flowchart TD
 在 **偏好设置 > PawSQL Client** 中配置当前部署要求的服务地址和认证信息，然后选择或确认审核使用的项目、工作空间及策略。首次配置建议使用一条只读 SQL 验证连接，不要直接在生产库测试拦截流程。
 
 <Frame caption="偏好设置中的 PawSQL Client 配置">
-  截图占位符 · /images/dev-tools/dbeaver-preferences.png
+  <img src="/images/tools/dbeaver-plugin-preference-zh.png" alt="偏好设置中的 PawSQL Client 配置" />
 </Frame>
 
 ## 配置执行审核模式
@@ -126,7 +113,7 @@ flowchart TD
 </Steps>
 
 <Frame caption="执行前审核的风险提示">
-  截图占位符 · /images/dev-tools/dbeaver-review.png
+ <img src="\images\tools\dbeaver-plugin-review-zh.png" alt="在 SQL 执行前进行强制性风险提示" />
 </Frame>
 
 点击继续执行只表示操作者接受本次提示，不代表 SQL 已完成正式审批。关键环境仍应遵循组织的发布和授权流程。

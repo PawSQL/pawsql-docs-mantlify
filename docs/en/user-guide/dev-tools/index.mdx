@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-dev-tools-index
 title: Developer Tool Integration Overview
-description: Bring PawSQL review and optimization into DBeaver, JetBrains IDEs, and Visual Studio Code.
+description: Bring PawSQL review and optimization into DBeaver, JetBrains IDEs, Visual Studio Code, and MCP-compatible AI coding tools.
 type: guide
 subtype: integration
 layout: index
@@ -20,6 +20,7 @@ PawSQL Client brings SQL review and optimization into the tools developers alrea
 | PawSQL Client for DBeaver | DBeaver | Pre-execution SQL review and risk confirmation |
 | PawSQL Client for JetBrains | IntelliJ IDEA, DataGrip, PyCharm, GoLand, WebStorm, PhpStorm, DataSpell, Android Studio, and compatible IntelliJ-based IDEs | Optimize selected SQL, files, or folders |
 | PawSQL Client for VS Code | Visual Studio Code | Optimize SQL within source and SQL files |
+| PawSQL MCP | MCP-compatible AI coding tools | Optimize SQL through natural language |
 
 <Note>
 Earlier documentation and some commands use the name **PawSQL Advisor** for the JetBrains plugin. This guide uses **PawSQL Client for JetBrains** for the product family and retains legacy command names where they appear in the interface.
@@ -48,9 +49,9 @@ flowchart TD
     E --> G
 ```
 
-## How extensions connect to PawSQL
+## How integrations connect to PawSQL
 
-All three extensions connect to PawSQL Cloud or PawSQL Server and operate within the projects and workspaces available to the authenticated user. Installation, endpoint configuration, and commands are documented separately for each platform.
+These integrations connect to PawSQL Cloud or PawSQL Server and operate within the projects and workspaces available to the authenticated user. Installation, endpoint configuration, and commands are documented separately for each platform.
 
 Before you begin, obtain the PawSQL endpoint, an authorized account, and a workspace that represents the target database. See [Authentication](/en/user-guide/installation/authentication) and [Workspaces and Database Context](/en/user-guide/workspaces) for shared concepts.
 
@@ -86,4 +87,4 @@ An extension does not replace database authorization, change approval, backups, 
 
 ## Next step
 
-Open the guide for your client and complete its platform-specific installation. For the first check, use a sanitized, read-only statement with a predictable result to verify the endpoint, permissions, and workspace.
+Install the extension first (see [Install IDE Extensions](/en/user-guide/installation/ide-plugins)), then open the guide for your client and complete its configuration. For the first check, use a sanitized, read-only statement with a predictable result to verify the endpoint, permissions, and workspace.
