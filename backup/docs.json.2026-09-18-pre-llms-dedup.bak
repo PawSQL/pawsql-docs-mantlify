@@ -95,10 +95,12 @@
                 "expanded": true,
                 "root": "user-guide/index",
                 "pages": [
+                  "user-guide/index",
                   {
                     "group": "安装与接入",
                     "expanded": true,
                     "pages": [
+                      "user-guide/installation/index",
                       "user-guide/installation/pawsql-cloud",
                       "user-guide/installation/pawsql-server",
                       "user-guide/installation/ide-plugins",
@@ -111,6 +113,7 @@
                   {
                     "group": "工作空间和上下文",
                     "pages": [
+                      "user-guide/workspaces/index",
                       "user-guide/workspaces/create-from-ddl",
                       "user-guide/workspaces/create-from-database"
                     ],
@@ -120,6 +123,7 @@
                   {
                     "group": "SQL 优化",
                     "pages": [
+                      "user-guide/optimization/index",
                       "user-guide/optimization/create-workload",
                       "user-guide/optimization/setup-optimization",
                       "user-guide/optimization/explain-output",
@@ -131,6 +135,7 @@
                   {
                     "group": "SQL 审核",
                     "pages": [
+                      "user-guide/sql-audit/index",
                       "user-guide/sql-audit/create-review-task",
                       "user-guide/sql-audit/read-audit-results",
                       "user-guide/sql-audit/resolve-findings",
@@ -146,6 +151,7 @@
                   {
                     "group": "巡检与慢查询治理",
                     "pages": [
+                      "user-guide/performance/index",
                       "user-guide/performance/connect-instance",
                       {
                         "group": "慢查询治理",
@@ -172,6 +178,7 @@
                   {
                     "group": "规则与审核策略",
                     "pages": [
+                      "user-guide/rules-policy/index",
                       "user-guide/rules-policy/rule-sets",
                       "user-guide/rules-policy/configure-rules",
                       "user-guide/rules-policy/quality-gate"
@@ -182,6 +189,7 @@
                   {
                     "group": "开发工具集成",
                     "pages": [
+                      "user-guide/dev-tools/index",
                       "user-guide/dev-tools/dbeaver",
                       "user-guide/dev-tools/jetbrains",
                       "user-guide/dev-tools/vscode",
@@ -193,6 +201,7 @@
                   {
                     "group": "CI/CD 与平台集成",
                     "pages": [
+                      "user-guide/cicd/index",
                       "user-guide/cicd/concepts",
                       "user-guide/cicd/prerequisites",
                       "user-guide/cicd/pipeline-gate",
@@ -218,25 +227,13 @@
             "icon": "layers",
             "groups": [
               {
-                "group": "使用场景",
-                "icon": "compass",
-                "expanded": true,
-                "root": "use-cases/index",
-                "pages": [
-                  "use-cases/developer-sql-copilot",
-                  "use-cases/sql-quality-gate-cicd",
-                  "use-cases/slow-sql-optimization",
-                  "use-cases/database-migration-sql-governance",
-                  "use-cases/enterprise-sql-governance"
-                ]
-              },
-              {
                 "group": "核心能力",
                 "icon": "cog",
                 "directory": "accordion",
                 "expanded": true,
                 "root": "features/index",
                 "pages": [
+                  "features/index",
                   "features/sql-review",
                   "features/automatic-sql-rewrite",
                   "features/index-recommendation",
@@ -244,6 +241,20 @@
                   "features/execution-plan-visualization",
                   "features/distributed-sql-optimization",
                   "features/big-data-sql-optimization"
+                ]
+              },
+              {
+                "group": "使用场景",
+                "icon": "compass",
+                "expanded": true,
+                "root": "use-cases/index",
+                "pages": [
+                  "use-cases/index",
+                  "use-cases/developer-sql-copilot",
+                  "use-cases/sql-quality-gate-cicd",
+                  "use-cases/slow-sql-optimization",
+                  "use-cases/database-migration-sql-governance",
+                  "use-cases/enterprise-sql-governance"
                 ]
               }
             ]
@@ -313,6 +324,7 @@
                 "expanded": true,
                 "root": "en/getting-started/index",
                 "pages": [
+                  "en/getting-started/index",
                   "en/getting-started/quickstart",
                   "en/getting-started/choose-access",
                   "en/getting-started/supported-databases"
@@ -324,10 +336,12 @@
                 "expanded": true,
                 "root": "en/user-guide/index",
                 "pages": [
+                  "en/user-guide/index",
                   {
                     "group": "Installation & Access",
                     "expanded": true,
                     "pages": [
+                      "en/user-guide/installation/index",
                       "en/user-guide/installation/pawsql-cloud",
                       "en/user-guide/installation/pawsql-server",
                       "en/user-guide/installation/ide-plugins",
@@ -340,6 +354,7 @@
                   {
                     "group": "Workspaces & Context",
                     "pages": [
+                      "en/user-guide/workspaces/index",
                       "en/user-guide/workspaces/create-from-ddl",
                       "en/user-guide/workspaces/create-from-database"
                     ],
@@ -349,6 +364,7 @@
                   {
                     "group": "SQL Optimization",
                     "pages": [
+                      "en/user-guide/optimization/index",
                       "en/user-guide/optimization/create-workload",
                       "en/user-guide/optimization/setup-optimization",
                       "en/user-guide/optimization/explain-output",
@@ -360,6 +376,7 @@
                   {
                     "group": "SQL Review",
                     "pages": [
+                      "en/user-guide/sql-audit/index",
                       "en/user-guide/sql-audit/create-review-task",
                       "en/user-guide/sql-audit/read-audit-results",
                       "en/user-guide/sql-audit/resolve-findings",
@@ -375,6 +392,7 @@
                   {
                     "group": "Batch Optimization & Patrol",
                     "pages": [
+                      "en/user-guide/performance/index",
                       "en/user-guide/performance/connect-instance",
                       {
                         "group": "Slow Query Governance",
@@ -401,6 +419,7 @@
                   {
                     "group": "Rules & Quality Policy",
                     "pages": [
+                      "en/user-guide/rules-policy/index",
                       "en/user-guide/rules-policy/rule-sets",
                       "en/user-guide/rules-policy/configure-rules",
                       "en/user-guide/rules-policy/quality-gate"
@@ -411,6 +430,7 @@
                   {
                     "group": "Developer Tool Integration",
                     "pages": [
+                      "en/user-guide/dev-tools/index",
                       "en/user-guide/dev-tools/dbeaver",
                       "en/user-guide/dev-tools/jetbrains",
                       "en/user-guide/dev-tools/vscode",
@@ -422,6 +442,7 @@
                   {
                     "group": "CI/CD & Platform Integration",
                     "pages": [
+                      "en/user-guide/cicd/index",
                       "en/user-guide/cicd/concepts",
                       "en/user-guide/cicd/prerequisites",
                       "en/user-guide/cicd/pipeline-gate",
@@ -447,25 +468,13 @@
             "icon": "layers",
             "groups": [
               {
-                "group": "Use Cases",
-                "icon": "compass",
-                "expanded": true,
-                "root": "en/use-cases/index",
-                "pages": [
-                  "en/use-cases/developer-sql-copilot",
-                  "en/use-cases/sql-quality-gate-cicd",
-                  "en/use-cases/slow-sql-optimization",
-                  "en/use-cases/database-migration-sql-governance",
-                  "en/use-cases/enterprise-sql-governance"
-                ]
-              },
-              {
                 "group": "Features",
                 "icon": "cog",
                 "directory": "accordion",
                 "expanded": true,
                 "root": "en/features/index",
                 "pages": [
+                  "en/features/index",
                   "en/features/sql-review",
                   "en/features/automatic-sql-rewrite",
                   "en/features/index-recommendation",
@@ -473,6 +482,20 @@
                   "en/features/execution-plan-visualization",
                   "en/features/distributed-sql-optimization",
                   "en/features/big-data-sql-optimization"
+                ]
+              },
+              {
+                "group": "Use Cases",
+                "icon": "compass",
+                "expanded": true,
+                "root": "en/use-cases/index",
+                "pages": [
+                  "en/use-cases/index",
+                  "en/use-cases/developer-sql-copilot",
+                  "en/use-cases/sql-quality-gate-cicd",
+                  "en/use-cases/slow-sql-optimization",
+                  "en/use-cases/database-migration-sql-governance",
+                  "en/use-cases/enterprise-sql-governance"
                 ]
               }
             ]
