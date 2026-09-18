@@ -6,6 +6,7 @@ PawSQL 文档站点的 Mintlify 内容仓库。本文件是给 Claude Code / 贡
 
 - **[CONTENT-MODEL-V2.md](CONTENT-MODEL-V2.md)** — 当前内容模型规范（唯一产品 `pawsql`、六类内容、子类型、维度）。**取代**旧规划中冲突的产品分类/内容类型/导航规定。
 - **[CONTENT-MODEL-CHANGES.md](CONTENT-MODEL-CHANGES.md)** — 内容模型/SEO-LLM 改动清单（A1/A2/A3、B1/B2/B3、C1 已做；P1 项见文件）。
+- **[GEO-PLAN.md](GEO-PLAN.md)** — GEO（生成式引擎优化）规划：站点对 AI 引擎的可抓取/可引用改造清单、已裁定决策（默认语言 zh、域名 `docs.pawsql.com`）与待决策项。
 - **[IMPLEMENTATION-V2.md](IMPLEMENTATION-V2.md)** — 实施与验收状态、待办。
 - **[CONTENT-BLUEPRINT.md](CONTENT-BLUEPRINT.md)** / **[MIGRATION-PLAN.md](MIGRATION-PLAN.md)** / **[MIGRATION-PLAYBOOK.md](MIGRATION-PLAYBOOK.md)** / **[PLACEMENT.md](PLACEMENT.md)** — 目标完整性蓝图、迁移计划、方法论、落位表。
 - 写作与字段：`docs/contributing/{frontmatter,style-guide,terminology}.md`。

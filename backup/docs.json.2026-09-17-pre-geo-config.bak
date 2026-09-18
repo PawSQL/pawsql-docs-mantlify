@@ -18,27 +18,6 @@
   "styling": {
     "eyebrows": "breadcrumbs"
   },
-  "seo": {
-    "indexing": "navigable",
-    "organization": {
-      "id": "https://www.pawsql.com/#organization",
-      "name": "PawSQL",
-      "legalName": "北京图灵睿数科技有限公司",
-      "url": "https://www.pawsql.com",
-      "logo": "https://www.pawsql.com/logo.png",
-      "sameAs": [
-        "https://github.com/PawSQL",
-        "https://x.com/pawsql_service"
-      ]
-    }
-  },
-  "markdown": {
-    "instructions": [
-      "PawSQL 是一个产品：Cloud 是公网部署形态，Engine / Optimizer / Auditor / Advisor / Patroller 是同一产品的组件与交付形态，不是彼此独立的产品。 / PawSQL is a single product: Cloud is the public deployment form, while Engine / Optimizer / Auditor / Advisor / Patroller are components and delivery forms of the same product, not separate products.",
-      "术语以站内术语表为准：SQL 审核对应英文 SQL Review，查询重写对应 Query Rewrite，索引推荐对应 Index Recommendation；英文内容统一用 Review，不用 Audit。 / Use the site glossary for terminology: 审核 is SQL Review, 重写 is Query Rewrite, 索引推荐 is Index Recommendation; English content uses Review, never Audit.",
-      "引用能力范围或版本支持时以对应页面为准；标注 unknown、或 status 非 published 的内容表示尚未经产品核实，不应作为事实引用。 / Cite capability scope and version support from the corresponding page; content marked unknown, or with a status other than published, is not yet product-verified and must not be cited as fact."
-    ]
-  },
   "navigation": {
     "languages": [
       {
