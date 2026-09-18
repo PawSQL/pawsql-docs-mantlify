@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import List
 
 from pawsql_doc import export_schemas
+from pawsql_doc import geo
 from pawsql_doc import validate as validate_mod
 from pawsql_doc.gate import coverage_report, find_drift, format_issues, run_release_gate
 from pawsql_doc.generators import (
@@ -242,6 +243,22 @@ def _cmd_gate(root: Path, _args: argparse.Namespace) -> int:
     return 1
 
 
+def _cmd_check_geo(root: Path, args: argparse.Namespace) -> int:
+    """G2-1: compare a deployed site's GEO outputs with docs/docs.json."""
+    findings = geo.check_geo(root, base_url=args.base_url, timeout=args.timeout)
+    for f in findings:
+        if not f.ok:
+            print(f"{'FAIL' if f.required else 'WARN'}  {f.check}: {f.detail}")
+    failed = sum(1 for f in findings if not f.ok and f.required)
+    warned = sum(1 for f in findings if not f.ok and not f.required)
+    if failed:
+        print(f"FAIL  geo: {failed} 项必需检查未通过，{warned} 项告警（共 {len(findings)} 项）")
+        return 1
+    suffix = f"（{warned} 项告警）" if warned else ""
+    print(f"PASS  geo: {len(findings)} 项检查通过{suffix}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pawsql-doc", description=__doc__)
     parser.add_argument("--root", default=None, help="Repository root (default: auto-discovered)")
@@ -283,6 +300,9 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--database", required=True)
     p = sub.add_parser("generate-config", help="Generate one configuration reference page")
     p.add_argument("--config", required=True)
+    p = sub.add_parser("check-geo", help="G2-1: verify a deployed site's GEO outputs (llms.txt / llms-full.txt / .md / JSON-LD) against docs.json")
+    p.add_argument("--base-url", default=geo.DEFAULT_BASE_URL, help=f"Deployed site root (default: {geo.DEFAULT_BASE_URL})")
+    p.add_argument("--timeout", type=float, default=20.0, help="Per-request timeout in seconds")
     return parser
 
 
@@ -314,6 +334,7 @@ def main(argv: List[str] | None = None) -> int:
         "drift": _cmd_drift,
         "coverage": _cmd_coverage,
         "gate": _cmd_gate,
+        "check-geo": _cmd_check_geo,
     }[args.command]
     return handler(root, args)
 

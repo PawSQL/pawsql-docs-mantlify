@@ -18,10 +18,23 @@
 | `https://www.pawsql.com/docs/zh/llms.txt` | 同上 | 旧文档站同样没有 |
 | `https://www.pawsql.com/robots.txt` | `User-agent: *` / `Allow: /` + 两条 `Sitemap:`（指向产品站 sitemap） | 抓取是放行的，但没有 AI bot 相关声明，sitemap 也不含文档页 |
 | 产品站首页 JSON-LD | 有 `Organization`（name/url/logo/description + `sameAs` GitHub、X） | 这是现成的发布者实体资产，新站 `seo.organization` 可直接复用其 `sameAs` |
-| 新 Mintlify 站 | 尚未生产部署（见 IMPLEMENTATION-V2.md「未生产部署」）；目标域名 `docs.pawsql.com`（§3） | **GEO 的最大单点收益是"先上线"** |
+| `docs.pawsql.com` | **已上线**（2026-09-18 实测）：`/llms.txt` 返回 `text/plain` 且内容为本站中文页面，`robots.txt`、`sitemap.xml`、页面 `.md` 端点均可达，JSON-LD 含 Organization/WebSite/WebPage | 与 IMPLEMENTATION-V2 的"未生产部署"**不符，以实测为准**。线上当前是**未含本次 `seo`/`markdown` 配置的旧版本** |
 | 本地 `mintlify dev` | `/llms.txt`、`/llms-full.txt`、`/robots.txt`、`/sitemap.xml`、页面 `.md` 端点**全部 404**；页面 DOM 中**不输出 `application/ld+json`**（JS 执行后仍无） | 这些由 Mintlify 托管层生成，本地无法验证，**验收必须在线上做** |
 
 **已核实的边界（2026-09-17 写入 G0-2/G0-3 后实测）**：`docs.json` 的 `seo.organization` 与 `markdown.instructions` 会被正确解析并随页面配置载荷下发（值确实出现在页面 HTML 中），所以"本地看不到输出"**不是配置写错**，而是托管层才渲染。G2-1 验收脚本因此必须覆盖 JSON-LD `@graph` 与 Agent Instructions 块两类输出。
+
+**实测发现并修复：llms.txt 有 12 个条目重复（2026-09-18）**。线上 `llms.txt` 中 12 个页面各出现两次，数量等于 `docs.json` 里 12 个带 `root` 的分组——每个分组的 `root` 页同时也列在 `pages` 数组里，Mintlify 于是收录两遍。
+
+**修复方式：从各分组的 `pages` 中移除 `root` 页**（中英各 12 处，共 24 项）。
+
+曾一度误判为不可修复：只看 DOM 时发现分组标题是 `<button>`、`href` 为 `null`，便推断"标题不可导航、`pages` 里那条是唯一入口"。**该推断是错的**——按钮通过 JS 导航，没有 `href`。实测点击后：
+
+- 顶层分组「快速开始」→ `/getting-started`（什么是 PawSQL?）
+- 嵌套子分组「安装与接入」→ `/user-guide/installation`（安装与接入概览）
+
+分组标题本身就是 root 页的入口，`pages` 里那一条是纯重复项。移除后侧栏结构不变、页面全部可达。
+
+**教训**：判断元素是否可交互要看行为，不要只看属性。此前的"替代方案"（删 `root` 字段）确实会破坏分组标题，但那不是本问题需要走的路。
 
 **Mintlify 部署后自动提供**（据官方文档，非本仓库实现）：`/llms.txt` 与 `/.well-known/llms.txt`、`/llms-full.txt` 与 `/.well-known/llms-full.txt`、每页 `.md` 后缀与 `Accept: text/markdown`、结构化 404（回带 llms.txt 指引与相关页）、JSON-LD `@graph`（Organization / WebSite / WebPage / BreadcrumbList / TechArticle / APIReference）、sitemap、robots.txt、OG 图、响应头 `Link` 与 `X-Llms-Txt` 发现机制、`/_llms/` 分片索引。
 
@@ -46,7 +59,7 @@
 
 | # | 项 | 区域/文件 | 现态 → 目标 | 优先级 | 状态 |
 |---|---|---|---|---|---|
-| G0-1 | 站点部署与域名 | Mintlify dashboard | 未部署 → 生产可达于 `docs.pawsql.com`（根域、无 base path） | P0 | 待实施 |
+| G0-1 | 站点部署与域名 | Mintlify dashboard | **已上线**于 `docs.pawsql.com`（根域、无 base path）；待把含新配置的提交部署上去 | P0 | 已实施 |
 | G0-2 | `seo.organization` | `docs/docs.json` | 无 → 稳定 `@id`、name、`legalName`、url、logo、`sameAs`（复用产品站已有 Organization JSON-LD 的 GitHub/X 链接） | P0 | 已实施 |
 | G0-3 | `markdown.instructions` | `docs/docs.json` | 无 → 注入**中英双语** Agent Instructions 块（3 条），交代产品定位、术语口径与事实纪律 | P0 | 已实施 |
 | G0-4 | 抓取策略 | 托管层 robots | 已定：延续放行 AI bot（§3.3） | P0 | 待实施 |
@@ -56,6 +69,7 @@
 | G0-8 | 旧域跨站 301 | **旧主机侧**（`www.pawsql.com`，非 `docs.json`） | 224 个旧 URL 301 到新站对应页 | — | 暂缓（§3.9） |
 | G0-9 | 新站内部 `redirects` 机制 | `docs/docs.json` | 无 → 启用 `redirects` 数组，随新站页面改名/合并/拆分滚动登记（Mintlify 原生；默认 308，`:slug*` 通配，无条数上限）。**与旧站无关** | P2 | 待实施 |
 | G0-10 | 旧→新映射台账 | — | 按「新站页面 ← 它取代的旧 URL」方向登记 | — | 暂缓（§3.9） |
+| G0-11 | 消除 llms.txt 重复条目 | `docs/docs.json`（24 处：12 个分组 × 中英） | 分组 `root` 页同时列在 `pages` → llms.txt 每条收两遍 → 已从 `pages` 移除（分组标题本身即 root 页入口，见 §0） | P1 | 已实施 |
 
 ### 2.2 内容层（P1 为主）
 
@@ -74,7 +88,7 @@
 
 | # | 项 | 区域/文件 | 现态 → 目标 | 优先级 | 状态 |
 |---|---|---|---|---|---|
-| G2-1 | 线上 GEO 验收脚本 | `tools/`（新子命令或脚本） | 无 → 检查 llms.txt / llms-full.txt / `.md` / JSON-LD `@graph` / Agent Instructions 块的可达性与内容（含 AI bot UA 视角） | P0 | 待实施 |
+| G2-1 | 线上 GEO 验收脚本 | `tools/src/pawsql_doc/geo.py` + `check-geo` 子命令 | 无 → 检查 llms.txt / llms-full.txt / `.md` / JSON-LD `@graph` / Agent Instructions 块的**可达性与内容**，并与 `docs/docs.json` 的声明逐项比对；含 AI bot UA 视角与 llms.txt 重复条目检测 | P0 | 已实施 |
 | G2-2 | AI 引用基线 | 外部观测 | 无 → 记录主要引擎对若干目标问句的引用情况，作为后续对比基线 | P2 | 待实施 |
 | G2-3 | 英文 AI 覆盖 | `docs/llms.txt`（自定义） | 英文页不进生成的 llms.txt（默认语言为 zh）→ 观察英文查询的实际覆盖缺口，再决定是否手写自定义 llms.txt | P2 | 待实施 |
 
@@ -142,11 +156,10 @@
 
 ## 5. 建议落地顺序
 
-1. **P0 配置层**：`seo.organization` → `markdown.instructions`（G0-2/3）。G0-4/5/6 已裁定为维持现状，无需改配置，只需上线后核对。
-2. **G2-1 验收脚本**与部署同批上线，确保上线即可核对 AI 视角的实际产出（而非只信文档）。
-3. **G0-9 新站内 `redirects`** 随新站自身的重组建立（与旧站无关）。
-4. **P1 内容层**随现有内容批次滚动：先 G1-4（写作规则）与 G1-2（keywords），再做 G1-5（去重）。
-5. **P2** 视上线后的实际引用情况排，含 G1-6（FAQ）、G1-7（新鲜度）、G1-8（术语表）、G2-2/3。
+1. **P0 配置层已完成**：G0-1 站点本就在线、G0-2/3 已写入 `docs.json`、G2-1 验收脚本已就绪。剩下的是**把含新配置的提交部署上去**，然后跑 `cd tools && uv run python -m pawsql_doc check-geo` 核对线上产出。
+2. **G0-9 新站内 `redirects`** 随新站自身的重组建立（与旧站无关）。
+3. **P1 内容层**随现有内容批次滚动：先 G1-4（写作规则）与 G1-2（keywords），再做 G1-5（去重）。
+4. **P2** 视上线后的实际引用情况排，含 G1-6（FAQ）、G1-7（新鲜度）、G1-8（术语表）、G2-2/3。
 
 ---
 
