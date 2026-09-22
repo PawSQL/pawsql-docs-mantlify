@@ -1,0 +1,76 @@
+---
+id: en-blog-plan-visualization
+title: Visualizing MySQL Execution Plans
+description: Execution plans are the main evidence for diagnosing SQL performance, but plain-text plans are hard to read. PawSQL Plan Visualizer renders MySQL plans as an interactive tree.
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: en
+translationKey: blog-plan-visualization
+localeOf: blog-plan-visualization
+product: pawsql
+authors:
+- pawsql
+tags:
+- Execution plan
+- MySQL
+- Visualization
+- Performance diagnosis
+---
+
+## Why Execution Plans Need Visualization
+
+An execution plan is the strategy a database generates internally when running a SQL query. It describes how the statement executes step by step, and it is the main evidence for diagnosing SQL performance problems and tuning. As applications grow more complex, execution plans grow more complex along with the SQL. Plain-text plans are hard to read: grasping the overall shape, locating critical paths and finding bottlenecks is difficult, which makes performance tuning considerably harder for DBAs.
+
+A visualization tool presents the plan as a flowchart, showing its structure, highlighting key operations and paths with visual elements, and associating them with the SQL source. That makes plans far quicker to read and analyze, so bottlenecks can be located and addressed with precise SQL or index changes.
+
+Commercial databases typically ship their own execution plan visualization tools; open source databases, despite their large user base, have comparatively few.
+
+## PawSQL Plan Visualizer (PPV)
+
+PawSQL's execution plan visualization tool, PawSQL Plan Visualizer (PPV), is built on the open source pev/pev2 components. Its main features:
+
+1. Support for multiple databases: MySQL, PostgreSQL, openGauss, Oracle and others
+2. Support for multiple input formats: MySQL's json / tree / analyze formats, Oracle's form format
+3. Interactive analysis: highlighting by execution time, cost and row count
+4. Metrics statistics over database objects and operators
+
+## PPV's Support for MySQL
+
+### Supported Versions and Formats
+
+| MySQL version | Supported input formats | Displayed information |
+|---|---|---|
+| 5.6 or later, below 8.0.16 | format=json | Estimated cost / row count |
+| 8.0.16 or later, below 8.0.18 | format=json / format=tree | Estimated cost / row count |
+| 8.0.18 or later | format=json / format=tree / analyze | Actual execution time / actual row count / estimated cost / estimated row count |
+
+### Rendering an Execution Plan
+
+Submit the text output of a MySQL execution plan to PawSQL Plan Visualizer and it is displayed as a tree.
+
+Icons in the upper right corner of each operator flag problems such as long execution time, high estimated cost, or a large gap between estimated and actual row counts. Those hints let DBAs locate the problematic part of the plan and drill into the details.
+
+![A MySQL execution plan rendered as a tree](/images/blog/plan-visualization-plan-tree.gif)
+
+### Interactive Analysis
+
+- Click the summary information in the header to jump to the node with the highest execution time or cost
+- Expand an operator to see its execution time, row count and other details
+- Click time, cost or row count to show each node's share as a progress bar
+
+![Per-node share by execution time, cost and row count](/images/blog/plan-visualization-interactive-analysis.gif)
+
+### Statistics by Object and Operator
+
+The right-hand side of the page shows statistics over objects (tables and indexes) and over the operators in the plan, including execution time and estimated cost.
+
+![Metrics statistics over database objects and operators](/images/blog/plan-visualization-statistics.gif)
+
+## Integration with Optimization
+
+For optimization tasks with performance validation enabled, PawSQL obtains the execution plans before and after optimization and compares them visually with PEV.
+
+![Visual comparison of execution plans before and after optimization](/images/blog/plan-visualization-comparison.gif)

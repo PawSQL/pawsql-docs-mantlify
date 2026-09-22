@@ -1,0 +1,401 @@
+---
+id: en-blog-efficient-index-design
+title: How to Create Efficient Indexes
+description: Indexes should follow the workload, not the table structure. This article covers the leftmost prefix rule, and using indexes to avoid sorting and table lookups.
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: en
+translationKey: blog-efficient-index-design
+localeOf: blog-efficient-index-design
+product: pawsql
+authors:
+- pawsql
+tags:
+- Index
+- Composite index
+- Leftmost prefix
+- Execution plan
+---
+
+This article covers the principles to follow when creating indexes, to get better query performance and lower maintenance cost. The examples use B+ tree indexes, the most common type; other index types have their own restrictions — see [Types of Database Index](/en/blog/sql-optimization/index-types).
+
+## Create Indexes from the Workload
+
+The most important principle is to **create indexes based on your workload, not on your table structure**. An index exists to make database operations more efficient, so any approach that does not start from the workload is wrong.
+
+Every SQL statement executed against a database makes up its workload. When designing a set of indexes for a workload, consider:
+
+- **SQL type**: in an OLTP workload dominated by frequent inserts and updates, multiple indexes hurt performance and put pressure on system resources, so create the minimum number needed; in a query-dominated OLAP workload you can add more indexes, give each one several key columns, and even use function and partial indexes
+- **SQL frequency**: index the most frequently executed queries — giving those queries the best index yields the largest overall gain
+- **SQL importance**: the more important a query, the more it justifies a dedicated index
+- **The structure of the SQL itself**
+
+## Create Indexes from a Single SQL Statement
+
+An index serves three purposes:
+
+- Locate data quickly
+- Avoid sorting
+- Avoid table lookups
+
+### Fast Location
+
+An index locates data by matching query conditions, which may appear in `WHERE`, `HAVING` or `ON` clauses. Matching follows the leftmost prefix rule.
+
+#### Leftmost Prefix Rule
+
+> If a query's **equality conditions** exactly match one or more leading columns of the index, those columns can be used; matching stops as soon as a range condition (`>`, `<`, `between`, `like`) is encountered.
+
+For the composite index `lineitem(l_shipdate, l_quantity)`, the first two statements below satisfy the leftmost prefix rule and can use the index; the last one cannot:
+
+```sql
+select * from lineitem where l_shipdate = date '2021-12-01' and l_quantity = 100; -- uses the index
+select * from lineitem where l_shipdate = date '2021-12-01'; -- uses the index
+select * from lineitem where l_quantity = 100; -- violates the leftmost prefix rule, index unusable
+```
+
+Their execution plans:
+
+```sql
+-> Index lookup on lineitem using lidx (L_QUANTITY=100.00, L_SHIPDATE=DATE'2021-12-01')  (cost=0.35 rows=1)
+```
+
+```sql
+-> Index lookup on lineitem using lidx ( L_SHIPDATE=DATE'2021-12-01')  (cost=0.35 rows=1)
+```
+
+```sql
+-> Filter: (lineitem.L_QUANTITY = 100.00)  (cost=15208.05 rows=49486)
+    -> Table scan on lineitem  (cost=15208.05 rows=148473)
+```
+
+Because of the leftmost prefix rule, the column order in a composite index should follow cardinality — the number of distinct values — with the higher-cardinality column first.
+
+#### Equality Conditions
+
+Single-table equality conditions:
+
+- `COL = 'A'`
+- `COL IN ('A')`
+
+Join equality conditions: when a table is the inner (driven) table of a join, its equality join condition can also be matched by an index.
+
+- `T1.COL = T2.COL`
+
+  ```sql
+  select * from orders, lineitem where o_orderkey = l_orderkey;
+  ```
+
+  ```sql
+  -> Nested loop inner join  (cost=484815.77 rows=1326500)
+      -> Table scan on orders  (cost=20540.71 rows=200128)
+      -> Index lookup on lineitem using lineitem_idx(L_ORDERKEY=orders.O_ORDERKEY)  (cost=1.66 rows=7)
+  ```
+
+#### Range Conditions
+
+- Range operators (`>`, `>=`, `<`, `<=`, `BETWEEN`)
+- `IN ('A','B')`
+- `IS NOT NULL`
+- `IS NULL`
+- `LIKE 'ABC%'`
+- `COL = 'A' OR COL = 'B'`
+
+Range conditions also locate data quickly:
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate);
+explain format = tree select * from lineitem where l_shipdate >= date '2021-12-01';
+```
+
+```sql
+-> Index range scan on lineitem using lshipdate_idx over ('2021-12-01' <= L_SHIPDATE), with index condition: (lineitem.L_SHIPDATE >= DATE'2021-12-01')  (cost=11855.06 rows=26344)
+```
+
+Because of the leftmost rule, index columns after a range condition cannot use the index.
+
+### Avoiding Sorting
+
+A B+ tree index is ordered by its keys, so it can remove the need to sort during execution. The SQL constructs involved are:
+
+- `GROUP BY`
+- `ORDER BY`
+- `DISTINCT`
+- `PARTITION BY ... ORDER BY ...`
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate);
+```
+
+The plans below avoid sorting by scanning `lshipdate_idx`.
+
+**SQL 1 (ORDER BY)**
+
+```sql
+select * from lineitem order by l_shipdate limit 10;
+```
+
+```sql
+-> Limit: 10 row(s)  (cost=0.02 rows=10)
+    -> Index scan on lineitem using lshipdate_idx  (cost=0.02 rows=10)
+```
+
+**SQL 2 (GROUP BY)**
+
+```sql
+select l_shipdate, sum(l_quantity) as sum_qty from lineitem group by l_shipdate;
+```
+
+```sql
+-> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473)
+    -> Index scan on lineitem using lshipdate_idx  (cost=15208.05 rows=148473)
+```
+
+**SQL 3 (DISTINCT)**
+
+```sql
+select DISTINCT l_shipdate from lineitem;
+```
+
+```sql
+-> Covering index skip scan for deduplication on lineitem using lshipdate_idx  (cost=4954.90 rows=15973)
+```
+
+**SQL 4 (PARTITION BY ... ORDER BY ...)**
+
+```sql
+select rank() over (partition by L_SHIPDATE order by L_ORDERKEY) from lineitem;
+```
+
+```sql
+WindowAgg  (cost=0.29..545.28 rows=10000 width=28)
+->  Index Only Scan using lshipdate_idx on lineitem  (cost=0.29..370.28 rows=10000 width=20)
+```
+
+Three things to note:
+
+1. For grouping and deduplication, column order does not matter
+2. For sorting, the sort column order must match the index column order, otherwise the index cannot remove the sort
+3. When a query both groups and sorts, the indexed columns must come first
+
+For example:
+
+```sql
+select l_shipdate, l_orderkey, sum(l_quantity) as sum_qty
+from lineitem group by l_shipdate, l_orderkey order by l_orderkey;
+```
+
+- With the index `(l_shipdate, l_orderkey)` the plan still sorts; cost 486.526
+
+  ```sql
+  -> Sort: lineitem.L_ORDERKEY  (actual time=479.465..486.526 rows=149413 loops=1)
+      -> Stream results  (cost=30055.35 rows=148473) (actual time=0.175..423.447 rows=149413 loops=1)
+          -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.170..394.978 rows=149413 loops=1)
+              -> Index scan on lineitem using lshipdate_idx2  (cost=15208.05 rows=148473) (actual time=0.145..359.567 rows=149814 loops=1)
+  ```
+
+- With the index `(l_orderkey, l_shipdate)` the plan avoids sorting entirely; cost 228.401, better than twice as fast as the first
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.067..228.401 rows=149413 loops=1)
+      -> Index scan on lineitem using lshipdate_idx3  (cost=15208.05 rows=148473) (actual time=0.052..194.479 rows=149814 loops=1)
+  ```
+
+### Avoiding Table Lookups
+
+When every column a query needs is present in the index, the database can read the index alone — no table lookup. In some scenarios this is a large win.
+
+For this statement:
+
+```sql
+select l_shipdate, l_orderkey, sum(l_quantity) as sum_qty
+from lineitem group by l_orderkey, l_shipdate;
+```
+
+- With the index `(l_orderkey, l_shipdate)`, `l_quantity` is not covered, so a table lookup is required; cost **194.875**
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.044..194.875 rows=149413 loops=1)
+      -> Index scan on lineitem using lshipdate_idx3  (cost=15208.05 rows=148473) (actual time=0.034..159.863 rows=149814 loops=1)
+  ```
+
+- With the index `(l_orderkey, l_shipdate, l_quantity)`, `l_quantity` is covered and no lookup is needed; cost **113.433**, about 71.8% faster
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.035..113.433 rows=149413 loops=1)
+      -> Covering index scan on lineitem using lshipdate_idx4  (cost=15208.05 rows=148473) (actual time=0.026..82.266 rows=149814 loops=1)
+  ```
+
+### Other Topics
+
+#### Indexes for Partitioned Tables
+
+Support differs by database. In general a partitioned table can have three kinds of index:
+
+- Local partitioned index (PostgreSQL / MySQL / Oracle / openGauss)
+- Global partitioned index (Oracle)
+- Global non-partitioned index (Oracle / openGauss)
+
+A **local partitioned index** is easier to maintain than a global one: adding, dropping or truncating a partition automatically maintains the local index partitions. MySQL and PostgreSQL support only local partitioned indexes; Oracle and openGauss require the `local` keyword.
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate) local;
+```
+
+A **global partitioned index** has an index partition key unrelated to the table partition key; even a non-partitioned table can have one. Oracle supports global partitioned indexes.
+
+A **global non-partitioned index** can become unusable when you operate on table partitions, and then must be updated or rebuilt explicitly. In terms of efficiency, a global index is more efficient than a local one for queries that do not include the partition column. Oracle and openGauss create global non-partitioned indexes by default for partitioned tables.
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate) global;
+create index lshipdate_idx on lineitem(l_shipdate);
+```
+
+When performing a partition operation you must add the `update global index` keyword to rebuild the index, otherwise it stays unusable:
+
+```sql
+alter table t DROP PARTITION partition_name update global index;
+```
+
+#### Function Indexes
+
+A function (expression) index is built on a function or expression, using the computed value as the indexed column. It improves query performance without changing the application.
+
+A function index requires the function or expression to match the query expression exactly, so its applicability is narrow — best reserved for important or high-frequency queries.
+
+```sql
+select * from lineitem where EXTRACT(DAY from l_shipdate) = 1;
+```
+
+An ordinary index on `l_shipdate` is not used: the plan is a sequential scan taking 10.709 ms.
+
+```sql
+Seq Scan on lineitem  (cost=0.00..1870.24 rows=238 width=158) (actual time=0.502..10.655 rows=1616 loops=1)
+  Filter: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+  Rows Removed by Filter: 46000
+Planning Time: 0.107 ms
+Execution Time: 10.709 ms
+```
+
+With a function index, execution time drops to 1.075 ms:
+
+```sql
+create index idx on lineitem(EXTRACT(DAY from l_shipdate));
+```
+
+```sql
+Bitmap Heap Scan on lineitem  (cost=6.13..593.60 rows=238 width=158) (actual time=0.216..0.981 rows=1620 loops=1)
+  Recheck Cond: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+  Heap Blocks: exact=889
+  ->  Bitmap Index Scan on idx  (cost=0.00..6.08 rows=238 width=0) (actual time=0.149..0.149 rows=1620 loops=1)
+        Index Cond: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+Planning Time: 0.102 ms
+Execution Time: 1.075 ms
+```
+
+#### Partial Indexes
+
+A partial index is built over a subset of a table defined by a condition; it contains only the rows satisfying that condition.
+
+Its applicability is narrow too: the index can only serve a query when the database can tell that the query's `WHERE` condition logically covers the index's condition expression.
+
+Take an index whose condition is `l_shipdate > '2022-01-01'`:
+
+```sql
+create index l_partkey_idx on lineitem(l_partkey) where l_shipdate > '2022-01-01';
+```
+
+The query below uses `l_shipdate = date '2021-12-01'`, which falls outside the index condition, so the index is not used and the plan is a sequential scan:
+
+```sql
+select l_partkey, count(1) from lineitem
+where l_shipdate = date '2021-12-01' and l_partkey < 100 group by l_partkey;
+```
+
+```sql
+GroupAggregate  (cost=1870.25..1870.27 rows=1 width=12)
+  Group Key: l_partkey
+  ->  Sort  (cost=1870.25..1870.26 rows=1 width=4)
+        Sort Key: l_partkey
+        ->  Seq Scan on lineitem  (cost=0.00..1870.24 rows=1 width=4)
+              Filter: ((l_partkey < 100) AND (l_shipdate = '2021-12-01'::date))
+```
+
+This query uses `l_shipdate = date '2022-12-01'`, which does fall inside the condition, so the optimizer uses the index and performance improves markedly:
+
+```sql
+select l_partkey, count(1) from lineitem
+where l_shipdate = date '2022-12-01' and l_partkey < 100 group by l_partkey;
+```
+
+```sql
+GroupAggregate  (cost=402.37..402.39 rows=1 width=12)
+  Group Key: l_partkey
+  ->  Sort  (cost=402.37..402.38 rows=1 width=4)
+        Sort Key: l_partkey
+        ->  Index Scan using lorderkey_idx on lineitem  (cost=0.28..402.36 rows=1 width=4)
+              Filter: ((l_partkey < 100) AND (l_shipdate = '2022-12-01'::date))
+```
+
+> **Note**: MySQL does not support partial indexes; PostgreSQL, openGauss and Oracle do.
+
+#### Index Merge
+
+Index merge uses several indexes to serve one single-table access. When a query has several conditions on one table and each condition has a suitable index, index merge combines the index results before the table lookup, improving performance.
+
+With single-column indexes on `l_shipdate` and `l_partkey`, for this statement:
+
+```sql
+select * from lineitem where l_shipdate = date '2010-12-01' or l_partkey = 100;
+```
+
+PostgreSQL's plan:
+
+```sql
+Bitmap Heap Scan on lineitem  (cost=9.05..202.96 rows=59 width=158)
+  Recheck Cond: ((l_shipdate = '2010-12-01'::date) OR (l_partkey = 100))
+  ->  BitmapOr  (cost=9.05..9.05 rows=59 width=0)
+        ->  Bitmap Index Scan on l_shipdate_idx  (cost=0.00..4.70 rows=54 width=0)
+              Index Cond: (l_shipdate = '2010-12-01'::date)
+        ->  Bitmap Index Scan on l_partkey_idx  (cost=0.00..4.33 rows=5 width=0)
+              Index Cond: (l_partkey = 100)
+```
+
+MySQL's plan:
+
+```sql
+-> Filter: ((lineitem.L_SHIPDATE = DATE'2010-12-01') or (lineitem.L_PARTKEY = 100))  (cost=12.53 rows=21)
+    -> Deduplicate rows sorted by row ID  (cost=12.53 rows=21)
+        -> Index range scan on lineitem using lshipdate_idx over (L_SHIPDATE = '2010-12-01')  (cost=1.11 rows=1)
+        -> Index range scan on lineitem using l_partkey_idx over (L_PARTKEY = 100)  (cost=3.03 rows=20)
+```
+
+Both MySQL and PostgreSQL support index merge.
+
+#### Foreign Key Indexes
+
+You should create an index on a foreign key. This seems to contradict the first principle — create indexes from the workload — but it does not: in real applications, joins between tables are overwhelmingly on primary and foreign keys, so indexing the foreign key speeds up those joins.
+
+In MySQL, a column declared as a foreign key automatically gets an index. In PostgreSQL-family databases, declaring a foreign key does **not** create an index automatically.
+
+## Constraints on Index Design
+
+Indexes speed up reads, but they are not free: they hurt write performance, because every row written must update the affected indexes, and they consume disk space, which matters on space-constrained systems. These are the constraints. The goal is to choose indexes that maximize overall system performance within them:
+
+- Number of indexes per table
+- Number of columns per index
+- Index disk footprint
+
+Within those constraints, indexes are usually created and maintained as follows:
+
+- **Choosing columns**: index the most selective columns, judged by single-value selectivity; avoid indexing frequently updated columns, judged from the workload
+- **Choosing indexes**: from the workload, provide indexes for the most important or most frequent queries
+- **Merging indexes**: exploit the leftmost prefix rule and design the column order so one index accelerates several statements
+- **Dropping indexes**: collect index usage regularly with a command or tool, and drop indexes that are no longer used
+
+## Summary
+
+Index design can be abstracted as follows: given the constraints above, define each index's benefit, then use a heuristic algorithm to compute the set of indexes that maximizes workload benefit. That is also the internal logic of PawSQL's index recommendation engine.

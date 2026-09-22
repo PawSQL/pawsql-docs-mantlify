@@ -1,0 +1,78 @@
+---
+id: en-blog-oracle-group-by-integer-literal
+title: 'Oracle GROUP BY Integer Literals: Constant or Column Position'
+description: An integer literal in GROUP BY behaves differently before and after Oracle 23c, while MySQL and PostgreSQL treat it as a column position by default.
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: en
+translationKey: blog-oracle-group-by-integer-literal
+localeOf: blog-oracle-group-by-integer-literal
+product: pawsql
+authors:
+- pawsql
+tags:
+- Oracle
+- GROUP BY
+- Dialect differences
+- Cross-database compatibility
+---
+
+## One SQL Statement, Three Outcomes
+
+This statement runs fine in an Oracle client:
+
+```sql
+SELECT category, count(1)
+FROM products
+GROUP BY CATEGORY
+UNION ALL
+SELECT 23 as category, 100
+FROM product_23
+GROUP BY 23
+```
+
+The question is `GROUP BY 23`: is `23` a reference to the 23rd column in the SELECT list, or an ordinary constant?
+
+The answer depends on the database — and on the Oracle version. The same `23` produces three different groupings.
+
+## Before Oracle 23c: an Integer Is Just an Integer
+
+In Oracle versions before 23c, a numeric literal in the `GROUP BY` clause is **not treated as a positional reference**; it is simply a constant.
+
+So `GROUP BY 23` means "group by the constant value 23". A constant is the same for every row, so all rows land in a single group — equivalent to no grouping at all.
+
+That is usually not what the author intended: they most likely meant "group by the 23rd column in the SELECT list", and got one large group instead.
+
+## Oracle 23c and Later: a Configurable Toggle
+
+Oracle 23c introduced the **`GROUP_BY_POSITION_ENABLED`** parameter to control this behavior:
+
+| Value | Behavior |
+|---|---|
+| `FALSE` (default) | Legacy mode — integers in `GROUP BY` are still treated as ordinary constants |
+| `TRUE` | Positive integers in `GROUP BY` are treated as **positional references** to the 1st, 2nd, … column of the `SELECT` list |
+
+Same statement, same database version — different parameter settings can produce a completely different grouping.
+
+## MySQL and PostgreSQL: Position by Default
+
+MySQL and PostgreSQL took a different path: they **treat integers in `GROUP BY` as positional references by default**.
+
+`GROUP BY 1` therefore means "group by the first column of the SELECT list" in those databases — the exact opposite of Oracle's default.
+
+During a cross-database migration this kind of discrepancy raises no error. It just silently changes the result.
+
+## Recommendations
+
+1. **Do not use integer constants as grouping keys.** Use explicit column names or aliases — the only way to guarantee consistent behavior across platforms.
+2. If you do need positional references (`GROUP BY 1, 2`), check the target database's version and default behavior first.
+3. Oracle 23c users should watch the `GROUP_BY_POSITION_ENABLED` setting: changing it affects every statement that uses positional grouping.
+
+## How PawSQL Handles It
+
+PawSQL's SQL parser originally had a defect in exactly this case: parsing `GROUP BY 23` mapped the literal to the 23rd select-list column and raised an out-of-bounds error, even though the statement executed normally against the database. The defect is fixed, and it led us to capture the pattern as an audit rule.
+
+That rule flags integer literals in `GROUP BY` — whether used as constants or as positional ordinals — and warns before execution: integer constants group differently across Oracle, MySQL and PostgreSQL, while positional ordinals, though widely supported, hurt readability and cross-platform portability.

@@ -1,0 +1,401 @@
+---
+id: blog-efficient-index-design
+title: 如何创建高效的索引
+description: 索引创建应基于工作负载而非表结构。本文从最左前缀、避免排序、避免回表三个角度，结合执行计划说明索引列顺序与覆盖列的选择。
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: zh
+translationKey: blog-efficient-index-design
+localeOf: en-blog-efficient-index-design
+product: pawsql
+authors:
+- pawsql
+tags:
+- 索引
+- 组合索引
+- 最左前缀
+- 执行计划
+---
+
+本文介绍创建索引时需要遵循的准则，以获得更好的查询性能与维护效率。示例基于最常用的 B+ 树索引；其他索引类型有各自的适用限制，见[数据库索引的类型](/blog/sql-optimization/index-types)。
+
+## 基于工作负载创建索引
+
+创建高效索引最重要的原则是：**基于工作负载（workload）创建索引，而不是基于表结构**。索引的目的是提升数据库操作的效率，任何不从工作负载出发的索引创建方法都是错的。
+
+针对数据库执行的所有 SQL 构成了该数据库的工作负载。构建一组索引时，需要考虑工作负载的以下属性：
+
+- **SQL 类型**：以频繁插入和修改为主的 OLTP 场景，多个索引会对性能产生负面影响并造成资源压力，建议只创建满足需求的最少数量的索引；以查询为主的 OLAP 场景则可以添加更多索引，每个索引可包含多个键列，甚至可以使用函数索引和条件索引
+- **SQL 频率**：为最频繁使用的查询创建索引，通过为这些查询提供最好的索引，最大程度提升系统整体性能
+- **SQL 的重要性**：查询越重要，越值得通过索引做针对性优化
+- **SQL 本身的结构**
+
+## 基于单个 SQL 的结构创建索引
+
+索引有三个作用：
+
+- 快速定位数据
+- 避免排序
+- 避免回表
+
+### 为快速定位创建索引
+
+索引通过匹配查询条件快速定位数据，条件可能出现在 `WHERE`、`HAVING`、`ON` 子句中。索引与条件的匹配遵循最左前缀原则。
+
+#### 最左前缀原则
+
+> 如果查询的**等值条件**精确匹配索引左边连续的一列或几列，这些列就可以被用到；一旦遇到范围查询（`>`、`<`、`between`、`like`）就停止匹配。
+
+对于联合索引 `lineitem(l_shipdate, l_quantity)`，以下前两条 SQL 符合最左前缀原则，可以使用该索引；最后一条不满足，无法使用：
+
+```sql
+select * from lineitem where l_shipdate = date '2021-12-01' and l_quantity = 100; -- 可以使用索引
+select * from lineitem where l_shipdate = date '2021-12-01'; -- 可以使用索引
+select * from lineitem where l_quantity = 100; -- 不满足最左前缀原则，无法使用该索引
+```
+
+对应的执行计划分别为：
+
+```sql
+-> Index lookup on lineitem using lidx (L_QUANTITY=100.00, L_SHIPDATE=DATE'2021-12-01')  (cost=0.35 rows=1)
+```
+
+```sql
+-> Index lookup on lineitem using lidx ( L_SHIPDATE=DATE'2021-12-01')  (cost=0.35 rows=1)
+```
+
+```sql
+-> Filter: (lineitem.L_QUANTITY = 100.00)  (cost=15208.05 rows=49486)
+    -> Table scan on lineitem  (cost=15208.05 rows=148473)
+```
+
+由于最左前缀原则，创建联合索引时索引字段的顺序需要考虑字段去重后的个数（Cardinality），Cardinality 较大的放在前面。
+
+#### 等值条件
+
+单表等值条件：
+
+- `COL = 'A'`
+- `COL IN ('A')`
+
+关联等值条件：一张表作为被驱动表时，其等值关联条件同样可以被索引匹配使用。
+
+- `T1.COL = T2.COL`
+
+  ```sql
+  select * from orders, lineitem where o_orderkey = l_orderkey;
+  ```
+
+  ```sql
+  -> Nested loop inner join  (cost=484815.77 rows=1326500)
+      -> Table scan on orders  (cost=20540.71 rows=200128)
+      -> Index lookup on lineitem using lineitem_idx(L_ORDERKEY=orders.O_ORDERKEY)  (cost=1.66 rows=7)
+  ```
+
+#### 范围条件
+
+- 范围操作符（`>`、`>=`、`<`、`<=`、`BETWEEN`）
+- `IN ('A','B')`
+- `IS NOT NULL`
+- `IS NULL`
+- `LIKE 'ABC%'`
+- `COL = 'A' OR COL = 'B'`
+
+范围条件同样可以用来快速定位数据：
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate);
+explain format = tree select * from lineitem where l_shipdate >= date '2021-12-01';
+```
+
+```sql
+-> Index range scan on lineitem using lshipdate_idx over ('2021-12-01' <= L_SHIPDATE), with index condition: (lineitem.L_SHIPDATE >= DATE'2021-12-01')  (cost=11855.06 rows=26344)
+```
+
+由于最左匹配原则，位于范围条件之后的索引列无法利用该索引。
+
+### 为避免排序创建索引
+
+B+ 树索引按索引键排序，因此可以用索引避免 SQL 执行中的排序。涉及的 SQL 结构主要包括：
+
+- `GROUP BY`
+- `ORDER BY`
+- `DISTINCT`
+- `PARTITION BY ... ORDER BY ...`
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate);
+```
+
+下面的 SQL 执行计划通过访问 `lshipdate_idx` 索引避免了排序。
+
+**SQL 1（ORDER BY）**
+
+```sql
+select * from lineitem order by l_shipdate limit 10;
+```
+
+```sql
+-> Limit: 10 row(s)  (cost=0.02 rows=10)
+    -> Index scan on lineitem using lshipdate_idx  (cost=0.02 rows=10)
+```
+
+**SQL 2（GROUP BY）**
+
+```sql
+select l_shipdate, sum(l_quantity) as sum_qty from lineitem group by l_shipdate;
+```
+
+```sql
+-> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473)
+    -> Index scan on lineitem using lshipdate_idx  (cost=15208.05 rows=148473)
+```
+
+**SQL 3（DISTINCT）**
+
+```sql
+select DISTINCT l_shipdate from lineitem;
+```
+
+```sql
+-> Covering index skip scan for deduplication on lineitem using lshipdate_idx  (cost=4954.90 rows=15973)
+```
+
+**SQL 4（PARTITION BY ... ORDER BY ...）**
+
+```sql
+select rank() over (partition by L_SHIPDATE order by L_ORDERKEY) from lineitem;
+```
+
+```sql
+WindowAgg  (cost=0.29..545.28 rows=10000 width=28)
+->  Index Only Scan using lshipdate_idx on lineitem  (cost=0.29..370.28 rows=10000 width=20)
+```
+
+需要注意三点：
+
+1. 分组和去重对顺序没有要求
+2. 排序要求排序字段的顺序与索引字段顺序一致，否则无法利用索引避免排序
+3. 同时有分组和排序时，需要把索引列放在前面
+
+例如下面这条 SQL：
+
+```sql
+select l_shipdate, l_orderkey, sum(l_quantity) as sum_qty
+from lineitem group by l_shipdate, l_orderkey order by l_orderkey;
+```
+
+- 建索引 `(l_shipdate, l_orderkey)`：走索引访问，但仍需排序，代价 486.526
+
+  ```sql
+  -> Sort: lineitem.L_ORDERKEY  (actual time=479.465..486.526 rows=149413 loops=1)
+      -> Stream results  (cost=30055.35 rows=148473) (actual time=0.175..423.447 rows=149413 loops=1)
+          -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.170..394.978 rows=149413 loops=1)
+              -> Index scan on lineitem using lshipdate_idx2  (cost=15208.05 rows=148473) (actual time=0.145..359.567 rows=149814 loops=1)
+  ```
+
+- 建索引 `(l_orderkey, l_shipdate)`：索引访问并避免排序，代价 228.401，相比上一种快一倍以上
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.067..228.401 rows=149413 loops=1)
+      -> Index scan on lineitem using lshipdate_idx3  (cost=15208.05 rows=148473) (actual time=0.052..194.479 rows=149814 loops=1)
+  ```
+
+### 为避免回表创建索引
+
+当查询涉及的列都在索引列中时，数据库只需访问索引即可取到数据，无需回表；这在某些场景下能大幅提升查询效率。
+
+对于以下 SQL：
+
+```sql
+select l_shipdate, l_orderkey, sum(l_quantity) as sum_qty
+from lineitem group by l_orderkey, l_shipdate;
+```
+
+- 索引 `(l_orderkey, l_shipdate)` 中不包含 `l_quantity`，需要回表，代价 **194.875**
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.044..194.875 rows=149413 loops=1)
+      -> Index scan on lineitem using lshipdate_idx3  (cost=15208.05 rows=148473) (actual time=0.034..159.863 rows=149814 loops=1)
+  ```
+
+- 索引 `(l_orderkey, l_shipdate, l_quantity)` 中包含 `l_quantity`，无需回表，代价 **113.433**，比上一种快约 71.8%
+
+  ```sql
+  -> Group aggregate: sum(lineitem.L_QUANTITY)  (cost=30055.35 rows=148473) (actual time=0.035..113.433 rows=149413 loops=1)
+      -> Covering index scan on lineitem using lshipdate_idx4  (cost=15208.05 rows=148473) (actual time=0.026..82.266 rows=149814 loops=1)
+  ```
+
+### 其他相关
+
+#### 分区表的索引
+
+对于分区表，不同数据库对索引的支持不同。总体来说，分区表可以建立三种类型的索引：
+
+- 本地分区索引（PostgreSQL / MySQL / Oracle / openGauss）
+- 全局分区索引（Oracle）
+- 全局非分区索引（Oracle / openGauss）
+
+**本地分区索引**在维护性上比全局索引容易管理：添加、删除、truncate 表分区时，本地索引会自动维护其索引分区。MySQL 和 PostgreSQL 只支持本地分区索引；Oracle 和 openGauss 创建本地分区索引时需要指定关键字 `local`。
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate) local;
+```
+
+**全局分区索引**的索引分区键与表分区键没有必然关系，甚至非分区表也可以建立全局分区索引。Oracle 支持全局分区索引。
+
+**全局非分区索引**在对表分区进行操作时可能变得不可用，需要显式更新或重建索引。在索引效率方面，全局索引在不包含分区字段的查询中比本地分区索引更高效。Oracle 和 openGauss 为分区表默认创建的就是全局非分区索引。
+
+```sql
+create index lshipdate_idx on lineitem(l_shipdate) global;
+create index lshipdate_idx on lineitem(l_shipdate);
+```
+
+进行分区操作时需要增加 `update global index` 关键字重建索引，否则索引不可用：
+
+```sql
+alter table t DROP PARTITION partition_name update global index;
+```
+
+#### 函数索引
+
+函数索引（表达式索引）基于函数或表达式构建，使用计算好的值作为索引列，可以在不修改应用程序的情况下提高查询性能。
+
+函数索引要求函数或表达式与查询中的表达式严格匹配，使用条件较严格，适合针对重要或高频查询做重点优化。
+
+```sql
+select * from lineitem where EXTRACT(DAY from l_shipdate) = 1;
+```
+
+建在 `l_shipdate` 上的普通索引不会被使用，执行计划为全表扫描，执行时间 10.709 ms：
+
+```sql
+Seq Scan on lineitem  (cost=0.00..1870.24 rows=238 width=158) (actual time=0.502..10.655 rows=1616 loops=1)
+  Filter: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+  Rows Removed by Filter: 46000
+Planning Time: 0.107 ms
+Execution Time: 10.709 ms
+```
+
+改为创建函数索引后，执行时间降到 1.075 ms：
+
+```sql
+create index idx on lineitem(EXTRACT(DAY from l_shipdate));
+```
+
+```sql
+Bitmap Heap Scan on lineitem  (cost=6.13..593.60 rows=238 width=158) (actual time=0.216..0.981 rows=1620 loops=1)
+  Recheck Cond: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+  Heap Blocks: exact=889
+  ->  Bitmap Index Scan on idx  (cost=0.00..6.08 rows=238 width=0) (actual time=0.149..0.149 rows=1620 loops=1)
+        Index Cond: (EXTRACT(day FROM l_shipdate) = '1'::numeric)
+Planning Time: 0.102 ms
+Execution Time: 1.075 ms
+```
+
+#### 条件索引
+
+条件索引（部分索引，Partial index）建立在表的子集上，子集由条件表达式定义，索引只包含满足该条件的行。
+
+条件索引的使用条件也比较严格：只有当数据库能够识别出查询的 `WHERE` 条件在逻辑上涵盖了索引的条件表达式时，该索引才能被用于该查询。
+
+以下索引的条件表达式为 `l_shipdate > '2022-01-01'`：
+
+```sql
+create index l_partkey_idx on lineitem(l_partkey) where l_shipdate > '2022-01-01';
+```
+
+由于下面查询的条件 `l_shipdate = date '2021-12-01'` 没有落在该索引条件的范围内，索引不会被使用，执行计划采用全表扫描：
+
+```sql
+select l_partkey, count(1) from lineitem
+where l_shipdate = date '2021-12-01' and l_partkey < 100 group by l_partkey;
+```
+
+```sql
+GroupAggregate  (cost=1870.25..1870.27 rows=1 width=12)
+  Group Key: l_partkey
+  ->  Sort  (cost=1870.25..1870.26 rows=1 width=4)
+        Sort Key: l_partkey
+        ->  Seq Scan on lineitem  (cost=0.00..1870.24 rows=1 width=4)
+              Filter: ((l_partkey < 100) AND (l_shipdate = '2021-12-01'::date))
+```
+
+而下面查询的条件 `l_shipdate = date '2022-12-01'` 落在条件表达式范围内，优化器会采用该索引，性能大幅提升：
+
+```sql
+select l_partkey, count(1) from lineitem
+where l_shipdate = date '2022-12-01' and l_partkey < 100 group by l_partkey;
+```
+
+```sql
+GroupAggregate  (cost=402.37..402.39 rows=1 width=12)
+  Group Key: l_partkey
+  ->  Sort  (cost=402.37..402.38 rows=1 width=4)
+        Sort Key: l_partkey
+        ->  Index Scan using lorderkey_idx on lineitem  (cost=0.28..402.36 rows=1 width=4)
+              Filter: ((l_partkey < 100) AND (l_shipdate = '2022-12-01'::date))
+```
+
+> **注意**：MySQL 目前不支持条件索引；PostgreSQL、openGauss、Oracle 都支持。
+
+#### 索引融合
+
+索引融合（Index Merge）是使用多个索引完成一次单表数据访问的优化技术。当查询涉及一张表的多个条件、而这些条件分别有合适的索引时，索引融合可以在回表之前把多个索引的结果合并，提高查询性能。
+
+`lineitem` 表上有 `l_shipdate` 与 `l_partkey` 的单列索引，对于以下 SQL：
+
+```sql
+select * from lineitem where l_shipdate = date '2010-12-01' or l_partkey = 100;
+```
+
+PostgreSQL 的执行计划：
+
+```sql
+Bitmap Heap Scan on lineitem  (cost=9.05..202.96 rows=59 width=158)
+  Recheck Cond: ((l_shipdate = '2010-12-01'::date) OR (l_partkey = 100))
+  ->  BitmapOr  (cost=9.05..9.05 rows=59 width=0)
+        ->  Bitmap Index Scan on l_shipdate_idx  (cost=0.00..4.70 rows=54 width=0)
+              Index Cond: (l_shipdate = '2010-12-01'::date)
+        ->  Bitmap Index Scan on l_partkey_idx  (cost=0.00..4.33 rows=5 width=0)
+              Index Cond: (l_partkey = 100)
+```
+
+MySQL 的执行计划：
+
+```sql
+-> Filter: ((lineitem.L_SHIPDATE = DATE'2010-12-01') or (lineitem.L_PARTKEY = 100))  (cost=12.53 rows=21)
+    -> Deduplicate rows sorted by row ID  (cost=12.53 rows=21)
+        -> Index range scan on lineitem using lshipdate_idx over (L_SHIPDATE = '2010-12-01')  (cost=1.11 rows=1)
+        -> Index range scan on lineitem using l_partkey_idx over (L_PARTKEY = 100)  (cost=3.03 rows=20)
+```
+
+MySQL 与 PostgreSQL 都支持索引融合优化。
+
+#### 外键索引
+
+应该在外键上创建索引。这个原则看似与第一条（基于工作负载创建索引）矛盾，实际上是一致的——真实应用中表之间的关联绝大多数基于主外键，在外键上建索引可以提升表关联的效率。
+
+在 MySQL 中，字段被定义为外键时会默认建立对应索引；而在 PostgreSQL 系列数据库中，将字段设置为外键**不会**自动建立索引。
+
+## 创建索引时的约束条件
+
+索引能提高读取性能，但并非没有代价：它会对写入性能产生负面影响，因为写入表的每一行都要更新受影响的索引；索引还会占用磁盘空间，在空间紧张的系统上需要控制索引的大小与数量。这些构成创建索引的约束条件，目标是在给定约束下创建合适的索引，最大化系统整体性能。
+
+- 单表索引数目
+- 索引字段数目
+- 索引磁盘空间
+
+针对这些约束，通常通过以下方式创建和维护索引：
+
+- **索引列取舍**：通过列的单值选择率评估，在过滤效果最好的列上建立索引；通过工作负载分析，避免在频繁更新的列上建立索引
+- **索引取舍**：通过工作负载分析，为最重要或使用频率最高的查询提供索引
+- **索引合并**：利用最左前缀匹配原则，通过设计索引列的排列顺序，用一个索引加速多条 SQL
+- **索引删除**：通过命令或工具定期采集索引使用情况，删除不再使用的索引
+
+## 小结
+
+索引创建的过程可以抽象为：在上述约束条件下定义索引的收益，使用启发式算法计算使整个工作负载收益最大的索引集合。这也是 PawSQL 索引推荐引擎的内部逻辑。

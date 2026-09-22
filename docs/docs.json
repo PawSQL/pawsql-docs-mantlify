@@ -277,7 +277,12 @@
                 "pages": [
                   "blog/index",
                   "blog/tdsql-mysql-slow-query",
-                  "blog/opengauss-slow-query"
+                  "blog/opengauss-slow-query",
+                  "blog/sql-optimization/oracle-group-by-integer-literal",
+                  "blog/sql-optimization/plan-visualization",
+                  "blog/sql-optimization/sql-null-traps",
+                  "blog/sql-optimization/index-types",
+                  "blog/sql-optimization/efficient-index-design"
                 ]
               }
             ]
@@ -520,7 +525,12 @@
                 "icon": "newspaper",
                 "pages": [
                   "en/blog/index",
-                  "en/blog/engineering/or-to-union"
+                  "en/blog/engineering/or-to-union",
+                  "en/blog/sql-optimization/oracle-group-by-integer-literal",
+                  "en/blog/sql-optimization/plan-visualization",
+                  "en/blog/sql-optimization/sql-null-traps",
+                  "en/blog/sql-optimization/index-types",
+                  "en/blog/sql-optimization/efficient-index-design"
                 ]
               }
             ]

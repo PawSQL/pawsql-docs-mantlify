@@ -1,0 +1,76 @@
+---
+id: blog-plan-visualization
+title: MySQL 的执行计划可视化
+description: 执行计划是诊断 SQL 性能问题的主要依据，但复杂查询的纯文本计划很难读懂。PawSQL Plan Visualizer 把 MySQL 执行计划渲染成可交互的树形结构。
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: zh
+translationKey: blog-plan-visualization
+localeOf: en-blog-plan-visualization
+product: pawsql
+authors:
+- pawsql
+tags:
+- 执行计划
+- MySQL
+- 可视化
+- 性能诊断
+---
+
+## 为什么需要执行计划可视化
+
+执行计划（Execution Plan）是数据库执行 SQL 查询时内部生成的执行策略，描述了 SQL 在数据库内部如何一步一步执行，是诊断 SQL 性能问题和调优的重要依据。随着数据库应用处理复杂度提高，执行计划也随 SQL 一起变得越来越复杂。纯文本的执行计划阅读难度大，难以把握整体结构、定位关键路径与瓶颈，给 DBA 的性能优化工作带来很大挑战。
+
+可视化工具把执行计划以流程图形式呈现，展示计划结构，用视觉元素突出关键操作与路径，并关联 SQL 语句源码。这能显著提高读懂和分析执行计划的效率，更快定位性能瓶颈，针对 SQL 或索引做精准优化。
+
+商业数据库通常都会开发自己的执行计划可视化工具；开源数据库虽然用户量巨大，配套的可视化工具却相对较少。
+
+## PawSQL Plan Visualizer（PPV）
+
+PawSQL 的执行计划可视化工具 PawSQL Plan Visualizer（PPV）基于开源组件 pev/pev2 开发，主要功能包括：
+
+1. 支持多种数据库：MySQL、PostgreSQL、openGauss、Oracle 等
+2. 支持多种输入：MySQL 的 json / tree / analyze 格式，Oracle 的表单格式
+3. 交互式分析：基于执行时间、代价、行数的高亮展示
+4. 基于数据库对象与算子的 Metrics 统计
+
+## PPV 对 MySQL 的支持
+
+### 支持的版本与格式
+
+| MySQL 版本 | 支持的输入格式 | 展示信息 |
+|---|---|---|
+| 大于等于 5.6，小于 8.0.16 | format=json | 估算的代价 / 行数 |
+| 大于等于 8.0.16，小于 8.0.18 | format=json / format=tree | 估算的代价 / 行数 |
+| 大于等于 8.0.18 | format=json / format=tree / analyze | 实际执行时间 / 实际行数 / 估算的代价 / 估算的行数 |
+
+### 渲染执行计划
+
+把 MySQL 执行计划的文本输出提交给 PawSQL Plan Visualizer，即可得到树形结构的执行计划展示。
+
+算子右上角用图标提示问题，例如耗时较长、估算代价高、预估与实际执行行数偏差较大等。借助这些提示，DBA 可以快速定位问题模块并展开细节排查。
+
+![MySQL 执行计划的树形结构展示](/images/blog/plan-visualization-plan-tree.gif)
+
+### 交互式分析
+
+- 点击头部概要信息，快速定位执行最耗时或代价最大的节点
+- 展开每个算子，查看其具体耗时、行数及其他信息
+- 点击时间、代价、行数，以进度条形式展示各节点的占比
+
+![按执行时间、代价与行数查看各节点占比](/images/blog/plan-visualization-interactive-analysis.gif)
+
+### 基于对象与算子的统计
+
+页面右侧展示基于对象（表 / 索引）以及执行计划中算子的统计分析，包括执行时间、估算代价等。
+
+![基于数据库对象与算子的 Metrics 统计](/images/blog/plan-visualization-statistics.gif)
+
+## 与优化功能的集成
+
+对于启用了性能验证的优化任务，PawSQL 会获取优化前后的执行计划，并借助 PEV 对两者做可视化对比。
+
+![优化前后执行计划的可视化对比](/images/blog/plan-visualization-comparison.gif)

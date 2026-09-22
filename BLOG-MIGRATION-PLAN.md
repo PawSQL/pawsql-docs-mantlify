@@ -193,7 +193,7 @@ en 镜像：`id: en-blog-<slug>`、`language: en`、`localeOf: blog-<slug>`，`t
 | 批次 | 内容 | 产物 | 依赖 |
 |---|---|---|---|
 | **B0 约定与工具** | 定 §4 目录结构、category 词表、图片命名；补 `import-blog` 脚手架命令（frontmatter 骨架 + 图片归集清单，dry-run 默认） | 约定落文 + 工具 | L1、L2 |
-| **B1 纯技术（无事实风险）** | A 执行计划可视化、B NULL 陷阱、E 索引设计 2 篇、N Oracle Quirk | 5 篇 zh + 4 en 镜像 | B0 |
+| **B1 纯技术（无事实风险）** | A 执行计划可视化、B NULL 陷阱、E 索引设计 2 篇、N Oracle Quirk | 5 篇 zh + 5 en 镜像 | B0 |
 | **B2 优化器短板系列** | F MySQL、G PostgreSQL、G Oracle | 3 篇 zh | B0；可套 `pawsql-optimizer-article` skill |
 | **B3 评测与产品能力** | D TPCH、C 索引引擎、H 大模型局限、J 窗口函数索引、I 存储过程审核、K Advisor 概览 | 6 篇 zh + 1 en 镜像（TPCH） | B0；D 需 L5 证据 |
 | **B4 案例** | O TDSQL-MySQL 返工、P openGauss 补图 | 2 篇返工 | L3、L5 |
@@ -284,12 +284,21 @@ uv run pytest -q
 | 批次 | 日期 | 结果 | 遗留 |
 |---|---|---|---|
 | B0 | — | — | — |
-| B1 | — | — | — |
+| B1 | 2026-09-22 | 5 篇 zh + 5 en 镜像落位 `docs/blog/sql-optimization/`，全部 `draft`；图片 8 张入库（4 张 zhimg 动图下载、3 张索引结构图与 1 张真值表从 vault 回收）；`validate-nav`/`validate-frontmatter` PASS、pytest 95 项通过、10 页浏览器验证 0 error | 见右下「B1 遗留」 |
 | B2 | — | — | — |
 | B3 | — | — | — |
 | B4 | — | — | — |
 | B5 | — | — | — |
 | B6 | — | — | — |
 | B7 | — | — | — |
+
+**B1 遗留（待产品/编辑确认）：**
+
+1. **内容已改动的判断，需复核**：① NULL 篇删去「DB2/Teradata 超过 20% 缺陷与 NULL 相关」这句无出处统计；② 同篇把源码里 `isNullable` 伪代码（原两个分支都 `return true`）改写为条目式判定逻辑；③ 执行计划可视化篇把「市场上没有合适的 MySQL 可视化工具」这一 2022 年的绝对化表述改为中性陈述；④ 创建高效索引篇的函数索引示例中，源码的 Seq Scan 计划写的是 `l_commitdate` 而查询是 `l_shipdate`，已按查询口径统一。
+2. **规则名未对齐注册表**：NULL 篇的 `UseEqual4NullRewrite` / `NotInNullableSubQueryRewrite` / `AllQualifierSubQueryRewrite` 三个规则名直接来自源码，未与规则注册表核对（锁 2），暂未加链接。
+3. **篇名与命名待统一**：`PawSQL Plan Visualizer（PPV）` 与源码另一处 `PawEV` 不一致，已统一为 PPV；`PawSQL Advisor` 统一为 `PawSQL`。需要产品确认对外名称。
+4. **日期缺失**：五篇源文均无发布日期（源文版权标注 2022），`date` 字段暂空，待产品提供首发日期后再补。
+5. **动图体积**：4 张 zhimg 动图合计约 14.5 MB（最大一张 7.2 MB），已入库但会拖慢页面加载，建议后续转码为视频或压缩。
+6. **URL 结构未定**：本批按 §4.1 推荐采用分类目录 `blog/sql-optimization/`，但 L2 尚未定稿；若改扁平结构，本批文件需移动（尚未上线，代价低）。
 
 **既有事实（2026-09-17，`fc4b8e3`）：** 已迁 `docs/blog/{index,tdsql-mysql-slow-query,opengauss-slow-query}.mdx` 与 `docs/en/blog/{index,sql-optimization/or-to-union}.mdx`，全部 `status: draft`；其中 TDSQL-MySQL 页按 §6.3 **待返工**，openGauss 页 **待补图**。

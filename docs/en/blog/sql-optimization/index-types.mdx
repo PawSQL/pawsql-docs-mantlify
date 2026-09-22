@@ -1,0 +1,187 @@
+---
+id: en-blog-index-types
+title: Types of Database Index
+description: Index types by implementation (B+ tree, hash, spatial, full text, bitmap) and by uniqueness, clustering and column count, with the query patterns each one suits.
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: en
+translationKey: blog-index-types
+localeOf: blog-index-types
+product: pawsql
+authors:
+- pawsql
+tags:
+- Index
+- B+ tree
+- Data structures
+- Query optimization
+---
+
+A database index is a data structure that speeds up queries. It works like a book's table of contents: it helps locate a particular row, or set of rows, quickly. An index usually consists of a set of index keys (index fields) whose values are stored in a structure that allows fast lookup.
+
+## By Implementation
+
+Classified by how the index is implemented, the common types are:
+
+- B+ tree index
+- Hash index
+- Spatial index (for example an R-tree)
+- Full text index
+- Bitmap index
+
+Each type suits different data types and query patterns; pick the one the workload calls for.
+
+### B+ Tree Index
+
+A B+ tree is a balanced tree in which each node holds a number of keys and pointers to child nodes, supporting fast lookup and sorting. B+ tree indexes work with a wide range of data types and support range queries and sorting, which is why they are so widely used.
+
+![B+ tree structure](/images/blog/index-types-b-plus-tree.png)
+
+*Image: Wikipedia*
+
+When the database runs a query, it first searches the B+ tree for the node holding the required key, then follows the pointer to the data record. For a range query it locates the nodes covering the range and returns every matching record.
+
+**Advantages**
+
+- Fast lookup and sorting
+- Works with numeric, string and date/time data types
+- Handles large volumes of data, being a balanced tree
+
+**Disadvantages**
+
+- Inserts and deletes may require rebalancing, so writes can be slower
+- Updates delete the old record and create a new one, which costs time and space
+
+### Hash Index
+
+A hash index is based on a hash table: a hash function maps data to buckets.
+
+![Hash table structure](/images/blog/index-types-hash-table.png)
+
+*Image: Wikipedia*
+
+To run a query, the database hashes the key and looks in the hash table for a record with that hash value. If several records share a hash value, comparison operators are needed to identify the right one.
+
+**Advantages**
+
+- Very fast, because buckets are directly addressable
+- Especially effective for equality queries
+- No sorting, so no extra time or space for ordering
+
+**Disadvantages**
+
+- Range queries and sorting are not supported
+- Hash collisions can slow queries down
+- Limited set of applicable data types
+- Inserts, updates and deletes may require rehashing
+
+### Spatial Index
+
+A spatial index is built for spatial data, common in GIS and spatial databases, for fast lookups of position and geometric relationships.
+
+![R-tree structure](/images/blog/index-types-r-tree.png)
+
+*Image: Wikipedia*
+
+Spatial indexes typically divide space into grid cells (grids, grid maps or quadtrees), store one or more points per cell, and use spatial algorithms to query neighbouring cells and derive the geometric relationships.
+
+**Advantages**
+
+- Fast lookups of position and geometric relationships
+- Very effective for range queries such as rectangles and circles
+
+**Disadvantages**
+
+- Complex to implement; requires knowledge of spatial algorithms
+- Not applicable to non-spatial data
+- Can consume a lot of memory on large data sets
+
+### Full Text Index
+
+A full text index searches text content quickly, whether in a text column or in a document management system. It usually tokenises the text and stores the tokens in a structure such as an inverted index, so search terms can be looked up quickly.
+
+**Advantages**
+
+- Fast text search
+- Supports fuzzy term matching
+- Handles multilingual text
+
+**Disadvantages**
+
+- Not applicable to non-text data
+- Can consume significant compute and storage on large text corpora
+- Can produce false matches
+
+### Bitmap Index
+
+A bitmap index stores data as a bitmap to speed up queries: each bit represents whether a record satisfies a condition — 1 for yes, 0 for no.
+
+**Advantages**
+
+- Efficient: performs large numbers of logical operations quickly
+- Space efficient: only stores 0s and 1s
+
+**Disadvantages**
+
+- Hard to update: a data change requires regenerating the whole bitmap index
+- Only suitable for data with a limited number of distinct values, such as city or gender
+
+Bitmap indexes are therefore used on columns with few distinct values.
+
+## By Other Dimensions
+
+### Unique Index
+
+By uniqueness, indexes divide into unique and non-unique. A unique index enforces uniqueness on a column and is typically used to implement primary key and unique constraints; databases usually create one automatically for a primary key or unique constraint.
+
+A unique index both speeds up queries and validates data, preventing duplicates. The cost is that every insert or update must check the constraint.
+
+### Clustered Index
+
+By clustering, indexes divide into clustered and non-clustered. A clustered index orders its keys the same way the table's rows are ordered; since a table's rows can only be ordered one way, a table can have at most one clustered index.
+
+More advanced optimizers also compute the clustering factor of non-clustered indexes to estimate the disk I/O cost of a table lookup. An index with a low clustering factor causes I/O thrashing on lookups and measurably hurts performance — generally, the higher the clustering factor, the lower the I/O cost.
+
+There are two ways to implement a clustered index:
+
+- Stored together with the table data, with a full row in each leaf node — as in MySQL's InnoDB engine and SQL Server
+- Stored separately from the table data, so the table can exist first and the clustered index be defined later — as in DB2, PostgreSQL and Oracle
+
+The advantage of a clustered index is fewer disk I/Os and therefore better query performance; the disadvantage is that inserting new data may require moving data pages or reorganising the index.
+
+### Secondary Index
+
+By whether the index is on the primary key, indexes divide into primary key indexes and secondary indexes. There can be only one primary key index, but many secondary indexes.
+
+### Composite Index
+
+By the number of indexed columns, indexes divide into single-column and composite. A composite index can serve several query conditions, saving index space and maintenance cost. Composite indexes follow the leftmost prefix rule; see [How to Create Efficient Indexes](/en/blog/sql-optimization/efficient-index-design).
+
+### Function Index
+
+A function (or expression) index is built on a function or expression, using the computed value as the indexed column. It improves query performance without changing the application:
+
+```sql
+alter table lineitem add index idx(DAYOFMONTH(l_shipdate));
+```
+
+> `DAYOFMONTH` is a built-in PostgreSQL function that extracts the day from a date.
+
+### Partial Index
+
+A partial index is built over a subset of a table defined by a condition; the index contains only the rows satisfying it:
+
+```sql
+create index l_partkey_idx on lineitem(l_partkey) where l_shipdate > '2022-01-01';
+```
+
+## Summary
+
+- **B+ tree index**: the most common type, balanced, handles large volumes of data, suits most data types — especially numeric and string — and supports range queries; its ordering can also remove the need to sort.
+- **Hash index**: suited to equality queries and very fast, but supports neither range queries nor sorting.
+- **Spatial index**: for querying and managing spatial data, such as an R-tree.
+- **Full text index**: for searching and ranking text data.
+- **Bitmap index**: maintains a bitmap and suits queries over large volumes of boolean data.

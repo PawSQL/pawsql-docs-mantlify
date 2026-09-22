@@ -1,0 +1,326 @@
+---
+id: blog-sql-null-traps
+title: SQL 查询中关于 NULL 的陷阱
+description: 数据库对 NULL 的处理遵循三值逻辑，与开发者习惯的二元布尔判断不同，由此产生四类常见陷阱；本文给出判定逻辑与对应的重写方式。
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: zh
+translationKey: blog-sql-null-traps
+localeOf: en-blog-sql-null-traps
+product: pawsql
+authors:
+- pawsql
+tags:
+- "NULL"
+- 三值逻辑
+- 查询重写
+- SQL 优化
+---
+
+NULL 的处理是应用开发中最容易出错的地方，原因在于开发者习惯用二元的布尔逻辑思考，而数据库对 NULL 的处理遵循三值逻辑。本文先给出覆盖全部场景的判定逻辑，再针对四种常见陷阱说明成因与解法，最后介绍 PawSQL 对 NULL 的重写优化。
+
+## 结论先行
+
+下面的判定逻辑覆盖关系数据库中 NULL 值的所有场景：
+
+1. NULL 参与的**所有比较和算术运算符**（`>`、`=`、`<`、`<>`、`<=`、`>=`、`+`、`-`、`*`、`/`）结果为 `unknown`
+2. `unknown` 的逻辑运算（`AND`、`OR`、`NOT`）遵循三值逻辑真值表
+3. 运算结果**直接返回给用户**时，用 NULL 标识 `unknown`
+4. 运算结果**作为条件判断真假**时，需经三值逻辑运算，并按以下映射确定整体判定：
+   1. `{false, unknown}` → `false`
+   2. `{true}` → `true`
+5. 在 `UNION`、`INTERSECT` 等集合运算中，NULL 被视为彼此相等
+
+## 三值逻辑
+
+三值逻辑有三个真值：`true`、`false`、`unknown`。它的 `AND`、`OR`、`NOT` 运算真值表如下：
+
+![三值逻辑真值表](/images/blog/sql-null-traps-truth-table.png)
+
+## 四种 NULL 陷阱
+
+### 1. 比较谓词与 NULL
+
+> **结论**：`expr = null` 不能判断表达式为空，应使用 `is null`。
+
+假设有一张客户表，记录客户编号、姓名和电话，其中电话和国家代码可以为空：
+
+```sql
+CREATE TABLE customer (
+    c_custkey int4 NOT NULL,
+    c_name varchar(25) NOT NULL,
+    c_nationcode char(8) NULL,
+    c_phone varchar(15) NULL,
+    c_regdate date NULL,
+    CONSTRAINT customer_pkey PRIMARY KEY (c_custkey)
+);
+insert into customer values(1, 'Randy', 'en', '13910010010', '20210911');
+insert into customer values(2, 'Mandy', null, '13910010012', '20200211');
+insert into customer values(3, 'Ray', 'us', null, '20180902');
+```
+
+通过下面的语句获取电话为空的客户是得不到结果的，它永远返回空集：
+
+```sql
+select * from customer where c_phone = null;
+```
+
+正确的写法是：
+
+```sql
+select * from customer where c_phone is null;
+```
+
+原因：根据结论第 1 条，`c_phone = null` 的结果是 `unknown`；再根据结论第 4.1 条，作为条件判断时 `unknown` 视为 `false`。
+
+```text
+c_phone = null → unknown → false
+```
+
+### 2. CASE WHEN 与 NULL
+
+> **结论**：`case expr when null` 不能判断表达式为空，应使用 `case when expr is null`。
+
+写在 `where` / `having` 筛选条件里的错误比较容易发现和纠正，藏在 `case` 语句里的 NULL 判断则难以察觉，一般的 SQL 审核工具也处理不了。
+
+例如我们想获取客户名称和国家名称，国家代码为空时默认显示 China：
+
+```sql
+select c_name, case c_nationcode
+                when 'us' then 'USA'
+                when 'cn' then 'China'
+                when null then 'China'
+                else 'Others' end
+from customer
+```
+
+以上语句**不会**把国家代码为 NULL 的行转换为 China，因为 `when null` 实际是按 `c_nationcode = null` 运算的。正确写法：
+
+```sql
+select c_name, case when c_nationcode = 'us' then 'USA'
+                    when c_nationcode = 'cn' then 'China'
+                    when c_nationcode is null then 'China'
+                    else 'Others' end
+from customer
+```
+
+PawSQL 会分析输入 SQL 中所有的 `case expr when null` 条件，并重写为 `case when expr is null`。
+
+### 3. NOT IN 与 NULL
+
+> **结论**：NOT IN 子查询谓词，如果子查询结果集有空值，该谓词总为假。
+
+假设有一张订单表，其中客户编号和订单日期由于数据缺失可以为空：
+
+```sql
+CREATE TABLE orders (
+    o_orderkey int4 NOT NULL,
+    o_custkey int4 NULL,
+    o_orderdate date NULL,
+    CONSTRAINT orders_pkey PRIMARY KEY (o_orderkey)
+);
+insert into orders values(1, 1, '2021-01-01');
+insert into orders values(2, null, '2020-09-01');
+insert into orders values(3, 3, null);
+```
+
+现在要找出没有订单的客户（编号 2）做营销，常见写法是：
+
+```sql
+select * from customer where c_custkey not in (select o_custkey from orders)
+```
+
+这条 SQL 并不会返回预期的结果，因为子查询里的 `o_custkey` 有空值，而 NOT IN 的处理逻辑是：
+
+```text
+c_custkey not in (1, 3, null)
+  → c_custkey <> 1 and c_custkey <> 3 and c_custkey <> null
+  → c_custkey <> 1 and c_custkey <> 3 and unknown
+  → unknown → false
+```
+
+只要子查询结果集中存在空值，这条 SQL 就永远返回空集。正确写法有两种：
+
+- 在子查询里加上非空限制：
+
+  ```sql
+  select * from customer
+  where c_custkey not in (
+      select o_custkey from orders where o_custkey is not null
+  )
+  ```
+
+- 将 NOT IN 子查询改写为 NOT EXISTS：
+
+  ```sql
+  select * from customer
+  where not exists (
+      select o_custkey from orders where o_custkey = c_custkey
+  )
+  ```
+
+PawSQL 采用第一种方式重写，并且更进一步：先判定子查询里的列是否可能为空，只有在可能为空时才向用户推荐重写后的 SQL。
+
+### 4. 修饰符 ALL 与 NULL
+
+> **结论**：ALL 修饰的子查询谓词，如果子查询结果集中有空值，该谓词总为假。
+
+假设要通过下面的 SQL 获取订单系统关闭后注册的用户：
+
+```sql
+select * from customer where c_regdate > all(select o_orderdate from orders)
+```
+
+与 NOT IN 类似，由于子查询结果中存在 NULL，这条 SQL 也不会返回预期结果。`ALL` 运算在执行时是与结果集一一比较再做 `AND` 运算，最终结果为 `unknown`；而 `unknown` 作为条件评估时结果为 `false`。
+
+正确写法有两种：
+
+- 在子查询里加上非空限制：
+
+  ```sql
+  select * from customer
+  where c_regdate > all(
+      select o_orderdate from orders where o_orderdate is not null
+  )
+  ```
+
+- 将 `expr > all` 或 `expr >= all` 改写为聚集函数形式 `expr > (select max(...) ...)`；若是 `expr < all` 或 `expr <= all`，则改写为 `expr < (select min(...) ...)`：
+
+  ```sql
+  select * from customer where c_regdate > (select max(o_custkey) from orders)
+  ```
+
+PawSQL 采用第二种方式重写：改写后的 SQL 还能进一步套用 max/min 子查询重写规则做性能优化。
+
+## PawSQL 对 NULL 的重写优化
+
+PawSQL 处理 NULL 的重写规则有三条，分别对应上面的四种情况：
+
+| 规则 | 说明 |
+|---|---|
+| `UseEqual4NullRewrite` | `= null` 或 `case when null` 不能判断表达式为空，应使用 `is null` |
+| `NotInNullableSubQueryRewrite` | NOT IN 子查询的选择列可空时，该谓词不会返回任何记录 |
+| `AllQualifierSubQueryRewrite` | ALL 修饰的子查询选择列可空时，该谓词不会返回任何记录 |
+
+判断某列是否可能为空，依据 DDL 中列定义是否 nullable，以及作用在列上的运算是否会产生 nullable 结果。判定逻辑如下：
+
+- 选择列是数据库表的列：列定义可为 NULL 则为真，否则为假
+- 选择列是 NULL：为真
+- 选择列是非 NULL 常量或变量：为假
+- 选择列是组合表达式：各分项判定结果的 `OR`
+- 选择列是函数：`SUM`、`COUNT`、`AVG` 为假，其余取参数的判定结果
+- 选择列是标量子查询：递归判定其选择列
+- 其他情况：为真
+
+以 `NotInNullableSubQueryRewrite` 为例，它的处理逻辑是：
+
+1. 遍历 Query 语法树，获取所有 NOT IN 谓词
+2. 若谓词形如 `expr not in (select ...)`：
+   1. 判断子查询结果集的列是否可以为空
+   2. 不可以为空则返回
+   3. 可以为空，则为结果集中每个可空列 `rc` 判定子查询的 where 条件里是否已有 `rc is not null` 谓词：没有则新增一个并用 `and` 合并到 where 条件，已有则继续判定下一列
+3. 若谓词形如 `expr not in (1, 2, null)`：遍历值列表，值为 null 则删除
+
+## 重写示例
+
+以下示例覆盖 NULL 处理的常用场景，其中 `customer` 表的 `c_phone` 与 `c_nationkey` 列可空。
+
+**示例 1：`= null` 重写为 `is null`**
+
+```sql
+-- 原 SQL
+select count(*) from customer where c_phone = null;
+
+-- 重写后
+select count(*) from customer where customer.c_phone is null;
+```
+
+**示例 2：`case expr when null` 重写为 `case when expr is null`**
+
+```sql
+-- 原 SQL
+select case c_phone when null then 1 when '139%' then 0 else -1 end
+from customer;
+
+-- 重写后
+select case
+         when c_phone is null then 1
+         when c_phone = '139%' then 0
+         else -1
+       end
+from customer;
+```
+
+**示例 3：`c_nationkey` 可空，增加 `c_nationkey is not null` 条件**
+
+```sql
+-- 原 SQL
+select count(*) from nation
+where n_nationkey not in (select c_nationkey from customer);
+
+-- 重写后
+select count(*) from nation
+where n_nationkey not in (
+    select c_nationkey from customer where c_nationkey is not null
+);
+```
+
+**示例 4：`c_nationkey` 可空，所以 `max(c_nationkey)` 可空，增加 `c_nationkey is not null` 条件**
+
+```sql
+-- 原 SQL
+select count(*) from nation
+where n_nationkey not in (
+    select max(c_nationkey) from customer group by c_mktsegment
+);
+
+-- 重写后
+select count(*) from nation
+where n_nationkey not in (
+    select max(customer.c_nationkey)
+    from customer
+    where c_nationkey is not null
+    group by c_mktsegment
+);
+```
+
+**示例 5：`count(c_nationkey)` 永远不为空，无需重写**
+
+```sql
+select count(*) from nation
+where n_nationkey not in (
+    select count(c_nationkey) from customer group by c_mktsegment
+);
+```
+
+**示例 6：`c_name` 不为空但 `c_nationkey` 可空，需增加 `c_nationkey is not null` 条件**
+
+```sql
+-- 原 SQL
+select count(*) from nation
+where (n_name, n_nationkey) not in (
+    select 'China', c_nationkey from customer
+);
+
+-- 重写后
+select count(*) from nation
+where (n_name, n_nationkey) not in (
+    select 'China', c_nationkey from customer
+    where customer.c_nationkey is not null
+);
+```
+
+**示例 7：`c_nationkey` 可空，重写为 `> (select min(c_nationkey) from customer)`**
+
+```sql
+-- 原 SQL
+select count(*) from customer
+where n_nationkey > all(select c_nationkey from customer);
+
+-- 重写后
+select count(*) from customer
+where n_nationkey > (select min(c_nationkey) from customer);
+```

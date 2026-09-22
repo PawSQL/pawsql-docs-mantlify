@@ -1,0 +1,326 @@
+---
+id: en-blog-sql-null-traps
+title: Four Pitfalls of SQL Processing with NULL Values
+description: Databases evaluate NULL with three-valued logic rather than the binary boolean reasoning most developers use. Here are four common pitfalls, the examination logic, and the rewrites.
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: en
+translationKey: blog-sql-null-traps
+localeOf: blog-sql-null-traps
+product: pawsql
+authors:
+- pawsql
+tags:
+- "NULL"
+- Three-valued logic
+- Query rewrite
+- SQL optimization
+---
+
+NULL handling is one of the most error-prone parts of application development: developers reason with binary boolean logic, while databases evaluate NULL with three-valued logic. This article gives the examination logic that covers every scenario, explains four common pitfalls, and describes how PawSQL rewrites them.
+
+## The Examination Logic
+
+The following logic covers all NULL scenarios in a relational database:
+
+1. Every **comparison and arithmetic operator** (`>`, `=`, `<`, `<>`, `<=`, `>=`, `+`, `-`, `*`, `/`) applied to NULL evaluates to `unknown`
+2. Logical operations on `unknown` (`AND`, `OR`, `NOT`) follow the three-valued truth table
+3. When a result is **returned directly to the user**, `unknown` is represented by NULL
+4. When a result is **used as a condition**, it is evaluated with three-valued logic and mapped to a final verdict:
+   1. `{false, unknown}` → `false`
+   2. `{true}` → `true`
+5. In set operations such as `UNION` and `INTERSECT`, NULL values are considered equal to each other
+
+## Three-Valued Logic
+
+Three-valued logic has three truth values: `true`, `false` and `unknown`. Its `AND`, `OR` and `NOT` truth tables:
+
+![Three-valued logic truth tables](/images/blog/sql-null-traps-truth-table.png)
+
+## Four Pitfalls
+
+### 1. Comparison Predicates with NULL
+
+> **Conclusion**: `expr = null` cannot determine that `expr` is null; use `is null`.
+
+Suppose a `customer` table records a customer id, name and phone, where the phone and the nation code are nullable:
+
+```sql
+CREATE TABLE customer (
+    c_custkey int4 NOT NULL,
+    c_name varchar(25) NOT NULL,
+    c_nationcode char(8) NULL,
+    c_phone varchar(15) NULL,
+    c_regdate date NULL,
+    CONSTRAINT customer_pkey PRIMARY KEY (c_custkey)
+);
+insert into customer values(1, 'Randy', 'en', '13910010010', '20210911');
+insert into customer values(2, 'Mandy', null, '13910010012', '20200211');
+insert into customer values(3, 'Ray', 'us', null, '20180902');
+```
+
+The statement below does not find customers with an empty phone — it always returns an empty set:
+
+```sql
+select * from customer where c_phone = null;
+```
+
+The correct form is:
+
+```sql
+select * from customer where c_phone is null;
+```
+
+The reason: by rule 1, `c_phone = null` evaluates to `unknown`; by rule 4.1, `unknown` used as a condition is treated as `false`.
+
+```text
+c_phone = null → unknown → false
+```
+
+### 2. CASE WHEN with NULL
+
+> **Conclusion**: `case expr when null` cannot determine that `expr` is null; use `case when expr is null`.
+
+Mistakes in a `where` or `having` condition are relatively easy to spot and fix. A NULL test hidden inside a `case` expression is much harder to notice, and general-purpose SQL review tools do not handle it.
+
+Suppose we want the customer name and country name, defaulting to China when the nation code is empty:
+
+```sql
+select c_name, case c_nationcode
+                when 'us' then 'USA'
+                when 'cn' then 'China'
+                when null then 'China'
+                else 'Others' end
+from customer
+```
+
+This statement does **not** turn rows with a NULL nation code into China, because `when null` actually evaluates `c_nationcode = null`. The correct form:
+
+```sql
+select c_name, case when c_nationcode = 'us' then 'USA'
+                    when c_nationcode = 'cn' then 'China'
+                    when c_nationcode is null then 'China'
+                    else 'Others' end
+from customer
+```
+
+PawSQL analyses every `case expr when null` condition in the input SQL and rewrites it to `case when expr is null`.
+
+### 3. NOT IN with NULL
+
+> **Conclusion**: a NOT IN subquery predicate is always false when the subquery result set contains a NULL.
+
+Suppose an `orders` table where the customer id and the order date may be NULL due to missing data:
+
+```sql
+CREATE TABLE orders (
+    o_orderkey int4 NOT NULL,
+    o_custkey int4 NULL,
+    o_orderdate date NULL,
+    CONSTRAINT orders_pkey PRIMARY KEY (o_orderkey)
+);
+insert into orders values(1, 1, '2021-01-01');
+insert into orders values(2, null, '2020-09-01');
+insert into orders values(3, 3, null);
+```
+
+To find customers without orders (customer 2) for a marketing campaign, the usual attempt is:
+
+```sql
+select * from customer where c_custkey not in (select o_custkey from orders)
+```
+
+It does not return the expected result, because `o_custkey` contains a NULL and NOT IN evaluates like this:
+
+```text
+c_custkey not in (1, 3, null)
+  → c_custkey <> 1 and c_custkey <> 3 and c_custkey <> null
+  → c_custkey <> 1 and c_custkey <> 3 and unknown
+  → unknown → false
+```
+
+If the subquery result set contains a NULL, the statement always returns an empty set. There are two correct forms:
+
+- Add a non-null restriction inside the subquery:
+
+  ```sql
+  select * from customer
+  where c_custkey not in (
+      select o_custkey from orders where o_custkey is not null
+  )
+  ```
+
+- Rewrite the NOT IN subquery as NOT EXISTS:
+
+  ```sql
+  select * from customer
+  where not exists (
+      select o_custkey from orders where o_custkey = c_custkey
+  )
+  ```
+
+PawSQL uses the first form, and goes further: it first determines whether the subquery column can be null, and only recommends the rewritten SQL when it can.
+
+### 4. The ALL Qualifier with NULL
+
+> **Conclusion**: an ALL-qualified subquery predicate is always false when the subquery result set contains a NULL.
+
+Suppose we want users registered after an order system was closed:
+
+```sql
+select * from customer where c_regdate > all(select o_orderdate from orders)
+```
+
+As with NOT IN, the NULL in the subquery result means the statement does not return the expected rows. `ALL` compares against the result set element by element and combines with `AND`, producing `unknown`; evaluated as a condition, `unknown` is `false`.
+
+Two correct forms:
+
+- Add a non-null restriction inside the subquery:
+
+  ```sql
+  select * from customer
+  where c_regdate > all(
+      select o_orderdate from orders where o_orderdate is not null
+  )
+  ```
+
+- Rewrite `expr > all` or `expr >= all` as an aggregate `expr > (select max(...) ...)`; for `expr < all` or `expr <= all`, rewrite as `expr < (select min(...) ...)`:
+
+  ```sql
+  select * from customer where c_regdate > (select max(o_custkey) from orders)
+  ```
+
+PawSQL uses the second form: the rewritten statement can then be optimized further by the max/min subquery rewrite rule.
+
+## NULL Rewrites in PawSQL
+
+PawSQL has three rewrite rules for NULL handling, covering the four cases above:
+
+| Rule | Description |
+|---|---|
+| `UseEqual4NullRewrite` | `= null` or `case when null` cannot test for an empty expression; use `is null` |
+| `NotInNullableSubQueryRewrite` | a NOT IN subquery whose select column is nullable returns no rows |
+| `AllQualifierSubQueryRewrite` | an ALL-qualified subquery whose select column is nullable returns no rows |
+
+Whether a column can be null is decided from the column definition in the DDL and from whether the operators applied to it can produce a nullable result:
+
+- The select column is a table column: true if the column is declared nullable, otherwise false
+- The select column is NULL: true
+- The select column is a non-null constant or variable: false
+- The select column is a compound expression: the `OR` of the verdicts for its parts
+- The select column is a function: false for `SUM`, `COUNT` and `AVG`; otherwise the verdict for its argument
+- The select column is a scalar subquery: recurse into its select column
+- Anything else: true
+
+Taking `NotInNullableSubQueryRewrite` as an example, the processing logic is:
+
+1. Walk the query syntax tree and collect every NOT IN predicate
+2. If the predicate has the form `expr not in (select ...)`:
+   1. Decide whether the subquery's select column can be null
+   2. If it cannot, return
+   3. If it can, then for each nullable column `rc` in the result set, check whether the subquery already has an `rc is not null` predicate in its where clause: if not, add one and merge it into the where clause with `and`; if it does, move on to the next column
+3. If the predicate has the form `expr not in (1, 2, null)`: walk the value list and delete NULL entries
+
+## Rewrite Examples
+
+The examples below cover the common NULL scenarios; `c_phone` and `c_nationkey` in the `customer` table are nullable.
+
+**Case 1: `= null` rewritten to `is null`**
+
+```sql
+-- Original
+select count(*) from customer where c_phone = null;
+
+-- Rewritten
+select count(*) from customer where customer.c_phone is null;
+```
+
+**Case 2: `case expr when null` rewritten to `case when expr is null`**
+
+```sql
+-- Original
+select case c_phone when null then 1 when '139%' then 0 else -1 end
+from customer;
+
+-- Rewritten
+select case
+         when c_phone is null then 1
+         when c_phone = '139%' then 0
+         else -1
+       end
+from customer;
+```
+
+**Case 3: `c_nationkey` is nullable, so add `c_nationkey is not null`**
+
+```sql
+-- Original
+select count(*) from nation
+where n_nationkey not in (select c_nationkey from customer);
+
+-- Rewritten
+select count(*) from nation
+where n_nationkey not in (
+    select c_nationkey from customer where c_nationkey is not null
+);
+```
+
+**Case 4: `c_nationkey` is nullable, so `max(c_nationkey)` is nullable — add `c_nationkey is not null`**
+
+```sql
+-- Original
+select count(*) from nation
+where n_nationkey not in (
+    select max(c_nationkey) from customer group by c_mktsegment
+);
+
+-- Rewritten
+select count(*) from nation
+where n_nationkey not in (
+    select max(customer.c_nationkey)
+    from customer
+    where c_nationkey is not null
+    group by c_mktsegment
+);
+```
+
+**Case 5: `count(c_nationkey)` is never null, so no rewrite is needed**
+
+```sql
+select count(*) from nation
+where n_nationkey not in (
+    select count(c_nationkey) from customer group by c_mktsegment
+);
+```
+
+**Case 6: `c_name` is not nullable but `c_nationkey` is — add `c_nationkey is not null`**
+
+```sql
+-- Original
+select count(*) from nation
+where (n_name, n_nationkey) not in (
+    select 'China', c_nationkey from customer
+);
+
+-- Rewritten
+select count(*) from nation
+where (n_name, n_nationkey) not in (
+    select 'China', c_nationkey from customer
+    where customer.c_nationkey is not null
+);
+```
+
+**Case 7: `c_nationkey` is nullable, rewritten to `> (select min(c_nationkey) from customer)`**
+
+```sql
+-- Original
+select count(*) from customer
+where n_nationkey > all(select c_nationkey from customer);
+
+-- Rewritten
+select count(*) from customer
+where n_nationkey > (select min(c_nationkey) from customer);
+```

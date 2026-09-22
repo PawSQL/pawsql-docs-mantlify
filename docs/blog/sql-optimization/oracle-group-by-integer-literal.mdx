@@ -1,0 +1,78 @@
+---
+id: blog-oracle-group-by-integer-literal
+title: Oracle GROUP BY 整型常量：常量还是列位置
+description: GROUP BY 中的整型字面量在 Oracle 23c 前后行为不同，MySQL 与 PostgreSQL 默认按列位置解析——同一条 SQL 可能得到三种结果。
+type: article
+subtype: blog
+layout: detail
+category: sql-optimization
+status: draft
+language: zh
+translationKey: blog-oracle-group-by-integer-literal
+localeOf: en-blog-oracle-group-by-integer-literal
+product: pawsql
+authors:
+- pawsql
+tags:
+- Oracle
+- GROUP BY
+- 方言差异
+- 跨库兼容
+---
+
+## 一条 SQL，三种结果
+
+下面这条 SQL 在 Oracle 客户端可以正常执行：
+
+```sql
+SELECT category, count(1)
+FROM products
+GROUP BY CATEGORY
+UNION ALL
+SELECT 23 as category, 100
+FROM product_23
+GROUP BY 23
+```
+
+问题出在 `GROUP BY 23`：这个 `23` 是「SELECT 列表的第 23 列」，还是一个普通常量？
+
+答案取决于数据库，也取决于 Oracle 的版本。同一个 `23`，在三种情况下会得到三种分组结果。
+
+## Oracle 23c 之前：整数就是常量
+
+在 Oracle 23c 之前，`GROUP BY` 子句中的数字字面量**不被视为位置指示器**，只被当作普通常量。
+
+因此 `GROUP BY 23` 等价于「按常量 23 分组」。常量对所有行取同一个值，实际效果就是**所有行归入同一组**——等同于不分组。
+
+这通常不是写这条 SQL 的人的本意：他很可能想表达「按第 23 个选择列分组」，得到的却是一个大分组。
+
+## Oracle 23c 及之后：可配置的开关
+
+Oracle 23c 引入了一个参数 **`GROUP_BY_POSITION_ENABLED`**，用来决定这个行为：
+
+| 参数值 | 行为 |
+|---|---|
+| `FALSE`（默认） | 保持旧行为，`GROUP BY` 中的整数仍按普通常量处理 |
+| `TRUE` | `GROUP BY` 中的正整数视为**位置指示器**，指代 `SELECT` 列表的第 1 列、第 2 列 |
+
+同一条 SQL、同一个数据库版本，仅因参数设置不同，分组结果就可能完全不同。
+
+## MySQL 与 PostgreSQL：默认按位置解析
+
+MySQL 和 PostgreSQL 走的是另一条路——它们**默认就把 `GROUP BY` 中的整数当作位置指示器**。
+
+也就是说，`GROUP BY 1` 在它们那里表示「按 SELECT 的第一列分组」，与 Oracle 的默认行为正好相反。
+
+跨数据库迁移时，这类差异不会报错，只会静默地改变结果。
+
+## 建议
+
+1. **不要用整型常量做分组键**。改用明确的列名或别名——这是保证跨平台行为一致的唯一做法。
+2. 如果确实要用位置指示器（`GROUP BY 1, 2`），先确认目标数据库的版本与默认行为。
+3. Oracle 23c 用户注意 `GROUP_BY_POSITION_ENABLED` 的设置：改动它会影响所有使用位置分组的 SQL。
+
+## PawSQL 的处理
+
+PawSQL 的 SQL 解析器最初在这个用例上暴露了一个缺陷：解析 `GROUP BY 23` 时按位置映射到选择列，选择列不足 23 列便越界报错——而该 SQL 在数据库端可以正常执行。缺陷已修复，也促使我们把它沉淀为一条审核规则。
+
+该规则检测 `GROUP BY` 中使用整型字面量的写法（无论作为常量还是位置序号），在执行前给出警告：整型常量在 Oracle、MySQL、PostgreSQL 之间的分组结果不一致；位置序号虽被多数数据库支持，但会降低可读性与跨平台兼容性。
