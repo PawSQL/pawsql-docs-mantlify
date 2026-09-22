@@ -112,3 +112,33 @@ def test_nav_required_sections_only_in_release(repo):
     assert validate_nav(repo) == []
     issues = validate_nav(repo, release=True)
     assert any(i.field == "sections.prerequisites" for i in issues)
+
+
+def _blog_page(extra: dict) -> dict:
+    data = {"id": "blog-x", "title": "X", "type": "article", "subtype": "blog", "status": "draft"}
+    data.update(extra)
+    return data
+
+
+def test_blog_post_requires_category(repo):
+    _write_page(repo, "docs/blog/post.mdx", _blog_page({}))
+    issues = validate_frontmatter(repo)
+    assert any("category" in i.reason and "blog" in i.reason for i in issues)
+
+
+def test_blog_post_rejects_unknown_category(repo):
+    _write_page(repo, "docs/blog/post.mdx", _blog_page({"category": "engineering"}))
+    issues = validate_frontmatter(repo)
+    assert any(i.field == "category" for i in issues)
+
+
+def test_blog_post_accepts_vocabulary_token(repo):
+    _write_page(repo, "docs/blog/post.mdx", _blog_page({"category": "product-comparison"}))
+    issues = validate_frontmatter(repo)
+    assert not any(i.field == "category" for i in issues)
+
+
+def test_blog_collection_page_needs_no_category(repo):
+    _write_page(repo, "docs/blog/index.mdx", _blog_page({"id": "blog-index", "layout": "index"}))
+    issues = validate_frontmatter(repo)
+    assert not any("category" in i.reason for i in issues)

@@ -1,5 +1,17 @@
 {
   "$defs": {
+    "BlogCategory": {
+      "description": "Controlled vocabulary for blog categories (decided 2026-09-22, plan L1).\n\nOnly ``type: article`` / ``subtype: blog`` pages use ``FrontMatter.category``.\nRule classification is a separate vocabulary (``RuleCategory``) that lives in\n``metadata/rules/*.yaml``, not in page front matter.",
+      "enum": [
+        "sql-optimization",
+        "sql-governance",
+        "success-stories",
+        "product-comparison",
+        "whats-new"
+      ],
+      "title": "BlogCategory",
+      "type": "string"
+    },
     "DocStatus": {
       "enum": [
         "draft",
@@ -169,15 +181,14 @@
     "category": {
       "anyOf": [
         {
-          "type": "string"
+          "$ref": "#/$defs/BlogCategory"
         },
         {
           "type": "null"
         }
       ],
       "default": null,
-      "description": "Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
-      "title": "Category"
+      "description": "Blog category; required on article/blog pages. See docs/contributing/frontmatter.md."
     },
     "subtype": {
       "anyOf": [

@@ -38,7 +38,7 @@ subtype: operation
 | `relatedFeatures` | 否 | 关联 Feature id（引用 Feature Manifest） |
 | `localeOf` | 否 | 镜像配对：本页为另一语言页的翻译时，填对应语言页的 `id`（如 en 页 `localeOf: <zh 页 id>`）；校验成对存在且不指向自身 |
 | `keywords` / `aliases` | 否 | 检索别名数组；用于规则英文名 ↔ 中文名、旧术语 ↔ 新术语的检索桥 |
-| `category` | 否 | 受控分类词表，见下 |
+| `category` | 博客文章必填 | 博客分类词表，见下 |
 
 ## 文档类型（`type`）
 
@@ -58,13 +58,21 @@ subtype: operation
 - 生成页已按本节落地：zh 默认页 id 中性（如 `audit-rule-aud-pk-naming`）、en 镜像页 `en-` 前缀（如 `en-audit-rule-aud-pk-naming`），两页互写 `localeOf`（见 `CONTENT-MODEL-CHANGES.md` A1/A2）。
 - 同一主题的中英两页互为镜像，必须成对校验（`localeOf` 存在且指向彼此，禁止自指）。
 
-## 受控分类词表（`category`）
+## 博客分类词表（`category`）
 
-规则/配置类页面用受控短词，取值需落在枚举内（未知值校验报错）：
+`category` 是**博客分类**，只用于 `type: article` + `subtype: blog` 的页面：文章详情页（`layout: detail`）必填，集合页（`layout: index`）不填。取值须落在枚举内，未知值校验报错：
 
-`ddl` · `dml` · `index` · `rewrite` · `join` · `subquery` · `null` · `union` · `predicate` · `constant` · `unknown`
+| 值 | 中文名 | 英文名 |
+|---|---|---|
+| `sql-optimization` | SQL 优化技术 | SQL Optimization |
+| `sql-governance` | SQL 治理实践 | SQL Governance |
+| `success-stories` | 客户案例 | Success Stories |
+| `product-comparison` | 工具选型与对比 | Product Comparisons |
+| `whats-new` | 产品动态 | What's New |
 
-词表最终定稿以 `CONTENT-MODEL-CHANGES.md` A3 为准；`unknown` 仅作待产品确认的临时占位，不进入发布。
+枚举定义在 `tools/src/pawsql_doc/models/core.py` 的 `BlogCategory`，显示名在 `BLOG_CATEGORY_LABELS`；改动枚举后需重新执行 `export-schemas` 导出 `schemas/`。
+
+> **规则分类是另一套词表，不写在页面 front matter 里**：`metadata/rules/*.yaml` 的 `category` 用 `ddl` · `dml` · `index` · `rewrite` · `join` · `subquery` · `null` · `union` · `predicate` · `constant` · `unknown`（定稿见 `CONTENT-MODEL-CHANGES.md` A3）。规则页上显示的类别由生成器从 metadata 取，页面无需声明。
 
 ## 导航 = 发布
 

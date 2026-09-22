@@ -30,10 +30,10 @@
 
 | 源 | 行数 | 目标 | 说明 |
 |---|---|---|---|
-| `20-engine/internals`、`20-engine/indexrec` | 18 | `docs/blog/engineering/` | 技术文章，题材与新站 `user-guide/optimization` 接近，需先定「文章 vs 文档」边界，避免与手册重复 |
-| `70-content/comparisons` | 5 | `docs/blog/product/` | 竞品对比，随 §11 L4 一起定 |
-| `70-content/newsletters` | 11 | `docs/blog/product/` | 发布公告/社区精选，与 `release-notes` 拆分口径待定 |
-| `40-audit/reviews`、`50-integration` 营销稿 | 5 | `docs/blog/product/` | 与手册去重后并入 |
+| `20-engine/internals`、`20-engine/indexrec` | 18 | `docs/blog/sql-optimization/` | 技术文章，题材与新站 `user-guide/optimization` 接近，需先定「文章 vs 文档」边界，避免与手册重复 |
+| `70-content/comparisons` | 5 | `docs/blog/product-comparison/` | 竞品对比，随 §11 L4 一起定 |
+| `70-content/newsletters` | 11 | `docs/blog/whats-new/` | 发布公告/社区精选，与 `release-notes` 拆分口径待定 |
+| `40-audit/reviews`、`50-integration` 营销稿 | 5 | `docs/blog/product-comparison/`、`whats-new/`（按内容分归） | 与手册去重后并入 |
 
 **明确排除：**
 
@@ -57,21 +57,46 @@
 
 ```text
 docs/blog/
-  index.mdx                    # 分组落地页（layout: index）
-  engineering/index.mdx        # 技术/原理/算法
-  product/index.mdx            # 产品能力/发布/评测
-  case-study/index.mdx         # 客户案例
-  database/index.mdx           # 数据库方言与兼容性
-  <category>/<slug>.mdx
+  index.mdx                        # 博客落地页（layout: index）
+  sql-optimization/index.mdx       # SQL 优化技术
+  sql-governance/index.mdx         # SQL 治理实践
+  success-stories/index.mdx        # 客户案例
+  product-comparison/index.mdx     # 工具选型与对比
+  whats-new/index.mdx              # 产品动态
+  <category>/<slug>.mdx            # 文章详情页（layout: detail，必填 category）
 docs/en/blog/<同样结构>/<slug>.mdx
 ```
 
 **备选：** 保持现有扁平 `docs/blog/<slug>.mdx`。若选扁平，本计划其余部分不变，仅去掉目录层级。
 注：`id` 是稳定主键、路径不是（CONTENT-MODEL-V2 §4），移动文件不改 `id`。
 
-### 4.2 category 词表（**待 §11 L1 定稿**）
+### 4.2 category 词表（**L1 已定，2026-09-22**）
 
-`engineering` · `product` · `case-study` · `database`。沿用设计说明书 §25.2 的 `category: engineering` 与现有两页的 `case-study`；Schema 中 `category` 当前为自由字符串（`schemas/frontmatter-v2.schema.json`），**词表定稿后应加约束并由 `validate-frontmatter` 校验**。
+枚举定义在 `tools/src/pawsql_doc/models/core.py` 的 `BlogCategory`，显示名在 `BLOG_CATEGORY_LABELS`，已导出到 `schemas/frontmatter-v2.schema.json` 并由 `validate-frontmatter` 校验：**取值须落在枚举内；文章详情页（`layout: detail`）必填，集合页（`layout: index`）不填**。
+
+| 值 | 中文名 | 英文名 |
+|---|---|---|
+| `sql-optimization` | SQL 优化技术 | SQL Optimization |
+| `sql-governance` | SQL 治理实践 | SQL Governance |
+| `success-stories` | 客户案例 | Success Stories |
+| `product-comparison` | 工具选型与对比 | Product Comparisons |
+| `whats-new` | 产品动态 | What's New |
+
+> `FrontMatter.category` 此前是自由字符串，且 `docs/contributing/frontmatter.md` 把它误写成规则分类词表；两处均已修正。**规则分类（`ddl`/`dml`/…）是 `metadata/rules/*.yaml` 的字段，不写在页面里。**
+
+**§6 各目标页的归类（B0 逐页定稿）。** 下表为按词表的初步归类，除标注「待定」外可直接采用：
+
+| 目标页 | category |
+|---|---|
+| A 执行计划可视化、B NULL 陷阱、C 索引引擎 | `sql-optimization` |
+| D TPCH 评测、E 索引设计 ×2、H 大模型局限 | `sql-optimization` |
+| F/G 优化器短板 ×3、J 窗口函数索引推荐、N Oracle Quirk | `sql-optimization` |
+| I 存储过程审核、M DBeaver 执行前审核 | `sql-governance` |
+| O TDSQL-MySQL 案例、P openGauss 案例 | `success-stories` |
+| Q Top 5 审核工具测评 | `product-comparison` |
+| K Advisor 概览、L DBeaver 插件发布 | `whats-new`（待定：K 是能力概览，若不视为产品动态则需另议） |
+
+**已有页面同步结果：** `tdsql-mysql-slow-query`、`opengauss-slow-query` 由 `case-study` 改为 `success-stories`；`en/blog/sql-optimization/or-to-union` 由 `engineering` 改为 `sql-optimization`。
 
 ### 4.3 frontmatter 模板
 
@@ -83,7 +108,7 @@ description: <一句话，≤155 字符，人工书写，禁占位/机器截断>
 type: article
 subtype: blog
 layout: detail
-category: <engineering|product|case-study|database>
+category: <sql-optimization|sql-governance|success-stories|product-comparison|whats-new>   # 文章详情页必填，见 §4.2
 status: draft                  # 只允许 draft → review → approved → published
 language: zh
 translationKey: blog-<slug>    # 同一内容中英共用
@@ -96,7 +121,7 @@ relatedFeatures: [<关联 Feature id，可选>]
 ```
 
 en 镜像：`id: en-blog-<slug>`、`language: en`、`localeOf: blog-<slug>`，`translationKey` 与 zh 页一致。
-**既有不一致点：** [docs/en/blog/engineering/or-to-union.mdx](docs/en/blog/engineering/or-to-union.mdx) 的 `id` 为 `blog-or-to-union`（无 `en-` 前缀、无 `localeOf`），与 `en/blog/index.mdx` 的 `en-blog-index` 写法不一致 —— 本批内统一。
+**既有不一致点：** [docs/en/blog/sql-optimization/or-to-union.mdx](docs/en/blog/sql-optimization/or-to-union.mdx) 的 `id` 为 `blog-or-to-union`（无 `en-` 前缀、无 `localeOf`），与 `en/blog/index.mdx` 的 `en-blog-index` 写法不一致 —— 本批内统一。
 
 ### 4.4 正文结构
 
@@ -114,7 +139,7 @@ en 镜像：`id: en-blog-<slug>`、`language: en`、`localeOf: blog-<slug>`，`t
 
 **目标侧现状：**
 
-- `docs/blog/` 已有 3 页：`index.mdx`、`tdsql-mysql-slow-query.mdx`、`opengauss-slow-query.mdx`；`docs/en/blog/` 已有 2 页：`index.mdx`、`engineering/or-to-union.mdx`。全部 `status: draft`。
+- `docs/blog/` 已有 3 页：`index.mdx`、`tdsql-mysql-slow-query.mdx`、`opengauss-slow-query.mdx`；`docs/en/blog/` 已有 2 页：`index.mdx`、`sql-optimization/or-to-union.mdx`。全部 `status: draft`。
 - 工具已具备：`tools/src/pawsql_doc/migration.py` 已把 `blog/` 识别为 `type: article` / `subtype: blog`，`blog/**/index.mdx` 识别为 `layout: index`；`validate-frontmatter` 覆盖 `blog/` 路径。
 - **工具缺口：** 无「文章落位」命令（无 frontmatter 骨架生成、无图片归集、无去重登记）。见 §7 B0.2。
 - **导航现状：** `docs/docs.json` 中英两侧均无「博客」tab（`3a58cfb` 移除），`NAV_GROUP_TYPES` 未收录博客分组名（即分组不校验 type，加回时无需改校验器）。
@@ -127,29 +152,29 @@ en 镜像：`id: en-blog-<slug>`、`language: en`、`localeOf: blog-<slug>`，`t
 
 | 组 | 源文件 | 采用 | 目标页（slug） | 处置 |
 |---|---|---|---|---|
-| A 执行计划可视化 | `MySQL的执行计划可视化.md` / `Plan Visualization for MySQL.md` / `执行计划可视化.md` | `MySQL的执行计划可视化.md`（zh）+ en 译文 | `engineering/plan-visualization` | `执行计划可视化.md` 为 AI 改写稿、章节重复，**排除**；6 张远程图需重取（§9） |
-| B NULL 陷阱 | `关于null的陷阱.md` / `SQL查询中关于NULL的陷阱.md` / `…_en.md` | `关于null的陷阱.md`（zh）+ en 译文 | `engineering/sql-null-traps` | en 稿有断裂结尾需修；base 稿为子集，**排除** |
-| C 索引引擎 | `PawSQL索引引擎.md` / `Index Advisor Engine.md` | `PawSQL索引引擎.md` | `engineering/index-advisor-engine` | 后者同题截断版，**排除** |
-| D TPCH 评测 | `PawSQL针对TPCH的优化评测.md` / `Optimizing TPCH Queries with PawSQL.md` | `.md`（zh）+ en 译文 | `engineering/tpch-optimization-benchmark` | 两稿同表，成立 |
-| E 索引设计 | `如何创建高效的索引.md`(+`_en`) / `数据库索引的类型.md`(+`_en`) | 两组各自成文 | `engineering/efficient-index-design` / `engineering/index-types` | `数据库索引的类型_en.md` 第 5 行损坏、3 张图丢失，需修 |
-| F MySQL 优化器短板 | `突破 MySQL 性能瓶颈….md` / `…-polish.md` / `How to leverage MySQL Optimizer with PawSQL.md`(+`-polish`) / `拆解 MySQL 优化盲区….md` / `MySQL 优化器搞不定的坑….md` | `突破 MySQL 性能瓶颈….md` | `engineering/mysql-optimizer-blind-spots` | 与 G 组成「补齐优化器短板」系列（可直接套用 `pawsql-optimizer-article` skill 的三篇体例）；其余 4 稿**排除**，`拆解…` 素材并入 |
-| G 方言短板 | `PawSQL 补齐 PostgreSQL 优化器短板….md` / `PawSQL 补齐 Oracle 优化器短板….md` / `How to leverage PostgreSQL Optimizer with PawSQL.md` | 两个「补齐短板」稿 | `engineering/postgresql-optimizer-blind-spots` / `engineering/oracle-optimizer-blind-spots` | `How to leverage PostgreSQL…` 已被取代，**排除** |
-| H 大模型局限 | `大模型在处理SQL优化等精确性问题的局限.md` / `大模型在处理SQLSQL….md` / `大模型局限.md` | `大模型在处理SQL优化等精确性问题的局限.md` | `engineering/llm-limits-in-sql-optimization` | `大模型局限.md` 顶部是**原始生成 prompt**，**排除** |
-| I 存储过程审核 | `存储过程审核.md` / `PawSQL 在 T‑SQL 存储过程审核与优化上的突破.md` | `存储过程审核.md` | `engineering/stored-procedure-audit` | 后者为营销改写（含「立即体验」CTA），**排除** |
-| J 窗口函数索引推荐 | `PawSQL的索引推荐,….md` / 同名 `.docx` | `.md` | `engineering/window-function-index-recommendation` | 正文尾部被追加了一段重复改写，需删除；`.docx` **排除** |
-| K 产品概览 | `PawSQL Advisor.md` | 原稿 | `product/pawsql-advisor-overview` | 与 Advisor 手册去重（PLACEMENT §196 同因） |
+| A 执行计划可视化 | `MySQL的执行计划可视化.md` / `Plan Visualization for MySQL.md` / `执行计划可视化.md` | `MySQL的执行计划可视化.md`（zh）+ en 译文 | `sql-optimization/plan-visualization` | `执行计划可视化.md` 为 AI 改写稿、章节重复，**排除**；6 张远程图需重取（§9） |
+| B NULL 陷阱 | `关于null的陷阱.md` / `SQL查询中关于NULL的陷阱.md` / `…_en.md` | `关于null的陷阱.md`（zh）+ en 译文 | `sql-optimization/sql-null-traps` | en 稿有断裂结尾需修；base 稿为子集，**排除** |
+| C 索引引擎 | `PawSQL索引引擎.md` / `Index Advisor Engine.md` | `PawSQL索引引擎.md` | `sql-optimization/index-advisor-engine` | 后者同题截断版，**排除** |
+| D TPCH 评测 | `PawSQL针对TPCH的优化评测.md` / `Optimizing TPCH Queries with PawSQL.md` | `.md`（zh）+ en 译文 | `sql-optimization/tpch-optimization-benchmark` | 两稿同表，成立 |
+| E 索引设计 | `如何创建高效的索引.md`(+`_en`) / `数据库索引的类型.md`(+`_en`) | 两组各自成文 | `sql-optimization/efficient-index-design` / `sql-optimization/index-types` | `数据库索引的类型_en.md` 第 5 行损坏、3 张图丢失，需修 |
+| F MySQL 优化器短板 | `突破 MySQL 性能瓶颈….md` / `…-polish.md` / `How to leverage MySQL Optimizer with PawSQL.md`(+`-polish`) / `拆解 MySQL 优化盲区….md` / `MySQL 优化器搞不定的坑….md` | `突破 MySQL 性能瓶颈….md` | `sql-optimization/mysql-optimizer-blind-spots` | 与 G 组成「补齐优化器短板」系列（可直接套用 `pawsql-optimizer-article` skill 的三篇体例）；其余 4 稿**排除**，`拆解…` 素材并入 |
+| G 方言短板 | `PawSQL 补齐 PostgreSQL 优化器短板….md` / `PawSQL 补齐 Oracle 优化器短板….md` / `How to leverage PostgreSQL Optimizer with PawSQL.md` | 两个「补齐短板」稿 | `sql-optimization/postgresql-optimizer-blind-spots` / `sql-optimization/oracle-optimizer-blind-spots` | `How to leverage PostgreSQL…` 已被取代，**排除** |
+| H 大模型局限 | `大模型在处理SQL优化等精确性问题的局限.md` / `大模型在处理SQLSQL….md` / `大模型局限.md` | `大模型在处理SQL优化等精确性问题的局限.md` | `sql-optimization/llm-limits-in-sql-optimization` | `大模型局限.md` 顶部是**原始生成 prompt**，**排除** |
+| I 存储过程审核 | `存储过程审核.md` / `PawSQL 在 T‑SQL 存储过程审核与优化上的突破.md` | `存储过程审核.md` | `sql-governance/stored-procedure-audit` | 后者为营销改写（含「立即体验」CTA），**排除** |
+| J 窗口函数索引推荐 | `PawSQL的索引推荐,….md` / 同名 `.docx` | `.md` | `sql-optimization/window-function-index-recommendation` | 正文尾部被追加了一段重复改写，需删除；`.docx` **排除** |
+| K 产品概览 | `PawSQL Advisor.md` | 原稿 | `whats-new/pawsql-advisor-overview` | 与 Advisor 手册去重（PLACEMENT §196 同因） |
 | — 非成稿 | `Some clues of PawSQL rewrite engine.md`（292 B）、`PawSQL Explain.md`（1.2 K，无 H1）、`分区表索引.md`（双语草记）、`语之暗面的kimi大模型代码分析评测.md`（实验记录） | — | — | **本批排除**；`PawSQL Explain` 若需保留，并入 A 的执行计划可视化主题 |
 
 ### 6.2 `99-待归类` blog 类（20 → 4 新增 + 2 返工）
 
 | 组 | 源文件 | 采用 | 目标页（slug） | 处置 |
 |---|---|---|---|---|
-| L DBeaver 发布 | `BLOG-OVERVIEW.md`(+`-polish`) | `BLOG-OVERVIEW.md` | `product/dbeaver-plugin-release` | 与 DBeaver 插件手册去重（单一事实源） |
-| M DBeaver 执行前审核 | `BLOG-AUDIT.md`(+`-polish`) | `BLOG-AUDIT.md` | `product/dbeaver-pre-execution-audit` | 与 L 共用截图，避免重复配图与重复功能描述 |
-| N Oracle 方言 Quirk | `意想不到的SQL/` 3 个文件 | `SQL避坑指南 - …薛定谔行为.md`（zh）+ `Oracle GROUP BY Integer Literals - Schrödinger Behavior.md`（en） | `database/oracle-group-by-integer-literal` | 原始笔记稿 `Oracle 的 GROUP BY 整型常量…md` **排除**（含 PawSQL 规则小节，并入成文） |
-| O TDSQL-MySQL 案例 | `金融生产环境实战：…TDSQL-MySQL…md`(+`-polish`) / `金融级实战验证：…深度评测.md` | **`金融级实战验证：…深度评测.md`** | `case-study/tdsql-mysql-slow-query`（**返工**） | 见 §6.3 |
-| P openGauss 案例 | `…openGauss…md`(+`-polish`+`.docx`) | 已迁页（源自 `-polish`） | `case-study/opengauss-slow-query`（**补图**） | 2 处 `{/* 图片待补 */}` 需补（原 `Pasted image 20260527162454/162551.png`、`products.png`，均已在 `00-assets/images/` 找到） |
-| Q Top 5 审核工具测评 | `2026年Top 5 SQL审核工具深度测评….md`(+`-polish`) | `-polish.md`（唯一有 H1 的成稿） | `product/sql-audit-tools-review-2026` | **阻塞于 §11 L4**（竞品对比+宣称） |
+| L DBeaver 发布 | `BLOG-OVERVIEW.md`(+`-polish`) | `BLOG-OVERVIEW.md` | `whats-new/dbeaver-plugin-release` | 与 DBeaver 插件手册去重（单一事实源） |
+| M DBeaver 执行前审核 | `BLOG-AUDIT.md`(+`-polish`) | `BLOG-AUDIT.md` | `sql-governance/dbeaver-pre-execution-audit` | 与 L 共用截图，避免重复配图与重复功能描述 |
+| N Oracle 方言 Quirk | `意想不到的SQL/` 3 个文件 | `SQL避坑指南 - …薛定谔行为.md`（zh）+ `Oracle GROUP BY Integer Literals - Schrödinger Behavior.md`（en） | `sql-optimization/oracle-group-by-integer-literal` | 原始笔记稿 `Oracle 的 GROUP BY 整型常量…md` **排除**（含 PawSQL 规则小节，并入成文） |
+| O TDSQL-MySQL 案例 | `金融生产环境实战：…TDSQL-MySQL…md`(+`-polish`) / `金融级实战验证：…深度评测.md` | **`金融级实战验证：…深度评测.md`** | `success-stories/tdsql-mysql-slow-query`（**返工**） | 见 §6.3 |
+| P openGauss 案例 | `…openGauss…md`(+`-polish`+`.docx`) | 已迁页（源自 `-polish`） | `success-stories/opengauss-slow-query`（**补图**） | 2 处 `{/* 图片待补 */}` 需补（原 `Pasted image 20260527162454/162551.png`、`products.png`，均已在 `00-assets/images/` 找到） |
+| Q Top 5 审核工具测评 | `2026年Top 5 SQL审核工具深度测评….md`(+`-polish`) | `-polish.md`（唯一有 H1 的成稿） | `product-comparison/sql-audit-tools-review-2026` | **阻塞于 §11 L4**（竞品对比+宣称） |
 | — 非成稿 | `TDSQL拉跨系列 - 1. 慢查询管理.md`（**0 字节**）、`- 2. 执行计划.md`（原始实验日志）、`BIC-QA优化规则.md`（约 90 条 KB 转储）、`PawSQL优化能力评测.md`（**含自拟 benchmark 数字**）、`SQL性能瓶颈智能评价分析.md`（内部设计规格 4.2.x） | — | — | **本批排除**，理由见 §12 R1/R6；`- 2. 执行计划` 若成文需重写，另立条目 |
 
 ### 6.3 返工项：TDSQL-MySQL 案例改用技术底本
@@ -174,7 +199,7 @@ en 镜像：`id: en-blog-<slug>`、`language: en`、`localeOf: blog-<slug>`，`t
 | **B4 案例** | O TDSQL-MySQL 返工、P openGauss 补图 | 2 篇返工 | L3、L5 |
 | **B5 DBeaver 产品稿** | L 插件发布、M 执行前审核 | 2 篇 zh | 与插件手册去重核对 |
 | **B6 法务敏感** | Q Top 5 测评 | 1 篇 zh | L4 |
-| **B7 导航上线** | 恢复中英「博客」tab + 4 个 category 落地页；英文缺页登记翻译队列 | `docs.json` 改动 | §1 完成标志 |
+| **B7 导航上线** | 恢复中英「博客」tab + 5 个 category 落地页；英文缺页登记翻译队列 | `docs.json` 改动 | §1 完成标志 |
 
 > 备选旁支：`拆解 MySQL 优化盲区`（F 组）与 `TDSQL拉跨系列 - 2. 执行计划` 素材独立成文，需先与手册核对是否重复；不在关键路径上。
 
@@ -230,7 +255,7 @@ uv run pytest -q
 
 | # | 待确认 | 阻塞 |
 |---|---|---|
-| **L1** | blog `category` 词表定稿（§4.2），并决定是否加 Schema 约束与校验 | B0、全部批次 |
+| **L1** | ~~blog `category` 词表定稿~~ **已定 2026-09-22**：`sql-optimization` / `sql-governance` / `success-stories` / `product-comparison` / `whats-new`，已入 `BlogCategory` 枚举并校验（§4.2） | 解除，B0 起生效 |
 | **L2** | URL 结构：分类目录 `blog/<category>/<slug>` 还是保持扁平（§4.1） | B0、B7 |
 | **L3** | **客户可披露范围**：行业、时间窗、11 个内部系统代号是否可脱敏后保留；是否需客户书面同意 | B4 |
 | **L4** | **竞品对比可发布范围**：Top 5 测评对 Bytebase / NineData / DBdoctor / Yearning 的比较表述，及「≥95% 审核准确率」「1.3 万 GitHub Stars」等宣称的证据 | B6 |
@@ -249,7 +274,7 @@ uv run pytest -q
 | **R5** | 图片失效 | 远程图（微信/zhimg/csdn）随时可能 404；一律落盘本地，取不到就标 TODO 而非留外链 |
 | **R6** | 非成稿混入 | 两个源目录共 10 个文件是草记/日志/0 字节/内部规格（§6 各处已列），落位前须显式排除，避免"文件搬到目标即算迁移" |
 | **R7** | 标题与 H1 重复 | Mintlify 固定渲染 frontmatter `title` 为大标题，正文重复 H1 会双标题；清洗时统一删正文 H1（既有两页已按此处理，A 组等另有 H1 保留习惯，需逐篇核） |
-| **R8** | en 页 id 前缀不一致 | `en/blog/engineering/or-to-union.mdx` 缺 `en-` 前缀与 `localeOf`；本批统一，勿扩散 |
+| **R8** | en 页 id 前缀不一致 | `en/blog/sql-optimization/or-to-union.mdx` 缺 `en-` 前缀与 `localeOf`；本批统一，勿扩散 |
 | **R9** | 导航过早恢复 | 博客 tab 曾因内容量不足被移除；B7 须在 §1 完成标志达成后执行，避免再现死链/空分组 |
 
 ## 13. 进度追踪
@@ -267,4 +292,4 @@ uv run pytest -q
 | B6 | — | — | — |
 | B7 | — | — | — |
 
-**既有事实（2026-09-17，`fc4b8e3`）：** 已迁 `docs/blog/{index,tdsql-mysql-slow-query,opengauss-slow-query}.mdx` 与 `docs/en/blog/{index,engineering/or-to-union}.mdx`，全部 `status: draft`；其中 TDSQL-MySQL 页按 §6.3 **待返工**，openGauss 页 **待补图**。
+**既有事实（2026-09-17，`fc4b8e3`）：** 已迁 `docs/blog/{index,tdsql-mysql-slow-query,opengauss-slow-query}.mdx` 与 `docs/en/blog/{index,sql-optimization/or-to-union}.mdx`，全部 `status: draft`；其中 TDSQL-MySQL 页按 §6.3 **待返工**，openGauss 页 **待补图**。

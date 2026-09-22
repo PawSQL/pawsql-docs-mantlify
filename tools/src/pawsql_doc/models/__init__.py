@@ -2,6 +2,8 @@
 
 from pawsql_doc.models.core import (
     AllowedRange,
+    BLOG_CATEGORY_LABELS,
+    BlogCategory,
     ConfigMetadata,
     ConfigType,
     DatabaseMetadata,
@@ -28,6 +30,8 @@ from pawsql_doc.models.core import (
 
 __all__ = [
     "AllowedRange",
+    "BLOG_CATEGORY_LABELS",
+    "BlogCategory",
     "ConfigMetadata",
     "ConfigType",
     "DatabaseMetadata",

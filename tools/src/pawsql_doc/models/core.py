@@ -51,6 +51,31 @@ class DocStatus(str, Enum):
     ARCHIVED = "archived"
 
 
+class BlogCategory(str, Enum):
+    """Controlled vocabulary for blog categories (decided 2026-09-22, plan L1).
+
+    Only ``type: article`` / ``subtype: blog`` pages use ``FrontMatter.category``.
+    Rule classification is a separate vocabulary (``RuleCategory``) that lives in
+    ``metadata/rules/*.yaml``, not in page front matter.
+    """
+
+    SQL_OPTIMIZATION = "sql-optimization"
+    SQL_GOVERNANCE = "sql-governance"
+    SUCCESS_STORIES = "success-stories"
+    PRODUCT_COMPARISON = "product-comparison"
+    WHATS_NEW = "whats-new"
+
+
+# Display names paired with the enum; used for navigation and page copy.
+BLOG_CATEGORY_LABELS = {
+    BlogCategory.SQL_OPTIMIZATION: {"zh": "SQL 优化技术", "en": "SQL Optimization"},
+    BlogCategory.SQL_GOVERNANCE: {"zh": "SQL 治理实践", "en": "SQL Governance"},
+    BlogCategory.SUCCESS_STORIES: {"zh": "客户案例", "en": "Success Stories"},
+    BlogCategory.PRODUCT_COMPARISON: {"zh": "工具选型与对比", "en": "Product Comparisons"},
+    BlogCategory.WHATS_NEW: {"zh": "产品动态", "en": "What's New"},
+}
+
+
 class FrontMatter(BaseModel):
     """Document page front matter (design 7.1).
 
@@ -82,9 +107,9 @@ class FrontMatter(BaseModel):
         default=None,
         description="Mirror pairing: id of the counterpart page in the other language.",
     )
-    category: Optional[str] = Field(
+    category: Optional[BlogCategory] = Field(
         default=None,
-        description="Controlled vocabulary token (rules/config pages); see docs/contributing/frontmatter.md.",
+        description="Blog category; required on article/blog pages. See docs/contributing/frontmatter.md.",
     )
     subtype: Optional[str] = None
     layout: Literal["detail", "index"] = "detail"
@@ -101,6 +126,11 @@ class FrontMatter(BaseModel):
     relations: List[Dict[str, str]] = Field(default_factory=list)
     sections: Dict[str, str] = Field(default_factory=dict)
 
+    @property
+    def is_blog(self) -> bool:
+        """True for article/blog pages, including the legacy ``type: blog`` form."""
+        return self.subtype == "blog" or self.type == DocType.BLOG
+
     @model_validator(mode="after")
     def classification(self):
         if self.layout not in {"detail", "index"}:
@@ -112,6 +142,9 @@ class FrontMatter(BaseModel):
         if allowed is not None and self.subtype not in allowed:
             if not (self.type.value == "reference" and self.subtype is None):
                 raise ValueError(f"invalid subtype {self.subtype!r} for {self.type.value}")
+        # Blog collection pages group by category; detail posts must declare one.
+        if self.is_blog and self.layout == "detail" and self.category is None:
+            raise ValueError("blog posts require a category from the blog vocabulary")
         return self
 
 
