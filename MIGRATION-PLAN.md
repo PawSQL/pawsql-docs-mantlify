@@ -63,8 +63,8 @@ git diff --exit-code -- docs/reference docs/en/reference docs/en/databases  # �
 | P1.5 集成 | `50-integration` VSCode/MCP/GitHub/GitLab（含图片） | `docs/products/{vscode,mcp}`、user-guide、`docs/static` | | mcp 三处合一（C） |
 | P1.6 API 定稿 | `20-engine/api`+`50-integration/api` 版本仲裁 | `openapi/*` 或 `docs/reference/api` | 锁 6 | 仅现行 1 份 |
 | P2.1 Release Notes | newsletters 月度/更新日志 | `docs/release-notes/` en/zh | | 拆 en/zh、去模板占位 |
-| P2.2 Blog 技术 | `20-engine/internals`、case-studies | `docs/blog/engineering/` | | 去营销腔/去内部 |
-| P2.3 Blog 产品/案例 | comparisons/reviews/GitLab 营销/99 金融案例/评测 | `docs/blog/product/`、`case-study` | 锁 7（客户案例合规） | 一律含 -polish 去重（C） |
+| P2.2 Blog 技术 | `20-engine/internals`、case-studies | `docs/blog/engineering/` | | 去营销腔/去内部；博客另有细化计划 [BLOG-MIGRATION-PLAN.md](BLOG-MIGRATION-PLAN.md)，但**本条源不在其本轮范围**，仍按本表执行 |
+| P2.3 Blog 产品/案例 | comparisons/reviews/GitLab 营销/99 金融案例/评测 | `docs/blog/product/`、`case-study` | 锁 7（客户案例合规） | 一律含 -polish 去重（C）；**99 金融案例/评测已拆出**至 [BLOG-MIGRATION-PLAN.md](BLOG-MIGRATION-PLAN.md) §6.2/§6.3；comparisons/reviews/GitLab 营销仍按本表执行 |
 | P2.4 FAQ/定位 | `10-product/about`（FAQ、用户场景）、FAQ | `docs/faq`/`docs/products` | | 视频脚本/Github 主页已排除（B） |
 | P2.5 数据库接入 | `70-content/vendor-guides` + 支持矩阵 | `docs/databases/<db>/`、`docs/user-guide/optimization` | | MySQL.md vs MySQL数据库.md 再并 1 份 |
 | P2.6 兼容/迁移 | `60-migration` | `docs/reference/compatibility` | 锁 4（Ora2pg） | |
