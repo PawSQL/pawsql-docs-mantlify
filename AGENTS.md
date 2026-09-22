@@ -77,7 +77,17 @@ uv run python -m pawsql_doc migrate-content-model                            # v
 
 ## 环境与操作（Windows / Git Bash）
 
-- **不要用系统 `python`**（是 Microsoft Store 占位）；一律 `cd tools && uv run ...`。
+- **不要用系统 `python`**（是 Microsoft Store 占位）。优先 `cd tools && uv run python -m pawsql_doc ...`。
+- **若 `uv run` 报 `os error 4551`（应用程序控制策略已阻止此文件）**：本机策略会拦 `.venv/Scripts/python.exe` 与 `~/.local/bin/python3.*.exe`。改用 uv 自带的解释器，把 `tools/src` 与 venv 的 site-packages 一起放进 `PYTHONPATH`（两者同为 3.12，ABI 兼容）：
+
+  ```bash
+  cd tools
+  PYTHONPATH="E:/Workspace/pawsql-docs-v2/tools/src;E:/Workspace/pawsql-docs-v2/tools/.venv/Lib/site-packages" \
+    "/c/Users/sunke/AppData/Roaming/uv/python/cpython-3.12.13-windows-x86_64-none/python.exe" \
+    -m pawsql_doc validate-frontmatter
+  ```
+
+  `pytest` 同理（把 `-m pawsql_doc validate-frontmatter` 换成 `-m pytest`）。解释器版本须与 `tools/.venv/pyvenv.cfg` 的 `version_info` 一致；uv 升级 Python 后按 `uv python list` 换路径。
 - 一次性脚本里写路径用 `E:/Workspace/pawsql-docs-v2/...`。MSYS 只转换 **argv** 中的 `/e/...`，脚本内字符串不会转换，用 `/e/...` 会找不到文件。
 - **启动验证前先停掉旧的 mintlify dev**：`TaskStop`/`Ctrl+C` 不杀 node 子进程，会残留占端口（表现为 `port 3000 is already in use...` 且 `curl` 一直 000）。清理：
 
