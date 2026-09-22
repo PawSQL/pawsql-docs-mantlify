@@ -266,6 +266,21 @@
                 "openapi": "openapi/pawsql-optimization.yaml"
               }
             ]
+          },
+          {
+            "tab": "博客",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "文章",
+                "icon": "newspaper",
+                "pages": [
+                  "blog/index",
+                  "blog/tdsql-mysql-slow-query",
+                  "blog/opengauss-slow-query"
+                ]
+              }
+            ]
           }
         ]
       },
@@ -493,6 +508,20 @@
                 "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-optimization-en.yaml"
+              }
+            ]
+          },
+          {
+            "tab": "Blog",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Posts",
+                "icon": "newspaper",
+                "pages": [
+                  "en/blog/index",
+                  "en/blog/engineering/or-to-union"
+                ]
               }
             ]
           }
