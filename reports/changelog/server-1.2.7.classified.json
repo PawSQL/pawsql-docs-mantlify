@@ -1,0 +1,255 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.6",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-05-21",
+  "sections": [
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4d8503dd",
+            "17b649c2",
+            "a217d29a",
+            "5c76828a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增索引清理中心：错误历史记录、手动标记解决与错误解析改进"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7ac36262"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增 SQL 解析异常的存储与展示"
+        }
+      ]
+    },
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0a3e0997",
+            "d43fb211",
+            "d55b0350",
+            "81a57a40",
+            "f4dca8e4",
+            "928a1d18"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "平台角色与权限字典管理：自定义角色增删改、系统角色权限、用户角色分配"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "afee60c7",
+            "87731113",
+            "69bffb60",
+            "75571801"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "新增 MySQL 锁等待分析（表结构、检测任务与状态管理）"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fdf34e31",
+            "88a80813",
+            "46678da8"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "慢查询模板新增调优时间字段与平均查询时间筛选；代理慢查询列表支持分页与搜索"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e04e6c85",
+            "ba022907",
+            "345a9235",
+            "350e80c5"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "支持从 ZIP 压缩包创建查询负载；部署包文本文件自动识别编码"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "028a6e09",
+            "516f8337"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "新增数据库克隆工具与 MySQL 结构导出脚本"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0724d015",
+            "fbf0ffa0"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "支持多监控路径与监控目录过滤配置，优化 GitHub Webhook 处理"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "72c915bf",
+            "79c7afbf"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "工单审核失败异常绑定 task 与 ticket；webhook 评论回写支持状态追踪"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c838152a",
+            "e55ab28f",
+            "22c7e6df"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "支持通过系统属性控制 ANTLR 解析器线程缓存（独占解析器选项）"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "63f1c05a",
+            "1e73a083",
+            "63bf373e",
+            "ecb8d04f"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "SQL 长度上限由 100KB 提升至 10MB；慢查询表字段改为 BIGINT；修复解析异常类型不匹配等缺陷"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "00555ff7",
+            "07342d86",
+            "07f4f005",
+            "1ecf5d50",
+            "28641176",
+            "33a4dc9a",
+            "3c54b5ea",
+            "46124a3f",
+            "488686fd",
+            "50680bfd",
+            "631f80d5",
+            "68958ecf",
+            "7a0cb415",
+            "806233b9",
+            "912d2d52",
+            "a065cf35",
+            "a48745f2",
+            "a91dfc87",
+            "add5fb60",
+            "b53d0ade",
+            "bd05ba76",
+            "d6cb5600",
+            "da242064",
+            "e0d43f96",
+            "f1e1cd87",
+            "fb19eb59",
+            "ff367629",
+            "ffdaa637"
+          ],
+          "tags": [],
+          "text": "其余内部改动：重构、配置与工程调整（28 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.7",
+  "unclassifiedCommits": [],
+  "version": "1.2.7"
+}

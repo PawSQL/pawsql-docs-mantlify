@@ -1,0 +1,188 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.11",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-05-28",
+  "sections": [
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e325f3a5"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化 NotInNullableSubQueryRewrite、UnnecessaryDistinctEliminationRewrite，支持嵌套表达式"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "dabfe743"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "嵌套子查询的查询折叠改为从最内层开始重写"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "98b91d9f"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "CTE 被多次引用时不将主查询的过滤谓词下推到 CTE"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3aeeeb05"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "新增 DerivedTable2LateralJoinRewrite 重写优化规则（覆盖三种情况）"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4d11675e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "sqllabs 变量更名为 pawsql"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1cf75599"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "提升健壮性，DML 访问器支持子查询中的 WITH CTE、ShardingKeyIncluded4Insert、NoFilter4PartitioningColumns"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9797ad5f",
+            "47fbb8c5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "调整选择列与谓词的规则顺序以提升性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0224efd8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "完整支持 MySQL PL，所有脚本测试通过"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7aa6d916"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 extract 函数处理中的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e2b774b2"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化 grammar 提升性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c961dad2"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "StatementExtractor 改用外部 sqlparser"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "65519088"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "增加参数控制是否共享 ANTLR 全局变量（sqllab.exclusive）"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "10d45e03",
+            "5832e557"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "解析时的审核规则支持前端指定严重级别"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b9a21cf2"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "NoCondition4JoinWarning 排除 lateral join"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "82e6aece",
+            "d17950a5"
+          ],
+          "tags": [],
+          "text": "其余内部改动（2 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.12",
+  "unclassifiedCommits": [],
+  "version": "1.3.12"
+}

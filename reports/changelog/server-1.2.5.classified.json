@@ -1,0 +1,78 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.4",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-04-07",
+  "sections": [
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ba856a26"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "完善 Coding Webhook 审核任务的结果数据填充"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "af9ac8e9",
+            "e1425f7a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "统一分析任务超时设置，移除限流模式下的冗余超时"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6c8ed2d1",
+            "1c7c64e9"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复代码库标识生成与规则列表对象类型参数的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4514f619"
+          ],
+          "tags": [],
+          "text": "其余内部改动：重构、配置与工程调整（1 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.5",
+  "unclassifiedCommits": [],
+  "version": "1.2.5"
+}

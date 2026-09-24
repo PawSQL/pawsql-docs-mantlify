@@ -12,8 +12,8 @@ documents:
   language: en
 - relation: release-note
   required: true
-  documentId: release-notes-8-5-0
-  language: en
+  documentId: changelog-engine-index
+  language: zh
 - path: blog/engineering/redundant-index.md
   relation: blog
   required: false

@@ -1,0 +1,124 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.8",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-07-07",
+  "sections": [
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "59943641",
+            "41ef8705",
+            "cdffaf20",
+            "325f8a22",
+            "92c6264c",
+            "86d5001e",
+            "5897ac42",
+            "56b52e0a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增工单 SQL 执行会话：预览、执行/提交/回滚、历史列表、终止、跳过与超时自动回滚、批量与参数化执行"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2cc90137",
+            "ee1674bd"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增工单 SQL 执行跟踪表，完善非事务执行模式的会话处理"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6100a1ec"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "新增多数据库方言执行支持框架"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bfec7ca0",
+            "95f9fa17"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增无索引阶段的索引推荐保存逻辑；性能验证前处理变量与不支持的 SQL 类型"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "feb5b082",
+            "b90c768d",
+            "26eef2ee"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "统一解析异常持久化逻辑，错误消息改为国际化常量键"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "04bca2a0",
+            "7609a9e7",
+            "ca206cdd"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复校验逻辑空指针、索引数量获取顺序、审核逻辑同步等缺陷"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.9",
+  "unclassifiedCommits": [],
+  "version": "1.2.9"
+}

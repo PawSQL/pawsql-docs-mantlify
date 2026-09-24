@@ -1,0 +1,227 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.6",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-12-29",
+  "sections": [
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5266c59f"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "indexadvisor/sqladvisor 的变量替换推迟到性能验证时"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "534fd699"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "RuleSelectSSQRewrite 无条件过滤且无聚集时不做重写"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c3186498"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复常量表达式反序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "95749509"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 straight join 序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4cb1de62"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 TDSQLX-MySQL 分布列在线解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ae9a36d7",
+            "c3819c34"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 % 操作符反序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d6615cde"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化表引用替换中的别名处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "231b9ce8",
+            "c7356598"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 8 进制与 16 进制常量反序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "231b9ce8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化列名解析；支持 Oracle 的 nextval"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9643d91e",
+            "2b95419e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复表别名反序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "72c560b5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 QueryAuditResult 评分（getScore）的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "afaaca5f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "decimal_literal 代指所有整型字面量；begin 作为保留关键字"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1fba12e0"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "改进表行数获取，支持没有 DatabaseTable 的场景"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "811ccf6e"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "将找不到表和列的违规压缩到一个 RuleAuditResult"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "412a9133"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "用审核规则代替解析异常处理找不到表和列的情况"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cae1919f"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "RuleNumOfLevelOfSubQuery 与 RuleNoCond4NonAggSelectWarning 排除 dual 之类的伪表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "93435c73"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "DbAuditResult 新增评分能力（getScore）"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "62ca3954",
+            "c370b910",
+            "cf0f564e",
+            "e7546a61"
+          ],
+          "tags": [],
+          "text": "其余内部改动（4 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.7",
+  "unclassifiedCommits": [],
+  "version": "1.3.7"
+}

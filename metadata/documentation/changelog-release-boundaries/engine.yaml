@@ -1,0 +1,119 @@
+# engine 历史发布边界 —— 回填 git tag 的输入（待核对）
+#
+# 版本号口径（2026-09-24 裁定）：engine 走自己的版本轴，最旧的回填版 = `start`，
+# 之后每次交付 +1 patch；标了 `major: true` 的那一行改为 minor +1、patch 归零。
+# 版本号由本文件计算得出，不要在行内写版本号 —— 标注重大版本时不必重排后续行。
+#
+# 回填范围：最近 24 个月（2024-10 ~ 2026-09）。窗口外（2022-05 ~ 2024-09）不回填。
+#
+# component 对应 metadata/documentation/changelog-sources.yaml 里的 source.name，
+# 复用它的 repo 与 trunk，不在这里重复仓库路径。
+#
+# 核对方式：
+#   1. 删掉没有真实交付的行。
+#   2. `date` 目前取边界提交的日期，改成真实交付日 —— tag 的日期用它，
+#      否则回填出来的 tag 全带打 tag 那天，changelog 的时间线会错。
+#   3. 把核对过的行 `verified` 翻成 true；未核对的行走不了 apply-tags。
+#   4. 可选：加 `note:` 记录交付对象或说明。
+#
+# 已知取舍：最旧的那一版只作区间起点（区间 = 前一 tag..当前 tag），
+# 它所在月的提交不会出现在 changelog 里。要让 2024-10 的改动也有条目，
+# 就得再加一行更早的锚点（版本号会低于 start）。
+
+component: engine
+tagFormat: 'engine-v{version}'
+start: '1.2.0'
+
+deliveries:
+  - commit: d3801962
+    date: 2024-10-30
+    verified: true
+    major: false
+  - commit: fe398804
+    date: 2024-11-30
+    verified: true
+    major: false
+  - commit: ea7eb51c
+    date: 2024-12-31
+    verified: true
+    major: false
+  - commit: 044d0179
+    date: 2025-01-16
+    verified: true
+    major: false
+  - commit: 4aef7700
+    date: 2025-02-27
+    verified: true
+    major: false
+  - commit: ea71a2f6
+    date: 2025-03-31
+    verified: true
+    major: false
+  - commit: 2f7b62d5
+    date: 2025-04-30
+    verified: true
+    major: false
+  - commit: 7dc60408
+    date: 2025-05-30
+    verified: true
+    major: true
+  - commit: 723b5421
+    date: 2025-06-27
+    verified: true
+    major: false
+  - commit: 32351dc0
+    date: 2025-07-30
+    verified: true
+    major: false
+  - commit: 9fcbb50a
+    date: 2025-08-29
+    verified: true
+    major: false
+  - commit: 8108de7b
+    date: 2025-09-30
+    verified: true
+    major: false
+  - commit: cdcbac4b
+    date: 2025-10-30
+    verified: true
+    major: false
+  - commit: 5a29cc1d
+    date: 2025-11-27
+    verified: true
+    major: false
+  - commit: 62ca3954
+    date: 2025-12-29
+    verified: true
+    major: false
+  - commit: 9c42452b
+    date: 2026-01-30
+    verified: true
+    major: false
+  - commit: 1cb3417b
+    date: 2026-02-25
+    verified: true
+    major: false
+  - commit: 87d4b135
+    date: 2026-03-30
+    verified: true
+    major: false
+  - commit: 648ac6da
+    date: 2026-04-30
+    verified: true
+    major: false
+  - commit: e325f3a5
+    date: 2026-05-28
+    verified: true
+    major: false
+  - commit: 1e834105
+    date: 2026-06-30
+    verified: true
+    major: false
+  - commit: 780b235c
+    date: 2026-07-23
+    verified: true
+    major: false
+  - commit: 70b9e97d
+    date: 2026-09-23
+    verified: true
+    major: false

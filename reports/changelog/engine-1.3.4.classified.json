@@ -1,0 +1,298 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.3",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-09-30",
+  "sections": [
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8108de7b"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "所有 SQL 在性能验证前都做 SQL 转换，消除变量导致的验证失败"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "adfaa473"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "SAT 优化：支持同列常量比较的重写"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b825546c",
+            "449141c6"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "RuleOrCond4SelectRewrite 计算代价时排除关联条件"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3fd7d0c6"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "过滤谓词下推不再下推 dummy 表达式与 explode 表达式"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8ad40324"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "dummy 表达式使用原始文本"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9a2efdbe",
+            "262abc09"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化 SATTC 在存在嵌套条件时的场景"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8899ede9"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "过滤谓词下推支持集合分支下推、单派生表下推与内外表下推"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "303a1b9e"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "标量子查询解关联无论是否存在聚合都补上 group by 列"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3bcdfe1c"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "使用 for xml auto 时不做标量子查询解关联"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cf3052cf"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "按需限定 dummy 表达式"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "94042f3a"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleSelectSSQRewrite 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "578fe1c4"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 SATTC 重写的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "585c7ba9"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleSelectSSQRewrite 在出现同名列时的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d40ddf78"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "分区表规则优化，提升健壮性"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4e475e20"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "「索引列上的运算导致索引失效」规则排除聚合函数的误报"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "64ddccfc",
+            "3943c5cc"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "为 SQL Server 脚本添加违规所属行信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "04fc8d49",
+            "4046fc2b"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "SQL 对象携带行信息"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c1f1c133"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复窗口函数反序列化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "95ddc5e7"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 OUTER APPLY 语法；性能验证前先格式化 SQL"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5e8452b9"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复因支持 DB2 导致的 interval 语法解析错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b9e57646",
+            "7e128e9c"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 DB2 优化器支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cd3a8809"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 DB2 在线 DDL 解析器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "479baccd"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "值表达式查找支持 GroupConcat 内的表达式"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3e3d16f0",
+            "27314328"
+          ],
+          "tags": [
+            "索引引擎",
+            "缺陷修复"
+          ],
+          "text": "修复冗余索引使用（indexusage）的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f0e188e0"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "重复索引为唯一索引时不再建议删除"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.4",
+  "unclassifiedCommits": [],
+  "version": "1.3.4"
+}

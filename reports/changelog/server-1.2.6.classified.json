@@ -1,0 +1,88 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.5",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-04-13",
+  "sections": [
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5047dfc9",
+            "dff2c18d",
+            "aaa5478e",
+            "ab257a73",
+            "2ebb7053"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "新增 GitLab 平台集成：webhook 报告、secret 存储、安全白名单与端到端测试"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b118f343"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "规则模板查询增加启用规则数量字段"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "28404b11"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "审核与集成任务的超时由 30 分钟调整为 1440 分钟"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d0c3fcd9",
+            "392eab55",
+            "f857e00c",
+            "d7bab435",
+            "fa77bae9",
+            "9142db5d"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复规则验证字段映射、GitHub token 错误码、空字符串误判等缺陷"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.6",
+  "unclassifiedCommits": [],
+  "version": "1.2.6"
+}

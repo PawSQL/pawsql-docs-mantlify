@@ -1,0 +1,227 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.0",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2024-11-30",
+  "sections": [
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fe398804"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "达梦数据库不再进行查询折叠"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5d626ed2"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复驱动表逻辑（isCorrelated）的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "427db33c"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "ValueExpressionHelper 新增 isCorrelated 支持"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3afb5163"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "Oracle 执行计划输出完整的 explain 信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5adbc480"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "MySQL 连接串默认加上 allowPublicKeyRetrieval=true"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a4fc13ea",
+            "eeafd70d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 group_concat 解析与输出的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "110e0aad"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增对 TDSQLX for MySQL 的支持及配套校验器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f056e084"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "运算符字面量改为真实字面量"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8f243acc"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复达梦在线索引元数据解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "dc1e2e71"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复数据类型表达式的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bc60348f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复表引用解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3ae8ef51"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复嵌套值表达式解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5f4cbf62"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复表行数获取的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "93815aea"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "索引校验新增 indexClean 能力，支持解析不带代码块的 create trigger"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "39e4ad0c"
+          ],
+          "tags": [
+            "索引引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 MySQL 与 PostgreSQL 索引匹配的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "16b4c504"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "优化 RuleDiffDatatypeOfJoinColumns 的输出"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5efc9166"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleFuncWithColumnInPredicate 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bd43f443"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleNoCond4NonAggSelectWarning 的缺陷"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.1",
+  "unclassifiedCommits": [],
+  "version": "1.2.1"
+}

@@ -249,7 +249,7 @@
             ]
           },
           {
-            "tab": "API",
+            "tab": "API 参考文档",
             "icon": "code",
             "expanded": true,
             "groups": [
@@ -283,6 +283,20 @@
                   "blog/sql-optimization/sql-null-traps",
                   "blog/sql-optimization/index-types",
                   "blog/sql-optimization/efficient-index-design"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "变更日志",
+            "icon": "activity",
+            "groups": [
+              {
+                "group": "版本记录",
+                "icon": "layers",
+                "pages": [
+                  "changelog/engine/index",
+                  "changelog/server/index"
                 ]
               }
             ]

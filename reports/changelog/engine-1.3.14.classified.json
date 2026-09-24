@@ -1,0 +1,88 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.13",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-07-23",
+  "sections": [
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "780b235c"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "IncColumn4PrimaryKeyRequired 只对非分布式数据库生效"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "780b235c"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "IncColumn4PrimaryKeyDisallowed 只对分布式数据库生效"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "780b235c"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "RuleRowsOfDMLExceedThreshold 阈值改为 1000"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "efcd7d12"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "除 exists 外，其余 select * 都会提示"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6c6ed248"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 insert select 语句的 SQLInfo 信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ea3d9b2b"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 merge into when not matched then 的解析"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.14",
+  "unclassifiedCommits": [],
+  "version": "1.3.14"
+}

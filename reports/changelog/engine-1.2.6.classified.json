@@ -1,0 +1,345 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.5",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-04-30",
+  "sections": [
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2f7b62d5"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "CommentsOnTableRequired、CommentsOnColumnRequired、SpecificColumnsRequired、NumOfIndexesExceedThreshold 改为所有语句处理完成后执行"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a9ff137e"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "DDL 规则纳入 pawsql optimize"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "11598ac6"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "所有 SQL 语句都生成 QueryAuditResult"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ea0e08db"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "SQLAdvisor 中每条 SQL 语句都有 QueryAuditResult"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c8202032"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL 解析器支持 comment 语句"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f0fac4aa"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 trim 函数解析与 QueryValues 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b7ba2d9a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 values 表查询分析与 SQL Server 关联表的计划分析缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d83fcc89",
+            "154502b1"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持启用 SSL"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9245d041"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "FunctionChron 支持任意标识符作为值"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8a73f11c"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优先从表引用匹配列，再检查伪列"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f42ded27"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "语法错误输出更准确的说明"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5f362e66"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 json_table 语法"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8166da4a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复查询中未定义表时选择列获取的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "10f364ee"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复限定符解析与多表 update 语句 SQL 输出的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5e1a1511"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 aggfunction2 解析逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a3cb3d61"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化汇总输出"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e3e94dbb"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "语法错误输出改进"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "89a0b7ef"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "小幅调整"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "300536f5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 dateTimeFunctionCall 的语法缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cad1d79a",
+            "3921268a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 for xml 子句"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "44424653"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 PLSQL_VAR"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "085043d8"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "不做性能验证时不再替换 SQL 中的参数"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "954beba8"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "findQuerySelect 支持在 If、Cast 等表达式中查找标量子查询"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8fc0acde"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleOrCond4SelectRewrite 在只有聚集函数无分组语句时的重写错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4782fce6",
+            "2102304b"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "过滤谓词下推支持下推到派生表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "79bb864c"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "查询折叠支持 lateral 子查询"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6fa75c49"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "新增 RuleLateralQueryRewrite 规则"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b605577a"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "新增 ubtree 索引类型；允许 BUCKET 作为标识符"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19b4eb88"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "MySQL 的主键列去重提前到索引去重之前"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "21d6e3b9"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "解析与输出支持外连接 (+) 写法，索引推荐中一并考虑"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.6",
+  "unclassifiedCommits": [],
+  "version": "1.2.6"
+}

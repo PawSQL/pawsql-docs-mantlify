@@ -1,0 +1,81 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.8",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-02-25",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1cb3417b"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 arrayComparison 谓词"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c8cb69de"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "uid/user 移出伪列"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "008b2dee"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 ansi 数据库类型（无数据库类型输入时映射为 PostgreSQL）"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5e74df78"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "即使是被驱动表，过滤条件也下推到索引前部"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3b310a86",
+            "9c1e0585",
+            "efe61436"
+          ],
+          "tags": [],
+          "text": "其余内部改动（3 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.9",
+  "unclassifiedCommits": [],
+  "version": "1.3.9"
+}

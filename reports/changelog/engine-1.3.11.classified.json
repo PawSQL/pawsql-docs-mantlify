@@ -1,0 +1,467 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.10",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-04-30",
+  "sections": [
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "648ac6da"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "groupconcat 改为解析为 analytic function"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2ba988fc"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化结果集唯一性判断，以支持 RuleUnnecessaryDistinctEliminationRewrite"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "414f2f49"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化 RuleQueryFoldingRewrite、RuleSelectSSQRewrite、RuleFilterPredicatePushDownRewrite 的处理逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "500e4563"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "RuleOrderFromDiffTablesRewrite 与 TCRewriter 的 SATTC 重写支持 ValueExpressionTableExpr"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "382e919d"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "配置为非重写时重写规则可直接返回"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c1f20d1a"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "排除无表的派生表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e2d836cf"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 date_format 重写优化算法"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8a77e8f5"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化 RuleOrCond4SelectRewrite：分支互斥时不加主键、无 group by 时保留 limit/order by、解决选择列重名"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "13b46400"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "优化 OR 条件 SELECT 重写的代价模型"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2958c481"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 dataTypeFunctionCall 语法解析异常"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1bb98f0e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "为语法异常提供行信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "11204e94"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL 指纹替换所有常量"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "dedcd0c8",
+            "f4486424",
+            "0409db38"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 delete using 的序列化逻辑，支持无括号函数（current_date）"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "141cc58d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "使用关键字集合优化性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3afafde9"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "执行计划树不再做 transferSQL，由调用方处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4b52d946"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复只有 SQL 语句时脚本解析返回为空的问题；优化 grammar 提升性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "152e1919"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复引用被重复输出的问题；重命名解析器热启动参数"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a51bd3bd"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "通过系统变量控制是否预热 ANTLR DFA"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f5aa48a6"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "提升脚本解析器性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0a2f0899"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化 PostgreSQL 与通用解析器，提升性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d79c1394"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "grammar 优化"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a513a5de"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "预热 ATN 缓存"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "47d881f3"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "找不到列的报错只记日志，不再计入异常"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "50d71edb"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "脚本解析器支持无分号 SQL"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e0afe8c7"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 MySQL PL grammar"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19afc487"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "MySQL 收集统计信息改用 execQuery，其他数据库用 execUpdate"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "40f2e9a5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "脚本解析器支持 += 赋值"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "00a220c4"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "把 SQL Server 从 script 解析移到 tsql 解析"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8dd0bee4"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化 PostgreSQL 脚本解析器，提升健壮性"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "99031be2"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化通用解析器，支持更复杂的谓词表达式（如 @>）"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6c1b2d71"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "TDSQL 不再消除索引列方向；新增最大排序列数阈值"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c59e465a"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "支持索引清理（IndexClean）功能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8c55fa97"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "提供索引清理失败信息"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e59eb757"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "RuleLargeOffset 修正 ruleCode"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e59eb757"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "RuleFuncWithColumnInPredicate 增加等值 substr/substring 重写"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "47cf8d72"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 NoLimit4SelectWarning 与 StatementExtractor 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c55bb262"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "RuleFuncWithColumnInPredicate 支持 date_format 与 str_to_date 的重写"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41d80d69"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复语法规则过滤的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "677b644e",
+            "9b945625"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "「SELECT 应添加 LIMIT 子句」排除常见无分组的统计语句"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f3cc322a"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "引擎中启用 RuleStraightJoinWarning"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "125d4b4b",
+            "31ef3508",
+            "56537c0c",
+            "8fa76578",
+            "c043dd3c",
+            "c913c414",
+            "e6e217b3",
+            "efa83b21"
+          ],
+          "tags": [],
+          "text": "其余内部改动（8 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.11",
+  "unclassifiedCommits": [],
+  "version": "1.3.11"
+}

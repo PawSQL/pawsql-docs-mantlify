@@ -1,0 +1,550 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "palm",
+  "name": "PawSQL",
+  "description": "PawSQL 让数据库性能优化自动化且可验证：SQL 审核、语义级查询重写、基于代价的索引推荐。文档内容面向工程师与 coding agents，检索友好。",
+  "colors": {
+    "primary": "#0D9373",
+    "light": "#26BD6C",
+    "dark": "#0D9373"
+  },
+  "favicon": "/images/favicon.png",
+  "icons": {
+    "library": "lucide"
+  },
+  "interaction": {
+    "drilldown": true
+  },
+  "styling": {
+    "eyebrows": "breadcrumbs"
+  },
+  "seo": {
+    "indexing": "navigable",
+    "organization": {
+      "id": "https://www.pawsql.com/#organization",
+      "name": "PawSQL",
+      "legalName": "北京图灵睿数科技有限公司",
+      "url": "https://www.pawsql.com",
+      "logo": "https://www.pawsql.com/logo.png",
+      "sameAs": [
+        "https://github.com/PawSQL",
+        "https://x.com/pawsql_service"
+      ]
+    }
+  },
+  "markdown": {
+    "instructions": [
+      "PawSQL 是一个产品：Cloud 是公网部署形态，Engine / Optimizer / Auditor / Advisor / Patroller 是同一产品的组件与交付形态，不是彼此独立的产品。 / PawSQL is a single product: Cloud is the public deployment form, while Engine / Optimizer / Auditor / Advisor / Patroller are components and delivery forms of the same product, not separate products.",
+      "术语以站内术语表为准：SQL 审核对应英文 SQL Review，查询重写对应 Query Rewrite，索引推荐对应 Index Recommendation；英文内容统一用 Review，不用 Audit。 / Use the site glossary for terminology: 审核 is SQL Review, 重写 is Query Rewrite, 索引推荐 is Index Recommendation; English content uses Review, never Audit.",
+      "引用能力范围或版本支持时以对应页面为准；标注 unknown、或 status 非 published 的内容表示尚未经产品核实，不应作为事实引用。 / Cite capability scope and version support from the corresponding page; content marked unknown, or with a status other than published, is not yet product-verified and must not be cited as fact."
+    ]
+  },
+  "navigation": {
+    "languages": [
+      {
+        "language": "zh",
+        "footer": {
+          "socials": {
+            "github": "https://github.com/PawSQL",
+            "website": "https://www.pawsql.com"
+          },
+          "links": [
+            {
+              "header": "产品",
+              "items": [
+                { "label": "PawSQL Cloud", "href": "https://www.pawsql.com" },
+                { "label": "核心能力", "href": "/features" },
+                { "label": "使用场景", "href": "/use-cases" }
+              ]
+            },
+            {
+              "header": "文档",
+              "items": [
+                { "label": "快速开始", "href": "/getting-started" },
+                { "label": "用户手册", "href": "/user-guide" }
+              ]
+            },
+            {
+              "header": "开源与社区",
+              "items": [
+                { "label": "GitHub", "href": "https://github.com/PawSQL" },
+                { "label": "PawSQL MCP", "href": "https://github.com/PawSQL/pawsql-mcp" }
+              ]
+            }
+          ]
+        },
+        "tabs": [
+          {
+            "tab": "开始使用",
+            "icon": "folder-open",
+            "groups": [
+              {
+                "group": "快速开始",
+                "icon": "rocket",
+                "expanded": true,
+                "root": "getting-started/index",
+                "pages": [
+                  "getting-started/quickstart",
+                  "getting-started/choose-access",
+                  "getting-started/supported-databases"
+                ]
+              },
+              {
+                "group": "用户手册",
+                "icon": "book-open",
+                "expanded": true,
+                "root": "user-guide/index",
+                "pages": [
+                  {
+                    "group": "安装与接入",
+                    "expanded": true,
+                    "pages": [
+                      "user-guide/installation/pawsql-cloud",
+                      "user-guide/installation/pawsql-server",
+                      "user-guide/installation/ide-plugins",
+                      "user-guide/installation/authentication",
+                      "user-guide/installation/verify-installation"
+                    ],
+                    "icon": "download",
+                    "root": "user-guide/installation/index"
+                  },
+                  {
+                    "group": "工作空间和上下文",
+                    "pages": [
+                      "user-guide/workspaces/create-from-ddl",
+                      "user-guide/workspaces/create-from-database"
+                    ],
+                    "icon": "box",
+                    "root": "user-guide/workspaces/index"
+                  },
+                  {
+                    "group": "SQL 优化",
+                    "pages": [
+                      "user-guide/optimization/create-workload",
+                      "user-guide/optimization/setup-optimization",
+                      "user-guide/optimization/explain-output",
+                      "user-guide/optimization/apply-suggestions"
+                    ],
+                    "icon": "wand-sparkles",
+                    "root": "user-guide/optimization/index"
+                  },
+                  {
+                    "group": "SQL 审核",
+                    "pages": [
+                      "user-guide/sql-audit/create-review-task",
+                      "user-guide/sql-audit/read-audit-results",
+                      "user-guide/sql-audit/resolve-findings",
+                      "user-guide/sql-audit/manual-review-and-approval",
+                      "user-guide/sql-audit/history-reports-and-export",
+                      "user-guide/sql-audit/select-audit-policy",
+                      "user-guide/sql-audit/configure-review-context",
+                      "user-guide/sql-audit/high-risk-sql-control"
+                    ],
+                    "icon": "shield-check",
+                    "root": "user-guide/sql-audit/index"
+                  },
+                  {
+                    "group": "巡检与慢查询治理",
+                    "pages": [
+                      "user-guide/performance/connect-instance",
+                      {
+                        "group": "慢查询治理",
+                        "pages": [
+                          "user-guide/performance/collect-slow-sql",
+                          "user-guide/performance/aggregate-dedup",
+                          "user-guide/performance/batch-optimize",
+                          "user-guide/performance/create-optimize-ticket",
+                          "user-guide/performance/track-progress"
+                        ]
+                      },
+                      {
+                        "group": "数据库对象巡检",
+                        "pages": [
+                          "user-guide/performance/patrol-task",
+                          "user-guide/performance/reports",
+                          "user-guide/performance/create-patrol-ticket"
+                        ]
+                      }
+                    ],
+                    "icon": "activity",
+                    "root": "user-guide/performance/index"
+                  },
+                  {
+                    "group": "规则与审核策略",
+                    "pages": [
+                      "user-guide/rules-policy/rule-sets",
+                      "user-guide/rules-policy/configure-rules",
+                      "user-guide/rules-policy/quality-gate"
+                    ],
+                    "icon": "sliders-horizontal",
+                    "root": "user-guide/rules-policy/index"
+                  },
+                  {
+                    "group": "开发工具集成",
+                    "pages": [
+                      "user-guide/dev-tools/dbeaver",
+                      "user-guide/dev-tools/jetbrains",
+                      "user-guide/dev-tools/vscode",
+                      "user-guide/dev-tools/mcp"
+                    ],
+                    "icon": "code",
+                    "root": "user-guide/dev-tools/index"
+                  },
+                  {
+                    "group": "CI/CD 与平台集成",
+                    "pages": [
+                      "user-guide/cicd/concepts",
+                      "user-guide/cicd/prerequisites",
+                      "user-guide/cicd/pipeline-gate",
+                      "user-guide/cicd/repositories",
+                      "user-guide/cicd/coding",
+                      "user-guide/cicd/github",
+                      "user-guide/cicd/gitlab",
+                      "user-guide/cicd/blueking",
+                      "user-guide/cicd/openapi-pipeline",
+                      "user-guide/cicd/unsupported-platforms",
+                      "user-guide/cicd/webhook",
+                      "user-guide/cicd/logs-troubleshooting"
+                    ],
+                    "icon": "git-merge",
+                    "root": "user-guide/cicd/index"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "使用场景与核心能力",
+            "icon": "layers",
+            "groups": [
+              {
+                "group": "使用场景",
+                "icon": "compass",
+                "expanded": true,
+                "root": "use-cases/index",
+                "pages": [
+                  "use-cases/developer-sql-copilot",
+                  "use-cases/sql-quality-gate-cicd",
+                  "use-cases/slow-sql-optimization",
+                  "use-cases/database-migration-sql-governance",
+                  "use-cases/enterprise-sql-governance"
+                ]
+              },
+              {
+                "group": "核心能力",
+                "icon": "cog",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "features/index",
+                "pages": [
+                  "features/sql-review",
+                  "features/automatic-sql-rewrite",
+                  "features/index-recommendation",
+                  "features/performance-validation",
+                  "features/execution-plan-visualization",
+                  "features/distributed-sql-optimization",
+                  "features/big-data-sql-optimization"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API 参考文档",
+            "icon": "code",
+            "expanded": true,
+            "groups": [
+              {
+                "group": "CI/CD 集成接口",
+                "icon": "cable",
+                "expanded": true,
+                "openapi": "openapi/pawsql-integration.yaml"
+              },
+              {
+                "group": "优化服务接口",
+                "icon": "cable",
+                "expanded": true,
+                "openapi": "openapi/pawsql-optimization.yaml"
+              }
+            ]
+          },
+          {
+            "tab": "博客",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "文章",
+                "icon": "newspaper",
+                "pages": [
+                  "blog/index",
+                  "blog/tdsql-mysql-slow-query",
+                  "blog/opengauss-slow-query",
+                  "blog/sql-optimization/oracle-group-by-integer-literal",
+                  "blog/sql-optimization/plan-visualization",
+                  "blog/sql-optimization/sql-null-traps",
+                  "blog/sql-optimization/index-types",
+                  "blog/sql-optimization/efficient-index-design"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "language": "en",
+        "footer": {
+          "socials": {
+            "github": "https://github.com/PawSQL",
+            "website": "https://www.pawsql.com"
+          },
+          "links": [
+            {
+              "header": "Product",
+              "items": [
+                { "label": "PawSQL Cloud", "href": "https://www.pawsql.com" },
+                { "label": "Features", "href": "/en/features" },
+                { "label": "Use Cases", "href": "/en/use-cases" }
+              ]
+            },
+            {
+              "header": "Documentation",
+              "items": [
+                { "label": "Quickstart", "href": "/en/getting-started" },
+                { "label": "User Guide", "href": "/en/user-guide" }
+              ]
+            },
+            {
+              "header": "Open Source & Community",
+              "items": [
+                { "label": "GitHub", "href": "https://github.com/PawSQL" },
+                { "label": "PawSQL MCP", "href": "https://github.com/PawSQL/pawsql-mcp" }
+              ]
+            }
+          ]
+        },
+        "tabs": [
+          {
+            "tab": "Getting Started",
+            "icon": "folder-open",
+            "groups": [
+              {
+                "group": "Quickstart",
+                "icon": "rocket",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/getting-started/index",
+                "pages": [
+                  "en/getting-started/quickstart",
+                  "en/getting-started/choose-access",
+                  "en/getting-started/supported-databases"
+                ]
+              },
+              {
+                "group": "User Guide",
+                "icon": "book-open",
+                "expanded": true,
+                "root": "en/user-guide/index",
+                "pages": [
+                  {
+                    "group": "Installation & Access",
+                    "expanded": true,
+                    "pages": [
+                      "en/user-guide/installation/pawsql-cloud",
+                      "en/user-guide/installation/pawsql-server",
+                      "en/user-guide/installation/ide-plugins",
+                      "en/user-guide/installation/authentication",
+                      "en/user-guide/installation/verify-installation"
+                    ],
+                    "icon": "download",
+                    "root": "en/user-guide/installation/index"
+                  },
+                  {
+                    "group": "Workspaces & Context",
+                    "pages": [
+                      "en/user-guide/workspaces/create-from-ddl",
+                      "en/user-guide/workspaces/create-from-database"
+                    ],
+                    "icon": "box",
+                    "root": "en/user-guide/workspaces/index"
+                  },
+                  {
+                    "group": "SQL Optimization",
+                    "pages": [
+                      "en/user-guide/optimization/create-workload",
+                      "en/user-guide/optimization/setup-optimization",
+                      "en/user-guide/optimization/explain-output",
+                      "en/user-guide/optimization/apply-suggestions"
+                    ],
+                    "icon": "wand-sparkles",
+                    "root": "en/user-guide/optimization/index"
+                  },
+                  {
+                    "group": "SQL Review",
+                    "pages": [
+                      "en/user-guide/sql-audit/create-review-task",
+                      "en/user-guide/sql-audit/read-audit-results",
+                      "en/user-guide/sql-audit/resolve-findings",
+                      "en/user-guide/sql-audit/manual-review-and-approval",
+                      "en/user-guide/sql-audit/history-reports-and-export",
+                      "en/user-guide/sql-audit/select-audit-policy",
+                      "en/user-guide/sql-audit/configure-review-context",
+                      "en/user-guide/sql-audit/high-risk-sql-control"
+                    ],
+                    "icon": "shield-check",
+                    "root": "en/user-guide/sql-audit/index"
+                  },
+                  {
+                    "group": "Batch Optimization & Patrol",
+                    "pages": [
+                      "en/user-guide/performance/connect-instance",
+                      {
+                        "group": "Slow Query Governance",
+                        "pages": [
+                          "en/user-guide/performance/collect-slow-sql",
+                          "en/user-guide/performance/aggregate-dedup",
+                          "en/user-guide/performance/batch-optimize",
+                          "en/user-guide/performance/create-optimize-ticket",
+                          "en/user-guide/performance/track-progress"
+                        ]
+                      },
+                      {
+                        "group": "Database Object Patrol",
+                        "pages": [
+                          "en/user-guide/performance/patrol-task",
+                          "en/user-guide/performance/reports",
+                          "en/user-guide/performance/create-patrol-ticket"
+                        ]
+                      }
+                    ],
+                    "icon": "activity",
+                    "root": "en/user-guide/performance/index"
+                  },
+                  {
+                    "group": "Rules & Quality Policy",
+                    "pages": [
+                      "en/user-guide/rules-policy/rule-sets",
+                      "en/user-guide/rules-policy/configure-rules",
+                      "en/user-guide/rules-policy/quality-gate"
+                    ],
+                    "icon": "sliders-horizontal",
+                    "root": "en/user-guide/rules-policy/index"
+                  },
+                  {
+                    "group": "Developer Tool Integration",
+                    "pages": [
+                      "en/user-guide/dev-tools/dbeaver",
+                      "en/user-guide/dev-tools/jetbrains",
+                      "en/user-guide/dev-tools/vscode",
+                      "en/user-guide/dev-tools/mcp"
+                    ],
+                    "icon": "code",
+                    "root": "en/user-guide/dev-tools/index"
+                  },
+                  {
+                    "group": "CI/CD & Platform Integration",
+                    "pages": [
+                      "en/user-guide/cicd/concepts",
+                      "en/user-guide/cicd/prerequisites",
+                      "en/user-guide/cicd/pipeline-gate",
+                      "en/user-guide/cicd/repositories",
+                      "en/user-guide/cicd/coding",
+                      "en/user-guide/cicd/github",
+                      "en/user-guide/cicd/gitlab",
+                      "en/user-guide/cicd/blueking",
+                      "en/user-guide/cicd/openapi-pipeline",
+                      "en/user-guide/cicd/unsupported-platforms",
+                      "en/user-guide/cicd/webhook",
+                      "en/user-guide/cicd/logs-troubleshooting"
+                    ],
+                    "icon": "git-merge",
+                    "root": "en/user-guide/cicd/index"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Use Cases & Features",
+            "icon": "layers",
+            "groups": [
+              {
+                "group": "Use Cases",
+                "icon": "compass",
+                "expanded": true,
+                "root": "en/use-cases/index",
+                "pages": [
+                  "en/use-cases/developer-sql-copilot",
+                  "en/use-cases/sql-quality-gate-cicd",
+                  "en/use-cases/slow-sql-optimization",
+                  "en/use-cases/database-migration-sql-governance",
+                  "en/use-cases/enterprise-sql-governance"
+                ]
+              },
+              {
+                "group": "Features",
+                "icon": "cog",
+                "directory": "accordion",
+                "expanded": true,
+                "root": "en/features/index",
+                "pages": [
+                  "en/features/sql-review",
+                  "en/features/automatic-sql-rewrite",
+                  "en/features/index-recommendation",
+                  "en/features/performance-validation",
+                  "en/features/execution-plan-visualization",
+                  "en/features/distributed-sql-optimization",
+                  "en/features/big-data-sql-optimization"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "API",
+            "icon": "code",
+            "expanded": true,
+            "groups": [
+              {
+                "group": "CD/CD Integration",
+                "icon": "cable",
+                "expanded": true,
+                "openapi": "openapi/pawsql-integration-en.yaml"
+              },
+              {
+                "group": "SQL Optimization",
+                "icon": "cable",
+                "expanded": true,
+                "openapi": "openapi/pawsql-optimization-en.yaml"
+              }
+            ]
+          },
+          {
+            "tab": "Blog",
+            "icon": "book-open",
+            "groups": [
+              {
+                "group": "Posts",
+                "icon": "newspaper",
+                "pages": [
+                  "en/blog/index",
+                  "en/blog/engineering/or-to-union",
+                  "en/blog/sql-optimization/oracle-group-by-integer-literal",
+                  "en/blog/sql-optimization/plan-visualization",
+                  "en/blog/sql-optimization/sql-null-traps",
+                  "en/blog/sql-optimization/index-types",
+                  "en/blog/sql-optimization/efficient-index-design"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [],
+    "primary": {
+      "type": "button",
+      "label": "PawSQL Cloud",
+      "href": "https://www.pawsql.com"
+    }
+  }
+}

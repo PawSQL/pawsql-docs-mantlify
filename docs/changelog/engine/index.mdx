@@ -1,0 +1,711 @@
+---
+id: changelog-engine-index
+title: PawSQL 核心引擎变更日志
+description: PawSQL 核心引擎各版本的发布内容，含SQL解析器、新增与变更的规则、优化算法与数据库支持。
+type: article
+status: draft
+tags:
+- changelog
+- release-notes
+subtype: release-note
+language: zh
+translationKey: changelog-engine-index
+layout: detail
+rss: true
+product: pawsql
+---
+
+本页由 `pawsql-doc build-changelog` 从引擎仓库的 tag 区间提交生成，人工复核后随版本发布更新。
+标记区外的内容可自由编辑；标记区内的条目请勿手改（改来源提交后重跑生成）。
+
+{/* CHANGELOG:START */}
+<Update label="1.3.15" description="2026-09-23" tags={["审核引擎", "优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 新增规则 EmptyString4DefaultDisallowed 与 PKOrUINotContainingShardingKey (70b9e97d)
+
+  ### 优化算法
+
+  - 修复 MAXMIN 重写的 null 处理逻辑 (30c0e4ac)
+  - 新增统计信息 Extractor 框架 (70b9e97d)
+
+  ### SQL解析与数据库支持
+
+  - datetime 解析为 timestamp 而非 date (0d5b9de0)
+  - CTE 支持 NOT? MATERIALIZED 修饰 (521236c5)
+  - database 为空时，部分数据库改用用户名作为 database (c9350d0e)
+
+</Update>
+
+<Update label="1.3.14" description="2026-07-23" tags={["审核引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - IncColumn4PrimaryKeyRequired 只对非分布式数据库生效 (780b235c)
+  - IncColumn4PrimaryKeyDisallowed 只对分布式数据库生效 (780b235c)
+  - RuleRowsOfDMLExceedThreshold 阈值改为 1000 (780b235c)
+  - 除 exists 外，其余 select * 都会提示 (efcd7d12)
+
+  ### SQL解析与数据库支持
+
+  - 修复 insert select 语句的 SQLInfo 信息 (6c6ed248)
+  - 修复 merge into when not matched then 的解析 (ea3d9b2b)
+
+</Update>
+
+<Update label="1.3.13" description="2026-06-30" tags={["优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 优化算法
+
+  - 优化 DerivedTable2LateralJoinRewrite，解决 lateral 变换后的表顺序问题 (02652ad2)
+  - straight join 支持重写，JoinEliminationRewrite 支持非 PKFK 场景 (88034c20)
+  - 表关联缺少连接条件的优化 (97588a7f)
+  - 优化算法：派生表转换为 Lateral 表关联 (f158ff2a)
+
+  ### SQL解析与数据库支持
+
+  - 重构 SQL 解析器，减少不必要的查询快标记；advisor 统一使用 transferSQL (0ba59f18)
+  - 支持 PostgreSQL 的 create extension (1e834105)
+  - 更新 parser 代码，解决 PL/SQL、TSQL、PGSQL 中单条 SQL 使用脚本解析器的问题 (26ac03de)
+  - 支持 TDSQL 特有的关键字 (2bc9d6d7)
+  - 优化 SQL 解析器 (396145a0, 7056efb0)
+  - TDSQL 分布式对复杂 SQL 不支持 analyze 时改用 format = tree (4ba9c64c)
+  - 找不到 baseTable 时不在解析期创建该表，以免影响业务 SQL 的判断 (53bee3ee)
+  - 支持 TDSQL sequence 的解析与审核 (5603d32b, 17fb601d)
+  - 修复常量解析的缺陷 (6426c7dc)
+  - 非 DDL 语句不再检查表与列是否存在 (67de9323)
+  - 修复 PL/SQL 的解析异常处理逻辑 (74ba0e41)
+  - 将分区定义归类到 tableOption (87a054be)
+  - 修复限定符解析的缺陷 (8d51de50)
+  - 修复在线获取表结构与离线 DDL 解析的 decimal 类型不一致 (99a41380)
+  - 优化字符串是否为 varchar 的判断，为 text 类型设置长度；NotInNullableSubQueryRewrite 增加可控判断 (9ccdc85d)
+  - 优化 SQL 解析器，支持对象命名的详细分析；优化语法问题的预警逻辑 (a1441915)
+  - 新增 script SQL 语句类型 (b0a9fbb6, 317ac3c6)
+  - 修正 Oracle 中 group by 整数序号的解析 (bcaa9cdb)
+  - 修复索引无名字的缺陷 (bfb74251)
+  - 修正脚本解析时 SQL 内部的行信息 (c013ce5a)
+  - 修复缺陷，支持获取非 SQL 的 statement (c987f636)
+  - 修复变长字符类型的判断，并把 MySQL 的 utf8 与 utf8mb3 视为一致 (cf641ad7)
+  - 脚本解析时把 create database/use database 加入语句列表，以支持 SQL 执行 (d640cee2)
+  - 优化 TDSQLX-MySQL 复杂 SQL 的执行计划解析 (e4ffa312)
+  - 修复选择列解析的缺陷 (eb077594)
+  - 支持 Hive 的 lateral reference (f79f4cd1)
+
+</Update>
+
+<Update label="1.3.12" description="2026-05-28" tags={["审核引擎", "优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 解析时的审核规则支持前端指定严重级别 (10d45e03, 5832e557)
+  - NoCondition4JoinWarning 排除 lateral join (b9a21cf2)
+
+  ### 优化算法
+
+  - 新增 DerivedTable2LateralJoinRewrite 重写优化规则（覆盖三种情况） (3aeeeb05)
+  - CTE 被多次引用时不将主查询的过滤谓词下推到 CTE (98b91d9f)
+  - 嵌套子查询的查询折叠改为从最内层开始重写 (dabfe743)
+  - 优化 NotInNullableSubQueryRewrite、UnnecessaryDistinctEliminationRewrite，支持嵌套表达式 (e325f3a5)
+
+  ### SQL解析与数据库支持
+
+  - 完整支持 MySQL PL，所有脚本测试通过 (0224efd8)
+  - 提升健壮性，DML 访问器支持子查询中的 WITH CTE、ShardingKeyIncluded4Insert、NoFilter4PartitioningColumns (1cf75599)
+  - sqllabs 变量更名为 pawsql (4d11675e)
+  - 增加参数控制是否共享 ANTLR 全局变量（sqllab.exclusive） (65519088)
+  - 修复 extract 函数处理中的缺陷 (7aa6d916)
+  - 调整选择列与谓词的规则顺序以提升性能 (9797ad5f, 47fbb8c5)
+  - StatementExtractor 改用外部 sqlparser (c961dad2)
+  - 优化 grammar 提升性能 (e2b774b2)
+
+</Update>
+
+<Update label="1.3.11" description="2026-04-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 修复语法规则过滤的缺陷 (41d80d69)
+  - 修复 NoLimit4SelectWarning 与 StatementExtractor 的缺陷 (47cf8d72)
+  - 「SELECT 应添加 LIMIT 子句」排除常见无分组的统计语句 (677b644e, 9b945625)
+  - RuleFuncWithColumnInPredicate 支持 date_format 与 str_to_date 的重写 (c55bb262)
+  - RuleLargeOffset 修正 ruleCode (e59eb757)
+  - RuleFuncWithColumnInPredicate 增加等值 substr/substring 重写 (e59eb757)
+  - 引擎中启用 RuleStraightJoinWarning (f3cc322a)
+
+  ### 优化算法
+
+  - 优化 OR 条件 SELECT 重写的代价模型 (13b46400)
+  - 优化结果集唯一性判断，以支持 RuleUnnecessaryDistinctEliminationRewrite (2ba988fc)
+  - 配置为非重写时重写规则可直接返回 (382e919d)
+  - 优化 RuleQueryFoldingRewrite、RuleSelectSSQRewrite、RuleFilterPredicatePushDownRewrite 的处理逻辑 (414f2f49)
+  - RuleOrderFromDiffTablesRewrite 与 TCRewriter 的 SATTC 重写支持 ValueExpressionTableExpr (500e4563)
+  - groupconcat 改为解析为 analytic function (648ac6da)
+  - 优化 RuleOrCond4SelectRewrite：分支互斥时不加主键、无 group by 时保留 limit/order by、解决选择列重名 (8a77e8f5)
+  - 排除无表的派生表 (c1f20d1a)
+  - 修复 date_format 重写优化算法 (e2d836cf)
+
+  ### 索引引擎
+
+  - TDSQL 不再消除索引列方向；新增最大排序列数阈值 (6c1b2d71)
+  - 提供索引清理失败信息 (8c55fa97)
+  - 支持索引清理（IndexClean）功能 (c59e465a)
+
+  ### SQL解析与数据库支持
+
+  - 把 SQL Server 从 script 解析移到 tsql 解析 (00a220c4)
+  - 优化 PostgreSQL 与通用解析器，提升性能 (0a2f0899)
+  - SQL 指纹替换所有常量 (11204e94)
+  - 使用关键字集合优化性能 (141cc58d)
+  - 修复引用被重复输出的问题；重命名解析器热启动参数 (152e1919)
+  - MySQL 收集统计信息改用 execQuery，其他数据库用 execUpdate (19afc487)
+  - 为语法异常提供行信息 (1bb98f0e)
+  - 修复 dataTypeFunctionCall 语法解析异常 (2958c481)
+  - 执行计划树不再做 transferSQL，由调用方处理 (3afafde9)
+  - 脚本解析器支持 += 赋值 (40f2e9a5)
+  - 找不到列的报错只记日志，不再计入异常 (47d881f3)
+  - 修复只有 SQL 语句时脚本解析返回为空的问题；优化 grammar 提升性能 (4b52d946)
+  - 脚本解析器支持无分号 SQL (50d71edb)
+  - 优化 PostgreSQL 脚本解析器，提升健壮性 (8dd0bee4)
+  - 优化通用解析器，支持更复杂的谓词表达式（如 @&gt;） (99031be2)
+  - 预热 ATN 缓存 (a513a5de)
+  - 通过系统变量控制是否预热 ANTLR DFA (a51bd3bd)
+  - grammar 优化 (d79c1394)
+  - 修复 delete using 的序列化逻辑，支持无括号函数（current_date） (dedcd0c8, f4486424, 0409db38)
+  - 支持 MySQL PL grammar (e0afe8c7)
+  - 提升脚本解析器性能 (f5aa48a6)
+
+</Update>
+
+<Update label="1.3.10" description="2026-03-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 新增 RuleCalculationOnDistributedColumns (0766c024)
+  - 按传入的规则列表过滤语法类等无独立规则类的审核规则 (27256f45)
+  - 「避免不必要的更新操作」改为非重写规则 (2cae17d2)
+  - 缺少数据库对象时不再给出严重警告 (aee029fc)
+
+  ### 优化算法
+
+  - 新增或修改约 60 个优化算法以支持 CCDDC 开发 (655d6dac)
+  - 谓词分析增加 null/between/inValues 的过滤率估计 (b1c6ea7d)
+
+  ### 索引引擎
+
+  - 冗余索引与重复索引检查区分开，使用不同预警级别 RuleDuplicateIndexDisallowed (87d4b135)
+
+  ### SQL解析与数据库支持
+
+  - 列新增是否压缩与压缩算法属性；支持分区列表信息 (03d75121)
+  - 修复 Oracle 多用户与 schema 不一致时找不到表、SQL Server 用 use db 切换数据库等问题 (03d75121)
+  - 新增 MySQL 的 replace 语句支持；统计信息采集改用 execQuery (03d75121)
+  - 支持带后缀的数字常量（1000L、1.0d、2.0f） (267b2e78)
+  - 修复 PL/SQL 语法文件缺陷 (32eb2a73)
+  - 把 for 循环与代码块声明的参数纳入上下文，避免被误认为表的列 (32eb2a73)
+  - 在线获取 Oracle 表的行数、默认值与注释 (4b936556)
+  - 支持对象类型的变量引用（如 :customer.name） (6faea949)
+  - 新增 SQL Server 的 convert 函数支持 (82838a64)
+  - 新增 replace 语法支持 (b1c6ea7d)
+  - 修复多表更新列与占位符的序列化缺陷 (b1c6ea7d)
+  - 修复脚本解析时的表对象上下文更新与分区类型判断 (b1c6ea7d)
+  - 为更新目标列添加表信息 (b1c6ea7d)
+  - 脚本解析支持游标变量引用（PL/SQL） (b1c6ea7d)
+  - 阈值解析提升健壮性；阈值为空时使用默认阈值 (f0c092d1, 465261ae)
+  - 修复缺少分号结尾的 SQL 在脚本解析时出错的问题 (f99b3352)
+  - 修复在线获取无符号整型列类型的缺陷 (ff890117, 458c1eb0)
+
+</Update>
+
+<Update label="1.3.9" description="2026-02-25" tags={["索引引擎", "SQL解析与数据库支持"]}>
+  ### 索引引擎
+
+  - 即使是被驱动表，过滤条件也下推到索引前部 (5e74df78)
+
+  ### SQL解析与数据库支持
+
+  - 新增 ansi 数据库类型（无数据库类型输入时映射为 PostgreSQL） (008b2dee)
+  - 支持 arrayComparison 谓词 (1cb3417b)
+  - uid/user 移出伪列 (c8cb69de)
+
+</Update>
+
+<Update label="1.3.8" description="2026-01-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 新增 RuleBackupTableInSpecificSchema、RuleBackupTableNamingConversion (0385b670)
+  - RuleUpDeleteWithLimitWarning 只检查 update；RuleMaxMinAggRewrite 支持 dummy 列 (3abb673e)
+  - 新增 RuleShardingTables2Replicated、RuleSubqueryPredicatePushDownRewrite、RuleUnionConstantRewrite、RuleDeleteWithLimitWarning，并整理 sharding 规则目录 (d5ae5bf3)
+  - FOR UPDATE 告警规则：未命中唯一性索引时提示评估乐观锁 (dab36c7c)
+
+  ### 优化算法
+
+  - 修复 RuleSubqueryPredicatePushDownRewrite 的缺陷 (28c27bb4)
+  - 性能优化：在线工作空间表数超过阈值时先取 SQL 中的表列表，避免解析所有表对象 (2a66245e, c82f328e)
+  - 修复 type1 查询折叠的 CTE 处理逻辑 (9c42452b)
+  - 子查询解关联代价算法优化：仅当外查询行数小于内查询时才解关联 (ba47f747)
+  - 区分 TimestampDiff(date1, date2) 与 TimestampDiff(type, startTS, endTS) 两种语法的重写 (dab36c7c)
+
+  ### 索引引擎
+
+  - 索引推荐修复派生表关联条件被误处理为过滤条件的缺陷 (9b5b2585)
+
+  ### SQL解析与数据库支持
+
+  - schema 解析时忽略传入的 NULL 元素 (69e9f0b0)
+  - 修正达梦数据库的连接串 (84072cfa)
+  - SQL Server 允许 ID 作为 token (a4d8637f)
+  - 在线 DDL 解析默认使用第一个 schema (c6111611)
+  - sqlparser 支持 create table like 语法 (f2e984c1)
+
+</Update>
+
+<Update label="1.3.7" description="2025-12-29" tags={["审核引擎", "优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 用审核规则代替解析异常处理找不到表和列的情况 (412a9133)
+  - 将找不到表和列的违规压缩到一个 RuleAuditResult (811ccf6e)
+  - DbAuditResult 新增评分能力（getScore） (93435c73)
+  - RuleNumOfLevelOfSubQuery 与 RuleNoCond4NonAggSelectWarning 排除 dual 之类的伪表 (cae1919f)
+
+  ### 优化算法
+
+  - indexadvisor/sqladvisor 的变量替换推迟到性能验证时 (5266c59f)
+  - RuleSelectSSQRewrite 无条件过滤且无聚集时不做重写 (534fd699)
+
+  ### SQL解析与数据库支持
+
+  - 改进表行数获取，支持没有 DatabaseTable 的场景 (1fba12e0)
+  - 修复 8 进制与 16 进制常量反序列化的缺陷 (231b9ce8, c7356598)
+  - 优化列名解析；支持 Oracle 的 nextval (231b9ce8)
+  - 修复 TDSQLX-MySQL 分布列在线解析的缺陷 (4cb1de62)
+  - 修复 QueryAuditResult 评分（getScore）的缺陷 (72c560b5)
+  - 修复 straight join 序列化的缺陷 (95749509)
+  - 修复表别名反序列化的缺陷 (9643d91e, 2b95419e)
+  - 修复 % 操作符反序列化的缺陷 (ae9a36d7, c3819c34)
+  - decimal_literal 代指所有整型字面量；begin 作为保留关键字 (afaaca5f)
+  - 修复常量表达式反序列化的缺陷 (c3186498)
+  - 优化表引用替换中的别名处理 (d6615cde)
+
+</Update>
+
+<Update label="1.3.6" description="2025-11-27" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 修复 RuleLocal4ShardingDatabase 分区子句为空时的空指针异常 (b252f9bb)
+  - 修复 CommentsOnTableRequired 在线审核获取行号的异常 (b252f9bb)
+  - 修复否定嵌套条件解嵌套的缺陷；巡检排除高斯数据库 dbe_profiler 模式 (b252f9bb)
+  - 修复 RuleNumOfJoinTables 违反文本输出的缺陷 (fd83722e)
+  - RuleNumOfLevelOfSubQuery 排除无 From 的查询块 (fd83722e)
+
+  ### 优化算法
+
+  - 从 a = 1 and a &lt;&gt; 1 推导恒假谓词 (6fb1960d)
+  - 修复多表与派生表子查询场景下 using(col) 的表关联缺陷 (951cf907)
+
+  ### 索引引擎
+
+  - 修复索引推荐 leading 列顺序，改按选择率倒排 (f026b54c)
+
+  ### SQL解析与数据库支持
+
+  - 新增 TDSQLX for PostgreSQL 支持 (52af0ba4)
+  - Oracle 的 SYSTIMESTAMP、CURRENT_DATE 等函数不再需要括号 (5a29cc1d)
+  - 字符串类型生成数值串 (73167d65)
+  - 支持变量的赋值（模型与输出） (75662690)
+  - 变量支持数据类型；Oracle 默认字符集不再使用内置类型转换；解析 SQL Server 局部变量 (78099e3e)
+  - 修复 SQL Server 以换行作为语句分隔符的解析缺陷 (e35c413e)
+  - 修复窗口函数克隆的缺陷 (ed3d563b)
+  - 变量解析移到验证阶段；查询折叠遇外层赋值操作时不再折叠 (f66f4906)
+  - 提升 SQLScriptVisitor 的健壮性 (fd83722e)
+
+</Update>
+
+<Update label="1.3.5" description="2025-10-30" tags={["优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 优化算法
+
+  - 修复两个相同标量子查询场景的重写算法 (0e6a35d7)
+  - RuleQueryFoldingRewrite 增加第二种算法，避免添加内层选择列 (0e6a35d7)
+  - RuleNotInNullableSubQueryRewrite 使用 NFC 判断是否需要补 is not null (0e6a35d7)
+  - 外查询存在分组时也可进行标量子查询解关联 (15e64b54, d6acf59c)
+  - 修复 SATTC 推荐重复条件的缺陷 (cdcbac4b)
+  - 不带通配符的 LIKE 查询重写为等值条件 (edca8e41)
+  - 修复谓词下推在嵌套变量与 rank 函数场景的缺陷 (edca8e41)
+
+  ### SQL解析与数据库支持
+
+  - 新增 SQL 模板与 SQL 混淆功能 (010e889c)
+  - 修复子查询 getSQL 的缺陷 (01f46b33)
+  - 修复 WithTable 深拷贝导致的内存泄漏 (1c1de8c8)
+  - 优化 validateSyntax (25e48113)
+  - 修复变量常量 getSQL 的缺陷 (40395bec)
+  - div 可以作为标识符 (41145770)
+  - 条件可以作为函数参数；聚集函数语法扩展，支持 jsonb_agg (45aa6cbc)
+  - 开放 sql-transformer 能力 (5b25a482, 461e37e9, 0bc2e720)
+  - 修复常量解析（_UTF8 '-'）的缺陷 (62c4e519)
+  - 优化 bigserial 数据类型解析（unique、not null、自增） (62ce1144)
+  - 支持 N'dd' 字符串反序列化 (710617a2)
+  - 性能验证支持科学计数法表示的行数 (e71765cf)
+  - 兼容 u2003 等非标准空白字符 (f9e1ff09)
+
+</Update>
+
+<Update label="1.3.4" description="2025-09-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - SQL 对象携带行信息 (04fc8d49, 4046fc2b)
+  - 「索引列上的运算导致索引失效」规则排除聚合函数的误报 (4e475e20)
+  - 修复 RuleSelectSSQRewrite 在出现同名列时的缺陷 (585c7ba9)
+  - 为 SQL Server 脚本添加违规所属行信息 (64ddccfc, 3943c5cc)
+  - 分区表规则优化，提升健壮性 (d40ddf78)
+
+  ### 优化算法
+
+  - 标量子查询解关联无论是否存在聚合都补上 group by 列 (303a1b9e)
+  - 使用 for xml auto 时不做标量子查询解关联 (3bcdfe1c)
+  - 过滤谓词下推不再下推 dummy 表达式与 explode 表达式 (3fd7d0c6)
+  - 修复 SATTC 重写的缺陷 (578fe1c4)
+  - 所有 SQL 在性能验证前都做 SQL 转换，消除变量导致的验证失败 (8108de7b)
+  - 过滤谓词下推支持集合分支下推、单派生表下推与内外表下推 (8899ede9)
+  - dummy 表达式使用原始文本 (8ad40324)
+  - 修复 RuleSelectSSQRewrite 的缺陷 (94042f3a)
+  - 优化 SATTC 在存在嵌套条件时的场景 (9a2efdbe, 262abc09)
+  - SAT 优化：支持同列常量比较的重写 (adfaa473)
+  - RuleOrCond4SelectRewrite 计算代价时排除关联条件 (b825546c, 449141c6)
+  - 按需限定 dummy 表达式 (cf3052cf)
+
+  ### 索引引擎
+
+  - 修复冗余索引使用（indexusage）的缺陷 (3e3d16f0, 27314328)
+  - 重复索引为唯一索引时不再建议删除 (f0e188e0)
+
+  ### SQL解析与数据库支持
+
+  - 值表达式查找支持 GroupConcat 内的表达式 (479baccd)
+  - 修复因支持 DB2 导致的 interval 语法解析错误 (5e8452b9)
+  - 支持 OUTER APPLY 语法；性能验证前先格式化 SQL (95ddc5e7)
+  - 新增 DB2 优化器支持 (b9e57646, 7e128e9c)
+  - 修复窗口函数反序列化的缺陷 (c1f1c133)
+  - 新增 DB2 在线 DDL 解析器 (cd3a8809)
+
+</Update>
+
+<Update label="1.3.3" description="2025-08-29" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 修复 Hive 规则的缺陷 (3dc384dd)
+  - 修复业务查询判定的缺陷 (4baa6c2b)
+  - SQL 对象携带行信息，便于定位违规 (9fcbb50a)
+
+  ### 优化算法
+
+  - 优化嵌套条件下的 SAT 处理逻辑 (62aa3517)
+  - 修复解关联缺陷与关联列都属于外查询时的异常 (d89de33b)
+  - 新增 InValues 重写优化 (d89de33b)
+
+  ### 索引引擎
+
+  - delete/update/merge 的目标表不做 indexonly (9eee0610)
+
+  ### SQL解析与数据库支持
+
+  - 提升标量子查询解析的健壮性 (4ed19977, 3c063467)
+  - 修复 SQL Server columnstore 索引创建解析的缺陷 (aba5a3d8)
+  - 修复 Hive clustered/sorted 子句解析的缺陷 (d533db0f)
+  - 存在变量时在验证阶段解析变量 (d533db0f)
+  - 修复 db..table1 形式的解析缺陷 (e243a867)
+
+</Update>
+
+<Update label="1.3.2" description="2025-07-30" tags={["优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 优化算法
+
+  - 标量子查询中存在 limit 子句时不进行解关联 (dba13e3c)
+
+  ### SQL解析与数据库支持
+
+  - 新增 ValueExpressionTableExpr 查询模型 (0d59bc84)
+  - 修复 Hive 在线分区子句解析的缺陷，并新增 RuleCalculationOnDistributedColumns 重写逻辑 (32351dc0)
+  - 修复值表达式别名深拷贝的缺陷，并重命名 ValueExpressionWithTableExpr (568a5180)
+  - 聚合函数新增 JSON_AGG (7352ad85)
+  - BRACKET_QUOTE_ID 仅对 SQL Server 生效 (945dd90d)
+  - Hive 规则与基础能力调整 (b46157f4)
+  - Hive 规则目录整理 (d11b206c)
+  - 改进 Hive 在线 DDL 解析，修复 distribute 与 cluster 子句的缺陷 (ebc55cbf)
+  - 允许 KEY 作为标识符 (fa7d121e)
+
+</Update>
+
+<Update label="1.3.1" description="2025-06-27" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 针对临时表排除一批审查规则（IfExists、命名规范、注释要求、主键要求等） (0bb5181d)
+  - 「避免无条件的 DML 操作」规则在基于 cursor 的操作下不再触发 (48fa0bd8)
+  - 修复「索引列上的运算导致索引失效」规则在 ifnull 场景下的缺陷 (710defcd)
+  - 审核视图定义中的 SQL，而不是视图本身 (792d4d35)
+  - 修复 afterRules 调用的缺陷 (f2b51c1c)
+
+  ### 优化算法
+
+  - 子查询中有多个表引用且同属一个表连接时不做查询折叠 (6c0fe6cf)
+
+  ### 索引引擎
+
+  - 选择列是 * 但查询块为 exists 子查询时，仍可作为 indexonly 候选 (3579594b)
+  - 没有索引时不展示索引分析段落 (a8e88eb3)
+  - 修复候选索引合并的缺陷，以及存在内生表时 join 列的索引推荐 (e44c2ddd)
+  - 修复函数或表达式中的列未作为 indexonly 候选的索引推荐缺陷 (f3533ba8)
+
+  ### SQL解析与数据库支持
+
+  - 扩充 SQL Server 语法支持：set col1 += col2、insert into table exec、char(max)、百分数常量、UNIQUEIDENTIFIER、类型方法调用 abc::method() 等 (48fa0bd8)
+  - SQL Server 支持 columnstore 索引、table/query hint 与 remote 表引用 (48fa0bd8)
+  - 支持基于 cursor 的数据操作（delete/update），过程、触发器与函数解析更健壮 (48fa0bd8)
+  - 修复 SQL Server 临时表与自增列解析的缺陷 (4be37bc0)
+  - 脚本解析中只有一个表且列未加表名前缀时，把该列归属到该表 (719d203a)
+  - 修复 SQL Server 表定义解析的缺陷 (723b5421)
+  - 修复视图解析与审核优化的缺陷 (7712f0ba)
+  - SQL 审核支持 tsql 脚本 (7a73e69d)
+  - 支持 Oracle 与 PostgreSQL 标识符中使用 $ (7f08c6ee)
+  - 修复文件起始位置为分隔符时的解析错误 (d47168b6)
+  - 支持触发器解析，并优化不重要文本的解析 (ee203bbf)
+  - 每个 SQL 解析开始时初始化表对象栈 (ef2c95fe)
+  - SQL Server 支持 [varchar](20) 形式的数据类型定义 (f8787e9a)
+  - SQL Server 支持 db..tab 形式的表名引用 (f8787e9a)
+  - SQL Server 支持在 CREATE TABLE 内联定义非聚集索引 (f8787e9a)
+
+</Update>
+
+<Update label="1.3.0" description="2025-05-30" tags={["审核引擎", "优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - TableR011 在起始值为空时不再报违规 (c7131b65)
+
+  ### 优化算法
+
+  - 过滤谓词下推排除同一查询块内的情况 (2d796c0a)
+  - 修复子查询解关联算法缺陷（RulePredicatesSSQRewrite、RuleSelectSSQRewrite） (43af40c5, b14f7c13)
+  - 支持多个结构不同的选择列标量子查询解关联 (8037c0ff)
+  - 标量子查询的谓词不再下推 (b08c5d22)
+
+  ### SQL解析与数据库支持
+
+  - SQL 解析入口改为 root (04238700)
+  - exists 不再作为标识符处理 (04238700)
+  - 非 MySQL 数据库的字符串常量不支持反斜杠转义 (19004aad)
+  - MySQL 的字符串常量可以使用双引号表示 (3032ce44)
+  - 修复达梦与 Oracle explain 解析中的索引使用缺陷 (4d30d10d)
+  - 修复外键定义解析、unqualify 与表提示语法的缺陷，并统一语法文件 (54ee9a1d)
+  - 修复 Position 函数解析与输出的缺陷 (57847dcd)
+  - 修复达梦执行计划的索引使用解析缺陷 (5a5afd28)
+  - SQL Server 改用 SQLScriptParser，脚本解析入口统一 (7dc60408)
+  - 支持中文全角空白符 (85b83ebf)
+  - 新增 TSQL 解析器与 SQL 脚本访问器 (90858b4d)
+  - 新增 TDSQL 适配分支 (c5437b04)
+  - 支持 SQL Server 的局部与全局临时表关键字 (c9800b0e)
+  - SQL Server 的字符串常量不支持反斜杠转义 (de5817dc)
+  - 支持 SQL Server 的别名赋值写法 select uid = col from t (e73f987b)
+
+</Update>
+
+<Update label="1.2.6" description="2025-04-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 所有 SQL 语句都生成 QueryAuditResult (11598ac6)
+  - CommentsOnTableRequired、CommentsOnColumnRequired、SpecificColumnsRequired、NumOfIndexesExceedThreshold 改为所有语句处理完成后执行 (2f7b62d5)
+  - DDL 规则纳入 pawsql optimize (a9ff137e)
+  - SQLAdvisor 中每条 SQL 语句都有 QueryAuditResult (ea0e08db)
+
+  ### 优化算法
+
+  - 不做性能验证时不再替换 SQL 中的参数 (085043d8)
+  - 过滤谓词下推支持下推到派生表 (4782fce6, 2102304b)
+  - 新增 RuleLateralQueryRewrite 规则 (6fa75c49)
+  - 查询折叠支持 lateral 子查询 (79bb864c)
+  - 修复 RuleOrCond4SelectRewrite 在只有聚集函数无分组语句时的重写错误 (8fc0acde)
+  - findQuerySelect 支持在 If、Cast 等表达式中查找标量子查询 (954beba8)
+
+  ### 索引引擎
+
+  - MySQL 的主键列去重提前到索引去重之前 (19b4eb88)
+  - 解析与输出支持外连接 (+) 写法，索引推荐中一并考虑 (21d6e3b9)
+  - 新增 ubtree 索引类型；允许 BUCKET 作为标识符 (b605577a)
+
+  ### SQL解析与数据库支持
+
+  - 修复限定符解析与多表 update 语句 SQL 输出的缺陷 (10f364ee)
+  - 修复 dateTimeFunctionCall 的语法缺陷 (300536f5)
+  - 支持 PLSQL_VAR (44424653)
+  - 新增 aggfunction2 解析逻辑 (5e1a1511)
+  - 支持 json_table 语法 (5f362e66)
+  - 修复查询中未定义表时选择列获取的缺陷 (8166da4a)
+  - 小幅调整 (89a0b7ef)
+  - 优先从表引用匹配列，再检查伪列 (8a73f11c)
+  - FunctionChron 支持任意标识符作为值 (9245d041)
+  - 优化汇总输出 (a3cb3d61)
+  - 修复 values 表查询分析与 SQL Server 关联表的计划分析缺陷 (b7ba2d9a)
+  - SQL 解析器支持 comment 语句 (c8202032)
+  - SQL Server 支持 for xml 子句 (cad1d79a, 3921268a)
+  - SQL Server 支持启用 SSL (d83fcc89, 154502b1)
+  - 语法错误输出改进 (e3e94dbb)
+  - 修复 trim 函数解析与 QueryValues 的缺陷 (f0fac4aa)
+  - 语法错误输出更准确的说明 (f42ded27)
+
+</Update>
+
+<Update label="1.2.5" description="2025-03-31" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 修复 RuleFuncWithColumnInPredicate 引用别名时的缺陷 (71a9fdb6)
+  - 修复 RulePredicateSSQRewrite 的输出缺陷与 RuleFuncWithColumnInPredicate 的缺陷 (863e44d3)
+  - 「对象需指定 IfExists」规则的适用范围扩展到 alter index (9200931d)
+  - 启用 RuleViewResolvingRewrite (d84b645d)
+
+  ### 优化算法
+
+  - 列名形如「***valid」时降低其过滤因子 (0421c0e2)
+  - Oracle 与达梦重新启用查询折叠 (2e586c1f)
+  - 回退 union all 的 limit/order by 处理逻辑 (357ace48)
+  - 修复二次重写的缺陷 (9101a4ab)
+
+  ### 索引引擎
+
+  - 外键分配索引名；RuleOrCond4SelectRewrite 启用 union all (09efa77d)
+  - 索引推荐时把多表连接的关联顺序纳入外键顺序的考虑 (a6bdd2fa, 6ff0ecc1)
+  - SQL 审核新增索引推荐，索引分析更精简 (e3054ffb)
+
+  ### SQL解析与数据库支持
+
+  - 修复 WithTable 类型只有一个表引用时的缺陷 (052b4be3)
+  - sourcewriter 输出格式重构，支持压缩与非压缩两种模式 (0f789148, 0198522a, 2965364a, d47f5627)
+  - 修复查询分析器的缺陷 (24d7e6df)
+  - 修复多语句语法 (288952a6)
+  - 连接关闭时释放连接 (64a8eb95)
+  - SQL Server 设置 autoCommit = true (73f4bb5d, 2ae8f8de)
+  - 修复 Oracle 视图解析的缺陷 (7d0783dc)
+  - SQL 文本中的 &amp;lt; &amp;gt; 还原为 &lt; 与 &gt; (898d2aed)
+  - SQL Server 支持表引用后紧跟表提示 (NOLOCK) (a6a0b963)
+  - 修复一般性缺陷 (b0c66548)
+  - 支持 topN 语法 (c81b0e7a)
+  - 支持全角空白字符 (cddae7b9)
+  - 支持 alter index rename 与 visible 语法 (e0794c86)
+  - 支持局部与全局变量，并在查询中替换 (ea71a2f6)
+  - 支持 SELECT ... INTO 临时表 (f34dec3e)
+
+</Update>
+
+<Update label="1.2.4" description="2025-02-27" tags={["审核引擎", "优化算法", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 优化 RuleFuncWithColumnInPredicate (0ffb06df)
+
+  ### 优化算法
+
+  - 修复 LimitClausePushDown 的缺陷 (de32cd63)
+  - 新增 RuleOrCond2InPredicateRewrite 重写规则 (eb612ed3, f09b66c4)
+
+  ### SQL解析与数据库支持
+
+  - SQL Server 支持 GO 作为语句分隔符 (19e33834)
+  - 支持 DML 语句中的 WITH 表 (2a8f7f97, f213ace3, 200afb0d, f408144e)
+  - SQL Server 支持局部与全局变量定义 (4aef7700, d5b52bc2)
+  - SQL Server 支持 ALTER TABLE [库].[schema].[表] ADD 列 语法 (6e465766)
+  - SQL Server 支持 #table 临时表 (9935e185)
+  - update/delete 语句只有一个表时，把列归属到该表 (c7841334)
+  - 支持 SQL Server 的 cross/outer apply (f408144e)
+  - 支持函数参数中的谓词 (f408144e)
+  - 支持 SQL Server 的 VARCHAR(MAX) (f408144e)
+  - 修复 MSSQLValidator 与 SQL Server limit 语法的缺陷 (faaf5a2e)
+  - 修复 fullcolumnname 解析的缺陷 (fff2dcd5)
+
+</Update>
+
+<Update label="1.2.3" description="2025-01-16" tags={["索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 索引引擎
+
+  - 修复索引合并的缺陷 (f5beaa2e)
+
+  ### SQL解析与数据库支持
+
+  - 修复分片库判断的缺陷 (044d0179)
+  - 支持 OceanBase（MySQL 与 Oracle 模式）与 PolarDB-X 2.0 (0ca5b1f2, 2c2dc293)
+  - 修复在线 DDL 解析的缺陷 (19dc6774)
+  - 修复 TDSQLMySQL 校验的缺陷 (3288fad0)
+
+</Update>
+
+<Update label="1.2.2" description="2024-12-31" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 修复 RuleDiffDatatypeOfJoinColumns 的缺陷 (215bf615)
+  - 新增 10 条分片与失效索引相关的审核规则 (6b4f9652)
+  - 调整 RuleUseKeyAsShardingKey 逻辑，新增 RuleNoEqualFilterOnShardingKeys4DML 与 RuleDMLWithJoinInShardingDatabase (9cd177b8)
+  - 重命名新增的审核规则 (fa4383ab)
+
+  ### 优化算法
+
+  - 表与基表新增数据量、索引大小、dirtyRate 等采集字段 (0dd4e2b4)
+  - 修复 RuleOrCond4SelectRewrite 的缺陷 (6caca103, 6afe9cd6, fd67fe58, 965d4570)
+  - 采集 PostgreSQL 系数据库的表与索引大小、dirtyRate 及统计信息时间 (78a15946)
+  - 修复为性能验证把 update 重写为查询时的缺陷 (9a3f1682)
+  - 采集 MySQL 的表与索引大小、dirtyRate 信息 (cca9aebd)
+
+  ### 索引引擎
+
+  - 在线 DDL 解析器为索引新增 isValid 属性 (5ef89ca6)
+  - 索引新增 valid 属性 (c51fcce3)
+  - 支持 PostgreSQL、openGauss、MySQL、Kingbase 等数据库的索引可见性 (f2714f6f)
+
+  ### SQL解析与数据库支持
+
+  - 修复结果列容器为空的缺陷 (196ebe9e)
+  - 修复列别名下表关联的缺陷 (2f8fea0f)
+  - 修复 check 约束语法支持，新增 TDSQLX 与 gaussdbx 的分片语法 (3b6af34c)
+  - 新增 gaussdbx 数据库类型 (42879da1)
+  - 修复达梦在线 DDL 解析的缺陷 (4a46b9db)
+  - 移除旧 DDL 解析器 (520ca6cb)
+  - 修复 Hive 次要类型配置解析的缺陷 (57a83635)
+  - 支持 alter table drop/truncate partition (61bf8e19)
+  - 新增 OceanBase 的 DDL 解析支持 (637fe2cd)
+  - 修复 MySQL X 协议复制语法的缺陷 (63cdcd8f)
+  - 优化 Hive 语法支持 (648385a8)
+  - 表新增 distributeClause，PolarDB-X 支持 SINGLE/BROADCAST 分布 (7264db62, b74b4c8f)
+  - 修复 PostgreSQL 双引号与 update 语句解析的缺陷 (807c39fd)
+  - 修复 DataType 相等判断的缺陷 (8316106c)
+  - 在线 DDL 解析器支持 Kingbase 与 PostgreSQL 的本地索引 (9933271f)
+  - 新增 PolarDB-X 支持 (badd517d)
+  - 修复多表 update 语句中值表达式查找的缺陷 (bf9b9318)
+  - DDL 解析器支持 include 与 condition 索引 (dbda10eb)
+  - 修复一张表上存在多个重名约束时的解析缺陷 (ea7eb51c)
+  - 支持命名函数 (eac2f1b5)
+  - 新增 OceanBase 的审核支持 (f7afdd04)
+
+</Update>
+
+<Update label="1.2.1" description="2024-11-30" tags={["审核引擎", "优化算法", "索引引擎", "SQL解析与数据库支持", "缺陷修复"]}>
+  ### 审核引擎
+
+  - 优化 RuleDiffDatatypeOfJoinColumns 的输出 (16b4c504)
+  - 修复 RuleFuncWithColumnInPredicate 的缺陷 (5efc9166)
+  - 修复 RuleNoCond4NonAggSelectWarning 的缺陷 (bd43f443)
+
+  ### 优化算法
+
+  - ValueExpressionHelper 新增 isCorrelated 支持 (427db33c)
+  - 修复驱动表逻辑（isCorrelated）的缺陷 (5d626ed2)
+  - 达梦数据库不再进行查询折叠 (fe398804)
+
+  ### 索引引擎
+
+  - 修复 MySQL 与 PostgreSQL 索引匹配的缺陷 (39e4ad0c)
+  - 索引校验新增 indexClean 能力，支持解析不带代码块的 create trigger (93815aea)
+
+  ### SQL解析与数据库支持
+
+  - 新增对 TDSQLX for MySQL 的支持及配套校验器 (110e0aad)
+  - 修复嵌套值表达式解析的缺陷 (3ae8ef51)
+  - Oracle 执行计划输出完整的 explain 信息 (3afb5163)
+  - MySQL 连接串默认加上 allowPublicKeyRetrieval=true (5adbc480)
+  - 修复表行数获取的缺陷 (5f4cbf62)
+  - 修复达梦在线索引元数据解析的缺陷 (8f243acc)
+  - 修复 group_concat 解析与输出的缺陷 (a4fc13ea, eeafd70d)
+  - 修复表引用解析的缺陷 (bc60348f)
+  - 修复数据类型表达式的缺陷 (dc1e2e71)
+  - 运算符字面量改为真实字面量 (f056e084)
+
+</Update>
+{/* CHANGELOG:END */}

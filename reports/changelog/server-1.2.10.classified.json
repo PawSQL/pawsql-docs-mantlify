@@ -1,0 +1,149 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.9",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-08-31",
+  "sections": [
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5bce9770",
+            "ba8dd1a4",
+            "bcaa4eda",
+            "16a24c00",
+            "a7f36d89"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "建立统一的数据库脚本管理：baseline + migrations + archive，含开发者与 AI 指南"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "613e7f4f",
+            "603a71af",
+            "ec5790b5"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "统一工作空间创建逻辑，移除硬编码的数据库类型与 database 字段非空校验"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "42e9b968"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "新增环境变量模板文件，并更新配置管理方式"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ac2d8cdc"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "摘要与 SQL 详情接口返回规则预警级别信息"
+        }
+      ]
+    },
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0e48f8e1"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "MySQL 连接启用 SSL/TLS，以支持 require_secure_transport=ON"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "718ef500"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "使用格式化后的 SQL 语句进行审核，以获得正确的行号信息"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "476df780"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "达梦慢查询参数校验优化，部分参数获取失败时支持兜底"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e64aa5be"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "完善工单执行中跳过步骤的状态校验与结果处理"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.10",
+  "unclassifiedCommits": [],
+  "version": "1.2.10"
+}

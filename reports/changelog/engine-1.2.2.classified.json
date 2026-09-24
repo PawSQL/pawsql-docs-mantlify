@@ -1,0 +1,398 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.1",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2024-12-31",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ea7eb51c"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复一张表上存在多个重名约束时的解析缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "648385a8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "优化 Hive 语法支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f7afdd04"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 OceanBase 的审核支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "637fe2cd"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 OceanBase 的 DDL 解析支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bf9b9318"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复多表 update 语句中值表达式查找的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "196ebe9e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复结果列容器为空的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "dbda10eb"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "DDL 解析器支持 include 与 condition 索引"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "807c39fd"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 PostgreSQL 双引号与 update 语句解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "eac2f1b5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持命名函数"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4a46b9db"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复达梦在线 DDL 解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2f8fea0f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复列别名下表关联的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "61bf8e19"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 alter table drop/truncate partition"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9933271f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "在线 DDL 解析器支持 Kingbase 与 PostgreSQL 的本地索引"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "badd517d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 PolarDB-X 支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7264db62",
+            "b74b4c8f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "表新增 distributeClause，PolarDB-X 支持 SINGLE/BROADCAST 分布"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8316106c"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 DataType 相等判断的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "520ca6cb"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "移除旧 DDL 解析器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "42879da1"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 gaussdbx 数据库类型"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "57a83635"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 Hive 次要类型配置解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "63cdcd8f"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 MySQL X 协议复制语法的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3b6af34c"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 check 约束语法支持，新增 TDSQLX 与 gaussdbx 的分片语法"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6caca103",
+            "6afe9cd6",
+            "fd67fe58",
+            "965d4570"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleOrCond4SelectRewrite 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cca9aebd"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "采集 MySQL 的表与索引大小、dirtyRate 信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9a3f1682"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复为性能验证把 update 重写为查询时的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "78a15946"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "采集 PostgreSQL 系数据库的表与索引大小、dirtyRate 及统计信息时间"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0dd4e2b4"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "表与基表新增数据量、索引大小、dirtyRate 等采集字段"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9cd177b8"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "调整 RuleUseKeyAsShardingKey 逻辑，新增 RuleNoEqualFilterOnShardingKeys4DML 与 RuleDMLWithJoinInShardingDatabase"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fa4383ab"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "重命名新增的审核规则"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6b4f9652"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "新增 10 条分片与失效索引相关的审核规则"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "215bf615"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleDiffDatatypeOfJoinColumns 的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f2714f6f"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "支持 PostgreSQL、openGauss、MySQL、Kingbase 等数据库的索引可见性"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5ef89ca6"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "在线 DDL 解析器为索引新增 isValid 属性"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c51fcce3"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "索引新增 valid 属性"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "67d28eb8",
+            "92cf0b54",
+            "9b96eeb3"
+          ],
+          "tags": [],
+          "text": "其余内部改动（3 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.2",
+  "unclassifiedCommits": [],
+  "version": "1.2.2"
+}

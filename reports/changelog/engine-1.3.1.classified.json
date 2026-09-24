@@ -1,0 +1,294 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.0",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-06-27",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "723b5421"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 SQL Server 表定义解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f8787e9a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 [varchar](20) 形式的数据类型定义"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f8787e9a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 db..tab 形式的表名引用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f8787e9a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持在 CREATE TABLE 内联定义非聚集索引"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d47168b6"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复文件起始位置为分隔符时的解析错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "48fa0bd8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "扩充 SQL Server 语法支持：set col1 += col2、insert into table exec、char(max)、百分数常量、UNIQUEIDENTIFIER、类型方法调用 abc::method() 等"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "48fa0bd8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 columnstore 索引、table/query hint 与 remote 表引用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "48fa0bd8"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持基于 cursor 的数据操作（delete/update），过程、触发器与函数解析更健壮"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ee203bbf"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持触发器解析，并优化不重要文本的解析"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ef2c95fe"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "每个 SQL 解析开始时初始化表对象栈"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "719d203a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "脚本解析中只有一个表且列未加表名前缀时，把该列归属到该表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7712f0ba"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复视图解析与审核优化的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7f08c6ee"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 Oracle 与 PostgreSQL 标识符中使用 $"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7a73e69d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL 审核支持 tsql 脚本"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4be37bc0"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 SQL Server 临时表与自增列解析的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6c0fe6cf"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "子查询中有多个表引用且同属一个表连接时不做查询折叠"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "792d4d35"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "审核视图定义中的 SQL，而不是视图本身"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "710defcd"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复「索引列上的运算导致索引失效」规则在 ifnull 场景下的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "48fa0bd8"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "「避免无条件的 DML 操作」规则在基于 cursor 的操作下不再触发"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f2b51c1c"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 afterRules 调用的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0bb5181d"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "针对临时表排除一批审查规则（IfExists、命名规范、注释要求、主键要求等）"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f3533ba8"
+          ],
+          "tags": [
+            "索引引擎",
+            "缺陷修复"
+          ],
+          "text": "修复函数或表达式中的列未作为 indexonly 候选的索引推荐缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a8e88eb3"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "没有索引时不展示索引分析段落"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e44c2ddd"
+          ],
+          "tags": [
+            "索引引擎",
+            "缺陷修复"
+          ],
+          "text": "修复候选索引合并的缺陷，以及存在内生表时 join 列的索引推荐"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3579594b"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "选择列是 * 但查询块为 exists 子查询时，仍可作为 indexonly 候选"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.1",
+  "unclassifiedCommits": [],
+  "version": "1.3.1"
+}

@@ -24,3 +24,6 @@ Thumbs.db
 
 # Playwright MCP artifacts
 .playwright-mcp/
+
+# Changelog raw extraction (rebuildable); the classified/*.json fact layer is committed
+reports/changelog/*.commits.json

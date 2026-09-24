@@ -1,0 +1,71 @@
+# server 历史发布边界 —— 回填 git tag 的输入（待核对）
+#
+# 版本轴（2026-09-24 裁定）：**本地构建序列 `1.2.x`，去掉 `-build.YYYYMMDD` 后缀**。
+# 来源是 server 仓 `Dockerfile_local` 里注释掉的部署命令，例如
+#   # VERSION=1.2.2-build.20260319 && docker build -f Dockerfile_local ...
+# 每个版本取「该版本串首次出现的提交」为边界，日期取版本串里带的构建日 ——
+# 那本身就是发布日，比按提交日期推断更准。
+#
+# 版本号口径与 engine.yaml 相同：不要在这里写版本号，由 `start` + 每行的 `major`
+# 标记算出（普通交付 +1 patch，`major: true` 的行 minor +1、patch 归零）。
+# 这里 1.2.1 → 1.2.9 与真实序列完全吻合，所以全部 major: false。
+#
+# 核对方式：
+#   1. 删掉不是真实对外发布的行（本地构建是否等同对外发布，只有你们清楚）。
+#   2. 本表日期已取自版本串，如与实际交付日不同请改 `date`。
+#   3. 核对后把 `verified` 翻成 true —— 未核对的行走不了 apply-tags。
+#
+# 覆盖范围与缺口：
+#   * 起点 2026-01-21（1.2.1），更早的提交不在本表内。
+#   * 2026-08/09 无 version 串，按同规则续编：取当月主干末提交为边界、日期取其提交日
+#     （1.2.10 = 2026-08-31、1.2.11 = 2026-09-23；9 月未结束，1.2.11 是当前主干顶端）。
+
+component: server
+tagFormat: 'release-v{version}'
+start: '1.2.1'
+
+deliveries:
+  - commit: b7f1eaf0
+    date: 2026-01-21
+    verified: true
+    major: false
+  - commit: a83fc920
+    date: 2026-03-19
+    verified: true
+    major: false
+  - commit: afd8e871
+    date: 2026-03-31
+    verified: true
+    major: false
+  - commit: 0ac5921b
+    date: 2026-04-02
+    verified: true
+    major: false
+  - commit: b3345422
+    date: 2026-04-07
+    verified: true
+    major: false
+  - commit: cc928356
+    date: 2026-04-13
+    verified: true
+    major: false
+  - commit: 9a1b5f34
+    date: 2026-05-21
+    verified: true
+    major: false
+  - commit: 7b3dab43
+    date: 2026-06-25
+    verified: true
+    major: false
+  - commit: 9f718245
+    date: 2026-07-07
+    verified: true
+    major: false
+  - commit: 162caa50
+    date: 2026-08-31
+    verified: true
+    major: false
+  - commit: 61ec46c4
+    date: 2026-09-23
+    verified: true
+    major: false

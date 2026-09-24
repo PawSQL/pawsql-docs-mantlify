@@ -1,0 +1,203 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.2",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-03-31",
+  "sections": [
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "621c2826",
+            "757fad1c",
+            "bf39eb58"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "集成 SQL 审核接口重构为 workspace + template 模式，支持混合文件模式与操作人邮箱"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "13f16d7d",
+            "acbd6c11"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "支持前端传入自定义规则进行 SQL 分析，分析记录携带规则模板信息"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1dc233b1",
+            "9dc677d5"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "审计详情返回规则模板名称；任务统一使用 queryadvisor 做规则审核与重写优化"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2706b8af"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增对象命名规范规则 NCR011"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7916b4f1"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增索引兜底清理与持久化"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9ad57b0d",
+            "b34b6fec"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "为脚本型数据库构建文件信息元数据，并优先从工作空间解析 orgId"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1329db77"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "openGauss 与 DWS 改用脚本解析器"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "57ff85e2"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "慢查询模板支持按数据库实例筛选"
+        }
+      ]
+    },
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bdf9d885"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "auth 模块合并进 base 模块并重构权限相关代码"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1372bb34",
+            "17ad1d37",
+            "a906ffcc",
+            "c75d2447",
+            "8f447b24",
+            "319a409a"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复规则树路径构建、默认规则模板加载、自定义规则名称、分页上限等缺陷"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0c652763",
+            "3ad1330d",
+            "3e0f8a86",
+            "771c17dd",
+            "9ed61bba",
+            "c15137d0"
+          ],
+          "tags": [],
+          "text": "其余内部改动：重构、配置与工程调整（6 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.3",
+  "unclassifiedCommits": [],
+  "version": "1.2.3"
+}

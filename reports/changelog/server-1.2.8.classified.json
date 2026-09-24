@@ -1,0 +1,99 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.7",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-06-25",
+  "sections": [
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fdb21ce3",
+            "7de06848",
+            "837d76e9"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "MySQL、PostgreSQL 及更多数据库类型改用脚本解析器"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b7cb6e33"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "新增派生表转 Lateral Join 优化规则"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e34f1203",
+            "f3eb7e2a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "分析级结构化解析异常的存储与展示"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "be673d04"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "审核结果增加严重与警告规则数目统计字段"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d5b62a7c",
+            "1b40af07"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "调整审计分数计算参数；重构索引清理服务的数据源解析逻辑"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.8",
+  "unclassifiedCommits": [],
+  "version": "1.2.8"
+}

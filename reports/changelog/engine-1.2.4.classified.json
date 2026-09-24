@@ -1,0 +1,194 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.3",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-02-27",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4aef7700",
+            "d5b52bc2"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持局部与全局变量定义"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19e33834"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 GO 作为语句分隔符"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9935e185"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 #table 临时表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fff2dcd5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 fullcolumnname 解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2a8f7f97",
+            "f213ace3",
+            "200afb0d",
+            "f408144e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 DML 语句中的 WITH 表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f408144e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 SQL Server 的 cross/outer apply"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f408144e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持函数参数中的谓词"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f408144e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 SQL Server 的 VARCHAR(MAX)"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "faaf5a2e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 MSSQLValidator 与 SQL Server limit 语法的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c7841334"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "update/delete 语句只有一个表时，把列归属到该表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6e465766"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持 ALTER TABLE [库].[schema].[表] ADD 列 语法"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "de32cd63"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 LimitClausePushDown 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "eb612ed3",
+            "f09b66c4"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "新增 RuleOrCond2InPredicateRewrite 重写规则"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0ffb06df"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "优化 RuleFuncWithColumnInPredicate"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bdc7ecdc",
+            "c995a1a2",
+            "fd65b4ca"
+          ],
+          "tags": [],
+          "text": "其余内部改动（3 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.4",
+  "unclassifiedCommits": [],
+  "version": "1.2.4"
+}

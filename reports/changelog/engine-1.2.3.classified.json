@@ -1,0 +1,81 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.2",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-01-16",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "044d0179"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复分片库判断的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3288fad0"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 TDSQLMySQL 校验的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19dc6774"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复在线 DDL 解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0ca5b1f2",
+            "2c2dc293"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 OceanBase（MySQL 与 Oracle 模式）与 PolarDB-X 2.0"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f5beaa2e"
+          ],
+          "tags": [
+            "索引引擎",
+            "缺陷修复"
+          ],
+          "text": "修复索引合并的缺陷"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.3",
+  "unclassifiedCommits": [],
+  "version": "1.2.3"
+}

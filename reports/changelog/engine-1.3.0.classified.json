@@ -1,0 +1,254 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.6",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-05-30",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7dc60408"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 改用 SQLScriptParser，脚本解析入口统一"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "54ee9a1d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复外键定义解析、unqualify 与表提示语法的缺陷，并统一语法文件"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c5437b04"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 TDSQL 适配分支"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c9800b0e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 SQL Server 的局部与全局临时表关键字"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3032ce44"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "MySQL 的字符串常量可以使用双引号表示"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19004aad"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "非 MySQL 数据库的字符串常量不支持反斜杠转义"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "de5817dc"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 的字符串常量不支持反斜杠转义"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e73f987b"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 SQL Server 的别名赋值写法 select uid = col from t"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "90858b4d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "新增 TSQL 解析器与 SQL 脚本访问器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "04238700"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL 解析入口改为 root"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "04238700"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "exists 不再作为标识符处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "85b83ebf"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持中文全角空白符"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5a5afd28"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复达梦执行计划的索引使用解析缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "57847dcd"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 Position 函数解析与输出的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4d30d10d"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复达梦与 Oracle explain 解析中的索引使用缺陷"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "43af40c5",
+            "b14f7c13"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复子查询解关联算法缺陷（RulePredicatesSSQRewrite、RuleSelectSSQRewrite）"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8037c0ff"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "支持多个结构不同的选择列标量子查询解关联"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b08c5d22"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "标量子查询的谓词不再下推"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2d796c0a"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "过滤谓词下推排除同一查询块内的情况"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c7131b65"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "TableR011 在起始值为空时不再报违规"
+        }
+      ]
+    },
+    {
+      "category": "internal",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "056218e7",
+            "4876d5d1",
+            "6b5f0700",
+            "95d862c2",
+            "eaa18a39"
+          ],
+          "tags": [],
+          "text": "其余内部改动（5 条提交）"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.0",
+  "unclassifiedCommits": [],
+  "version": "1.3.0"
+}

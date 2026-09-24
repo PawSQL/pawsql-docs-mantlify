@@ -1,0 +1,114 @@
+{
+  "component": "server",
+  "componentLabel": {
+    "en": "Server",
+    "zh": "服务端"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "release-v1.2.3",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-04-02",
+  "sections": [
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "02d005ef",
+            "89fd2d9f"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "为 analyses/getStatementList 与 workloads/get 接口开放免认证路径"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41e1dab9"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "监控配置读取增加工作空间定义 ID"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1cb2e041"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "工作空间查询结果增加推荐规则模板 ID"
+        }
+      ]
+    },
+    {
+      "category": "慢查询与巡检",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9b7ac56e"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "增强慢查询模板导出：Excel 格式与性能"
+        }
+      ]
+    },
+    {
+      "category": "SQL 审核与优化",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7100d9ab"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "工单详情关联审核任务 ID"
+        }
+      ]
+    },
+    {
+      "category": "缺陷修复",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2754cfb9",
+            "52af8e74",
+            "83484c06"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复默认规则修改的权限校验、SQL 生成结果为空等缺陷"
+        }
+      ]
+    }
+  ],
+  "tag": "release-v1.2.4",
+  "unclassifiedCommits": [],
+  "version": "1.2.4"
+}

@@ -1,0 +1,92 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.3.14",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2026-09-23",
+  "sections": [
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "70b9e97d"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "新增规则 EmptyString4DefaultDisallowed 与 PKOrUINotContainingShardingKey"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "70b9e97d"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "新增统计信息 Extractor 框架"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "30c0e4ac"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复 MAXMIN 重写的 null 处理逻辑"
+        }
+      ]
+    },
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c9350d0e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "database 为空时，部分数据库改用用户名作为 database"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0d5b9de0"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "datetime 解析为 timestamp 而非 date"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "521236c5"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "CTE 支持 NOT? MATERIALIZED 修饰"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.3.15",
+  "unclassifiedCommits": [],
+  "version": "1.3.15"
+}

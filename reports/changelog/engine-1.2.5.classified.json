@@ -1,0 +1,309 @@
+{
+  "component": "engine",
+  "componentLabel": {
+    "en": "Engine",
+    "zh": "引擎"
+  },
+  "model": "claude-code-agent",
+  "previousTag": "engine-v1.2.4",
+  "promptVersion": "changelog-classify-1",
+  "releaseDate": "2025-03-31",
+  "sections": [
+    {
+      "category": "SQL解析与数据库支持",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ea71a2f6"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持局部与全局变量，并在查询中替换"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f34dec3e"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 SELECT ... INTO 临时表"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "898d2aed"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL 文本中的 &lt; &gt; 还原为 < 与 >"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "24d7e6df"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复查询分析器的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7d0783dc"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 Oracle 视图解析的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e0794c86"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 alter index rename 与 visible 语法"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0f789148",
+            "0198522a",
+            "2965364a",
+            "d47f5627"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "sourcewriter 输出格式重构，支持压缩与非压缩两种模式"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b0c66548"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复一般性缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c81b0e7a"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持 topN 语法"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cddae7b9"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "支持全角空白字符"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "052b4be3"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复 WithTable 类型只有一个表引用时的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "288952a6"
+          ],
+          "tags": [
+            "SQL解析与数据库支持",
+            "缺陷修复"
+          ],
+          "text": "修复多语句语法"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "64a8eb95"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "连接关闭时释放连接"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "73f4bb5d",
+            "2ae8f8de"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 设置 autoCommit = true"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a6a0b963"
+          ],
+          "tags": [
+            "SQL解析与数据库支持"
+          ],
+          "text": "SQL Server 支持表引用后紧跟表提示 (NOLOCK)"
+        }
+      ]
+    },
+    {
+      "category": "审核引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d84b645d"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "启用 RuleViewResolvingRewrite"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9200931d"
+          ],
+          "tags": [
+            "审核引擎"
+          ],
+          "text": "「对象需指定 IfExists」规则的适用范围扩展到 alter index"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "863e44d3"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RulePredicateSSQRewrite 的输出缺陷与 RuleFuncWithColumnInPredicate 的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "71a9fdb6"
+          ],
+          "tags": [
+            "审核引擎",
+            "缺陷修复"
+          ],
+          "text": "修复 RuleFuncWithColumnInPredicate 引用别名时的缺陷"
+        }
+      ]
+    },
+    {
+      "category": "优化算法",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2e586c1f"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "Oracle 与达梦重新启用查询折叠"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "357ace48"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "回退 union all 的 limit/order by 处理逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9101a4ab"
+          ],
+          "tags": [
+            "优化算法",
+            "缺陷修复"
+          ],
+          "text": "修复二次重写的缺陷"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0421c0e2"
+          ],
+          "tags": [
+            "优化算法"
+          ],
+          "text": "列名形如「***valid」时降低其过滤因子"
+        }
+      ]
+    },
+    {
+      "category": "索引引擎",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e3054ffb"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "SQL 审核新增索引推荐，索引分析更精简"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "09efa77d"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "外键分配索引名；RuleOrCond4SelectRewrite 启用 union all"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a6bdd2fa",
+            "6ff0ecc1"
+          ],
+          "tags": [
+            "索引引擎"
+          ],
+          "text": "索引推荐时把多表连接的关联顺序纳入外键顺序的考虑"
+        }
+      ]
+    }
+  ],
+  "tag": "engine-v1.2.5",
+  "unclassifiedCommits": [],
+  "version": "1.2.5"
+}
