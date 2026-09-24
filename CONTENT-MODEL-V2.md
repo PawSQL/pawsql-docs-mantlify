@@ -74,6 +74,8 @@ python -m pawsql_doc --root .. migrate-content-model --dry-run
 python -m pawsql_doc --root .. migrate-content-model --apply
 python -m pawsql_doc --root .. export-schemas
 python -m pawsql_doc --root .. build-references
+python -m pawsql_doc --root .. tag-releases --component <name>          # 按边界表回填源码仓 tag，默认 dry-run
+python -m pawsql_doc --root .. build-changelog                          # 变更日志，默认 dry-run
 python -m pawsql_doc --root .. quality --write-report
 python -m pawsql_doc --root .. build-references --mode release --output /absolute/new/staging-directory
 python -m pytest -q
@@ -83,7 +85,9 @@ release 输出必须是仓库外尚不存在的新目录；失败不创建目标
 
 `generated-manifest.json` 记录生成物摘要；发现人工改动立即停止。已失效生成物保留并报告 stale，由维护者确认后处理，不自动删除用户文件。规则索引仅使用当前 metadata。迁移只规范化 frontmatter 与元数据，保留正文；再次执行应零改动。
 
-兼容的 `generate-rule / generate-db / generate-config` 命令先核对目标存在，再走统一全量构建，同时更新目录和 manifest，避免单页生成破坏后续校验。生成器统一使用 LF，Git 属性固定文本换行，防止 Windows/Linux 摘要不一致。
+兼容的 `generate-rule / generate-db / generate-config` 命令先核对目标存在，再走统一全量构建，同时更新目录和 manifest，避免单页生成破坏既有校验。生成器统一使用 LF，Git 属性固定文本换行，防止 Windows/Linux 摘要不一致。
+
+变更日志是**另一条独立流水线**，不接入 `build-references`，也不进 `generated-manifest.json`（它只写页面里的标记区，页面其余部分仍可手写）：`tag-releases` 按 `metadata/documentation/changelog-release-boundaries/<组件>.yaml` 往源码仓回填 annotated tag（`verified: false` 的行会拦住整个计划，且不覆盖已存在的同名 tag）；`build-changelog` 取 tag 区间提交、按组件归类成条目、渲染成 Mintlify 的 `<Update>` 块。归类结果落在 `reports/changelog/<组件>-<版本>.classified.json`（含 `model`+`promptVersion`，是入库的事实层与陈旧判定依据），渲染只读缓存，所以生成步骤不依赖网络。
 
 ## 8. 尚需人工完成
 

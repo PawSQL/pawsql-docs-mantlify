@@ -38,7 +38,7 @@
 | `50-integration/{plugins,mcp,api,devops}` | 插件/MCP/API/CI 集成 | `docs/products/vscode|jetbrains|mcp` + `docs/reference/api` + `docs/user-guide/` 集成教程；截图随图管线（§5） |
 | `60-migration/oracle/` | 迁移工具/兼容性 | 若 Ora2PgSQL 仍支持→`docs/reference/cli`；否则仅语法映射入 `docs/reference/compatibility/`（产品确认） |
 | `70-content/vendor-guides/`（各库采集/慢日志） | 数据库接入教程 | `docs/databases/<db>/` + `docs/user-guide/optimization/`（workload/DDL 录入） |
-| `70-content/newsletters/` | 更新日志/月报 | 更新日志→`docs/release-notes/`；社区精选/发布公告→`blog/` |
+| `70-content/newsletters/` | 更新日志/月报 | 更新日志→`docs/changelog/`；社区精选/发布公告→`blog/` |
 | `70-content/blog|comparisons/` | Blog | `blog/{engineering,database,product}/`；`-polish`/`_en`/zh 变体归并见 §7/§9 |
 | `99-待归类/` | 待分类 | 逐文件判定（BLOG-* → blog；金融案例 → blog case study；评测数据 xlsx → blog 数据源；TDSQL 系列 → blog/faq）；`.workbuddy` 删 |
 
@@ -122,7 +122,7 @@
 | 审核平台 API | `20-engine/api/*` 与 `50-integration/api/*` 共 6 份版本/视角不同 | 产品定稿 1 份 → OpenAPI/API reference |
 | 设计文档 | `40-audit/SQL 审核优化系统高阶设计文档.md`（根，19.9KB）vs `design/…`（14.6KB） | 内部不迁 |
 | Blog 重复 | NULL 陷阱 ×3、大模型局限 ×3（其一为 LLM 写作提示词，非成文）、`-polish` 成对、docx+md 孪生 | 每主题保 1 份成文 + 中英镜像 |
-| Newsletter | 邮件模板含 `${username}`、日期版本 | 去模板占位 → release-notes/blog |
+| Newsletter | 邮件模板含 `${username}`、日期版本 | 去模板占位 → changelog/blog |
 | legal | ToS ×6 / Privacy ×4 / License en/zh | 法务去重定稿 → site legal |
 | API 版本栈 | Engine 接口 V1/V2/V3（V3 传统字“文檔”）、pawsql-api、审核平台接口 | 按现行版本定稿后并入 API reference |
 
@@ -150,7 +150,7 @@ Windows 下如 `uv run` 不便，可用 `tools/.venv/Scripts/python.exe -m pawsq
 
 - **P0（结构化 Reference 全量）**：`规则文档/` 261 篇 → 双语 Rule Metadata + 生成页；`metadata/databases`（各库版本/能力）→ 兼容矩阵；`metadata/configs` → 配置 Reference。**优先级最高，纯 metadata 驱动。**
 - **P1（手册/产品页）**：Engine 安装、Cloud 手册英文版、40-audit/manuals（Advisor/审核平台/巡检）、50-integration（VSCode/JetBrains/MCP/GitLab/GitHub）→ 产品页 + user-guide + 教程。
-- **P2（Blog / Release Notes）**：70-content 精选成文（去重后）、newsletters→release-notes、FAQ。
+- **P2（Blog / Release Notes）**：70-content 精选成文（去重后）、newsletters→changelog、FAQ。
 - **P3（知识层）**：RAG/MCP 接入（用已发布 docs）；此处不做。
 
 每批完成后更新本手册的进度记录（附录 B）。

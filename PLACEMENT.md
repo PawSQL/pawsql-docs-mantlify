@@ -234,22 +234,22 @@
 | `70-content/comparisons/vs EverSQL.md` | `docs/blog/product/` | zh | 竞品对比 |
 | `70-content/newsletters/Digest 20231120.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/Official Release of PawSQL Advisor.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
-| `70-content/newsletters/PawSQL 2025年3月月度更新.md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL 2025年3月月度更新.md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
 | `70-content/newsletters/PawSQL Advisor正式发布.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
-| `70-content/newsletters/PawSQL Update.md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
-| `70-content/newsletters/PawSQL Updates.md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL Update.md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL Updates.md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
 | `70-content/newsletters/PawSQL审核平台正式发布 (en).md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/PawSQL审核平台正式发布.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/PawSQL新增的SQL审查重写规则.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
-| `70-content/newsletters/PawSQL更新日志(0326).md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
-| `70-content/newsletters/PawSQL更新日志(0424) .md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
-| `70-content/newsletters/PawSQL月度更新(202502).md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
-| `70-content/newsletters/PawSQL月度更新(202505).md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL更新日志(0326).md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL更新日志(0424) .md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL月度更新(202502).md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/PawSQL月度更新(202505).md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
 | `70-content/newsletters/PawSQL社区精选-2024三季度.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/PawSQL社区精选-2025一季度-en.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/PawSQL社区精选-2025一季度.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
 | `70-content/newsletters/文章精选1120.md` | `docs/blog/product/` | zh(英文待补) | 发布公告/社区精选 |
-| `70-content/newsletters/月度更新(202406).md` | `docs/release-notes/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
+| `70-content/newsletters/月度更新(202406).md` | `docs/changelog/` | zh(英文待补) | 月度/更新日志；拆为 release notes 条目（en/zh 变体归并） |
 | `70-content/vendor-guides/DM.md` | `docs/databases/dm/` | zh(英文待补) | 慢日志/元数据采集指南 |
 | `70-content/vendor-guides/Mapper文件形式录入待优化索引.md` | `docs/user-guide/optimization/` | zh(英文待补) | Mapper 录入（zh，去重合并至上一行英文/本文件二选一） |
 | `70-content/vendor-guides/MySQL.md` | `docs/databases/mysql/` | zh(英文待补) | 慢日志/元数据采集指南 |

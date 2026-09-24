@@ -13,6 +13,7 @@
 - 中英文各五个标签、文档六组导航；补充中英文使用方式说明、中文帮助与排障页；数据库范围统一链接条件化矩阵。
 - OR 重写样例补足 NULL、重复行和重叠分支；回归测试不冒充产品验证。
 - 默认 CI 检查结构/存在性、上传质量报告并检查生成物；显式 release 输出到新暂存目录。
+- 变更日志流水线（2026-09-24）：`tag-releases` 按边界表往两个源码仓回填 annotated tag（engine 23 个 `engine-v1.2.0`…`v1.3.15`、server 11 个 `release-v1.2.1`…`v1.2.11`，均在本地未推），`build-changelog` 取 tag 区间提交、归类后渲染成 Mintlify `<Update>` 块（`docs/changelog/{engine,server}/index.mdx`）。两组件各自的标签词表、条目按提交拆的粒度规则与事实纪律见 CLAUDE.md。**归类由 agent 产出**（缓存记 `model: claude-code-agent`），将来换用 API 分类器会被判为陈旧并整体重跑。
 - 更新 README、迁移文档、类型模板、内容模型规范，以及原内容库技术设计说明书 v1.3。
 
 ## 验证记录

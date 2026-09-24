@@ -18,7 +18,7 @@ docs/                  Mintlify 内容根（含 docs.json）
   docs.json            Mintlify 站点配置：多语言（默认中文 / en 副语言）、导航 / OpenAPI
   index.mdx            中文首页（/）
   getting-started|user-guide|reference|openapi    中文默认内容（路由 /…）
-  en/                  英文副语言树（/en/…：getting-started|products|user-guide|databases|reference|faq|tutorials|release-notes|blog）
+  en/                  英文副语言树（/en/…：getting-started|products|user-guide|databases|reference|faq|tutorials|changelog|blog）
 metadata/              PawSQL 产品知识层（Feature / Rule / Database / Config / Mapping / Policy）
 schemas/               JSON Schema（由 tools 中 pydantic 模型导出）
 tools/                 Python 生成器与校验器（后续可抽为 pawsql-doc-agent）

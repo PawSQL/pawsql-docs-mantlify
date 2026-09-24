@@ -64,11 +64,42 @@ uv run python -m pawsql_doc generate-db   --database <name>
 uv run python -m pawsql_doc generate-config --config <name>
 uv run python -m pawsql_doc ingest-rules --vault <规则文档目录> --id <rid>   # 默认 dry-run
 uv run python -m pawsql_doc migrate-content-model                            # v2 迁移，默认 dry-run
+uv run python -m pawsql_doc build-changelog                                  # 变更日志，默认 dry-run
+uv run python -m pawsql_doc build-changelog --version <v> --refresh-llm --write   # LLM 归类并写入（需 pawsql-doc[llm]）
+uv run python -m pawsql_doc tag-releases --component <name>                   # 按边界表回填源码仓 tag，默认 dry-run
+uv run python -m pawsql_doc tag-releases --component <name> --apply          # 本地打 tag（--push 才推 origin）
 ```
+
+变更日志（`build-changelog`）按**组件**分别维护，从各源码仓的 git tag 区间生成：
+
+- **一源一页，无 landing**：来源配置在 `metadata/documentation/changelog-sources.yaml`，每个源用 `pages: {语言: 页面路径}` 指定自己写哪一页。页面是 `docs/changelog/{engine,server}/index.mdx`，两页都带 `rss: true`，导航在 `docs.json` 的「变更日志」tab 下直接列出这两页（不设聚合入口页）。新增组件 ＝ 加源配置 + 按模板建页 + 挂进导航。
+- **页面不存在不会报错**：工具只写已存在页面的标记区，缺页面时告警并跳过（engine 页就是等它补 tag 后再建）。新增组件 ＝ 加一条源配置 + 按模板建页 + 挂进导航。
+- 版本轴是 tag 区间，且**两仓的 tag 都是回填出来的**：engine 23 个（`engine-v1.2.0`…`v1.3.15`）+ server 11 个（`release-v1.2.1`…`v1.2.11`），**均在本地未推**。server 那 86 个 2022–2023 遗留 tag 被 `minVersion` 挡在区间外。
+- 两段式：机械抽取写 `reports/changelog/<组件>-<版本>.commits.json`（已 gitignore）；归类写 `*.classified.json`（入库，含 `model`+`promptVersion`，任一变化即视为陈旧需 `--refresh-llm`，也含每条目的 `tags`）。渲染只读缓存，故生成不依赖网络。归类可以由工具内的 LLM 做（`--refresh-llm`），也可以由 agent 直接产出缓存 —— engine 首批 22 个版本就是 agent 归类的（`model: claude-code-agent`），纪律与 API 路径一致。
+- 标记区是 `{/* CHANGELOG:START */}`…`END`，区外可自由编辑；这些页不进 `generated-manifest.json`，与「生成物被手改即报错」不冲突。
+- **用 Mintlify 原生的 `<Update>` 组件渲染**（每版一块：`label`=版本、`description`=日期、`tags`=该版条目携带的标签并集），因此白得三样能力：每版可直链的锚点、右侧标签筛选、`<页面URL>/rss.xml` 订阅源（页面 front matter 里的 `rss: true` 负责显示 RSS 按钮）。入口与字段见 Mintlify 的 [Changelogs](https://www.mintlify.com/docs/create/changelogs) 与 [Update 组件](https://www.mintlify.com/docs/components/update)。
+- **标签词表按组件分开**（`TAG_VOCABULARY` in `models/changelog.py`）：engine 是引擎子系统（审核引擎 / 优化算法 / 索引引擎 / SQL解析与数据库支持），server 是平台功能域（SQL 审核与优化 / 慢查询与巡检 / 工作空间与数据源 / 集成与开放接口 / 权限与安全）；两页共用 `缺陷修复` 作横切标签。**新增组件要同时加它的词表**，否则该组件的分类值会落在词表外（渲染时不会丢，会排在已知分组之后，但筛选器顺序会乱）。
+- **`tags` 会顶掉右侧的版本目录**（Mintlify 里二者互斥）——本项目选了标签筛选，所以侧栏没有"跳到某版本"（每版锚点仍在，可直链）。标签由**条目级 `tags` 聚合**而来，不是手工写在页面上：手工标签活不过一次重新归类（换分类器身份会让缓存整体重算，手写的标签会静默消失）。`缺陷修复` 是横切标签——归在某个域下的缺陷修复会同时挂该域与 `缺陷修复`。
+- **条目粒度：一个提交一条**。同一提交里描述了多个独立改动就拆成多条；重复提交、重试、revert、cherry-pick 等**同主旨**的合并成一条；一条提交里列了十几项（如某次 SQL Server 语法大扩充）按主题归成几条，避免单条炸出十几行。没有任何信息的提交（"bug fix"、"temp save"、"健壮性"）进 `internal`，不渲染。归类脚本必须断言「可见条目的提交 ∪ internal 的提交 == 该版本全部保留提交」，防止静默丢失。
+- 条目文本照旧经 `escape_mdx`。
+- `<Update>` 的子内容缩进 2 空格（对齐 Mintlify 自己的写法）；条目文本照旧经 `escape_mdx`，所以提交里的 `<`/`{` 不会破坏 JSX 结构。
+- **英文页暂未启用**：条目文本保留提交的原始语言，所以只配了 `pages.zh`；`docs/en/changelog/` 目前不存在、`docs.json` 里也没有英文 Changelog tab。要开英文页＝建 `docs/en/changelog/<组件>/index.mdx`、两边互写 `localeOf`、配置里补 `pages.en`、再加回英文 tab，并先定下中英条目口径（LLM 同时产出中英，或英文另走翻译流程）。
+- `internal` 是**只存不渲染**的桶（缓存里的审计轨迹，承接不对外可见的提交），它既不分节也不出标签，没有开关可以把它渲染出来；条目里的括号短哈希可用 `--no-commits` 关掉。
+- 提交文本会进 MDX，条目一律经 `escape_mdx` 转义，勿在渲染层绕过。
+
+回填源码仓 tag（`tag-releases`）是 `build-changelog` 的前置步骤 —— 没有 tag 就没有版本轴：
+
+- 输入是 `metadata/documentation/changelog-release-boundaries/<组件>.yaml`（一组件一表；有多个时 `--component` 必填）：`component` 指向 changelog-sources 里的同名 source（复用其 repo/trunk，不重复写仓库路径），`start` + 每行的 `major` 标记算出全部版本号（普通交付 +1 patch，`major: true` 的行 minor +1、patch 归零）。**版本号不要在文件里写死**，否则标注重大版本时要重排后面所有行。
+- 两仓的版本轴来源不同，都不是 git tag：**engine** 靠人工裁定的交付记录（`start: 1.2.0`，2024-10 起 23 版）；**server** 靠 `Dockerfile_local` 注释里的本地构建串 `1.2.x-build.YYYYMMDD`（取版本串首次出现的提交为边界、日期取串里的构建日，去掉 `-build.YYYYMMDD` 后缀 → `release-v1.2.1`…`v1.2.9`，2026-01~2026-07）。两仓都有缺口：engine 不回填 2024-10 之前，server 在 2026-07-07 后无版本信号。
+- **遗留 tag 要用 `minVersion` 挡掉**：server 有 86 个 2022–2023 的 `release-v0.1.0`–`0.4.76`（多个指向同一提交）全在主干上，不设下限它们会各自渲染成一条假发布。设了 `minVersion: '1.2.1'` 后 server 当前可用区间为 0（等回到填的 tag）。
+- **`verified: false` 的行会拦住整个计划**：边界表是人对真实交付的断言，不该由脚本猜。所有行核对为 `true` 才能 `--apply`。
+- 任何可疑情况都**整体拒绝**（部分回填比不回填更糟，缺一个 tag 会静默改变某段区间）：提交不存在、不在主干上、边界顺序不单调、同名 tag 指向别的提交。同名 tag 指向同一提交则跳过（幂等）。
+- tag 日期取表里的 `date`（真实交付日）：annotated tag 的 `creatordate` 是 tag 自己的日期，changelog 又读它，不设就会让回填的每个版本都显示成打 tag 那天。
+- `--apply` 只在本地打 tag，`--push` 才推 origin 且必须与 `--apply` 同用。两个仓库都是共享仓，推送前先确认。
 
 ## 规则与约定
 
-- **生成页勿手改**：`docs/reference/**` 与 `docs/en/reference/**`（含规则目录 `index.md`）由 `build-references` 生成；改 `metadata/**` 后重建并连同生成物一起提交。
+- **生成页勿手改**：`docs/reference/**` 与 `docs/en/reference/**`（含规则目录 `index.md`）由 `build-references` 生成；改 `metadata/**` 后重建并连同生成物一起提交。变更日志标记区内的条目同理，改来源提交后重跑生成。
 - **导航 = 发布**：`docs.json` 只应收录 `status: published/approved` 页（`validate-nav --release`）；`draft/review` 仅本地/分支。本仓库当前用于**预览**，通过门禁 ≠ 允许生产发布。
 - **Front matter 必填**：`id/title/type/status`；`type` 需带合法 `subtype`；`published` 页 `description` 必填且人工书写（禁占位/机器截断）。
 - **单一事实源**：规则/配置/数据库正文只在 `metadata/**`；页面间不重复同一事实。
