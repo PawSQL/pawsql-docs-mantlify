@@ -57,6 +57,11 @@ def generated_note(source_glob: str) -> str:
 DB_MATRIX_START = "{/* DATABASE_MATRIX:START */}"
 DB_MATRIX_END = "{/* DATABASE_MATRIX:END */}"
 
+# Same mechanism for the generated changelog region; like the database matrix it
+# stays out of generated-manifest.json so authored prose around it stays editable.
+CHANGELOG_START = "{/* CHANGELOG:START */}"
+CHANGELOG_END = "{/* CHANGELOG:END */}"
+
 
 def splice_region(
     text: str,

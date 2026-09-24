@@ -259,6 +259,157 @@ def _cmd_check_geo(root: Path, args: argparse.Namespace) -> int:
     return 0
 
 
+def _check_changelog(root: Path, result) -> int:
+    """CI guard: each marked region must equal what the caches render."""
+    from pawsql_doc.generators.base import CHANGELOG_END, CHANGELOG_START, splice_region
+
+    if not result.docs:
+        print("FAIL  changelog check: 没有归类缓存，无法校验", file=sys.stderr)
+        return 1
+    drifted = []
+    for item in result.rendered:
+        page = root / item.page
+        text = page.read_text(encoding="utf-8-sig")
+        expected = splice_region(text, item.fragment, CHANGELOG_START, CHANGELOG_END)
+        if expected is None:
+            drifted.append(f"{item.page.as_posix()}: 缺少 CHANGELOG 标记")
+        elif expected != text:
+            drifted.append(f"{item.page.as_posix()}: 与生成的片段不一致")
+    if not result.rendered:
+        print("FAIL  changelog check: 没有任何可渲染的页面", file=sys.stderr)
+        return 1
+    if drifted:
+        for line in drifted:
+            print(f"FAIL  {line}", file=sys.stderr)
+        print(f"FAIL  changelog check: {len(drifted)} page(s) out of date")
+        return 1
+    print("PASS  changelog check")
+    return 0
+
+
+def _cmd_build_changelog(root: Path, args: argparse.Namespace) -> int:
+    import json as json_mod
+
+    from pawsql_doc import changelog as changelog_mod
+
+    classifier = None
+    if args.refresh_llm:
+        from pawsql_doc.llm import LlmConfig, LlmError, build_classifier
+
+        try:
+            classifier = build_classifier(LlmConfig.from_env())
+        except LlmError as exc:
+            print(f"FAIL  {exc}", file=sys.stderr)
+            return 1
+
+    include_commits = not args.no_commits
+    try:
+        result = changelog_mod.build_changelog(
+            root,
+            components=args.components or None,
+            versions=args.versions or None,
+            classifier=classifier,
+            refresh_llm=args.refresh_llm,
+            write=args.write,
+            include_commits=include_commits,
+        )
+    except (changelog_mod.GitError, ValueError) as exc:
+        print(f"FAIL  {exc}", file=sys.stderr)
+        return 1
+
+    for note in result.notes:
+        print(f"NOTE  {note}", file=sys.stderr)
+    if len(result.pending) > 5:
+        preview = ", ".join(result.pending[:3])
+        print(
+            f"PENDING  {len(result.pending)} 个版本尚无归类缓存（{preview} …），需 --refresh-llm",
+            file=sys.stderr,
+        )
+    else:
+        for item in result.pending:
+            print(f"PENDING  {item}（尚无归类缓存，需 --refresh-llm）", file=sys.stderr)
+
+    if args.check:
+        return _check_changelog(root, result)
+    if args.json:
+        print(
+            json_mod.dumps(
+                {
+                    "versions": [
+                        {"component": doc.component, "version": doc.version, "tag": doc.tag, "entries": doc.commit_count}
+                        for doc in result.docs
+                    ],
+                    "pages": [
+                        {"component": item.component, "lang": item.lang, "page": item.page.as_posix()}
+                        for item in result.rendered
+                    ],
+                    "written": [str(path) for path in result.written],
+                    "notes": result.notes,
+                    "pending": result.pending,
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return 0
+    if args.write:
+        for path in result.written:
+            print(f"  wrote {path}")
+        print(f"PASS  changelog: {len(result.docs)} version(s) across {len(result.written)} page(s)")
+        return 0
+    for item in result.rendered:
+        print(f"# ===== {item.page.as_posix()}（{item.component} / {item.lang}）=====")
+        print(item.fragment)
+    print(f"# ---- dry-run: {len(result.docs)} version(s) across {len(result.rendered)} page(s); pass --write to splice ----")
+    return 0
+
+
+def _cmd_tag_releases(root: Path, args: argparse.Namespace) -> int:
+    """Backfill release tags into a source repo from the verified boundary table."""
+    from pawsql_doc import release_tags as tags_mod
+
+    if args.push and not args.apply:
+        print("FAIL  --push 需要同时给 --apply（先本地打 tag，再推送）", file=sys.stderr)
+        return 2
+
+    try:
+        plan = tags_mod.plan_tags(root, component=args.component)
+    except (tags_mod.TagError, ValueError) as exc:
+        print(f"FAIL  {exc}", file=sys.stderr)
+        return 1
+
+    for note in plan.notes:
+        print(f"NOTE  {note}", file=sys.stderr)
+    for problem in plan.problems:
+        print(f"FAIL  {problem}", file=sys.stderr)
+    for tag in plan.tags:
+        mark = {"create": "CREATE", "skip": "SKIP", "conflict": "CONFLICT"}[tag.action]
+        detail = f"  # {tag.detail}" if tag.detail else ""
+        print(f"{mark}  {tag.version:<10} {tag.commit}  {tag.date}{detail}")
+        if tag.action == "create":
+            print(f"        {tags_mod.render_command(plan.repo, tag)}")
+
+    if not plan.ok:
+        print(f"FAIL  tag plan: {len(plan.problems)} 个问题未解决，未打任何 tag", file=sys.stderr)
+        return 1
+    if not args.apply:
+        print(
+            f"# ---- dry-run: 将创建 {len(plan.to_create)} 个 tag（仓库 {plan.repo}）；"
+            "核对无误后加 --apply（加 --push 才推到 origin）----"
+        )
+        return 0
+    try:
+        created = tags_mod.apply_tags(plan, push=args.push)
+    except tags_mod.TagError as exc:
+        print(f"FAIL  {exc}", file=sys.stderr)
+        return 1
+    for name in created:
+        print(f"  tagged {name}")
+    scope = "并已推送 origin" if args.push else "（仅本地，未推送）"
+    print(f"PASS  tag releases: 新建 {len(created)} 个 tag {scope}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pawsql-doc", description=__doc__)
     parser.add_argument("--root", default=None, help="Repository root (default: auto-discovered)")
@@ -300,6 +451,24 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--database", required=True)
     p = sub.add_parser("generate-config", help="Generate one configuration reference page")
     p.add_argument("--config", required=True)
+    p = sub.add_parser(
+        "build-changelog",
+        help="Classify tag-range commits into release notes and splice them into the changelog page (dry-run by default)",
+    )
+    p.add_argument("--component", dest="components", action="append", default=[], help="Limit to a configured source name; repeatable")
+    p.add_argument("--version", dest="versions", action="append", default=[], help="Only classify this version; repeatable (rendering still uses every cache)")
+    p.add_argument("--refresh-llm", action="store_true", help="Call the LLM for missing or stale versions (needs pawsql-doc[llm])")
+    p.add_argument("--write", action="store_true", help="Persist caches and splice the page (default: print the fragment)")
+    p.add_argument("--check", action="store_true", help="CI: exit 1 when the page differs from the rendered fragment")
+    p.add_argument("--no-commits", action="store_true", help="Hide source commit ids from the rendered entries")
+    p.add_argument("--json", action="store_true", help="Print a machine-readable run summary")
+    p = sub.add_parser(
+        "tag-releases",
+        help="Backfill release tags into a source repo from the verified boundary table (dry-run by default)",
+    )
+    p.add_argument("--component", default=None, help="Component name; defaults to the one the boundary table names")
+    p.add_argument("--apply", action="store_true", help="Create the tags locally (default: print the commands)")
+    p.add_argument("--push", action="store_true", help="Also push the created tags to origin (requires --apply)")
     p = sub.add_parser("check-geo", help="G2-1: verify a deployed site's GEO outputs (llms.txt / llms-full.txt / .md / JSON-LD) against docs.json")
     p.add_argument("--base-url", default=geo.DEFAULT_BASE_URL, help=f"Deployed site root (default: {geo.DEFAULT_BASE_URL})")
     p.add_argument("--timeout", type=float, default=20.0, help="Per-request timeout in seconds")
@@ -335,6 +504,8 @@ def main(argv: List[str] | None = None) -> int:
         "coverage": _cmd_coverage,
         "gate": _cmd_gate,
         "check-geo": _cmd_check_geo,
+        "build-changelog": _cmd_build_changelog,
+        "tag-releases": _cmd_tag_releases,
     }[args.command]
     return handler(root, args)
 
