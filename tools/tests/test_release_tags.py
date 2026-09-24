@@ -329,6 +329,28 @@ def test_apply_pushes_only_when_asked(repo):
     ]
 
 
+def test_apply_pushes_tags_that_already_exist_locally(repo):
+    """A backfill applied earlier must still be publishable."""
+    prepared_repo(repo)
+    tags = "".join(
+        f"{name} tag {sha} {sha}\n"
+        for name, sha in (
+            ("engine-v1.2.0", SHAS["aaa1111"]),
+            ("engine-v1.3.0", SHAS["bbb2222"]),
+            ("engine-v1.3.1", SHAS["ccc3333"]),
+        )
+    )
+    runner = FakeGit(tags=tags)
+    plan = rt.plan_tags(repo, runner=runner)
+    assert plan.to_create == []  # all three already exist locally
+
+    created = rt.apply_tags(plan, runner=runner, push=True)
+
+    assert created == []
+    push_calls = [call for call in runner.calls if "push" in call]
+    assert push_calls and push_calls[0][4:] == ["origin", "engine-v1.2.0", "engine-v1.3.0", "engine-v1.3.1"]
+
+
 def test_apply_refuses_a_plan_with_problems(repo):
     prepared_repo(repo)
     plan = rt.plan_tags(repo, runner=FakeGit(unknown={"aaa1111"}))

@@ -279,7 +279,13 @@ def plan_tags(
 
 
 def apply_tags(plan: TagPlan, *, runner: Runner = subprocess.run, push: bool = False) -> list[str]:
-    """Create the planned tags locally; ``push`` also sends them to origin."""
+    """Create the planned tags locally; ``push`` also sends them to origin.
+
+    ``push`` sends every tag the plan wants to exist — both freshly created and the
+    ones already present locally (``skip``) — so a backfill that was applied earlier
+    can still be published later. Tags in conflict never reach here (the plan would
+    not be ok).
+    """
     if not plan.ok:
         raise TagError("计划有未解决的问题，拒绝打 tag：" + "；".join(plan.problems))
     created: list[str] = []
@@ -293,10 +299,12 @@ def apply_tags(plan: TagPlan, *, runner: Runner = subprocess.run, push: bool = F
         if done.returncode != 0:
             raise TagError(f"打 tag {tag.name} 失败：{(done.stderr or '').strip()}")
         created.append(tag.name)
-    if push and created:
-        done = _git(plan.repo, ["push", "origin", *created], runner)
-        if done.returncode != 0:
-            raise TagError(f"推送 tag 失败：{(done.stderr or '').strip()}")
+    if push:
+        to_push = [tag.name for tag in plan.tags if tag.action in {"create", "skip"}]
+        if to_push:
+            done = _git(plan.repo, ["push", "origin", *to_push], runner)
+            if done.returncode != 0:
+                raise TagError(f"推送 tag 失败：{(done.stderr or '').strip()}")
     return created
 
 
