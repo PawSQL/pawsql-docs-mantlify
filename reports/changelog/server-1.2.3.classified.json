@@ -15,65 +15,100 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "621c2826",
-            "757fad1c",
             "bf39eb58"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "SQL 审核任务增加操作人邮箱字段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8f447b24"
           ],
           "tags": [
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "集成 SQL 审核接口重构为 workspace + template 模式，支持混合文件模式与操作人邮箱"
+          "text": "修复 SCM 监控配置中机构 ID 的获取逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "621c2826"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "集成 SQL 审核接口重构为 workspace + template 模式"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "757fad1c"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "平台集成支持混合文件模式审核，并优化更新时间传递"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3e0f8a86"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "修正集成异常日志中的不准确描述"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "319a409a"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "按部署模式调整平台列表查询逻辑"
         }
       ]
     },
     {
-      "category": "SQL 审核与优化",
+      "category": "工作空间与数据源",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "13f16d7d",
-            "acbd6c11"
+            "b34b6fec"
           ],
           "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
+            "工作空间与数据源"
           ],
-          "text": "支持前端传入自定义规则进行 SQL 分析，分析记录携带规则模板信息"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+          "text": "为查询负载文件添加文件头注释，优先从工作空间解析 orgId"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "1dc233b1",
-            "9dc677d5"
+            "1329db77"
           ],
           "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
+            "工作空间与数据源"
           ],
-          "text": "审计详情返回规则模板名称；任务统一使用 queryadvisor 做规则审核与重写优化"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+          "text": "openGauss 与 DWS 改用脚本解析器"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "2706b8af"
+            "9ad57b0d"
           ],
           "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
+            "工作空间与数据源"
           ],
-          "text": "新增对象命名规范规则 NCR011"
+          "text": "为脚本型数据库构建文件信息元数据"
         }
       ]
     },
@@ -86,43 +121,161 @@
             "7916b4f1"
           ],
           "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增索引兜底清理与持久化逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a906ffcc"
+          ],
+          "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "新增索引兜底清理与持久化"
+          "text": "修复自定义规则分析时缺失规则名称的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3ad1330d"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "查询顺序保持改用 LinkedHashMap"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c15137d0"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "统一使用审计规则常量替换分析规则常量"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "13f16d7d"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "支持前端传递自定义规则进行 SQL 分析"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "acbd6c11"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "分析记录增加规则模板信息，并改进工作负载处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9dc677d5"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "过滤非独立类的语法类审核规则；任务中只用 queryadvisor 做规则审核与重写优化；删除 SQLAuditor 的引用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "17ad1d37"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复默认规则模板加载与工单模板选择逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c75d2447"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "分页查询最大限制设为 10000"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0c652763"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "移除 RuleTemplateRequestDto 的 @Builder 注解并更新调用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1dc233b1"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "审计详情返回规则模板名称"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1372bb34"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复构建规则树路径时从错误节点开始的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2706b8af"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增对象命名规范规则 NCR011"
         }
       ]
     },
     {
-      "category": "工作空间与数据源",
+      "category": "权限与安全",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "9ad57b0d",
-            "b34b6fec"
+            "9ed61bba"
           ],
           "tags": [
-            "工作空间与数据源",
+            "权限与安全",
             "缺陷修复"
           ],
-          "text": "为脚本型数据库构建文件信息元数据，并优先从工作空间解析 orgId"
-        }
-      ]
-    },
-    {
-      "category": "工作空间与数据源",
-      "entries": [
+          "text": "移除审计详情接口的权限校验"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "1329db77"
+            "bdf9d885"
           ],
           "tags": [
-            "工作空间与数据源",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "openGauss 与 DWS 改用脚本解析器"
+          "text": "auth 模块合并进 base 模块并重构权限相关代码"
         }
       ]
     },
@@ -135,46 +288,9 @@
             "57ff85e2"
           ],
           "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
+            "慢查询与巡检"
           ],
           "text": "慢查询模板支持按数据库实例筛选"
-        }
-      ]
-    },
-    {
-      "category": "权限与安全",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "bdf9d885"
-          ],
-          "tags": [
-            "权限与安全",
-            "缺陷修复"
-          ],
-          "text": "auth 模块合并进 base 模块并重构权限相关代码"
-        }
-      ]
-    },
-    {
-      "category": "缺陷修复",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "1372bb34",
-            "17ad1d37",
-            "a906ffcc",
-            "c75d2447",
-            "8f447b24",
-            "319a409a"
-          ],
-          "tags": [
-            "缺陷修复"
-          ],
-          "text": "修复规则树路径构建、默认规则模板加载、自定义规则名称、分页上限等缺陷"
         }
       ]
     },
@@ -184,15 +300,10 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "0c652763",
-            "3ad1330d",
-            "3e0f8a86",
-            "771c17dd",
-            "9ed61bba",
-            "c15137d0"
+            "771c17dd"
           ],
           "tags": [],
-          "text": "其余内部改动：重构、配置与工程调整（6 条提交）"
+          "text": "其余内部改动（1 条提交）"
         }
       ]
     }

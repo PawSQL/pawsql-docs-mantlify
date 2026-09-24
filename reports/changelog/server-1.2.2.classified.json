@@ -10,214 +10,603 @@
   "releaseDate": "2026-03-19",
   "sections": [
     {
-      "category": "权限与安全",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "9e5d17c9",
-            "da514ccb",
-            "574fa54f",
-            "b4190c5e",
-            "d0d3e18b",
-            "c1fcd856",
-            "3eb9957e",
-            "e0555fe3",
-            "e704e3e3",
-            "1a214f6c"
-          ],
-          "tags": [
-            "权限与安全",
-            "缺陷修复"
-          ],
-          "text": "新增机构树管理：机构编码字段、资源可见性控制、成员与角色范围"
-        }
-      ]
-    },
-    {
-      "category": "权限与安全",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "bdfb4121",
-            "a84ce2d3",
-            "6ed91b97",
-            "e59d9009"
-          ],
-          "tags": [
-            "权限与安全",
-            "缺陷修复"
-          ],
-          "text": "调整权限资源的默认状态与角色权限分配，移除全局规则管理权限"
-        }
-      ]
-    },
-    {
-      "category": "权限与安全",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "6e7d570c",
-            "e3468ca3",
-            "da5e3fba",
-            "238c7568",
-            "1efee0f8",
-            "2ff760fa",
-            "a23270f7",
-            "2f659bb1",
-            "50945545",
-            "d724e8e4",
-            "f77f71e4"
-          ],
-          "tags": [
-            "权限与安全",
-            "缺陷修复"
-          ],
-          "text": "修复机构范围与权限校验缺陷（机构树、资源可见性、批量导入用户）"
-        }
-      ]
-    },
-    {
       "category": "慢查询与巡检",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "bd21fc57",
-            "98613e83",
-            "2463fb58"
-          ],
-          "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
-          ],
-          "text": "慢查询模板新增处置阶段字段，支持批量更新与导出"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "2b8a1167",
-            "51645e72"
-          ],
-          "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
-          ],
-          "text": "慢查询采集支持可配置的 SQL 与指纹黑名单；列表支持按时间范围过滤"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "119e1beb",
-            "e5b75182",
             "503fe81b"
           ],
           "tags": [
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "优化慢查询排名与导出性能，降低导出行数限制"
+          "text": "全局慢查询列表增加时间范围校验"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "119e1beb"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "降低慢查询导出行数限制，并优化排名查询"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e5b75182"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "优化慢查询模板性能并清理废弃代码"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "98613e83"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增批量更新慢查询模板处置阶段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2b8a1167"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询采集支持可配置的 SQL 与指纹黑名单"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "19c86153"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "为多张表添加索引以优化查询性能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ff969091"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "为慢查询相关表添加索引"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7fbf9fba"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "处理全局慢查询列表查询时 dbinstanceId 为空的情况"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2d816e61"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "修复慢查询模板列表按组织筛选的 SQL 错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2463fb58"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询模板列表接口增加处置阶段筛选"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bd21fc57"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询模板新增处置阶段字段与导出"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a4431444"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "合并现有慢查询配置，避免字段被覆盖"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "51645e72"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询列表接口增加时间范围过滤"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fd462804"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询支持从配置排除特定用户并过滤工具查询"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e26dd9ba"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增全局慢查询入口"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b32ce424"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询按表数量阈值决定是否做 DDL 解析"
         }
       ]
     },
     {
-      "category": "慢查询与巡检",
+      "category": "缺陷修复",
       "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "773bcb58"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "更新操作的返回值检查由等于 1 改为大于 0"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a0b4ad00"
+          ],
+          "tags": [
+            "缺陷修复"
+          ],
+          "text": "修复数据库查询结果集读取，并优化组织名称关联"
+        }
+      ]
+    },
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2ff760fa"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "创建实例时提前检查权限，避免重复验证"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a23270f7"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复创建带本地文件工作空间时的权限检查逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2f659bb1"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复创建工作空间与实例时的权限验证逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a28c2ad3"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修正集成平台与监控项管理权限的可见性标识"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41b7d4da"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "移除 permission_resource 表中冗余的 is_assignable 字段与索引"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bdfb4121"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修正权限资源的默认状态并更新角色权限分配"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "50945545"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "移除工作空间控制器中多余的权限检查调用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a84ce2d3"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "移除权限描述中的 (Gate) 标记并调整默认状态"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e59d9009"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "移除全局规则管理权限并清理权限数据"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f77f71e4"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "跳过 dbinstanceId 为 0 的可见性检查"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6ed91b97"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修正权限资源的描述与分类字段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c1fcd856"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增基于权限编码的机构可见范围解析"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41ae7b64"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "简化权限校验，支持按环境与业务线过滤"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e0555fe3"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增解析顶级机构 ID 的接口用于筛选"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6e7d570c"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复机构树查询接口的权限校验逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e3468ca3"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复按组织 ID 查询资源时的权限校验逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "20015bd7"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "临时禁用分析结果查看的权限校验"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1efee0f8"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复机构树管理权限的默认可见性设置"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b4190c5e"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增机构编码字段并强化权限校验"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d0d3e18b"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增机构编码字段并完善相关逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "55176456"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "移除自定义角色代码生成中的冗余前缀"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "245c7a24"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "角色检查迁移为权限检查"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "238c7568"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复角色权限初始化时的重复数据问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "da5e3fba"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复权限查询中的机构范围计算逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d724e8e4"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "修复批量导入用户时机构绑定失败仍尝试角色绑定的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f612918c"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "移除用户创建时的团队角色逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3eb9957e"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增获取用户角色范围信息的接口"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1a214f6c"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "新增权限点，并完善批量导入与机构树功能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e26dd9ba"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "增加机构编码字段并支持按环境与业务线筛选"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
             "f19f973a"
           ],
           "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "分析、审计与巡检模块支持机构树可见性"
-        }
-      ]
-    },
-    {
-      "category": "集成与开放接口",
-      "entries": [
+          "text": "为分析、审计与巡检模块增加机构树可见性支持"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "6cef5222",
-            "9b30f722",
-            "4422ce84"
+            "59496ad6"
           ],
           "tags": [
-            "集成与开放接口",
+            "权限与安全",
             "缺陷修复"
           ],
-          "text": "新增 Coding 平台 webhook 集成与开放平台 API 端点"
-        }
-      ]
-    },
-    {
-      "category": "集成与开放接口",
-      "entries": [
+          "text": "修正权限码命名风格并确保 scope_org_id 默认值"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "8d5d5305",
-            "759aa73b",
-            "d35fcbbf",
-            "8ad73d7e",
-            "a28c2ad3"
+            "e704e3e3"
           ],
           "tags": [
-            "集成与开放接口",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "集成平台支持机构隔离、自定义审批模板与 Coding 仓库路径反查"
-        }
-      ]
-    },
-    {
-      "category": "工作空间与数据源",
-      "entries": [
+          "text": "组织树成员接口增加创建者与管理员标识"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "935905c4",
-            "7d7e75e5",
-            "688cce76"
+            "0283fb98"
           ],
           "tags": [
-            "工作空间与数据源",
+            "权限与安全",
             "缺陷修复"
           ],
-          "text": "工作空间支持按机构筛选，并新增字段更新接口"
-        }
-      ]
-    },
-    {
-      "category": "工作空间与数据源",
-      "entries": [
+          "text": "修复组织路径空字符串检查的 XML 转义问题"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "c070e790",
-            "5be1f5a7"
+            "da514ccb"
           ],
           "tags": [
-            "工作空间与数据源",
+            "权限与安全"
+          ],
+          "text": "实现机构树的资源可见性控制"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "574fa54f"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "角色管理支持数据范围，新增机构树成员管理接口"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9e5d17c9"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "实现机构树管理的基础功能与权限范围元数据"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "33951ec8"
+          ],
+          "tags": [
+            "权限与安全",
             "缺陷修复"
           ],
-          "text": "新增 Oracle 脚本型数据库支持；支持 SQL 文件位置追踪与混合文件模式"
+          "text": "修正许可证检查中的变量名错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a4c0ce7c"
+          ],
+          "tags": [
+            "权限与安全",
+            "缺陷修复"
+          ],
+          "text": "安全检查中的 IOException 替换为 SqlAuditException"
         }
       ]
     },
@@ -230,106 +619,462 @@
             "f28ed784"
           ],
           "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
+            "SQL 审核与优化"
           ],
           "text": "新增规则管理功能，支持规则的批量导入与导出"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "6bcd9f82",
-            "51e22d63",
-            "616b0caa"
+            "1bd56c24"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "增强工单 SQL 执行的稳定性与多数据库支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "51e22d63"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增审核任务来源 DTO 与 JSON 类型处理器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f63cecb8"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "优化 SQL 审核报告生成与行号计算；审核任务携带来源信息"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+          "text": "修复工单创建时 orgId 字段的设置逻辑"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "100f80d5",
-            "139529e0",
-            "f6312bfc",
-            "055c6a35",
-            "87cffe61",
-            "a2ea8631",
-            "2aab33f3",
+            "6bcd9f82"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "优化 SQL 审核报告生成与行号计算"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0e77e069"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复性能提升计算中的除零错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41b947c7"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "延迟构建新数据库对象的规则直到批量插入完成"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fa8e0d90"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复工单查询中当前处理人字段返回多个值的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "25c6a367"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复空 SQL 列表导致的空指针异常"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a2ea8631"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "降低 CPU 乘数以预留更多系统资源"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "100f80d5"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "并发模型重构为纯 CPU 约束，移除 DB 连接池环境变量"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f6312bfc"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "实现动态并发许可再分配与系统资源监控"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
             "42ab6381"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "并发模型重构为纯 CPU 约束，引入双约束模型与动态并发许可再分配"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+          "text": "改进并发限制不足时的日志提示"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "5a26afe6",
-            "1e24d135",
-            "fd1b1ad2"
+            "2aab33f3"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增并发优化的部署验证指南与运行时监控"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "139529e0"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "引入双约束模型与批量写入优化以提升并发"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "edd97432"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单支持按机构路径前缀筛选，以包含子机构"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2ed2c4ea"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单新增机构子树筛选支持，并重构权限检查逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c5b35cd8"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单改用模板版本 ID 直接获取模板配置"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "000aca41"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "数据库连接池上限由 50 提升至 300，批量写入改为分块处理"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
+          "text": "修正验证模式下的性能提升计算逻辑"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "19c86153",
-            "ff969091"
-          ],
-          "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
-          ],
-          "text": "为慢查询相关表添加索引，优化查询性能"
-        }
-      ]
-    },
-    {
-      "category": "缺陷修复",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "25c6a367",
-            "0e77e069",
-            "f63cecb8",
-            "fa8e0d90",
-            "000aca41",
             "e7697261"
           ],
           "tags": [
+            "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复审核与工单缺陷：空 SQL 列表空指针、性能提升除零、工单 orgId 与当前处理人"
+          "text": "修正工作负载原始文本字段的 SQL 逻辑错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "616b0caa"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单按规则等级信息计算风险等级"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8ad73d7e"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "SQL 审核结果增加结构化摘要数据"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "077bfb47"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "为历史审批模板补上缺失的提交复核节点"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "759aa73b"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "集成平台的权限与表结构支持多机构"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d35fcbbf"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增 Coding 仓库路径反查 API"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "8d5d5305"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "重构集成模块以支持机构隔离与自定义审批模板"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "9b30f722"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增 Coding 开放平台 API 根路径端点"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4422ce84"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "修复 Coding Webhook 的事件路由、DTO 映射与配置更新逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6cef5222"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增 Coding 平台 Webhook 集成支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "83b35d52"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "优化 Coding 平台集成与工单信息展示"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c07937fc"
+          ],
+          "tags": [
+            "集成与开放接口",
+            "缺陷修复"
+          ],
+          "text": "移除平台验证时自动更新 updateTime 的逻辑"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fe9a9aa8"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "移除 maxWorkloadMembers 配置及相关验证逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c070e790"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "脚本型数据库支持扩展到 Oracle"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "efe8b250"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "多个查询结果中显示环境与业务线信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fd1b1ad2"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "批量插入、更新、删除分块处理，避免连接泄漏"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "935905c4"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "修复按机构查询工作空间列表时的参数传递逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "688cce76"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "全局视图列表接口增加按组织筛选"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7d7e75e5"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "新增更新工作空间字段的接口，并增加组织名称字段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "662e4f94"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "修复创建工作空间时 orgId 可能为 null 的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1e24d135"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "提高数据库连接池容量上限"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "6832bebe"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "合并工作空间状态更新，减少数据库操作"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5a26afe6"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "数据库连接池上限由 50 提升至 300"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5be1f5a7"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "实现 SQL 文件位置追踪与混合文件模式支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4440f942"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "移除解析结果更新工作空间的逻辑，改为记录分析计数"
         }
       ]
     },
@@ -339,46 +1084,17 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "0283fb98",
-            "077bfb47",
+            "055c6a35",
             "154396bf",
             "15df18bf",
-            "1bd56c24",
-            "20015bd7",
-            "245c7a24",
             "285e3d30",
-            "2d816e61",
-            "2ed2c4ea",
-            "33951ec8",
-            "41ae7b64",
-            "41b7d4da",
-            "41b947c7",
-            "4440f942",
-            "55176456",
-            "59496ad6",
-            "662e4f94",
-            "6832bebe",
-            "773bcb58",
-            "7fbf9fba",
-            "83b35d52",
+            "87cffe61",
             "8effe0e0",
-            "a0b4ad00",
-            "a4431444",
-            "a4c0ce7c",
             "a960e132",
-            "b32ce424",
-            "c07937fc",
-            "c5b35cd8",
-            "ca16b79c",
-            "e26dd9ba",
-            "edd97432",
-            "efe8b250",
-            "f612918c",
-            "fd462804",
-            "fe9a9aa8"
+            "ca16b79c"
           ],
           "tags": [],
-          "text": "其余内部改动：重构、配置与工程调整（37 条提交）"
+          "text": "其余内部改动（8 条提交）"
         }
       ]
     }

@@ -10,21 +10,281 @@
   "releaseDate": "2026-05-21",
   "sections": [
     {
-      "category": "SQL 审核与优化",
+      "category": "慢查询与巡检",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "4d8503dd",
-            "17b649c2",
-            "a217d29a",
-            "5c76828a"
+            "912d2d52"
           ],
           "tags": [
-            "SQL 审核与优化",
+            "慢查询与巡检"
+          ],
+          "text": "优化 AI 模型服务，增加重试与错误处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "88a80813"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "代理慢查询列表支持分页与搜索"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b53d0ade"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "手动采集支持协作式取消定时任务"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "46124a3f"
+          ],
+          "tags": [
+            "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "新增索引清理中心：错误历史记录、手动标记解决与错误解析改进"
+          "text": "暂停创建锁等待收集作业"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fdf34e31"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "慢查询模板新增调优时间字段与平均查询时间筛选"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "33a4dc9a"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "重构锁等待迁移脚本，分离配置与数据初始化"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "46678da8"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "分片列表支持按实例 ID 筛选，流式查询改为分页"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bd05ba76"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "优化 TDSQL 代理慢查询的处理性能与异常处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1e73a083"
+          ],
+          "tags": [
+            "慢查询与巡检",
+            "缺陷修复"
+          ],
+          "text": "慢查询表字段类型改为 BIGINT，避免数据溢出"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "75571801"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增锁等待分析能力与状态管理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "87731113"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增 MySQL 锁等待检测功能与配置步骤"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "69bffb60"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增锁等待分析的表结构与历史任务迁移脚本"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "afee60c7"
+          ],
+          "tags": [
+            "慢查询与巡检"
+          ],
+          "text": "新增 MySQL 锁等待分析功能"
+        }
+      ]
+    },
+    {
+      "category": "集成与开放接口",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "79c7afbf"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "支持 webhook 评论回写状态追踪与空 SQL 工单清理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "0724d015"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "支持多监控路径配置，优化 GitHub Webhook 处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fbf0ffa0"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "支持监控目录过滤"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "add5fb60"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "接口审核任务增加索引推荐开关"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "72c915bf"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增工单审核失败异常，绑定 task 与 ticket 的关系"
+        }
+      ]
+    },
+    {
+      "category": "工作空间与数据源",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "028a6e09"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "新增数据库克隆工具并完善工具链"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "345a9235"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "部署包解析支持文本文件自动识别编码"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "488686fd"
+          ],
+          "tags": [
+            "工作空间与数据源",
+            "缺陷修复"
+          ],
+          "text": "为 MySQL 查询增加超时设置与重试机制"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "516f8337"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "新增 MySQL 数据库结构导出脚本"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e04e6c85"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "支持从压缩包归档创建查询负载"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ba022907"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "支持通过 ZIP 包上传 SQL 与 XML 文件"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "28641176"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "推荐规则模板 ID 拆分为巡检模板与审核模板"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "350e80c5"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "为查询负载引入专用线程池，优化创建过程"
         }
       ]
     },
@@ -34,13 +294,224 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "7ac36262"
+            "7a0cb415"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
+          "text": "修正生产环境脚本中的 rule_code 拼写错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7ac36262"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
           "text": "新增 SQL 解析异常的存储与展示"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a48745f2"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修正 SQL 文件中的表名引用错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "c838152a"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "支持通过系统属性控制 ANTLR 解析器线程缓存"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "22c7e6df"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复 SQL 解析器初始化缺少 useExclusiveParser 参数的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e55ab28f"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增独占解析器选项，避免多线程并发问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e0d43f96"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单详情增加审核任务的错误信息"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "68958ecf"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修正规则代码中的拼写错误"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "63bf373e"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复解析异常类型不匹配的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "07f4f005"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增审核规则脚本"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "63f1c05a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "SQL 语句长度上限由 100KB 提升至 10MB"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "a217d29a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "改进索引清理的错误解析逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "00555ff7"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增 SQL 内容为空的错误码，优化任务失败处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5c76828a"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复索引清理返回结果的处理逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "17b649c2"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "索引清理增加错误历史记录与手动标记解决"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "3c54b5ea"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "移除索引清理问题表的自增属性"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "4d8503dd"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "实现索引清理中心功能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "50680bfd"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "删除审核模块冗余的规则初始化"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1ecf5d50",
+            "a065cf35"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "移除解析结果缓存，修复并发修改异常"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d6cb5600"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "删除审核模块冗余的 sqlparser"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ff367629"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修正审计表字段的注释信息"
         }
       ]
     },
@@ -50,143 +521,64 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "0a3e0997",
-            "d43fb211",
-            "d55b0350",
-            "81a57a40",
-            "f4dca8e4",
+            "f4dca8e4"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "实现平台权限字典的更新功能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
             "928a1d18"
           ],
           "tags": [
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "平台角色与权限字典管理：自定义角色增删改、系统角色权限、用户角色分配"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
+          "text": "同步角色权限变更时更新用户关联的组织范围"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "afee60c7",
-            "87731113",
-            "69bffb60",
-            "75571801"
+            "81a57a40"
           ],
           "tags": [
-            "慢查询与巡检",
+            "权限与安全",
             "缺陷修复"
           ],
-          "text": "新增 MySQL 锁等待分析（表结构、检测任务与状态管理）"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
+          "text": "平台角色管理支持更新系统角色的权限"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "fdf34e31",
-            "88a80813",
-            "46678da8"
+            "d43fb211"
           ],
           "tags": [
-            "慢查询与巡检",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "慢查询模板新增调优时间字段与平均查询时间筛选；代理慢查询列表支持分页与搜索"
-        }
-      ]
-    },
-    {
-      "category": "工作空间与数据源",
-      "entries": [
+          "text": "实现平台自定义角色的增删改"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "e04e6c85",
-            "ba022907",
-            "345a9235",
-            "350e80c5"
+            "d55b0350"
           ],
           "tags": [
-            "工作空间与数据源",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "支持从 ZIP 压缩包创建查询负载；部署包文本文件自动识别编码"
-        }
-      ]
-    },
-    {
-      "category": "工作空间与数据源",
-      "entries": [
+          "text": "新增用户系统角色分配的保存功能"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "028a6e09",
-            "516f8337"
+            "0a3e0997"
           ],
           "tags": [
-            "工作空间与数据源",
-            "缺陷修复"
+            "权限与安全"
           ],
-          "text": "新增数据库克隆工具与 MySQL 结构导出脚本"
-        }
-      ]
-    },
-    {
-      "category": "集成与开放接口",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "0724d015",
-            "fbf0ffa0"
-          ],
-          "tags": [
-            "集成与开放接口",
-            "缺陷修复"
-          ],
-          "text": "支持多监控路径与监控目录过滤配置，优化 GitHub Webhook 处理"
-        }
-      ]
-    },
-    {
-      "category": "集成与开放接口",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "72c915bf",
-            "79c7afbf"
-          ],
-          "tags": [
-            "集成与开放接口",
-            "缺陷修复"
-          ],
-          "text": "工单审核失败异常绑定 task 与 ticket；webhook 评论回写支持状态追踪"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "c838152a",
-            "e55ab28f",
-            "22c7e6df"
-          ],
-          "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
-          ],
-          "text": "支持通过系统属性控制 ANTLR 解析器线程缓存（独占解析器选项）"
+          "text": "新增平台角色与权限字典管理接口"
         }
       ]
     },
@@ -196,15 +588,12 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "63f1c05a",
-            "1e73a083",
-            "63bf373e",
             "ecb8d04f"
           ],
           "tags": [
             "缺陷修复"
           ],
-          "text": "SQL 长度上限由 100KB 提升至 10MB；慢查询表字段改为 BIGINT；修复解析异常类型不匹配等缺陷"
+          "text": "修复空指针异常并增强错误处理"
         }
       ]
     },
@@ -214,37 +603,17 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "00555ff7",
             "07342d86",
-            "07f4f005",
-            "1ecf5d50",
-            "28641176",
-            "33a4dc9a",
-            "3c54b5ea",
-            "46124a3f",
-            "488686fd",
-            "50680bfd",
             "631f80d5",
-            "68958ecf",
-            "7a0cb415",
             "806233b9",
-            "912d2d52",
-            "a065cf35",
-            "a48745f2",
             "a91dfc87",
-            "add5fb60",
-            "b53d0ade",
-            "bd05ba76",
-            "d6cb5600",
             "da242064",
-            "e0d43f96",
             "f1e1cd87",
             "fb19eb59",
-            "ff367629",
             "ffdaa637"
           ],
           "tags": [],
-          "text": "其余内部改动：重构、配置与工程调整（28 条提交）"
+          "text": "其余内部改动（8 条提交）"
         }
       ]
     }

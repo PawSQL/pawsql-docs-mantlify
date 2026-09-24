@@ -10,22 +10,18 @@
   "releaseDate": "2026-04-13",
   "sections": [
     {
-      "category": "集成与开放接口",
+      "category": "工作空间与数据源",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "5047dfc9",
-            "dff2c18d",
-            "aaa5478e",
-            "ab257a73",
-            "2ebb7053"
+            "f857e00c"
           ],
           "tags": [
-            "集成与开放接口",
+            "工作空间与数据源",
             "缺陷修复"
           ],
-          "text": "新增 GitLab 平台集成：webhook 报告、secret 存储、安全白名单与端到端测试"
+          "text": "修复更新时空字符串被误认为有效值的问题"
         }
       ]
     },
@@ -35,49 +31,138 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "b118f343"
+            "9142db5d"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
+          "text": "分析结果查询增加验证标志字段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b118f343"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
           "text": "规则模板查询增加启用规则数量字段"
-        }
-      ]
-    },
-    {
-      "category": "慢查询与巡检",
-      "entries": [
+        },
         {
           "confidence": "high",
           "sourceCommits": [
             "28404b11"
           ],
           "tags": [
-            "慢查询与巡检",
+            "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "审核与集成任务的超时由 30 分钟调整为 1440 分钟"
+          "text": "审核与集成任务的超时时间由 30 分钟调整为 1440 分钟"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d7bab435"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修正工作负载原始文本的查询列引用"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fa77bae9"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "更新生产规则数据，删除无效规则 TableR066"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d0c3fcd9"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修正不同规则类型验证字段的映射错误"
         }
       ]
     },
     {
-      "category": "缺陷修复",
+      "category": "集成与开放接口",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "d0c3fcd9",
-            "392eab55",
-            "f857e00c",
-            "d7bab435",
-            "fa77bae9",
-            "9142db5d"
+            "392eab55"
           ],
           "tags": [
+            "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "修复规则验证字段映射、GitHub token 错误码、空字符串误判等缺陷"
+          "text": "修正 GitHub token 验证的错误码"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "dff2c18d"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "GitLab Webhook 报告增强，并修复 secret 存储问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ab257a73"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "增加 GitLab Webhook 端到端测试支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5047dfc9"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增 GitLab 平台集成支持"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "2ebb7053"
+          ],
+          "tags": [
+            "集成与开放接口"
+          ],
+          "text": "新增 GitLab 集成的需求分析与设计文档"
+        }
+      ]
+    },
+    {
+      "category": "权限与安全",
+      "entries": [
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "aaa5478e"
+          ],
+          "tags": [
+            "权限与安全"
+          ],
+          "text": "将 GitLab Webhook 路径加入安全配置白名单"
         }
       ]
     }

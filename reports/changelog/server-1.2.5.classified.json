@@ -15,11 +15,21 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "ba856a26"
+            "6c8ed2d1"
           ],
           "tags": [
             "集成与开放接口",
             "缺陷修复"
+          ],
+          "text": "修复代码库标识生成逻辑，优先使用 depotId"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ba856a26"
+          ],
+          "tags": [
+            "集成与开放接口"
           ],
           "text": "完善 Coding Webhook 审核任务的结果数据填充"
         }
@@ -31,30 +41,35 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "af9ac8e9",
             "e1425f7a"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "统一分析任务超时设置，移除限流模式下的冗余超时"
-        }
-      ]
-    },
-    {
-      "category": "缺陷修复",
-      "entries": [
+          "text": "移除限流模式下的冗余超时设置"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "6c8ed2d1",
+            "af9ac8e9"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "统一分析任务的超时设置，移除无超时分支"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
             "1c7c64e9"
           ],
           "tags": [
+            "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复代码库标识生成与规则列表对象类型参数的缺陷"
+          "text": "修正获取规则列表时使用的对象类型参数"
         }
       ]
     },
@@ -67,7 +82,7 @@
             "4514f619"
           ],
           "tags": [],
-          "text": "其余内部改动：重构、配置与工程调整（1 条提交）"
+          "text": "其余内部改动（1 条提交）"
         }
       ]
     }

@@ -15,37 +15,184 @@
         {
           "confidence": "high",
           "sourceCommits": [
-            "59943641",
-            "41ef8705",
-            "cdffaf20",
-            "325f8a22",
-            "92c6264c",
-            "86d5001e",
-            "5897ac42",
-            "56b52e0a"
+            "2cc90137"
           ],
           "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
+            "SQL 审核与优化"
           ],
-          "text": "新增工单 SQL 执行会话：预览、执行/提交/回滚、历史列表、终止、跳过与超时自动回滚、批量与参数化执行"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
+          "text": "新增工单 SQL 执行所需的三张跟踪表"
+        },
         {
           "confidence": "high",
           "sourceCommits": [
-            "2cc90137",
-            "ee1674bd"
+            "7609a9e7"
           ],
           "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "新增工单 SQL 执行跟踪表，完善非事务执行模式的会话处理"
+          "text": "修复处理索引数量前未先保存索引的问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "bfec7ca0"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增无索引阶段的索引推荐保存逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "04bca2a0"
+          ],
+          "tags": [
+            "SQL 审核与优化",
+            "缺陷修复"
+          ],
+          "text": "修复校验逻辑的空指针问题"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "95f9fa17"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "性能验证前处理变量与不支持的 SQL 类型"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "feb5b082"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "提取并统一解析异常的持久化逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ca206cdd"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "同步审核逻辑"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "ee1674bd"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "完善非事务执行模式的会话处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b90c768d"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "提取错误消息常量，并拦截离线工作空间的执行"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "26eef2ee"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "硬编码错误信息改为国际化常量键"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "5897ac42"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单执行会话支持超时自动回滚与合法性校验"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "86d5001e"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增按工单 ID 获取执行会话历史列表的接口"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "92c6264c"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增执行会话终止功能"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "56b52e0a"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增执行会话的连接丢失检测与处理"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "325f8a22"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "执行会话支持跳过当前 SQL 与超时自动回滚"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "cdffaf20"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "执行会话支持批量执行全部 SQL 与参数化执行"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "41ef8705"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "工单 M2 级 SQL 执行会话支持执行、提交与回滚"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "59943641"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "实现工单 SQL 执行会话预览（M1）"
         }
       ]
     },
@@ -58,62 +205,9 @@
             "6100a1ec"
           ],
           "tags": [
-            "工作空间与数据源",
-            "缺陷修复"
+            "工作空间与数据源"
           ],
           "text": "新增多数据库方言执行支持框架"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "bfec7ca0",
-            "95f9fa17"
-          ],
-          "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
-          ],
-          "text": "新增无索引阶段的索引推荐保存逻辑；性能验证前处理变量与不支持的 SQL 类型"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "feb5b082",
-            "b90c768d",
-            "26eef2ee"
-          ],
-          "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
-          ],
-          "text": "统一解析异常持久化逻辑，错误消息改为国际化常量键"
-        }
-      ]
-    },
-    {
-      "category": "缺陷修复",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "04bca2a0",
-            "7609a9e7",
-            "ca206cdd"
-          ],
-          "tags": [
-            "缺陷修复"
-          ],
-          "text": "修复校验逻辑空指针、索引数量获取顺序、审核逻辑同步等缺陷"
         }
       ]
     }

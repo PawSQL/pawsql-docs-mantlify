@@ -10,57 +10,6 @@
   "releaseDate": "2026-06-25",
   "sections": [
     {
-      "category": "工作空间与数据源",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "fdb21ce3",
-            "7de06848",
-            "837d76e9"
-          ],
-          "tags": [
-            "工作空间与数据源",
-            "缺陷修复"
-          ],
-          "text": "MySQL、PostgreSQL 及更多数据库类型改用脚本解析器"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "b7cb6e33"
-          ],
-          "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
-          ],
-          "text": "新增派生表转 Lateral Join 优化规则"
-        }
-      ]
-    },
-    {
-      "category": "SQL 审核与优化",
-      "entries": [
-        {
-          "confidence": "high",
-          "sourceCommits": [
-            "e34f1203",
-            "f3eb7e2a"
-          ],
-          "tags": [
-            "SQL 审核与优化",
-            "缺陷修复"
-          ],
-          "text": "分析级结构化解析异常的存储与展示"
-        }
-      ]
-    },
-    {
       "category": "SQL 审核与优化",
       "entries": [
         {
@@ -69,26 +18,95 @@
             "be673d04"
           ],
           "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "审核结果增加严重与警告规则数目统计字段"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "d5b62a7c"
+          ],
+          "tags": [
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "审核结果增加严重与警告规则数目统计字段"
+          "text": "调整审计分数的计算参数"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "b7cb6e33"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增派生表转 Lateral Join 优化规则并更新规则配置"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "f3eb7e2a"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "调整持久化分析解析异常的执行时机"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "e34f1203"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "新增分析级结构化解析异常的存储与展示"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "1b40af07"
+          ],
+          "tags": [
+            "SQL 审核与优化"
+          ],
+          "text": "重构索引清理服务的数据源解析逻辑"
         }
       ]
     },
     {
-      "category": "缺陷修复",
+      "category": "工作空间与数据源",
       "entries": [
         {
           "confidence": "high",
           "sourceCommits": [
-            "d5b62a7c",
-            "1b40af07"
+            "837d76e9"
           ],
           "tags": [
-            "缺陷修复"
+            "工作空间与数据源"
           ],
-          "text": "调整审计分数计算参数；重构索引清理服务的数据源解析逻辑"
+          "text": "indexAdvisor 改用已有的 sqlparser"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "7de06848"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "更多数据库类型改用脚本解析器"
+        },
+        {
+          "confidence": "high",
+          "sourceCommits": [
+            "fdb21ce3"
+          ],
+          "tags": [
+            "工作空间与数据源"
+          ],
+          "text": "MySQL 与 PostgreSQL 改用脚本解析器"
         }
       ]
     }
