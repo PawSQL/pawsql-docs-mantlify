@@ -20,7 +20,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "所有 SQL 在性能验证前都做 SQL 转换，消除变量导致的验证失败"
+          "text": "所有 SQL 在性能验证前都做 SQL 转换，消除变量导致的验证失败",
+          "textEn": "All SQL is transformed before performance validation, so variables no longer break it"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "SAT 优化：支持同列常量比较的重写"
+          "text": "SAT 优化：支持同列常量比较的重写",
+          "textEn": "SAT optimisation: rewrites for same-column constant comparisons"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "RuleOrCond4SelectRewrite 计算代价时排除关联条件"
+          "text": "RuleOrCond4SelectRewrite 计算代价时排除关联条件",
+          "textEn": "RuleOrCond4SelectRewrite excludes correlation conditions from costing"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "过滤谓词下推不再下推 dummy 表达式与 explode 表达式"
+          "text": "过滤谓词下推不再下推 dummy 表达式与 explode 表达式",
+          "textEn": "Filter-predicate pushdown no longer pushes dummy or explode expressions"
         },
         {
           "confidence": "high",
@@ -61,7 +65,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "dummy 表达式使用原始文本"
+          "text": "dummy 表达式使用原始文本",
+          "textEn": "Dummy expressions keep their original text"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "优化 SATTC 在存在嵌套条件时的场景"
+          "text": "优化 SATTC 在存在嵌套条件时的场景",
+          "textEn": "Improved SATTC with nested conditions"
         },
         {
           "confidence": "high",
@@ -82,7 +88,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "过滤谓词下推支持集合分支下推、单派生表下推与内外表下推"
+          "text": "过滤谓词下推支持集合分支下推、单派生表下推与内外表下推",
+          "textEn": "Filter-predicate pushdown now covers set branches, single derived tables and both sides of a join"
         },
         {
           "confidence": "high",
@@ -92,7 +99,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "标量子查询解关联无论是否存在聚合都补上 group by 列"
+          "text": "标量子查询解关联无论是否存在聚合都补上 group by 列",
+          "textEn": "Scalar-subquery decorrelation always adds the group by columns"
         },
         {
           "confidence": "high",
@@ -102,7 +110,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "使用 for xml auto 时不做标量子查询解关联"
+          "text": "使用 for xml auto 时不做标量子查询解关联",
+          "textEn": "No scalar-subquery decorrelation when for xml auto is used"
         },
         {
           "confidence": "high",
@@ -112,7 +121,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "按需限定 dummy 表达式"
+          "text": "按需限定 dummy 表达式",
+          "textEn": "Dummy expressions are qualified as needed"
         },
         {
           "confidence": "high",
@@ -123,7 +133,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 RuleSelectSSQRewrite 的缺陷"
+          "text": "修复 RuleSelectSSQRewrite 的缺陷",
+          "textEn": "Fixed a defect in RuleSelectSSQRewrite"
         },
         {
           "confidence": "high",
@@ -134,7 +145,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 SATTC 重写的缺陷"
+          "text": "修复 SATTC 重写的缺陷",
+          "textEn": "Fixed a defect in the SATTC rewrite"
         }
       ]
     },
@@ -150,7 +162,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleSelectSSQRewrite 在出现同名列时的缺陷"
+          "text": "修复 RuleSelectSSQRewrite 在出现同名列时的缺陷",
+          "textEn": "Fixed RuleSelectSSQRewrite with duplicate column names"
         },
         {
           "confidence": "high",
@@ -160,7 +173,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "分区表规则优化，提升健壮性"
+          "text": "分区表规则优化，提升健壮性",
+          "textEn": "Partitioned-table rules are more robust"
         },
         {
           "confidence": "high",
@@ -170,7 +184,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "「索引列上的运算导致索引失效」规则排除聚合函数的误报"
+          "text": "「索引列上的运算导致索引失效」规则排除聚合函数的误报",
+          "textEn": "The index-invalidating-expression rule no longer flags aggregate functions"
         },
         {
           "confidence": "high",
@@ -181,7 +196,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "为 SQL Server 脚本添加违规所属行信息"
+          "text": "为 SQL Server 脚本添加违规所属行信息",
+          "textEn": "SQL Server scripts report the line of each violation"
         },
         {
           "confidence": "high",
@@ -192,7 +208,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "SQL 对象携带行信息"
+          "text": "SQL 对象携带行信息",
+          "textEn": "SQL objects carry line information"
         }
       ]
     },
@@ -208,7 +225,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复窗口函数反序列化的缺陷"
+          "text": "修复窗口函数反序列化的缺陷",
+          "textEn": "Fixed window function deserialisation"
         },
         {
           "confidence": "high",
@@ -218,7 +236,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 OUTER APPLY 语法；性能验证前先格式化 SQL"
+          "text": "支持 OUTER APPLY 语法；性能验证前先格式化 SQL",
+          "textEn": "Added OUTER APPLY syntax; SQL is formatted before performance validation"
         },
         {
           "confidence": "high",
@@ -229,7 +248,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复因支持 DB2 导致的 interval 语法解析错误"
+          "text": "修复因支持 DB2 导致的 interval 语法解析错误",
+          "textEn": "Fixed an interval syntax error introduced by DB2 support"
         },
         {
           "confidence": "high",
@@ -240,7 +260,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 DB2 优化器支持"
+          "text": "新增 DB2 优化器支持",
+          "textEn": "Added DB2 support to the optimizer"
         },
         {
           "confidence": "high",
@@ -250,7 +271,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 DB2 在线 DDL 解析器"
+          "text": "新增 DB2 在线 DDL 解析器",
+          "textEn": "Added an online DDL parser for DB2"
         },
         {
           "confidence": "high",
@@ -260,7 +282,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "值表达式查找支持 GroupConcat 内的表达式"
+          "text": "值表达式查找支持 GroupConcat 内的表达式",
+          "textEn": "Value-expression lookup covers expressions inside GroupConcat"
         }
       ]
     },
@@ -277,7 +300,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "修复冗余索引使用（indexusage）的缺陷"
+          "text": "修复冗余索引使用（indexusage）的缺陷",
+          "textEn": "Fixed redundant index usage"
         },
         {
           "confidence": "high",
@@ -287,7 +311,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "重复索引为唯一索引时不再建议删除"
+          "text": "重复索引为唯一索引时不再建议删除",
+          "textEn": "A duplicate unique index is no longer suggested for removal"
         }
       ]
     }

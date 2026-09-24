@@ -20,7 +20,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "CommentsOnTableRequired、CommentsOnColumnRequired、SpecificColumnsRequired、NumOfIndexesExceedThreshold 改为所有语句处理完成后执行"
+          "text": "CommentsOnTableRequired、CommentsOnColumnRequired、SpecificColumnsRequired、NumOfIndexesExceedThreshold 改为所有语句处理完成后执行",
+          "textEn": "CommentsOnTableRequired, CommentsOnColumnRequired, SpecificColumnsRequired and NumOfIndexesExceedThreshold now run after all statements are processed"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "DDL 规则纳入 pawsql optimize"
+          "text": "DDL 规则纳入 pawsql optimize",
+          "textEn": "DDL rules are included in pawsql optimize"
         },
         {
           "confidence": "high",
@@ -40,7 +42,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "所有 SQL 语句都生成 QueryAuditResult"
+          "text": "所有 SQL 语句都生成 QueryAuditResult",
+          "textEn": "Every SQL statement produces a QueryAuditResult"
         },
         {
           "confidence": "high",
@@ -50,7 +53,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "SQLAdvisor 中每条 SQL 语句都有 QueryAuditResult"
+          "text": "SQLAdvisor 中每条 SQL 语句都有 QueryAuditResult",
+          "textEn": "SQLAdvisor gives every SQL statement a QueryAuditResult"
         }
       ]
     },
@@ -65,7 +69,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL 解析器支持 comment 语句"
+          "text": "SQL 解析器支持 comment 语句",
+          "textEn": "The SQL parser supports comment statements"
         },
         {
           "confidence": "high",
@@ -76,7 +81,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 trim 函数解析与 QueryValues 的缺陷"
+          "text": "修复 trim 函数解析与 QueryValues 的缺陷",
+          "textEn": "Fixed trim function parsing and QueryValues"
         },
         {
           "confidence": "high",
@@ -87,7 +93,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 values 表查询分析与 SQL Server 关联表的计划分析缺陷"
+          "text": "修复 values 表查询分析与 SQL Server 关联表的计划分析缺陷",
+          "textEn": "Fixed values-table query analysis and plan analysis for correlated SQL Server tables"
         },
         {
           "confidence": "high",
@@ -98,7 +105,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持启用 SSL"
+          "text": "SQL Server 支持启用 SSL",
+          "textEn": "SQL Server: optional SSL"
         },
         {
           "confidence": "high",
@@ -108,7 +116,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "FunctionChron 支持任意标识符作为值"
+          "text": "FunctionChron 支持任意标识符作为值",
+          "textEn": "FunctionChron accepts any identifier as its value"
         },
         {
           "confidence": "high",
@@ -118,7 +127,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优先从表引用匹配列，再检查伪列"
+          "text": "优先从表引用匹配列，再检查伪列",
+          "textEn": "Columns are matched from table references first, then pseudo columns are checked"
         },
         {
           "confidence": "high",
@@ -128,7 +138,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "语法错误输出更准确的说明"
+          "text": "语法错误输出更准确的说明",
+          "textEn": "More accurate syntax error messages"
         },
         {
           "confidence": "high",
@@ -138,7 +149,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 json_table 语法"
+          "text": "支持 json_table 语法",
+          "textEn": "Added json_table syntax"
         },
         {
           "confidence": "high",
@@ -149,7 +161,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复查询中未定义表时选择列获取的缺陷"
+          "text": "修复查询中未定义表时选择列获取的缺陷",
+          "textEn": "Fixed select-list retrieval when the query defines no table"
         },
         {
           "confidence": "high",
@@ -160,7 +173,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复限定符解析与多表 update 语句 SQL 输出的缺陷"
+          "text": "修复限定符解析与多表 update 语句 SQL 输出的缺陷",
+          "textEn": "Fixed qualifier resolution and multi-table update output"
         },
         {
           "confidence": "high",
@@ -170,7 +184,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 aggfunction2 解析逻辑"
+          "text": "新增 aggfunction2 解析逻辑",
+          "textEn": "Added parsing for aggfunction2"
         },
         {
           "confidence": "high",
@@ -180,7 +195,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化汇总输出"
+          "text": "优化汇总输出",
+          "textEn": "Improved summary output"
         },
         {
           "confidence": "high",
@@ -190,7 +206,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "语法错误输出改进"
+          "text": "语法错误输出改进",
+          "textEn": "Improved syntax error output"
         },
         {
           "confidence": "high",
@@ -200,7 +217,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "小幅调整"
+          "text": "小幅调整",
+          "textEn": "Minor changes"
         },
         {
           "confidence": "high",
@@ -211,7 +229,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 dateTimeFunctionCall 的语法缺陷"
+          "text": "修复 dateTimeFunctionCall 的语法缺陷",
+          "textEn": "Fixed dateTimeFunctionCall syntax"
         },
         {
           "confidence": "high",
@@ -222,7 +241,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 for xml 子句"
+          "text": "SQL Server 支持 for xml 子句",
+          "textEn": "SQL Server: for xml clause"
         },
         {
           "confidence": "high",
@@ -232,7 +252,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 PLSQL_VAR"
+          "text": "支持 PLSQL_VAR",
+          "textEn": "Added PLSQL_VAR"
         }
       ]
     },
@@ -247,7 +268,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "不做性能验证时不再替换 SQL 中的参数"
+          "text": "不做性能验证时不再替换 SQL 中的参数",
+          "textEn": "Parameters are no longer substituted when performance validation is off"
         },
         {
           "confidence": "high",
@@ -257,7 +279,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "findQuerySelect 支持在 If、Cast 等表达式中查找标量子查询"
+          "text": "findQuerySelect 支持在 If、Cast 等表达式中查找标量子查询",
+          "textEn": "findQuerySelect locates scalar subqueries inside If, Cast and similar expressions"
         },
         {
           "confidence": "high",
@@ -268,7 +291,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 RuleOrCond4SelectRewrite 在只有聚集函数无分组语句时的重写错误"
+          "text": "修复 RuleOrCond4SelectRewrite 在只有聚集函数无分组语句时的重写错误",
+          "textEn": "Fixed RuleOrCond4SelectRewrite when only aggregates appear without a group by"
         },
         {
           "confidence": "high",
@@ -279,7 +303,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "过滤谓词下推支持下推到派生表"
+          "text": "过滤谓词下推支持下推到派生表",
+          "textEn": "Filter-predicate pushdown now reaches derived tables"
         },
         {
           "confidence": "high",
@@ -289,7 +314,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "查询折叠支持 lateral 子查询"
+          "text": "查询折叠支持 lateral 子查询",
+          "textEn": "Query folding supports lateral subqueries"
         },
         {
           "confidence": "high",
@@ -299,7 +325,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "新增 RuleLateralQueryRewrite 规则"
+          "text": "新增 RuleLateralQueryRewrite 规则",
+          "textEn": "Added the RuleLateralQueryRewrite rule"
         }
       ]
     },
@@ -314,7 +341,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "新增 ubtree 索引类型；允许 BUCKET 作为标识符"
+          "text": "新增 ubtree 索引类型；允许 BUCKET 作为标识符",
+          "textEn": "Added the ubtree index type and allow BUCKET as an identifier"
         },
         {
           "confidence": "high",
@@ -324,7 +352,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "MySQL 的主键列去重提前到索引去重之前"
+          "text": "MySQL 的主键列去重提前到索引去重之前",
+          "textEn": "MySQL primary-key column removal now runs before index deduplication"
         },
         {
           "confidence": "high",
@@ -334,7 +363,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "解析与输出支持外连接 (+) 写法，索引推荐中一并考虑"
+          "text": "解析与输出支持外连接 (+) 写法，索引推荐中一并考虑",
+          "textEn": "The parser and writer handle outer-join (+), and index recommendation accounts for it"
         }
       ]
     }

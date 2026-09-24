@@ -20,7 +20,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "SQL 对象携带行信息，便于定位违规"
+          "text": "SQL 对象携带行信息，便于定位违规",
+          "textEn": "SQL objects carry line information to locate violations"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复业务查询判定的缺陷"
+          "text": "修复业务查询判定的缺陷",
+          "textEn": "Fixed business-query detection"
         },
         {
           "confidence": "high",
@@ -42,7 +44,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 Hive 规则的缺陷"
+          "text": "修复 Hive 规则的缺陷",
+          "textEn": "Fixed defects in the Hive rules"
         }
       ]
     },
@@ -57,7 +60,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "优化嵌套条件下的 SAT 处理逻辑"
+          "text": "优化嵌套条件下的 SAT 处理逻辑",
+          "textEn": "Improved SAT handling for nested conditions"
         },
         {
           "confidence": "high",
@@ -68,7 +72,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复解关联缺陷与关联列都属于外查询时的异常"
+          "text": "修复解关联缺陷与关联列都属于外查询时的异常",
+          "textEn": "Fixed a decorrelation defect and an exception when all correlated columns belong to the outer query"
         },
         {
           "confidence": "high",
@@ -78,7 +83,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "新增 InValues 重写优化"
+          "text": "新增 InValues 重写优化",
+          "textEn": "Added the InValues rewrite"
         }
       ]
     },
@@ -94,7 +100,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "提升标量子查询解析的健壮性"
+          "text": "提升标量子查询解析的健壮性",
+          "textEn": "More robust scalar-subquery parsing"
         },
         {
           "confidence": "high",
@@ -105,7 +112,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 SQL Server columnstore 索引创建解析的缺陷"
+          "text": "修复 SQL Server columnstore 索引创建解析的缺陷",
+          "textEn": "Fixed columnstore index creation parsing for SQL Server"
         },
         {
           "confidence": "high",
@@ -116,7 +124,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 db..table1 形式的解析缺陷"
+          "text": "修复 db..table1 形式的解析缺陷",
+          "textEn": "Fixed parsing of the db..table1 form"
         },
         {
           "confidence": "high",
@@ -127,7 +136,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Hive clustered/sorted 子句解析的缺陷"
+          "text": "修复 Hive clustered/sorted 子句解析的缺陷",
+          "textEn": "Fixed Hive clustered/sorted clause parsing"
         },
         {
           "confidence": "high",
@@ -137,7 +147,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "存在变量时在验证阶段解析变量"
+          "text": "存在变量时在验证阶段解析变量",
+          "textEn": "Variables are resolved during validation"
         }
       ]
     },
@@ -152,7 +163,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "delete/update/merge 的目标表不做 indexonly"
+          "text": "delete/update/merge 的目标表不做 indexonly",
+          "textEn": "Target tables of delete/update/merge are not index-only candidates"
         }
       ]
     },
@@ -165,7 +177,8 @@
             "492788b8"
           ],
           "tags": [],
-          "text": "其余内部改动（1 条提交）"
+          "text": "其余内部改动（1 条提交）",
+          "textEn": null
         }
       ]
     }

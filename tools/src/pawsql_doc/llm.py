@@ -50,6 +50,7 @@ SYSTEM_PROMPT_TEMPLATE = """你在为 PawSQL 的产品文档站整理「变更�
 - 只有提交信息里明确写出某个数据库名（例如 MySQL、Oracle、PostgreSQL、达梦、openGauss、TDSQL、Hive、DB2），才可归入与数据库支持相关的分类。
 - 不得把「修复了某处」改写成功能承诺。
 - 每条条目一句话，保留提交的原始语言，不要翻译；不要输出 Markdown、链接或 HTML。
+- 每条条目同时给英文 textEn：`text` 的中文原文照旧，`textEn` 是同一句话的英文（规则名、API 名、数据库名保留原样，不要意译）。
 
 分类取值（sections 的 category，也是条目 tags 的取值域）：
 {vocabulary}

@@ -21,7 +21,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "修复代码库标识生成逻辑，优先使用 depotId"
+          "text": "修复代码库标识生成逻辑，优先使用 depotId",
+          "textEn": "Fixed repository identifier generation to prefer depotId"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "完善 Coding Webhook 审核任务的结果数据填充"
+          "text": "完善 Coding Webhook 审核任务的结果数据填充",
+          "textEn": "Completed result data for Coding webhook audit tasks"
         }
       ]
     },
@@ -47,7 +49,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "移除限流模式下的冗余超时设置"
+          "text": "移除限流模式下的冗余超时设置",
+          "textEn": "Removed a redundant timeout in rate-limit mode"
         },
         {
           "confidence": "high",
@@ -58,7 +61,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "统一分析任务的超时设置，移除无超时分支"
+          "text": "统一分析任务的超时设置，移除无超时分支",
+          "textEn": "Unified analysis-task timeouts and removed the no-timeout branch"
         },
         {
           "confidence": "high",
@@ -69,7 +73,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正获取规则列表时使用的对象类型参数"
+          "text": "修正获取规则列表时使用的对象类型参数",
+          "textEn": "Corrected the object-type parameter when fetching the rule list"
         }
       ]
     },
@@ -82,7 +87,8 @@
             "4514f619"
           ],
           "tags": [],
-          "text": "其余内部改动（1 条提交）"
+          "text": "其余内部改动（1 条提交）",
+          "textEn": null
         }
       ]
     }

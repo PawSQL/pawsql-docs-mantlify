@@ -441,6 +441,33 @@ def test_internal_entries_are_never_rendered():
     assert "internal" not in fragment
 
 
+def test_english_page_uses_the_english_mirror():
+    doc = cl.ClassifiedDoc(
+        component="engine",
+        componentLabel={"zh": "引擎", "en": "Engine"},
+        version="1.0.0",
+        tag="engine-v1.0.0",
+        releaseDate="2026-01-01",
+        sections=[
+            cl.ClassifiedSection(
+                category="缺陷修复",
+                entries=[
+                    cl.ClassifiedEntry(text="修复甲", textEn="Fixed A", sourceCommits=["a1"], tags=["缺陷修复"]),
+                    cl.ClassifiedEntry(text="修复乙", sourceCommits=["b2"], tags=["缺陷修复"]),
+                ],
+            )
+        ],
+    )
+
+    en = cl.render_fragment([doc], lang="en")
+    zh = cl.render_fragment([doc], lang="zh")
+
+    assert "Fixed A" in en and "修复甲" not in en
+    # no English mirror yet: the source text stands in rather than leaving a gap
+    assert "修复乙" in en
+    assert "修复甲" in zh and "Fixed A" not in zh
+
+
 def test_splice_changelog_replaces_only_the_marked_region(repo):
     page = repo / SERVER_PAGE
     page.parent.mkdir(parents=True, exist_ok=True)

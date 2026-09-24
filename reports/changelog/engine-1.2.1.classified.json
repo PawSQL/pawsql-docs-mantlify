@@ -20,7 +20,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "达梦数据库不再进行查询折叠"
+          "text": "达梦数据库不再进行查询折叠",
+          "textEn": "Dameng no longer uses query folding"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复驱动表逻辑（isCorrelated）的缺陷"
+          "text": "修复驱动表逻辑（isCorrelated）的缺陷",
+          "textEn": "Fixed a defect in the driving-table logic (isCorrelated)"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "ValueExpressionHelper 新增 isCorrelated 支持"
+          "text": "ValueExpressionHelper 新增 isCorrelated 支持",
+          "textEn": "ValueExpressionHelper gained isCorrelated support"
         }
       ]
     },
@@ -56,7 +59,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "Oracle 执行计划输出完整的 explain 信息"
+          "text": "Oracle 执行计划输出完整的 explain 信息",
+          "textEn": "Oracle execution plans now output the full explain information"
         },
         {
           "confidence": "high",
@@ -66,7 +70,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "MySQL 连接串默认加上 allowPublicKeyRetrieval=true"
+          "text": "MySQL 连接串默认加上 allowPublicKeyRetrieval=true",
+          "textEn": "MySQL connection strings default to allowPublicKeyRetrieval=true"
         },
         {
           "confidence": "high",
@@ -78,7 +83,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 group_concat 解析与输出的缺陷"
+          "text": "修复 group_concat 解析与输出的缺陷",
+          "textEn": "Fixed group_concat parsing and output"
         },
         {
           "confidence": "high",
@@ -88,7 +94,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增对 TDSQLX for MySQL 的支持及配套校验器"
+          "text": "新增对 TDSQLX for MySQL 的支持及配套校验器",
+          "textEn": "Added TDSQLX for MySQL support with a matching validator"
         },
         {
           "confidence": "high",
@@ -98,7 +105,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "运算符字面量改为真实字面量"
+          "text": "运算符字面量改为真实字面量",
+          "textEn": "Operators now serialise to real literals"
         },
         {
           "confidence": "high",
@@ -109,7 +117,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复达梦在线索引元数据解析的缺陷"
+          "text": "修复达梦在线索引元数据解析的缺陷",
+          "textEn": "Fixed online index metadata parsing for Dameng"
         },
         {
           "confidence": "high",
@@ -120,7 +129,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复数据类型表达式的缺陷"
+          "text": "修复数据类型表达式的缺陷",
+          "textEn": "Fixed datatype expressions"
         },
         {
           "confidence": "high",
@@ -131,7 +141,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复表引用解析的缺陷"
+          "text": "修复表引用解析的缺陷",
+          "textEn": "Fixed table reference parsing"
         },
         {
           "confidence": "high",
@@ -142,7 +153,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复嵌套值表达式解析的缺陷"
+          "text": "修复嵌套值表达式解析的缺陷",
+          "textEn": "Fixed nested value expression parsing"
         },
         {
           "confidence": "high",
@@ -153,7 +165,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复表行数获取的缺陷"
+          "text": "修复表行数获取的缺陷",
+          "textEn": "Fixed table row-count retrieval"
         }
       ]
     },
@@ -168,7 +181,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "索引校验新增 indexClean 能力，支持解析不带代码块的 create trigger"
+          "text": "索引校验新增 indexClean 能力，支持解析不带代码块的 create trigger",
+          "textEn": "Index validation gained an indexClean capability and parses create trigger without code blocks"
         },
         {
           "confidence": "high",
@@ -179,7 +193,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "修复 MySQL 与 PostgreSQL 索引匹配的缺陷"
+          "text": "修复 MySQL 与 PostgreSQL 索引匹配的缺陷",
+          "textEn": "Fixed index matching for MySQL and PostgreSQL"
         }
       ]
     },
@@ -194,7 +209,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "优化 RuleDiffDatatypeOfJoinColumns 的输出"
+          "text": "优化 RuleDiffDatatypeOfJoinColumns 的输出",
+          "textEn": "Improved the output of RuleDiffDatatypeOfJoinColumns"
         },
         {
           "confidence": "high",
@@ -205,7 +221,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleFuncWithColumnInPredicate 的缺陷"
+          "text": "修复 RuleFuncWithColumnInPredicate 的缺陷",
+          "textEn": "Fixed a defect in RuleFuncWithColumnInPredicate"
         },
         {
           "confidence": "high",
@@ -216,7 +233,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleNoCond4NonAggSelectWarning 的缺陷"
+          "text": "修复 RuleNoCond4NonAggSelectWarning 的缺陷",
+          "textEn": "Fixed a defect in RuleNoCond4NonAggSelectWarning"
         }
       ]
     }

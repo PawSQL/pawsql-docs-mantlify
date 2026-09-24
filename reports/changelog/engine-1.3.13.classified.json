@@ -20,7 +20,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 PostgreSQL 的 create extension"
+          "text": "支持 PostgreSQL 的 create extension",
+          "textEn": "Added PostgreSQL create extension"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复索引无名字的缺陷"
+          "text": "修复索引无名字的缺陷",
+          "textEn": "Fixed unnamed indexes"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "将分区定义归类到 tableOption"
+          "text": "将分区定义归类到 tableOption",
+          "textEn": "Partition definitions are grouped under tableOption"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "重构 SQL 解析器，减少不必要的查询快标记；advisor 统一使用 transferSQL"
+          "text": "重构 SQL 解析器，减少不必要的查询快标记；advisor 统一使用 transferSQL",
+          "textEn": "Refactored the SQL parser to reduce unnecessary query markers; advisors share transferSQL"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 script SQL 语句类型"
+          "text": "新增 script SQL 语句类型",
+          "textEn": "Added the script SQL statement type"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "非 DDL 语句不再检查表与列是否存在"
+          "text": "非 DDL 语句不再检查表与列是否存在",
+          "textEn": "Non-DDL statements no longer check table and column existence"
         },
         {
           "confidence": "high",
@@ -82,7 +88,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化 SQL 解析器，支持对象命名的详细分析；优化语法问题的预警逻辑"
+          "text": "优化 SQL 解析器，支持对象命名的详细分析；优化语法问题的预警逻辑",
+          "textEn": "Improved the SQL parser with detailed object-name analysis and better syntax warnings"
         },
         {
           "confidence": "high",
@@ -92,7 +99,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "修正 Oracle 中 group by 整数序号的解析"
+          "text": "修正 Oracle 中 group by 整数序号的解析",
+          "textEn": "Fixed parsing of positional group by ordinals on Oracle"
         },
         {
           "confidence": "high",
@@ -102,7 +110,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "找不到 baseTable 时不在解析期创建该表，以免影响业务 SQL 的判断"
+          "text": "找不到 baseTable 时不在解析期创建该表，以免影响业务 SQL 的判断",
+          "textEn": "A missing baseTable is no longer created during parsing, which used to affect business-query detection"
         },
         {
           "confidence": "high",
@@ -112,7 +121,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "更新 parser 代码，解决 PL/SQL、TSQL、PGSQL 中单条 SQL 使用脚本解析器的问题"
+          "text": "更新 parser 代码，解决 PL/SQL、TSQL、PGSQL 中单条 SQL 使用脚本解析器的问题",
+          "textEn": "Updated the parser so a single statement in PL/SQL, TSQL or PGSQL no longer uses the script parser"
         },
         {
           "confidence": "high",
@@ -123,7 +133,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复选择列解析的缺陷"
+          "text": "修复选择列解析的缺陷",
+          "textEn": "Fixed select-list parsing"
         },
         {
           "confidence": "high",
@@ -133,7 +144,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "修正脚本解析时 SQL 内部的行信息"
+          "text": "修正脚本解析时 SQL 内部的行信息",
+          "textEn": "Corrected line information inside SQL during script parsing"
         },
         {
           "confidence": "high",
@@ -144,7 +156,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化 SQL 解析器"
+          "text": "优化 SQL 解析器",
+          "textEn": "Improved the SQL parser"
         },
         {
           "confidence": "high",
@@ -154,7 +167,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化字符串是否为 varchar 的判断，为 text 类型设置长度；NotInNullableSubQueryRewrite 增加可控判断"
+          "text": "优化字符串是否为 varchar 的判断，为 text 类型设置长度；NotInNullableSubQueryRewrite 增加可控判断",
+          "textEn": "Improved varchar detection and set text lengths; NotInNullableSubQueryRewrite gained a controllable check"
         },
         {
           "confidence": "high",
@@ -165,7 +179,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复常量解析的缺陷"
+          "text": "修复常量解析的缺陷",
+          "textEn": "Fixed constant parsing"
         },
         {
           "confidence": "high",
@@ -175,7 +190,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 Hive 的 lateral reference"
+          "text": "支持 Hive 的 lateral reference",
+          "textEn": "Added Hive lateral reference"
         },
         {
           "confidence": "high",
@@ -186,7 +202,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 TDSQL sequence 的解析与审核"
+          "text": "支持 TDSQL sequence 的解析与审核",
+          "textEn": "Added TDSQL sequence parsing and review"
         },
         {
           "confidence": "high",
@@ -196,7 +213,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化 TDSQLX-MySQL 复杂 SQL 的执行计划解析"
+          "text": "优化 TDSQLX-MySQL 复杂 SQL 的执行计划解析",
+          "textEn": "Improved execution-plan parsing for complex TDSQLX-MySQL statements"
         },
         {
           "confidence": "high",
@@ -207,7 +225,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复限定符解析的缺陷"
+          "text": "修复限定符解析的缺陷",
+          "textEn": "Fixed qualifier resolution"
         },
         {
           "confidence": "high",
@@ -217,7 +236,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "TDSQL 分布式对复杂 SQL 不支持 analyze 时改用 format = tree"
+          "text": "TDSQL 分布式对复杂 SQL 不支持 analyze 时改用 format = tree",
+          "textEn": "Distributed TDSQL uses format = tree when analyze is unsupported"
         },
         {
           "confidence": "high",
@@ -227,7 +247,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 TDSQL 特有的关键字"
+          "text": "支持 TDSQL 特有的关键字",
+          "textEn": "Added TDSQL-specific keywords"
         },
         {
           "confidence": "high",
@@ -238,7 +259,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复变长字符类型的判断，并把 MySQL 的 utf8 与 utf8mb3 视为一致"
+          "text": "修复变长字符类型的判断，并把 MySQL 的 utf8 与 utf8mb3 视为一致",
+          "textEn": "Fixed variable-length character-type detection and treat MySQL utf8 as utf8mb3"
         },
         {
           "confidence": "high",
@@ -249,7 +271,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复缺陷，支持获取非 SQL 的 statement"
+          "text": "修复缺陷，支持获取非 SQL 的 statement",
+          "textEn": "Fixed retrieving non-SQL statements"
         },
         {
           "confidence": "high",
@@ -260,7 +283,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复在线获取表结构与离线 DDL 解析的 decimal 类型不一致"
+          "text": "修复在线获取表结构与离线 DDL 解析的 decimal 类型不一致",
+          "textEn": "Fixed the decimal type mismatch between online table structure and offline DDL parsing"
         },
         {
           "confidence": "high",
@@ -271,7 +295,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 PL/SQL 的解析异常处理逻辑"
+          "text": "修复 PL/SQL 的解析异常处理逻辑",
+          "textEn": "Fixed PL/SQL parse exception handling"
         },
         {
           "confidence": "high",
@@ -281,7 +306,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "脚本解析时把 create database/use database 加入语句列表，以支持 SQL 执行"
+          "text": "脚本解析时把 create database/use database 加入语句列表，以支持 SQL 执行",
+          "textEn": "Script parsing adds create database/use database to the statement list so they execute"
         }
       ]
     },
@@ -296,7 +322,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "优化 DerivedTable2LateralJoinRewrite，解决 lateral 变换后的表顺序问题"
+          "text": "优化 DerivedTable2LateralJoinRewrite，解决 lateral 变换后的表顺序问题",
+          "textEn": "Improved DerivedTable2LateralJoinRewrite to fix table order after the lateral transform"
         },
         {
           "confidence": "high",
@@ -306,7 +333,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "优化算法：派生表转换为 Lateral 表关联"
+          "text": "优化算法：派生表转换为 Lateral 表关联",
+          "textEn": "Optimisation: derived tables are converted to lateral joins"
         },
         {
           "confidence": "high",
@@ -316,7 +344,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "表关联缺少连接条件的优化"
+          "text": "表关联缺少连接条件的优化",
+          "textEn": "Optimisation for joins that lack a join condition"
         },
         {
           "confidence": "high",
@@ -326,7 +355,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "straight join 支持重写，JoinEliminationRewrite 支持非 PKFK 场景"
+          "text": "straight join 支持重写，JoinEliminationRewrite 支持非 PKFK 场景",
+          "textEn": "straight join can be rewritten; JoinEliminationRewrite handles non-PK/FK cases"
         }
       ]
     },
@@ -340,7 +370,8 @@
             "fa5c2eb6"
           ],
           "tags": [],
-          "text": "其余内部改动（2 条提交）"
+          "text": "其余内部改动（2 条提交）",
+          "textEn": null
         }
       ]
     }

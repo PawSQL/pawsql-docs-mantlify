@@ -21,7 +21,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复一张表上存在多个重名约束时的解析缺陷"
+          "text": "修复一张表上存在多个重名约束时的解析缺陷",
+          "textEn": "Fixed parsing when a table has several constraints with the same name"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化 Hive 语法支持"
+          "text": "优化 Hive 语法支持",
+          "textEn": "Improved Hive syntax support"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 OceanBase 的审核支持"
+          "text": "新增 OceanBase 的审核支持",
+          "textEn": "Added audit support for OceanBase"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 OceanBase 的 DDL 解析支持"
+          "text": "新增 OceanBase 的 DDL 解析支持",
+          "textEn": "Added DDL parsing for OceanBase"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复多表 update 语句中值表达式查找的缺陷"
+          "text": "修复多表 update 语句中值表达式查找的缺陷",
+          "textEn": "Fixed value-expression lookup for multi-table update statements"
         },
         {
           "confidence": "high",
@@ -73,7 +78,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复结果列容器为空的缺陷"
+          "text": "修复结果列容器为空的缺陷",
+          "textEn": "Fixed a null result-column container"
         },
         {
           "confidence": "high",
@@ -83,7 +89,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "DDL 解析器支持 include 与 condition 索引"
+          "text": "DDL 解析器支持 include 与 condition 索引",
+          "textEn": "The DDL parser supports include and condition indexes"
         },
         {
           "confidence": "high",
@@ -94,7 +101,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 PostgreSQL 双引号与 update 语句解析的缺陷"
+          "text": "修复 PostgreSQL 双引号与 update 语句解析的缺陷",
+          "textEn": "Fixed PostgreSQL double-quote and update-statement parsing"
         },
         {
           "confidence": "high",
@@ -104,7 +112,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持命名函数"
+          "text": "支持命名函数",
+          "textEn": "Added named functions"
         },
         {
           "confidence": "high",
@@ -115,7 +124,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复达梦在线 DDL 解析的缺陷"
+          "text": "修复达梦在线 DDL 解析的缺陷",
+          "textEn": "Fixed online DDL parsing for Dameng"
         },
         {
           "confidence": "high",
@@ -126,7 +136,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复列别名下表关联的缺陷"
+          "text": "修复列别名下表关联的缺陷",
+          "textEn": "Fixed table correlation when columns carry aliases"
         },
         {
           "confidence": "high",
@@ -136,7 +147,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 alter table drop/truncate partition"
+          "text": "支持 alter table drop/truncate partition",
+          "textEn": "Added alter table drop/truncate partition"
         },
         {
           "confidence": "high",
@@ -146,7 +158,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "在线 DDL 解析器支持 Kingbase 与 PostgreSQL 的本地索引"
+          "text": "在线 DDL 解析器支持 Kingbase 与 PostgreSQL 的本地索引",
+          "textEn": "The online DDL parser supports local indexes for Kingbase and PostgreSQL"
         },
         {
           "confidence": "high",
@@ -156,7 +169,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 PolarDB-X 支持"
+          "text": "新增 PolarDB-X 支持",
+          "textEn": "Added PolarDB-X support"
         },
         {
           "confidence": "high",
@@ -167,7 +181,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "表新增 distributeClause，PolarDB-X 支持 SINGLE/BROADCAST 分布"
+          "text": "表新增 distributeClause，PolarDB-X 支持 SINGLE/BROADCAST 分布",
+          "textEn": "Tables gained distributeClause; PolarDB-X supports SINGLE/BROADCAST distribution"
         },
         {
           "confidence": "high",
@@ -178,7 +193,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 DataType 相等判断的缺陷"
+          "text": "修复 DataType 相等判断的缺陷",
+          "textEn": "Fixed DataType equality"
         },
         {
           "confidence": "high",
@@ -188,7 +204,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "移除旧 DDL 解析器"
+          "text": "移除旧 DDL 解析器",
+          "textEn": "Removed the legacy DDL parser"
         },
         {
           "confidence": "high",
@@ -198,7 +215,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 gaussdbx 数据库类型"
+          "text": "新增 gaussdbx 数据库类型",
+          "textEn": "Added the gaussdbx database type"
         },
         {
           "confidence": "high",
@@ -209,7 +227,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Hive 次要类型配置解析的缺陷"
+          "text": "修复 Hive 次要类型配置解析的缺陷",
+          "textEn": "Fixed Hive minor-type configuration parsing"
         },
         {
           "confidence": "high",
@@ -220,7 +239,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 MySQL X 协议复制语法的缺陷"
+          "text": "修复 MySQL X 协议复制语法的缺陷",
+          "textEn": "Fixed MySQL X Protocol replication syntax"
         },
         {
           "confidence": "high",
@@ -231,7 +251,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 check 约束语法支持，新增 TDSQLX 与 gaussdbx 的分片语法"
+          "text": "修复 check 约束语法支持，新增 TDSQLX 与 gaussdbx 的分片语法",
+          "textEn": "Fixed check-constraint syntax and added sharding syntax for TDSQLX and gaussdbx"
         }
       ]
     },
@@ -250,7 +271,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 RuleOrCond4SelectRewrite 的缺陷"
+          "text": "修复 RuleOrCond4SelectRewrite 的缺陷",
+          "textEn": "Fixed a defect in RuleOrCond4SelectRewrite"
         },
         {
           "confidence": "high",
@@ -260,7 +282,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "采集 MySQL 的表与索引大小、dirtyRate 信息"
+          "text": "采集 MySQL 的表与索引大小、dirtyRate 信息",
+          "textEn": "Collect table and index sizes plus dirtyRate for MySQL"
         },
         {
           "confidence": "high",
@@ -271,7 +294,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复为性能验证把 update 重写为查询时的缺陷"
+          "text": "修复为性能验证把 update 重写为查询时的缺陷",
+          "textEn": "Fixed rewriting update into a query for performance validation"
         },
         {
           "confidence": "high",
@@ -281,7 +305,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "采集 PostgreSQL 系数据库的表与索引大小、dirtyRate 及统计信息时间"
+          "text": "采集 PostgreSQL 系数据库的表与索引大小、dirtyRate 及统计信息时间",
+          "textEn": "Collect table and index sizes, dirtyRate and statistics timestamps for the PostgreSQL family"
         },
         {
           "confidence": "high",
@@ -291,7 +316,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "表与基表新增数据量、索引大小、dirtyRate 等采集字段"
+          "text": "表与基表新增数据量、索引大小、dirtyRate 等采集字段",
+          "textEn": "Tables and base tables gained collected fields for data size, index size, dirtyRate and more"
         }
       ]
     },
@@ -306,7 +332,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "调整 RuleUseKeyAsShardingKey 逻辑，新增 RuleNoEqualFilterOnShardingKeys4DML 与 RuleDMLWithJoinInShardingDatabase"
+          "text": "调整 RuleUseKeyAsShardingKey 逻辑，新增 RuleNoEqualFilterOnShardingKeys4DML 与 RuleDMLWithJoinInShardingDatabase",
+          "textEn": "Reworked RuleUseKeyAsShardingKey and added RuleNoEqualFilterOnShardingKeys4DML and RuleDMLWithJoinInShardingDatabase"
         },
         {
           "confidence": "high",
@@ -316,7 +343,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "重命名新增的审核规则"
+          "text": "重命名新增的审核规则",
+          "textEn": "Renamed the newly added audit rules"
         },
         {
           "confidence": "high",
@@ -326,7 +354,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "新增 10 条分片与失效索引相关的审核规则"
+          "text": "新增 10 条分片与失效索引相关的审核规则",
+          "textEn": "Added 10 audit rules for sharding and invalid indexes"
         },
         {
           "confidence": "high",
@@ -337,7 +366,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleDiffDatatypeOfJoinColumns 的缺陷"
+          "text": "修复 RuleDiffDatatypeOfJoinColumns 的缺陷",
+          "textEn": "Fixed a defect in RuleDiffDatatypeOfJoinColumns"
         }
       ]
     },
@@ -352,7 +382,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "支持 PostgreSQL、openGauss、MySQL、Kingbase 等数据库的索引可见性"
+          "text": "支持 PostgreSQL、openGauss、MySQL、Kingbase 等数据库的索引可见性",
+          "textEn": "Added index visibility for PostgreSQL, openGauss, MySQL, Kingbase and others"
         },
         {
           "confidence": "high",
@@ -362,7 +393,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "在线 DDL 解析器为索引新增 isValid 属性"
+          "text": "在线 DDL 解析器为索引新增 isValid 属性",
+          "textEn": "The online DDL parser marks indexes with an isValid attribute"
         },
         {
           "confidence": "high",
@@ -372,7 +404,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "索引新增 valid 属性"
+          "text": "索引新增 valid 属性",
+          "textEn": "Indexes gained a valid attribute"
         }
       ]
     },
@@ -387,7 +420,8 @@
             "9b96eeb3"
           ],
           "tags": [],
-          "text": "其余内部改动（3 条提交）"
+          "text": "其余内部改动（3 条提交）",
+          "textEn": null
         }
       ]
     }

@@ -20,7 +20,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "简化工作空间创建 DTO 的密码过滤逻辑"
+          "text": "简化工作空间创建 DTO 的密码过滤逻辑",
+          "textEn": "Simplified password filtering in the workspace-creation DTO"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "MySQL 连接启用 SSL/TLS，以支持 require_secure_transport=ON"
+          "text": "MySQL 连接启用 SSL/TLS，以支持 require_secure_transport=ON",
+          "textEn": "MySQL connections use SSL/TLS to support require_secure_transport=ON"
         }
       ]
     },
@@ -46,7 +48,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "统一工作空间创建逻辑，移除硬编码的数据库类型常量"
+          "text": "统一工作空间创建逻辑，移除硬编码的数据库类型常量",
+          "textEn": "Unified workspace creation and removed hardcoded database-type constants"
         },
         {
           "confidence": "high",
@@ -56,7 +59,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "移除创建工作空间时 database 字段的非空校验"
+          "text": "移除创建工作空间时 database 字段的非空校验",
+          "textEn": "Removed the non-null validation on the database field when creating a workspace"
         },
         {
           "confidence": "high",
@@ -66,7 +70,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "DDL 迁移目录加序号前缀，shared 改为 01-common"
+          "text": "DDL 迁移目录加序号前缀，shared 改为 01-common",
+          "textEn": "DDL migration directories gained sequence prefixes; shared became 01-common"
         },
         {
           "confidence": "high",
@@ -76,7 +81,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "DDL 目录新增 03-wip，baseline 文件带上日期"
+          "text": "DDL 目录新增 03-wip，baseline 文件带上日期",
+          "textEn": "Added 03-wip for in-flight work; baseline files carry a date"
         },
         {
           "confidence": "high",
@@ -86,7 +92,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "DDL 目录移到 docs/ 下，并新增开发者与 AI 指南"
+          "text": "DDL 目录移到 docs/ 下，并新增开发者与 AI 指南",
+          "textEn": "Moved DDL under docs/ and added developer and AI guides"
         },
         {
           "confidence": "high",
@@ -96,7 +103,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "DDL 移到 cloud/src/main/resources/ 下，移除旧脚本目录"
+          "text": "DDL 移到 cloud/src/main/resources/ 下，移除旧脚本目录",
+          "textEn": "Moved DDL under cloud/src/main/resources/ and removed the old script directory"
         },
         {
           "confidence": "high",
@@ -106,7 +114,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "建立统一的数据库脚本管理：baseline + migrations + archive"
+          "text": "建立统一的数据库脚本管理：baseline + migrations + archive",
+          "textEn": "Established unified database script management: baseline + migrations + archive"
         },
         {
           "confidence": "high",
@@ -116,7 +125,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "新增环境变量模板文件并更新配置管理方式"
+          "text": "新增环境变量模板文件并更新配置管理方式",
+          "textEn": "Added an environment-variable template and changed configuration management"
         }
       ]
     },
@@ -131,7 +141,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "达梦慢查询参数校验优化，部分参数获取失败时兜底"
+          "text": "达梦慢查询参数校验优化，部分参数获取失败时兜底",
+          "textEn": "Dameng slow-query parameter validation falls back when some parameters cannot be read"
         }
       ]
     },
@@ -146,7 +157,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "摘要与 SQL 详情接口返回规则预警级别信息"
+          "text": "摘要与 SQL 详情接口返回规则预警级别信息",
+          "textEn": "Summary and SQL-detail endpoints return rule severity information"
         }
       ]
     },
@@ -161,7 +173,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "使用格式化后的 SQL 语句进行审核，获取正确的行号"
+          "text": "使用格式化后的 SQL 语句进行审核，获取正确的行号",
+          "textEn": "Review uses the formatted SQL statement to report correct line numbers"
         },
         {
           "confidence": "high",
@@ -172,7 +185,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "完善工单执行中跳过步骤的状态校验与结果处理"
+          "text": "完善工单执行中跳过步骤的状态校验与结果处理",
+          "textEn": "Completed state validation and result handling for skipped ticket steps"
         }
       ]
     }

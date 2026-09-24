@@ -443,7 +443,7 @@ def render_version_section(
             suffix = ""
             if include_commits and entry.sourceCommits:
                 suffix = f" ({', '.join(entry.sourceCommits)})"
-            body.append(f"- {escape_mdx(entry.text)}{suffix}")
+            body.append(f"- {escape_mdx(entry.text_for(lang))}{suffix}")
         body.append("")
 
     lines.extend(f"  {line}" if line else "" for line in body)
@@ -557,6 +557,7 @@ def classify_commits(
             entries=[
                 ClassifiedEntry(
                     text=entry.text,
+                    textEn=entry.textEn,
                     sourceCommits=[short for short in entry.sourceCommits if short in known],
                     confidence=entry.confidence,
                     tags=list(entry.tags),

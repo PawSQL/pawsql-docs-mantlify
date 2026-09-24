@@ -20,7 +20,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持局部与全局变量，并在查询中替换"
+          "text": "支持局部与全局变量，并在查询中替换",
+          "textEn": "Local and global variables are substituted into queries"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 SELECT ... INTO 临时表"
+          "text": "支持 SELECT ... INTO 临时表",
+          "textEn": "Added SELECT ... INTO a temporary table"
         },
         {
           "confidence": "high",
@@ -40,7 +42,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL 文本中的 &lt; &gt; 还原为 < 与 >"
+          "text": "SQL 文本中的尖括号转义写法还原为 < 与 >",
+          "textEn": "Escaped angle brackets in SQL text are restored to < and >"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复查询分析器的缺陷"
+          "text": "修复查询分析器的缺陷",
+          "textEn": "Fixed the query analyzer"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Oracle 视图解析的缺陷"
+          "text": "修复 Oracle 视图解析的缺陷",
+          "textEn": "Fixed Oracle view parsing"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 alter index rename 与 visible 语法"
+          "text": "支持 alter index rename 与 visible 语法",
+          "textEn": "Added alter index rename and visible"
         },
         {
           "confidence": "high",
@@ -85,7 +91,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "sourcewriter 输出格式重构，支持压缩与非压缩两种模式"
+          "text": "sourcewriter 输出格式重构，支持压缩与非压缩两种模式",
+          "textEn": "Reworked source writer output with compressed and uncompressed modes"
         },
         {
           "confidence": "high",
@@ -96,7 +103,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复一般性缺陷"
+          "text": "修复一般性缺陷",
+          "textEn": "Fixed a general defect"
         },
         {
           "confidence": "high",
@@ -106,7 +114,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 topN 语法"
+          "text": "支持 topN 语法",
+          "textEn": "Added topN syntax"
         },
         {
           "confidence": "high",
@@ -116,7 +125,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持全角空白字符"
+          "text": "支持全角空白字符",
+          "textEn": "Added full-width whitespace support"
         },
         {
           "confidence": "high",
@@ -127,7 +137,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 WithTable 类型只有一个表引用时的缺陷"
+          "text": "修复 WithTable 类型只有一个表引用时的缺陷",
+          "textEn": "Fixed WithTable with a single table reference"
         },
         {
           "confidence": "high",
@@ -138,7 +149,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复多语句语法"
+          "text": "修复多语句语法",
+          "textEn": "Fixed multi-statement grammar"
         },
         {
           "confidence": "high",
@@ -148,7 +160,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "连接关闭时释放连接"
+          "text": "连接关闭时释放连接",
+          "textEn": "Connections are released on close"
         },
         {
           "confidence": "high",
@@ -159,7 +172,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 设置 autoCommit = true"
+          "text": "SQL Server 设置 autoCommit = true",
+          "textEn": "SQL Server: autoCommit = true"
         },
         {
           "confidence": "high",
@@ -169,7 +183,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持表引用后紧跟表提示 (NOLOCK)"
+          "text": "SQL Server 支持表引用后紧跟表提示 (NOLOCK)",
+          "textEn": "SQL Server: table hints (NOLOCK) directly after a table reference"
         }
       ]
     },
@@ -184,7 +199,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "启用 RuleViewResolvingRewrite"
+          "text": "启用 RuleViewResolvingRewrite",
+          "textEn": "Enabled RuleViewResolvingRewrite"
         },
         {
           "confidence": "high",
@@ -194,7 +210,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "「对象需指定 IfExists」规则的适用范围扩展到 alter index"
+          "text": "「对象需指定 IfExists」规则的适用范围扩展到 alter index",
+          "textEn": "Extended the IfExists rule to alter index"
         },
         {
           "confidence": "high",
@@ -205,7 +222,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RulePredicateSSQRewrite 的输出缺陷与 RuleFuncWithColumnInPredicate 的缺陷"
+          "text": "修复 RulePredicateSSQRewrite 的输出缺陷与 RuleFuncWithColumnInPredicate 的缺陷",
+          "textEn": "Fixed RulePredicateSSQRewrite output and RuleFuncWithColumnInPredicate"
         },
         {
           "confidence": "high",
@@ -216,7 +234,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleFuncWithColumnInPredicate 引用别名时的缺陷"
+          "text": "修复 RuleFuncWithColumnInPredicate 引用别名时的缺陷",
+          "textEn": "Fixed RuleFuncWithColumnInPredicate when an alias is referenced"
         }
       ]
     },
@@ -231,7 +250,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "Oracle 与达梦重新启用查询折叠"
+          "text": "Oracle 与达梦重新启用查询折叠",
+          "textEn": "Query folding re-enabled for Oracle and Dameng"
         },
         {
           "confidence": "high",
@@ -241,7 +261,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "回退 union all 的 limit/order by 处理逻辑"
+          "text": "回退 union all 的 limit/order by 处理逻辑",
+          "textEn": "Reverted limit/order by handling for union all"
         },
         {
           "confidence": "high",
@@ -252,7 +273,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复二次重写的缺陷"
+          "text": "修复二次重写的缺陷",
+          "textEn": "Fixed second-round rewriting"
         },
         {
           "confidence": "high",
@@ -262,7 +284,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "列名形如「***valid」时降低其过滤因子"
+          "text": "列名形如「***valid」时降低其过滤因子",
+          "textEn": "Columns named like ***valid get a reduced filter factor"
         }
       ]
     },
@@ -277,7 +300,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "SQL 审核新增索引推荐，索引分析更精简"
+          "text": "SQL 审核新增索引推荐，索引分析更精简",
+          "textEn": "SQL audit gained index recommendation and produces more concise index analysis"
         },
         {
           "confidence": "high",
@@ -287,7 +311,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "外键分配索引名；RuleOrCond4SelectRewrite 启用 union all"
+          "text": "外键分配索引名；RuleOrCond4SelectRewrite 启用 union all",
+          "textEn": "Foreign keys are assigned index names; RuleOrCond4SelectRewrite enables union all"
         },
         {
           "confidence": "high",
@@ -298,7 +323,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "索引推荐时把多表连接的关联顺序纳入外键顺序的考虑"
+          "text": "索引推荐时把多表连接的关联顺序纳入外键顺序的考虑",
+          "textEn": "Index recommendation considers join order when ordering foreign keys"
         }
       ]
     }

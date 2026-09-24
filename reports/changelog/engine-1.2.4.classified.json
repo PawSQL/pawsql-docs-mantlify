@@ -21,7 +21,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持局部与全局变量定义"
+          "text": "SQL Server 支持局部与全局变量定义",
+          "textEn": "SQL Server: local and global variable definitions"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 GO 作为语句分隔符"
+          "text": "SQL Server 支持 GO 作为语句分隔符",
+          "textEn": "SQL Server: GO as a statement separator"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 #table 临时表"
+          "text": "SQL Server 支持 #table 临时表",
+          "textEn": "SQL Server: #table temporary tables"
         },
         {
           "confidence": "high",
@@ -52,7 +55,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 fullcolumnname 解析的缺陷"
+          "text": "修复 fullcolumnname 解析的缺陷",
+          "textEn": "Fixed fullcolumnname parsing"
         },
         {
           "confidence": "high",
@@ -65,7 +69,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 DML 语句中的 WITH 表"
+          "text": "支持 DML 语句中的 WITH 表",
+          "textEn": "DML statements support WITH tables"
         },
         {
           "confidence": "high",
@@ -75,7 +80,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 SQL Server 的 cross/outer apply"
+          "text": "支持 SQL Server 的 cross/outer apply",
+          "textEn": "SQL Server: cross/outer apply"
         },
         {
           "confidence": "high",
@@ -85,7 +91,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持函数参数中的谓词"
+          "text": "支持函数参数中的谓词",
+          "textEn": "Predicates are accepted as function parameters"
         },
         {
           "confidence": "high",
@@ -95,7 +102,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 SQL Server 的 VARCHAR(MAX)"
+          "text": "支持 SQL Server 的 VARCHAR(MAX)",
+          "textEn": "SQL Server: VARCHAR(MAX)"
         },
         {
           "confidence": "high",
@@ -106,7 +114,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 MSSQLValidator 与 SQL Server limit 语法的缺陷"
+          "text": "修复 MSSQLValidator 与 SQL Server limit 语法的缺陷",
+          "textEn": "Fixed the MSSQL validator and SQL Server limit syntax"
         },
         {
           "confidence": "high",
@@ -116,7 +125,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "update/delete 语句只有一个表时，把列归属到该表"
+          "text": "update/delete 语句只有一个表时，把列归属到该表",
+          "textEn": "A single-table update/delete assigns its columns to that table"
         },
         {
           "confidence": "high",
@@ -126,7 +136,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 ALTER TABLE [库].[schema].[表] ADD 列 语法"
+          "text": "SQL Server 支持 ALTER TABLE [库].[schema].[表] ADD 列 语法",
+          "textEn": "SQL Server: ALTER TABLE [db].[schema].[table] ADD column"
         }
       ]
     },
@@ -142,7 +153,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 LimitClausePushDown 的缺陷"
+          "text": "修复 LimitClausePushDown 的缺陷",
+          "textEn": "Fixed LimitClausePushDown"
         },
         {
           "confidence": "high",
@@ -153,7 +165,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "新增 RuleOrCond2InPredicateRewrite 重写规则"
+          "text": "新增 RuleOrCond2InPredicateRewrite 重写规则",
+          "textEn": "Added the RuleOrCond2InPredicateRewrite rule"
         }
       ]
     },
@@ -168,7 +181,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "优化 RuleFuncWithColumnInPredicate"
+          "text": "优化 RuleFuncWithColumnInPredicate",
+          "textEn": "Improved RuleFuncWithColumnInPredicate"
         }
       ]
     },
@@ -183,7 +197,8 @@
             "fd65b4ca"
           ],
           "tags": [],
-          "text": "其余内部改动（3 条提交）"
+          "text": "其余内部改动（3 条提交）",
+          "textEn": null
         }
       ]
     }

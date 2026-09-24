@@ -20,7 +20,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增工单 SQL 执行所需的三张跟踪表"
+          "text": "新增工单 SQL 执行所需的三张跟踪表",
+          "textEn": "Added the three tracking tables needed for ticket SQL execution"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复处理索引数量前未先保存索引的问题"
+          "text": "修复处理索引数量前未先保存索引的问题",
+          "textEn": "Fixed indexes not being saved before their count was used"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增无索引阶段的索引推荐保存逻辑"
+          "text": "新增无索引阶段的索引推荐保存逻辑",
+          "textEn": "Added saving of index recommendations for the no-index stage"
         },
         {
           "confidence": "high",
@@ -52,7 +55,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复校验逻辑的空指针问题"
+          "text": "修复校验逻辑的空指针问题",
+          "textEn": "Fixed a null-pointer problem in the validation logic"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "性能验证前处理变量与不支持的 SQL 类型"
+          "text": "性能验证前处理变量与不支持的 SQL 类型",
+          "textEn": "Variables and unsupported SQL types are handled before performance validation"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "提取并统一解析异常的持久化逻辑"
+          "text": "提取并统一解析异常的持久化逻辑",
+          "textEn": "Extracted and unified parse-exception persistence"
         },
         {
           "confidence": "high",
@@ -82,7 +88,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "同步审核逻辑"
+          "text": "同步审核逻辑",
+          "textEn": "Synced the review logic"
         },
         {
           "confidence": "high",
@@ -92,7 +99,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "完善非事务执行模式的会话处理"
+          "text": "完善非事务执行模式的会话处理",
+          "textEn": "Completed session handling for non-transactional execution"
         },
         {
           "confidence": "high",
@@ -102,7 +110,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "提取错误消息常量，并拦截离线工作空间的执行"
+          "text": "提取错误消息常量，并拦截离线工作空间的执行",
+          "textEn": "Extracted error-message constants and blocked execution in offline workspaces"
         },
         {
           "confidence": "high",
@@ -112,7 +121,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "硬编码错误信息改为国际化常量键"
+          "text": "硬编码错误信息改为国际化常量键",
+          "textEn": "Hardcoded error messages became i18n constant keys"
         },
         {
           "confidence": "high",
@@ -122,7 +132,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "工单执行会话支持超时自动回滚与合法性校验"
+          "text": "工单执行会话支持超时自动回滚与合法性校验",
+          "textEn": "Ticket execution sessions support timeout rollback and validity checks"
         },
         {
           "confidence": "high",
@@ -132,7 +143,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增按工单 ID 获取执行会话历史列表的接口"
+          "text": "新增按工单 ID 获取执行会话历史列表的接口",
+          "textEn": "Added an endpoint listing execution-session history by ticket ID"
         },
         {
           "confidence": "high",
@@ -142,7 +154,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增执行会话终止功能"
+          "text": "新增执行会话终止功能",
+          "textEn": "Added termination of an execution session"
         },
         {
           "confidence": "high",
@@ -152,7 +165,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增执行会话的连接丢失检测与处理"
+          "text": "新增执行会话的连接丢失检测与处理",
+          "textEn": "Added detection and handling of lost execution-session connections"
         },
         {
           "confidence": "high",
@@ -162,7 +176,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "执行会话支持跳过当前 SQL 与超时自动回滚"
+          "text": "执行会话支持跳过当前 SQL 与超时自动回滚",
+          "textEn": "Execution sessions can skip the current SQL and roll back on timeout"
         },
         {
           "confidence": "high",
@@ -172,7 +187,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "执行会话支持批量执行全部 SQL 与参数化执行"
+          "text": "执行会话支持批量执行全部 SQL 与参数化执行",
+          "textEn": "Execution sessions support running all SQL in one batch and parameterised execution"
         },
         {
           "confidence": "high",
@@ -182,7 +198,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "工单 M2 级 SQL 执行会话支持执行、提交与回滚"
+          "text": "工单 M2 级 SQL 执行会话支持执行、提交与回滚",
+          "textEn": "M2-level ticket SQL execution sessions support execute, commit and rollback"
         },
         {
           "confidence": "high",
@@ -192,7 +209,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "实现工单 SQL 执行会话预览（M1）"
+          "text": "实现工单 SQL 执行会话预览（M1）",
+          "textEn": "Implemented ticket SQL execution session preview (M1)"
         }
       ]
     },
@@ -207,7 +225,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "新增多数据库方言执行支持框架"
+          "text": "新增多数据库方言执行支持框架",
+          "textEn": "Added a multi-dialect execution framework"
         }
       ]
     }

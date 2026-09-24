@@ -20,7 +20,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "平台用户管理新增启用/禁用状态控制接口"
+          "text": "平台用户管理新增启用/禁用状态控制接口",
+          "textEn": "Platform user management gained enable/disable endpoints"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "修正 checkLicense 错误信息中引用错的变量"
+          "text": "修正 checkLicense 错误信息中引用错的变量",
+          "textEn": "Fixed checkLicense referencing the wrong variable in its error message"
         }
       ]
     },
@@ -46,7 +48,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "匿名分析接口增加 IP + sessionId 双维度限流"
+          "text": "匿名分析接口增加 IP + sessionId 双维度限流",
+          "textEn": "The anonymous analysis endpoint is rate-limited by IP + sessionId"
         },
         {
           "confidence": "high",
@@ -56,7 +59,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "integration 模块剩余的 DTO/Entity 注解迁移到 OpenAPI 3"
+          "text": "integration 模块剩余的 DTO/Entity 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated the remaining DTO/Entity annotations in the integration module to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -66,7 +70,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "ticket 模块注解迁移到 OpenAPI 3"
+          "text": "ticket 模块注解迁移到 OpenAPI 3",
+          "textEn": "Migrated ticket module annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -76,7 +81,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "cloud 模块注解迁移到 OpenAPI 3"
+          "text": "cloud 模块注解迁移到 OpenAPI 3",
+          "textEn": "Migrated cloud module annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -86,7 +92,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "base/app 模块 Controller 注解迁移到 OpenAPI 3"
+          "text": "base/app 模块 Controller 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated base/app controller annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -96,7 +103,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "base 模块 Entity 注解迁移到 OpenAPI 3"
+          "text": "base 模块 Entity 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated base module entity annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -106,7 +114,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "base 模块 DTO 注解迁移到 OpenAPI 3"
+          "text": "base 模块 DTO 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated base module DTO annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -116,7 +125,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "公共 API 与集成 API 的 DTO 注解迁移到 OpenAPI 3"
+          "text": "公共 API 与集成 API 的 DTO 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated public and integration API DTO annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -126,7 +136,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "公共 API 与集成 API 的 Controller 注解迁移到 OpenAPI 3"
+          "text": "公共 API 与集成 API 的 Controller 注解迁移到 OpenAPI 3",
+          "textEn": "Migrated public and integration API controller annotations to OpenAPI 3"
         },
         {
           "confidence": "high",
@@ -136,7 +147,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "替换 Springfox 为 Springdoc OpenAPI 3，并配置接口分组"
+          "text": "替换 Springfox 为 Springdoc OpenAPI 3，并配置接口分组",
+          "textEn": "Replaced Springfox with Springdoc OpenAPI 3 and configured API groups"
         },
         {
           "confidence": "high",
@@ -146,7 +158,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "恢复同步 createAnalysis，并新增 /createAnalysisAsync 接口与 API 文档"
+          "text": "恢复同步 createAnalysis，并新增 /createAnalysisAsync 接口与 API 文档",
+          "textEn": "Restored synchronous createAnalysis and added /createAnalysisAsync with API docs"
         },
         {
           "confidence": "high",
@@ -156,7 +169,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "新增异步 createAnalysis、system/info 接口与按名称查询"
+          "text": "新增异步 createAnalysis、system/info 接口与按名称查询",
+          "textEn": "Added async createAnalysis, a system/info endpoint and lookup by name"
         },
         {
           "confidence": "high",
@@ -167,7 +181,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "匿名用户跳过云端额度检查"
+          "text": "匿名用户跳过云端额度检查",
+          "textEn": "Anonymous users skip the cloud quota check"
         },
         {
           "confidence": "high",
@@ -177,7 +192,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "匿名用户 key 的配置移到按 profile 的 yml"
+          "text": "匿名用户 key 的配置移到按 profile 的 yml",
+          "textEn": "Moved the anonymous user-key configuration into profile-specific yml"
         },
         {
           "confidence": "high",
@@ -188,7 +204,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "createWorkspace 与 createAnalysis 支持匿名 key"
+          "text": "createWorkspace 与 createAnalysis 支持匿名 key",
+          "textEn": "createWorkspace and createAnalysis accept an anonymous key"
         },
         {
           "confidence": "high",
@@ -198,7 +215,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "新增匿名用户 key，支持 MCP/DBeaver 等免登录客户端"
+          "text": "新增匿名用户 key，支持 MCP/DBeaver 等免登录客户端",
+          "textEn": "Added an anonymous user key for login-free clients such as MCP and DBeaver"
         }
       ]
     },
@@ -213,7 +231,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增工单 SQL 执行会话的跟踪表"
+          "text": "新增工单 SQL 执行会话的跟踪表",
+          "textEn": "Added tracking tables for ticket SQL execution sessions"
         },
         {
           "confidence": "high",
@@ -224,7 +243,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "优化报告模板，去掉不必要的占位标题"
+          "text": "优化报告模板，去掉不必要的占位标题",
+          "textEn": "Improved report templates by removing unnecessary placeholder headings"
         }
       ]
     },
@@ -240,7 +260,8 @@
             "工作空间与数据源",
             "缺陷修复"
           ],
-          "text": "DDL 变更表格去掉冗余列"
+          "text": "DDL 变更表格去掉冗余列",
+          "textEn": "Removed redundant columns from the DDL change table"
         },
         {
           "confidence": "high",
@@ -250,7 +271,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "UserConfig 为空时回退到 PawsqlConfig"
+          "text": "UserConfig 为空时回退到 PawsqlConfig",
+          "textEn": "Fall back to PawsqlConfig when UserConfig is null"
         }
       ]
     },
@@ -266,7 +288,8 @@
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "AI 优化在无执行计划时禁止编造执行计划信息"
+          "text": "AI 优化在无执行计划时禁止编造执行计划信息",
+          "textEn": "AI optimisation no longer invents execution-plan information when none is available"
         },
         {
           "confidence": "high",
@@ -277,7 +300,8 @@
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "巡检 AI 优化的 SQL 来源改为以慢查询实体为准"
+          "text": "巡检 AI 优化的 SQL 来源改为以慢查询实体为准",
+          "textEn": "Inspection AI optimisation now takes its SQL from the slow-query entity"
         },
         {
           "confidence": "high",
@@ -287,7 +311,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "新增巡检慢查询 AI 优化功能"
+          "text": "新增巡检慢查询 AI 优化功能",
+          "textEn": "Added AI optimisation for inspected slow queries"
         },
         {
           "confidence": "high",
@@ -297,7 +322,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "AI 优化拆分为诊断与优化两阶段，支持自定义系统提示"
+          "text": "AI 优化拆分为诊断与优化两阶段，支持自定义系统提示",
+          "textEn": "Split AI optimisation into diagnosis and optimisation phases with custom system prompts"
         }
       ]
     },
@@ -311,7 +337,8 @@
             "ea369b0c"
           ],
           "tags": [],
-          "text": "其余内部改动（2 条提交）"
+          "text": "其余内部改动（2 条提交）",
+          "textEn": null
         }
       ]
     }

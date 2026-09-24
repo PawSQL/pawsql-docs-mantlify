@@ -1,6 +1,6 @@
 ---
 id: changelog-engine-index
-title: PawSQL 核心引擎变更日志
+title: PawSQL 引擎变更日志
 description: PawSQL 核心引擎各版本的发布内容，含SQL解析器、新增与变更的规则、优化算法与数据库支持。
 type: article
 status: draft
@@ -10,6 +10,7 @@ tags:
 subtype: release-note
 language: zh
 translationKey: changelog-engine-index
+localeOf: en-changelog-engine-index
 layout: detail
 rss: true
 product: pawsql
@@ -577,7 +578,7 @@ product: pawsql
   - 连接关闭时释放连接 (64a8eb95)
   - SQL Server 设置 autoCommit = true (73f4bb5d, 2ae8f8de)
   - 修复 Oracle 视图解析的缺陷 (7d0783dc)
-  - SQL 文本中的 &amp;lt; &amp;gt; 还原为 &lt; 与 &gt; (898d2aed)
+  - SQL 文本中的尖括号转义写法还原为 &lt; 与 &gt; (898d2aed)
   - SQL Server 支持表引用后紧跟表提示 (NOLOCK) (a6a0b963)
   - 修复一般性缺陷 (b0c66548)
   - 支持 topN 语法 (c81b0e7a)

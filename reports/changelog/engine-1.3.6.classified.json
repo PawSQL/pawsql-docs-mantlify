@@ -20,7 +20,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "Oracle 的 SYSTIMESTAMP、CURRENT_DATE 等函数不再需要括号"
+          "text": "Oracle 的 SYSTIMESTAMP、CURRENT_DATE 等函数不再需要括号",
+          "textEn": "Oracle functions such as SYSTIMESTAMP and CURRENT_DATE no longer need parentheses"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "字符串类型生成数值串"
+          "text": "字符串类型生成数值串",
+          "textEn": "String datatypes generate numeric strings"
         },
         {
           "confidence": "high",
@@ -40,7 +42,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 TDSQLX for PostgreSQL 支持"
+          "text": "新增 TDSQLX for PostgreSQL 支持",
+          "textEn": "Added TDSQLX for PostgreSQL support"
         },
         {
           "confidence": "high",
@@ -50,7 +53,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "提升 SQLScriptVisitor 的健壮性"
+          "text": "提升 SQLScriptVisitor 的健壮性",
+          "textEn": "Improved the robustness of SQLScriptVisitor"
         },
         {
           "confidence": "high",
@@ -60,7 +64,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持变量的赋值（模型与输出）"
+          "text": "支持变量的赋值（模型与输出）",
+          "textEn": "Variable assignment is supported in the model and writer"
         },
         {
           "confidence": "high",
@@ -70,7 +75,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "变量解析移到验证阶段；查询折叠遇外层赋值操作时不再折叠"
+          "text": "变量解析移到验证阶段；查询折叠遇外层赋值操作时不再折叠",
+          "textEn": "Variable resolution moved to validation; no query folding when the outer query assigns"
         },
         {
           "confidence": "high",
@@ -80,7 +86,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "变量支持数据类型；Oracle 默认字符集不再使用内置类型转换；解析 SQL Server 局部变量"
+          "text": "变量支持数据类型；Oracle 默认字符集不再使用内置类型转换；解析 SQL Server 局部变量",
+          "textEn": "Variables gained datatypes; Oracle's default charset no longer uses built-in casts; SQL Server local variables are resolved"
         },
         {
           "confidence": "high",
@@ -91,7 +98,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 SQL Server 以换行作为语句分隔符的解析缺陷"
+          "text": "修复 SQL Server 以换行作为语句分隔符的解析缺陷",
+          "textEn": "Fixed SQL Server parsing with newline as the statement separator"
         },
         {
           "confidence": "high",
@@ -102,7 +110,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复窗口函数克隆的缺陷"
+          "text": "修复窗口函数克隆的缺陷",
+          "textEn": "Fixed window function cloning"
         }
       ]
     },
@@ -118,7 +127,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleNumOfJoinTables 违反文本输出的缺陷"
+          "text": "修复 RuleNumOfJoinTables 违反文本输出的缺陷",
+          "textEn": "Fixed the violation text of RuleNumOfJoinTables"
         },
         {
           "confidence": "high",
@@ -128,7 +138,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "RuleNumOfLevelOfSubQuery 排除无 From 的查询块"
+          "text": "RuleNumOfLevelOfSubQuery 排除无 From 的查询块",
+          "textEn": "RuleNumOfLevelOfSubQuery excludes query blocks without a From clause"
         },
         {
           "confidence": "high",
@@ -139,7 +150,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 RuleLocal4ShardingDatabase 分区子句为空时的空指针异常"
+          "text": "修复 RuleLocal4ShardingDatabase 分区子句为空时的空指针异常",
+          "textEn": "Fixed a null-pointer exception in RuleLocal4ShardingDatabase when the partition clause is empty"
         },
         {
           "confidence": "high",
@@ -150,7 +162,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 CommentsOnTableRequired 在线审核获取行号的异常"
+          "text": "修复 CommentsOnTableRequired 在线审核获取行号的异常",
+          "textEn": "Fixed an exception in CommentsOnTableRequired when fetching line numbers online"
         },
         {
           "confidence": "high",
@@ -161,7 +174,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复否定嵌套条件解嵌套的缺陷；巡检排除高斯数据库 dbe_profiler 模式"
+          "text": "修复否定嵌套条件解嵌套的缺陷；巡检排除高斯数据库 dbe_profiler 模式",
+          "textEn": "Fixed unwrapping negated nested conditions; inspection skips the dbe_profiler schema on GaussDB"
         }
       ]
     },
@@ -177,7 +191,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复多表与派生表子查询场景下 using(col) 的表关联缺陷"
+          "text": "修复多表与派生表子查询场景下 using(col) 的表关联缺陷",
+          "textEn": "Fixed using(col) table correlation for multi-table and derived-table subqueries"
         },
         {
           "confidence": "high",
@@ -187,7 +202,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "从 a = 1 and a <> 1 推导恒假谓词"
+          "text": "从 a = 1 and a <> 1 推导恒假谓词",
+          "textEn": "Derive a false predicate from a = 1 and a <> 1"
         }
       ]
     },
@@ -203,7 +219,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "修复索引推荐 leading 列顺序，改按选择率倒排"
+          "text": "修复索引推荐 leading 列顺序，改按选择率倒排",
+          "textEn": "Index recommendation orders the leading column by descending selectivity"
         }
       ]
     }

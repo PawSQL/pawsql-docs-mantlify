@@ -152,7 +152,11 @@ class ChangelogSources(Strict):
 
 
 class ClassifiedEntry(Strict):
-    text: str = Field(min_length=1)
+    text: str = Field(min_length=1, description="Entry text in the source commits' language.")
+    textEn: str | None = Field(
+        default=None,
+        description="English mirror of ``text``; the en page falls back to ``text`` when absent.",
+    )
     sourceCommits: list[str] = Field(default_factory=list)
     confidence: Literal["high", "medium", "low"] = "medium"
     tags: list[str] = Field(
@@ -167,6 +171,12 @@ class ClassifiedEntry(Strict):
         if unknown:
             raise ValueError(f"unknown changelog tag(s) {unknown}; expected one of {list(CHANGE_TAGS)}")
         return value
+
+    def text_for(self, lang: str) -> str:
+        """The text this language's page shows."""
+        if lang == "en":
+            return self.textEn or self.text
+        return self.text
 
 
 class ClassifiedSection(Strict):

@@ -20,7 +20,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "indexadvisor/sqladvisor 的变量替换推迟到性能验证时"
+          "text": "indexadvisor/sqladvisor 的变量替换推迟到性能验证时",
+          "textEn": "Variable substitution in indexadvisor/sqladvisor is deferred to performance validation"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "RuleSelectSSQRewrite 无条件过滤且无聚集时不做重写"
+          "text": "RuleSelectSSQRewrite 无条件过滤且无聚集时不做重写",
+          "textEn": "RuleSelectSSQRewrite skips rewriting with an unconditional filter and no aggregate"
         }
       ]
     },
@@ -46,7 +48,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复常量表达式反序列化的缺陷"
+          "text": "修复常量表达式反序列化的缺陷",
+          "textEn": "Fixed constant-expression deserialisation"
         },
         {
           "confidence": "high",
@@ -57,7 +60,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 straight join 序列化的缺陷"
+          "text": "修复 straight join 序列化的缺陷",
+          "textEn": "Fixed straight join serialisation"
         },
         {
           "confidence": "high",
@@ -68,7 +72,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 TDSQLX-MySQL 分布列在线解析的缺陷"
+          "text": "修复 TDSQLX-MySQL 分布列在线解析的缺陷",
+          "textEn": "Fixed online parsing of TDSQLX-MySQL distribution columns"
         },
         {
           "confidence": "high",
@@ -80,7 +85,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 % 操作符反序列化的缺陷"
+          "text": "修复 % 操作符反序列化的缺陷",
+          "textEn": "Fixed % operator deserialisation"
         },
         {
           "confidence": "high",
@@ -90,7 +96,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化表引用替换中的别名处理"
+          "text": "优化表引用替换中的别名处理",
+          "textEn": "Improved alias handling in table-reference replacement"
         },
         {
           "confidence": "high",
@@ -102,7 +109,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 8 进制与 16 进制常量反序列化的缺陷"
+          "text": "修复 8 进制与 16 进制常量反序列化的缺陷",
+          "textEn": "Fixed octal and hexadecimal constant deserialisation"
         },
         {
           "confidence": "high",
@@ -112,7 +120,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "优化列名解析；支持 Oracle 的 nextval"
+          "text": "优化列名解析；支持 Oracle 的 nextval",
+          "textEn": "Improved column-name resolution and added Oracle nextval"
         },
         {
           "confidence": "high",
@@ -124,7 +133,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复表别名反序列化的缺陷"
+          "text": "修复表别名反序列化的缺陷",
+          "textEn": "Fixed table alias deserialisation"
         },
         {
           "confidence": "high",
@@ -135,7 +145,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 QueryAuditResult 评分（getScore）的缺陷"
+          "text": "修复 QueryAuditResult 评分（getScore）的缺陷",
+          "textEn": "Fixed QueryAuditResult scoring (getScore)"
         },
         {
           "confidence": "high",
@@ -145,7 +156,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "decimal_literal 代指所有整型字面量；begin 作为保留关键字"
+          "text": "decimal_literal 代指所有整型字面量；begin 作为保留关键字",
+          "textEn": "decimal_literal now stands for all integer literals; begin is a reserved keyword"
         },
         {
           "confidence": "high",
@@ -155,7 +167,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "改进表行数获取，支持没有 DatabaseTable 的场景"
+          "text": "改进表行数获取，支持没有 DatabaseTable 的场景",
+          "textEn": "Improved row-count retrieval for cases without a DatabaseTable"
         }
       ]
     },
@@ -170,7 +183,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "将找不到表和列的违规压缩到一个 RuleAuditResult"
+          "text": "将找不到表和列的违规压缩到一个 RuleAuditResult",
+          "textEn": "Table and column not-found violations are collapsed into one RuleAuditResult"
         },
         {
           "confidence": "high",
@@ -180,7 +194,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "用审核规则代替解析异常处理找不到表和列的情况"
+          "text": "用审核规则代替解析异常处理找不到表和列的情况",
+          "textEn": "Table and column not-found cases are reported as audit rules instead of parse exceptions"
         },
         {
           "confidence": "high",
@@ -190,7 +205,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "RuleNumOfLevelOfSubQuery 与 RuleNoCond4NonAggSelectWarning 排除 dual 之类的伪表"
+          "text": "RuleNumOfLevelOfSubQuery 与 RuleNoCond4NonAggSelectWarning 排除 dual 之类的伪表",
+          "textEn": "RuleNumOfLevelOfSubQuery and RuleNoCond4NonAggSelectWarning exclude pseudo tables such as dual"
         },
         {
           "confidence": "high",
@@ -200,7 +216,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "DbAuditResult 新增评分能力（getScore）"
+          "text": "DbAuditResult 新增评分能力（getScore）",
+          "textEn": "DbAuditResult gained scoring (getScore)"
         }
       ]
     },
@@ -216,7 +233,8 @@
             "e7546a61"
           ],
           "tags": [],
-          "text": "其余内部改动（4 条提交）"
+          "text": "其余内部改动（4 条提交）",
+          "textEn": null
         }
       ]
     }

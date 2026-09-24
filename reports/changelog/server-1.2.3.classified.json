@@ -20,7 +20,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "SQL 审核任务增加操作人邮箱字段"
+          "text": "SQL 审核任务增加操作人邮箱字段",
+          "textEn": "SQL review tasks now record the operator's email"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "修复 SCM 监控配置中机构 ID 的获取逻辑"
+          "text": "修复 SCM 监控配置中机构 ID 的获取逻辑",
+          "textEn": "Fixed organisation-ID retrieval in SCM monitor configuration"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "集成 SQL 审核接口重构为 workspace + template 模式"
+          "text": "集成 SQL 审核接口重构为 workspace + template 模式",
+          "textEn": "Reworked the integration SQL review API around workspace + template"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "平台集成支持混合文件模式审核，并优化更新时间传递"
+          "text": "平台集成支持混合文件模式审核，并优化更新时间传递",
+          "textEn": "Platform integration supports mixed-file review and passes update timestamps more reliably"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "修正集成异常日志中的不准确描述"
+          "text": "修正集成异常日志中的不准确描述",
+          "textEn": "Corrected an inaccurate description in integration error logs"
         },
         {
           "confidence": "high",
@@ -73,7 +78,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "按部署模式调整平台列表查询逻辑"
+          "text": "按部署模式调整平台列表查询逻辑",
+          "textEn": "Platform list queries adjust to the deployment mode"
         }
       ]
     },
@@ -88,7 +94,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "为查询负载文件添加文件头注释，优先从工作空间解析 orgId"
+          "text": "为查询负载文件添加文件头注释，优先从工作空间解析 orgId",
+          "textEn": "Query-load files gained a header comment and resolve orgId from the workspace first"
         },
         {
           "confidence": "high",
@@ -98,7 +105,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "openGauss 与 DWS 改用脚本解析器"
+          "text": "openGauss 与 DWS 改用脚本解析器",
+          "textEn": "openGauss and DWS now use the script parser"
         },
         {
           "confidence": "high",
@@ -108,7 +116,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "为脚本型数据库构建文件信息元数据"
+          "text": "为脚本型数据库构建文件信息元数据",
+          "textEn": "Build file-information metadata for script-based databases"
         }
       ]
     },
@@ -123,7 +132,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增索引兜底清理与持久化逻辑"
+          "text": "新增索引兜底清理与持久化逻辑",
+          "textEn": "Added fallback index clean-up with persistence"
         },
         {
           "confidence": "high",
@@ -134,7 +144,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复自定义规则分析时缺失规则名称的问题"
+          "text": "修复自定义规则分析时缺失规则名称的问题",
+          "textEn": "Fixed missing rule names when analysing with custom rules"
         },
         {
           "confidence": "high",
@@ -144,7 +155,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "查询顺序保持改用 LinkedHashMap"
+          "text": "查询顺序保持改用 LinkedHashMap",
+          "textEn": "Switched to LinkedHashMap to preserve query order"
         },
         {
           "confidence": "high",
@@ -155,7 +167,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "统一使用审计规则常量替换分析规则常量"
+          "text": "统一使用审计规则常量替换分析规则常量",
+          "textEn": "Replaced analysis-rule constants with the audit-rule constants"
         },
         {
           "confidence": "high",
@@ -165,7 +178,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "支持前端传递自定义规则进行 SQL 分析"
+          "text": "支持前端传递自定义规则进行 SQL 分析",
+          "textEn": "The front end can pass custom rules into SQL analysis"
         },
         {
           "confidence": "high",
@@ -175,7 +189,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "分析记录增加规则模板信息，并改进工作负载处理"
+          "text": "分析记录增加规则模板信息，并改进工作负载处理",
+          "textEn": "Analysis records carry rule-template information, and workload handling improved"
         },
         {
           "confidence": "high",
@@ -185,7 +200,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "过滤非独立类的语法类审核规则；任务中只用 queryadvisor 做规则审核与重写优化；删除 SQLAuditor 的引用"
+          "text": "过滤非独立类的语法类审核规则；任务中只用 queryadvisor 做规则审核与重写优化；删除 SQLAuditor 的引用",
+          "textEn": "Syntax-level rules without their own class are filtered out; tasks use queryadvisor for rule review and rewrite optimisation; SQLAuditor references removed"
         },
         {
           "confidence": "high",
@@ -196,7 +212,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复默认规则模板加载与工单模板选择逻辑"
+          "text": "修复默认规则模板加载与工单模板选择逻辑",
+          "textEn": "Fixed default rule-template loading and ticket-template selection"
         },
         {
           "confidence": "high",
@@ -207,7 +224,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "分页查询最大限制设为 10000"
+          "text": "分页查询最大限制设为 10000",
+          "textEn": "Paged queries are capped at 10000 rows"
         },
         {
           "confidence": "high",
@@ -218,7 +236,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "移除 RuleTemplateRequestDto 的 @Builder 注解并更新调用"
+          "text": "移除 RuleTemplateRequestDto 的 @Builder 注解并更新调用",
+          "textEn": "Removed the @Builder annotation from RuleTemplateRequestDto and updated callers"
         },
         {
           "confidence": "high",
@@ -228,7 +247,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "审计详情返回规则模板名称"
+          "text": "审计详情返回规则模板名称",
+          "textEn": "Audit details return the rule-template name"
         },
         {
           "confidence": "high",
@@ -239,7 +259,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复构建规则树路径时从错误节点开始的问题"
+          "text": "修复构建规则树路径时从错误节点开始的问题",
+          "textEn": "Fixed the rule-tree path being built from the wrong node"
         },
         {
           "confidence": "high",
@@ -249,7 +270,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增对象命名规范规则 NCR011"
+          "text": "新增对象命名规范规则 NCR011",
+          "textEn": "Added the object naming convention rule NCR011"
         }
       ]
     },
@@ -265,7 +287,8 @@
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "移除审计详情接口的权限校验"
+          "text": "移除审计详情接口的权限校验",
+          "textEn": "Removed the permission check from the audit-details endpoint"
         },
         {
           "confidence": "high",
@@ -275,7 +298,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "auth 模块合并进 base 模块并重构权限相关代码"
+          "text": "auth 模块合并进 base 模块并重构权限相关代码",
+          "textEn": "Merged the auth module into base and reworked permission code"
         }
       ]
     },
@@ -290,7 +314,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "慢查询模板支持按数据库实例筛选"
+          "text": "慢查询模板支持按数据库实例筛选",
+          "textEn": "Slow-query templates can be filtered by database instance"
         }
       ]
     },
@@ -303,7 +328,8 @@
             "771c17dd"
           ],
           "tags": [],
-          "text": "其余内部改动（1 条提交）"
+          "text": "其余内部改动（1 条提交）",
+          "textEn": null
         }
       ]
     }

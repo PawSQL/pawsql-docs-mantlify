@@ -21,7 +21,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 SQL Server 表定义解析的缺陷"
+          "text": "修复 SQL Server 表定义解析的缺陷",
+          "textEn": "Fixed SQL Server table definition parsing"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 [varchar](20) 形式的数据类型定义"
+          "text": "SQL Server 支持 [varchar](20) 形式的数据类型定义",
+          "textEn": "SQL Server: [varchar](20) datatype declarations"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 db..tab 形式的表名引用"
+          "text": "SQL Server 支持 db..tab 形式的表名引用",
+          "textEn": "SQL Server: db..tab table references"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持在 CREATE TABLE 内联定义非聚集索引"
+          "text": "SQL Server 支持在 CREATE TABLE 内联定义非聚集索引",
+          "textEn": "SQL Server: inline non-clustered index definitions in CREATE TABLE"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复文件起始位置为分隔符时的解析错误"
+          "text": "修复文件起始位置为分隔符时的解析错误",
+          "textEn": "Fixed parsing when a file starts with a separator"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "扩充 SQL Server 语法支持：set col1 += col2、insert into table exec、char(max)、百分数常量、UNIQUEIDENTIFIER、类型方法调用 abc::method() 等"
+          "text": "扩充 SQL Server 语法支持：set col1 += col2、insert into table exec、char(max)、百分数常量、UNIQUEIDENTIFIER、类型方法调用 abc::method() 等",
+          "textEn": "Expanded SQL Server syntax: set col1 += col2, insert into table exec, char(max), percentage literals, UNIQUEIDENTIFIER, type method calls abc::method() and more"
         },
         {
           "confidence": "high",
@@ -82,7 +88,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 支持 columnstore 索引、table/query hint 与 remote 表引用"
+          "text": "SQL Server 支持 columnstore 索引、table/query hint 与 remote 表引用",
+          "textEn": "SQL Server: columnstore indexes, table/query hints and remote table references"
         },
         {
           "confidence": "high",
@@ -92,7 +99,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持基于 cursor 的数据操作（delete/update），过程、触发器与函数解析更健壮"
+          "text": "支持基于 cursor 的数据操作（delete/update），过程、触发器与函数解析更健壮",
+          "textEn": "Cursor-based data modification (delete/update), with more robust procedure, trigger and function parsing"
         },
         {
           "confidence": "high",
@@ -102,7 +110,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持触发器解析，并优化不重要文本的解析"
+          "text": "支持触发器解析，并优化不重要文本的解析",
+          "textEn": "Added trigger parsing and improved parsing of insignificant text"
         },
         {
           "confidence": "high",
@@ -112,7 +121,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "每个 SQL 解析开始时初始化表对象栈"
+          "text": "每个 SQL 解析开始时初始化表对象栈",
+          "textEn": "The table-object stack is initialised at the start of each parse"
         },
         {
           "confidence": "high",
@@ -122,7 +132,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "脚本解析中只有一个表且列未加表名前缀时，把该列归属到该表"
+          "text": "脚本解析中只有一个表且列未加表名前缀时，把该列归属到该表",
+          "textEn": "In script parsing, an unqualified column with a single table is assigned to that table"
         },
         {
           "confidence": "high",
@@ -133,7 +144,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复视图解析与审核优化的缺陷"
+          "text": "修复视图解析与审核优化的缺陷",
+          "textEn": "Fixed view parsing and audit optimisation"
         },
         {
           "confidence": "high",
@@ -143,7 +155,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 Oracle 与 PostgreSQL 标识符中使用 $"
+          "text": "支持 Oracle 与 PostgreSQL 标识符中使用 $",
+          "textEn": "Identifiers may contain $ on Oracle and PostgreSQL"
         },
         {
           "confidence": "high",
@@ -153,7 +166,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL 审核支持 tsql 脚本"
+          "text": "SQL 审核支持 tsql 脚本",
+          "textEn": "SQL review supports TSQL scripts"
         },
         {
           "confidence": "high",
@@ -164,7 +178,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 SQL Server 临时表与自增列解析的缺陷"
+          "text": "修复 SQL Server 临时表与自增列解析的缺陷",
+          "textEn": "Fixed SQL Server temporary-table and identity-column parsing"
         }
       ]
     },
@@ -179,7 +194,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "子查询中有多个表引用且同属一个表连接时不做查询折叠"
+          "text": "子查询中有多个表引用且同属一个表连接时不做查询折叠",
+          "textEn": "No query folding when a subquery's table references belong to one join"
         }
       ]
     },
@@ -194,7 +210,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "审核视图定义中的 SQL，而不是视图本身"
+          "text": "审核视图定义中的 SQL，而不是视图本身",
+          "textEn": "The SQL inside a view definition is reviewed, not the view itself"
         },
         {
           "confidence": "high",
@@ -205,7 +222,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复「索引列上的运算导致索引失效」规则在 ifnull 场景下的缺陷"
+          "text": "修复「索引列上的运算导致索引失效」规则在 ifnull 场景下的缺陷",
+          "textEn": "Fixed the index-invalidating-expression rule for ifnull"
         },
         {
           "confidence": "high",
@@ -215,7 +233,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "「避免无条件的 DML 操作」规则在基于 cursor 的操作下不再触发"
+          "text": "「避免无条件的 DML 操作」规则在基于 cursor 的操作下不再触发",
+          "textEn": "The unconditional-DML rule no longer fires for cursor-based operations"
         },
         {
           "confidence": "high",
@@ -226,7 +245,8 @@
             "审核引擎",
             "缺陷修复"
           ],
-          "text": "修复 afterRules 调用的缺陷"
+          "text": "修复 afterRules 调用的缺陷",
+          "textEn": "Fixed the afterRules invocation"
         },
         {
           "confidence": "high",
@@ -236,7 +256,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "针对临时表排除一批审查规则（IfExists、命名规范、注释要求、主键要求等）"
+          "text": "针对临时表排除一批审查规则（IfExists、命名规范、注释要求、主键要求等）",
+          "textEn": "Excluded a set of audit rules for temporary tables (IfExists, naming conventions, required comments, required primary keys and others)"
         }
       ]
     },
@@ -252,7 +273,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "修复函数或表达式中的列未作为 indexonly 候选的索引推荐缺陷"
+          "text": "修复函数或表达式中的列未作为 indexonly 候选的索引推荐缺陷",
+          "textEn": "Fixed index recommendation missing columns wrapped in functions or expressions as index-only candidates"
         },
         {
           "confidence": "high",
@@ -262,7 +284,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "没有索引时不展示索引分析段落"
+          "text": "没有索引时不展示索引分析段落",
+          "textEn": "The index analysis section is hidden when there are no indexes"
         },
         {
           "confidence": "high",
@@ -273,7 +296,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "修复候选索引合并的缺陷，以及存在内生表时 join 列的索引推荐"
+          "text": "修复候选索引合并的缺陷，以及存在内生表时 join 列的索引推荐",
+          "textEn": "Fixed candidate-index merging and join-column index recommendation with nested tables"
         },
         {
           "confidence": "high",
@@ -283,7 +307,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "选择列是 * 但查询块为 exists 子查询时，仍可作为 indexonly 候选"
+          "text": "选择列是 * 但查询块为 exists 子查询时，仍可作为 indexonly 候选",
+          "textEn": "A * select list can still be an index-only candidate inside an exists subquery"
         }
       ]
     }

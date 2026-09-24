@@ -21,7 +21,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 type1 查询折叠的 CTE 处理逻辑"
+          "text": "修复 type1 查询折叠的 CTE 处理逻辑",
+          "textEn": "Fixed CTE handling in type-1 query folding"
         },
         {
           "confidence": "high",
@@ -32,7 +33,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "性能优化：在线工作空间表数超过阈值时先取 SQL 中的表列表，避免解析所有表对象"
+          "text": "性能优化：在线工作空间表数超过阈值时先取 SQL 中的表列表，避免解析所有表对象",
+          "textEn": "Performance: above the table threshold an online workspace resolves only the tables named in the SQL"
         },
         {
           "confidence": "high",
@@ -42,7 +44,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "子查询解关联代价算法优化：仅当外查询行数小于内查询时才解关联"
+          "text": "子查询解关联代价算法优化：仅当外查询行数小于内查询时才解关联",
+          "textEn": "Subquery decorrelation costing: decorrelate only when the outer row count is smaller"
         },
         {
           "confidence": "high",
@@ -53,7 +56,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复 RuleSubqueryPredicatePushDownRewrite 的缺陷"
+          "text": "修复 RuleSubqueryPredicatePushDownRewrite 的缺陷",
+          "textEn": "Fixed a defect in RuleSubqueryPredicatePushDownRewrite"
         },
         {
           "confidence": "high",
@@ -63,7 +67,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "区分 TimestampDiff(date1, date2) 与 TimestampDiff(type, startTS, endTS) 两种语法的重写"
+          "text": "区分 TimestampDiff(date1, date2) 与 TimestampDiff(type, startTS, endTS) 两种语法的重写",
+          "textEn": "The rewrite distinguishes TimestampDiff(date1, date2) from TimestampDiff(type, startTS, endTS)"
         }
       ]
     },
@@ -79,7 +84,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修正达梦数据库的连接串"
+          "text": "修正达梦数据库的连接串",
+          "textEn": "Corrected the Dameng connection string"
         },
         {
           "confidence": "high",
@@ -89,7 +95,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 允许 ID 作为 token"
+          "text": "SQL Server 允许 ID 作为 token",
+          "textEn": "SQL Server allows ID as a token"
         },
         {
           "confidence": "high",
@@ -99,7 +106,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "sqlparser 支持 create table like 语法"
+          "text": "sqlparser 支持 create table like 语法",
+          "textEn": "The SQL parser supports create table like"
         },
         {
           "confidence": "high",
@@ -109,7 +117,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "在线 DDL 解析默认使用第一个 schema"
+          "text": "在线 DDL 解析默认使用第一个 schema",
+          "textEn": "Online DDL parsing defaults to the first schema"
         },
         {
           "confidence": "high",
@@ -119,7 +128,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "schema 解析时忽略传入的 NULL 元素"
+          "text": "schema 解析时忽略传入的 NULL 元素",
+          "textEn": "NULL elements passed to schema parsing are ignored"
         }
       ]
     },
@@ -135,7 +145,8 @@
             "索引引擎",
             "缺陷修复"
           ],
-          "text": "索引推荐修复派生表关联条件被误处理为过滤条件的缺陷"
+          "text": "索引推荐修复派生表关联条件被误处理为过滤条件的缺陷",
+          "textEn": "Index recommendation: fixed derived-table join conditions being treated as filters"
         }
       ]
     },
@@ -150,7 +161,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "RuleUpDeleteWithLimitWarning 只检查 update；RuleMaxMinAggRewrite 支持 dummy 列"
+          "text": "RuleUpDeleteWithLimitWarning 只检查 update；RuleMaxMinAggRewrite 支持 dummy 列",
+          "textEn": "RuleUpDeleteWithLimitWarning checks update only; RuleMaxMinAggRewrite supports dummy columns"
         },
         {
           "confidence": "high",
@@ -160,7 +172,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "新增 RuleShardingTables2Replicated、RuleSubqueryPredicatePushDownRewrite、RuleUnionConstantRewrite、RuleDeleteWithLimitWarning，并整理 sharding 规则目录"
+          "text": "新增 RuleShardingTables2Replicated、RuleSubqueryPredicatePushDownRewrite、RuleUnionConstantRewrite、RuleDeleteWithLimitWarning，并整理 sharding 规则目录",
+          "textEn": "Added RuleShardingTables2Replicated, RuleSubqueryPredicatePushDownRewrite, RuleUnionConstantRewrite and RuleDeleteWithLimitWarning, and reorganised the sharding rules directory"
         },
         {
           "confidence": "high",
@@ -170,7 +183,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "新增 RuleBackupTableInSpecificSchema、RuleBackupTableNamingConversion"
+          "text": "新增 RuleBackupTableInSpecificSchema、RuleBackupTableNamingConversion",
+          "textEn": "Added RuleBackupTableInSpecificSchema and RuleBackupTableNamingConversion"
         },
         {
           "confidence": "high",
@@ -180,7 +194,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "FOR UPDATE 告警规则：未命中唯一性索引时提示评估乐观锁"
+          "text": "FOR UPDATE 告警规则：未命中唯一性索引时提示评估乐观锁",
+          "textEn": "FOR UPDATE rule: suggest evaluating optimistic locking when no unique index is matched"
         }
       ]
     },
@@ -195,7 +210,8 @@
             "d7fde820"
           ],
           "tags": [],
-          "text": "其余内部改动（3 条提交）"
+          "text": "其余内部改动（3 条提交）",
+          "textEn": null
         }
       ]
     }

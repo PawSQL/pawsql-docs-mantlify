@@ -21,7 +21,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Hive 在线分区子句解析的缺陷，并新增 RuleCalculationOnDistributedColumns 重写逻辑"
+          "text": "修复 Hive 在线分区子句解析的缺陷，并新增 RuleCalculationOnDistributedColumns 重写逻辑",
+          "textEn": "Fixed Hive online partition-clause parsing and added rewrite logic for RuleCalculationOnDistributedColumns"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "Hive 规则目录整理"
+          "text": "Hive 规则目录整理",
+          "textEn": "Reorganised the Hive rules directory"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "允许 KEY 作为标识符"
+          "text": "允许 KEY 作为标识符",
+          "textEn": "KEY is allowed as an identifier"
         },
         {
           "confidence": "high",
@@ -52,7 +55,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复值表达式别名深拷贝的缺陷，并重命名 ValueExpressionWithTableExpr"
+          "text": "修复值表达式别名深拷贝的缺陷，并重命名 ValueExpressionWithTableExpr",
+          "textEn": "Fixed value-expression alias cloning and renamed ValueExpressionWithTableExpr"
         },
         {
           "confidence": "high",
@@ -62,7 +66,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "Hive 规则与基础能力调整"
+          "text": "Hive 规则与基础能力调整",
+          "textEn": "Hive rules and foundation updates"
         },
         {
           "confidence": "high",
@@ -72,7 +77,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "聚合函数新增 JSON_AGG"
+          "text": "聚合函数新增 JSON_AGG",
+          "textEn": "Added JSON_AGG as an aggregate function"
         },
         {
           "confidence": "high",
@@ -82,7 +88,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 ValueExpressionTableExpr 查询模型"
+          "text": "新增 ValueExpressionTableExpr 查询模型",
+          "textEn": "Added the ValueExpressionTableExpr query model"
         },
         {
           "confidence": "high",
@@ -93,7 +100,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "改进 Hive 在线 DDL 解析，修复 distribute 与 cluster 子句的缺陷"
+          "text": "改进 Hive 在线 DDL 解析，修复 distribute 与 cluster 子句的缺陷",
+          "textEn": "Improved Hive online DDL parsing and fixed the distribute and cluster clauses"
         },
         {
           "confidence": "high",
@@ -103,7 +111,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "BRACKET_QUOTE_ID 仅对 SQL Server 生效"
+          "text": "BRACKET_QUOTE_ID 仅对 SQL Server 生效",
+          "textEn": "BRACKET_QUOTE_ID now applies to SQL Server only"
         }
       ]
     },
@@ -118,7 +127,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "标量子查询中存在 limit 子句时不进行解关联"
+          "text": "标量子查询中存在 limit 子句时不进行解关联",
+          "textEn": "No decorrelation when a scalar subquery contains a limit clause"
         }
       ]
     }

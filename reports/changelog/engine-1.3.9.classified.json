@@ -20,7 +20,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 arrayComparison 谓词"
+          "text": "支持 arrayComparison 谓词",
+          "textEn": "Added the arrayComparison predicate"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "uid/user 移出伪列"
+          "text": "uid/user 移出伪列",
+          "textEn": "uid/user are no longer treated as pseudo columns"
         },
         {
           "confidence": "high",
@@ -40,7 +42,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 ansi 数据库类型（无数据库类型输入时映射为 PostgreSQL）"
+          "text": "新增 ansi 数据库类型（无数据库类型输入时映射为 PostgreSQL）",
+          "textEn": "Added the ansi database type (mapped to PostgreSQL when no type is given)"
         }
       ]
     },
@@ -55,7 +58,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "即使是被驱动表，过滤条件也下推到索引前部"
+          "text": "即使是被驱动表，过滤条件也下推到索引前部",
+          "textEn": "Filters are pushed to the front of the index even for the driven table"
         }
       ]
     },
@@ -70,7 +74,8 @@
             "efe61436"
           ],
           "tags": [],
-          "text": "其余内部改动（3 条提交）"
+          "text": "其余内部改动（3 条提交）",
+          "textEn": null
         }
       ]
     }

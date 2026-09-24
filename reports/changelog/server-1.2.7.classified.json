@@ -20,7 +20,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "优化 AI 模型服务，增加重试与错误处理"
+          "text": "优化 AI 模型服务，增加重试与错误处理",
+          "textEn": "Improved the AI model service with retries and error handling"
         },
         {
           "confidence": "high",
@@ -30,7 +31,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "代理慢查询列表支持分页与搜索"
+          "text": "代理慢查询列表支持分页与搜索",
+          "textEn": "The proxy slow-query list supports paging and search"
         },
         {
           "confidence": "high",
@@ -40,7 +42,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "手动采集支持协作式取消定时任务"
+          "text": "手动采集支持协作式取消定时任务",
+          "textEn": "Manual collection can cooperatively cancel the scheduled job"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "暂停创建锁等待收集作业"
+          "text": "暂停创建锁等待收集作业",
+          "textEn": "Suspended creation of the lock-wait collection job"
         },
         {
           "confidence": "high",
@@ -61,7 +65,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "慢查询模板新增调优时间字段与平均查询时间筛选"
+          "text": "慢查询模板新增调优时间字段与平均查询时间筛选",
+          "textEn": "Slow-query templates gained a tuning-time field and average query-time filtering"
         },
         {
           "confidence": "high",
@@ -71,7 +76,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "重构锁等待迁移脚本，分离配置与数据初始化"
+          "text": "重构锁等待迁移脚本，分离配置与数据初始化",
+          "textEn": "Reworked the lock-wait migration script, separating configuration from data initialisation"
         },
         {
           "confidence": "high",
@@ -81,7 +87,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "分片列表支持按实例 ID 筛选，流式查询改为分页"
+          "text": "分片列表支持按实例 ID 筛选，流式查询改为分页",
+          "textEn": "The shard list can be filtered by instance ID, and streaming queries became paged"
         },
         {
           "confidence": "high",
@@ -92,7 +99,8 @@
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "优化 TDSQL 代理慢查询的处理性能与异常处理"
+          "text": "优化 TDSQL 代理慢查询的处理性能与异常处理",
+          "textEn": "Improved performance and exception handling for TDSQL proxy slow queries"
         },
         {
           "confidence": "high",
@@ -103,7 +111,8 @@
             "慢查询与巡检",
             "缺陷修复"
           ],
-          "text": "慢查询表字段类型改为 BIGINT，避免数据溢出"
+          "text": "慢查询表字段类型改为 BIGINT，避免数据溢出",
+          "textEn": "Slow-query table columns changed to BIGINT to prevent overflow"
         },
         {
           "confidence": "high",
@@ -113,7 +122,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "新增锁等待分析能力与状态管理"
+          "text": "新增锁等待分析能力与状态管理",
+          "textEn": "Added lock-wait analysis and its state management"
         },
         {
           "confidence": "high",
@@ -123,7 +133,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "新增 MySQL 锁等待检测功能与配置步骤"
+          "text": "新增 MySQL 锁等待检测功能与配置步骤",
+          "textEn": "Added MySQL lock-wait detection with configuration steps"
         },
         {
           "confidence": "high",
@@ -133,7 +144,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "新增锁等待分析的表结构与历史任务迁移脚本"
+          "text": "新增锁等待分析的表结构与历史任务迁移脚本",
+          "textEn": "Added the lock-wait analysis schema and a migration script for historical tasks"
         },
         {
           "confidence": "high",
@@ -143,7 +155,8 @@
           "tags": [
             "慢查询与巡检"
           ],
-          "text": "新增 MySQL 锁等待分析功能"
+          "text": "新增 MySQL 锁等待分析功能",
+          "textEn": "Added MySQL lock-wait analysis"
         }
       ]
     },
@@ -158,7 +171,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "支持 webhook 评论回写状态追踪与空 SQL 工单清理"
+          "text": "支持 webhook 评论回写状态追踪与空 SQL 工单清理",
+          "textEn": "Webhook comments can write back status, and empty-SQL tickets are cleaned up"
         },
         {
           "confidence": "high",
@@ -168,7 +182,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "支持多监控路径配置，优化 GitHub Webhook 处理"
+          "text": "支持多监控路径配置，优化 GitHub Webhook 处理",
+          "textEn": "Configuration supports multiple monitor paths, and GitHub webhook handling improved"
         },
         {
           "confidence": "high",
@@ -178,7 +193,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "支持监控目录过滤"
+          "text": "支持监控目录过滤",
+          "textEn": "Added monitor directory filtering"
         },
         {
           "confidence": "high",
@@ -188,7 +204,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "接口审核任务增加索引推荐开关"
+          "text": "接口审核任务增加索引推荐开关",
+          "textEn": "API audit tasks gained an index-recommendation switch"
         },
         {
           "confidence": "high",
@@ -198,7 +215,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "新增工单审核失败异常，绑定 task 与 ticket 的关系"
+          "text": "新增工单审核失败异常，绑定 task 与 ticket 的关系",
+          "textEn": "Added a ticket-audit failure exception that binds the task and the ticket"
         }
       ]
     },
@@ -213,7 +231,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "新增数据库克隆工具并完善工具链"
+          "text": "新增数据库克隆工具并完善工具链",
+          "textEn": "Added a database cloning tool and completed the tool chain"
         },
         {
           "confidence": "high",
@@ -223,7 +242,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "部署包解析支持文本文件自动识别编码"
+          "text": "部署包解析支持文本文件自动识别编码",
+          "textEn": "Deployment package parsing detects text-file encoding automatically"
         },
         {
           "confidence": "high",
@@ -234,7 +254,8 @@
             "工作空间与数据源",
             "缺陷修复"
           ],
-          "text": "为 MySQL 查询增加超时设置与重试机制"
+          "text": "为 MySQL 查询增加超时设置与重试机制",
+          "textEn": "Added timeouts and retries for MySQL queries"
         },
         {
           "confidence": "high",
@@ -244,7 +265,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "新增 MySQL 数据库结构导出脚本"
+          "text": "新增 MySQL 数据库结构导出脚本",
+          "textEn": "Added a script that exports the MySQL database structure"
         },
         {
           "confidence": "high",
@@ -254,7 +276,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "支持从压缩包归档创建查询负载"
+          "text": "支持从压缩包归档创建查询负载",
+          "textEn": "Create query loads from archive files"
         },
         {
           "confidence": "high",
@@ -264,7 +287,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "支持通过 ZIP 包上传 SQL 与 XML 文件"
+          "text": "支持通过 ZIP 包上传 SQL 与 XML 文件",
+          "textEn": "Upload SQL and XML files as a ZIP archive"
         },
         {
           "confidence": "high",
@@ -274,7 +298,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "推荐规则模板 ID 拆分为巡检模板与审核模板"
+          "text": "推荐规则模板 ID 拆分为巡检模板与审核模板",
+          "textEn": "The recommended rule-template ID split into an inspection template and a review template"
         },
         {
           "confidence": "high",
@@ -284,7 +309,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "为查询负载引入专用线程池，优化创建过程"
+          "text": "为查询负载引入专用线程池，优化创建过程",
+          "textEn": "Query loads use a dedicated thread pool, improving creation"
         }
       ]
     },
@@ -300,7 +326,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正生产环境脚本中的 rule_code 拼写错误"
+          "text": "修正生产环境脚本中的 rule_code 拼写错误",
+          "textEn": "Corrected a rule_code typo in a production script"
         },
         {
           "confidence": "high",
@@ -310,7 +337,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增 SQL 解析异常的存储与展示"
+          "text": "新增 SQL 解析异常的存储与展示",
+          "textEn": "Added storage and display of SQL parse exceptions"
         },
         {
           "confidence": "high",
@@ -321,7 +349,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正 SQL 文件中的表名引用错误"
+          "text": "修正 SQL 文件中的表名引用错误",
+          "textEn": "Corrected a wrong table reference in a SQL file"
         },
         {
           "confidence": "high",
@@ -331,7 +360,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "支持通过系统属性控制 ANTLR 解析器线程缓存"
+          "text": "支持通过系统属性控制 ANTLR 解析器线程缓存",
+          "textEn": "A system property controls the ANTLR parser thread cache"
         },
         {
           "confidence": "high",
@@ -342,7 +372,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复 SQL 解析器初始化缺少 useExclusiveParser 参数的问题"
+          "text": "修复 SQL 解析器初始化缺少 useExclusiveParser 参数的问题",
+          "textEn": "Fixed the SQL parser initialising without the useExclusiveParser parameter"
         },
         {
           "confidence": "high",
@@ -352,7 +383,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增独占解析器选项，避免多线程并发问题"
+          "text": "新增独占解析器选项，避免多线程并发问题",
+          "textEn": "Added an exclusive-parser option to avoid multi-threading problems"
         },
         {
           "confidence": "high",
@@ -362,7 +394,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "工单详情增加审核任务的错误信息"
+          "text": "工单详情增加审核任务的错误信息",
+          "textEn": "Ticket details show the audit task's error information"
         },
         {
           "confidence": "high",
@@ -373,7 +406,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正规则代码中的拼写错误"
+          "text": "修正规则代码中的拼写错误",
+          "textEn": "Corrected typos in rule codes"
         },
         {
           "confidence": "high",
@@ -384,7 +418,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复解析异常类型不匹配的问题"
+          "text": "修复解析异常类型不匹配的问题",
+          "textEn": "Fixed a parse-exception type mismatch"
         },
         {
           "confidence": "high",
@@ -394,7 +429,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增审核规则脚本"
+          "text": "新增审核规则脚本",
+          "textEn": "Added an audit rule script"
         },
         {
           "confidence": "high",
@@ -405,7 +441,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "SQL 语句长度上限由 100KB 提升至 10MB"
+          "text": "SQL 语句长度上限由 100KB 提升至 10MB",
+          "textEn": "SQL statement length limit raised from 100KB to 10MB"
         },
         {
           "confidence": "high",
@@ -416,7 +453,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "改进索引清理的错误解析逻辑"
+          "text": "改进索引清理的错误解析逻辑",
+          "textEn": "Improved error parsing for index clean-up"
         },
         {
           "confidence": "high",
@@ -426,7 +464,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增 SQL 内容为空的错误码，优化任务失败处理"
+          "text": "新增 SQL 内容为空的错误码，优化任务失败处理",
+          "textEn": "Added an error code for empty SQL and improved task-failure handling"
         },
         {
           "confidence": "high",
@@ -437,7 +476,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修复索引清理返回结果的处理逻辑"
+          "text": "修复索引清理返回结果的处理逻辑",
+          "textEn": "Fixed handling of the index clean-up result"
         },
         {
           "confidence": "high",
@@ -447,7 +487,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "索引清理增加错误历史记录与手动标记解决"
+          "text": "索引清理增加错误历史记录与手动标记解决",
+          "textEn": "Index clean-up gained an error history and manual resolution"
         },
         {
           "confidence": "high",
@@ -458,7 +499,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "移除索引清理问题表的自增属性"
+          "text": "移除索引清理问题表的自增属性",
+          "textEn": "Removed the auto-increment on the index clean-up issue table"
         },
         {
           "confidence": "high",
@@ -468,7 +510,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "实现索引清理中心功能"
+          "text": "实现索引清理中心功能",
+          "textEn": "Implemented the index clean-up centre"
         },
         {
           "confidence": "high",
@@ -478,7 +521,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "删除审核模块冗余的规则初始化"
+          "text": "删除审核模块冗余的规则初始化",
+          "textEn": "Removed redundant rule initialisation from the audit module"
         },
         {
           "confidence": "high",
@@ -490,7 +534,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "移除解析结果缓存，修复并发修改异常"
+          "text": "移除解析结果缓存，修复并发修改异常",
+          "textEn": "Removed the parse-result cache, fixing a concurrent-modification exception"
         },
         {
           "confidence": "high",
@@ -500,7 +545,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "删除审核模块冗余的 sqlparser"
+          "text": "删除审核模块冗余的 sqlparser",
+          "textEn": "Removed a redundant SQL parser from the audit module"
         },
         {
           "confidence": "high",
@@ -511,7 +557,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正审计表字段的注释信息"
+          "text": "修正审计表字段的注释信息",
+          "textEn": "Corrected column comments on the audit tables"
         }
       ]
     },
@@ -526,7 +573,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "实现平台权限字典的更新功能"
+          "text": "实现平台权限字典的更新功能",
+          "textEn": "Implemented updating the platform permission dictionary"
         },
         {
           "confidence": "high",
@@ -537,7 +585,8 @@
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "同步角色权限变更时更新用户关联的组织范围"
+          "text": "同步角色权限变更时更新用户关联的组织范围",
+          "textEn": "Updating role permissions now syncs the organisation scope of associated users"
         },
         {
           "confidence": "high",
@@ -548,7 +597,8 @@
             "权限与安全",
             "缺陷修复"
           ],
-          "text": "平台角色管理支持更新系统角色的权限"
+          "text": "平台角色管理支持更新系统角色的权限",
+          "textEn": "Platform role management can update system-role permissions"
         },
         {
           "confidence": "high",
@@ -558,7 +608,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "实现平台自定义角色的增删改"
+          "text": "实现平台自定义角色的增删改",
+          "textEn": "Implemented create, update and delete for platform custom roles"
         },
         {
           "confidence": "high",
@@ -568,7 +619,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "新增用户系统角色分配的保存功能"
+          "text": "新增用户系统角色分配的保存功能",
+          "textEn": "Added saving of a user's system-role assignment"
         },
         {
           "confidence": "high",
@@ -578,7 +630,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "新增平台角色与权限字典管理接口"
+          "text": "新增平台角色与权限字典管理接口",
+          "textEn": "Added endpoints managing platform roles and the permission dictionary"
         }
       ]
     },
@@ -593,7 +646,8 @@
           "tags": [
             "缺陷修复"
           ],
-          "text": "修复空指针异常并增强错误处理"
+          "text": "修复空指针异常并增强错误处理",
+          "textEn": "Fixed a null-pointer exception and improved error handling"
         }
       ]
     },
@@ -613,7 +667,8 @@
             "ffdaa637"
           ],
           "tags": [],
-          "text": "其余内部改动（8 条提交）"
+          "text": "其余内部改动（8 条提交）",
+          "textEn": null
         }
       ]
     }

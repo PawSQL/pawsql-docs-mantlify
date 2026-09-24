@@ -20,7 +20,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "审核结果增加严重与警告规则数目统计字段"
+          "text": "审核结果增加严重与警告规则数目统计字段",
+          "textEn": "Review results now count error- and warning-level rules"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "调整审计分数的计算参数"
+          "text": "调整审计分数的计算参数",
+          "textEn": "Adjusted the parameters of the audit score calculation"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增派生表转 Lateral Join 优化规则并更新规则配置"
+          "text": "新增派生表转 Lateral Join 优化规则并更新规则配置",
+          "textEn": "Added the derived-table-to-lateral-join rule and updated rule configuration"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "调整持久化分析解析异常的执行时机"
+          "text": "调整持久化分析解析异常的执行时机",
+          "textEn": "Adjusted when parse exceptions are persisted for analysis"
         },
         {
           "confidence": "high",
@@ -61,7 +65,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "新增分析级结构化解析异常的存储与展示"
+          "text": "新增分析级结构化解析异常的存储与展示",
+          "textEn": "Added storage and display of analysis-level structured parse exceptions"
         },
         {
           "confidence": "high",
@@ -71,7 +76,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "重构索引清理服务的数据源解析逻辑"
+          "text": "重构索引清理服务的数据源解析逻辑",
+          "textEn": "Reworked data-source resolution in the index clean-up service"
         }
       ]
     },
@@ -86,7 +92,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "indexAdvisor 改用已有的 sqlparser"
+          "text": "indexAdvisor 改用已有的 sqlparser",
+          "textEn": "indexAdvisor now uses the existing SQL parser"
         },
         {
           "confidence": "high",
@@ -96,7 +103,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "更多数据库类型改用脚本解析器"
+          "text": "更多数据库类型改用脚本解析器",
+          "textEn": "More database types use the script parser"
         },
         {
           "confidence": "high",
@@ -106,7 +114,8 @@
           "tags": [
             "工作空间与数据源"
           ],
-          "text": "MySQL 与 PostgreSQL 改用脚本解析器"
+          "text": "MySQL 与 PostgreSQL 改用脚本解析器",
+          "textEn": "MySQL and PostgreSQL use the script parser"
         }
       ]
     }

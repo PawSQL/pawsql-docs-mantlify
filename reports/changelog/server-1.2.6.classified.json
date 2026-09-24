@@ -21,7 +21,8 @@
             "工作空间与数据源",
             "缺陷修复"
           ],
-          "text": "修复更新时空字符串被误认为有效值的问题"
+          "text": "修复更新时空字符串被误认为有效值的问题",
+          "textEn": "Fixed an empty string being treated as a valid value on update"
         }
       ]
     },
@@ -37,7 +38,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "分析结果查询增加验证标志字段"
+          "text": "分析结果查询增加验证标志字段",
+          "textEn": "Analysis result queries return a validation flag"
         },
         {
           "confidence": "high",
@@ -47,7 +49,8 @@
           "tags": [
             "SQL 审核与优化"
           ],
-          "text": "规则模板查询增加启用规则数量字段"
+          "text": "规则模板查询增加启用规则数量字段",
+          "textEn": "Rule template queries return the number of enabled rules"
         },
         {
           "confidence": "high",
@@ -58,7 +61,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "审核与集成任务的超时时间由 30 分钟调整为 1440 分钟"
+          "text": "审核与集成任务的超时时间由 30 分钟调整为 1440 分钟",
+          "textEn": "Audit and integration task timeout changed from 30 to 1440 minutes"
         },
         {
           "confidence": "high",
@@ -69,7 +73,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正工作负载原始文本的查询列引用"
+          "text": "修正工作负载原始文本的查询列引用",
+          "textEn": "Corrected the column reference for workload raw text"
         },
         {
           "confidence": "high",
@@ -80,7 +85,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "更新生产规则数据，删除无效规则 TableR066"
+          "text": "更新生产规则数据，删除无效规则 TableR066",
+          "textEn": "Updated production rule data and removed the invalid rule TableR066"
         },
         {
           "confidence": "high",
@@ -91,7 +97,8 @@
             "SQL 审核与优化",
             "缺陷修复"
           ],
-          "text": "修正不同规则类型验证字段的映射错误"
+          "text": "修正不同规则类型验证字段的映射错误",
+          "textEn": "Fixed the validation-field mapping for different rule types"
         }
       ]
     },
@@ -107,7 +114,8 @@
             "集成与开放接口",
             "缺陷修复"
           ],
-          "text": "修正 GitHub token 验证的错误码"
+          "text": "修正 GitHub token 验证的错误码",
+          "textEn": "Corrected the error code for GitHub token validation"
         },
         {
           "confidence": "high",
@@ -117,7 +125,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "GitLab Webhook 报告增强，并修复 secret 存储问题"
+          "text": "GitLab Webhook 报告增强，并修复 secret 存储问题",
+          "textEn": "Improved GitLab webhook reports and fixed secret storage"
         },
         {
           "confidence": "high",
@@ -127,7 +136,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "增加 GitLab Webhook 端到端测试支持"
+          "text": "增加 GitLab Webhook 端到端测试支持",
+          "textEn": "Added end-to-end test support for the GitLab webhook"
         },
         {
           "confidence": "high",
@@ -137,7 +147,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "新增 GitLab 平台集成支持"
+          "text": "新增 GitLab 平台集成支持",
+          "textEn": "Added GitLab platform integration"
         },
         {
           "confidence": "high",
@@ -147,7 +158,8 @@
           "tags": [
             "集成与开放接口"
           ],
-          "text": "新增 GitLab 集成的需求分析与设计文档"
+          "text": "新增 GitLab 集成的需求分析与设计文档",
+          "textEn": "Added requirements and design documentation for the GitLab integration"
         }
       ]
     },
@@ -162,7 +174,8 @@
           "tags": [
             "权限与安全"
           ],
-          "text": "将 GitLab Webhook 路径加入安全配置白名单"
+          "text": "将 GitLab Webhook 路径加入安全配置白名单",
+          "textEn": "Added the GitLab webhook path to the security allowlist"
         }
       ]
     }

@@ -22,10 +22,10 @@ sources:
     # 2022–2023 的 86 个遗留 tag（0.1.x–0.4.x）全部落在 main 上，且指向同一批老提交；
     # 不设下限它们会各自渲染成一条假发布。server 的版本轴从回填的 1.2.1 起。
     minVersion: '1.2.1'
-    # 暂时只写中文页：条目文本保留提交的原始语言，英文页要等中英条目口径
-    # 定下来再启用（届时加 pages.en 并建 docs/en/changelog/server/index.mdx）。
+    # 中英双语：条目 text 是来源语言原文、textEn 是英文镜像，两页各取其一。
     pages:
       zh: docs/changelog/server/index.mdx
+      en: docs/en/changelog/server/index.mdx
     # 提交风格是规范 Conventional Commits（feat/fix/refactor/chore/docs）。
     # 下面这些前缀不进 changelog：对外无可见变化。
     skipPrefixes: [chore, docs, test, ci, build, style]
@@ -44,6 +44,7 @@ sources:
     # docs/changelog/engine/index.mdx 即可，工具对不存在的页面只告警不报错。
     pages:
       zh: docs/changelog/engine/index.mdx
+      en: docs/en/changelog/engine/index.mdx
     # 引擎提交是中文自由描述、无类型前缀，只能靠 LLM 判定是否对外可见。
     skipPrefixes: []
     skipMerge: true

@@ -292,7 +292,7 @@
             "icon": "activity",
             "groups": [
               {
-                "group": "版本记录",
+                "group": "变更日志",
                 "icon": "layers",
                 "pages": [
                   "changelog/engine/index",
@@ -545,6 +545,20 @@
                   "en/blog/sql-optimization/sql-null-traps",
                   "en/blog/sql-optimization/index-types",
                   "en/blog/sql-optimization/efficient-index-design"
+                ]
+              }
+            ]
+          },
+          {
+            "tab": "Changelog",
+            "icon": "activity",
+            "groups": [
+              {
+                "group": "Product Updates",
+                "icon": "layers",
+                "pages": [
+                  "en/changelog/engine/index",
+                  "en/changelog/server/index"
                 ]
               }
             ]

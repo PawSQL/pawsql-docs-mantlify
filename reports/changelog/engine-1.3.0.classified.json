@@ -20,7 +20,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 改用 SQLScriptParser，脚本解析入口统一"
+          "text": "SQL Server 改用 SQLScriptParser，脚本解析入口统一",
+          "textEn": "SQL Server now uses SQLScriptParser; script parsing has a single entry point"
         },
         {
           "confidence": "high",
@@ -31,7 +32,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复外键定义解析、unqualify 与表提示语法的缺陷，并统一语法文件"
+          "text": "修复外键定义解析、unqualify 与表提示语法的缺陷，并统一语法文件",
+          "textEn": "Fixed foreign-key definition parsing, unqualify and table-hint grammar, and consolidated the grammar files"
         },
         {
           "confidence": "high",
@@ -41,7 +43,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 TDSQL 适配分支"
+          "text": "新增 TDSQL 适配分支",
+          "textEn": "Added a TDSQL adaptation branch"
         },
         {
           "confidence": "high",
@@ -51,7 +54,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 SQL Server 的局部与全局临时表关键字"
+          "text": "支持 SQL Server 的局部与全局临时表关键字",
+          "textEn": "SQL Server: local and global temporary table keywords"
         },
         {
           "confidence": "high",
@@ -61,7 +65,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "MySQL 的字符串常量可以使用双引号表示"
+          "text": "MySQL 的字符串常量可以使用双引号表示",
+          "textEn": "MySQL string literals may use double quotes"
         },
         {
           "confidence": "high",
@@ -71,7 +76,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "非 MySQL 数据库的字符串常量不支持反斜杠转义"
+          "text": "非 MySQL 数据库的字符串常量不支持反斜杠转义",
+          "textEn": "String literals do not support backslash escapes on non-MySQL databases"
         },
         {
           "confidence": "high",
@@ -81,7 +87,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL Server 的字符串常量不支持反斜杠转义"
+          "text": "SQL Server 的字符串常量不支持反斜杠转义",
+          "textEn": "SQL Server string literals do not support backslash escapes"
         },
         {
           "confidence": "high",
@@ -91,7 +98,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持 SQL Server 的别名赋值写法 select uid = col from t"
+          "text": "支持 SQL Server 的别名赋值写法 select uid = col from t",
+          "textEn": "SQL Server: alias assignment select uid = col from t"
         },
         {
           "confidence": "high",
@@ -101,7 +109,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 TSQL 解析器与 SQL 脚本访问器"
+          "text": "新增 TSQL 解析器与 SQL 脚本访问器",
+          "textEn": "Added the TSQL parser and SQL script visitor"
         },
         {
           "confidence": "high",
@@ -111,7 +120,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "SQL 解析入口改为 root"
+          "text": "SQL 解析入口改为 root",
+          "textEn": "The SQL parse entry point moved to root"
         },
         {
           "confidence": "high",
@@ -121,7 +131,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "exists 不再作为标识符处理"
+          "text": "exists 不再作为标识符处理",
+          "textEn": "exists is no longer treated as an identifier"
         },
         {
           "confidence": "high",
@@ -131,7 +142,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持中文全角空白符"
+          "text": "支持中文全角空白符",
+          "textEn": "Added Chinese full-width whitespace"
         },
         {
           "confidence": "high",
@@ -142,7 +154,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复达梦执行计划的索引使用解析缺陷"
+          "text": "修复达梦执行计划的索引使用解析缺陷",
+          "textEn": "Fixed index-usage parsing in Dameng execution plans"
         },
         {
           "confidence": "high",
@@ -153,7 +166,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Position 函数解析与输出的缺陷"
+          "text": "修复 Position 函数解析与输出的缺陷",
+          "textEn": "Fixed Position function parsing and output"
         },
         {
           "confidence": "high",
@@ -164,7 +178,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复达梦与 Oracle explain 解析中的索引使用缺陷"
+          "text": "修复达梦与 Oracle explain 解析中的索引使用缺陷",
+          "textEn": "Fixed index usage in explain parsing for Dameng and Oracle"
         }
       ]
     },
@@ -181,7 +196,8 @@
             "优化算法",
             "缺陷修复"
           ],
-          "text": "修复子查询解关联算法缺陷（RulePredicatesSSQRewrite、RuleSelectSSQRewrite）"
+          "text": "修复子查询解关联算法缺陷（RulePredicatesSSQRewrite、RuleSelectSSQRewrite）",
+          "textEn": "Fixed the subquery decorrelation algorithm (RulePredicatesSSQRewrite, RuleSelectSSQRewrite)"
         },
         {
           "confidence": "high",
@@ -191,7 +207,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "支持多个结构不同的选择列标量子查询解关联"
+          "text": "支持多个结构不同的选择列标量子查询解关联",
+          "textEn": "Scalar subqueries with several differently shaped select columns can be decorrelated"
         },
         {
           "confidence": "high",
@@ -201,7 +218,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "标量子查询的谓词不再下推"
+          "text": "标量子查询的谓词不再下推",
+          "textEn": "Predicates of scalar subqueries are no longer pushed down"
         },
         {
           "confidence": "high",
@@ -211,7 +229,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "过滤谓词下推排除同一查询块内的情况"
+          "text": "过滤谓词下推排除同一查询块内的情况",
+          "textEn": "Filter-predicate pushdown excludes the same query block"
         }
       ]
     },
@@ -226,7 +245,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "TableR011 在起始值为空时不再报违规"
+          "text": "TableR011 在起始值为空时不再报违规",
+          "textEn": "TableR011 no longer reports a violation when the start value is empty"
         }
       ]
     },
@@ -243,7 +263,8 @@
             "eaa18a39"
           ],
           "tags": [],
-          "text": "其余内部改动（5 条提交）"
+          "text": "其余内部改动（5 条提交）",
+          "textEn": null
         }
       ]
     }

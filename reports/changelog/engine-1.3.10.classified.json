@@ -20,7 +20,8 @@
           "tags": [
             "索引引擎"
           ],
-          "text": "冗余索引与重复索引检查区分开，使用不同预警级别 RuleDuplicateIndexDisallowed"
+          "text": "冗余索引与重复索引检查区分开，使用不同预警级别 RuleDuplicateIndexDisallowed",
+          "textEn": "Redundant and duplicate index checks are separated, with distinct severities for RuleDuplicateIndexDisallowed"
         }
       ]
     },
@@ -36,7 +37,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "阈值解析提升健壮性；阈值为空时使用默认阈值"
+          "text": "阈值解析提升健壮性；阈值为空时使用默认阈值",
+          "textEn": "More robust threshold parsing; an empty threshold falls back to the default"
         },
         {
           "confidence": "high",
@@ -48,7 +50,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复在线获取无符号整型列类型的缺陷"
+          "text": "修复在线获取无符号整型列类型的缺陷",
+          "textEn": "Fixed retrieving unsigned integer column types online"
         },
         {
           "confidence": "high",
@@ -59,7 +62,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复缺少分号结尾的 SQL 在脚本解析时出错的问题"
+          "text": "修复缺少分号结尾的 SQL 在脚本解析时出错的问题",
+          "textEn": "Fixed script parsing failing on SQL without a trailing semicolon"
         },
         {
           "confidence": "high",
@@ -69,7 +73,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 SQL Server 的 convert 函数支持"
+          "text": "新增 SQL Server 的 convert 函数支持",
+          "textEn": "Added SQL Server convert function support"
         },
         {
           "confidence": "high",
@@ -79,7 +84,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持对象类型的变量引用（如 :customer.name）"
+          "text": "支持对象类型的变量引用（如 :customer.name）",
+          "textEn": "Added object-typed variable references such as :customer.name"
         },
         {
           "confidence": "high",
@@ -89,7 +95,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "支持带后缀的数字常量（1000L、1.0d、2.0f）"
+          "text": "支持带后缀的数字常量（1000L、1.0d、2.0f）",
+          "textEn": "Added numeric literals with suffixes (1000L, 1.0d, 2.0f)"
         },
         {
           "confidence": "high",
@@ -99,7 +106,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 replace 语法支持"
+          "text": "新增 replace 语法支持",
+          "textEn": "Added replace syntax"
         },
         {
           "confidence": "high",
@@ -110,7 +118,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复多表更新列与占位符的序列化缺陷"
+          "text": "修复多表更新列与占位符的序列化缺陷",
+          "textEn": "Fixed serialisation of multi-table update columns and placeholders"
         },
         {
           "confidence": "high",
@@ -121,7 +130,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复脚本解析时的表对象上下文更新与分区类型判断"
+          "text": "修复脚本解析时的表对象上下文更新与分区类型判断",
+          "textEn": "Fixed table-object context updates and partition-type detection in script parsing"
         },
         {
           "confidence": "high",
@@ -131,7 +141,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "为更新目标列添加表信息"
+          "text": "为更新目标列添加表信息",
+          "textEn": "Update target columns now carry table information"
         },
         {
           "confidence": "high",
@@ -141,7 +152,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "脚本解析支持游标变量引用（PL/SQL）"
+          "text": "脚本解析支持游标变量引用（PL/SQL）",
+          "textEn": "Script parsing supports cursor variable references (PL/SQL)"
         },
         {
           "confidence": "high",
@@ -152,7 +164,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 PL/SQL 语法文件缺陷"
+          "text": "修复 PL/SQL 语法文件缺陷",
+          "textEn": "Fixed a defect in the PL/SQL grammar file"
         },
         {
           "confidence": "high",
@@ -162,7 +175,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "把 for 循环与代码块声明的参数纳入上下文，避免被误认为表的列"
+          "text": "把 for 循环与代码块声明的参数纳入上下文，避免被误认为表的列",
+          "textEn": "Parameters declared in for loops and blocks stay in context so they are not mistaken for table columns"
         },
         {
           "confidence": "high",
@@ -172,7 +186,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "列新增是否压缩与压缩算法属性；支持分区列表信息"
+          "text": "列新增是否压缩与压缩算法属性；支持分区列表信息",
+          "textEn": "Columns gained compression attributes; partition list information is supported"
         },
         {
           "confidence": "high",
@@ -183,7 +198,8 @@
             "SQL解析与数据库支持",
             "缺陷修复"
           ],
-          "text": "修复 Oracle 多用户与 schema 不一致时找不到表、SQL Server 用 use db 切换数据库等问题"
+          "text": "修复 Oracle 多用户与 schema 不一致时找不到表、SQL Server 用 use db 切换数据库等问题",
+          "textEn": "Fixed missing tables when the Oracle user and schema differ, and SQL Server switching databases with use db"
         },
         {
           "confidence": "high",
@@ -193,7 +209,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "新增 MySQL 的 replace 语句支持；统计信息采集改用 execQuery"
+          "text": "新增 MySQL 的 replace 语句支持；统计信息采集改用 execQuery",
+          "textEn": "Added MySQL replace statement support; statistics collection uses execQuery"
         },
         {
           "confidence": "high",
@@ -203,7 +220,8 @@
           "tags": [
             "SQL解析与数据库支持"
           ],
-          "text": "在线获取 Oracle 表的行数、默认值与注释"
+          "text": "在线获取 Oracle 表的行数、默认值与注释",
+          "textEn": "Retrieve Oracle table row counts, defaults and comments online"
         }
       ]
     },
@@ -218,7 +236,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "缺少数据库对象时不再给出严重警告"
+          "text": "缺少数据库对象时不再给出严重警告",
+          "textEn": "A missing database object no longer raises a severe warning"
         },
         {
           "confidence": "high",
@@ -228,7 +247,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "按传入的规则列表过滤语法类等无独立规则类的审核规则"
+          "text": "按传入的规则列表过滤语法类等无独立规则类的审核规则",
+          "textEn": "Syntax-level audit rules without a dedicated rule class are filtered by the supplied rule list"
         },
         {
           "confidence": "high",
@@ -238,7 +258,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "「避免不必要的更新操作」改为非重写规则"
+          "text": "「避免不必要的更新操作」改为非重写规则",
+          "textEn": "The unnecessary-update rule is no longer a rewrite rule"
         },
         {
           "confidence": "high",
@@ -248,7 +269,8 @@
           "tags": [
             "审核引擎"
           ],
-          "text": "新增 RuleCalculationOnDistributedColumns"
+          "text": "新增 RuleCalculationOnDistributedColumns",
+          "textEn": "Added RuleCalculationOnDistributedColumns"
         }
       ]
     },
@@ -263,7 +285,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "新增或修改约 60 个优化算法以支持 CCDDC 开发"
+          "text": "新增或修改约 60 个优化算法以支持 CCDDC 开发",
+          "textEn": "Added or reworked around 60 optimisation algorithms for CCDDC development"
         },
         {
           "confidence": "high",
@@ -273,7 +296,8 @@
           "tags": [
             "优化算法"
           ],
-          "text": "谓词分析增加 null/between/inValues 的过滤率估计"
+          "text": "谓词分析增加 null/between/inValues 的过滤率估计",
+          "textEn": "Predicate analysis estimates filter rates for null/between/inValues"
         }
       ]
     },
@@ -289,7 +313,8 @@
             "43a415e9"
           ],
           "tags": [],
-          "text": "其余内部改动（4 条提交）"
+          "text": "其余内部改动（4 条提交）",
+          "textEn": null
         }
       ]
     }
