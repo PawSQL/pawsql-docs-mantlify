@@ -21,7 +21,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 
 {/* CHANGELOG:START */}
-<Update label="1.3.15" description="2026-09-23" tags={["SQL Review", "SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.15" description="2026-09-23" tags={["SQL Review", "SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Added the EmptyString4DefaultDisallowed and PKOrUINotContainingShardingKey rules (70b9e97d)
@@ -31,7 +31,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed null handling in the MAXMIN rewrite (30c0e4ac)
   - Added the statistics Extractor framework (70b9e97d)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - datetime is parsed as timestamp rather than date (0d5b9de0)
   - CTEs support the NOT? MATERIALIZED modifier (521236c5)
@@ -39,7 +39,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.14" description="2026-07-23" tags={["SQL Review", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.14" description="2026-07-23" tags={["SQL Review", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - IncColumn4PrimaryKeyRequired applies to non-distributed databases only (780b235c)
@@ -47,14 +47,14 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - RuleRowsOfDMLExceedThreshold threshold changed to 1000 (780b235c)
   - select * is flagged everywhere except inside exists (efcd7d12)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Fixed SQLInfo for insert select statements (6c6ed248)
   - Fixed parsing of merge into when not matched then (ea3d9b2b)
 
 </Update>
 
-<Update label="1.3.13" description="2026-06-30" tags={["SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.13" description="2026-06-30" tags={["SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Optimization
 
   - Improved DerivedTable2LateralJoinRewrite to fix table order after the lateral transform (02652ad2)
@@ -62,7 +62,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Optimisation for joins that lack a join condition (97588a7f)
   - Optimisation: derived tables are converted to lateral joins (f158ff2a)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Refactored the SQL parser to reduce unnecessary query markers; advisors share transferSQL (0ba59f18)
   - Added PostgreSQL create extension (1e834105)
@@ -93,7 +93,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.12" description="2026-05-28" tags={["SQL Review", "SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.12" description="2026-05-28" tags={["SQL Review", "SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Parse-time audit rules accept a severity supplied by the front end (10d45e03, 5832e557)
@@ -106,7 +106,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Query folding of nested subqueries now starts from the innermost (dabfe743)
   - Improved NotInNullableSubQueryRewrite and UnnecessaryDistinctEliminationRewrite for nested expressions (e325f3a5)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Full MySQL PL support, with all script tests passing (0224efd8)
   - More robust DML visitor supporting WITH CTE in subqueries, ShardingKeyIncluded4Insert and NoFilter4PartitioningColumns (1cf75599)
@@ -119,7 +119,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.11" description="2026-04-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.11" description="2026-04-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Fixed syntax-rule filtering (41d80d69)
@@ -142,13 +142,13 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Derived tables without a table are excluded (c1f20d1a)
   - Fixed the date_format rewrite algorithm (e2d836cf)
 
-  ### Index engine
+  ### Index Recommendation
 
   - TDSQL keeps index column direction; new threshold for the maximum number of sort columns (6c1b2d71)
   - Index clean-up failures are reported (8c55fa97)
   - Added the index clean-up (IndexClean) capability (c59e465a)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - SQL Server moved from script parsing to tsql parsing (00a220c4)
   - Improved the PostgreSQL and universal parsers (0a2f0899)
@@ -174,7 +174,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.10" description="2026-03-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.10" description="2026-03-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Added RuleCalculationOnDistributedColumns (0766c024)
@@ -187,11 +187,11 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Added or reworked around 60 optimisation algorithms for CCDDC development (655d6dac)
   - Predicate analysis estimates filter rates for null/between/inValues (b1c6ea7d)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Redundant and duplicate index checks are separated, with distinct severities for RuleDuplicateIndexDisallowed (87d4b135)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Columns gained compression attributes; partition list information is supported (03d75121)
   - Fixed missing tables when the Oracle user and schema differ, and SQL Server switching databases with use db (03d75121)
@@ -213,12 +213,12 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.9" description="2026-02-25" tags={["Index engine", "SQL parsing & database support"]}>
-  ### Index engine
+<Update label="1.3.9" description="2026-02-25" tags={["Index Recommendation", "SQL Parsing & Database Support"]}>
+  ### Index Recommendation
 
   - Filters are pushed to the front of the index even for the driven table (5e74df78)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Added the ansi database type (mapped to PostgreSQL when no type is given) (008b2dee)
   - Added the arrayComparison predicate (1cb3417b)
@@ -226,7 +226,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.8" description="2026-01-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.8" description="2026-01-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Added RuleBackupTableInSpecificSchema and RuleBackupTableNamingConversion (0385b670)
@@ -242,11 +242,11 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Subquery decorrelation costing: decorrelate only when the outer row count is smaller (ba47f747)
   - The rewrite distinguishes TimestampDiff(date1, date2) from TimestampDiff(type, startTS, endTS) (dab36c7c)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Index recommendation: fixed derived-table join conditions being treated as filters (9b5b2585)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - NULL elements passed to schema parsing are ignored (69e9f0b0)
   - Corrected the Dameng connection string (84072cfa)
@@ -256,7 +256,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.7" description="2025-12-29" tags={["SQL Review", "SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.7" description="2025-12-29" tags={["SQL Review", "SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Table and column not-found cases are reported as audit rules instead of parse exceptions (412a9133)
@@ -269,7 +269,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Variable substitution in indexadvisor/sqladvisor is deferred to performance validation (5266c59f)
   - RuleSelectSSQRewrite skips rewriting with an unconditional filter and no aggregate (534fd699)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Improved row-count retrieval for cases without a DatabaseTable (1fba12e0)
   - Fixed octal and hexadecimal constant deserialisation (231b9ce8, c7356598)
@@ -285,7 +285,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.6" description="2025-11-27" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.6" description="2025-11-27" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Fixed a null-pointer exception in RuleLocal4ShardingDatabase when the partition clause is empty (b252f9bb)
@@ -299,11 +299,11 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Derive a false predicate from a = 1 and a &lt;&gt; 1 (6fb1960d)
   - Fixed using(col) table correlation for multi-table and derived-table subqueries (951cf907)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Index recommendation orders the leading column by descending selectivity (f026b54c)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Added TDSQLX for PostgreSQL support (52af0ba4)
   - Oracle functions such as SYSTIMESTAMP and CURRENT_DATE no longer need parentheses (5a29cc1d)
@@ -317,7 +317,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.5" description="2025-10-30" tags={["SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.5" description="2025-10-30" tags={["SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Optimization
 
   - Fixed the rewrite algorithm for two identical scalar subqueries (0e6a35d7)
@@ -328,7 +328,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - LIKE without wildcards is rewritten to an equality predicate (edca8e41)
   - Fixed predicate pushdown with nested variables and rank functions (edca8e41)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Added SQL templates and SQL obfuscation (010e889c)
   - Fixed getSQL for subqueries (01f46b33)
@@ -346,7 +346,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.4" description="2025-09-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.4" description="2025-09-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - SQL objects carry line information (04fc8d49, 4046fc2b)
@@ -370,12 +370,12 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - RuleOrCond4SelectRewrite excludes correlation conditions from costing (b825546c, 449141c6)
   - Dummy expressions are qualified as needed (cf3052cf)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Fixed redundant index usage (3e3d16f0, 27314328)
   - A duplicate unique index is no longer suggested for removal (f0e188e0)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Value-expression lookup covers expressions inside GroupConcat (479baccd)
   - Fixed an interval syntax error introduced by DB2 support (5e8452b9)
@@ -386,7 +386,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.3" description="2025-08-29" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.3" description="2025-08-29" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Fixed defects in the Hive rules (3dc384dd)
@@ -399,11 +399,11 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed a decorrelation defect and an exception when all correlated columns belong to the outer query (d89de33b)
   - Added the InValues rewrite (d89de33b)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Target tables of delete/update/merge are not index-only candidates (9eee0610)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - More robust scalar-subquery parsing (4ed19977, 3c063467)
   - Fixed columnstore index creation parsing for SQL Server (aba5a3d8)
@@ -413,12 +413,12 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.2" description="2025-07-30" tags={["SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.2" description="2025-07-30" tags={["SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Optimization
 
   - No decorrelation when a scalar subquery contains a limit clause (dba13e3c)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Added the ValueExpressionTableExpr query model (0d59bc84)
   - Fixed Hive online partition-clause parsing and added rewrite logic for RuleCalculationOnDistributedColumns (32351dc0)
@@ -432,7 +432,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.1" description="2025-06-27" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.1" description="2025-06-27" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Excluded a set of audit rules for temporary tables (IfExists, naming conventions, required comments, required primary keys and others) (0bb5181d)
@@ -445,14 +445,14 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
   - No query folding when a subquery's table references belong to one join (6c0fe6cf)
 
-  ### Index engine
+  ### Index Recommendation
 
   - A * select list can still be an index-only candidate inside an exists subquery (3579594b)
   - The index analysis section is hidden when there are no indexes (a8e88eb3)
   - Fixed candidate-index merging and join-column index recommendation with nested tables (e44c2ddd)
   - Fixed index recommendation missing columns wrapped in functions or expressions as index-only candidates (f3533ba8)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Expanded SQL Server syntax: set col1 += col2, insert into table exec, char(max), percentage literals, UNIQUEIDENTIFIER, type method calls abc::method() and more (48fa0bd8)
   - SQL Server: columnstore indexes, table/query hints and remote table references (48fa0bd8)
@@ -472,7 +472,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.3.0" description="2025-05-30" tags={["SQL Review", "SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.3.0" description="2025-05-30" tags={["SQL Review", "SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - TableR011 no longer reports a violation when the start value is empty (c7131b65)
@@ -484,7 +484,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Scalar subqueries with several differently shaped select columns can be decorrelated (8037c0ff)
   - Predicates of scalar subqueries are no longer pushed down (b08c5d22)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - The SQL parse entry point moved to root (04238700)
   - exists is no longer treated as an identifier (04238700)
@@ -504,7 +504,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.6" description="2025-04-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.2.6" description="2025-04-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Every SQL statement produces a QueryAuditResult (11598ac6)
@@ -521,13 +521,13 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed RuleOrCond4SelectRewrite when only aggregates appear without a group by (8fc0acde)
   - findQuerySelect locates scalar subqueries inside If, Cast and similar expressions (954beba8)
 
-  ### Index engine
+  ### Index Recommendation
 
   - MySQL primary-key column removal now runs before index deduplication (19b4eb88)
   - The parser and writer handle outer-join (+), and index recommendation accounts for it (21d6e3b9)
   - Added the ubtree index type and allow BUCKET as an identifier (b605577a)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Fixed qualifier resolution and multi-table update output (10f364ee)
   - Fixed dateTimeFunctionCall syntax (300536f5)
@@ -549,7 +549,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.5" description="2025-03-31" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.2.5" description="2025-03-31" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Fixed RuleFuncWithColumnInPredicate when an alias is referenced (71a9fdb6)
@@ -564,13 +564,13 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Reverted limit/order by handling for union all (357ace48)
   - Fixed second-round rewriting (9101a4ab)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Foreign keys are assigned index names; RuleOrCond4SelectRewrite enables union all (09efa77d)
   - Index recommendation considers join order when ordering foreign keys (a6bdd2fa, 6ff0ecc1)
   - SQL audit gained index recommendation and produces more concise index analysis (e3054ffb)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Fixed WithTable with a single table reference (052b4be3)
   - Reworked source writer output with compressed and uncompressed modes (0f789148, 0198522a, 2965364a, d47f5627)
@@ -590,7 +590,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.4" description="2025-02-27" tags={["SQL Review", "SQL Optimization", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.2.4" description="2025-02-27" tags={["SQL Review", "SQL Optimization", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Improved RuleFuncWithColumnInPredicate (0ffb06df)
@@ -600,7 +600,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed LimitClausePushDown (de32cd63)
   - Added the RuleOrCond2InPredicateRewrite rule (eb612ed3, f09b66c4)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - SQL Server: GO as a statement separator (19e33834)
   - DML statements support WITH tables (2a8f7f97, f213ace3, 200afb0d, f408144e)
@@ -616,12 +616,12 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.3" description="2025-01-16" tags={["Index engine", "SQL parsing & database support", "Bug fixes"]}>
-  ### Index engine
+<Update label="1.2.3" description="2025-01-16" tags={["Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
+  ### Index Recommendation
 
   - Fixed index merging (f5beaa2e)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Fixed sharded-database detection (044d0179)
   - Added OceanBase (MySQL and Oracle modes) and PolarDB-X 2.0 support (0ca5b1f2, 2c2dc293)
@@ -630,7 +630,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.2" description="2024-12-31" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.2.2" description="2024-12-31" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Fixed a defect in RuleDiffDatatypeOfJoinColumns (215bf615)
@@ -646,13 +646,13 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed rewriting update into a query for performance validation (9a3f1682)
   - Collect table and index sizes plus dirtyRate for MySQL (cca9aebd)
 
-  ### Index engine
+  ### Index Recommendation
 
   - The online DDL parser marks indexes with an isValid attribute (5ef89ca6)
   - Indexes gained a valid attribute (c51fcce3)
   - Added index visibility for PostgreSQL, openGauss, MySQL, Kingbase and others (f2714f6f)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Fixed a null result-column container (196ebe9e)
   - Fixed table correlation when columns carry aliases (2f8fea0f)
@@ -678,7 +678,7 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 
 </Update>
 
-<Update label="1.2.1" description="2024-11-30" tags={["SQL Review", "SQL Optimization", "Index engine", "SQL parsing & database support", "Bug fixes"]}>
+<Update label="1.2.1" description="2024-11-30" tags={["SQL Review", "SQL Optimization", "Index Recommendation", "SQL Parsing & Database Support", "Bug Fixes"]}>
   ### SQL Review
 
   - Improved the output of RuleDiffDatatypeOfJoinColumns (16b4c504)
@@ -691,12 +691,12 @@ Content outside the marked region is freely editable; do not hand-edit entries i
   - Fixed a defect in the driving-table logic (isCorrelated) (5d626ed2)
   - Dameng no longer uses query folding (fe398804)
 
-  ### Index engine
+  ### Index Recommendation
 
   - Fixed index matching for MySQL and PostgreSQL (39e4ad0c)
   - Index validation gained an indexClean capability and parses create trigger without code blocks (93815aea)
 
-  ### SQL parsing & database support
+  ### SQL Parsing & Database Support
 
   - Added TDSQLX for MySQL support with a matching validator (110e0aad)
   - Fixed nested value expression parsing (3ae8ef51)

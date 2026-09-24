@@ -70,17 +70,19 @@ CATEGORY_ORDER: tuple[str, ...] = CHANGE_TAGS  # default order when a component 
 
 CATEGORY_LABELS: dict[str, dict[str, str]] = {
     "zh": {tag: tag for tag in CHANGE_TAGS},
+    # English labels follow the site glossary (审核 = SQL Review, 索引推荐 = Index
+    # Recommendation) and are title-cased so the filter list reads as one set.
     "en": {
         "审核引擎": "SQL Review",
         "优化算法": "SQL Optimization",
-        "索引引擎": "Index engine",
-        "SQL解析与数据库支持": "SQL parsing & database support",
-        "SQL 审核与优化": "SQL review & optimization",
-        "慢查询与巡检": "Slow queries & inspection",
-        "工作空间与数据源": "Workspaces & data sources",
+        "索引引擎": "Index Recommendation",
+        "SQL解析与数据库支持": "SQL Parsing & Database Support",
+        "SQL 审核与优化": "SQL Review & Optimization",
+        "慢查询与巡检": "Slow Queries & Inspection",
+        "工作空间与数据源": "Workspaces & Data Sources",
         "集成与开放接口": "Integrations & API",
-        "权限与安全": "Access & security",
-        "缺陷修复": "Bug fixes",
+        "权限与安全": "Access & Security",
+        "缺陷修复": "Bug Fixes",
     },
 }
 

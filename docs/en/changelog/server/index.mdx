@@ -22,20 +22,20 @@ Content outside the marked region is freely editable; do not hand-edit entries i
 Source commit ids in parentheses trace each entry back to the code; internal-only changes (refactors, dependency bumps) are not listed.
 
 {/* CHANGELOG:START */}
-<Update label="1.2.11" description="2026-09-23" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.11" description="2026-09-23" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Improved report templates by removing unnecessary placeholder headings (1259cd3a)
   - Added tracking tables for ticket SQL execution sessions (4fed9d5f)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - AI optimisation no longer invents execution-plan information when none is available (37d83230)
   - Added AI optimisation for inspected slow queries (39644ae0)
   - Split AI optimisation into diagnosis and optimisation phases with custom system prompts (8905f205)
   - Inspection AI optimisation now takes its SQL from the slow-query entity (b54a0521)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Fall back to PawsqlConfig when UserConfig is null (39c77416)
   - Removed redundant columns from the DDL change table (73d17723)
@@ -59,24 +59,24 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Added async createAnalysis, a system/info endpoint and lookup by name (ed7cca3d)
   - Migrated base/app controller annotations to OpenAPI 3 (f251fa44)
 
-  ### Access & security
+  ### Access & Security
 
   - Fixed checkLicense referencing the wrong variable in its error message (44eb823d)
   - Platform user management gained enable/disable endpoints (7c4bdcb6)
 
 </Update>
 
-<Update label="1.2.10" description="2026-08-31" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.10" description="2026-08-31" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Review uses the formatted SQL statement to report correct line numbers (718ef500)
   - Completed state validation and result handling for skipped ticket steps (e64aa5be)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - Dameng slow-query parameter validation falls back when some parameters cannot be read (476df780)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Moved DDL under docs/ and added developer and AI guides (16a24c00)
   - Added an environment-variable template and changed configuration management (42e9b968)
@@ -91,15 +91,15 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
 
   - Summary and SQL-detail endpoints return rule severity information (ac2d8cdc)
 
-  ### Access & security
+  ### Access & Security
 
   - MySQL connections use SSL/TLS to support require_secure_transport=ON (0e48f8e1)
   - Simplified password filtering in the workspace-creation DTO (ec5790b5)
 
 </Update>
 
-<Update label="1.2.9" description="2026-07-07" tags={["SQL review & optimization", "Workspaces & data sources", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.9" description="2026-07-07" tags={["SQL Review & Optimization", "Workspaces & Data Sources", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Fixed a null-pointer problem in the validation logic (04bca2a0)
   - Hardcoded error messages became i18n constant keys (26eef2ee)
@@ -120,14 +120,14 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Completed session handling for non-transactional execution (ee1674bd)
   - Extracted and unified parse-exception persistence (feb5b082)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Added a multi-dialect execution framework (6100a1ec)
 
 </Update>
 
-<Update label="1.2.8" description="2026-06-25" tags={["SQL review & optimization", "Workspaces & data sources", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.8" description="2026-06-25" tags={["SQL Review & Optimization", "Workspaces & Data Sources", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Reworked data-source resolution in the index clean-up service (1b40af07)
   - Added the derived-table-to-lateral-join rule and updated rule configuration (b7cb6e33)
@@ -136,7 +136,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Added storage and display of analysis-level structured parse exceptions (e34f1203)
   - Adjusted when parse exceptions are persisted for analysis (f3eb7e2a)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - More database types use the script parser (7de06848)
   - indexAdvisor now uses the existing SQL parser (837d76e9)
@@ -144,8 +144,8 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
 
 </Update>
 
-<Update label="1.2.7" description="2026-05-21" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.7" description="2026-05-21" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Added an error code for empty SQL and improved task-failure handling (00555ff7)
   - Added an audit rule script (07f4f005)
@@ -169,7 +169,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Added an exclusive-parser option to avoid multi-threading problems (e55ab28f)
   - Corrected column comments on the audit tables (ff367629)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - Slow-query table columns changed to BIGINT to prevent overflow (1e73a083)
   - Reworked the lock-wait migration script, separating configuration from data initialisation (33a4dc9a)
@@ -185,7 +185,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Improved performance and exception handling for TDSQL proxy slow queries (bd05ba76)
   - Slow-query templates gained a tuning-time field and average query-time filtering (fdf34e31)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Added a database cloning tool and completed the tool chain (028a6e09)
   - The recommended rule-template ID split into an inspection template and a review template (28641176)
@@ -204,7 +204,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - API audit tasks gained an index-recommendation switch (add5fb60)
   - Added monitor directory filtering (fbf0ffa0)
 
-  ### Access & security
+  ### Access & Security
 
   - Added endpoints managing platform roles and the permission dictionary (0a3e0997)
   - Platform role management can update system-role permissions (81a57a40)
@@ -213,14 +213,14 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Added saving of a user's system-role assignment (d55b0350)
   - Implemented updating the platform permission dictionary (f4dca8e4)
 
-  ### Bug fixes
+  ### Bug Fixes
 
   - Fixed a null-pointer exception and improved error handling (ecb8d04f)
 
 </Update>
 
-<Update label="1.2.6" description="2026-04-13" tags={["SQL review & optimization", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.6" description="2026-04-13" tags={["SQL Review & Optimization", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Audit and integration task timeout changed from 30 to 1440 minutes (28404b11)
   - Analysis result queries return a validation flag (9142db5d)
@@ -229,7 +229,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Corrected the column reference for workload raw text (d7bab435)
   - Updated production rule data and removed the invalid rule TableR066 (fa77bae9)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Fixed an empty string being treated as a valid value on update (f857e00c)
 
@@ -241,14 +241,14 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Added end-to-end test support for the GitLab webhook (ab257a73)
   - Improved GitLab webhook reports and fixed secret storage (dff2c18d)
 
-  ### Access & security
+  ### Access & Security
 
   - Added the GitLab webhook path to the security allowlist (aaa5478e)
 
 </Update>
 
-<Update label="1.2.5" description="2026-04-07" tags={["SQL review & optimization", "Integrations & API", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.5" description="2026-04-07" tags={["SQL Review & Optimization", "Integrations & API", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Corrected the object-type parameter when fetching the rule list (1c7c64e9)
   - Unified analysis-task timeouts and removed the no-timeout branch (af9ac8e9)
@@ -261,16 +261,16 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
 
 </Update>
 
-<Update label="1.2.4" description="2026-04-02" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.4" description="2026-04-02" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Ticket details link to the audit task ID (7100d9ab)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - Improved slow-query template export: Excel formatting and performance (9b7ac56e)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Workspace queries return the recommended rule-template ID (1cb2e041)
 
@@ -278,21 +278,21 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
 
   - Monitor configuration reads now include the workspace definition ID (41e1dab9)
 
-  ### Access & security
+  ### Access & Security
 
   - Added analyses/getStatementList to the unauthenticated paths in WebSecurityConfiguration (02d005ef)
   - Updated the permission check for editing default rules (2754cfb9)
   - Fixed the permission check when updating default rules (52af8e74)
   - Added the workloads/get endpoint to the unauthenticated allowlist (89fd2d9f)
 
-  ### Bug fixes
+  ### Bug Fixes
 
   - Handle an empty generated SQL result to avoid a null-pointer exception (83484c06)
 
 </Update>
 
-<Update label="1.2.3" description="2026-03-31" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.3" description="2026-03-31" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Removed the @Builder annotation from RuleTemplateRequestDto and updated callers (0c652763)
   - Fixed the rule-tree path being built from the wrong node (1372bb34)
@@ -308,11 +308,11 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Replaced analysis-rule constants with the audit-rule constants (c15137d0)
   - Paged queries are capped at 10000 rows (c75d2447)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - Slow-query templates can be filtered by database instance (57ff85e2)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - openGauss and DWS now use the script parser (1329db77)
   - Build file-information metadata for script-based databases (9ad57b0d)
@@ -327,15 +327,15 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Fixed organisation-ID retrieval in SCM monitor configuration (8f447b24)
   - SQL review tasks now record the operator's email (bf39eb58)
 
-  ### Access & security
+  ### Access & Security
 
   - Removed the permission check from the audit-details endpoint (9ed61bba)
   - Merged the auth module into base and reworked permission code (bdf9d885)
 
 </Update>
 
-<Update label="1.2.2" description="2026-03-19" tags={["SQL review & optimization", "Slow queries & inspection", "Workspaces & data sources", "Integrations & API", "Access & security", "Bug fixes"]}>
-  ### SQL review & optimization
+<Update label="1.2.2" description="2026-03-19" tags={["SQL Review & Optimization", "Slow Queries & Inspection", "Workspaces & Data Sources", "Integrations & API", "Access & Security", "Bug Fixes"]}>
+  ### SQL Review & Optimization
 
   - Fixed the performance-gain calculation in validation mode (000aca41)
   - Fixed a division by zero in the performance-gain calculation (0e77e069)
@@ -359,7 +359,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Fixed how orgId is set when creating a ticket (f63cecb8)
   - Fixed the current-handler field returning several values in ticket queries (fa8e0d90)
 
-  ### Slow queries & inspection
+  ### Slow Queries & Inspection
 
   - Lowered the slow-query export row limit and optimised the ranking query (119e1beb)
   - Added indexes on several tables to speed up queries (19c86153)
@@ -378,7 +378,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Slow-query collection can exclude users and tool queries by configuration (fd462804)
   - Added indexes on the slow-query tables (ff969091)
 
-  ### Workspaces & data sources
+  ### Workspaces & Data Sources
 
   - Raised the database connection-pool ceiling (1e24d135)
   - Removed the workspace update from result parsing in favour of an analysis counter (4440f942)
@@ -407,7 +407,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Removed the automatic updateTime write during platform validation (c07937fc)
   - Added an API to resolve Coding repository paths (d35fcbbf)
 
-  ### Access & security
+  ### Access & Security
 
   - Fixed XML escaping when checking for an empty organisation path (0283fb98)
   - Added permission points and completed bulk import and the organisation tree (1a214f6c)
@@ -448,7 +448,7 @@ Source commit ids in parentheses trace each entry back to the code; internal-onl
   - Removed team-role logic from user creation (f612918c)
   - Skip the visibility check when dbinstanceId is 0 (f77f71e4)
 
-  ### Bug fixes
+  ### Bug Fixes
 
   - Update statements check for a row count &gt; 0 instead of == 1 (773bcb58)
   - Fixed database result-set reading and optimised the organisation-name join (a0b4ad00)
