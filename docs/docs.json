@@ -268,26 +268,6 @@
             ]
           },
           {
-            "tab": "博客",
-            "icon": "book-open",
-            "groups": [
-              {
-                "group": "文章",
-                "icon": "newspaper",
-                "pages": [
-                  "blog/index",
-                  "blog/tdsql-mysql-slow-query",
-                  "blog/opengauss-slow-query",
-                  "blog/sql-optimization/oracle-group-by-integer-literal",
-                  "blog/sql-optimization/plan-visualization",
-                  "blog/sql-optimization/sql-null-traps",
-                  "blog/sql-optimization/index-types",
-                  "blog/sql-optimization/efficient-index-design"
-                ]
-              }
-            ]
-          },
-          {
             "tab": "变更日志",
             "icon": "activity",
             "groups": [
@@ -527,25 +507,6 @@
                 "icon": "cable",
                 "expanded": true,
                 "openapi": "openapi/pawsql-optimization-en.yaml"
-              }
-            ]
-          },
-          {
-            "tab": "Blog",
-            "icon": "book-open",
-            "groups": [
-              {
-                "group": "Posts",
-                "icon": "newspaper",
-                "pages": [
-                  "en/blog/index",
-                  "en/blog/engineering/or-to-union",
-                  "en/blog/sql-optimization/oracle-group-by-integer-literal",
-                  "en/blog/sql-optimization/plan-visualization",
-                  "en/blog/sql-optimization/sql-null-traps",
-                  "en/blog/sql-optimization/index-types",
-                  "en/blog/sql-optimization/efficient-index-design"
-                ]
               }
             ]
           },
