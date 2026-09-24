@@ -614,7 +614,7 @@ def test_build_changelog_renders_every_configured_language(repo):
     result = cl.build_changelog(repo, classifier=fake_classifier(), write=True, runner=build_runner())
 
     assert sorted(item.lang for item in result.rendered) == ["en", "zh"]
-    assert "### Audit engine" in (repo / en_rel).read_text(encoding="utf-8")
+    assert "### SQL Review" in (repo / en_rel).read_text(encoding="utf-8")
     assert "### 审核引擎" in (repo / SERVER_PAGE).read_text(encoding="utf-8")
 
 

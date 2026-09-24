@@ -71,8 +71,8 @@ CATEGORY_ORDER: tuple[str, ...] = CHANGE_TAGS  # default order when a component 
 CATEGORY_LABELS: dict[str, dict[str, str]] = {
     "zh": {tag: tag for tag in CHANGE_TAGS},
     "en": {
-        "审核引擎": "Audit engine",
-        "优化算法": "Optimization algorithms",
+        "审核引擎": "SQL Review",
+        "优化算法": "SQL Optimization",
         "索引引擎": "Index engine",
         "SQL解析与数据库支持": "SQL parsing & database support",
         "SQL 审核与优化": "SQL review & optimization",
