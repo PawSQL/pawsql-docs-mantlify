@@ -89,6 +89,8 @@ release 输出必须是仓库外尚不存在的新目录；失败不创建目标
 
 变更日志是**另一条独立流水线**，不接入 `build-references`，也不进 `generated-manifest.json`（它只写页面里的标记区，页面其余部分仍可手写）：`tag-releases` 按 `metadata/documentation/changelog-release-boundaries/<组件>.yaml` 往源码仓回填 annotated tag（`verified: false` 的行会拦住整个计划，且不覆盖已存在的同名 tag）；`build-changelog` 取 tag 区间提交、按组件归类成条目、渲染成 Mintlify 的 `<Update>` 块。归类结果落在 `reports/changelog/<组件>-<版本>.classified.json`（含 `model`+`promptVersion`，是入库的事实层与陈旧判定依据），渲染只读缓存，所以生成步骤不依赖网络。
 
+条目粒度是**一个提交一条**，由流水线保证：分类器契约按组件派生并写明拆分规则（一条提交里的多项拆成多条、同主旨的合并、无对外影响的记入 `unclassifiedCommits`），`classify_commits` 再兜底覆盖度——分类器漏掉的提交一律记入 `unclassifiedCommits` 并在运行结果里告警，不渲染也不丢失。
+
 ## 8. 尚需人工完成
 
 逐批补足规则前提、排除条件、已运行示例和证据；核定数据库/配置事实；补齐中文数据库/配置正文及英文翻译；完成各类型正文的章节映射与审核；用真实 API 合约替换占位文件。完整性检查不是语义审核、浏览器检查不是生产部署验证。锚点、动态 MDX 链接和内容事实仍需人工核验。

@@ -80,7 +80,9 @@ uv run python -m pawsql_doc tag-releases --component <name> --apply          # �
 - **用 Mintlify 原生的 `<Update>` 组件渲染**（每版一块：`label`=版本、`description`=日期、`tags`=该版条目携带的标签并集），因此白得三样能力：每版可直链的锚点、右侧标签筛选、`<页面URL>/rss.xml` 订阅源（页面 front matter 里的 `rss: true` 负责显示 RSS 按钮）。入口与字段见 Mintlify 的 [Changelogs](https://www.mintlify.com/docs/create/changelogs) 与 [Update 组件](https://www.mintlify.com/docs/components/update)。
 - **标签词表按组件分开**（`TAG_VOCABULARY` in `models/changelog.py`）：engine 是引擎子系统（审核引擎 / 优化算法 / 索引引擎 / SQL解析与数据库支持），server 是平台功能域（SQL 审核与优化 / 慢查询与巡检 / 工作空间与数据源 / 集成与开放接口 / 权限与安全）；两页共用 `缺陷修复` 作横切标签。**新增组件要同时加它的词表**，否则该组件的分类值会落在词表外（渲染时不会丢，会排在已知分组之后，但筛选器顺序会乱）。
 - **`tags` 会顶掉右侧的版本目录**（Mintlify 里二者互斥）——本项目选了标签筛选，所以侧栏没有"跳到某版本"（每版锚点仍在，可直链）。标签由**条目级 `tags` 聚合**而来，不是手工写在页面上：手工标签活不过一次重新归类（换分类器身份会让缓存整体重算，手写的标签会静默消失）。`缺陷修复` 是横切标签——归在某个域下的缺陷修复会同时挂该域与 `缺陷修复`。
-- **条目粒度：一个提交一条**。同一提交里描述了多个独立改动就拆成多条；重复提交、重试、revert、cherry-pick 等**同主旨**的合并成一条；一条提交里列了十几项（如某次 SQL Server 语法大扩充）按主题归成几条，避免单条炸出十几行。没有任何信息的提交（"bug fix"、"temp save"、"健壮性"）进 `internal`，不渲染。归类脚本必须断言「可见条目的提交 ∪ internal 的提交 == 该版本全部保留提交」，防止静默丢失。
+- **条目粒度：一个提交一条**——这条规则**由管道保证，不是约定**：
+  - 分类器契约按组件派生（`llm.build_system_prompt(source)` 用该组件自己的词表，别再写死单一组件的分类），并在其中写明粒度规则：每个提交单独出条目；一条提交里列了多件独立的事就拆成多条（可多条引用同一个提交）；重复提交/重试/revert/cherry-pick 等同主旨的合并；一条提交列了十几项但同属一个主题的按主题归成几条。
+  - **覆盖度由 `classify_commits` 兜底**：分类器没安置的提交会记进 `unclassifiedCommits`（不渲染），并在 `build-changelog` 的 NOTES 里告警，因此任何一次运行都不会少报某个版本。Agent 手工归类时同样要满足这条不变量。
 - 条目文本照旧经 `escape_mdx`。
 - `<Update>` 的子内容缩进 2 空格（对齐 Mintlify 自己的写法）；条目文本照旧经 `escape_mdx`，所以提交里的 `<`/`{` 不会破坏 JSX 结构。
 - **英文页暂未启用**：条目文本保留提交的原始语言，所以只配了 `pages.zh`；`docs/en/changelog/` 目前不存在、`docs.json` 里也没有英文 Changelog tab。要开英文页＝建 `docs/en/changelog/<组件>/index.mdx`、两边互写 `localeOf`、配置里补 `pages.en`、再加回英文 tab，并先定下中英条目口径（LLM 同时产出中英，或英文另走翻译流程）。

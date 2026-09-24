@@ -591,6 +591,60 @@ def test_build_changelog_renders_every_configured_language(repo):
     assert "### 审核引擎" in (repo / SERVER_PAGE).read_text(encoding="utf-8")
 
 
+def test_classify_commits_records_commits_the_classifier_skipped():
+    """Coverage is enforced by the pipeline: a skipped commit is never silently lost."""
+    commits = [
+        cl.Commit("1", "1111111", "2026-01-01", "a", "feat: 甲"),
+        cl.Commit("2", "2222222", "2026-01-01", "a", "feat: 乙"),
+        cl.Commit("3", "3333333", "2026-01-01", "a", "chore: 丙"),
+    ]
+
+    def classify(_source, _commits):
+        return cl.ClassifiedPayload(
+            sections=[
+                cl.ClassifiedSection(
+                    category="审核引擎",
+                    entries=[cl.ClassifiedEntry(text="甲", sourceCommits=["1111111"], tags=["审核引擎"])],
+                )
+            ],
+            unclassifiedCommits=["3333333"],
+        )
+
+    doc = cl.classify_commits(
+        make_source(),
+        cl.Tag("release-v0.4.16", "0.4.16", (0, 4, 16), "sha", "2026-01-01"),
+        cl.Tag("release-v0.4.15", "0.4.15", (0, 4, 15), "prev", "2026-01-01"),
+        commits,
+        cl.Classifier(model="m", promptVersion="p", classify=classify),
+    )
+
+    placed = {short for section in doc.sections for entry in section.entries for short in entry.sourceCommits}
+    assert placed == {"1111111"}
+    # the classifier declared 3333333, and 2222222 it never mentioned at all
+    assert doc.unclassifiedCommits == ["2222222", "3333333"]
+
+
+def test_build_changelog_notes_commits_the_classifier_skipped(repo):
+    source_repo = repo / "srcrepo"
+    source_repo.mkdir()
+    write_sources(repo, source_repo)
+    write_page(repo)
+
+    def places_nothing(_source, _commits):
+        return cl.ClassifiedPayload(sections=[])
+
+    result = cl.build_changelog(
+        repo,
+        classifier=cl.Classifier(model="m", promptVersion="p", classify=places_nothing),
+        write=True,
+        runner=build_runner(),
+    )
+
+    assert any("未被归类" in note for note in result.notes)
+    cached = cl.load_classified(repo / cl.REPORTS_DIR / "server-0.4.16.classified.json")
+    assert cached is not None and cached.unclassifiedCommits == ["2222222"]
+
+
 def test_build_changelog_drops_invented_commit_ids(repo):
     source_repo = repo / "srcrepo"
     source_repo.mkdir()

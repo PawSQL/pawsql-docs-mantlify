@@ -541,7 +541,14 @@ def classify_commits(
     commits: Sequence[Commit],
     classifier: Classifier,
 ) -> ClassifiedDoc:
-    """Attach git facts to the classifier payload, dropping invented provenance."""
+    """Attach git facts to the classifier payload, dropping invented provenance.
+
+    Granularity is the classifier's job (one entry per commit, splitting a commit
+    whose message lists several changes), but **coverage is enforced here**: every
+    commit in the range must end up either in an entry or in ``unclassifiedCommits``.
+    Anything the classifier skipped is recorded there, so a run can never quietly
+    under-report a release.
+    """
     payload = classifier(source, commits)
     known = {commit.short for commit in commits}
     sections = [
@@ -559,6 +566,9 @@ def classify_commits(
         )
         for section in payload.sections
     ]
+    placed = {short for section in sections for entry in section.entries for short in entry.sourceCommits}
+    declared = [short for short in payload.unclassifiedCommits if short in known]
+    skipped = sorted(known - placed - set(declared))
     return ClassifiedDoc(
         component=source.name,
         componentLabel=dict(source.displayName),
@@ -569,7 +579,7 @@ def classify_commits(
         model=classifier.model,
         promptVersion=classifier.promptVersion,
         sections=sections,
-        unclassifiedCommits=[short for short in payload.unclassifiedCommits if short in known],
+        unclassifiedCommits=sorted(set(declared) | set(skipped)),
     )
 
 
@@ -646,6 +656,11 @@ def build_changelog(
                 result.notes.append(f"{source.name} {tag.version}: 区间内没有可收录的提交")
             commits_path, classified_path = cache_paths(root, source.name, tag.version)
             doc = classify_commits(source, tag, previous, commits, classifier)
+            if doc.unclassifiedCommits:
+                result.notes.append(
+                    f"{source.name} {tag.version}: {len(doc.unclassifiedCommits)} 条提交未被归类，"
+                    "已记入 unclassifiedCommits（不渲染）"
+                )
             if write:
                 write_json(commits_path, [asdict(commit) for commit in commits])
                 write_json(classified_path, doc.model_dump(mode="json"))

@@ -149,7 +149,37 @@ def test_classify_with_client_returns_validated_payload():
     assert messages.kwargs["model"] == "claude-opus-5"
     assert messages.kwargs["output_format"] is ClassifiedPayload
     assert messages.kwargs["max_tokens"] == llm.MAX_TOKENS
-    assert "不得新增" in llm.SYSTEM_PROMPT
+    assert "不得新增" in llm.build_system_prompt(SOURCE)
+
+
+def test_system_prompt_is_derived_from_the_components_own_vocabulary():
+    """The contract must carry the component's own filter list, not another's."""
+    engine = cl.ChangeSource(
+        name="engine",
+        displayName={"zh": "引擎", "en": "Engine"},
+        repo=Path("/tmp/engine"),
+        trunk="master",
+        tagPattern=re.compile(r"^engine-v(?P<version>[0-9]+\.[0-9]+\.[0-9]+)$"),
+    )
+
+    server_prompt = llm.build_system_prompt(SOURCE)
+    engine_prompt = llm.build_system_prompt(engine)
+
+    assert "SQL 审核与优化" in server_prompt and "权限与安全" in server_prompt
+    assert "审核引擎" not in server_prompt
+    assert "审核引擎" in engine_prompt and "索引引擎" in engine_prompt
+    assert "权限与安全" not in engine_prompt
+    # the vocabulary is built with str.format, so braces must survive interpolation
+    assert '{"sections"' not in server_prompt
+
+
+def test_system_prompt_asks_for_one_entry_per_commit():
+    prompt = llm.build_system_prompt(SOURCE)
+
+    assert "一个提交一条" in prompt
+    assert "拆成多条" in prompt
+    assert "unclassifiedCommits" in prompt
+    assert "覆盖率必须 100%" in prompt
 
 
 def test_classify_with_client_accepts_a_plain_mapping():
