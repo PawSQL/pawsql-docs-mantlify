@@ -1,7 +1,7 @@
 ---
 id: en-user-guide-dev-tools-index
 title: Developer Tool Integration Overview
-description: Bring PawSQL review and optimization into DBeaver, JetBrains IDEs, Visual Studio Code, and MCP-compatible AI coding tools.
+description: Bring PawSQL review and optimization into DBeaver, DataGrip, JetBrains IDEs, Visual Studio Code, and MCP-compatible AI coding tools.
 type: guide
 subtype: integration
 layout: index
@@ -18,7 +18,8 @@ PawSQL Client brings SQL review and optimization into the tools developers alrea
 | Integration | Environment | Primary workflow |
 | --- | --- | --- |
 | PawSQL Client for DBeaver | DBeaver | Pre-execution SQL review and risk confirmation |
-| PawSQL Client for JetBrains | IntelliJ IDEA, DataGrip, PyCharm, GoLand, WebStorm, PhpStorm, DataSpell, Android Studio, and compatible IntelliJ-based IDEs | Optimize selected SQL, files, or folders |
+| PawSQL Client for JetBrains | IntelliJ IDEA, PyCharm, GoLand, WebStorm, PhpStorm, DataSpell, Android Studio, and compatible IntelliJ-based IDEs | Optimize selected SQL, files, or folders |
+| PawSQL for DataGrip | DataGrip | Pre-execution review in the database console, and optimization of selected SQL |
 | PawSQL Client for VS Code | Visual Studio Code | Optimize SQL within source and SQL files |
 | PawSQL MCP | MCP-compatible AI coding tools | Optimize SQL through natural language |
 
@@ -31,7 +32,8 @@ Earlier documentation and some commands use the name **PawSQL Advisor** for the 
 | Goal | Recommended integration |
 | --- | --- |
 | Inspect risk immediately before a statement runs in a database client | DBeaver |
-| Tune an individual query in DataGrip or IntelliJ IDEA | JetBrains |
+| Review before execution and tune SQL in DataGrip | DataGrip |
+| Tune an individual query in IntelliJ IDEA or another JetBrains IDE | JetBrains |
 | Analyze SQL files, folders, or MyBatis Mapper input in batches | JetBrains |
 | Tune SQL in a lightweight editor or polyglot repository | VS Code |
 | Expose PawSQL tools to an AI coding environment | Use [PawSQL MCP](/en/user-guide/dev-tools/mcp) |
@@ -42,10 +44,12 @@ Earlier documentation and some commands use the name **PawSQL Advisor** for the 
 flowchart TD
     A["SQL in the editor"] --> B{"Developer intent"}
     B -->|Check before execution| C["DBeaver"]
+    B -->|Review and tune in the console| H["DataGrip"]
     B -->|Optimize project SQL| D["JetBrains"]
     B -->|Tune the current statement| E["Visual Studio Code"]
     C --> F["Review or execution decision"]
-    D --> G["Review and optimization results"]
+    H --> G["Review and optimization results"]
+    D --> G
     E --> G
 ```
 
@@ -60,6 +64,9 @@ Before you begin, obtain the PawSQL endpoint, an authorized account, and a works
 <CardGroup cols={2}>
   <Card title="DBeaver integration" href="/en/user-guide/dev-tools/dbeaver" icon="database">
     Configure pre-execution review, severity thresholds, and datasource exclusions.
+  </Card>
+  <Card title="DataGrip integration" href="/en/user-guide/dev-tools/datagrip" icon="database">
+    Review SQL before execution in the console and optimize selected SQL.
   </Card>
   <Card title="JetBrains integration" href="/en/user-guide/dev-tools/jetbrains" icon="code">
     Optimize selected SQL, files, folders, and MyBatis Mapper input.
