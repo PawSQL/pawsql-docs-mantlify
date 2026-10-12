@@ -1,0 +1,127 @@
+---
+id: user-guide-dev-tools-datagrip
+title: 在 DataGrip 中审核与优化 SQL
+description: 安装和配置 PawSQL for DataGrip，在数据库控制台执行前审核 SQL，并优化选中的 SQL。
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: published
+language: zh
+translationKey: user-guide-dev-tools-datagrip
+localeOf: en-user-guide-dev-tools-datagrip
+sections:
+  goal: 目标
+  prerequisites: 准备工作
+  steps: 审核与优化 SQL
+  expectedResult: 预期结果
+  verification: 验证
+---
+
+PawSQL for DataGrip 将 SQL 审核和性能优化能力集成到 JetBrains DataGrip。它既可以在数据库控制台执行 SQL 前做风险检查，也可以对选中的 SQL 做完整优化，返回审核问题、查询重写、索引推荐和性能验证结果。
+
+## 目标
+
+安装并配置 PawSQL for DataGrip，在 DataGrip 中执行前审核 SQL，并优化选中的 SQL。
+
+## 准备工作
+
+- 已安装兼容版本的 DataGrip；
+- 可以访问 JetBrains 插件市场，或已取得 PawSQL 官方 / 企业可信仓库提供的离线安装包；
+- 可以访问 PawSQL Cloud 或 PawSQL Server；
+- 已获得目标项目、工作空间和审核策略的使用权限。
+
+## 安装插件
+
+从 JetBrains 插件市场安装 PawSQL for DataGrip，步骤详见[安装 IDE 插件](/user-guide/installation/ide-plugins)。安装后重启 DataGrip，并确认插件已启用。
+
+企业网络无法访问 Marketplace 时，只使用 PawSQL 官方或企业可信软件仓库提供的离线包，并核对 DataGrip、插件与 PawSQL Server 的版本兼容性。
+
+## 连接 PawSQL
+
+在插件设置中配置当前部署要求的服务地址和认证信息，然后选择或确认分析使用的项目、工作空间和审核策略。首次配置建议使用一条只读 SQL 验证连接。
+
+## 配置优化选项
+
+在插件设置中，可以按治理目标调整优化选项：
+
+| 配置 | 说明 |
+| --- | --- |
+| 索引去重 | 控制推荐索引是否与现有索引去重，避免生成重复的候选索引 |
+| 性能验证 | 验证时获取执行计划；验证环境与目标应用环境不一致时，应在目标环境再次验证 |
+
+索引去重能减少与现有索引重复的候选；验证结果依赖验证环境的数据库能力与数据特征，环境不一致时不能直接外推到应用环境。
+
+## 审核与优化 SQL
+
+### 执行前审核
+
+在数据库控制台执行 SQL 前，插件先调用 PawSQL 进行静态规则分析，再根据审核模式和风险阈值决定继续、提示确认或取消执行。执行前审核不会实际运行 SQL。
+
+<Steps>
+  <Step title="执行 SQL">
+    在 DataGrip 数据库控制台发起正常执行操作。
+  </Step>
+  <Step title="等待静态审核">
+    插件提交 SQL 和所需上下文；执行前审核不会实际运行 SQL 或创建推荐索引。
+  </Step>
+  <Step title="阅读风险详情">
+    查看最高风险级别、触发规则和对应 SQL 片段。
+  </Step>
+  <Step title="作出执行决定">
+    修改 SQL 后重新审核，取消本次执行，或在确认风险可接受后继续。
+  </Step>
+</Steps>
+
+### 优化 SQL
+
+选中一条完整 SQL，从插件提供的优化命令发起分析。PawSQL 返回审核问题、查询重写、索引推荐和性能验证结果。
+
+<Steps>
+  <Step title="选择完整语句">
+    选中一条完整 SQL，避免包含相邻语句、日志或 Markdown 围栏。
+  </Step>
+  <Step title="发起优化">
+    从插件提供的优化命令发起分析。
+  </Step>
+  <Step title="按需调整本次配置">
+    如需临时更改重写或验证选项，在执行前完成调整。
+  </Step>
+  <Step title="查看结果">
+    处理完成后查看审核问题、重写候选、索引建议和性能证据。
+  </Step>
+</Steps>
+
+## 预期结果
+
+插件返回带严重级别的审核问题，以及可选的查询重写、推荐索引和性能证据；启用执行前审核后，达到风险阈值的 SQL 在继续执行前需要确认。
+
+## 验证
+
+用一条只读 SQL 验证连接和结果返回；在非生产环境确认执行前审核能按阈值拦截高风险 SQL，优化命令能返回审核、重写、索引和验证结果。
+
+## 应用建议前
+
+- 确认重写 SQL 保持结果、参数和事务语义；
+- 开启索引去重，减少与现有索引重复的候选，必要时再核对推荐索引是否与现有索引重复或冲突；
+- 评估索引对写入、存储和维护的影响；
+- 验证时获取执行计划，并用代表性数据和参数确认；验证环境与目标应用环境不一致时，应在目标环境再次验证；
+- 通过代码评审、测试和数据库变更流程发布。
+
+## 常见问题
+
+| 现象 | 优先检查 |
+| --- | --- |
+| Marketplace 搜索不到插件 | DataGrip 版本、网络代理和企业插件策略 |
+| 执行 SQL 未触发审核 | 审核模式、插件状态和是否完成重启 |
+| 本应拦截的 SQL 直接通过 | 风险阈值、审核策略、数据库上下文和规则状态 |
+| 数据库对象无法识别 | 连接、默认 Schema、权限和元数据 |
+| 没有验证结果 | 验证开关、连接权限和目标数据库能力 |
+
+## 相关文档
+
+<CardGroup cols={2}>
+  <Card title="SQL 审核" href="/user-guide/sql-audit" />
+  <Card title="查看优化结果" href="/user-guide/optimization/explain-output" />
+  <Card title="安装 IDE 插件" href="/user-guide/installation/ide-plugins" />
+</CardGroup>

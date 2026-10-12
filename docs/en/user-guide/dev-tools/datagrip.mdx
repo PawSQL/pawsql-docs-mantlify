@@ -1,0 +1,127 @@
+---
+id: en-user-guide-dev-tools-datagrip
+title: Review and Optimize SQL in DataGrip
+description: Install and configure PawSQL for DataGrip to review SQL before execution in the database console and optimize selected SQL.
+type: guide
+subtype: integration
+layout: detail
+product: pawsql
+status: published
+language: en
+translationKey: user-guide-dev-tools-datagrip
+localeOf: user-guide-dev-tools-datagrip
+sections:
+  goal: Goal
+  prerequisites: Prerequisites
+  steps: Review and optimize SQL
+  expectedResult: Expected Result
+  verification: Verification
+---
+
+PawSQL for DataGrip brings SQL review and optimization into JetBrains DataGrip. It can inspect a statement for risk before execution in the database console, or perform a full optimization of the selected SQL, returning review findings, query rewrites, index recommendations, and performance validation.
+
+## Goal
+
+Install and configure PawSQL for DataGrip to review SQL before execution and optimize the selected SQL.
+
+## Prerequisites
+
+- A compatible DataGrip installation.
+- Access to the JetBrains Marketplace, or an offline package supplied by PawSQL or an approved internal repository.
+- Network access to PawSQL Cloud or PawSQL Server.
+- Permission to use the intended project, workspace, and review policy.
+
+## Install the extension
+
+Install PawSQL for DataGrip from the JetBrains Marketplace; see [Install IDE Extensions](/en/user-guide/installation/ide-plugins) for steps. Restart DataGrip afterwards and confirm the extension is enabled.
+
+If your network cannot reach Marketplace, use only an offline package supplied by PawSQL or an approved internal repository. Verify compatibility across the DataGrip, extension, and PawSQL Server versions.
+
+## Connect to PawSQL
+
+In the extension settings, configure the endpoint and authentication required by your deployment, then select or verify the project, workspace, and review policy used for analysis. Test the connection with a read-only statement first.
+
+## Configure optimization options
+
+In the extension settings, adjust optimization options to match your engineering policy:
+
+| Setting | Purpose |
+| --- | --- |
+| Index deduplication | Control whether recommended indexes are deduplicated against existing indexes |
+| Performance validation | Retrieve execution plans during validation; when the validation environment differs from the target application environment, validate again in the target environment |
+
+Deduplication avoids candidates that repeat existing indexes. Validation results depend on the engine capability and data characteristics of the validation environment, so they do not transfer to a different application environment without re-validation.
+
+## Review and optimize SQL
+
+### Pre-execution review
+
+Before the database console runs a statement, the extension requests a static PawSQL review and uses the configured mode and severity threshold to decide whether to proceed, request confirmation, or stop. Pre-execution review does not run the SQL.
+
+<Steps>
+  <Step title="Run the statement">
+    Use the normal execution action in the DataGrip database console.
+  </Step>
+  <Step title="Wait for static review">
+    The extension sends the SQL and required context. This check does not execute the statement or create a candidate index.
+  </Step>
+  <Step title="Inspect the findings">
+    Review the highest severity, triggered rules, and affected fragments.
+  </Step>
+  <Step title="Make an execution decision">
+    Revise and review the SQL again, cancel the operation, or proceed after confirming the residual risk is acceptable.
+  </Step>
+</Steps>
+
+### Optimize SQL
+
+Select a complete SQL statement and run the optimization command provided by the extension. PawSQL returns review findings, query rewrites, index recommendations, and performance validation.
+
+<Steps>
+  <Step title="Select a complete statement">
+    Select one complete SQL statement without adjacent statements, logs, or Markdown fences.
+  </Step>
+  <Step title="Start optimization">
+    Run the optimization command provided by the extension.
+  </Step>
+  <Step title="Adjust this run if needed">
+    Change rewrite or validation options before submission when required.
+  </Step>
+  <Step title="Open the result">
+    Review findings, rewrite candidates, index recommendations, and performance evidence when processing completes.
+  </Step>
+</Steps>
+
+## Expected Result
+
+The extension returns review findings with severity, along with optional query rewrites, index recommendations, and performance evidence. With pre-execution review enabled, SQL that reaches the risk threshold requires confirmation before it runs.
+
+## Verification
+
+Verify connectivity and results with a read-only statement. In a non-production environment, confirm that pre-execution review intercepts risky SQL at the configured threshold and that the optimization command returns review, rewrite, index, and validation results.
+
+## Before applying a recommendation
+
+- Verify result, parameter, and transaction semantics.
+- Enable index deduplication to reduce candidates that repeat existing indexes, and recheck recommended indexes for overlap or conflict with existing indexes where needed.
+- Account for write, storage, and maintenance costs.
+- Retrieve execution plans during validation and confirm them with representative data and parameter values; when the validation environment differs from the target application environment, validate again in the target environment.
+- Use code review, testing, and database change control for deployment.
+
+## Troubleshooting
+
+| Symptom | Check first |
+| --- | --- |
+| Extension is missing from Marketplace | DataGrip version, proxy, and corporate plugin policy |
+| Execution never triggers a review | Review mode, extension status, and whether DataGrip restarted |
+| Risky SQL proceeds without a prompt | Threshold, policy, database context, and rule status |
+| Database objects are unresolved | Connection, default schema, permissions, and metadata |
+| Validation results are absent | Validation settings, connection permissions, and engine capability |
+
+## Related documentation
+
+<CardGroup cols={2}>
+  <Card title="SQL Review" href="/en/user-guide/sql-audit" />
+  <Card title="Read Optimization Results" href="/en/user-guide/optimization/explain-output" />
+  <Card title="Install IDE Extensions" href="/en/user-guide/installation/ide-plugins" />
+</CardGroup>

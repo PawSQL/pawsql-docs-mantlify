@@ -1,7 +1,7 @@
 ---
 id: user-guide-installation-ide-plugins
 title: 安装 IDE 插件
-description: 在 DBeaver、JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
+description: 在 DBeaver、DataGrip、JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
 type: guide
 subtype: installation
 layout: detail
@@ -22,14 +22,15 @@ PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能�
 
 ## 目标
 
-在 DBeaver、JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
+在 DBeaver、DataGrip、JetBrains IDE 或 Visual Studio Code 中安装 PawSQL 插件并连接 PawSQL 服务。
 
 ## 支持的开发环境
 
 | 插件 | 适用环境 | 典型用途 |
 | --- | --- | --- |
 | PawSQL for DBeaver | DBeaver | SQL 执行前审核与高风险确认 |
-| PawSQL for JetBrains | IntelliJ IDEA、DataGrip 等兼容的 JetBrains IDE | 在数据库控制台、SQL 文件或项目代码中分析 SQL |
+| PawSQL for JetBrains | IntelliJ IDEA 等兼容的 JetBrains IDE | 在 SQL 文件或项目代码中优化 SQL |
+| PawSQL for DataGrip | DataGrip | 数据库控制台执行前审核，以及优化选中的 SQL |
 | PawSQL for Visual Studio Code | Visual Studio Code | 在代码仓库和 SQL 文件中审核或优化 SQL |
 
 具体支持的 IDE 版本以插件发布页和当前 PawSQL 版本说明为准。
@@ -81,6 +82,19 @@ PawSQL IDE 插件让开发人员在编辑 SQL 时直接调用审核和优化能�
       </Step>
       <Step title="安装并重启">
         安装插件；如果 IDE 提示需要重启，保存工作后完成重启。
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="DataGrip">
+    <Steps>
+      <Step title="打开插件设置">
+        在 DataGrip 设置中进入插件管理页面。
+      </Step>
+      <Step title="搜索 PawSQL">
+        在插件市场搜索 PawSQL，核对发布者和插件信息。
+      </Step>
+      <Step title="安装并重启">
+        安装 PawSQL for DataGrip；如果提示需要重启，保存工作后完成重启。
       </Step>
     </Steps>
   </Tab>
